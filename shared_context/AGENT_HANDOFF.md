@@ -1,6 +1,12 @@
 # Agent Handoff
 
-Current handoff state: design system and homepage specification complete; docs-integration review and evidence hardening complete; accuracy sync in progress on `docs/mellycore-design-system-homepage-spec`.
+Current handoff state: frontend scaffold planning complete on `docs/mellycore-design-system-homepage-spec`. The docs/spec gate is consistent and the implementation-ready scaffold plan exists at `docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md`.
+
+Latest completed task: `MELLYCORE-FRONTEND-SCAFFOLD-001`
+
+- Outcome: PASS_COMMITTED
+- Commit: `4fa93148b6a0a7bfd7197656e40ee62372fe5627` — `docs(specs): plan MellyCore frontend scaffold`
+- New planning doc: `docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md` (static HTML/CSS-only homepage scaffold plan; no JS, no packages, no framework, no API/provider integration, no secrets, no GLM copy, no live/broker/trading UX)
 
 Last completed tasks (most recent last):
 
@@ -9,11 +15,10 @@ Last completed tasks (most recent last):
 3. `MELLYCORE-HOMEPAGE-SPEC-001`
 4. `MELLYCORE-DOCS-INTEGRATION-REVIEW-001`
 5. `MELLYCORE-DOCS-INTEGRATION-REVIEW-EVIDENCE-HARDENING-001`
-6. `MELLYCORE-DOCS-ACCURACY-SYNC-001` (this task)
+6. `MELLYCORE-DOCS-ACCURACY-SYNC-001`
+7. `MELLYCORE-FRONTEND-SCAFFOLD-001`
 
-Frontend scaffold status: **blocked** until this accuracy sync is committed and validated. Do not begin frontend implementation before that.
-
-Next recommended task: `MELLYCORE-FRONTEND-SCAFFOLD-001` (planning only — no code), conditional on this task's validation passing. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred; see `shared_context/RUN_QUEUE.md` for current sequencing.
+Next recommended task: `MELLYCORE-FRONTEND-STATIC-SCAFFOLD-IMPLEMENTATION-001` — **conditional; requires explicit operator approval before any frontend code is created.** Implementation must follow the scaffold plan exactly and preserve the static-first, safety-first posture (no runtime, no providers, no secrets, no live/trading UX, no deploy, no push). `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred; see `shared_context/RUN_QUEUE.md` for current sequencing.
 
 Required final report format:
 
@@ -26,4 +31,3 @@ Required final report format:
 7. Next recommended task
 
 Agents must update this file after every meaningful task.
-

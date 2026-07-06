@@ -2,7 +2,7 @@
 
 Project name: MellyCore AIOS
 
-Status: design/spec docs complete, accuracy sync in progress
+Status: design/spec docs complete and accuracy-synced; frontend scaffold plan complete (`MELLYCORE-FRONTEND-SCAFFOLD-001`, commit `4fa9314`); implementation not yet approved
 
 Local repo path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
 
@@ -20,11 +20,10 @@ Design/spec gate status: `docs/design/MELLYCORE_DESIGN_SYSTEM_001.md`, `docs/spe
 
 Next tasks:
 
-1. Complete and validate `MELLYCORE-DOCS-ACCURACY-SYNC-001` (this task).
-2. `MELLYCORE-FRONTEND-SCAFFOLD-001` — planning only, no code, conditional on (1) passing validation.
-3. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
-4. Prepare GitHub remote setup without pushing until approved.
-5. Package shared context files for ChatGPT Project upload.
+1. `MELLYCORE-FRONTEND-STATIC-SCAFFOLD-IMPLEMENTATION-001` — conditional; requires explicit operator approval before any frontend code is created. Follow `docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md` exactly; static-first, safety-first.
+2. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
+3. Prepare GitHub remote setup without pushing until approved.
+4. Package shared context files for ChatGPT Project upload.
 
 Filename convention note: `docs/design/` and `docs/specs/` use underscore-separated filenames for major spec documents (e.g. `MELLYCORE_HOMEPAGE_SPEC_001.md`); `docs/tasks/` uses hyphenated task IDs for task reports (e.g. `MELLYCORE-HOMEPAGE-SPEC-001.md`), matching the task-ID convention used across the project. This split is intentional, not a broken reference.
 
