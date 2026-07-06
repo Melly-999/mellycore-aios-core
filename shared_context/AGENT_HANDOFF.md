@@ -1,12 +1,13 @@
 # Agent Handoff
 
-Current handoff state: frontend scaffold planning complete on `docs/mellycore-design-system-homepage-spec`. The docs/spec gate is consistent and the implementation-ready scaffold plan exists at `docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md`.
+Current handoff state: static homepage scaffold implemented and visual-QA-passed on `docs/mellycore-design-system-homepage-spec`. The static site lives at `site/` (pure HTML/CSS, no JS, no packages); QA evidence report at `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`.
 
-Latest completed task: `MELLYCORE-FRONTEND-SCAFFOLD-001`
+Latest completed task: `MELLYCORE-STATIC-VISUAL-QA-001`
 
-- Outcome: PASS_COMMITTED
-- Commit: `4fa93148b6a0a7bfd7197656e40ee62372fe5627` — `docs(specs): plan MellyCore frontend scaffold`
-- New planning doc: `docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md` (static HTML/CSS-only homepage scaffold plan; no JS, no packages, no framework, no API/provider integration, no secrets, no GLM copy, no live/broker/trading UX)
+- Outcome: PASS (QA) — all visual, safety, and accessibility checks passed at 375/768/1024/1280/1920px; no site changes needed
+- Site under test: commit `484e5ee648ba9c7fdead7078a2b7cf1ad48c9616` — `feat(static): scaffold MellyCore homepage` (approved implementation of the scaffold plan)
+- QA report: `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`; screenshots stored locally outside the repo (not committed)
+- External preview helpers in the MellyTrade workspace (junction + launch entry) were removed after QA
 
 Last completed tasks (most recent last):
 
@@ -17,8 +18,10 @@ Last completed tasks (most recent last):
 5. `MELLYCORE-DOCS-INTEGRATION-REVIEW-EVIDENCE-HARDENING-001`
 6. `MELLYCORE-DOCS-ACCURACY-SYNC-001`
 7. `MELLYCORE-FRONTEND-SCAFFOLD-001`
+8. `MELLYCORE-FRONTEND-STATIC-SCAFFOLD-IMPLEMENTATION-001` (operator-approved; commit `484e5ee`)
+9. `MELLYCORE-STATIC-VISUAL-QA-001`
 
-Next recommended task: `MELLYCORE-FRONTEND-STATIC-SCAFFOLD-IMPLEMENTATION-001` — **conditional; requires explicit operator approval before any frontend code is created.** Implementation must follow the scaffold plan exactly and preserve the static-first, safety-first posture (no runtime, no providers, no secrets, no live/trading UX, no deploy, no push). `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred; see `shared_context/RUN_QUEUE.md` for current sequencing.
+Next recommended task: `MELLYCORE-GITHUB-REMOTE-SETUP-001` — prepare GitHub remote setup **without pushing**; any push requires explicit operator approval. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred (run from a clean `main` worktree); see `shared_context/RUN_QUEUE.md` for current sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no publishing.
 
 Required final report format:
 
