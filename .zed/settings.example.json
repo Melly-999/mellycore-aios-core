@@ -1,0 +1,8 @@
+{
+  "agent": {
+    "default_profile": "mellycore-local",
+    "notes": "Keep custom provider settings and secrets in local-only config, not in git."
+  },
+  "format_on_save": true
+}
+
