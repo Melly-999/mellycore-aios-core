@@ -275,8 +275,8 @@ Visualize the project roadmap as an orbital system. Show completed phases as inn
 - **Section title:** "Roadmap Orbit Map"
 - **Subtitle:** "Project phases as orbital progression."
 - **Phases:**
-  - **Bootstrap** (inner orbit, complete) — Repo scaffold, shared context files, safety contract, cross-agent context smoke test.
-  - **Cross-agent smoke** (inner orbit, complete) — Verify context works across Codex, Claude, ChatGPT, GLM, Grok, Warp, Zed, VS Code, GitHub.
+  - **Bootstrap** (inner orbit, complete) — Repo scaffold, shared context files, safety contract.
+  - **Cross-agent smoke** (mid orbit, pending) — Verify context works across Codex, Claude, ChatGPT, GLM, Grok, Warp, Zed, VS Code, GitHub. Not yet run; tracked in `shared_context/RUN_QUEUE.md`. No implied progress beyond this pending state.
   - **Context / Roadmap / Safety / Design specs** (mid orbit, active) — Documentation architecture, design system, homepage spec, safety contract.
   - **Static website** (outer orbit, planned) — HTML/CSS prototype of command center homepage.
   - **MVP demo** (outer orbit, planned) — Interactive prototype with navigation and visual polish.

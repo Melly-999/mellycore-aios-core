@@ -2,9 +2,13 @@
 
 Project name: MellyCore AIOS
 
-Status: bootstrap
+Status: design/spec docs complete, accuracy sync in progress
 
 Local repo path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
+
+Current branch: `docs/mellycore-design-system-homepage-spec`
+
+HEAD prior to `MELLYCORE-DOCS-ACCURACY-SYNC-001`: `062135cd19d517f772c5ca4f289ecff516872601`
 
 MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker credentials, execution routes, or trading UI.
 
@@ -12,9 +16,15 @@ The GLM/Z.ai workspace at `C:\AI\MellyCore_Workspace\03_Assets\glm_workspace_ref
 
 Current visual direction: black-space background, purple/blue neon, orbital cube, HUD panels, glassmorphism, star field, roadmap orbit map, model-router constellation, OmniRouter provider hub, and cinematic command center website.
 
+Design/spec gate status: `docs/design/MELLYCORE_DESIGN_SYSTEM_001.md`, `docs/specs/MELLYCORE_HOMEPAGE_SPEC_001.md`, and `docs/specs/MELLYCORE_UI_SECTIONS.md` are safety-sound (confirmed by `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` and re-confirmed by `MELLYCORE-DOCS-INTEGRATION-REVIEW-EVIDENCE-HARDENING-001`) but required an accuracy sync — a false "complete" claim about cross-agent smoke in the homepage spec, and stale handoff files — before the frontend scaffold gate could open. `MELLYCORE-DOCS-ACCURACY-SYNC-001` applies that fix. Static-first and safety-first posture is preserved throughout; no runtime, secrets, or GLM copy were introduced.
+
 Next tasks:
 
-1. Run `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001`.
-2. Prepare GitHub remote setup without pushing until approved.
-3. Package shared context files for ChatGPT Project upload.
+1. Complete and validate `MELLYCORE-DOCS-ACCURACY-SYNC-001` (this task).
+2. `MELLYCORE-FRONTEND-SCAFFOLD-001` — planning only, no code, conditional on (1) passing validation.
+3. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
+4. Prepare GitHub remote setup without pushing until approved.
+5. Package shared context files for ChatGPT Project upload.
+
+Filename convention note: `docs/design/` and `docs/specs/` use underscore-separated filenames for major spec documents (e.g. `MELLYCORE_HOMEPAGE_SPEC_001.md`); `docs/tasks/` uses hyphenated task IDs for task reports (e.g. `MELLYCORE-HOMEPAGE-SPEC-001.md`), matching the task-ID convention used across the project. This split is intentional, not a broken reference.
 
