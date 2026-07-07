@@ -14,6 +14,7 @@
 12. `MELLYCORE-ROADMAP-3D-DESIGN-SYSTEM-001`
 13. `MELLYCORE-WEBSITE-VISUAL-PROTOTYPE-001`
 14. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001` — optional, if the operator wants to proceed within the new knowledge-graph direction: hand-author the first `ContextGraph` fixture per `shared_context/SOURCE_INGEST_WORKFLOW.md`, still docs-only.
+15. `MELLYCORE-README-SHOWCASE-UPDATE-001` — complete (docs-only). README polished for the canonical clean MellyCore repository; static-first, safety-first, portfolio-ready positioning.
 
 Safety posture for queued tasks:
 

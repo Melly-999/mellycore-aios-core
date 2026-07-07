@@ -1,10 +1,66 @@
 # MellyCore AIOS
 
-MellyCore AIOS is a standalone project scaffold for a modular AI operating workspace that coordinates strategy, documentation, agent handoffs, model routing, design direction, and future implementation work across ChatGPT, Claude, Codex, GLM/Z.ai, Grok/xAI, OmniRouter, Warp, Zed, VS Code, and GitHub.
+Static-first AI command center and living context graph foundation for coordinating agents, context, specs, and safety gates.
 
-MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker workflows, credentials, account identifiers, or trading execution surfaces into this repository.
+## Status
 
-Current status: scaffold/bootstrap. Runtime app code has not been created yet.
+- Static prototype
+- Safety-first
+- Docs/spec foundation
+- No runtime/provider integrations
+- No secrets
+
+## What is included
+
+- Static HTML/CSS homepage under `site/`
+- Design system docs
+- Homepage spec docs
+- Shared context files
+- Knowledge Graph / Living Context Graph specs
+- Validation script: `scripts/validate_project_state.py`
+
+## What is intentionally not included
+
+- No live AI provider integration
+- No backend runtime
+- No database
+- No deploy pipeline
+- No secrets
+- No trading, broker, order, buy, sell, or execute UX
+
+## Project structure
+
+- `site/` - static homepage implementation
+- `docs/` - design, spec, research, safety, and task documentation
+- `shared_context/` - project state, handoff, roadmap, routing, validation, and safety context
+- `agent_prompts/` - reusable prompts for future agent tasks
+- `scripts/` - repo validation utilities
+
+## Local preview
+
+Open `site/index.html` in a browser for the simplest static preview.
+
+If you prefer a local static server, serve the `site/` directory with any standard static file server. No additional dependencies are required.
+
+## Validation
+
+Run:
+
+```powershell
+py scripts\validate_project_state.py
+```
+
+## Safety posture
+
+MellyCore AIOS is a standalone repository and remains separate from MellyTrade. Do not add secrets, `.env` values, provider keys, runtime state, broker credentials, or trading execution surfaces here. Do not introduce live provider integrations, backend services, deploy pipelines, or workflow YAML unless a separate task explicitly authorizes them.
+
+## Roadmap
+
+- README showcase polish
+- Static preview or GitHub Pages decision
+- Knowledge Graph fixture draft
+- Obsidian-like 3D graph page later
+- Cloud compute readiness docs later
 
 Shared project context lives in `shared_context/`. Every agent should start by reading:
 
@@ -16,4 +72,3 @@ Shared project context lives in `shared_context/`. Every agent should start by r
 6. `shared_context/DESIGN_SYSTEM.md`
 
 Safety notice: never commit secrets, provider tokens, real API keys, `.env` values, account IDs, local databases, or runtime state.
-
