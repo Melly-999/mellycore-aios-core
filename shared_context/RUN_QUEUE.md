@@ -5,7 +5,7 @@
 3. `MELLYCORE-FRONTEND-STATIC-SCAFFOLD-IMPLEMENTATION-001` — complete (committed as `484e5ee648ba9c7fdead7078a2b7cf1ad48c9616`). Static homepage implementation created from the approved scaffold plan.
 4. `MELLYCORE-STATIC-VISUAL-QA-001` — complete (committed as `dbf296d880725bd5be7da0d9926ea1c0a3831283`). Static homepage passed visual QA at `375x812`, `768x1024`, `1024x768`, `1280x900`, and `1920x1080`. Evidence location: `C:\AI\MellyCore_Workspace\04_QA_Evidence\MELLYCORE-STATIC-VISUAL-QA-001\`.
 5. `MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001` — complete (docs-only). Output: research/product/design/schema/safety specification package for the future "MellyCore Living Context Graph" / Knowledge Graph Console feature direction. See `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001.md`. Static-first, human-reviewed-ingest posture; no runtime/database/MCP implementation authorized.
-6. `MELLYCORE-GITHUB-REMOTE-SETUP-001` — immediate next recommended task (existing queue sequencing unchanged). Remote setup only; do not push unless explicitly approved in that task.
+6. `MELLYCORE-GITHUB-REMOTE-SETUP-001` — complete. Clean canonical remote exists as `clean-origin https://github.com/Melly-999/mellycore-aios-core.git`; the static preview decision commit was pushed to `clean-origin/main` during `MELLYCORE-STATIC-SHOWCASE-EVIDENCE-AND-AUDIT-RUN-001`.
 7. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred, not the immediate next action. Per `shared_context/BRANCH_INVENTORY_001.md`, run this from a separate clean `main` worktree rather than on the design/spec branch.
 8. `MELLYCORE-CHATGPT-PROJECT-UPLOAD-001`
 9. `MELLYCORE-CLAUDE-PROJECT-SETUP-001`
@@ -13,9 +13,12 @@
 11. `MELLYCORE-ZED-WARP-VSCODE-AGENT-WORKSPACE-001`
 12. `MELLYCORE-ROADMAP-3D-DESIGN-SYSTEM-001`
 13. `MELLYCORE-WEBSITE-VISUAL-PROTOTYPE-001`
-14. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001` — optional, if the operator wants to proceed within the new knowledge-graph direction: hand-author the first `ContextGraph` fixture per `shared_context/SOURCE_INGEST_WORKFLOW.md`, still docs-only.
+14. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001` — immediate next recommended task: hand-author the first `ContextGraph` fixture per `shared_context/SOURCE_INGEST_WORKFLOW.md`, still docs-only.
 15. `MELLYCORE-README-SHOWCASE-UPDATE-001` — complete (docs-only). README polished for the canonical clean MellyCore repository; static-first, safety-first, portfolio-ready positioning.
 16. `MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001` — complete (docs-only). Recommended local static preview plus screenshot/evidence-only publishing path for now; GitHub Pages deferred.
+17. `MELLYCORE-STATIC-PREVIEW-EVIDENCE-PACK-001` — complete (docs-only). Added `docs/showcase/static_preview_evidence_pack_001.md`, final showcase audit, and README/shared-context links for the local static preview evidence pack.
+18. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-001` — future docs-only spec task; no Obsidian/MCP/runtime integration authorized.
+19. `MELLYCORE-CLOUD-COMPUTE-READINESS-001` — future docs-only readiness task; no provider setup, deploy, workflow YAML, or secrets authorized.
 
 Safety posture for queued tasks:
 

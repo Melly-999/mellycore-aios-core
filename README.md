@@ -9,6 +9,8 @@ Static-first AI command center and living context graph foundation for coordinat
 - Docs/spec foundation
 - No runtime/provider integrations
 - No secrets
+- Public source repository available at `clean-origin`
+- Live website URL not enabled yet
 
 ## What is included
 
@@ -41,6 +43,8 @@ Static-first AI command center and living context graph foundation for coordinat
 Open `site/index.html` in a browser for the simplest static preview.
 
 If you prefer a local static server, serve the `site/` directory with any standard static file server. No additional dependencies are required.
+
+The current public preview policy is local/static plus evidence-pack publishing. See `docs/showcase/static_preview_evidence_pack_001.md` for the verified local screenshot filenames, viewport coverage, and explicit non-deploy status. Any future live website or deploy decision is separate and not enabled in this repository.
 
 ## Validation
 
