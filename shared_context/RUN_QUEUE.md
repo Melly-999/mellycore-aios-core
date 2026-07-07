@@ -19,7 +19,8 @@
 17. `MELLYCORE-STATIC-PREVIEW-EVIDENCE-PACK-001` — complete (docs-only). Added `docs/showcase/static_preview_evidence_pack_001.md`, final showcase audit, and README/shared-context links for the local static preview evidence pack.
 18. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-001` — future docs-only spec task; no Obsidian/MCP/runtime integration authorized.
 19. `MELLYCORE-CLOUD-COMPUTE-READINESS-001` — future docs-only readiness task; no provider setup, deploy, workflow YAML, or secrets authorized.
-20. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001` — immediate next recommended task: review Fixture 001 against the graph schema, ingest workflow, safety contract, and source evidence; still docs-only.
+20. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001` — complete (docs/shared_context only). Reviewed Fixture 001, confirmed graph integrity, fixed stale count references, and added `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001.md`.
+21. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-PUSH-001` — immediate next recommended task: verify and push the review commit to `clean-origin/main` if operator-approved; no old-origin push.
 
 Safety posture for queued tasks:
 

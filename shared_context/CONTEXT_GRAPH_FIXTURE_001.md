@@ -88,8 +88,8 @@ The fixture intentionally omits raw file bodies and stores only reviewed summari
 ## Fixture Counts
 
 - Clusters: 8
-- Nodes: 40
-- Edges: 60
+- Nodes: 45
+- Edges: 66
 
 ## Safety Boundaries
 

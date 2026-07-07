@@ -52,8 +52,8 @@ The fixture contains 8 clusters:
 ## 5. Node and Edge Count
 
 - Clusters: 8
-- Nodes: 40
-- Edges: 60
+- Nodes: 45
+- Edges: 66
 
 Required safety/risk nodes are present:
 
