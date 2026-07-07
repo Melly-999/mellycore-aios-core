@@ -2,6 +2,12 @@
 
 Current handoff state: static homepage scaffold implemented and visual-QA-passed on `docs/mellycore-design-system-homepage-spec`. The static site lives at `site/` (pure HTML/CSS, no JS, no packages); QA evidence report at `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`. A new docs-only specification package for a future "MellyCore Living Context Graph" / Knowledge Graph Console feature direction has since been added (see below) — it does not change the static site and does not authorize any implementation.
 
+Latest completed task: `MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001`
+
+- Outcome: PASS_DECISION_COMMITTED_NO_PUSH (docs-only) — kept `site/` as source of truth and recommended local static preview plus screenshot evidence instead of GitHub Pages or deploy automation
+- Files: `docs/tasks/MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
+- Posture: no GitHub Pages enablement; no workflow YAML; no site move/copy; no deploy; no push
+
 Latest completed task: `MELLYCORE-README-SHOWCASE-UPDATE-001`
 
 - Outcome: PASS_COMMITTED (docs-only) — README polished for the canonical clean MellyCore repository, with a static-first, safety-first project summary and clear preview/validation guidance

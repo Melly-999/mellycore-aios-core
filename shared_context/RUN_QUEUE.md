@@ -15,6 +15,7 @@
 13. `MELLYCORE-WEBSITE-VISUAL-PROTOTYPE-001`
 14. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001` — optional, if the operator wants to proceed within the new knowledge-graph direction: hand-author the first `ContextGraph` fixture per `shared_context/SOURCE_INGEST_WORKFLOW.md`, still docs-only.
 15. `MELLYCORE-README-SHOWCASE-UPDATE-001` — complete (docs-only). README polished for the canonical clean MellyCore repository; static-first, safety-first, portfolio-ready positioning.
+16. `MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001` — complete (docs-only). Recommended local static preview plus screenshot/evidence-only publishing path for now; GitHub Pages deferred.
 
 Safety posture for queued tasks:
 
