@@ -4,14 +4,16 @@
 2. `MELLYCORE-FRONTEND-SCAFFOLD-001` — complete. Output: `docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md`.
 3. `MELLYCORE-FRONTEND-STATIC-SCAFFOLD-IMPLEMENTATION-001` — complete (committed as `484e5ee648ba9c7fdead7078a2b7cf1ad48c9616`). Static homepage implementation created from the approved scaffold plan.
 4. `MELLYCORE-STATIC-VISUAL-QA-001` — complete (committed as `dbf296d880725bd5be7da0d9926ea1c0a3831283`). Static homepage passed visual QA at `375x812`, `768x1024`, `1024x768`, `1280x900`, and `1920x1080`. Evidence location: `C:\AI\MellyCore_Workspace\04_QA_Evidence\MELLYCORE-STATIC-VISUAL-QA-001\`.
-5. `MELLYCORE-GITHUB-REMOTE-SETUP-001` — immediate next recommended task. Remote setup only; do not push unless explicitly approved in that task.
-6. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred, not the immediate next action. Per `shared_context/BRANCH_INVENTORY_001.md`, run this from a separate clean `main` worktree rather than on the design/spec branch.
-7. `MELLYCORE-CHATGPT-PROJECT-UPLOAD-001`
-8. `MELLYCORE-CLAUDE-PROJECT-SETUP-001`
-9. `MELLYCORE-OMNIROUTER-PROVIDER-MATRIX-001`
-10. `MELLYCORE-ZED-WARP-VSCODE-AGENT-WORKSPACE-001`
-11. `MELLYCORE-ROADMAP-3D-DESIGN-SYSTEM-001`
-12. `MELLYCORE-WEBSITE-VISUAL-PROTOTYPE-001`
+5. `MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001` — complete (docs-only). Output: research/product/design/schema/safety specification package for the future "MellyCore Living Context Graph" / Knowledge Graph Console feature direction. See `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001.md`. Static-first, human-reviewed-ingest posture; no runtime/database/MCP implementation authorized.
+6. `MELLYCORE-GITHUB-REMOTE-SETUP-001` — immediate next recommended task (existing queue sequencing unchanged). Remote setup only; do not push unless explicitly approved in that task.
+7. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred, not the immediate next action. Per `shared_context/BRANCH_INVENTORY_001.md`, run this from a separate clean `main` worktree rather than on the design/spec branch.
+8. `MELLYCORE-CHATGPT-PROJECT-UPLOAD-001`
+9. `MELLYCORE-CLAUDE-PROJECT-SETUP-001`
+10. `MELLYCORE-OMNIROUTER-PROVIDER-MATRIX-001`
+11. `MELLYCORE-ZED-WARP-VSCODE-AGENT-WORKSPACE-001`
+12. `MELLYCORE-ROADMAP-3D-DESIGN-SYSTEM-001`
+13. `MELLYCORE-WEBSITE-VISUAL-PROTOTYPE-001`
+14. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001` — optional, if the operator wants to proceed within the new knowledge-graph direction: hand-author the first `ContextGraph` fixture per `shared_context/SOURCE_INGEST_WORKFLOW.md`, still docs-only.
 
 Safety posture for queued tasks:
 
