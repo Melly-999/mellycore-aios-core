@@ -2,7 +2,13 @@
 
 Current handoff state: static homepage scaffold implemented, visual-QA-passed, and published to the clean canonical source repository as a static local-preview showcase. The static site lives at `site/` (pure HTML/CSS, no JS, no packages); QA evidence report at `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`; static preview evidence pack at `docs/showcase/static_preview_evidence_pack_001.md`. A new docs-only specification package for a future "MellyCore Living Context Graph" / Knowledge Graph Console feature direction has since been added (see below) — it does not change the static site and does not authorize any implementation.
 
-Latest completed task: `MELLYCORE-STATIC-PREVIEW-EVIDENCE-PACK-001`
+Latest completed task: `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001`
+
+- Outcome: PASS_COMMITTED_NO_PUSH (docs/shared_context only) — created the first static, hand-authored Context Graph fixture draft and task report
+- Files: `shared_context/CONTEXT_GRAPH_FIXTURE_001.md`, `shared_context/context_graph_fixture_001.json`, `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
+- Posture: static fixture only; no UI/frontend/site/backend/runtime/provider/API/database/MCP/Obsidian integration; no deploy; no workflow YAML; no secrets; no live/trading UX; no push
+
+Previous completed task: `MELLYCORE-STATIC-PREVIEW-EVIDENCE-PACK-001`
 
 - Outcome: PASS_STATIC_PREVIEW_EVIDENCE_PACK (docs-only) — documented the local static preview policy, confirmed local QA screenshot filenames, linked the evidence pack from README, and kept the site unhosted
 - Files: `docs/showcase/static_preview_evidence_pack_001.md`, `docs/tasks/MELLYCORE-STATIC-PREVIEW-EVIDENCE-PACK-001.md`, `docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md`, `README.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
@@ -47,7 +53,7 @@ Last completed tasks (most recent last):
 9. `MELLYCORE-STATIC-VISUAL-QA-001`
 10. `MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001`
 
-Next recommended task: `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001` — hand-author the first `ContextGraph` fixture per `shared_context/SOURCE_INGEST_WORKFLOW.md`, still docs-only. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred (run from a clean `main` worktree); see `shared_context/RUN_QUEUE.md` for current sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
+Next recommended task: `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001` — review `shared_context/context_graph_fixture_001.json` against `shared_context/CONTEXT_GRAPH_SCHEMA.md`, `shared_context/SOURCE_INGEST_WORKFLOW.md`, and `docs/safety/knowledge_graph_safety_contract.md`; still docs-only. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred (run from a clean `main` worktree); see `shared_context/RUN_QUEUE.md` for current sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
 
 Required final report format:
 

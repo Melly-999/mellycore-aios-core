@@ -1,0 +1,1209 @@
+{
+  "fixtureId": "CONTEXT_GRAPH_FIXTURE_001",
+  "fixtureName": "MellyCore Living Context Graph Fixture 001",
+  "status": "draft",
+  "generatedBy": "hand-authored-agent-run",
+  "sourceMode": "repo-docs-and-task-reports",
+  "safeToDisplay": true,
+  "notes": [
+    "Static fixture only; not live-generated and not runtime-ingested.",
+    "All source references are repo-relative except already documented local QA evidence references in source task reports.",
+    "TikTok visual inspiration remains low-confidence and unverified because no screenshots or transcripts are present in the repo."
+  ],
+  "clusters": [
+    {
+      "id": "product-foundation",
+      "label": "Product Foundation",
+      "summary": "Core MellyCore AIOS identity, repo mission, docs-first posture, and validation baseline.",
+      "safeToDisplay": true,
+      "displayPriority": 1
+    },
+    {
+      "id": "static-showcase",
+      "label": "Static Showcase",
+      "summary": "Static homepage, local preview policy, QA evidence, and showcase audit state.",
+      "safeToDisplay": true,
+      "displayPriority": 2
+    },
+    {
+      "id": "shared-context",
+      "label": "Shared Context",
+      "summary": "Repo-local coordination memory, handoff, queue, project state, and validation docs.",
+      "safeToDisplay": true,
+      "displayPriority": 3
+    },
+    {
+      "id": "safety-governance",
+      "label": "Safety Governance",
+      "summary": "Safety rules, exclusions, risk nodes, and display boundaries for static fixtures.",
+      "safeToDisplay": true,
+      "displayPriority": 4
+    },
+    {
+      "id": "knowledge-graph",
+      "label": "Knowledge Graph",
+      "summary": "Living Context Graph schema, workflow, ledger, fixture, and future console specification.",
+      "safeToDisplay": true,
+      "displayPriority": 5
+    },
+    {
+      "id": "repository-governance",
+      "label": "Repository Governance",
+      "summary": "Clean canonical remote, old mixed remote risk, branch posture, and git safety.",
+      "safeToDisplay": true,
+      "displayPriority": 6
+    },
+    {
+      "id": "future-modules",
+      "label": "Future Modules",
+      "summary": "Deferred specs and readiness work that require separate approval before implementation.",
+      "safeToDisplay": true,
+      "displayPriority": 7
+    },
+    {
+      "id": "external-inspiration",
+      "label": "External Inspiration",
+      "summary": "Conceptual external references used only as inspiration with copying and confidence limits.",
+      "safeToDisplay": true,
+      "displayPriority": 8
+    }
+  ],
+  "nodes": [
+    {
+      "id": "mellycore-aios",
+      "label": "MellyCore AIOS",
+      "type": "module",
+      "cluster": "product-foundation",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["README.md", "PROJECT_RULES.md"],
+      "safeToDisplay": true,
+      "summary": "Static-first AI command center and living context graph foundation for supervised agent coordination."
+    },
+    {
+      "id": "project-rules",
+      "label": "Project Rules",
+      "type": "doc",
+      "cluster": "product-foundation",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["PROJECT_RULES.md"],
+      "safeToDisplay": true,
+      "summary": "Defines the ChatGPT project boundary, structured prompt style, and no-secret posture."
+    },
+    {
+      "id": "agent-entrypoint",
+      "label": "Agent Entrypoint",
+      "type": "doc",
+      "cluster": "product-foundation",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["AGENTS.md", "CLAUDE.md"],
+      "safeToDisplay": true,
+      "summary": "Agent entry files require shared-context reading, docs-first work, and explicit approval for pushes or deploys."
+    },
+    {
+      "id": "validation-script",
+      "label": "Validation Script",
+      "type": "module",
+      "cluster": "product-foundation",
+      "status": "current",
+      "importance": "medium",
+      "confidence": "high",
+      "sourceRefs": ["README.md", "scripts/validate_project_state.py"],
+      "safeToDisplay": true,
+      "summary": "Repo validation utility used as the primary docs/context health check."
+    },
+    {
+      "id": "static-homepage",
+      "label": "Static Homepage",
+      "type": "module",
+      "cluster": "static-showcase",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["site/index.html", "docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md"],
+      "safeToDisplay": true,
+      "summary": "Pure HTML/CSS homepage under site/ with no JavaScript runtime requirement."
+    },
+    {
+      "id": "design-system",
+      "label": "Design System",
+      "type": "module",
+      "cluster": "static-showcase",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/design/MELLYCORE_DESIGN_SYSTEM_001.md", "site/css/tokens.css"],
+      "safeToDisplay": true,
+      "summary": "Visual system for the dark command-center language, design tokens, components, and safety-first UI rules."
+    },
+    {
+      "id": "homepage-spec",
+      "label": "Homepage Spec",
+      "type": "doc",
+      "cluster": "static-showcase",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/specs/MELLYCORE_HOMEPAGE_SPEC_001.md", "docs/tasks/MELLYCORE-HOMEPAGE-SPEC-001.md"],
+      "safeToDisplay": true,
+      "summary": "Specifies the static homepage content, layout, and safety messaging for the showcase."
+    },
+    {
+      "id": "static-visual-qa",
+      "label": "Static Visual QA",
+      "type": "task",
+      "cluster": "static-showcase",
+      "status": "complete",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md"],
+      "safeToDisplay": true,
+      "summary": "Validated the static homepage across five viewports with safety and accessibility checks."
+    },
+    {
+      "id": "static-preview-evidence-pack",
+      "label": "Static Preview Evidence",
+      "type": "task",
+      "cluster": "static-showcase",
+      "status": "complete",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/showcase/static_preview_evidence_pack_001.md", "docs/tasks/MELLYCORE-STATIC-PREVIEW-EVIDENCE-PACK-001.md"],
+      "safeToDisplay": true,
+      "summary": "Documents local preview policy, verified screenshot filenames, viewport coverage, and non-deploy status."
+    },
+    {
+      "id": "final-showcase-audit",
+      "label": "Final Showcase Audit",
+      "type": "task",
+      "cluster": "static-showcase",
+      "status": "complete",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "safeToDisplay": true,
+      "summary": "Records static local-preview showcase readiness and explicit non-inclusions."
+    },
+    {
+      "id": "github-pages-decision",
+      "label": "GitHub Pages Decision",
+      "type": "decision",
+      "cluster": "static-showcase",
+      "status": "complete",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/tasks/MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001.md"],
+      "safeToDisplay": true,
+      "summary": "Decides to keep local static preview and screenshot evidence instead of GitHub Pages or deploy automation for now."
+    },
+    {
+      "id": "local-preview-only",
+      "label": "Local Preview Only",
+      "type": "decision",
+      "cluster": "static-showcase",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/tasks/MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001.md", "README.md"],
+      "safeToDisplay": true,
+      "summary": "The canonical preview path is opening site/index.html locally or using an already available static server."
+    },
+    {
+      "id": "screenshot-evidence-only",
+      "label": "Screenshot Evidence Only",
+      "type": "decision",
+      "cluster": "static-showcase",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/showcase/static_preview_evidence_pack_001.md", "docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md"],
+      "safeToDisplay": true,
+      "summary": "Public proof layer is evidence references and local screenshots, not committed binaries or hosted screenshots."
+    },
+    {
+      "id": "shared-context-root",
+      "label": "Shared Context Root",
+      "type": "module",
+      "cluster": "shared-context",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["README.md", "AGENTS.md"],
+      "safeToDisplay": true,
+      "summary": "Repository-local shared_context directory is the source of truth for project state and agent coordination."
+    },
+    {
+      "id": "agent-handoff",
+      "label": "Agent Handoff",
+      "type": "doc",
+      "cluster": "shared-context",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/AGENT_HANDOFF.md"],
+      "safeToDisplay": true,
+      "summary": "Current cross-agent handoff and latest task status summary."
+    },
+    {
+      "id": "run-queue",
+      "label": "Run Queue",
+      "type": "doc",
+      "cluster": "shared-context",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/RUN_QUEUE.md"],
+      "safeToDisplay": true,
+      "summary": "Task queue and sequencing for completed, deferred, and future work."
+    },
+    {
+      "id": "project-state-doc",
+      "label": "Project State",
+      "type": "doc",
+      "cluster": "shared-context",
+      "status": "stale-partial",
+      "importance": "medium",
+      "confidence": "medium",
+      "sourceRefs": ["shared_context/PROJECT_STATE.md", "shared_context/AGENT_HANDOFF.md"],
+      "safeToDisplay": true,
+      "summary": "Older project-state document with useful history but stale branch/task fields compared with current handoff and git state."
+    },
+    {
+      "id": "safety-contract",
+      "label": "Safety Contract",
+      "type": "safety_rule",
+      "cluster": "safety-governance",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/SAFETY_CONTRACT.md", "docs/safety/knowledge_graph_safety_contract.md"],
+      "safeToDisplay": true,
+      "summary": "Repo-wide and graph-specific safety rules governing secrets, runtime, deploy, and display behavior."
+    },
+    {
+      "id": "no-secrets",
+      "label": "No Secrets",
+      "type": "safety_rule",
+      "cluster": "safety-governance",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/SAFETY_CONTRACT.md", "docs/safety/knowledge_graph_safety_contract.md"],
+      "safeToDisplay": true,
+      "summary": "Fixtures and docs must not contain secrets, credentials, account IDs, or secret-shaped values."
+    },
+    {
+      "id": "no-provider-keys",
+      "label": "No Provider Keys",
+      "type": "safety_rule",
+      "cluster": "safety-governance",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/safety/knowledge_graph_safety_contract.md", "README.md"],
+      "safeToDisplay": true,
+      "summary": "Provider API keys and key-shaped placeholders must stay out of fixtures, docs, and UI copy."
+    },
+    {
+      "id": "no-runtime-backend",
+      "label": "No Runtime Backend",
+      "type": "safety_rule",
+      "cluster": "safety-governance",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["README.md", "docs/product/knowledge_graph_console_spec.md"],
+      "safeToDisplay": true,
+      "summary": "Current work does not authorize backend runtime, APIs, databases, or live ingestion."
+    },
+    {
+      "id": "no-deploy",
+      "label": "No Deploy",
+      "type": "safety_rule",
+      "cluster": "safety-governance",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["README.md", "docs/showcase/static_preview_evidence_pack_001.md"],
+      "safeToDisplay": true,
+      "summary": "No hosting, deploy pipeline, or live website is enabled without a separate approved task."
+    },
+    {
+      "id": "no-workflow-yaml",
+      "label": "No Workflow YAML",
+      "type": "safety_rule",
+      "cluster": "safety-governance",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/tasks/MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001.md", "docs/showcase/static_preview_evidence_pack_001.md"],
+      "safeToDisplay": true,
+      "summary": "GitHub Actions or workflow YAML is explicitly deferred and not part of the static preview path."
+    },
+    {
+      "id": "no-live-trading-ux",
+      "label": "No Live Trading UX",
+      "type": "safety_rule",
+      "cluster": "safety-governance",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["README.md", "docs/safety/knowledge_graph_safety_contract.md"],
+      "safeToDisplay": true,
+      "summary": "The repo must not include trading, broker, order, buy, sell, execute, or connect-live UX."
+    },
+    {
+      "id": "old-origin-main-unrelated-risk",
+      "label": "Old Origin Risk",
+      "type": "risk",
+      "cluster": "repository-governance",
+      "status": "active-risk",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "safeToDisplay": true,
+      "summary": "Old origin/main is retained as a mixed remote with unrelated content and must remain untouched."
+    },
+    {
+      "id": "fake-live-claim-risk",
+      "label": "Fake Live Claim Risk",
+      "type": "risk",
+      "cluster": "safety-governance",
+      "status": "active-risk",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md", "docs/safety/knowledge_graph_safety_contract.md"],
+      "safeToDisplay": true,
+      "summary": "Documentation and future UI must not imply a live website, production app, live validation, or generated-live graph."
+    },
+    {
+      "id": "living-context-graph",
+      "label": "Living Context Graph",
+      "type": "module",
+      "cluster": "knowledge-graph",
+      "status": "draft-spec",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/product/knowledge_graph_console_spec.md", "docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001.md"],
+      "safeToDisplay": true,
+      "summary": "Future static-first graph view over MellyCore docs and shared context."
+    },
+    {
+      "id": "context-graph-schema",
+      "label": "Context Graph Schema",
+      "type": "doc",
+      "cluster": "knowledge-graph",
+      "status": "draft-spec",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/CONTEXT_GRAPH_SCHEMA.md"],
+      "safeToDisplay": true,
+      "summary": "Defines ContextNode, ContextEdge, ContextCluster, SourceRef, SafetyDisplayState, node types, and relation types."
+    },
+    {
+      "id": "source-ingest-workflow",
+      "label": "Source Ingest Workflow",
+      "type": "doc",
+      "cluster": "knowledge-graph",
+      "status": "draft-spec",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/SOURCE_INGEST_WORKFLOW.md"],
+      "safeToDisplay": true,
+      "summary": "Human-gated process for turning sources into static graph fixture entries."
+    },
+    {
+      "id": "contradiction-ledger",
+      "label": "Contradiction Ledger",
+      "type": "doc",
+      "cluster": "knowledge-graph",
+      "status": "draft-template",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/CONTRADICTION_LEDGER.md"],
+      "safeToDisplay": true,
+      "summary": "Template for durable contradiction records between graph-backed claims."
+    },
+    {
+      "id": "context-pack-generator",
+      "label": "Context Pack Generator",
+      "type": "module",
+      "cluster": "knowledge-graph",
+      "status": "future-spec",
+      "importance": "medium",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/CONTEXT_PACK_GENERATOR_SPEC.md"],
+      "safeToDisplay": true,
+      "summary": "Future read-only offline repo digest concept; no implementation is authorized by the spec."
+    },
+    {
+      "id": "knowledge-graph-fixture-001",
+      "label": "Fixture 001",
+      "type": "task",
+      "cluster": "knowledge-graph",
+      "status": "draft",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/CONTEXT_GRAPH_FIXTURE_001.md", "shared_context/context_graph_fixture_001.json"],
+      "safeToDisplay": true,
+      "summary": "First hand-authored static graph fixture covering current MellyCore docs, decisions, safety, and inspiration."
+    },
+    {
+      "id": "clean-canonical-repo",
+      "label": "Clean Canonical Repo",
+      "type": "module",
+      "cluster": "repository-governance",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md", "shared_context/RUN_QUEUE.md"],
+      "safeToDisplay": true,
+      "summary": "Canonical clean remote is clean-origin for the MellyCore AIOS source repository."
+    },
+    {
+      "id": "old-mixed-origin",
+      "label": "Old Mixed Origin",
+      "type": "risk",
+      "cluster": "repository-governance",
+      "status": "do-not-touch",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "safeToDisplay": true,
+      "summary": "Old origin remote exists for historical context but contains unrelated content and is not a push target."
+    },
+    {
+      "id": "git-safety-rules",
+      "label": "Git Safety Rules",
+      "type": "safety_rule",
+      "cluster": "repository-governance",
+      "status": "current",
+      "importance": "high",
+      "confidence": "high",
+      "sourceRefs": ["AGENTS.md", "CLAUDE.md"],
+      "safeToDisplay": true,
+      "summary": "Destructive git, push, merge, deploy, reset, rebase, clean, force push, and branch deletion require explicit approval."
+    },
+    {
+      "id": "obsidian-3d-page-future",
+      "label": "Obsidian 3D Page Future",
+      "type": "task",
+      "cluster": "future-modules",
+      "status": "future",
+      "importance": "medium",
+      "confidence": "medium",
+      "sourceRefs": ["shared_context/RUN_QUEUE.md", "docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "safeToDisplay": true,
+      "summary": "Future docs-only spec task; no Obsidian integration is authorized now."
+    },
+    {
+      "id": "cloud-compute-readiness-future",
+      "label": "Cloud Compute Readiness Future",
+      "type": "task",
+      "cluster": "future-modules",
+      "status": "future",
+      "importance": "medium",
+      "confidence": "medium",
+      "sourceRefs": ["shared_context/RUN_QUEUE.md", "docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "safeToDisplay": true,
+      "summary": "Future docs-only readiness task; no cloud provider setup, deploy, workflow YAML, or secrets are authorized now."
+    },
+    {
+      "id": "fixture-review-future",
+      "label": "Fixture Review Future",
+      "type": "task",
+      "cluster": "future-modules",
+      "status": "future",
+      "importance": "medium",
+      "confidence": "high",
+      "sourceRefs": ["shared_context/SOURCE_INGEST_WORKFLOW.md", "shared_context/CONTEXT_GRAPH_FIXTURE_001.md"],
+      "safeToDisplay": true,
+      "summary": "Recommended next review task for human/agent validation of Fixture 001."
+    },
+    {
+      "id": "karpathy-llm-wiki",
+      "label": "Karpathy LLM Wiki",
+      "type": "source",
+      "cluster": "external-inspiration",
+      "status": "conceptual-inspiration",
+      "importance": "medium",
+      "confidence": "medium",
+      "sourceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md"],
+      "safeToDisplay": true,
+      "summary": "Conceptual inspiration for immutable sources, mutable derived notes, and contradiction tracking."
+    },
+    {
+      "id": "llm-wiki-newsroom",
+      "label": "LLM Wiki Newsroom",
+      "type": "source",
+      "cluster": "external-inspiration",
+      "status": "conceptual-inspiration",
+      "importance": "medium",
+      "confidence": "medium",
+      "sourceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md"],
+      "safeToDisplay": true,
+      "summary": "Conceptual inspiration for source catalogs, entity pages, contradiction analysis, and review gates."
+    },
+    {
+      "id": "gitingest",
+      "label": "Gitingest",
+      "type": "source",
+      "cluster": "external-inspiration",
+      "status": "conceptual-inspiration",
+      "importance": "medium",
+      "confidence": "medium",
+      "sourceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md", "shared_context/CONTEXT_PACK_GENERATOR_SPEC.md"],
+      "safeToDisplay": true,
+      "summary": "Conceptual inspiration for bounded read-only repo digests with allowlists and blocklists."
+    },
+    {
+      "id": "gethomepage",
+      "label": "GetHomepage",
+      "type": "source",
+      "cluster": "external-inspiration",
+      "status": "conceptual-inspiration",
+      "importance": "medium",
+      "confidence": "medium",
+      "sourceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md"],
+      "safeToDisplay": true,
+      "summary": "Conceptual inspiration for config-driven grouped cards and search, with explicit no-code-copy boundary."
+    },
+    {
+      "id": "neon-branching",
+      "label": "Neon Branching",
+      "type": "source",
+      "cluster": "external-inspiration",
+      "status": "metaphor-only",
+      "importance": "medium",
+      "confidence": "medium",
+      "sourceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md"],
+      "safeToDisplay": true,
+      "summary": "Metaphor for static context snapshots only; no database integration is implied."
+    },
+    {
+      "id": "lambda-cloud-docs",
+      "label": "Lambda Cloud Docs",
+      "type": "source",
+      "cluster": "external-inspiration",
+      "status": "future-reference",
+      "importance": "low",
+      "confidence": "low",
+      "sourceRefs": ["shared_context/RUN_QUEUE.md"],
+      "safeToDisplay": true,
+      "summary": "Placeholder future cloud-compute readiness reference; no current source-specific claim is made in this fixture."
+    },
+    {
+      "id": "tiktok-visual-inspiration-unverified",
+      "label": "TikTok Visual Inspiration",
+      "type": "source",
+      "cluster": "external-inspiration",
+      "status": "unverified-inspiration",
+      "importance": "low",
+      "confidence": "low",
+      "sourceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md"],
+      "safeToDisplay": true,
+      "summary": "Unverified visual mood cue only; no screenshots or transcripts are available in the repo."
+    }
+  ],
+  "edges": [
+    {
+      "from": "mellycore-aios",
+      "to": "project-rules",
+      "relation": "depends_on",
+      "evidenceRefs": ["README.md", "PROJECT_RULES.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Project identity is governed by the project rules and structured prompt contract."
+    },
+    {
+      "from": "mellycore-aios",
+      "to": "agent-entrypoint",
+      "relation": "depends_on",
+      "evidenceRefs": ["AGENTS.md", "CLAUDE.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Agents must follow the repository entrypoint files before doing work."
+    },
+    {
+      "from": "mellycore-aios",
+      "to": "shared-context-root",
+      "relation": "depends_on",
+      "evidenceRefs": ["README.md", "AGENTS.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The project uses shared_context as the coordination source of truth."
+    },
+    {
+      "from": "mellycore-aios",
+      "to": "safety-contract",
+      "relation": "depends_on",
+      "evidenceRefs": ["README.md", "shared_context/SAFETY_CONTRACT.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The project is explicitly safety-first and constrained by the safety contract."
+    },
+    {
+      "from": "validation-script",
+      "to": "mellycore-aios",
+      "relation": "validated_by",
+      "evidenceRefs": ["README.md", "scripts/validate_project_state.py"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The repo documents the validation script as the project-state check."
+    },
+    {
+      "from": "static-homepage",
+      "to": "design-system",
+      "relation": "depends_on",
+      "evidenceRefs": ["site/css/tokens.css", "docs/design/MELLYCORE_DESIGN_SYSTEM_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The site CSS tokens map to the design system."
+    },
+    {
+      "from": "static-homepage",
+      "to": "homepage-spec",
+      "relation": "depends_on",
+      "evidenceRefs": ["site/index.html", "docs/specs/MELLYCORE_HOMEPAGE_SPEC_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The homepage implementation follows the homepage specification."
+    },
+    {
+      "from": "static-homepage",
+      "to": "static-visual-qa",
+      "relation": "validated_by",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The static homepage was validated by the visual QA task."
+    },
+    {
+      "from": "static-preview-evidence-pack",
+      "to": "static-visual-qa",
+      "relation": "references",
+      "evidenceRefs": ["docs/showcase/static_preview_evidence_pack_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The evidence pack references the visual QA report and confirmed local screenshot filenames."
+    },
+    {
+      "from": "final-showcase-audit",
+      "to": "static-preview-evidence-pack",
+      "relation": "references",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The audit includes the static preview evidence pack as part of showcase readiness."
+    },
+    {
+      "from": "github-pages-decision",
+      "to": "local-preview-only",
+      "relation": "defines",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The decision report defines local preview as the current canonical path."
+    },
+    {
+      "from": "github-pages-decision",
+      "to": "screenshot-evidence-only",
+      "relation": "defines",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The decision report defines screenshot and evidence publishing as the proof layer."
+    },
+    {
+      "from": "github-pages-decision",
+      "to": "no-workflow-yaml",
+      "relation": "blocked_by",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Workflow-based Pages setup is deferred because workflow YAML is out of scope."
+    },
+    {
+      "from": "github-pages-decision",
+      "to": "no-deploy",
+      "relation": "blocked_by",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Deploy options are explicitly not enabled by the decision."
+    },
+    {
+      "from": "local-preview-only",
+      "to": "static-homepage",
+      "relation": "depends_on",
+      "evidenceRefs": ["README.md", "docs/showcase/static_preview_evidence_pack_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Local preview opens the existing static site source."
+    },
+    {
+      "from": "screenshot-evidence-only",
+      "to": "static-visual-qa",
+      "relation": "depends_on",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Screenshot evidence comes from the prior visual QA task."
+    },
+    {
+      "from": "shared-context-root",
+      "to": "agent-handoff",
+      "relation": "defines",
+      "evidenceRefs": ["README.md", "shared_context/AGENT_HANDOFF.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Shared context includes the handoff file agents update after meaningful tasks."
+    },
+    {
+      "from": "shared-context-root",
+      "to": "run-queue",
+      "relation": "defines",
+      "evidenceRefs": ["README.md", "shared_context/RUN_QUEUE.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Shared context includes the current task queue."
+    },
+    {
+      "from": "shared-context-root",
+      "to": "project-state-doc",
+      "relation": "defines",
+      "evidenceRefs": ["README.md", "shared_context/PROJECT_STATE.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Shared context includes project state history."
+    },
+    {
+      "from": "agent-handoff",
+      "to": "run-queue",
+      "relation": "references",
+      "evidenceRefs": ["shared_context/AGENT_HANDOFF.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The handoff points future agents to the run queue for sequencing."
+    },
+    {
+      "from": "project-state-doc",
+      "to": "agent-handoff",
+      "relation": "contradicts",
+      "evidenceRefs": ["shared_context/PROJECT_STATE.md", "shared_context/AGENT_HANDOFF.md"],
+      "confidence": "medium",
+      "safeToDisplay": true,
+      "summary": "Project state contains older branch/task fields that differ from the current handoff and git state."
+    },
+    {
+      "from": "contradiction-ledger",
+      "to": "project-state-doc",
+      "relation": "references",
+      "evidenceRefs": ["shared_context/CONTRADICTION_LEDGER.md", "shared_context/PROJECT_STATE.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The ledger uses a prior project-state discrepancy as its illustrative example."
+    },
+    {
+      "from": "safety-contract",
+      "to": "no-secrets",
+      "relation": "defines",
+      "evidenceRefs": ["shared_context/SAFETY_CONTRACT.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The safety contract defines the no-secrets rule."
+    },
+    {
+      "from": "safety-contract",
+      "to": "no-provider-keys",
+      "relation": "defines",
+      "evidenceRefs": ["docs/safety/knowledge_graph_safety_contract.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The graph safety contract defines the no-provider-keys rule."
+    },
+    {
+      "from": "safety-contract",
+      "to": "no-runtime-backend",
+      "relation": "defines",
+      "evidenceRefs": ["docs/safety/knowledge_graph_safety_contract.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The graph safety contract blocks runtime execution controls and backend implications."
+    },
+    {
+      "from": "safety-contract",
+      "to": "no-deploy",
+      "relation": "defines",
+      "evidenceRefs": ["shared_context/SAFETY_CONTRACT.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The repo-wide safety contract blocks deploy without explicit approval."
+    },
+    {
+      "from": "safety-contract",
+      "to": "no-live-trading-ux",
+      "relation": "defines",
+      "evidenceRefs": ["docs/safety/knowledge_graph_safety_contract.md", "README.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The graph safety contract forbids live trading and broker execution-shaped content."
+    },
+    {
+      "from": "context-graph-schema",
+      "to": "living-context-graph",
+      "relation": "defines",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_SCHEMA.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The schema defines the entity and relation model for graph fixtures."
+    },
+    {
+      "from": "source-ingest-workflow",
+      "to": "living-context-graph",
+      "relation": "defines",
+      "evidenceRefs": ["shared_context/SOURCE_INGEST_WORKFLOW.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The workflow defines how sources become reviewed fixture entries."
+    },
+    {
+      "from": "contradiction-ledger",
+      "to": "living-context-graph",
+      "relation": "defines",
+      "evidenceRefs": ["shared_context/CONTRADICTION_LEDGER.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The ledger defines how graph contradictions are tracked."
+    },
+    {
+      "from": "context-pack-generator",
+      "to": "source-ingest-workflow",
+      "relation": "depends_on",
+      "evidenceRefs": ["shared_context/CONTEXT_PACK_GENERATOR_SPEC.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The future context pack concept is input to the ingest workflow, not a fixture by itself."
+    },
+    {
+      "from": "knowledge-graph-fixture-001",
+      "to": "context-graph-schema",
+      "relation": "depends_on",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_FIXTURE_001.md", "shared_context/CONTEXT_GRAPH_SCHEMA.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Fixture 001 maps to the schema-defined graph concepts."
+    },
+    {
+      "from": "knowledge-graph-fixture-001",
+      "to": "source-ingest-workflow",
+      "relation": "depends_on",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_FIXTURE_001.md", "shared_context/SOURCE_INGEST_WORKFLOW.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Fixture 001 follows the human-gated static source workflow in draft form."
+    },
+    {
+      "from": "knowledge-graph-fixture-001",
+      "to": "safety-contract",
+      "relation": "validated_by",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_FIXTURE_001.md", "docs/safety/knowledge_graph_safety_contract.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Fixture 001 applies graph safety boundaries and public metadata summaries only."
+    },
+    {
+      "from": "living-context-graph",
+      "to": "static-homepage",
+      "relation": "references",
+      "evidenceRefs": ["docs/product/knowledge_graph_console_spec.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The future graph console extends the same static-first homepage posture."
+    },
+    {
+      "from": "living-context-graph",
+      "to": "no-runtime-backend",
+      "relation": "blocked_by",
+      "evidenceRefs": ["docs/product/knowledge_graph_console_spec.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The graph console MVP is limited to static fixtures, not backend services."
+    },
+    {
+      "from": "living-context-graph",
+      "to": "fake-live-claim-risk",
+      "relation": "blocked_by",
+      "evidenceRefs": ["docs/safety/knowledge_graph_safety_contract.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Safety copy must not imply live validation or real-time graph generation."
+    },
+    {
+      "from": "clean-canonical-repo",
+      "to": "mellycore-aios",
+      "relation": "belongs_to",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The clean canonical remote hosts the MellyCore AIOS source repository."
+    },
+    {
+      "from": "old-mixed-origin",
+      "to": "old-origin-main-unrelated-risk",
+      "relation": "defines",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The old origin remote is represented as a risk because it contains unrelated content."
+    },
+    {
+      "from": "old-mixed-origin",
+      "to": "clean-canonical-repo",
+      "relation": "contradicts",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The old mixed origin is not the clean canonical remote."
+    },
+    {
+      "from": "git-safety-rules",
+      "to": "old-mixed-origin",
+      "relation": "blocked_by",
+      "evidenceRefs": ["AGENTS.md", "docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Git safety rules and task scope prevent pushes to old origin."
+    },
+    {
+      "from": "obsidian-3d-page-future",
+      "to": "living-context-graph",
+      "relation": "references",
+      "evidenceRefs": ["shared_context/RUN_QUEUE.md"],
+      "confidence": "medium",
+      "safeToDisplay": true,
+      "summary": "Future Obsidian-style page spec is related to the graph direction but not authorized now."
+    },
+    {
+      "from": "cloud-compute-readiness-future",
+      "to": "no-deploy",
+      "relation": "blocked_by",
+      "evidenceRefs": ["shared_context/RUN_QUEUE.md"],
+      "confidence": "medium",
+      "safeToDisplay": true,
+      "summary": "Cloud compute readiness remains docs-only and blocked from deploy/provider setup."
+    },
+    {
+      "from": "fixture-review-future",
+      "to": "knowledge-graph-fixture-001",
+      "relation": "depends_on",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_FIXTURE_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The next review task depends on the existence of this draft fixture."
+    },
+    {
+      "from": "karpathy-llm-wiki",
+      "to": "contradiction-ledger",
+      "relation": "references",
+      "evidenceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md"],
+      "confidence": "medium",
+      "safeToDisplay": true,
+      "summary": "The research summary connects Karpathy LLM Wiki concepts to contradiction tracking."
+    },
+    {
+      "from": "karpathy-llm-wiki",
+      "to": "context-graph-schema",
+      "relation": "references",
+      "evidenceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md"],
+      "confidence": "medium",
+      "safeToDisplay": true,
+      "summary": "The research summary maps immutable-source ideas to SourceRef and ContextNode separation."
+    },
+    {
+      "from": "llm-wiki-newsroom",
+      "to": "source-ingest-workflow",
+      "relation": "references",
+      "evidenceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md"],
+      "confidence": "medium",
+      "safeToDisplay": true,
+      "summary": "The research summary maps newsroom-style review gates to MellyCore ingest workflow."
+    },
+    {
+      "from": "gitingest",
+      "to": "context-pack-generator",
+      "relation": "references",
+      "evidenceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md", "shared_context/CONTEXT_PACK_GENERATOR_SPEC.md"],
+      "confidence": "medium",
+      "safeToDisplay": true,
+      "summary": "Gitingest is conceptual inspiration for the read-only context pack generator spec."
+    },
+    {
+      "from": "gethomepage",
+      "to": "living-context-graph",
+      "relation": "references",
+      "evidenceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md", "docs/product/knowledge_graph_console_spec.md"],
+      "confidence": "medium",
+      "safeToDisplay": true,
+      "summary": "GetHomepage-style grouped navigation inspires search and cluster filtering only."
+    },
+    {
+      "from": "neon-branching",
+      "to": "context-pack-generator",
+      "relation": "references",
+      "evidenceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md", "shared_context/CONTEXT_PACK_GENERATOR_SPEC.md"],
+      "confidence": "medium",
+      "safeToDisplay": true,
+      "summary": "Neon branching is used as a static snapshot metaphor, not as a database dependency."
+    },
+    {
+      "from": "tiktok-visual-inspiration-unverified",
+      "to": "design-system",
+      "relation": "references",
+      "evidenceRefs": ["docs/research/external_inspiration_llm_wiki_graph_001.md", "docs/design/knowledge_graph_visual_language.md"],
+      "confidence": "low",
+      "safeToDisplay": true,
+      "summary": "TikTok references are only low-confidence visual mood cues because no direct evidence is available."
+    },
+    {
+      "from": "lambda-cloud-docs",
+      "to": "cloud-compute-readiness-future",
+      "relation": "references",
+      "evidenceRefs": ["shared_context/RUN_QUEUE.md"],
+      "confidence": "low",
+      "safeToDisplay": true,
+      "summary": "Lambda Cloud is only represented as a future readiness reference with no current implementation claim."
+    },
+    {
+      "from": "context-pack-generator",
+      "to": "no-secrets",
+      "relation": "blocked_by",
+      "evidenceRefs": ["shared_context/CONTEXT_PACK_GENERATOR_SPEC.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The context pack spec blocks secret-shaped paths and contents."
+    },
+    {
+      "from": "source-ingest-workflow",
+      "to": "contradiction-ledger",
+      "relation": "depends_on",
+      "evidenceRefs": ["shared_context/SOURCE_INGEST_WORKFLOW.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Ingest workflow routes detected contradictions into the ledger."
+    },
+    {
+      "from": "source-ingest-workflow",
+      "to": "no-secrets",
+      "relation": "blocked_by",
+      "evidenceRefs": ["shared_context/SOURCE_INGEST_WORKFLOW.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The ingest workflow refuses secret-shaped sources."
+    },
+    {
+      "from": "context-graph-schema",
+      "to": "safety-contract",
+      "relation": "depends_on",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_SCHEMA.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The schema applies safety display states and no-secret constraints."
+    },
+    {
+      "from": "knowledge-graph-fixture-001",
+      "to": "no-deploy",
+      "relation": "blocked_by",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_FIXTURE_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Fixture 001 is not a deployable service or live preview."
+    },
+    {
+      "from": "knowledge-graph-fixture-001",
+      "to": "no-workflow-yaml",
+      "relation": "blocked_by",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_FIXTURE_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Fixture 001 does not add or authorize workflow YAML."
+    },
+    {
+      "from": "knowledge-graph-fixture-001",
+      "to": "no-runtime-backend",
+      "relation": "blocked_by",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_FIXTURE_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Fixture 001 is static data, not backend or API implementation."
+    },
+    {
+      "from": "knowledge-graph-fixture-001",
+      "to": "no-live-trading-ux",
+      "relation": "blocked_by",
+      "evidenceRefs": ["shared_context/CONTEXT_GRAPH_FIXTURE_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Fixture 001 contains no trading execution-shaped UX claims."
+    },
+    {
+      "from": "static-homepage",
+      "to": "no-runtime-backend",
+      "relation": "validated_by",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md", "site/index.html"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Static homepage QA and source confirm no script tags, forms, fetch, or runtime backend hooks."
+    },
+    {
+      "from": "static-homepage",
+      "to": "no-live-trading-ux",
+      "relation": "validated_by",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Visual QA confirmed no forbidden trading or execution CTAs in rendered text."
+    },
+    {
+      "from": "static-preview-evidence-pack",
+      "to": "no-deploy",
+      "relation": "validated_by",
+      "evidenceRefs": ["docs/showcase/static_preview_evidence_pack_001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The evidence pack explicitly records no deploy and no GitHub Pages."
+    },
+    {
+      "from": "final-showcase-audit",
+      "to": "fake-live-claim-risk",
+      "relation": "blocked_by",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The final audit blocks fake live URL and production claims."
+    },
+    {
+      "from": "clean-canonical-repo",
+      "to": "old-origin-main-unrelated-risk",
+      "relation": "blocked_by",
+      "evidenceRefs": ["docs/tasks/MELLYCORE-REPO-FINAL-SHOWCASE-AUDIT-001.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "Clean-origin is the approved canonical remote, while old origin is an unrelated-content risk."
+    },
+    {
+      "from": "run-queue",
+      "to": "knowledge-graph-fixture-001",
+      "relation": "references",
+      "evidenceRefs": ["shared_context/RUN_QUEUE.md"],
+      "confidence": "high",
+      "safeToDisplay": true,
+      "summary": "The run queue names the fixture draft as the immediate next task before this run."
+    }
+  ]
+}

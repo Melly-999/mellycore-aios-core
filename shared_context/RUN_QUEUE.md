@@ -13,12 +13,13 @@
 11. `MELLYCORE-ZED-WARP-VSCODE-AGENT-WORKSPACE-001`
 12. `MELLYCORE-ROADMAP-3D-DESIGN-SYSTEM-001`
 13. `MELLYCORE-WEBSITE-VISUAL-PROTOTYPE-001`
-14. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001` — immediate next recommended task: hand-author the first `ContextGraph` fixture per `shared_context/SOURCE_INGEST_WORKFLOW.md`, still docs-only.
+14. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001` — complete (docs/shared_context only). Added `shared_context/CONTEXT_GRAPH_FIXTURE_001.md`, `shared_context/context_graph_fixture_001.json`, and `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001.md`.
 15. `MELLYCORE-README-SHOWCASE-UPDATE-001` — complete (docs-only). README polished for the canonical clean MellyCore repository; static-first, safety-first, portfolio-ready positioning.
 16. `MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001` — complete (docs-only). Recommended local static preview plus screenshot/evidence-only publishing path for now; GitHub Pages deferred.
 17. `MELLYCORE-STATIC-PREVIEW-EVIDENCE-PACK-001` — complete (docs-only). Added `docs/showcase/static_preview_evidence_pack_001.md`, final showcase audit, and README/shared-context links for the local static preview evidence pack.
 18. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-001` — future docs-only spec task; no Obsidian/MCP/runtime integration authorized.
 19. `MELLYCORE-CLOUD-COMPUTE-READINESS-001` — future docs-only readiness task; no provider setup, deploy, workflow YAML, or secrets authorized.
+20. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001` — immediate next recommended task: review Fixture 001 against the graph schema, ingest workflow, safety contract, and source evidence; still docs-only.
 
 Safety posture for queued tasks:
 
