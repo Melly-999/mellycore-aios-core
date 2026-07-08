@@ -225,6 +225,192 @@
   align-items: center;
 }
 
+/* Knowledge graph fixture primitives */
+.cluster-list,
+.relation-list,
+.risk-badge-list,
+.source-chip-list,
+.node-meta-list {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.cluster-list li,
+.relation-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-muted-lavender);
+}
+
+.cluster-list span:last-child,
+.relation-list span:last-child {
+  overflow-wrap: anywhere;
+}
+
+.cluster-swatch {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border: 1px solid var(--border-command);
+  border-radius: 50%;
+  background: rgba(196, 181, 253, 0.18);
+}
+
+.cluster-swatch--violet { border-color: rgba(124, 58, 237, 0.7); background: rgba(124, 58, 237, 0.24); }
+.cluster-swatch--blue { border-color: rgba(59, 130, 246, 0.7); background: rgba(59, 130, 246, 0.2); }
+.cluster-swatch--cyan { border-color: rgba(6, 182, 212, 0.7); background: rgba(6, 182, 212, 0.18); }
+.cluster-swatch--green { border-color: rgba(16, 185, 129, 0.7); background: rgba(16, 185, 129, 0.18); }
+.cluster-swatch--lavender { border-color: rgba(196, 181, 253, 0.7); background: rgba(196, 181, 253, 0.14); }
+.cluster-swatch--dormant { border-color: rgba(156, 163, 175, 0.5); background: rgba(107, 114, 128, 0.2); }
+.cluster-swatch--dashed {
+  border-style: dashed;
+  border-color: rgba(196, 181, 253, 0.7);
+  background: transparent;
+}
+
+.graph-node {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  border: 1px solid rgba(196, 181, 253, 0.26);
+  border-radius: var(--radius-chip);
+  padding: 4px 12px;
+  font-family: var(--font-mono);
+  font-size: var(--text-chip);
+  color: var(--color-cold-white);
+  background: rgba(5, 5, 8, 0.58);
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.08);
+}
+
+.graph-node--large {
+  min-height: 38px;
+  border-color: rgba(6, 182, 212, 0.45);
+  color: var(--color-signal-cyan);
+}
+
+.relation-swatch {
+  position: relative;
+  width: 46px;
+  height: 12px;
+  flex: none;
+}
+
+.relation-swatch::before,
+.relation-swatch::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 2px solid rgba(59, 130, 246, 0.75);
+}
+
+.relation-swatch--dashed::before { border-top-style: dashed; }
+.relation-swatch--dotted::before { border-top-style: dotted; }
+.relation-swatch--double::before {
+  top: 35%;
+  border-top-color: rgba(245, 158, 11, 0.78);
+}
+.relation-swatch--double::after {
+  top: 65%;
+  border-top-color: rgba(245, 158, 11, 0.78);
+}
+.relation-swatch--tick::after {
+  left: 50%;
+  right: auto;
+  top: 0;
+  height: 12px;
+  border-top: 0;
+  border-left: 2px solid rgba(196, 181, 253, 0.75);
+}
+.relation-swatch--check::after {
+  left: 50%;
+  right: auto;
+  top: 1px;
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-right: 2px solid var(--color-safe-green);
+  border-bottom: 2px solid var(--color-safe-green);
+  transform: rotate(45deg);
+}
+.relation-swatch--blocked::before { border-top-color: rgba(245, 158, 11, 0.82); }
+.relation-swatch--blocked::after {
+  left: 50%;
+  right: auto;
+  top: 1px;
+  height: 10px;
+  border-top: 0;
+  border-left: 2px solid rgba(245, 158, 11, 0.82);
+}
+.relation-swatch--faint::before { opacity: 0.35; }
+
+.node-detail-card {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.node-meta-list {
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border-command-soft);
+  border-bottom: 1px solid var(--border-command-soft);
+  padding-block: var(--space-2);
+}
+
+.node-meta-list div {
+  display: grid;
+  gap: 2px;
+}
+
+.node-meta-list dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-chip);
+  letter-spacing: var(--tracking-hud);
+  text-transform: uppercase;
+  color: var(--color-dormant-text);
+}
+
+.node-meta-list dd {
+  font-size: var(--text-small);
+  color: var(--color-cold-white);
+}
+
+.source-chip-list {
+  align-items: start;
+}
+
+.source-chip-list span,
+.source-chip-list li,
+.risk-badge-list li {
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid var(--border-command-soft);
+  border-radius: var(--radius-chip);
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-chip);
+  color: var(--color-muted-lavender);
+  background: rgba(196, 181, 253, 0.05);
+  overflow-wrap: anywhere;
+}
+
+.risk-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.risk-badge-list li {
+  color: var(--color-warning-amber);
+  border-color: rgba(245, 158, 11, 0.32);
+  background: rgba(245, 158, 11, 0.06);
+}
+
 /* Geometric placeholder monogram (no brand logos) */
 .node-glyph {
   display: inline-flex;

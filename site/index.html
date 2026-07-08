@@ -22,6 +22,7 @@
           <li><a href="#agent-constellation">Constellation</a></li>
           <li><a href="#model-router-panel">Router</a></li>
           <li><a href="#shared-context-memory">Context</a></li>
+          <li><a href="#living-context-graph">Graph</a></li>
           <li><a href="#roadmap-orbit-map">Roadmap</a></li>
           <li><a href="#safety-control-layer">Safety</a></li>
           <li><a href="#tooling-layer">Tooling</a></li>
@@ -319,6 +320,156 @@
       </div>
     </section>
 
+    <!-- Section 4.5: Living Context Graph static preview -->
+    <section id="living-context-graph" class="page-section knowledge-graph-section" aria-labelledby="knowledge-graph-title">
+      <div class="container">
+        <header class="section-header knowledge-graph-header">
+          <div class="hud-row">
+            <span class="hud-label hud-label--muted">Living Context Graph</span>
+            <span class="hud-label hud-label--caution">No live ingestion</span>
+          </div>
+          <h2 id="knowledge-graph-title">Living Context Graph</h2>
+          <p class="section-subtitle">A static, reviewable map of MellyCore context, safety rules, decisions, and future modules.</p>
+          <div class="knowledge-graph-badges" aria-label="Fixture summary">
+            <span class="status-chip status-chip--planned">Static fixture</span>
+            <span class="status-chip status-chip--active">8 clusters</span>
+            <span class="status-chip status-chip--active">45 nodes</span>
+            <span class="status-chip status-chip--active">66 edges</span>
+            <span class="status-chip status-chip--blocked">No live ingestion</span>
+          </div>
+        </header>
+
+        <div class="knowledge-graph-layout">
+          <aside class="glass-panel knowledge-cluster-rail" aria-labelledby="cluster-rail-title">
+            <h3 id="cluster-rail-title">Cluster rail</h3>
+            <p>Eight reviewed fixture clusters, shown as static labels and not generated from runtime data.</p>
+            <ol class="cluster-list">
+              <li><span class="cluster-swatch cluster-swatch--violet" aria-hidden="true"></span><span>product-foundation</span></li>
+              <li><span class="cluster-swatch cluster-swatch--blue" aria-hidden="true"></span><span>static-showcase</span></li>
+              <li><span class="cluster-swatch cluster-swatch--cyan" aria-hidden="true"></span><span>shared-context</span></li>
+              <li><span class="cluster-swatch cluster-swatch--green" aria-hidden="true"></span><span>safety-governance</span></li>
+              <li><span class="cluster-swatch cluster-swatch--violet" aria-hidden="true"></span><span>knowledge-graph</span></li>
+              <li><span class="cluster-swatch cluster-swatch--lavender" aria-hidden="true"></span><span>repository-governance</span></li>
+              <li><span class="cluster-swatch cluster-swatch--dormant" aria-hidden="true"></span><span>future-modules</span></li>
+              <li><span class="cluster-swatch cluster-swatch--dashed" aria-hidden="true"></span><span>external-inspiration</span></li>
+            </ol>
+          </aside>
+
+          <div class="glass-panel knowledge-graph-canvas" aria-labelledby="graph-canvas-title">
+            <div class="canvas-header">
+              <div>
+                <h3 id="graph-canvas-title">Static graph canvas mock</h3>
+                <p>CSS-only cluster shells, node pills, and relation lines. No canvas, script, API call, database, or graph ingestion.</p>
+              </div>
+              <span class="static-preview-notice"><strong>Reviewed snapshot.</strong> Fixture 001 is authored in repository files.</span>
+            </div>
+            <div class="graph-map" aria-hidden="true">
+              <div class="graph-line graph-line--one"></div>
+              <div class="graph-line graph-line--two"></div>
+              <div class="graph-line graph-line--three"></div>
+              <div class="graph-line graph-line--four"></div>
+              <div class="graph-line graph-line--five"></div>
+              <div class="graph-cluster graph-cluster--foundation">
+                <span class="graph-cluster-title">Foundation</span>
+                <span class="graph-node graph-node--large">MellyCore AIOS</span>
+                <span class="graph-node">Design system</span>
+                <span class="graph-node">Homepage spec</span>
+              </div>
+              <div class="graph-cluster graph-cluster--context">
+                <span class="graph-cluster-title">Shared context</span>
+                <span class="graph-node graph-node--large">AGENT_HANDOFF</span>
+                <span class="graph-node">RUN_QUEUE</span>
+                <span class="graph-node">Safety contract</span>
+              </div>
+              <div class="graph-cluster graph-cluster--knowledge">
+                <span class="graph-cluster-title">Knowledge graph</span>
+                <span class="graph-node graph-node--large">Living Context Graph</span>
+                <span class="graph-node">Fixture 001</span>
+                <span class="graph-node">Schema</span>
+              </div>
+              <div class="graph-cluster graph-cluster--safety">
+                <span class="graph-cluster-title">Safety governance</span>
+                <span class="graph-node graph-node--large">No secrets</span>
+                <span class="graph-node">No deploy</span>
+                <span class="graph-node">No trading UX</span>
+              </div>
+              <div class="graph-cluster graph-cluster--repo">
+                <span class="graph-cluster-title">Repository governance</span>
+                <span class="graph-node graph-node--large">clean-origin</span>
+                <span class="graph-node">Old origin risk</span>
+                <span class="graph-node">Review trail</span>
+              </div>
+            </div>
+            <div class="graph-text-fallback" aria-label="Graph text summary">
+              <p>The graph preview represents product foundation, static showcase, shared context, safety governance, knowledge graph, repository governance, future modules, and external inspiration as the eight static clusters from Fixture 001.</p>
+            </div>
+          </div>
+
+          <aside class="glass-panel knowledge-node-panel" aria-labelledby="node-panel-title">
+            <h3 id="node-panel-title">Representative node</h3>
+            <div class="node-detail-card">
+              <span class="card-name">living-context-graph</span>
+              <p class="card-desc">Future static-first graph view over MellyCore docs and shared context.</p>
+              <dl class="node-meta-list">
+                <div><dt>Type</dt><dd>module</dd></div>
+                <div><dt>Status</dt><dd>draft-spec</dd></div>
+                <div><dt>Confidence</dt><dd>high</dd></div>
+                <div><dt>Importance</dt><dd>high</dd></div>
+              </dl>
+              <div class="source-chip-list" aria-label="Node source references">
+                <span>docs/product/knowledge_graph_console_spec.md</span>
+                <span>docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001.md</span>
+              </div>
+              <span class="safety-badge"><span class="badge-glyph" aria-hidden="true">[+]</span> Safe metadata only</span>
+            </div>
+          </aside>
+        </div>
+
+        <div class="knowledge-graph-lower">
+          <div class="glass-panel relation-legend" aria-labelledby="relation-legend-title">
+            <h3 id="relation-legend-title">Relation legend</h3>
+            <ul class="relation-list">
+              <li><span class="relation-swatch relation-swatch--solid" aria-hidden="true"></span><span>depends_on</span></li>
+              <li><span class="relation-swatch relation-swatch--solid" aria-hidden="true"></span><span>defines</span></li>
+              <li><span class="relation-swatch relation-swatch--dashed" aria-hidden="true"></span><span>references</span></li>
+              <li><span class="relation-swatch relation-swatch--double" aria-hidden="true"></span><span>contradicts</span></li>
+              <li><span class="relation-swatch relation-swatch--tick" aria-hidden="true"></span><span>supersedes</span></li>
+              <li><span class="relation-swatch relation-swatch--dotted" aria-hidden="true"></span><span>produced_by</span></li>
+              <li><span class="relation-swatch relation-swatch--check" aria-hidden="true"></span><span>validated_by</span></li>
+              <li><span class="relation-swatch relation-swatch--blocked" aria-hidden="true"></span><span>blocked_by</span></li>
+              <li><span class="relation-swatch relation-swatch--faint" aria-hidden="true"></span><span>belongs_to</span></li>
+            </ul>
+          </div>
+
+          <div class="glass-panel graph-risk-panel" aria-labelledby="graph-risk-title">
+            <h3 id="graph-risk-title">Safety and risk panel</h3>
+            <ul class="risk-badge-list">
+              <li>no-secrets</li>
+              <li>no-provider-keys</li>
+              <li>no-runtime-backend</li>
+              <li>no-deploy</li>
+              <li>no-workflow-yaml</li>
+              <li>no-live-trading-ux</li>
+              <li>fake-live-claim-risk</li>
+              <li>old-origin-main-unrelated-risk</li>
+            </ul>
+            <p>This preview makes the risks visible as static text. It does not validate them live or connect to any runtime system.</p>
+          </div>
+
+          <div class="glass-panel graph-source-strip" aria-labelledby="graph-source-title">
+            <h3 id="graph-source-title">Source evidence</h3>
+            <ul class="source-chip-list">
+              <li>shared_context/context_graph_fixture_001.json</li>
+              <li>shared_context/CONTEXT_GRAPH_FIXTURE_001.md</li>
+              <li>docs/specs/MELLYCORE_KNOWLEDGE_GRAPH_STATIC_UI_SPEC_001.md</li>
+              <li>docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SPEC-REVIEW-001.md</li>
+            </ul>
+            <p class="static-claim-copy">Static only: no live graph generation, no runtime ingestion, no backend/API/database, no Obsidian/MCP integration, no deploy, and no live website claim.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ── Section 5: Roadmap Orbit Map (RoadmapOrbitMap) ───── -->
     <section id="roadmap-orbit-map" class="page-section" aria-labelledby="roadmap-title">
       <div class="container">
@@ -518,6 +669,7 @@
         <div class="cta-group">
           <a class="cta-anchor" href="#roadmap-orbit-map">View roadmap</a>
           <a class="cta-anchor" href="#shared-context-memory">Review context packet</a>
+          <a class="cta-anchor" href="#living-context-graph">Review graph preview</a>
           <a class="cta-anchor" href="#agent-constellation">Explore static system map</a>
           <a class="cta-anchor" href="#safety-control-layer">Read safety contract</a>
           <a class="cta-anchor" href="../docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md">View scaffold plan</a>
