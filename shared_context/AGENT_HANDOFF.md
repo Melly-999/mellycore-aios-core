@@ -2,7 +2,13 @@
 
 Current handoff state: static homepage scaffold implemented, visual-QA-passed, and published to the clean canonical source repository as a static local-preview showcase. The static site lives at `site/` (pure HTML/CSS, no JS, no packages); QA evidence report at `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`; static preview evidence pack at `docs/showcase/static_preview_evidence_pack_001.md`. A new docs-only specification package for a future "MellyCore Living Context Graph" / Knowledge Graph Console feature direction has since been added (see below) — it does not change the static site and does not authorize any implementation.
 
-Latest completed task: `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001`
+Latest completed task: `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SPEC-001`
+
+- Outcome: PASS_COMMITTED_NO_PUSH (docs/shared_context only) — created a static UI specification for representing the existing 8-cluster, 45-node, 66-edge context graph fixture in a future static website surface
+- Files: `docs/specs/MELLYCORE_KNOWLEDGE_GRAPH_STATIC_UI_SPEC_001.md`, `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SPEC-001.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
+- Posture: UI/spec only; no site/frontend/backend/runtime/provider/API/database/MCP/Obsidian integration; no deploy; no workflow YAML; no secrets; no live/trading UX; no push
+
+Previous completed task: `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001`
 
 - Outcome: PASS_REVIEW_WITH_FIXES_COMMITTED (docs/shared_context only) — reviewed Fixture 001, confirmed JSON graph integrity, fixed stale count references, and added a review report
 - Files: `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001.md`, `shared_context/CONTEXT_GRAPH_FIXTURE_001.md`, `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-DRAFT-001.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
@@ -59,7 +65,7 @@ Last completed tasks (most recent last):
 9. `MELLYCORE-STATIC-VISUAL-QA-001`
 10. `MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001`
 
-Next recommended task: `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-PUSH-001` — verify and push the review commit to `clean-origin/main` if operator-approved; no old-origin push. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred (run from a clean `main` worktree); see `shared_context/RUN_QUEUE.md` for current sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
+Next recommended task: `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SPEC-REVIEW-001` — review the static UI spec before any scaffold task. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-PUSH-001` remains a separate operator-approved push task; no old-origin push. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred (run from a clean `main` worktree); see `shared_context/RUN_QUEUE.md` for current sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
 
 Required final report format:
 
