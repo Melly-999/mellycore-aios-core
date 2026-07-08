@@ -1,8 +1,14 @@
 # Agent Handoff
 
-Current handoff state: static homepage scaffold implemented, visual-QA-passed, and published to the clean canonical source repository as a static local-preview showcase. The static site lives at `site/` (pure HTML/CSS, no JS, no packages); QA evidence report at `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`; static preview evidence pack at `docs/showcase/static_preview_evidence_pack_001.md`. A static HTML/CSS-only `Living Context Graph` preview section has now been scaffolded in `site/index.html` from the reviewed Fixture 001 and static UI spec. It is a static authored preview only; it does not parse the fixture at runtime and does not authorize backend/runtime/API/database/MCP/Obsidian integration or deploy.
+Current handoff state: static homepage scaffold implemented, visual-QA-passed, and published to the clean canonical source repository as a static local-preview showcase. The static site lives at `site/` (pure HTML/CSS, no JS, no packages); QA evidence report at `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`; static preview evidence pack at `docs/showcase/static_preview_evidence_pack_001.md`. A static HTML/CSS-only `Living Context Graph` preview section has now been scaffolded in `site/index.html` from the reviewed Fixture 001 and static UI spec, then reviewed with no site/CSS fixes required. It is a static authored preview only; it does not parse the fixture at runtime and does not authorize backend/runtime/API/database/MCP/Obsidian integration or deploy.
 
-Latest completed task: `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-001`
+Latest completed task: `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-001`
+
+- Outcome: PASS_REVIEW_CLEAN_NO_FIXES (docs/shared_context only) — reviewed the static Knowledge Graph scaffold for fixture/spec alignment, HTML/CSS structure, accessibility, responsive behavior, safety copy, and script/network absence; no site or CSS fixes were required
+- Files: `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-001.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
+- Posture: review/report only; no JavaScript, frontend/site implementation change, backend, runtime, provider, API, database, MCP, Obsidian integration, deploy, workflow YAML, secrets, live URL claim, or live/trading UX; no push
+
+Previous completed task: `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-001`
 
 - Outcome: PASS_COMMITTED_NO_PUSH (static site/docs/shared_context) — added a static Knowledge Graph preview section with 8-cluster / 45-node / 66-edge fixture counts, CSS-only graph mock, cluster rail, representative node detail, relation legend, safety/risk panel, and source strip
 - Files: `site/index.html`, `site/css/components.css`, `site/css/sections.css`, `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-001.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
@@ -77,7 +83,7 @@ Last completed tasks (most recent last):
 9. `MELLYCORE-STATIC-VISUAL-QA-001`
 10. `MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001`
 
-Next recommended task: `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-001` — review the static scaffold for fixture alignment, responsive behavior, accessibility, visual clarity, and safety wording. Do not push unless separately requested; no old-origin push. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-PUSH-001` and `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SPEC-REVIEW-PUSH-001` remain separate operator-approved push tasks if still needed. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred (run from a clean `main` worktree); see `shared_context/RUN_QUEUE.md` for current sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
+Next recommended task: `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-PUSH-001` — verify and push the scaffold review commit to `clean-origin/main` only if separately requested by the operator; no old-origin push. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-PUSH-001` and `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SPEC-REVIEW-PUSH-001` remain separate operator-approved push tasks if still needed. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred (run from a clean `main` worktree); see `shared_context/RUN_QUEUE.md` for current sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
 
 Required final report format:
 

@@ -25,7 +25,8 @@
 23. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SPEC-REVIEW-001` — complete (docs/shared_context only). Reviewed the static UI spec against Fixture 001, the graph/design specs, current static site files, accessibility, responsive behavior, and safety UX; no spec fixes required.
 24. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SPEC-REVIEW-PUSH-001` — separate operator-approved push task: verify and push the review commit to `clean-origin/main` if requested; no old-origin push.
 25. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-001` — complete (static site/docs/shared_context only). Added a static HTML/CSS-only `Living Context Graph` preview section with fixture counts, graph mock, cluster rail, node detail, relation legend, safety/risk panel, and source evidence strip.
-26. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-001` — immediate next recommended task: review the static scaffold for fixture alignment, responsive behavior, accessibility, visual clarity, and safety wording before any visual QA or future interactivity task.
+26. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-001` — complete (docs/shared_context only). Reviewed the static scaffold for fixture/spec alignment, HTML/CSS structure, accessibility, responsive behavior, safety copy, and script/network absence; no site or CSS fixes required.
+27. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-PUSH-001` — immediate next recommended task: verify and push the scaffold review commit to `clean-origin/main` only if separately requested by the operator; no old-origin push.
 
 Safety posture for queued tasks:
 
