@@ -28,7 +28,9 @@
 26. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-001` — complete (docs/shared_context only). Reviewed the static scaffold for fixture/spec alignment, HTML/CSS structure, accessibility, responsive behavior, safety copy, and script/network absence; no site or CSS fixes required.
 27. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-PUSH-001` — complete. Pushed `0634b96af4b9d033eeaf1ce6c00deb1669fcc982` to `clean-origin/main`; old `origin/main` untouched.
 28. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-001` — complete (docs/shared_context only). Visual QA passed at `375x812`, `390x844`, `768x1024`, `1024x768`, `1280x900`, and `1920x1080`; screenshot/HAR evidence stored outside the repo.
-29. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-PUSH-001` — immediate next recommended task: verify and push the visual QA report commit to `clean-origin/main` only if separately requested by the operator; no old-origin push.
+29. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-PUSH-001` — complete. Pushed `39eeffd22215b76f62770198d47ffb0e1c30d77a` to `clean-origin/main`; old `origin/main` untouched.
+30. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-FINAL-SHOWCASE-AUDIT-001` — complete (docs/shared_context only). Final audit confirmed the Knowledge Graph static UI milestone is complete, pushed, visually QA'd, and safe as a local static prototype with external screenshot evidence.
+31. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-FINAL-SHOWCASE-AUDIT-PUSH-001` — immediate next recommended task: verify and push the final audit report commit to `clean-origin/main` only if separately requested by the operator; no old-origin push.
 
 Safety posture for queued tasks:
 
