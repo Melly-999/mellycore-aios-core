@@ -1,10 +1,22 @@
 # Agent Handoff
 
-Current handoff state: static homepage scaffold implemented, visual-QA-passed, and published to the clean canonical source repository as a static local-preview showcase. The static site lives at `site/` (pure HTML/CSS, no JS, no packages); QA evidence report at `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`; static preview evidence pack at `docs/showcase/static_preview_evidence_pack_001.md`. A static HTML/CSS-only `Living Context Graph` preview section has now been scaffolded in `site/index.html` from the reviewed Fixture 001 and static UI spec, reviewed with no site/CSS fixes required, pushed to clean-origin, visually QA'd locally across mobile/tablet/desktop/wide viewports with no fixes required, and final-audited as portfolio-ready local static prototype evidence. A docs-only Obsidian-style 3D graph page concept spec now extends that milestone as future static/spatial context-navigation work, and its spec review passed cleanly with no spec fixes required. It remains a specification only; it does not parse the fixture at runtime and does not authorize frontend/site changes, JavaScript, Three.js/WebGL, backend/runtime/API/database/MCP/Obsidian integration, workflow YAML, or deploy.
+Current handoff state: static homepage scaffold implemented, visual-QA-passed, and published to the clean canonical source repository as a static local-preview showcase. The static site lives at `site/` (pure HTML/CSS, no JS, no packages); QA evidence report at `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`; static preview evidence pack at `docs/showcase/static_preview_evidence_pack_001.md`. A static HTML/CSS-only `Living Context Graph` preview section has now been scaffolded in `site/index.html` from the reviewed Fixture 001 and static UI spec, reviewed with no site/CSS fixes required, pushed to clean-origin, visually QA'd locally across mobile/tablet/desktop/wide viewports with no fixes required, and final-audited as portfolio-ready local static prototype evidence. A docs-only Obsidian-style 3D graph page concept spec now extends that milestone as future static/spatial context-navigation work, and its spec review passed cleanly with no spec fixes required. A docs-only Obsidian-style 3D graph visual language spec now defines the future command-center star map metaphor, node/edge/cluster treatments, 3D spatial composition, motion guidance, panel system, accessibility fallback, responsive behavior, honest-copy rules, and implementation guardrails. It remains specification/design documentation only; it does not parse the fixture at runtime and does not authorize frontend/site changes, JavaScript, Three.js/WebGL, backend/runtime/API/database/MCP/Obsidian integration, workflow YAML, or deploy.
 
-Latest completed task: `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-001`
+Latest completed task: `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-001`
 
-- Outcome: PASS_REVIEW_CLEAN_NO_FIXES (docs/shared_context only) — reviewed the Obsidian-style 3D graph page spec against the completed Knowledge Graph static UI milestone, fixture counts, product clarity, layout completeness, future-only interaction states, safety UX, accessibility/fallbacks, responsive behavior, implementation constraints, and honest copy; no spec fixes were required
+- Outcome: PASS_COMMITTED_NO_PUSH (docs/design/shared_context only) - created a future-facing Obsidian-style 3D graph visual language specification aligned to the current MellyCore design system, the completed Living Context Graph static milestone, and Fixture 001 counts of 8 clusters, 45 nodes, and 66 edges
+- Files: `docs/design/MELLYCORE_OBSIDIAN_3D_VISUAL_LANGUAGE_001.md`, `docs/tasks/MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-001.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
+- Posture: docs-only visual language; no site/frontend changes, JavaScript, Three.js/WebGL, backend, runtime, provider, API, database, MCP, Obsidian integration, deploy, workflow YAML, secrets, live URL claim, or live/trading UX; no push
+
+Previous completed task: `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-PUSH-001`
+
+- Outcome: PASS_OBSIDIAN_3D_PAGE_SPEC_REVIEW_PUSHED - pushed `78f10b67d18219891fa93a871f2c1896b5181de3` to `clean-origin/main` and verified the remote SHA matched local HEAD
+- Files: no file changes
+- Posture: push only to clean-origin/main; old origin/main untouched; no force push, deploy, workflow YAML, PR, or runtime integration
+
+Previous completed task: `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-001`
+
+- Outcome: PASS_REVIEW_CLEAN_NO_FIXES (docs/shared_context only) - reviewed the Obsidian-style 3D graph page spec against the completed Knowledge Graph static UI milestone, fixture counts, product clarity, layout completeness, future-only interaction states, safety UX, accessibility/fallbacks, responsive behavior, implementation constraints, and honest copy; no spec fixes were required
 - Files: `docs/tasks/MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-001.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
 - Posture: review/report only; no site/frontend changes, JavaScript, Three.js/WebGL, backend, runtime, provider, API, database, MCP, Obsidian integration, deploy, workflow YAML, secrets, live URL claim, or live/trading UX; no push
 
@@ -119,7 +131,7 @@ Last completed tasks (most recent last):
 9. `MELLYCORE-STATIC-VISUAL-QA-001`
 10. `MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001`
 
-Next recommended task: `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-PUSH-001` — verify and push this review report commit to `clean-origin/main` only if separately requested by the operator; no old-origin push. Any 3D visual-language or scaffold task remains separate and approval-gated. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred (run from a clean `main` worktree); see `shared_context/RUN_QUEUE.md` for current sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
+Next recommended task: `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-REVIEW-001` - review the new visual language spec before any static scaffold task. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remains deferred (run from a clean `main` worktree); see `shared_context/RUN_QUEUE.md` for current sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
 
 Required final report format:
 

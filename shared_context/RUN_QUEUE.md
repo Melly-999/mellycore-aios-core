@@ -32,7 +32,9 @@
 30. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-FINAL-SHOWCASE-AUDIT-001` — complete (docs/shared_context only). Final audit confirmed the Knowledge Graph static UI milestone is complete, pushed, visually QA'd, and safe as a local static prototype with external screenshot evidence.
 31. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-FINAL-SHOWCASE-AUDIT-PUSH-001` — complete. Pushed `1845c57ea4c6d629a91f07c49ae79911ec79d057` to `clean-origin/main`; old `origin/main` untouched.
 32. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-001` — complete (docs/shared_context only). Reviewed the Obsidian-style 3D graph page spec for fixture alignment, design consistency, accessibility, responsive behavior, future-only interaction states, implementation constraints, and safety correctness; no spec fixes required.
-33. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-PUSH-001` — immediate next recommended task: verify and push the review report commit to `clean-origin/main` only if separately requested by the operator; no old-origin push.
+33. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-PUSH-001` — complete. Pushed `78f10b67d18219891fa93a871f2c1896b5181de3` to `clean-origin/main`; old `origin/main` untouched.
+34. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-001` — complete (docs/design/shared_context only). Added `docs/design/MELLYCORE_OBSIDIAN_3D_VISUAL_LANGUAGE_001.md` and `docs/tasks/MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-001.md` to define the future Obsidian-style 3D graph visual language. No frontend/site, JavaScript, Three.js/WebGL, Obsidian/MCP, backend/runtime/API/database, workflow YAML, deploy, secrets, live URL, or live/trading UX authorized.
+35. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-REVIEW-001` — immediate next recommended task: review the new visual language spec for design-system alignment, fixture consistency, accessibility, responsive behavior, honest-copy rules, and safety correctness before any static scaffold task.
 
 Safety posture for queued tasks:
 
