@@ -31,7 +31,8 @@
 29. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-PUSH-001` — complete. Pushed `39eeffd22215b76f62770198d47ffb0e1c30d77a` to `clean-origin/main`; old `origin/main` untouched.
 30. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-FINAL-SHOWCASE-AUDIT-001` — complete (docs/shared_context only). Final audit confirmed the Knowledge Graph static UI milestone is complete, pushed, visually QA'd, and safe as a local static prototype with external screenshot evidence.
 31. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-FINAL-SHOWCASE-AUDIT-PUSH-001` — complete. Pushed `1845c57ea4c6d629a91f07c49ae79911ec79d057` to `clean-origin/main`; old `origin/main` untouched.
-32. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-001` — immediate next recommended task: review the Obsidian-style 3D graph page spec for fixture alignment, design consistency, accessibility, responsive behavior, and safety correctness before any 3D visual-language or scaffold task.
+32. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-001` — complete (docs/shared_context only). Reviewed the Obsidian-style 3D graph page spec for fixture alignment, design consistency, accessibility, responsive behavior, future-only interaction states, implementation constraints, and safety correctness; no spec fixes required.
+33. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-PUSH-001` — immediate next recommended task: verify and push the review report commit to `clean-origin/main` only if separately requested by the operator; no old-origin push.
 
 Safety posture for queued tasks:
 
