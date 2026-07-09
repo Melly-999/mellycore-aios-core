@@ -34,7 +34,9 @@
 32. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-001` — complete (docs/shared_context only). Reviewed the Obsidian-style 3D graph page spec for fixture alignment, design consistency, accessibility, responsive behavior, future-only interaction states, implementation constraints, and safety correctness; no spec fixes required.
 33. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-PUSH-001` — complete. Pushed `78f10b67d18219891fa93a871f2c1896b5181de3` to `clean-origin/main`; old `origin/main` untouched.
 34. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-001` — complete (docs/design/shared_context only). Added `docs/design/MELLYCORE_OBSIDIAN_3D_VISUAL_LANGUAGE_001.md` and `docs/tasks/MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-001.md` to define the future Obsidian-style 3D graph visual language. No frontend/site, JavaScript, Three.js/WebGL, Obsidian/MCP, backend/runtime/API/database, workflow YAML, deploy, secrets, live URL, or live/trading UX authorized.
-35. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-REVIEW-001` — immediate next recommended task: review the new visual language spec for design-system alignment, fixture consistency, accessibility, responsive behavior, honest-copy rules, and safety correctness before any static scaffold task.
+35. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-PUSH-001` — complete. Pushed `b629e0009213803d5821778497c0f88367c0b09c` to `clean-origin/main`; old `origin/main` untouched.
+36. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-REVIEW-001` — complete (docs/design/shared_context only). Reviewed the visual language spec for design-system alignment, fixture consistency, accessibility, responsive behavior, honest-copy rules, and safety correctness; added small docs hardening for explicit Fixture 001 cluster coverage, compact spatial behavior, visible focus indicators, and high-contrast/reduced-transparency fallback.
+37. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-REVIEW-PUSH-001` — immediate next recommended task: verify and push the review/hardening commit to `clean-origin/main` only if separately requested by the operator; no old-origin push.
 
 Safety posture for queued tasks:
 
