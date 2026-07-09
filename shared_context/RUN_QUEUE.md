@@ -17,7 +17,7 @@
 15. `MELLYCORE-README-SHOWCASE-UPDATE-001` — complete (docs-only). README polished for the canonical clean MellyCore repository; static-first, safety-first, portfolio-ready positioning.
 16. `MELLYCORE-GITHUB-PAGES-OR-STATIC-PREVIEW-DECISION-001` — complete (docs-only). Recommended local static preview plus screenshot/evidence-only publishing path for now; GitHub Pages deferred.
 17. `MELLYCORE-STATIC-PREVIEW-EVIDENCE-PACK-001` — complete (docs-only). Added `docs/showcase/static_preview_evidence_pack_001.md`, final showcase audit, and README/shared-context links for the local static preview evidence pack.
-18. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-001` — future docs-only spec task; no Obsidian/MCP/runtime integration authorized.
+18. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-001` — complete (docs/shared_context only). Added `docs/specs/MELLYCORE_OBSIDIAN_3D_PAGE_SPEC_001.md` and `docs/tasks/MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-001.md` as a future Obsidian-style 3D graph page concept spec. No Obsidian/MCP/runtime/frontend implementation authorized.
 19. `MELLYCORE-CLOUD-COMPUTE-READINESS-001` — future docs-only readiness task; no provider setup, deploy, workflow YAML, or secrets authorized.
 20. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001` — complete (docs/shared_context only). Reviewed Fixture 001, confirmed graph integrity, fixed stale count references, and added `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001.md`.
 21. `MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-PUSH-001` — separate operator-approved push task: verify and push the review commit to `clean-origin/main` if requested; no old-origin push.
@@ -30,7 +30,8 @@
 28. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-001` — complete (docs/shared_context only). Visual QA passed at `375x812`, `390x844`, `768x1024`, `1024x768`, `1280x900`, and `1920x1080`; screenshot/HAR evidence stored outside the repo.
 29. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-PUSH-001` — complete. Pushed `39eeffd22215b76f62770198d47ffb0e1c30d77a` to `clean-origin/main`; old `origin/main` untouched.
 30. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-FINAL-SHOWCASE-AUDIT-001` — complete (docs/shared_context only). Final audit confirmed the Knowledge Graph static UI milestone is complete, pushed, visually QA'd, and safe as a local static prototype with external screenshot evidence.
-31. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-FINAL-SHOWCASE-AUDIT-PUSH-001` — immediate next recommended task: verify and push the final audit report commit to `clean-origin/main` only if separately requested by the operator; no old-origin push.
+31. `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-FINAL-SHOWCASE-AUDIT-PUSH-001` — complete. Pushed `1845c57ea4c6d629a91f07c49ae79911ec79d057` to `clean-origin/main`; old `origin/main` untouched.
+32. `MELLYCORE-OBSIDIAN-3D-PAGE-SPEC-REVIEW-001` — immediate next recommended task: review the Obsidian-style 3D graph page spec for fixture alignment, design consistency, accessibility, responsive behavior, and safety correctness before any 3D visual-language or scaffold task.
 
 Safety posture for queued tasks:
 
