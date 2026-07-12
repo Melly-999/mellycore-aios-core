@@ -7,7 +7,7 @@
 
 ## 1. Repository State
 
-- Repository: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
+- Repository: canonical MellyCore AIOS checkout (machine-specific path omitted)
 - Branch: `publish/mellycore-main-001`
 - Starting HEAD: `39eeffd22215b76f62770198d47ffb0e1c30d77a`
 - Working tree at start: clean, aside from the known user config ignore warning
@@ -16,8 +16,7 @@
 
 - Canonical remote: `clean-origin https://github.com/Melly-999/mellycore-aios-core.git`
 - Verified `clean-origin/main`: `39eeffd22215b76f62770198d47ffb0e1c30d77a`
-- Old mixed remote: `origin https://github.com/Melly-999/mellycore-aios.git`
-- Verified old `origin/main`: observed only and left untouched
+- Old unrelated remote: observed only and left untouched; its URL is intentionally omitted from public documentation
 
 ## 3. Milestone Summary
 
@@ -145,9 +144,7 @@ Visual QA result:
 
 ## 9. External Evidence Location
 
-Visual QA evidence is stored outside the repository:
-
-`C:\AI\MellyCore_Workspace\04_QA_Evidence\MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-001\`
+Visual QA evidence is stored outside the repository in a machine-local QA directory whose absolute path is intentionally omitted from public documentation.
 
 Expected evidence files were confirmed:
 
