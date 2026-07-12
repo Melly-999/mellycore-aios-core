@@ -15,9 +15,9 @@ MellyCore AIOS is showcase-ready as a static local preview with evidence referen
 
 ## 2. Canonical Repo State
 
-- Repository path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
+- Repository: canonical MellyCore AIOS checkout (machine-specific path omitted)
 - Canonical clean remote: `clean-origin https://github.com/Melly-999/mellycore-aios-core.git`
-- Old mixed remote retained but not touched: `origin https://github.com/Melly-999/mellycore-aios.git`
+- Old unrelated remote retained but not touched; its URL is intentionally omitted from public documentation
 - Local branch for this run: `publish/mellycore-main-001`
 - Static preview decision commit pushed first: `2b69c0ecf10d32fa2983d657ce78ebfe6993cfc3`
 - Final docs-only commit is created after this audit and must be verified against `clean-origin/main` before the run is complete.
@@ -55,7 +55,7 @@ MellyCore AIOS is showcase-ready as a static local preview with evidence referen
 ## 6. Audit Notes
 
 - The static source remains under `site/`; this run does not move or copy it.
-- The verified QA screenshots remain local-only under `C:\AI\MellyCore_Workspace\04_QA_Evidence\MELLYCORE-STATIC-VISUAL-QA-001\`.
+- The verified QA screenshots remain outside the repository in a machine-local QA directory whose absolute path is intentionally omitted.
 - Public-facing wording must remain limited to source availability and local/evidence-based preview until a separate deploy decision is approved.
 
 ---

@@ -1,5 +1,12 @@
 # Agent Handoff
 
+Latest public-presentation task: `MELLYCORE-PUBLIC-POLISH-001`
+
+- Outcome: concise evidence-backed README prepared for the canonical public repository, with verified Fixture 001 counts, static architecture boundaries, local setup, validation guidance, limitations, and author links
+- Files: `README.md`, two historical showcase audit reports, and this handoff
+- Hygiene: removed the prohibited old repository URL from tracked public documentation while preserving the historical statement that the unrelated remote was not touched
+- Posture: static-first and docs-first; no site/runtime/provider/API/database/auth/telemetry/workflow/deploy changes, no external requests, no secrets, no live ingestion, and no portfolio URL
+
 Current handoff state: static homepage scaffold implemented, visual-QA-passed, and published to the clean canonical source repository as a static local-preview showcase. The static site lives at `site/` (pure HTML/CSS, no JS, no packages); QA evidence report at `docs/tasks/MELLYCORE-STATIC-VISUAL-QA-001.md`; static preview evidence pack at `docs/showcase/static_preview_evidence_pack_001.md`. A static HTML/CSS-only `Living Context Graph` preview section has now been scaffolded in `site/index.html` from the reviewed Fixture 001 and static UI spec, reviewed with no site/CSS fixes required, pushed to clean-origin, visually QA'd locally across mobile/tablet/desktop/wide viewports with no fixes required, and final-audited as portfolio-ready local static prototype evidence. A docs-only Obsidian-style 3D graph page concept spec now extends that milestone as future static/spatial context-navigation work, and its spec review passed cleanly with no spec fixes required. A docs-only Obsidian-style 3D graph visual language spec now defines the future command-center star map metaphor, node/edge/cluster treatments, 3D spatial composition, motion guidance, panel system, accessibility fallback, responsive behavior, honest-copy rules, and implementation guardrails. It remains specification/design documentation only; it does not parse the fixture at runtime and does not authorize frontend/site changes, JavaScript, Three.js/WebGL, backend/runtime/API/database/MCP/Obsidian integration, workflow YAML, or deploy.
 
 Latest completed task: `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-001`
@@ -40,7 +47,7 @@ Previous completed task: `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-PUSH-001
 
 Previous completed task: `MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-001`
 
-- Outcome: PASS_VISUAL_QA_NO_FIXES (docs/shared_context only) — visually QA'd the static Knowledge Graph scaffold at `375x812`, `390x844`, `768x1024`, `1024x768`, `1280x900`, and `1920x1080`; screenshot/HAR evidence stored outside the repo at `C:\AI\MellyCore_Workspace\04_QA_Evidence\MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-001\`
+- Outcome: PASS_VISUAL_QA_NO_FIXES (docs/shared_context only) — visually QA'd the static Knowledge Graph scaffold at `375x812`, `390x844`, `768x1024`, `1024x768`, `1280x900`, and `1920x1080`; screenshot/HAR evidence stored outside the repo in a machine-local QA directory
 - Files: `docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-001.md`, `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
 - Posture: local static visual QA only; no site/CSS fixes, JavaScript, backend, runtime, provider, API, database, MCP, Obsidian integration, deploy, workflow YAML, secrets, screenshot binaries committed to repo, live URL claim, or live/trading UX; no push
 
