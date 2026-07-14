@@ -43,6 +43,20 @@ AGENT_PROMPTS = [
     "agent_prompts/chatgpt/README.md",
 ]
 
+LOOP_FOUNDATION_FILES = [
+    "shared_context/loops/README.md",
+    "shared_context/loops/LOOP_REGISTRY.json",
+    "shared_context/loops/LOOP_REGISTRY_SCHEMA.json",
+    "shared_context/loops/LOOP_STATE_SCHEMA.json",
+    "shared_context/loops/RUN_LEDGER_SCHEMA.json",
+    "shared_context/loops/LOOP_BUDGETS.json",
+    "shared_context/loops/LOOP_CONSTRAINTS.md",
+    "shared_context/loops/states/README.md",
+    "docs/safety/MELLYCORE_LOOP_SAFETY_CONTRACT_001.md",
+    "docs/architecture/MELLYCORE_LOOP_OPERATIONS_ARCHITECTURE_001.md",
+    "agent_prompts/loops/mellycore-loop-constraints.md",
+]
+
 DOC_READMES = [
     "docs/architecture/README.md",
     "docs/design/README.md",
@@ -103,6 +117,7 @@ def main() -> int:
     check_exists(AGENT_PROMPTS, failures)
     check_exists(DOC_READMES, failures)
     check_exists(WARP_AND_EDITOR_FILES, failures)
+    check_exists(LOOP_FOUNDATION_FILES, failures)
 
     if (ROOT / ".env").exists():
         fail(".env must not be present in repo", failures)

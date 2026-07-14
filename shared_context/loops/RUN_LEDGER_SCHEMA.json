@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "mellycore/loops/RUN_LEDGER_SCHEMA.json",
+  "title": "MellyCore Loop Run Ledger",
+  "description": "Contract for a single run of a single loop. The ledger is the ONLY input the circuit breaker trusts. scripts/loop_ops/guard.py reads a ledger and returns a decision deterministically, without calling a model. Enforced in plain Python by scripts/loop_ops/validators.py, not by a JSON Schema library.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "loop_id",
+    "run_id",
+    "started_at",
+    "status_before",
+    "status_after",
+    "iterations"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": { "type": "string" },
+    "loop_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "started_at": { "type": "string" },
+    "finished_at": { "type": ["string", "null"] },
+    "status_before": {
+      "type": "string",
+      "description": "Lifecycle state the loop was in before this run. The guard checks status_before -> status_after against the allowed transition map."
+    },
+    "status_after": {
+      "type": "string",
+      "description": "Lifecycle state the loop intends to move to. A forbidden transition is BLOCK_INVALID_STATE."
+    },
+    "iterations": {
+      "type": "array",
+      "description": "Append-only. One entry per attempt. Never rewritten to hide a failure.",
+      "items": {
+        "type": "object",
+        "required": ["index", "started_at", "outcome"],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "1-based attempt counter. Must be strictly increasing."
+          },
+          "started_at": { "type": "string" },
+          "outcome": {
+            "type": "string",
+            "enum": ["success", "failure"]
+          },
+          "error_signature": {
+            "type": ["string", "null"],
+            "description": "Normalized error identity for stagnation detection. Required when outcome is failure. Must not contain secrets, paths with credentials, or raw provider output."
+          },
+          "progress_marker": {
+            "type": ["string", "null"],
+            "description": "What this attempt actually achieved. Unchanged marker across attempts means no progress."
+          },
+          "tokens": {
+            "type": "object",
+            "description": "MEASURED token usage for this attempt, when a real run recorded it. Absent means not measured. Never populate this with an estimate; estimates belong to the estimate-cost command and are labelled as such.",
+            "properties": {
+              "input": { "type": "integer", "minimum": 0 },
+              "output": { "type": "integer", "minimum": 0 },
+              "total": { "type": "integer", "minimum": 0 },
+              "measured": {
+                "type": "boolean",
+                "description": "Must be true for the value to count toward budget enforcement."
+              }
+            }
+          },
+          "verifier": {
+            "type": ["object", "null"],
+            "description": "Independent verification result. The verifier must not be the same agent that produced the work.",
+            "properties": {
+              "verdict": {
+                "type": "string",
+                "enum": ["ACCEPT", "REJECT", "NOT_RUN"]
+              },
+              "verified_by": { "type": ["string", "null"] },
+              "evidence": { "type": ["string", "null"] }
+            }
+          },
+          "notes": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "daily_tokens_used": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "MEASURED tokens already spent by this loop today, if tracked. Null means unknown; the guard then reports the daily budget as unenforceable rather than pretending it passed."
+    },
+    "kill_switch_engaged": {
+      "type": "boolean",
+      "description": "Set true when the global kill switch file is present. The guard treats this as an immediate halt."
+    },
+    "notes": { "type": ["string", "null"] }
+  }
+}

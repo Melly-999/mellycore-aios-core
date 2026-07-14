@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "mellycore/loops/LOOP_STATE_SCHEMA.json",
+  "title": "MellyCore Loop State",
+  "description": "Contract for a per-loop state file under shared_context/loops/states/. State is the loop's memory OUTSIDE any model conversation: a new session must be able to reconstruct where the loop stands by reading this file alone. Enforced in plain Python by scripts/loop_ops/validators.py, not by a JSON Schema library.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "loop_id",
+    "status",
+    "updated_at",
+    "consecutive_failures",
+    "last_progress_marker",
+    "human_approval"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": { "type": "string" },
+    "loop_id": {
+      "type": "string",
+      "description": "Must match a loop id in LOOP_REGISTRY.json."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "REPORT_ONLY",
+        "ASSISTED",
+        "WAITING_HUMAN",
+        "PAUSED",
+        "BLOCKED",
+        "COMPLETED",
+        "DISABLED"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "ISO-8601 UTC timestamp of the last state write."
+    },
+    "consecutive_failures": { "type": "integer", "minimum": 0 },
+    "last_progress_marker": {
+      "type": ["string", "null"],
+      "description": "An opaque marker describing what the loop last achieved. If it does not change between runs, the loop is making no progress and the guard says so."
+    },
+    "last_error_signature": {
+      "type": ["string", "null"],
+      "description": "Normalized error identity, not the raw message. Used to detect the same failure recurring."
+    },
+    "open_escalation": {
+      "type": ["object", "null"],
+      "description": "Set when the loop is waiting on a human. Non-null means the loop must not proceed.",
+      "properties": {
+        "reason": { "type": "string" },
+        "raised_at": { "type": "string" },
+        "detail": { "type": "string" }
+      }
+    },
+    "human_approval": {
+      "type": "object",
+      "description": "Records real operator approval. This is deliberately explicit: readiness is never inferred from a file merely existing.",
+      "required": ["granted"],
+      "properties": {
+        "granted": { "type": "boolean" },
+        "granted_by": { "type": ["string", "null"] },
+        "granted_at": { "type": ["string", "null"] },
+        "scope": { "type": ["string", "null"] }
+      }
+    },
+    "run_history": {
+      "type": "array",
+      "description": "Pointers to run ledgers. Presence of real entries is what 'exercised' means in the audit.",
+      "items": {
+        "type": "object",
+        "required": ["run_id", "finished_at", "outcome"],
+        "properties": {
+          "run_id": { "type": "string" },
+          "finished_at": { "type": "string" },
+          "outcome": {
+            "type": "string",
+            "enum": ["success", "failure", "escalated", "paused", "blocked"]
+          },
+          "ledger_ref": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "notes": { "type": ["string", "null"] }
+  },
+  "forbidden_content": {
+    "description": "Not a JSON Schema keyword. A binding rule, enforced by scripts/loop_ops/redaction.py and the redact-check command.",
+    "rules": [
+      "No secrets, API keys, provider tokens, session cookies, or account identifiers.",
+      "No .env values.",
+      "No raw provider responses.",
+      "State must remain safe to commit and safe to read aloud in a review."
+    ]
+  }
+}

@@ -1,0 +1,493 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "MELLYCORE_LOOP_REGISTRY_001",
+  "task_id": "MELLYCORE-LOOP-OPERATIONS-FOUNDATION-001",
+  "phase": 1,
+  "phase_note": "Phase 1 is report-only. No loop may write to the repository, push, merge, deploy, comment, or call a provider. Enabling an action-capable loop requires a separate, explicitly approved task.",
+  "global_kill_switch": {
+    "file": "shared_context/loops/KILL_SWITCH",
+    "semantics": "If this file exists, every loop must halt. Absence of the file is not permission to act; it only means the global halt is not engaged.",
+    "present_by_default": false
+  },
+  "global_forbidden_paths": [
+    ".env",
+    ".env.*",
+    "secrets/**",
+    "credentials/**",
+    "auth/**",
+    "payments/**",
+    "billing/**",
+    "migrations/**",
+    "infra/production/**",
+    ".github/workflows/**",
+    "shared_context/PROVIDER_SETUP.md",
+    "**/provider_keys*",
+    "**/MellyTrade/**",
+    "**/mellytrade/**"
+  ],
+  "global_forbidden_paths_note": "Every loop entry must repeat this baseline in its own forbidden_paths list. The validator enforces the superset rule so that drift becomes a validation failure rather than a silent gap.",
+  "lifecycle_states": [
+    "DRAFT",
+    "REPORT_ONLY",
+    "ASSISTED",
+    "WAITING_HUMAN",
+    "PAUSED",
+    "BLOCKED",
+    "COMPLETED",
+    "DISABLED"
+  ],
+  "levels": {
+    "L0": "Manual. A human runs it; the loop definition only documents intent.",
+    "L1": "Report-only. Reads state and emits findings. No repository mutation.",
+    "L2": "Assisted. May propose a change behind a human gate. Not permitted in Phase 1.",
+    "L3": "Unattended. Not designed, not configured, and not permitted in Phase 1."
+  },
+  "loops": [
+    {
+      "id": "project-health",
+      "title": "Project Health Report",
+      "purpose": "Report repository state, validator outcomes, active blockers, and the current task position so an operator can see project status without reading every shared_context file.",
+      "owner": "operator",
+      "level": "L1",
+      "status": "REPORT_ONLY",
+      "trigger_type": "manual",
+      "suggested_cadence": "daily",
+      "read_scope": [
+        "shared_context/**",
+        "docs/**",
+        "scripts/**",
+        "README.md"
+      ],
+      "allowed_write_scope": [],
+      "forbidden_paths": [
+        ".env",
+        ".env.*",
+        "secrets/**",
+        "credentials/**",
+        "auth/**",
+        "payments/**",
+        "billing/**",
+        "migrations/**",
+        "infra/production/**",
+        ".github/workflows/**",
+        "shared_context/PROVIDER_SETUP.md",
+        "**/provider_keys*",
+        "**/MellyTrade/**",
+        "**/mellytrade/**"
+      ],
+      "state_file": "shared_context/loops/states/project-health.state.json",
+      "state_file_is_template": true,
+      "verifier_required": false,
+      "max_attempts": 3,
+      "stagnation_threshold": 2,
+      "no_progress_threshold": 2,
+      "per_run_token_budget": 60000,
+      "daily_token_budget": 180000,
+      "human_gates": [
+        "report_reviewed_by_operator"
+      ],
+      "kill_switch": "shared_context/loops/KILL_SWITCH",
+      "success_condition": "A health report is produced that names the current branch, the validator outcome, and any open blocker, with every claim traceable to a file that was actually read.",
+      "escalation_condition": "The validator cannot be run, the repository state contradicts shared_context, or the loop cannot substantiate a claim it is about to make."
+    },
+    {
+      "id": "context-drift",
+      "title": "Shared Context Drift Report",
+      "purpose": "Report contradictions between shared_context files, the roadmap, the run queue, the safety documents, and PROJECT_RULES.md, so that stale or conflicting claims are surfaced rather than inherited.",
+      "owner": "operator",
+      "level": "L1",
+      "status": "REPORT_ONLY",
+      "trigger_type": "manual",
+      "suggested_cadence": "weekly",
+      "read_scope": [
+        "shared_context/**",
+        "docs/**",
+        "PROJECT_RULES.md",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "README.md"
+      ],
+      "allowed_write_scope": [],
+      "forbidden_paths": [
+        ".env",
+        ".env.*",
+        "secrets/**",
+        "credentials/**",
+        "auth/**",
+        "payments/**",
+        "billing/**",
+        "migrations/**",
+        "infra/production/**",
+        ".github/workflows/**",
+        "shared_context/PROVIDER_SETUP.md",
+        "**/provider_keys*",
+        "**/MellyTrade/**",
+        "**/mellytrade/**"
+      ],
+      "state_file": "shared_context/loops/states/context-drift.state.json",
+      "state_file_is_template": true,
+      "verifier_required": true,
+      "max_attempts": 3,
+      "stagnation_threshold": 2,
+      "no_progress_threshold": 2,
+      "per_run_token_budget": 90000,
+      "daily_token_budget": 180000,
+      "human_gates": [
+        "contradiction_confirmed_by_operator",
+        "ledger_entry_approved_by_operator"
+      ],
+      "kill_switch": "shared_context/loops/KILL_SWITCH",
+      "success_condition": "Each reported contradiction cites both sides with file path and quoted claim, and is proposed for CONTRADICTION_LEDGER.md rather than written to it.",
+      "escalation_condition": "A contradiction touches a safety rule, or the loop cannot determine which side is authoritative."
+    },
+    {
+      "id": "safety-posture",
+      "title": "Safety Posture Report",
+      "purpose": "Report on forbidden capabilities, secret-shaped strings, environment files, provider configuration, and the MellyCore/MellyTrade separation boundary.",
+      "owner": "operator",
+      "level": "L1",
+      "status": "REPORT_ONLY",
+      "trigger_type": "manual",
+      "suggested_cadence": "weekly",
+      "read_scope": [
+        "shared_context/**",
+        "docs/safety/**",
+        "scripts/**",
+        ".env.example",
+        ".gitignore"
+      ],
+      "allowed_write_scope": [],
+      "forbidden_paths": [
+        ".env",
+        ".env.*",
+        "secrets/**",
+        "credentials/**",
+        "auth/**",
+        "payments/**",
+        "billing/**",
+        "migrations/**",
+        "infra/production/**",
+        ".github/workflows/**",
+        "shared_context/PROVIDER_SETUP.md",
+        "**/provider_keys*",
+        "**/MellyTrade/**",
+        "**/mellytrade/**"
+      ],
+      "state_file": "shared_context/loops/states/safety-posture.state.json",
+      "state_file_is_template": true,
+      "verifier_required": true,
+      "max_attempts": 2,
+      "stagnation_threshold": 2,
+      "no_progress_threshold": 2,
+      "per_run_token_budget": 60000,
+      "daily_token_budget": 120000,
+      "human_gates": [
+        "finding_reviewed_by_operator"
+      ],
+      "kill_switch": "shared_context/loops/KILL_SWITCH",
+      "success_condition": "A posture report is produced that names category and location for every finding and never reproduces a candidate secret value.",
+      "escalation_condition": "Any suspected real credential, any .env file in the working tree, or any MellyTrade execution surface appearing inside MellyCore."
+    },
+    {
+      "id": "pr-review-monitor",
+      "title": "PR And Review Readiness Report",
+      "purpose": "Report the readiness of open work for review: what is committed, what is validated, and what is still missing. Reporting only.",
+      "owner": "operator",
+      "level": "L1",
+      "status": "REPORT_ONLY",
+      "trigger_type": "manual",
+      "suggested_cadence": "on_demand",
+      "read_scope": [
+        "shared_context/**",
+        "docs/tasks/**"
+      ],
+      "allowed_write_scope": [],
+      "forbidden_paths": [
+        ".env",
+        ".env.*",
+        "secrets/**",
+        "credentials/**",
+        "auth/**",
+        "payments/**",
+        "billing/**",
+        "migrations/**",
+        "infra/production/**",
+        ".github/workflows/**",
+        "shared_context/PROVIDER_SETUP.md",
+        "**/provider_keys*",
+        "**/MellyTrade/**",
+        "**/mellytrade/**"
+      ],
+      "state_file": "shared_context/loops/states/pr-review-monitor.state.json",
+      "state_file_is_template": true,
+      "verifier_required": false,
+      "max_attempts": 2,
+      "stagnation_threshold": 2,
+      "no_progress_threshold": 2,
+      "per_run_token_budget": 40000,
+      "daily_token_budget": 80000,
+      "human_gates": [
+        "report_reviewed_by_operator"
+      ],
+      "kill_switch": "shared_context/loops/KILL_SWITCH",
+      "success_condition": "A readiness summary is produced locally. No comment is posted, no branch is pushed, no PR is opened, edited, approved, or merged.",
+      "escalation_condition": "Any request or apparent need to comment, push, approve, or merge. This loop has no such capability and must escalate instead.",
+      "explicit_prohibitions": [
+        "no GitHub API calls",
+        "no PR or issue comments",
+        "no push",
+        "no merge",
+        "no approval"
+      ]
+    },
+    {
+      "id": "worktree-hygiene",
+      "title": "Worktree Hygiene Report",
+      "purpose": "Report linked worktrees, branch ownership, dirty worktrees, staleness, and collision risk between concurrent agent tasks.",
+      "owner": "operator",
+      "level": "L1",
+      "status": "REPORT_ONLY",
+      "trigger_type": "manual",
+      "suggested_cadence": "weekly",
+      "read_scope": [
+        "shared_context/BRANCH_INVENTORY_001.md",
+        "shared_context/loops/**"
+      ],
+      "allowed_write_scope": [],
+      "forbidden_paths": [
+        ".env",
+        ".env.*",
+        "secrets/**",
+        "credentials/**",
+        "auth/**",
+        "payments/**",
+        "billing/**",
+        "migrations/**",
+        "infra/production/**",
+        ".github/workflows/**",
+        "shared_context/PROVIDER_SETUP.md",
+        "**/provider_keys*",
+        "**/MellyTrade/**",
+        "**/mellytrade/**"
+      ],
+      "state_file": "shared_context/loops/states/worktree-hygiene.state.json",
+      "state_file_is_template": true,
+      "verifier_required": false,
+      "max_attempts": 2,
+      "stagnation_threshold": 2,
+      "no_progress_threshold": 2,
+      "per_run_token_budget": 30000,
+      "daily_token_budget": 60000,
+      "human_gates": [
+        "cleanup_decision_made_by_operator"
+      ],
+      "kill_switch": "shared_context/loops/KILL_SWITCH",
+      "success_condition": "Worktrees are listed with branch, HEAD, and risk notes, using read-only git inspection only.",
+      "escalation_condition": "Two worktrees appear to own the same task or branch, or a worktree looks abandoned. The operator decides; the loop never removes anything.",
+      "explicit_prohibitions": [
+        "no worktree remove",
+        "no worktree prune",
+        "no worktree unlock",
+        "no reset",
+        "no clean",
+        "no branch deletion"
+      ]
+    },
+    {
+      "id": "changelog-drafter",
+      "title": "Changelog Draft Report",
+      "purpose": "Produce a local changelog draft from committed history for operator review. Drafting only.",
+      "owner": "operator",
+      "level": "L1",
+      "status": "REPORT_ONLY",
+      "trigger_type": "manual",
+      "suggested_cadence": "on_demand",
+      "read_scope": [
+        "docs/tasks/**",
+        "shared_context/RUN_QUEUE.md"
+      ],
+      "allowed_write_scope": [],
+      "allowed_write_scope_note": "Empty by design. The draft is returned in the run report for the operator to place. The loop does not write repository files in Phase 1.",
+      "forbidden_paths": [
+        ".env",
+        ".env.*",
+        "secrets/**",
+        "credentials/**",
+        "auth/**",
+        "payments/**",
+        "billing/**",
+        "migrations/**",
+        "infra/production/**",
+        ".github/workflows/**",
+        "shared_context/PROVIDER_SETUP.md",
+        "**/provider_keys*",
+        "**/MellyTrade/**",
+        "**/mellytrade/**"
+      ],
+      "state_file": "shared_context/loops/states/changelog-drafter.state.json",
+      "state_file_is_template": true,
+      "verifier_required": false,
+      "max_attempts": 2,
+      "stagnation_threshold": 2,
+      "no_progress_threshold": 2,
+      "per_run_token_budget": 40000,
+      "daily_token_budget": 80000,
+      "human_gates": [
+        "draft_reviewed_by_operator",
+        "release_publication_approved_by_operator"
+      ],
+      "kill_switch": "shared_context/loops/KILL_SWITCH",
+      "success_condition": "A draft is produced that describes only work actually present in committed history. No release is tagged, published, or announced.",
+      "escalation_condition": "History is ambiguous, or the draft would need to claim an outcome not evidenced by a commit.",
+      "explicit_prohibitions": [
+        "no release publishing",
+        "no tagging",
+        "no push"
+      ]
+    },
+    {
+      "id": "ci-sweeper",
+      "title": "CI Failure Sweeper",
+      "purpose": "Future direction only. Would triage failing checks. Defined so the boundary is explicit and reviewable; no automatic fix attempts are authorized in Phase 1.",
+      "owner": "operator",
+      "level": "L2",
+      "status": "DISABLED",
+      "trigger_type": "event",
+      "suggested_cadence": "on_demand",
+      "read_scope": [
+        "shared_context/**"
+      ],
+      "allowed_write_scope": [
+        "FUTURE_ONLY: scoped source paths, to be defined and approved in a separate task"
+      ],
+      "forbidden_paths": [
+        ".env",
+        ".env.*",
+        "secrets/**",
+        "credentials/**",
+        "auth/**",
+        "payments/**",
+        "billing/**",
+        "migrations/**",
+        "infra/production/**",
+        ".github/workflows/**",
+        "shared_context/PROVIDER_SETUP.md",
+        "**/provider_keys*",
+        "**/MellyTrade/**",
+        "**/mellytrade/**"
+      ],
+      "state_file": "shared_context/loops/states/ci-sweeper.state.json",
+      "state_file_is_template": true,
+      "verifier_required": true,
+      "max_attempts": 2,
+      "stagnation_threshold": 2,
+      "no_progress_threshold": 1,
+      "per_run_token_budget": 80000,
+      "daily_token_budget": 160000,
+      "human_gates": [
+        "diff_approved_by_operator",
+        "verifier_passed",
+        "merge_approved_by_operator"
+      ],
+      "kill_switch": "shared_context/loops/KILL_SWITCH",
+      "success_condition": "Not applicable in Phase 1. This loop is disabled.",
+      "escalation_condition": "Any invocation while disabled must stop and report.",
+      "disabled_reason": "Automatic fix attempts are out of scope for Phase 1. Enabling requires a separate approved task, an independent verifier, and demonstrated report-only history."
+    },
+    {
+      "id": "dependency-sweeper",
+      "title": "Dependency Sweeper",
+      "purpose": "Future direction only. Would report and eventually propose dependency updates. No dependency changes are authorized in Phase 1.",
+      "owner": "operator",
+      "level": "L2",
+      "status": "DISABLED",
+      "trigger_type": "schedule",
+      "suggested_cadence": "monthly",
+      "read_scope": [
+        "shared_context/**"
+      ],
+      "allowed_write_scope": [
+        "FUTURE_ONLY: dependency manifests, to be defined and approved in a separate task"
+      ],
+      "forbidden_paths": [
+        ".env",
+        ".env.*",
+        "secrets/**",
+        "credentials/**",
+        "auth/**",
+        "payments/**",
+        "billing/**",
+        "migrations/**",
+        "infra/production/**",
+        ".github/workflows/**",
+        "shared_context/PROVIDER_SETUP.md",
+        "**/provider_keys*",
+        "**/MellyTrade/**",
+        "**/mellytrade/**"
+      ],
+      "state_file": "shared_context/loops/states/dependency-sweeper.state.json",
+      "state_file_is_template": true,
+      "verifier_required": true,
+      "max_attempts": 2,
+      "stagnation_threshold": 2,
+      "no_progress_threshold": 1,
+      "per_run_token_budget": 60000,
+      "daily_token_budget": 120000,
+      "human_gates": [
+        "diff_approved_by_operator",
+        "verifier_passed"
+      ],
+      "kill_switch": "shared_context/loops/KILL_SWITCH",
+      "success_condition": "Not applicable in Phase 1. This loop is disabled.",
+      "escalation_condition": "Any invocation while disabled must stop and report.",
+      "disabled_reason": "MellyCore currently has no runtime dependency manifest, and dependency changes are out of scope for Phase 1."
+    },
+    {
+      "id": "post-merge-cleanup",
+      "title": "Post-Merge Cleanup",
+      "purpose": "Future direction only. Would report merged branches and stale worktrees as cleanup candidates. Report-only candidate pending separate approval.",
+      "owner": "operator",
+      "level": "L2",
+      "status": "DISABLED",
+      "trigger_type": "event",
+      "suggested_cadence": "on_demand",
+      "read_scope": [
+        "shared_context/BRANCH_INVENTORY_001.md"
+      ],
+      "allowed_write_scope": [
+        "FUTURE_ONLY: none proposed; cleanup would remain an operator action"
+      ],
+      "forbidden_paths": [
+        ".env",
+        ".env.*",
+        "secrets/**",
+        "credentials/**",
+        "auth/**",
+        "payments/**",
+        "billing/**",
+        "migrations/**",
+        "infra/production/**",
+        ".github/workflows/**",
+        "shared_context/PROVIDER_SETUP.md",
+        "**/provider_keys*",
+        "**/MellyTrade/**",
+        "**/mellytrade/**"
+      ],
+      "state_file": "shared_context/loops/states/post-merge-cleanup.state.json",
+      "state_file_is_template": true,
+      "verifier_required": true,
+      "max_attempts": 2,
+      "stagnation_threshold": 2,
+      "no_progress_threshold": 1,
+      "per_run_token_budget": 30000,
+      "daily_token_budget": 60000,
+      "human_gates": [
+        "cleanup_approved_by_operator"
+      ],
+      "kill_switch": "shared_context/loops/KILL_SWITCH",
+      "success_condition": "Not applicable in Phase 1. This loop is disabled.",
+      "escalation_condition": "Any invocation while disabled must stop and report.",
+      "disabled_reason": "Branch and worktree deletion are destructive git actions requiring explicit operator approval. Even a report-only version needs separate sign-off."
+    }
+  ]
+}
