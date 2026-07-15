@@ -33,9 +33,9 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 - First external `project-health` dry run (`EXERCISED_EXTERNALLY_NOT_REGISTERED`): **completed**.
 - Persistence review (safe evidence-persistence contract + token-semantics correction, docs-only): **completed**.
 - History reconciliation (`MELLYCORE-PROJECT-HISTORY-AND-LOCALHOST-BOOT-001` — `PROJECT_STATE`/`ROADMAP` sync, localhost boot verification): **completed**.
-- Persistence/token-contract implementation (`MELLYCORE-LOOP-PERSISTENCE-AND-TOKEN-CONTRACT-IMPLEMENTATION-001` — corrected token semantics, `persist-run` CLI, audit D4 closure, 150 passing tests): **completed by this task**.
-- Registered project-health run (a loop run persisted under `shared_context/loops/runs/` via `persist-run --apply`, recognized by `audit` as `exercised`): **next**.
-- Weekly L1 pilot (a report-only loop run on a recurring cadence, still no write scope): **pending**.
+- Persistence/token-contract implementation (`MELLYCORE-LOOP-PERSISTENCE-AND-TOKEN-CONTRACT-IMPLEMENTATION-001` — corrected token semantics, `persist-run` CLI, audit D4 closure, 150 passing tests): **completed**.
+- Registered project-health run (`MELLYCORE-PROJECT-HEALTH-REGISTERED-RUN-001` — one real, honestly-derived run persisted for `project-health` via `persist-run --apply`; `audit` now reports `exercised: 1`, `production_enabled: 0`): **completed by this task**.
+- Weekly L1 pilot (a report-only loop run on a recurring cadence, still no write scope): **next**.
 
 ### Milestone B — One Brain
 

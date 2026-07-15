@@ -19,7 +19,7 @@ Phase 1 is **report-only**. Every enabled loop reads and reports. No loop writes
 
 Three loops (`ci-sweeper`, `dependency-sweeper`, `post-merge-cleanup`) are defined but `DISABLED`. They are written down so the boundary is explicit and reviewable — a disabled loop with a stated reason is easier to reason about than an undocumented gap. Each carries a `disabled_reason`.
 
-**No loop has ever produced persisted evidence.** `runs/` does not exist yet. The `audit` command reports this honestly, and the example ledger is labelled as an example rather than as evidence. (One loop, `project-health`, has been hand-run once outside this repository — outcome `EXERCISED_EXTERNALLY_NOT_REGISTERED` — but that run was never persisted, so it still does not count; see `docs/research/LOOP_STATE_PERSISTENCE_REVIEW_001.md`.)
+**One loop has real persisted evidence: `project-health`.** Its first registered run (`MELLYCORE-PROJECT-HEALTH-REGISTERED-RUN-001`) is persisted at `runs/project-health/`, and `audit` honestly reports it as `exercised`. Every other loop remains unexercised — `runs/<other-loop-id>/` does not exist for any of them. The example ledger remains labelled as an example rather than as evidence.
 
 ## 3. Files
 

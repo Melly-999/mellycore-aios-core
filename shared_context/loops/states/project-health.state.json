@@ -1,0 +1,25 @@
+{
+  "consecutive_failures": 0,
+  "human_approval": {
+    "granted": false,
+    "granted_at": null,
+    "granted_by": null,
+    "scope": null
+  },
+  "last_error_signature": null,
+  "last_progress_marker": "health-report-drafted",
+  "loop_id": "project-health",
+  "notes": null,
+  "open_escalation": null,
+  "run_history": [
+    {
+      "finished_at": "2026-07-15T19:53:11Z",
+      "ledger_ref": "shared_context/loops/runs/project-health/project-health--20260715T195201Z--03d7b0224ae0.json",
+      "outcome": "success",
+      "run_id": "project-health--20260715T195201Z--03d7b0224ae0"
+    }
+  ],
+  "schema_version": "1.0",
+  "status": "REPORT_ONLY",
+  "updated_at": "2026-07-15T19:57:55Z"
+}

@@ -424,11 +424,15 @@ class AuditTierTests(unittest.TestCase):
 
 class ShippedRegistryAuditTests(unittest.TestCase):
     def test_no_shipped_loop_is_production_enabled(self) -> None:
+        """production_enabled must be structurally unreachable in Phase 1, regardless of how
+        many loops have real persisted evidence. This does NOT assert exercised == 0: as of
+        MELLYCORE-PROJECT-HEALTH-REGISTERED-RUN-001, the shipped project-health loop has one
+        real, honestly-derived persisted run, and exercised is expected to be >= 1 from that
+        point on. production_enabled staying 0 is the actual invariant this test protects."""
         from scripts.loop_ops.registry import load_registry
 
         report = audit_registry(load_registry())
         self.assertEqual(0, report["summary"][TIER_PRODUCTION_ENABLED])
-        self.assertEqual(0, report["summary"][TIER_EXERCISED])
 
 
 if __name__ == "__main__":

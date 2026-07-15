@@ -2,13 +2,13 @@
 
 Project name: MellyCore AIOS
 
-Status: static homepage scaffold implemented (`site/`, visual-QA-passed) and a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability; the reviewed persistence and token-semantics contract is now implemented (guarded, human-approved, still unexercised); still local-only, not published, no runtime
+Status: static homepage scaffold implemented (`site/`, visual-QA-passed) and a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability; the reviewed persistence and token-semantics contract is now implemented and has recorded its first real, honestly-derived exercised run; still local-only, not published, no runtime
 
 Local repo path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
 
 Current branch: `publish/mellycore-main-001`
 
-Current HEAD: implementation commit `feat(aios): add guarded loop evidence persistence`, on top of `ac27dc6` (`docs(aios): sync project history and verify localhost boot`), on top of `27ccd9e` (`docs(aios): define loop evidence persistence contract`)
+Current HEAD: `708590b` (`feat(aios): add guarded loop evidence persistence`), on top of `ac27dc6` (`docs(aios): sync project history and verify localhost boot`), on top of `27ccd9e` (`docs(aios): define loop evidence persistence contract`)
 
 MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker credentials, execution routes, or trading UI.
 
@@ -31,9 +31,9 @@ Completed as the project's first tooling (non-site) capability: a machine-readab
 - **Audit closes D4** (`scripts/loop_ops/readiness.py`): a `run_history` entry now counts as `exercised` only when its `ledger_ref` resolves to a real, independently-validated evidence file under `runs/<loop-id>/` whose content is internally consistent with the state's own claim — an orphan claim in state, with no backing evidence, no longer counts.
 - 21 new/updated automated tests across `tests/test_loop_ops_guard.py`, `tests/test_loop_ops_tools.py`, and the new `tests/test_loop_ops_persist.py` (150 tests total, all passing).
 
-**No real run was persisted by this implementation task.** `runs/` still does not exist in the repository. `human_approval.granted` and lifecycle promotion beyond `REPORT_ONLY` are never set by persisting a run — both stay strictly operator-only facts.
+**First registered `project-health` run** (`MELLYCORE-PROJECT-HEALTH-REGISTERED-RUN-001`): the loop was hand-run for real (validators read, shared_context state read, no blocker found), its ledger built honestly with token usage marked unmeasured (this execution environment cannot measure real token spend, so `tokens.total: null`, never `0`), validated in dry-run, then persisted for real via `persist-run --apply` with operator approval `MELLYCORE-PROJECT-HEALTH-REGISTERED-RUN-001-APPROVED` and `--expected-head` matching the actual current HEAD. Evidence: `shared_context/loops/runs/project-health/project-health--20260715T195201Z--03d7b0224ae0.json`. State: `shared_context/loops/states/project-health.state.json`, rebuilt by `persist-run` itself. A repeat `--apply` with the identical ledger was confirmed idempotent: `evidence_status: "identical"`, byte-unchanged, no duplicate `run_history` entry. `per_run_budget` and `daily_budget` correctly report `unenforceable` (the run has an unmeasured iteration), not a false pass. `human_approval.granted` stays `false`; lifecycle stays `REPORT_ONLY`.
 
-**Current audit state (unchanged by any of the above):** `configured: 9`, `validated: 9`, `exercised: 0`, `human_approved: 0`, `production_enabled: 0`. No loop has real persisted run evidence. Do not describe the Loop Operations Foundation as operational or unattended-ready.
+**Current audit state:** `configured: 9`, `validated: 9`, `exercised: 1` (`project-health` only), `human_approved: 0`, `production_enabled: 0`. This is the first loop in this repository with real persisted run evidence. Every other loop remains unexercised. Do not describe the Loop Operations Foundation as operational or unattended-ready — one exercised report-only loop is not production readiness.
 
 ## Safety boundaries (current)
 
@@ -45,7 +45,7 @@ The static `site/` scaffold can be served locally with `py -3.9 -m http.server 4
 
 Next tasks:
 
-1. A registered `project-health` run: hand-run the loop again, produce a real ledger with the persistence-only fields (`repository`, `branch`, `head_sha`, `completed_at`, `outcome`, zero mutation/remote-action counts), and have an operator run `persist-run --apply` to make `audit` report `exercised: 1` honestly for the first time.
+1. A weekly L1 pilot: run a report-only loop (`project-health` or another enabled L1 loop) on a recurring cadence and persist each run for real, still with no write scope for any loop. Remains a separate, not-yet-started task.
 2. `MELLYCORE-GITHUB-REMOTE-SETUP-001` — prepare GitHub remote setup without pushing; any push requires explicit operator approval.
 3. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
 4. Package shared context files for ChatGPT Project upload.
