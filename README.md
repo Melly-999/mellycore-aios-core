@@ -42,7 +42,7 @@ Static-first AI command center and living context graph foundation for coordinat
 
 Open `site/index.html` in a browser for the simplest static preview.
 
-If you prefer a local static server, serve the `site/` directory with any standard static file server. No additional dependencies are required.
+If you prefer a local static server, serve the `site/` directory with any standard static file server. No additional dependencies are required. See `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md` for the exact verified command.
 
 The current public preview policy is local/static plus evidence-pack publishing. See `docs/showcase/static_preview_evidence_pack_001.md` for the verified local screenshot filenames, viewport coverage, and explicit non-deploy status. Any future live website or deploy decision is separate and not enabled in this repository.
 
