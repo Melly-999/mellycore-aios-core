@@ -227,7 +227,7 @@ class Iteration:
     outcome: str
     error_signature: Optional[str] = None
     progress_marker: Optional[str] = None
-    tokens_total: int = 0
+    tokens_total: Optional[int] = None
     tokens_measured: bool = False
     verifier_verdict: str = "NOT_RUN"
 
@@ -262,7 +262,14 @@ class RunLedger:
 
     @property
     def has_unmeasured_tokens(self) -> bool:
-        return any(i.tokens_total > 0 and not i.tokens_measured for i in self.iterations)
+        """True if any iteration is unmeasured, regardless of its (necessarily null) total.
+
+        Keyed off the ``measured`` flag alone, never inferred from a value. An
+        unmeasured iteration is enforced by ``registry.py`` to carry
+        ``tokens_total is None``, so there is nothing to compare here -- the
+        flag itself is the entire answer.
+        """
+        return any(not i.tokens_measured for i in self.iterations)
 
 
 @dataclass(frozen=True)

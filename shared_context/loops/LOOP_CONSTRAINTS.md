@@ -61,7 +61,7 @@ A loop that stops early and reports why has succeeded. A loop that keeps trying 
 
 These are the rules most likely to be broken quietly, so they are stated plainly:
 
-- **Do not claim measured token usage.** A number is measured only if it comes from a ledger iteration with `tokens.measured = true`. Everything in `LOOP_BUDGETS.json` and every `estimate-cost` output is an estimate. Say so.
+- **Do not claim measured token usage.** A number is measured only if it comes from a ledger iteration with `tokens.measured = true`. Everything in `LOOP_BUDGETS.json` and every `estimate-cost` output is an estimate. Say so. An unmeasured iteration must never carry a numeric `total`, not even zero — "not measured" and "measured, and it was zero" must stay distinguishable, and a ledger that gets this wrong is rejected at parse time.
 - **Do not claim a validator passed unless you ran it and saw it pass.** Unavailable, timed out, and blocked are all distinct from passed, and each must be reported as itself.
 - **Do not infer capability from file existence.** A registry entry means configured. It does not mean validated, exercised, approved, or production-ready.
 - **Do not report a run that did not happen.** No loop has been exercised.

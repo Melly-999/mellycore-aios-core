@@ -246,15 +246,19 @@ def evaluate(
     budget_reasons: List[str] = []
 
     measured = ledger.measured_run_tokens
-    if measured > loop.per_run_token_budget:
+    if ledger.has_unmeasured_tokens:
+        # Any unmeasured iteration makes the true total unknown, so the whole
+        # run's budget is unenforceable -- never a partial pass computed only
+        # over the measured iterations, even if the measured-only sum already
+        # exceeds the budget on its own.
+        checks["per_run_budget"] = UNENFORCEABLE
+    elif measured > loop.per_run_token_budget:
         checks["per_run_budget"] = FAIL
         budget_reasons.append(
             "measured run tokens {} exceed per_run_token_budget {}".format(
                 measured, loop.per_run_token_budget
             )
         )
-    elif measured == 0 and ledger.has_unmeasured_tokens:
-        checks["per_run_budget"] = UNENFORCEABLE
     else:
         checks["per_run_budget"] = PASS
 

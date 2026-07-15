@@ -171,12 +171,43 @@ class BudgetTests(GuardTestCase):
         self.assertEqual("fail", decision.checks["daily_budget"])
 
     def test_unmeasured_tokens_never_trigger_a_budget_pause(self) -> None:
-        """An estimate must not be enforceable. Over-budget-looking but unmeasured stays CONTINUE."""
+        """An unmeasured iteration must never carry a numeric total (not even zero), so its true
+        cost is unknown. The budget must be reported unenforceable, not a pass, and CONTINUE stays."""
         loop = make_loop(per_run_token_budget=1000, daily_token_budget=10000)
-        iterations = [make_iteration(1, outcome="success", tokens_total=999999, measured=False)]
+        iterations = [make_iteration(1, outcome="success", measured=False)]
         decision = self.decide(make_ledger(iterations=iterations), make_registry(loops=[loop]))
         self.assertEqual(CONTINUE, decision.decision)
         self.assertEqual("unenforceable", decision.checks["per_run_budget"])
+
+    def test_mixed_measured_and_unmeasured_run_is_unenforceable(self) -> None:
+        """One measured iteration under budget plus one unmeasured iteration must not report a
+        partial pass on the measured sum alone; the true total is unknown, so it is unenforceable."""
+        loop = make_loop(per_run_token_budget=1000, daily_token_budget=10000)
+        iterations = [
+            make_iteration(1, outcome="success", tokens_total=100, measured=True, progress_marker="p1"),
+            make_iteration(2, outcome="success", measured=False, progress_marker="p2"),
+        ]
+        decision = self.decide(make_ledger(iterations=iterations), make_registry(loops=[loop]))
+        self.assertEqual(CONTINUE, decision.decision)
+        self.assertEqual("unenforceable", decision.checks["per_run_budget"])
+
+    def test_all_measured_run_enforces_normally(self) -> None:
+        loop = make_loop(per_run_token_budget=1000, daily_token_budget=10000)
+        iterations = [
+            make_iteration(1, outcome="success", tokens_total=100, measured=True, progress_marker="p1"),
+            make_iteration(2, outcome="success", tokens_total=200, measured=True, progress_marker="p2"),
+        ]
+        decision = self.decide(make_ledger(iterations=iterations), make_registry(loops=[loop]))
+        self.assertEqual(CONTINUE, decision.decision)
+        self.assertEqual("pass", decision.checks["per_run_budget"])
+
+    def test_measured_zero_is_a_valid_real_measurement(self) -> None:
+        loop = make_loop(per_run_token_budget=1000, daily_token_budget=10000)
+        iterations = [make_iteration(1, outcome="success", tokens_total=0, measured=True)]
+        decision = self.decide(make_ledger(iterations=iterations), make_registry(loops=[loop]))
+        self.assertEqual(CONTINUE, decision.decision)
+        self.assertEqual("pass", decision.checks["per_run_budget"])
+        self.assertFalse(decision.checks["per_run_budget"] == "unenforceable")
 
     def test_absent_daily_total_is_unenforceable_not_pass(self) -> None:
         decision = self.decide(make_ledger(daily_tokens_used=None))
@@ -287,6 +318,54 @@ class LedgerIntegrityTests(unittest.TestCase):
         bad["iterations"][0]["outcome"] = "maybe"
         with self.assertRaises(InvalidInputError):
             parse_ledger(bad)
+
+
+class TokenContractTests(unittest.TestCase):
+    """The corrected measured/unmeasured token contract (Sections D1/D2 of the
+    persistence review): 'not measured' and 'measured, and it was zero' must
+    stay distinguishable, so an unmeasured iteration must never carry a
+    numeric total, including zero."""
+
+    def test_unmeasured_total_must_be_null_or_absent(self) -> None:
+        bad = make_ledger(iterations=[make_iteration(1, tokens_total=5, measured=False)])
+        with self.assertRaises(InvalidInputError):
+            parse_ledger(bad)
+
+    def test_unmeasured_numeric_zero_is_rejected(self) -> None:
+        bad = make_ledger(iterations=[make_iteration(1, tokens_total=0, measured=False)])
+        with self.assertRaises(InvalidInputError):
+            parse_ledger(bad)
+
+    def test_measured_true_requires_numeric_total(self) -> None:
+        bad = make_ledger(iterations=[make_iteration(1, measured=True)])
+        bad["iterations"][0]["tokens"]["total"] = None
+        with self.assertRaises(InvalidInputError):
+            parse_ledger(bad)
+
+    def test_measured_true_missing_total_is_rejected(self) -> None:
+        bad = make_ledger(iterations=[make_iteration(1, measured=True)])
+        del bad["iterations"][0]["tokens"]["total"]
+        with self.assertRaises(InvalidInputError):
+            parse_ledger(bad)
+
+    def test_measured_negative_total_is_rejected(self) -> None:
+        bad = make_ledger(iterations=[make_iteration(1, tokens_total=-1, measured=True)])
+        with self.assertRaises(InvalidInputError):
+            parse_ledger(bad)
+
+    def test_measured_non_integer_total_is_rejected(self) -> None:
+        bad = make_ledger(iterations=[make_iteration(1, measured=True)])
+        bad["iterations"][0]["tokens"]["total"] = 12.5
+        with self.assertRaises(InvalidInputError):
+            parse_ledger(bad)
+
+    def test_has_unmeasured_tokens_keys_off_measured_not_value(self) -> None:
+        ledger = parse_ledger(make_ledger(iterations=[make_iteration(1, measured=False)]))
+        self.assertTrue(ledger.has_unmeasured_tokens)
+        measured_ledger = parse_ledger(
+            make_ledger(iterations=[make_iteration(1, tokens_total=0, measured=True)])
+        )
+        self.assertFalse(measured_ledger.has_unmeasured_tokens)
 
 
 if __name__ == "__main__":

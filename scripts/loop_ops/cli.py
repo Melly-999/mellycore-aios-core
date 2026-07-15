@@ -5,16 +5,21 @@ Commands:
     audit           Report each loop's real capability tier.
     guard           Run the deterministic circuit breaker over a run ledger.
     estimate-cost   Estimate token scenarios. Always labelled as an estimate.
+    persist-run     Validate (default) or, with --apply, persist real loop run
+                     evidence. The only command in this CLI that writes to the
+                     repository, and only when --apply, --operator-approval-id,
+                     and --expected-head are all explicitly supplied.
     worktree-audit  Read-only git worktree report.
     redact-check    Report secret-shaped strings without printing any value.
 
 Exit codes:
     0  success / CONTINUE
-    1  invalid input or configuration / BLOCK_INVALID_STATE
+    1  invalid input or configuration / BLOCK_INVALID_STATE / persistence refused
     2  ESCALATE_HUMAN or PAUSE_BUDGET (guard only)
 
-Every command is read-only. Nothing here writes to the repository, calls a
-provider, or reaches the network.
+Every command except ``persist-run --apply`` is read-only: nothing else here
+writes to the repository, calls a provider, or reaches the network.
+``persist-run`` without ``--apply`` (the default) is also read-only.
 """
 
 from __future__ import annotations
@@ -32,6 +37,7 @@ from .models import (
     InvalidInputError,
     LoopOpsError,
 )
+from .persist import PersistenceError, apply as persist_apply, dry_run as persist_dry_run
 from .readiness import audit_registry
 from .redaction import scan_path
 from .registry import load_budgets, load_ledger, load_registry
@@ -243,6 +249,60 @@ def cmd_estimate_cost(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+# --- persist-run --------------------------------------------------------------
+
+
+def cmd_persist_run(args: argparse.Namespace) -> int:
+    try:
+        if args.apply:
+            result = persist_apply(
+                args.ledger,
+                operator_approval_id=args.operator_approval_id,
+                expected_head=args.expected_head,
+                registry_path=args.registry,
+            )
+            payload = {"command": "persist-run", "mode": "apply", **result}
+        else:
+            plan = persist_dry_run(args.ledger, registry_path=args.registry)
+            payload = {"command": "persist-run", "mode": "dry-run", **plan.to_dict()}
+    except PersistenceError as exc:
+        code = getattr(exc, "code", "PERSISTENCE_REFUSED")
+        if args.json:
+            _emit_json(
+                {
+                    "command": "persist-run",
+                    "mode": "apply" if args.apply else "dry-run",
+                    "error": code,
+                    "message": str(exc),
+                }
+            )
+        else:
+            print("ERROR persist-run refused [{}]: {}".format(code, exc), file=sys.stderr)
+        return EXIT_INVALID
+
+    if args.json:
+        _emit_json(payload)
+        return EXIT_OK
+
+    if args.apply:
+        print("MellyCore persist-run -- APPLY")
+        print("  loop: {}  run: {}".format(payload["loop_id"], payload["run_id"]))
+        print("  evidence: {} (status={})".format(payload["evidence_path"], payload["evidence_status"]))
+        print("  state:    {}".format(payload["state_path"]))
+        print("  guard decision at persist time: {}".format(payload["guard_decision"]))
+    else:
+        print("MellyCore persist-run -- DRY RUN (nothing written)")
+        print("  loop: {}  run: {}".format(payload["loop_id"], payload["run_id"]))
+        print("  proposed evidence path: {}".format(payload["evidence_path"]))
+        print("  proposed state path:    {}".format(payload["state_path"]))
+        print("  guard decision (recomputed): {}".format(payload["guard_decision"]))
+        if payload["warnings"]:
+            print("  warnings:")
+            for warning in payload["warnings"]:
+                print("    - {}".format(warning))
+    return EXIT_OK
+
+
 # --- worktree-audit ----------------------------------------------------------
 
 
@@ -368,6 +428,32 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_cost.add_argument("--json", action="store_true", help="Emit JSON")
     p_cost.set_defaults(func=cmd_estimate_cost)
+
+    p_persist = sub.add_parser(
+        "persist-run",
+        help="Validate (dry-run, default) or persist (--apply) real loop run evidence",
+    )
+    p_persist.add_argument("--ledger", required=True, help="Path to a run ledger JSON file to persist")
+    p_persist.add_argument(
+        "--apply",
+        action="store_true",
+        help="Actually write evidence and state. Default is dry-run validation only; nothing is written.",
+    )
+    p_persist.add_argument(
+        "--operator-approval-id",
+        default=None,
+        help=(
+            "Required with --apply. Audit metadata naming who approved this persist. Not "
+            "cryptographic proof of operator identity."
+        ),
+    )
+    p_persist.add_argument(
+        "--expected-head",
+        default=None,
+        help="Required with --apply. Must equal the repository's actual current HEAD at apply time.",
+    )
+    p_persist.add_argument("--json", action="store_true", help="Emit JSON")
+    p_persist.set_defaults(func=cmd_persist_run)
 
     p_wt = sub.add_parser("worktree-audit", help="Read-only git worktree report")
     p_wt.add_argument(

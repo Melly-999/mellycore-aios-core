@@ -2,13 +2,13 @@
 
 Project name: MellyCore AIOS
 
-Status: static homepage scaffold implemented (`site/`, visual-QA-passed) and a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability; the foundation has been hand-run once externally and its persistence contract reviewed and specified (not implemented); still local-only, not published, no runtime
+Status: static homepage scaffold implemented (`site/`, visual-QA-passed) and a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability; the reviewed persistence and token-semantics contract is now implemented (guarded, human-approved, still unexercised); still local-only, not published, no runtime
 
 Local repo path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
 
 Current branch: `publish/mellycore-main-001`
 
-Current HEAD: `27ccd9e` (`docs(aios): define loop evidence persistence contract`), on top of `6c67fc5bf28999882e26a45d12cc7eab639228e1` (`feat(aios): add safety-first loop operations foundation`)
+Current HEAD: implementation commit `feat(aios): add guarded loop evidence persistence`, on top of `ac27dc6` (`docs(aios): sync project history and verify localhost boot`), on top of `27ccd9e` (`docs(aios): define loop evidence persistence contract`)
 
 MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker credentials, execution routes, or trading UI.
 
@@ -22,7 +22,16 @@ Completed as the project's first tooling (non-site) capability: a machine-readab
 
 **First external `project-health` run** (`MELLYCORE-LOOP-REPORT-ONLY-DRY-RUN-001`): outcome `EXERCISED_EXTERNALLY_NOT_REGISTERED`. A real, schema-valid ledger was produced outside the repository (per that task's instructions) and processed by the deterministic guard, which returned `CONTINUE`. `audit --json` was byte-identical before and after, because the audit only recognizes evidence persisted under `shared_context/loops/states/`, which that task was forbidden to write to. The run surfaced a real defect: unmeasured tokens were recorded as numeric `0`, indistinguishable from a measured zero-cost run, which let a run with unmeasured cost report `per_run_budget: pass`.
 
-**Persistence review** (`MELLYCORE-LOOP-STATE-PERSISTENCE-REVIEW-001`, docs-only, this task): reviewed and specified — but did not implement — a safe persistence contract: immutable run evidence at `shared_context/loops/runs/<loop-id>/<run-id>.json` (not yet created), derived mutable state at `shared_context/loops/states/<loop-id>.state.json` (schema unchanged), and purely-computed audit tiers (unchanged). Also specified the token-semantics correction (unmeasured must be `null`/absent, never numeric `0`; any unmeasured iteration must make a run's per-run budget `unenforceable`). See `docs/research/LOOP_STATE_PERSISTENCE_REVIEW_001.md`.
+**Persistence review** (`MELLYCORE-LOOP-STATE-PERSISTENCE-REVIEW-001`, docs-only): reviewed and specified the safe persistence contract and the token-semantics correction later implemented below. See `docs/research/LOOP_STATE_PERSISTENCE_REVIEW_001.md`.
+
+**Persistence and token-contract implementation** (`MELLYCORE-LOOP-PERSISTENCE-AND-TOKEN-CONTRACT-IMPLEMENTATION-001`): the reviewed contract is now implemented in code, together, as recommended:
+
+- **Token semantics corrected** (`scripts/loop_ops/models.py`, `scripts/loop_ops/registry.py`, `scripts/loop_ops/guard.py`, `shared_context/loops/RUN_LEDGER_SCHEMA.json`): an unmeasured iteration must never carry a numeric `total`, not even zero — rejected at parse time. A measured iteration requires a real non-negative integer. Any unmeasured iteration in a run now makes that run's `per_run_budget` check `unenforceable`, never a partial pass computed only over the measured iterations.
+- **`persist-run` CLI subcommand** (`scripts/loop_ops/persist.py`, new module): `py -3.9 -m scripts.loop_ops persist-run --ledger <path>` validates a candidate ledger and writes nothing by default. Persisting for real requires `--apply`, a non-empty `--operator-approval-id`, and an `--expected-head` matching the repository's actual current HEAD. Enforces write-once immutable evidence (identical bytes may recover an interrupted state update; different bytes are always refused), path/symlink/case-collision safety, redaction gate, timestamp validation, lifecycle-transition legality, and a Phase 1 rule that `repository_mutation_count` and `remote_action_count` must be zero.
+- **Audit closes D4** (`scripts/loop_ops/readiness.py`): a `run_history` entry now counts as `exercised` only when its `ledger_ref` resolves to a real, independently-validated evidence file under `runs/<loop-id>/` whose content is internally consistent with the state's own claim — an orphan claim in state, with no backing evidence, no longer counts.
+- 21 new/updated automated tests across `tests/test_loop_ops_guard.py`, `tests/test_loop_ops_tools.py`, and the new `tests/test_loop_ops_persist.py` (150 tests total, all passing).
+
+**No real run was persisted by this implementation task.** `runs/` still does not exist in the repository. `human_approval.granted` and lifecycle promotion beyond `REPORT_ONLY` are never set by persisting a run — both stay strictly operator-only facts.
 
 **Current audit state (unchanged by any of the above):** `configured: 9`, `validated: 9`, `exercised: 0`, `human_approved: 0`, `production_enabled: 0`. No loop has real persisted run evidence. Do not describe the Loop Operations Foundation as operational or unattended-ready.
 
@@ -36,7 +45,7 @@ The static `site/` scaffold can be served locally with `py -3.9 -m http.server 4
 
 Next tasks:
 
-1. `MELLYCORE-LOOP-PERSISTENCE-AND-TOKEN-CONTRACT-IMPLEMENTATION-001` — implement, together, the token-semantics correction and the `runs/`-based persistence path plus a `persist-run` CLI subcommand, per `docs/research/LOOP_STATE_PERSISTENCE_REVIEW_001.md`.
+1. A registered `project-health` run: hand-run the loop again, produce a real ledger with the persistence-only fields (`repository`, `branch`, `head_sha`, `completed_at`, `outcome`, zero mutation/remote-action counts), and have an operator run `persist-run --apply` to make `audit` report `exercised: 1` honestly for the first time.
 2. `MELLYCORE-GITHUB-REMOTE-SETUP-001` — prepare GitHub remote setup without pushing; any push requires explicit operator approval.
 3. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
 4. Package shared context files for ChatGPT Project upload.

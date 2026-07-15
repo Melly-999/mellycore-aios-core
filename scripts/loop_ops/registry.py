@@ -263,12 +263,30 @@ def _parse_iteration(data: Dict[str, Any], index: int) -> Iteration:
     tokens = data.get("tokens") or {}
     if not isinstance(tokens, dict):
         raise InvalidInputError("{}: 'tokens' must be an object".format(what))
-    total = tokens.get("total", 0)
-    if not isinstance(total, int) or isinstance(total, bool) or total < 0:
-        raise InvalidInputError("{}: 'tokens.total' must be an integer >= 0".format(what))
     measured = tokens.get("measured", False)
     if not isinstance(measured, bool):
         raise InvalidInputError("{}: 'tokens.measured' must be a boolean".format(what))
+    total = tokens.get("total", None)
+    # The token contract is conditional on 'measured' and is asymmetric on
+    # purpose: 'measured: false' must never carry a numeric total (including
+    # zero), because "not measured" and "measured, and it was zero" must stay
+    # distinguishable. 'measured: true' must carry a real non-negative number,
+    # because a claimed measurement with no value is a contradiction, not an
+    # edge case to tolerate.
+    if measured:
+        if total is None:
+            raise InvalidInputError(
+                "{}: 'tokens.total' is required and must be a non-negative integer when "
+                "'tokens.measured' is true".format(what)
+            )
+        if not isinstance(total, int) or isinstance(total, bool) or total < 0:
+            raise InvalidInputError("{}: 'tokens.total' must be a non-negative integer".format(what))
+    else:
+        if total is not None:
+            raise InvalidInputError(
+                "{}: 'tokens.total' must be null or absent when 'tokens.measured' is false; an "
+                "unmeasured iteration must never carry a numeric total, including zero".format(what)
+            )
 
     verifier = data.get("verifier") or {}
     if not isinstance(verifier, dict):

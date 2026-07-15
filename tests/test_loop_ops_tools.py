@@ -11,7 +11,9 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
+from scripts.loop_ops import persist as persist_module
 from scripts.loop_ops.cost import BASIS, estimate_loop, estimate_realistic, estimate_scenario
 from scripts.loop_ops.models import (
     TIER_CONFIGURED,
@@ -38,7 +40,35 @@ from scripts.loop_ops.worktrees import (
     audit_report,
     parse_worktree_porcelain,
 )
-from tests.loop_ops_fixtures import make_budgets, make_loop, make_registry
+from tests.loop_ops_fixtures import make_budgets, make_loop, make_persistable_ledger, make_registry
+
+FAKE_HEAD = "a" * 40
+FAKE_BRANCH = "publish/mellycore-main-001"
+
+
+def _persist_real_run(loop_id: str, root: Path, registry, run_id=None, **ledger_overrides) -> dict:
+    """Test helper: persist a real, valid ledger via the actual persist-run apply
+    path (with git identity mocked), so 'exercised' tests exercise the real
+    integration between persist.py and readiness.py rather than a hand-built
+    state file that merely claims a run happened.
+    """
+    import json as _json
+
+    ledger = make_persistable_ledger(
+        loop_id=loop_id, run_id=run_id, head_sha=FAKE_HEAD, branch=FAKE_BRANCH, **ledger_overrides
+    )
+    ledger_path = root / "incoming-ledger.json"
+    ledger_path.write_text(_json.dumps(ledger), encoding="utf-8")
+    with mock.patch.object(persist_module, "current_head", return_value=FAKE_HEAD), mock.patch.object(
+        persist_module, "current_branch", return_value=FAKE_BRANCH
+    ):
+        return persist_module.apply(
+            ledger_path,
+            operator_approval_id="test-operator",
+            expected_head=FAKE_HEAD,
+            root=root,
+            registry=registry,
+        )
 
 # --- cost --------------------------------------------------------------------
 
@@ -326,15 +356,25 @@ class AuditTierTests(unittest.TestCase):
 
     def test_recorded_run_counts_as_exercised(self) -> None:
         registry = parse_registry(make_registry(loops=[make_loop("sample-loop")]))
+        _persist_real_run("sample-loop", self.root, registry)
+        report = audit_loop(registry.loops[0], registry, root=self.root)
+        self.assertTrue(report["capabilities"][TIER_EXERCISED]["value"])
+
+    def test_run_history_entry_without_backing_evidence_is_not_exercised(self) -> None:
+        """Closes D4: a run_history entry that merely claims a run_id and finished_at, with a
+        ledger_ref that does not resolve to a real, validated evidence file, is an orphan claim,
+        not exercised. Previously this state shape was (incorrectly) trusted at face value."""
+        registry = parse_registry(make_registry(loops=[make_loop("sample-loop")]))
         state = self.root / "shared_context" / "loops" / "states" / "sample-loop.state.json"
         state.parent.mkdir(parents=True, exist_ok=True)
         state.write_text(
             '{"loop_id": "sample-loop", "run_history": ['
-            '{"run_id": "r1", "finished_at": "2026-01-01T00:00:00Z", "outcome": "success"}]}',
+            '{"run_id": "r1", "finished_at": "2026-01-01T00:00:00Z", "outcome": "success", '
+            '"ledger_ref": "shared_context/loops/runs/sample-loop/r1.json"}]}',
             encoding="utf-8",
         )
         report = audit_loop(registry.loops[0], registry, root=self.root)
-        self.assertTrue(report["capabilities"][TIER_EXERCISED]["value"])
+        self.assertFalse(report["capabilities"][TIER_EXERCISED]["value"])
 
     def test_incomplete_run_entry_does_not_count(self) -> None:
         registry = parse_registry(make_registry(loops=[make_loop("sample-loop")]))
@@ -354,14 +394,14 @@ class AuditTierTests(unittest.TestCase):
 
     def test_production_enabled_is_unreachable_in_phase_1(self) -> None:
         """Even a fully approved, exercised, verifier-backed loop stays off in Phase 1."""
+        import json as _json
+
         registry = parse_registry(make_registry(loops=[make_loop("sample-loop", verifier_required=True)]))
-        state = self.root / "shared_context" / "loops" / "states" / "sample-loop.state.json"
-        state.parent.mkdir(parents=True, exist_ok=True)
-        state.write_text(
-            '{"run_history": [{"run_id": "r1", "finished_at": "2026-01-01T00:00:00Z", "outcome": "success"}],'
-            ' "human_approval": {"granted": true, "granted_by": "operator"}}',
-            encoding="utf-8",
-        )
+        _persist_real_run("sample-loop", self.root, registry)
+        state_path = self.root / "shared_context" / "loops" / "states" / "sample-loop.state.json"
+        state = _json.loads(state_path.read_text(encoding="utf-8"))
+        state["human_approval"] = {"granted": True, "granted_by": "operator", "granted_at": None, "scope": None}
+        state_path.write_text(_json.dumps(state), encoding="utf-8")
         report = audit_loop(registry.loops[0], registry, root=self.root)
         self.assertTrue(report["capabilities"][TIER_EXERCISED]["value"])
         self.assertTrue(report["capabilities"][TIER_HUMAN_APPROVED]["value"])

@@ -19,7 +19,7 @@ Phase 1 is **report-only**. Every enabled loop reads and reports. No loop writes
 
 Three loops (`ci-sweeper`, `dependency-sweeper`, `post-merge-cleanup`) are defined but `DISABLED`. They are written down so the boundary is explicit and reviewable — a disabled loop with a stated reason is easier to reason about than an undocumented gap. Each carries a `disabled_reason`.
 
-**No loop has ever been run.** There is no measured token spend, no run evidence, and no exercised loop in this repository. The `audit` command reports this honestly, and the example ledger is labelled as an example rather than as evidence.
+**No loop has ever produced persisted evidence.** `runs/` does not exist yet. The `audit` command reports this honestly, and the example ledger is labelled as an example rather than as evidence. (One loop, `project-health`, has been hand-run once outside this repository — outcome `EXERCISED_EXTERNALLY_NOT_REGISTERED` — but that run was never persisted, so it still does not count; see `docs/research/LOOP_STATE_PERSISTENCE_REVIEW_001.md`.)
 
 ## 3. Files
 
@@ -28,11 +28,12 @@ Three loops (`ci-sweeper`, `dependency-sweeper`, `post-merge-cleanup`) are defin
 | `LOOP_REGISTRY.json` | The registry. Every loop, its scope, budgets, gates, and lifecycle state. |
 | `LOOP_REGISTRY_SCHEMA.json` | Contract for the registry. |
 | `LOOP_STATE_SCHEMA.json` | Contract for a per-loop state file — the loop's memory outside any conversation. |
-| `RUN_LEDGER_SCHEMA.json` | Contract for a single run. The only input the circuit breaker trusts. |
+| `RUN_LEDGER_SCHEMA.json` | Contract for a single run. The only input the circuit breaker trusts, and (once `completed_at`, `repository`, `branch`, `head_sha`, `outcome`, and the two Phase 1 counters are present) the only input `persist-run` will accept. |
 | `RUN_LEDGER.example.json` | A hand-written example of the ledger shape. Not evidence of a run. |
 | `LOOP_BUDGETS.json` | Global pause, kill switch, and the estimator's planning inputs. All estimates. |
 | `LOOP_CONSTRAINTS.md` | The binding rules an agent must read before operating any loop. |
-| `states/` | Per-loop state files. Templates until a loop is actually run. |
+| `states/` | Per-loop state files. Templates until a loop's evidence is actually persisted. Always fully rebuilt from `runs/`, never hand-edited. |
+| `runs/` | Per-loop, write-once, immutable run evidence: `runs/<loop-id>/<run-id>.json`. Does not exist until the first `persist-run --apply`. |
 
 JSON is used rather than YAML so that nothing here requires a parsing dependency. MellyCore adds no runtime dependencies.
 
@@ -42,9 +43,12 @@ JSON is used rather than YAML so that nothing here requires a parsing dependency
 py -3.9 -m scripts.loop_ops validate
 py -3.9 -m scripts.loop_ops audit
 py -3.9 -m scripts.loop_ops audit --json
+py -3.9 -m scripts.loop_ops persist-run --ledger <path>
 ```
 
-`validate` checks structure, unique IDs, lifecycle states, budgets, forbidden paths, and the Phase 1 report-only rule. `audit` reports what each loop's capability actually is, distinguishing *configured* from *exercised* — a file existing is not a capability.
+`validate` checks structure, unique IDs, lifecycle states, budgets, forbidden paths, and the Phase 1 report-only rule. `audit` reports what each loop's capability actually is, distinguishing *configured* from *exercised* — a file existing is not a capability; `exercised` requires a `run_history` entry in state whose `ledger_ref` resolves to a real, independently-validated evidence file under `runs/<loop-id>/`, not merely a claim in state.
+
+`persist-run --ledger <path>` validates a candidate ledger and, by default, writes nothing (dry run). Persisting for real requires `--apply`, a non-empty `--operator-approval-id`, and an `--expected-head` matching the repository's actual current HEAD — all three are mandatory; any one missing fails closed. See `docs/research/LOOP_STATE_PERSISTENCE_REVIEW_001.md` for the full design and `docs/tasks/MELLYCORE-LOOP-PERSISTENCE-AND-TOKEN-CONTRACT-IMPLEMENTATION-001.md` for what was actually implemented.
 
 See `[[../../docs/architecture/MELLYCORE_LOOP_OPERATIONS_ARCHITECTURE_001]]` for the design and `[[../../docs/safety/MELLYCORE_LOOP_SAFETY_CONTRACT_001]]` for the binding safety rules.
 

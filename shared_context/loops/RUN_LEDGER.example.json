@@ -6,7 +6,7 @@
   "finished_at": "2026-01-01T00:04:12Z",
   "status_before": "REPORT_ONLY",
   "status_after": "REPORT_ONLY",
-  "example_notice": "This is a hand-written EXAMPLE showing the ledger shape. It is not evidence of a real run. The token values below are illustrative and are marked measured=false, so the guard does not count them toward budget enforcement. No loop has been exercised in Phase 1.",
+  "example_notice": "This is a hand-written EXAMPLE showing the ledger shape. It is not evidence of a real run. The iterations below are marked measured=false with total=null, per the corrected token contract (docs/research/LOOP_STATE_PERSISTENCE_REVIEW_001.md Section 5): an unmeasured iteration must never carry a numeric total, including zero, so the guard reports the per-run budget as unenforceable rather than counting these toward it. No loop has been exercised in Phase 1.",
   "iterations": [
     {
       "index": 1,
@@ -15,9 +15,9 @@
       "error_signature": "validator_not_found",
       "progress_marker": "read-shared-context",
       "tokens": {
-        "input": 8000,
-        "output": 1200,
-        "total": 9200,
+        "input": null,
+        "output": null,
+        "total": null,
         "measured": false
       },
       "verifier": {
@@ -34,9 +34,9 @@
       "error_signature": null,
       "progress_marker": "health-report-drafted",
       "tokens": {
-        "input": 9000,
-        "output": 2400,
-        "total": 11400,
+        "input": null,
+        "output": null,
+        "total": null,
         "measured": false
       },
       "verifier": {

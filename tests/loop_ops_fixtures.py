@@ -83,21 +83,35 @@ def make_iteration(
     outcome: str = "success",
     error_signature: Optional[str] = None,
     progress_marker: Optional[str] = "step-{}",
-    tokens_total: int = 0,
+    tokens_total: Optional[int] = None,
     measured: bool = False,
     verdict: str = "NOT_RUN",
 ) -> Dict[str, Any]:
-    """Build one ledger iteration."""
+    """Build one ledger iteration.
+
+    Under the corrected token contract, an unmeasured iteration must never
+    carry a numeric total, not even zero. ``tokens_total`` therefore defaults
+    to ``None``: when ``measured=False`` (the default) the built iteration has
+    ``total: null``, a valid "no claim made" iteration. When ``measured=True``
+    and ``tokens_total`` is left at ``None``, it defaults to a real measured
+    zero. Passing an explicit ``tokens_total`` together with
+    ``measured=False`` intentionally builds an *invalid* ledger (useful only
+    for asserting that ``parse_ledger`` rejects it).
+    """
     if outcome == "failure" and error_signature is None:
         error_signature = "generic_failure"
     marker = progress_marker.format(index) if progress_marker and "{}" in progress_marker else progress_marker
+    if tokens_total is None:
+        total = 0 if measured else None
+    else:
+        total = tokens_total
     return {
         "index": index,
         "started_at": "2026-01-01T00:0{}:00Z".format(min(index, 9)),
         "outcome": outcome,
         "error_signature": error_signature,
         "progress_marker": marker,
-        "tokens": {"input": 0, "output": 0, "total": tokens_total, "measured": measured},
+        "tokens": {"input": None, "output": None, "total": total, "measured": measured},
         "verifier": {"verdict": verdict, "verified_by": None, "evidence": None},
     }
 
@@ -123,6 +137,59 @@ def make_ledger(
         "daily_tokens_used": daily_tokens_used,
         "kill_switch_engaged": kill_switch_engaged,
     }
+    ledger.update(overrides)
+    return copy.deepcopy(ledger)
+
+
+def make_run_id(
+    loop_id: str = "sample-loop",
+    timestamp: str = "20260101T000000Z",
+    suffix: str = "a1b2c3d4e5f6",
+) -> str:
+    """Build a canonical <loop-id>--<UTC timestamp>--<12 lowercase hex> run id."""
+    return "{}--{}--{}".format(loop_id, timestamp, suffix)
+
+
+def make_persistable_ledger(
+    loop_id: str = "sample-loop",
+    run_id: Optional[str] = None,
+    iterations: Optional[List[Dict[str, Any]]] = None,
+    status_before: str = "REPORT_ONLY",
+    status_after: str = "REPORT_ONLY",
+    repository: str = "mellycore-aios",
+    branch: str = "publish/mellycore-main-001",
+    head_sha: str = "a" * 40,
+    started_at: str = "2026-01-01T00:00:00Z",
+    completed_at: str = "2026-01-01T00:05:00Z",
+    outcome: str = "success",
+    repository_mutation_count: int = 0,
+    remote_action_count: int = 0,
+    **overrides: Any,
+) -> Dict[str, Any]:
+    """Build a run ledger document that also satisfies persist-run's additional
+    persistence-only field requirements (repository, branch, head_sha,
+    completed_at, outcome, and the two zero-by-default Phase 1 counters).
+    """
+    run_id = run_id or make_run_id(loop_id)
+    ledger = make_ledger(
+        loop_id=loop_id,
+        iterations=iterations,
+        status_before=status_before,
+        status_after=status_after,
+        run_id=run_id,
+        started_at=started_at,
+    )
+    ledger.update(
+        {
+            "repository": repository,
+            "branch": branch,
+            "head_sha": head_sha,
+            "completed_at": completed_at,
+            "outcome": outcome,
+            "repository_mutation_count": repository_mutation_count,
+            "remote_action_count": remote_action_count,
+        }
+    )
     ledger.update(overrides)
     return copy.deepcopy(ledger)
 

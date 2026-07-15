@@ -37,10 +37,11 @@ from .models import (
     TIER_PRODUCTION_ENABLED,
     TIER_VALIDATED,
     TIER_DEFINITIONS,
+    InvalidInputError,
     LoopSpec,
     Registry,
 )
-from .registry import repo_root
+from .registry import parse_ledger, repo_root
 from .validators import ERROR, validate_loop, validate_registry_shape
 
 
@@ -60,22 +61,85 @@ def _load_state(loop: LoopSpec, root: Path) -> Optional[Dict[str, Any]]:
     return data if isinstance(data, dict) else None
 
 
-def _real_run_count(state: Optional[Dict[str, Any]]) -> int:
+def _load_evidence_record(path: Path) -> Optional[Dict[str, Any]]:
+    """Load a persisted evidence record, or None if absent/unreadable.
+
+    An unreadable or missing evidence file is treated the same as absent: it
+    cannot be used as evidence of anything.
+    """
+    if not path.exists() or not path.is_file():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _entry_is_real_run(entry: Any, loop: LoopSpec, root: Path) -> bool:
+    """True only when a ``run_history`` entry's ``ledger_ref`` resolves to a
+    real, independently-validated evidence file under this loop's own
+    ``runs/`` directory whose content is internally consistent with the
+    state's own claim.
+
+    This is the fix for the gap the persistence review named D4: previously,
+    a ``run_history`` entry with a ``run_id`` and ``finished_at`` was trusted
+    at face value, with no check that the evidence it claims to point to
+    actually exists or is valid. An entry that merely exists in state, with no
+    backing evidence file (or a backing file that fails validation, or
+    disagrees with the state's own claim), is not exercised -- it is an
+    orphan claim.
+    """
+    if not isinstance(entry, dict):
+        return False
+    run_id = entry.get("run_id")
+    finished_at = entry.get("finished_at")
+    ledger_ref = entry.get("ledger_ref")
+    if not run_id or not finished_at or not ledger_ref or not isinstance(ledger_ref, str):
+        return False
+
+    expected_prefix = "shared_context/loops/runs/{}/".format(loop.id)
+    if not ledger_ref.startswith(expected_prefix):
+        return False
+
+    record = _load_evidence_record(root / ledger_ref)
+    if record is None:
+        return False
+    if record.get("final_classification") != "PERSISTED":
+        return False
+
+    ledger = record.get("ledger")
+    if not isinstance(ledger, dict):
+        return False
+    if ledger.get("loop_id") != loop.id or ledger.get("run_id") != run_id:
+        return False
+    if ledger.get("completed_at") != finished_at:
+        return False
+    if not ledger.get("repository") or not ledger.get("head_sha"):
+        return False
+    if ledger.get("repository_mutation_count") != 0 or ledger.get("remote_action_count") != 0:
+        return False
+
+    try:
+        parse_ledger(ledger)
+    except InvalidInputError:
+        return False
+
+    return True
+
+
+def _real_run_count(state: Optional[Dict[str, Any]], loop: LoopSpec, root: Path) -> int:
     """Count recorded real runs.
 
-    Only counts entries with a run_id and a finished_at. A state file that
-    exists but records no finished run is not evidence of a run.
+    Only counts ``run_history`` entries whose ``ledger_ref`` resolves to real,
+    independently-validated evidence. See :func:`_entry_is_real_run`.
     """
     if not state:
         return 0
     history = state.get("run_history")
     if not isinstance(history, list):
         return 0
-    count = 0
-    for entry in history:
-        if isinstance(entry, dict) and entry.get("run_id") and entry.get("finished_at"):
-            count += 1
-    return count
+    return sum(1 for entry in history if _entry_is_real_run(entry, loop, root))
 
 
 def _human_approved(state: Optional[Dict[str, Any]]) -> bool:
@@ -114,7 +178,7 @@ def audit_loop(loop: LoopSpec, registry: Registry, root: Optional[Path] = None) 
     }
 
     # exercised
-    runs = _real_run_count(state)
+    runs = _real_run_count(state, loop, root)
     capabilities[TIER_EXERCISED] = {
         "value": runs > 0,
         "evidence": (
