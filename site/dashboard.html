@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MellyCore AIOS — local interactive dashboard preview. Reads real local project files where available; mock data is explicitly labeled. No live provider calls, no secrets, no write actions.">
+  <title>MellyCore AIOS — Live Dashboard Preview (Local)</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="dash-body">
+  <a class="skip-link" href="#dash-main">Skip to content</a>
+
+  <header class="dash-topbar">
+    <div class="container">
+      <span class="dash-brand">MellyCore AIOS <span class="hud-label hud-label--caution">Live Dashboard Preview</span></span>
+      <nav class="dash-tabs" role="tablist" aria-label="Dashboard sections">
+        <button class="dash-tab-btn" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="true" data-tab="overview">Overview</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-loops" aria-controls="tab-loops" aria-selected="false" data-tab="loops">Loops</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-models" aria-controls="tab-models" aria-selected="false" data-tab="models">Models</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-evidence" aria-controls="tab-evidence" aria-selected="false" data-tab="evidence">Evidence</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-roadmap" aria-controls="tab-roadmap" aria-selected="false" data-tab="roadmap">Roadmap</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-live" aria-controls="tab-live" aria-selected="false" data-tab="live">Live</button>
+      </nav>
+      <span class="dash-localbadge">Local-only · read-only · 127.0.0.1</span>
+    </div>
+  </header>
+
+  <main id="dash-main">
+    <div class="container">
+
+      <!-- ══════════ OVERVIEW ══════════ -->
+      <section class="dash-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview">
+        <div class="dash-grid">
+
+          <!-- Left panel -->
+          <div class="dash-col dash-col--left">
+            <div class="dash-card">
+              <span class="dash-card-label">Current milestone <span class="dash-real-flag">real</span></span>
+              <h3 id="ov-milestone">Loading…</h3>
+              <p class="dash-source-note">Source: shared_context/ROADMAP.md</p>
+            </div>
+            <div class="dash-card">
+              <span class="dash-card-label">Next recommended task <span class="dash-real-flag">real</span></span>
+              <p id="ov-next-task" class="dash-loading-note">Loading…</p>
+              <p class="dash-source-note">Source: shared_context/ROADMAP.md + RUN_QUEUE.md</p>
+            </div>
+            <div class="dash-card">
+              <span class="dash-card-label">Task queue tail <span class="dash-real-flag">real</span></span>
+              <ol class="dash-roadmap-list" id="ov-queue-tail"></ol>
+              <p class="dash-source-note">Source: shared_context/RUN_QUEUE.md (last entries)</p>
+            </div>
+          </div>
+
+          <!-- Center: Live System Map -->
+          <div class="dash-col dash-col--center">
+            <div class="dash-card">
+              <h3>MellyCore Live System Map</h3>
+              <p class="section-subtitle">Loop registry rendered as a hub-and-spoke map. Node color reflects each loop's real, currently-earned tier.</p>
+              <div class="dash-systemmap">
+                <div class="dash-systemmap-hub">AIOS</div>
+                <div class="dash-node-grid" id="ov-systemmap-nodes"></div>
+              </div>
+              <p class="dash-source-note">Source: shared_context/loops/LOOP_REGISTRY.json + audit snapshot <span class="dash-mock-flag">snapshot, not live</span></p>
+            </div>
+            <div class="dash-card">
+              <span class="dash-card-label">Test status <span class="dash-real-flag">real (snapshot)</span></span>
+              <p id="ov-test-status" class="dash-loading-note">Loading…</p>
+              <p class="dash-source-note">Captured by actually running the suite during this task. Does not re-run automatically — see site/data/dashboard_snapshot.json.</p>
+            </div>
+          </div>
+
+          <!-- Right panel -->
+          <div class="dash-col dash-col--right">
+            <div class="dash-card">
+              <span class="dash-card-label">Safety posture <span class="dash-real-flag">real</span></span>
+              <ul class="dash-roadmap-list" id="ov-safety-list"></ul>
+              <p class="dash-source-note">Source: shared_context/SAFETY_CONTRACT.md</p>
+            </div>
+            <div class="dash-card">
+              <span class="dash-card-label">Model router preview <span class="dash-mock-flag">documented, no live connection</span></span>
+              <ul class="dash-roadmap-list" id="ov-model-preview"></ul>
+              <p class="dash-source-note">Source: shared_context/MODEL_ROUTING.md</p>
+            </div>
+            <div class="dash-card">
+              <span class="dash-card-label">Latest evidence <span class="dash-real-flag">real</span></span>
+              <p id="ov-evidence" class="dash-loading-note">Loading…</p>
+              <p class="dash-source-note">Source: shared_context/loops/states/project-health.state.json</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══════════ LOOPS ══════════ -->
+      <section class="dash-panel" id="tab-loops" role="tabpanel" aria-labelledby="tab-btn-loops" hidden>
+        <div class="dash-card">
+          <h3>Loop Registry <span class="dash-real-flag">real</span></h3>
+          <p class="section-subtitle">All 9 registered loops. Phase 1 is report-only: no loop may write to the repository, push, merge, deploy, or call a provider. Expand a card for its full contract.</p>
+          <p class="dash-source-note">Source: shared_context/loops/LOOP_REGISTRY.json, tiers from site/data/dashboard_snapshot.json <span class="dash-mock-flag">tiers are a snapshot, not live</span></p>
+          <div id="loops-list"></div>
+        </div>
+      </section>
+
+      <!-- ══════════ MODELS ══════════ -->
+      <section class="dash-panel" id="tab-models" role="tabpanel" aria-labelledby="tab-btn-models" hidden>
+        <div class="dash-card">
+          <h3>Model Router Preview <span class="dash-mock-flag">no live connection</span></h3>
+          <p class="section-subtitle">Documented routing roles from MODEL_ROUTING.md. Click a card to preview its role — this never sends a request; no provider is connected, no API key exists in this repository.</p>
+          <div class="dash-model-grid" id="models-grid"></div>
+          <div class="dash-model-detail dash-card" id="models-detail" hidden></div>
+        </div>
+      </section>
+
+      <!-- ══════════ EVIDENCE ══════════ -->
+      <section class="dash-panel" id="tab-evidence" role="tabpanel" aria-labelledby="tab-btn-evidence" hidden>
+        <div class="dash-card">
+          <h3>Latest Run Evidence <span class="dash-real-flag">real, persisted evidence</span></h3>
+          <p class="section-subtitle">The immutable run ledger for the one loop that has actually been exercised so far: <code>project-health</code>.</p>
+          <div id="evidence-body" class="dash-loading-note">Loading…</div>
+        </div>
+      </section>
+
+      <!-- ══════════ ROADMAP ══════════ -->
+      <section class="dash-panel" id="tab-roadmap" role="tabpanel" aria-labelledby="tab-btn-roadmap" hidden>
+        <div class="dash-card">
+          <h3>Milestone A — Operational Trust <span class="dash-real-flag">real</span></h3>
+          <ol class="dash-roadmap-list" id="roadmap-milestone-a"></ol>
+          <p class="dash-source-note">Source: shared_context/ROADMAP.md</p>
+        </div>
+        <div class="dash-card">
+          <h3>Recent Run Queue <span class="dash-real-flag">real</span></h3>
+          <ol class="dash-roadmap-list" id="roadmap-queue"></ol>
+          <p class="dash-source-note">Source: shared_context/RUN_QUEUE.md (last 8 entries)</p>
+        </div>
+      </section>
+
+      <!-- ══════════ LIVE ══════════ -->
+      <section class="dash-panel" id="tab-live" role="tabpanel" aria-labelledby="tab-btn-live" hidden>
+        <div class="dash-card">
+          <h3>Live Event Stream <span class="dash-mock-flag">simulated — mock data</span></h3>
+          <p class="section-subtitle">Every line below is generated client-side for visual preview only. There is no scheduler, no backend, no provider connection, and no autonomous execution anywhere in this repository.</p>
+          <div class="dash-live-controls">
+            <button class="dash-btn" id="live-toggle" aria-pressed="true">Pause stream</button>
+            <span class="dash-badge dash-badge--running" id="live-status-badge">Running</span>
+          </div>
+          <ul class="dash-eventlog" id="live-eventlog"></ul>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="dash-bottombar">
+    <div class="container">
+      <span><strong>MellyCore AIOS</strong> — Phase 1, report-only</span>
+      <span class="dash-badge dash-badge--ready">Ready</span>
+      <span>No write scope · No secrets · No live providers · No push</span>
+      <span class="dash-clock" id="dash-clock">--:--:--</span>
+    </div>
+  </footer>
+
+  <script src="js/dashboard.js" defer></script>
+</body>
+</html>

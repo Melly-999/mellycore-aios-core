@@ -35,6 +35,10 @@ Completed as the project's first tooling (non-site) capability: a machine-readab
 
 **Current audit state:** `configured: 9`, `validated: 9`, `exercised: 1` (`project-health` only), `human_approved: 0`, `production_enabled: 0`. This is the first loop in this repository with real persisted run evidence. Every other loop remains unexercised. Do not describe the Loop Operations Foundation as operational or unattended-ready — one exercised report-only loop is not production readiness.
 
+## Live Dashboard Preview
+
+Added a local, interactive dashboard preview (`MELLYCORE-AIOS-LIVE-DASHBOARD-PREVIEW-001`) at `site/dashboard.html`: a cinematic cockpit UI with Overview/Loops/Models/Evidence/Roadmap/Live tabs. It reads real local files live at page load (`ROADMAP.md`, `RUN_QUEUE.md`, `LOOP_REGISTRY.json`, `project-health.state.json`, the latest persisted `project-health` run ledger, `MODEL_ROUTING.md`, `SAFETY_CONTRACT.md`) plus one frozen snapshot of real CLI output (`site/data/dashboard_snapshot.json`, from `validate`/`audit --json`/the test suite). The Live tab's event stream and its pause/resume control are mock data, explicitly labeled `[MOCK]` in the UI — there is no scheduler, backend, or provider connection. This is the only page in `site/` that uses JavaScript; the original static homepage (`site/index.html`, pure HTML/CSS, no JS, no packages) is unchanged in scope. Any local server used to preview it must still bind only to `127.0.0.1`, per the rule below.
+
 ## Safety boundaries (current)
 
 No remote contact, fetch, pull, or push from any automated task without explicit operator approval; no PR or merge; no deployment; no provider API keys or secrets in the repository; no MCP; no scheduler; no live trading capability; no changes to MellyTrade; no destructive git actions without explicit approval. Any local server started for preview purposes must bind only to `127.0.0.1` and must never be exposed to LAN or the internet.
