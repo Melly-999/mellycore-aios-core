@@ -6,12 +6,19 @@ A safety-first Loop Operations Foundation now exists as the project's first tool
 
 A standard-library-only Context Gate now exists through Phase I4: `scripts/context_gate/` provides read-only `validate-record`/`preview`, full R1-R9 handling, guarded `apply`, deterministic content-free `rebuild-index`, and computed read-only `audit --json`; Live Cockpit V2 provides the dashboard-read surface. The seven canonical records validate, I2 record hashes remain unchanged, the index is current, and the shipped audit has zero findings and zero writes. The Context tab never opens canonical record bodies or refusal entries.
 
-Latest completed task: `MELLYCORE-LIVE-COCKPIT-V2-001`
+Latest completed task: `MELLYCORE-LIVE-COCKPIT-V2-SOCIAL-REALIGN-001`
+
+- Outcome: PASS_SOCIAL_SOURCE_ARENA_COMMITTED_NO_PUSH (site/docs/shared_context only). Realigned Live Cockpit V2 into a TikTok/Hyperagent-pattern vertical social source cockpit (pattern only, no TikTok branding) with a deeper black/violet identity and magenta interaction highlights. NASA is repositioned as one demo provider (`Demo provider: NASA Images API`) inside the renamed Source Arena / External Data Arena; presets are demo presets; model text is simulated lenses over one real source. Added: top `Find related sources` search pill; provider chip rail (one live demo provider, nine planned source types including GitHub repositories, PDFs/docs, websites, changelogs, issues, CVs/job offers, research, marketplace data, and local project files); right-side social action rail (like/inspect/save/share) with deterministic demo counts labeled `Demo counts`; bottom caption/hashtag block (`#MellyCore #ExternalData #ModelArena #AIOS`); Model Arena selected-source thumbnail card replacing the debug strip; en-US/ISO-pinned date/time/number formatting; clamped Roadmap/RUN_QUEUE entries with Show more/Show less; mobile scroll-fade affordances; desktop phone-stage centering.
+- Files: `site/dashboard.html`, `site/css/dashboard.css`, `site/js/dashboard.js`, `shared_context/PROJECT_STATE.md`, `shared_context/ROADMAP.md`, `shared_context/RUN_QUEUE.md`, `shared_context/AGENT_HANDOFF.md`, and `docs/tasks/MELLYCORE-LIVE-COCKPIT-V2-SOCIAL-REALIGN-001.md` (new).
+- Posture: static HTML/CSS/vanilla JS only; the keyless NASA Images API remains the sole external data path; social counts are local deterministic demo numbers, never presented as real engagement; share only copies a public URL to the local clipboard; no backend, provider call, canonical record/refusal-log mutation, secret, database, scheduler, workflow, deploy, push, or MellyTrade change. QA: no horizontal overflow at 390x844 or 1280x800, zero console errors, DOM leak scan clean. All validators pass (rebuild-index identical/0 writes; audit 0 findings; loop_ops validate; 150 + 95 tests; validate_project_state).
+- Next: `MELLYCORE-LIVE-COCKPIT-V2-SOCIAL-REALIGN-REVIEW-001` for an independent read-only label-honesty, responsive, and copy review before any later publish task.
+
+Previous completed task: `MELLYCORE-LIVE-COCKPIT-V2-001`
 
 - Outcome: PASS_LIVE_COCKPIT_V2_COMMITTED_NO_PUSH (site/data/docs/shared_context only). Upgraded the local dashboard into a cinematic, mobile-first cockpit; completed Context Gate dashboard Phase I4; added keyless NASA Images API search plus asset-manifest handling; and added a deterministic, explicitly simulated four-model comparison feed.
 - Files: `site/dashboard.html`, `site/css/dashboard.css`, `site/js/dashboard.js`, `site/data/dashboard_snapshot.json`, `site/data/context_audit_snapshot.json`, `shared_context/PROJECT_STATE.md`, `shared_context/ROADMAP.md`, `shared_context/RUN_QUEUE.md`, `shared_context/AGENT_HANDOFF.md`, and `docs/tasks/MELLYCORE-LIVE-COCKPIT-V2-001.md`.
 - Posture: static HTML/CSS/vanilla JS only; NASA public GETs are the sole external data path and use no key; no backend, provider call, canonical record/refusal-log mutation, secret, database, scheduler, workflow, deploy, push, or MellyTrade change. Real NASA data and simulated model output are labeled separately.
-- Next: `MELLYCORE-LIVE-COCKPIT-V2-REVIEW-001` for an independent read-only safety, data-boundary, and responsive review before any later publish task.
+- Next: completed by `MELLYCORE-LIVE-COCKPIT-V2-SOCIAL-REALIGN-001`.
 
 Previous completed task: `MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001`
 

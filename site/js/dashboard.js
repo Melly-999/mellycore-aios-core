@@ -1,10 +1,12 @@
 /*
- * MellyCore AIOS — Live Cockpit V2.
+ * MellyCore AIOS — Live Cockpit V2 (social source arena).
  *
  * Local committed data is fetched read-only from shared_context/**.
- * NASA media is fetched from the public, keyless Images API.
- * Model comparison text is deterministic local mock copy and is labeled
- * SIMULATED MODEL OUTPUT wherever it appears. No provider is called.
+ * One real external source is fetched from the demo provider — the public,
+ * keyless NASA Images API. Model-lens text is deterministic local mock copy
+ * and is labeled SIMULATED MODEL OUTPUT wherever it appears. Social action
+ * counts are deterministic demo numbers, labeled as such. No provider model
+ * is called and nothing is written or published.
  */
 
 (function () {
@@ -78,7 +80,35 @@
     feedRunning: true,
     feedTimer: null,
     feedPulseIndex: 0,
+    likedIds: new Set(),
+    savedIds: new Set(),
+    inspectOpen: false,
+    shareState: "",
   };
+
+  /* All visible dates/times/numbers are pinned to en-US or ISO-style output. */
+  function pad2(value) {
+    return String(value).padStart(2, "0");
+  }
+
+  function clockLabel(date) {
+    return `${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`;
+  }
+
+  function formatInt(value) {
+    return Number(value).toLocaleString("en-US");
+  }
+
+  /* Deterministic demo engagement numbers — clearly labeled, never real. */
+  function demoCount(seed, base, spread) {
+    let hash = 0;
+    for (let i = 0; i < seed.length; i += 1) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+    return base + (hash % spread);
+  }
+
+  function shortCount(value) {
+    return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : String(value);
+  }
 
   function escapeHTML(value) {
     return String(value == null ? "" : value)
@@ -167,7 +197,7 @@
 
   function initClock() {
     const clock = document.getElementById("dash-clock");
-    const tick = () => { clock.textContent = new Date().toLocaleTimeString([], { hour12: false }); };
+    const tick = () => { clock.textContent = clockLabel(new Date()); };
     tick();
     window.setInterval(tick, 1000);
   }
@@ -300,10 +330,28 @@
     target.innerHTML = `<dl class="evidence-grid"><dt>Run ID</dt><dd><code>${escapeHTML(ledger.run_id)}</code></dd><dt>Outcome</dt><dd>${escapeHTML(ledger.outcome)}</dd><dt>Started / completed</dt><dd>${escapeHTML(ledger.started_at)} → ${escapeHTML(ledger.completed_at)}</dd><dt>Branch / HEAD</dt><dd>${escapeHTML(ledger.branch)} @ <code>${escapeHTML((ledger.head_sha || "").slice(0, 12))}</code></dd><dt>Guard decision</dt><dd>${escapeHTML(guard.decision)}</dd><dt>Budget checks</dt><dd>${escapeHTML(guard.checks.per_run_budget)} / ${escapeHTML(guard.checks.daily_budget)}</dd><dt>Tokens</dt><dd>${firstIteration && firstIteration.tokens.measured ? escapeHTML(firstIteration.tokens.total) : "null · unmeasured"}</dd><dt>Repository mutations</dt><dd>${escapeHTML(ledger.repository_mutation_count)}</dd><dt>Remote actions</dt><dd>${escapeHTML(ledger.remote_action_count)}</dd></dl>`;
   }
 
+  function clampListItem(text) {
+    const safe = escapeHTML(text);
+    if (text.length <= 200) return `<li><div class="clamp-wrap"><span class="clamp-text">${safe}</span></div></li>`;
+    return `<li><div class="clamp-wrap"><span class="clamp-text is-clamped">${safe}</span><button type="button" class="clamp-toggle" aria-expanded="false">Show more</button></div></li>`;
+  }
+
+  function initClampToggles(listId) {
+    document.getElementById(listId).addEventListener("click", (event) => {
+      const toggle = event.target.closest(".clamp-toggle");
+      if (!toggle) return;
+      const textNode = toggle.parentElement.querySelector(".clamp-text");
+      const expanded = toggle.getAttribute("aria-expanded") === "true";
+      textNode.classList.toggle("is-clamped", expanded);
+      toggle.setAttribute("aria-expanded", String(!expanded));
+      toggle.textContent = expanded ? "Show more" : "Show less";
+    });
+  }
+
   function renderRoadmap() {
     const milestone = parseMilestone(state.roadmapText, "Milestone B — One Brain");
-    document.getElementById("roadmap-milestone").innerHTML = milestone.map((item) => `<li>${escapeHTML(item.replace(/\*\*/g, ""))}</li>`).join("");
-    document.getElementById("roadmap-queue").innerHTML = parseRunQueueTail(state.runQueueText, 8).map((item) => `<li>${escapeHTML(item)}</li>`).join("");
+    document.getElementById("roadmap-milestone").innerHTML = milestone.map((item) => clampListItem(item.replace(/\*\*/g, ""))).join("");
+    document.getElementById("roadmap-queue").innerHTML = parseRunQueueTail(state.runQueueText, 8).map((item) => clampListItem(item)).join("");
   }
 
   function readNasaForm() {
@@ -352,7 +400,7 @@
   function dateLabel(value) {
     if (!value) return "Date unavailable";
     const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
   }
 
   async function searchNasa(options) {
@@ -370,9 +418,10 @@
     if (state.nasaRequest) state.nasaRequest.abort();
     const controller = new AbortController();
     state.nasaRequest = controller;
-    document.getElementById("footer-system-state").innerHTML = "<i></i> NASA request active";
+    document.getElementById("footer-system-state").innerHTML = "<i></i> Demo provider request active";
     document.getElementById("nasa-result-count").textContent = "Loading";
-    document.getElementById("nasa-stage").innerHTML = '<div class="media-stage-loading"><span class="stage-scan" aria-hidden="true"></span><strong>Searching NASA Images API…</strong><span>Public request · no API key</span></div>';
+    document.getElementById("arena-search-input").value = values.q;
+    document.getElementById("nasa-stage").innerHTML = '<div class="media-stage-loading"><span class="stage-scan" aria-hidden="true"></span><strong>Searching the demo provider…</strong><span>NASA Images API · public request · no API key</span></div>';
 
     try {
       const payload = await getJSON(buildNasaSearchURL(values), { signal: controller.signal });
@@ -385,18 +434,18 @@
       if (state.nasaItems.length) {
         await selectNasaItem(0, { skipQueueRender: true });
       } else {
-        renderNasaEmpty("NASA returned no matching media. Try a broader query or remove the year range.");
+        renderNasaEmpty("The demo provider returned no matching media. Try a broader query or remove the year range.");
       }
-      document.getElementById("nasa-result-count").textContent = `${state.nasaTotal.toLocaleString()} hits`;
+      document.getElementById("nasa-result-count").textContent = `${formatInt(state.nasaTotal)} hits`;
       document.getElementById("nasa-page-label").textContent = `Page ${values.page}`;
       document.getElementById("nasa-prev-page").disabled = values.page <= 1;
       document.getElementById("nasa-next-page").disabled = state.nasaItems.length < values.pageSize;
-      document.getElementById("footer-system-state").innerHTML = "<i></i> NASA data loaded";
+      document.getElementById("footer-system-state").innerHTML = "<i></i> Real source loaded";
       if (!opts.preserveTask) updateTaskFromQuery(values.q);
     } catch (requestError) {
       if (requestError.name === "AbortError") return;
-      error.textContent = `NASA request unavailable: ${requestError.message}`;
-      renderNasaEmpty("The public NASA service could not be reached. Local cockpit data remains available.", true);
+      error.textContent = `Demo provider unavailable: ${requestError.message}`;
+      renderNasaEmpty("The demo provider (NASA Images API) could not be reached. Local cockpit data remains available.", true);
       document.getElementById("nasa-result-count").textContent = "Unavailable";
       document.getElementById("footer-system-state").innerHTML = "<i></i> Local data ready";
     } finally {
@@ -405,9 +454,10 @@
   }
 
   function renderNasaEmpty(message, isError) {
-    document.getElementById("nasa-stage").innerHTML = `<div class="media-stage-error"><strong>${isError ? "NASA feed unavailable" : "No media found"}</strong><span>${escapeHTML(message)}</span></div>`;
+    document.getElementById("nasa-stage").innerHTML = `<div class="media-stage-error"><strong>${isError ? "Source feed unavailable" : "No media found"}</strong><span>${escapeHTML(message)}</span></div>`;
     document.getElementById("nasa-queue").innerHTML = "";
     document.getElementById("nasa-stage-dots").innerHTML = "";
+    renderCompareSource();
   }
 
   function renderNasaQueue() {
@@ -458,18 +508,93 @@
     return '<div class="media-stage-error"><strong>Preview unavailable</strong><span>The NASA manifest has no compatible browser media file.</span></div>';
   }
 
+  function stageActionsMarkup(item) {
+    const liked = state.likedIds.has(item.nasaId);
+    const saved = state.savedIds.has(item.nasaId);
+    const likeCount = demoCount(`${item.nasaId}:like`, 240, 8600) + (liked ? 1 : 0);
+    const saveCount = demoCount(`${item.nasaId}:save`, 30, 940) + (saved ? 1 : 0);
+    const shareLabel = state.shareState === "copied" ? "Copied" : state.shareState === "failed" ? "Link" : "Share";
+    return `<div class="stage-actions" aria-label="Arena actions — demo counts, not real engagement">
+      <div class="stage-action-group"><button type="button" class="stage-action" data-stage-action="like" aria-pressed="${liked}" aria-label="Like (demo count)">♥</button><span>${shortCount(likeCount)}</span></div>
+      <div class="stage-action-group"><button type="button" class="stage-action" data-stage-action="inspect" aria-pressed="${state.inspectOpen}" aria-label="Inspect source metadata">◉</button><span>Inspect</span></div>
+      <div class="stage-action-group"><button type="button" class="stage-action" data-stage-action="save" aria-pressed="${saved}" aria-label="Save locally (demo count)">⬢</button><span>${shortCount(saveCount)}</span></div>
+      <div class="stage-action-group"><button type="button" class="stage-action" data-stage-action="share" aria-pressed="false" aria-label="Copy public source link">➦</button><span>${escapeHTML(shareLabel)}</span></div>
+      <span class="stage-actions-note">Demo counts</span>
+    </div>`;
+  }
+
+  function stageCaptionMarkup(item) {
+    const manifestLabel = item.manifestState === "resolved" ? "manifest resolved" : item.manifestState === "failed" ? "preview fallback" : "resolving manifest";
+    const description = state.inspectOpen && item.description
+      ? `<p class="stage-desc"><span class="stage-desc-label">Real source description</span>${escapeHTML(item.description.length > 420 ? `${item.description.slice(0, 420)}…` : item.description)}</p>`
+      : "";
+    const shareNote = state.shareState === "failed" ? `<p class="stage-share-note">Public link: images.nasa.gov/details/${escapeHTML(item.nasaId)}</p>` : "";
+    return `<div class="stage-meta">
+      <div class="stage-meta-labels"><span class="data-origin data-origin--nasa">Real source</span><span class="data-origin data-origin--mock">Demo provider</span></div>
+      <strong class="stage-handle">@nasa-images-api · demo provider</strong>
+      <h2>${escapeHTML(item.title)}</h2>
+      <p class="stage-caption">MellyCore ingests one real external source and runs simulated model lenses over it. Same arena, future sources: repos, PDFs, websites, changelogs, CVs, research, marketplace data.</p>
+      ${description}${shareNote}
+      <p class="stage-tags">#MellyCore #ExternalData #ModelArena #AIOS</p>
+      <p class="stage-fine">${escapeHTML(item.center)} · ${escapeHTML(dateLabel(item.dateCreated))} · ID ${escapeHTML(item.nasaId)} · <span class="stage-manifest-state">${escapeHTML(manifestLabel)}</span></p>
+    </div>`;
+  }
+
+  function handleStageAction(action, item) {
+    if (action === "like") {
+      state.likedIds.has(item.nasaId) ? state.likedIds.delete(item.nasaId) : state.likedIds.add(item.nasaId);
+    } else if (action === "save") {
+      state.savedIds.has(item.nasaId) ? state.savedIds.delete(item.nasaId) : state.savedIds.add(item.nasaId);
+    } else if (action === "inspect") {
+      state.inspectOpen = !state.inspectOpen;
+    } else if (action === "share") {
+      const publicURL = `https://images.nasa.gov/details/${encodeURIComponent(item.nasaId)}`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(publicURL).then(
+          () => { state.shareState = "copied"; renderNasaStage(); },
+          () => { state.shareState = "failed"; renderNasaStage(); }
+        );
+        return;
+      }
+      state.shareState = "failed";
+    }
+    renderNasaStage();
+  }
+
   function renderNasaStage() {
     const item = state.nasaItems[state.nasaSelected];
     if (!item) return;
-    const manifestLabel = item.manifestState === "resolved" ? "manifest resolved" : item.manifestState === "failed" ? "preview fallback" : "resolving manifest";
-    document.getElementById("nasa-stage").innerHTML = `${stageMediaMarkup(item)}<span class="stage-media-type">${escapeHTML(item.mediaType)}</span><div class="stage-meta"><span class="data-origin data-origin--nasa">Real NASA data <span class="stage-manifest-state">${escapeHTML(manifestLabel)}</span></span><h2>${escapeHTML(item.title)}</h2><p>${escapeHTML(item.center)} · ${escapeHTML(dateLabel(item.dateCreated))} · NASA ID ${escapeHTML(item.nasaId)}</p></div>`;
-    document.getElementById("compare-source-title").textContent = item.title;
+    const stage = document.getElementById("nasa-stage");
+    stage.innerHTML = `${stageMediaMarkup(item)}<span class="stage-media-type">${escapeHTML(item.mediaType)}</span>${stageActionsMarkup(item)}${stageCaptionMarkup(item)}`;
+    stage.querySelectorAll("[data-stage-action]").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        handleStageAction(button.dataset.stageAction, item);
+      });
+    });
+    renderCompareSource();
     renderModelOutputs();
+  }
+
+  function renderCompareSource() {
+    const target = document.getElementById("compare-source-card");
+    const item = state.nasaItems[state.nasaSelected];
+    if (!item) {
+      target.innerHTML = '<div class="compare-source-empty">No demo-provider result selected yet. Run a search in the Source Arena.</div>';
+      return;
+    }
+    target.innerHTML = `${item.preview ? `<img class="compare-source-thumb" src="${escapeHTML(item.preview)}" alt="">` : '<span class="compare-source-thumb compare-source-thumb--empty"></span>'}
+      <div class="compare-source-copy">
+        <div class="stage-meta-labels"><span class="data-origin data-origin--nasa">Real source</span><span class="data-origin data-origin--mock">Demo provider: NASA Images API</span></div>
+        <strong>${escapeHTML(item.title)}</strong>
+        <span>${escapeHTML(item.center)} · ${escapeHTML(dateLabel(item.dateCreated))} · ${escapeHTML(item.mediaType)} · ID ${escapeHTML(item.nasaId)}</span>
+      </div>`;
   }
 
   async function selectNasaItem(index, options) {
     if (!state.nasaItems.length) return;
     const normalized = (index + state.nasaItems.length) % state.nasaItems.length;
+    if (normalized !== state.nasaSelected) state.shareState = "";
     state.nasaSelected = normalized;
     if (!(options && options.skipQueueRender)) renderNasaQueue();
     renderNasaDots();
@@ -499,6 +624,7 @@
     renderModelOutputs();
     if (runSearch) {
       const task = TASKS[taskId];
+      document.getElementById("arena-search-input").value = task.q;
       document.getElementById("nasa-q").value = task.q;
       document.getElementById("nasa-media-type").value = task.mediaType;
       document.getElementById("nasa-year-start").value = task.yearStart;
@@ -512,7 +638,7 @@
     const item = state.nasaItems[state.nasaSelected];
     const title = item ? item.title : `${TASKS[state.activeTask].label} search`;
     const text = MODEL_COPY[state.activeTask][model.id];
-    const timestamp = new Date().toLocaleTimeString([], { hour12: false });
+    const timestamp = clockLabel(new Date());
     return `<article class="model-output-card" data-model-id="${model.id}" style="--model-accent:${model.color}"><div class="model-output-head"><strong>${model.name}</strong><span>Simulated model output</span></div><p>${escapeHTML(text)}</p><div class="model-output-foot"><span>Input label: ${escapeHTML(title)}</span><time>${escapeHTML(timestamp)}</time></div></article>`;
   }
 
@@ -556,6 +682,16 @@
 
   function initNasaInteractions() {
     document.getElementById("nasa-search-form").addEventListener("submit", (event) => { event.preventDefault(); searchNasa(); });
+    document.getElementById("arena-search-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const query = document.getElementById("arena-search-input").value.trim();
+      if (!query) return;
+      document.getElementById("nasa-q").value = query;
+      document.getElementById("nasa-year-start").value = "";
+      document.getElementById("nasa-year-end").value = "";
+      document.getElementById("nasa-page").value = "1";
+      searchNasa();
+    });
     document.querySelectorAll(".mission-rail [data-task]").forEach((button) => button.addEventListener("click", () => setActiveTask(button.dataset.task, true)));
     document.getElementById("nasa-prev-page").addEventListener("click", () => changeNasaPage(-1));
     document.getElementById("nasa-next-page").addEventListener("click", () => changeNasaPage(1));
@@ -612,6 +748,9 @@
     renderCompareTaskSelector();
     renderModelOutputs();
     setFeedRunning(true);
+
+    initClampToggles("roadmap-milestone");
+    initClampToggles("roadmap-queue");
 
     try {
       await loadLocalData();

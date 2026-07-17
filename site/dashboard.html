@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MellyCore AIOS Live Cockpit V2 — a static-first, read-only local command center with safe context telemetry and public NASA media search.">
+  <meta name="description" content="MellyCore AIOS Live Cockpit V2 — a static-first, read-only local command center framed as a social source arena: one real external source (demo provider: NASA Images API) under simulated model lenses.">
   <title>MellyCore AIOS — Live Cockpit V2</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="css/tokens.css">
@@ -22,8 +22,8 @@
       <nav class="dash-tabs" role="tablist" aria-label="Cockpit sections">
         <button class="dash-tab-btn" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="false" data-tab="overview">Overview</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-context" aria-controls="tab-context" aria-selected="false" data-tab="context">Context</button>
-        <button class="dash-tab-btn" role="tab" id="tab-btn-nasa" aria-controls="tab-nasa" aria-selected="true" data-tab="nasa">NASA Arena</button>
-        <button class="dash-tab-btn" role="tab" id="tab-btn-compare" aria-controls="tab-compare" aria-selected="false" data-tab="compare">Compare</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-nasa" aria-controls="tab-nasa" aria-selected="true" data-tab="nasa">Source Arena</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-compare" aria-controls="tab-compare" aria-selected="false" data-tab="compare">Model Arena</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-loops" aria-controls="tab-loops" aria-selected="false" data-tab="loops">Loops</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-evidence" aria-controls="tab-evidence" aria-selected="false" data-tab="evidence">Evidence</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-roadmap" aria-controls="tab-roadmap" aria-selected="false" data-tab="roadmap">Roadmap</button>
@@ -40,9 +40,9 @@
     <div class="dash-announcement" role="note">
       <span>Static-first cockpit</span>
       <span>Read only</span>
-      <span>NASA public API</span>
+      <span>Demo provider: NASA Images API</span>
       <span>No API key</span>
-      <span>No provider calls</span>
+      <span>No model calls</span>
     </div>
 
     <section class="dash-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview" hidden>
@@ -51,7 +51,7 @@
           <p class="dash-kicker">Command overview</p>
           <h1>Operational truth, one screen.</h1>
         </div>
-        <p>Committed project state is rendered locally. NASA media is fetched directly from its public API. Simulated output is labeled at the point of use.</p>
+        <p>Committed project state is rendered locally. External source media comes live from the demo provider (NASA Images API). Simulated output is labeled at the point of use.</p>
       </div>
       <div class="overview-grid">
         <article class="dash-surface overview-primary">
@@ -133,16 +133,40 @@
     </section>
 
     <section class="dash-panel dash-panel--nasa" id="tab-nasa" role="tabpanel" aria-labelledby="tab-btn-nasa">
+      <div class="arena-topbar">
+        <div class="arena-head">
+          <p class="dash-kicker">External Data Arena</p>
+          <span class="arena-head-note">One real external source · simulated model lenses · demo provider proves real ingestion</span>
+        </div>
+        <form id="arena-search-form" class="arena-search" role="search" aria-label="Find related sources">
+          <span class="arena-search-icon" aria-hidden="true">⌕</span>
+          <input id="arena-search-input" type="search" placeholder="Find related sources — try Apollo 11, aurora, Mars" autocomplete="off" aria-label="Find related sources in the demo provider">
+          <button type="submit" class="arena-search-go">Search</button>
+        </form>
+        <div class="provider-rail" aria-label="Source providers — one live demo provider, planned source types">
+          <span class="provider-chip provider-chip--live">Demo provider: NASA Images API · live</span>
+          <span class="provider-chip">GitHub repositories · planned</span>
+          <span class="provider-chip">PDFs &amp; docs · planned</span>
+          <span class="provider-chip">Websites · planned</span>
+          <span class="provider-chip">Changelogs · planned</span>
+          <span class="provider-chip">Issues · planned</span>
+          <span class="provider-chip">CVs &amp; job offers · planned</span>
+          <span class="provider-chip">Research sources · planned</span>
+          <span class="provider-chip">Marketplace data · planned</span>
+          <span class="provider-chip">Local project files · planned</span>
+        </div>
+      </div>
+
       <div class="nasa-layout">
         <aside class="mission-rail dash-surface">
-          <div class="surface-head"><span>Mission rail</span><span class="mission-index">01</span></div>
+          <div class="surface-head"><span>Arena rail</span><span class="mission-index">01</span></div>
           <div class="mission-context-mini">
             <span>Context health</span>
             <strong id="mission-context-health">7 valid · 0 findings</strong>
             <span class="mission-health-line"><i></i></span>
           </div>
-          <div class="task-selector" aria-label="NASA task selector">
-            <span class="rail-label">Task selector</span>
+          <div class="task-selector" aria-label="Demo preset selector">
+            <span class="rail-label">Demo presets</span>
             <button type="button" class="task-button" aria-pressed="true" data-task="apollo"><span>01</span>Apollo</button>
             <button type="button" class="task-button" aria-pressed="false" data-task="asteroid"><span>02</span>Asteroid</button>
             <button type="button" class="task-button" aria-pressed="false" data-task="solar-flare"><span>03</span>Solar flare</button>
@@ -150,14 +174,15 @@
             <button type="button" class="task-button" aria-pressed="false" data-task="mars"><span>05</span>Mars</button>
           </div>
           <div class="feed-control">
-            <span class="rail-label">Comparison feed</span>
+            <span class="rail-label">Lens feed</span>
             <span class="feed-state"><i></i><span id="feed-state-label">Simulated feed active</span></span>
             <button class="cockpit-button cockpit-button--secondary" id="feed-toggle" type="button" aria-pressed="true">Pause feed</button>
           </div>
         </aside>
 
         <aside class="search-rail dash-surface">
-          <div class="surface-head"><span>NASA public API controls</span><span class="data-origin data-origin--nasa">Real data</span></div>
+          <div class="surface-head"><span>Provider query</span><span class="data-origin data-origin--nasa">Real source</span></div>
+          <p class="rail-provider-note">Demo provider: NASA Images API · public · keyless</p>
           <form id="nasa-search-form" class="nasa-search-form">
             <label>q <input id="nasa-q" name="q" type="search" value="Apollo 11" autocomplete="off" required></label>
             <label>media_type
@@ -183,15 +208,15 @@
                 </select>
               </label>
             </div>
-            <button class="cockpit-button cockpit-button--primary" type="submit">Search NASA</button>
+            <button class="cockpit-button cockpit-button--primary" type="submit">Search source</button>
           </form>
           <p class="nasa-form-error" id="nasa-form-error" role="alert"></p>
-          <div class="queue-head"><span>Media queue</span><span id="nasa-result-count">Waiting</span></div>
-          <ol class="nasa-queue" id="nasa-queue" aria-label="NASA search results"></ol>
+          <div class="queue-head"><span>Source queue</span><span id="nasa-result-count">Waiting</span></div>
+          <ol class="nasa-queue" id="nasa-queue" aria-label="Demo provider search results"></ol>
           <div class="queue-pagination">
-            <button type="button" class="queue-page-btn" id="nasa-prev-page" aria-label="Previous NASA results page">Prev</button>
+            <button type="button" class="queue-page-btn" id="nasa-prev-page" aria-label="Previous results page">Prev</button>
             <span id="nasa-page-label">Page 1</span>
-            <button type="button" class="queue-page-btn" id="nasa-next-page" aria-label="Next NASA results page">Next</button>
+            <button type="button" class="queue-page-btn" id="nasa-next-page" aria-label="Next results page">Next</button>
           </div>
         </aside>
 
@@ -199,21 +224,21 @@
           <div class="media-stage" id="nasa-stage">
             <div class="media-stage-loading">
               <span class="stage-scan" aria-hidden="true"></span>
-              <strong>Opening NASA Arena…</strong>
-              <span>Public search request pending</span>
+              <strong>Opening the External Data Arena…</strong>
+              <span>Demo provider request pending · no API key</span>
             </div>
           </div>
-          <div class="stage-pagination" id="nasa-stage-dots" aria-label="Select NASA media"></div>
+          <div class="stage-pagination" id="nasa-stage-dots" aria-label="Select source media"></div>
           <div class="stage-nav">
-            <button type="button" id="nasa-prev-item" aria-label="Previous NASA media">↑</button>
+            <button type="button" id="nasa-prev-item" aria-label="Previous source media">↑</button>
             <span>Swipe or scroll to browse</span>
-            <button type="button" id="nasa-next-item" aria-label="Next NASA media">↓</button>
+            <button type="button" id="nasa-next-item" aria-label="Next source media">↓</button>
           </div>
         </section>
 
         <aside class="model-rail dash-surface">
-          <div class="surface-head"><span>Model feed</span><span class="data-origin data-origin--mock">Simulated</span></div>
-          <p class="model-feed-disclaimer">All model text below is deterministic mock copy. No provider is connected or called.</p>
+          <div class="surface-head"><span>Model lenses</span><span class="data-origin data-origin--mock">Simulated</span></div>
+          <p class="model-feed-disclaimer">Simulated model lenses over one real source. All lens text below is deterministic mock copy. No provider is connected or called.</p>
           <div class="model-feed" id="model-feed"></div>
         </aside>
       </div>
@@ -222,19 +247,18 @@
     <section class="dash-panel" id="tab-compare" role="tabpanel" aria-labelledby="tab-btn-compare" hidden>
       <div class="dash-section-head">
         <div>
-          <p class="dash-kicker">Model comparison</p>
+          <p class="dash-kicker">Model arena</p>
           <h1>One real source. Four simulated lenses.</h1>
         </div>
-        <p>Fable 5, Opus, GPT, and GLM panels are interface demonstrations only. Selecting a task changes deterministic local mock copy; it never sends a prompt.</p>
+        <p>Fable 5, Opus, GPT, and GLM panels are interface demonstrations only. Selecting a demo preset changes deterministic local mock copy; it never sends a prompt. The source card below is real demo-provider data.</p>
       </div>
       <div class="compare-command-row">
-        <div class="task-selector task-selector--horizontal" id="compare-task-selector" aria-label="Comparison task selector"></div>
+        <div class="task-selector task-selector--horizontal" id="compare-task-selector" aria-label="Demo preset selector"></div>
         <button class="cockpit-button cockpit-button--secondary" id="compare-feed-toggle" type="button" aria-pressed="true">Pause simulated feed</button>
       </div>
-      <div class="compare-source-strip">
-        <span class="data-origin data-origin--nasa">Selected media: real NASA API data</span>
-        <strong id="compare-source-title">Waiting for NASA result…</strong>
-      </div>
+      <article class="dash-surface compare-source-card" id="compare-source-card" aria-label="Selected real source">
+        <div class="compare-source-empty">Waiting for a demo-provider result…</div>
+      </article>
       <div class="compare-grid" id="compare-grid"></div>
     </section>
 
@@ -257,7 +281,7 @@
     <section class="dash-panel" id="tab-roadmap" role="tabpanel" aria-labelledby="tab-btn-roadmap" hidden>
       <div class="dash-section-head">
         <div><p class="dash-kicker">Roadmap orbit</p><h1>Completed work and next signals.</h1></div>
-        <p>Rendered from the committed roadmap and run queue. No task is inferred from external state.</p>
+        <p>Rendered from the committed roadmap and run queue. Long entries are clamped—expand to read the full committed text.</p>
       </div>
       <div class="roadmap-layout">
         <article class="dash-surface"><div class="surface-head"><span>Milestone B</span><span class="data-origin data-origin--local">ROADMAP.md</span></div><ol class="dash-line-list" id="roadmap-milestone"></ol></article>
@@ -271,9 +295,9 @@
       <span class="command-label">Command / status</span>
       <span>Local static</span>
       <span>Read only</span>
-      <span>NASA public API</span>
+      <span>Demo provider: NASA</span>
       <span>No API key</span>
-      <span>No provider calls</span>
+      <span>No model calls</span>
       <strong id="footer-system-state"><i></i> Cockpit ready</strong>
     </div>
   </footer>
