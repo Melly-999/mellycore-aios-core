@@ -1,6 +1,36 @@
 # Agent Handoff
 
-Latest completed task: `MELLYCORE-ROADMAP-COMMAND-001`
+Latest completed task: `MELLYCORE-POSITIONING-AND-HOLOGRAPHIC-UI-SPEC-FABLE-001`
+
+- Outcome: docs-only (spec, no implementation). Produced the product positioning and
+  "Holographic Social Source Cockpit" (HSSC-1) visual/UI specification at
+  `docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`: canonical public positioning
+  (safety-first AI operations cockpit; static, auditable, zero-autonomy by design;
+  five allowed claims plus an explicit never-claim list), the purple-first
+  three-layer visual language (space / hologram / feed; core + provider orbit ring +
+  amber safety containment hull; badge system; anti-gamer-RGB and anti-NASA-dominance
+  rules), six screen concepts with per-screen real/simulated/planned inventories and
+  required honesty labels, a CSS-only 3D/holographic effect spec (no Three.js/Canvas/
+  dependency/build step; reduced-motion, mobile flatten-to-2D, forced-colors, and
+  no-JS fallbacks; frozen `holo-pose` screenshot state), an implementation-ready
+  hand-off task `MELLYCORE-HOLOGRAPHIC-UI-SPEC-001` for Sonnet 5, README/portfolio
+  guidance, a 10-task ordered roadmap (v0.3.0 = the HSSC release, presentational +
+  docs only), and a hard recommendation (closeout/positioning/honesty-polish first;
+  cosmic visuals kept as stage, never as star; second live provider deferred past
+  v0.3.0).
+- Files: `docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md` (new),
+  `docs/tasks/MELLYCORE-POSITIONING-AND-HOLOGRAPHIC-UI-SPEC-FABLE-001.md` (new),
+  `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
+- Posture: docs-only; no site/dashboard HTML/CSS/JS, `ContextSource` record,
+  canonical provenance content, loop evidence, backend, secret, dependency, or
+  MellyTrade change. The spec authorizes nothing by itself; implementation requires
+  the separately approved `MELLYCORE-HOLOGRAPHIC-UI-SPEC-001` after
+  `MELLYCORE-HOLOGRAPHIC-UI-SPEC-REVIEW-001`.
+- Next: `MELLYCORE-PR3-CLOSEOUT-DOCS-001` (record the PR #3 merge at `fff50d2` in
+  shared state — note: PROJECT_STATE.md still describes pre-merge state), then
+  `MELLYCORE-POSITIONING-REFRESH-001`, per the spec's Section 7 order.
+
+Previous completed task: `MELLYCORE-ROADMAP-COMMAND-001`
 
 - Outcome: docs-only. Renamed/reframed the project status command from `/status-aios` to `/roadmap` as the standard operator command for a full project-status read: current project state, current branch/HEAD/release, milestone status, task counts remaining per milestone, current next task, recommended model/effort, safety posture, and push/release status. Searched the repository first and confirmed no command registry exists (no `.claude/commands/` directory, no visible command list/palette in `site/dashboard.html` or `site/js/dashboard.js`), so the task's own "docs-only unless a registry exists" instruction applied and no dashboard/site code was touched. `/status-aios` was found exactly once, as an informal section heading in `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001.md`'s preflight section — not "already referenced heavily," so it is **not** kept as a supported legacy alias (that historical heading is left as-is, unrenamed). Added the full `/roadmap` definition, field-by-field sourcing table, and an example answer shape at `docs/runbooks/MELLYCORE_ROADMAP_COMMAND.md`.
 - Files: `docs/runbooks/MELLYCORE_ROADMAP_COMMAND.md` (new), `docs/tasks/MELLYCORE-ROADMAP-COMMAND-001.md` (new), `shared_context/ROADMAP.md`, `shared_context/RUN_QUEUE.md`, `shared_context/PROJECT_STATE.md`, `shared_context/AGENT_HANDOFF.md`
