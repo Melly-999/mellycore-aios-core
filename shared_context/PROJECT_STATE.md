@@ -2,13 +2,13 @@
 
 Project name: MellyCore AIOS
 
-Status: static homepage scaffold implemented (`site/`, visual-QA-passed) and a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability; the reviewed persistence and token-semantics contract is now implemented and has recorded its first real, honestly-derived exercised run; still local-only, not published, no runtime
+Status: static homepage scaffold implemented (`site/`, visual-QA-passed); a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability, with its reviewed persistence and token-semantics contract implemented and exercised twice for real (`project-health`, two persisted runs); a local interactive dashboard preview added at `site/dashboard.html`. **Milestone A — Operational Trust is closed**, reviewed by `MELLYCORE-OPERATIONAL-TRUST-REVIEW-001`. Still local-only, not published, no runtime provider integration.
 
 Local repo path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
 
 Current branch: `publish/mellycore-main-001`
 
-Current HEAD (before this task's commit): `4272e1b` (`feat(aios): add live dashboard preview`), on top of `87077b9` (`chore(aios): register first project health run`), on top of `708590b` (`feat(aios): add guarded loop evidence persistence`)
+Current HEAD (before this task's commit): `d59db8a` (`chore(aios): run weekly l1 pilot`), on top of `4272e1b` (`feat(aios): add live dashboard preview`), on top of `87077b9` (`chore(aios): register first project health run`)
 
 MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker credentials, execution routes, or trading UI.
 
@@ -51,12 +51,17 @@ No remote contact, fetch, pull, or push from any automated task without explicit
 
 The static `site/` scaffold can be served locally with `py -3.9 -m http.server 4173 --bind 127.0.0.1 --directory site` (Python standard library only, no dependencies). See `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md` for the full quickstart.
 
+## Milestone A — Operational Trust: closed
+
+Reviewed and closed by `MELLYCORE-OPERATIONAL-TRUST-REVIEW-001`. All of the following were re-confirmed in that review, not just asserted: git root/branch/HEAD/clean working tree; the four key commits (`708590b` persistence/token contract, `87077b9` registered run, `4272e1b` dashboard preview, `d59db8a` weekly pilot) all present on `publish/mellycore-main-001`; both `project-health` run ledgers exist, are internally consistent with `project-health.state.json`, and are referenced correctly by `LOOP_REGISTRY.json`'s `state_file` pointer; the dashboard discovers both runs with no code change; `scripts.loop_ops validate` PASS; the full `test_loop_ops*` suite (150 tests) PASS; `scripts/validate_project_state.py` PASS. See `docs/tasks/MELLYCORE-OPERATIONAL-TRUST-REVIEW-001.md` for the full capability/risk/real-vs-mock summary and portfolio guidance.
+
 Next tasks:
 
-1. A weekly L1 pilot: run a report-only loop (`project-health` or another enabled L1 loop) on a recurring cadence and persist each run for real, still with no write scope for any loop. Remains a separate, not-yet-started task.
-2. `MELLYCORE-GITHUB-REMOTE-SETUP-001` — prepare GitHub remote setup without pushing; any push requires explicit operator approval.
-3. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
-4. Package shared context files for ChatGPT Project upload.
+1. Milestone B kickoff (recommended first task): a docs-only provenance-and-sensitivity-tagging spec for ingested shared context — no ingestion, database, MCP, or runtime implementation authorized yet. See the Milestone B section of `shared_context/ROADMAP.md` and `docs/tasks/MELLYCORE-OPERATIONAL-TRUST-REVIEW-001.md`.
+2. A second weekly L1 pilot run (repeat cadence): the first two runs were both explicit, human-invoked actions; no scheduler exists, so each future run remains a separate task until a scheduler is separately proposed and approved.
+3. `MELLYCORE-GITHUB-REMOTE-SETUP-001` — prepare GitHub remote setup without pushing; any push requires explicit operator approval.
+4. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
+5. Package shared context files for ChatGPT Project upload.
 
 Filename convention note: `docs/design/` and `docs/specs/` use underscore-separated filenames for major spec documents (e.g. `MELLYCORE_HOMEPAGE_SPEC_001.md`); `docs/tasks/` uses hyphenated task IDs for task reports (e.g. `MELLYCORE-HOMEPAGE-SPEC-001.md`), matching the task-ID convention used across the project. This split is intentional, not a broken reference.
 
