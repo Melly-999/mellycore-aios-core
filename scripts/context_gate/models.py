@@ -116,6 +116,18 @@ CANDIDATE_REQUIRED_FIELDS = (
 
 RECORD_ENVELOPE_FIELDS = {"preview", "record_status", "gate_audit", "envelope"}
 
+#: Fields Phase I2's ``apply`` requires, already filled with a human Step 7
+#: decision, before it will ever write a record. ``apply`` decides nothing;
+#: it only writes what a human has already decided (provenance spec Section
+#: 3, gate spec Section 8 Layer 1, implementation spec Section 5.3).
+REQUIRED_DECISION_FIELDS = (
+    "reviewed_by",
+    "reviewed_at",
+    "decision",
+    "decision_at",
+    "decision_rationale",
+)
+
 SOURCE_ID_RE = re.compile(r"^ctx-[a-z0-9][a-z0-9-]{2,127}$")
 
 _FIELD_NAME_RE = re.compile(

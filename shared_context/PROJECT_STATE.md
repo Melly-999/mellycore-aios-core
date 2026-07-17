@@ -2,13 +2,13 @@
 
 Project name: MellyCore AIOS
 
-Status: static homepage scaffold implemented (`site/`, visual-QA-passed); a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability, with its reviewed persistence and token-semantics contract implemented and exercised twice for real (`project-health`, two persisted runs); a local interactive dashboard preview added at `site/dashboard.html`; Context Gate Phase I1 implemented as a standard-library-only, read-only `validate-record`/`preview` CLI with 50 focused tests. **Milestone A — Operational Trust is closed**; Milestone B — One Brain is in implementation at I1. Still local-only, not published, no runtime provider integration.
+Status: static homepage scaffold implemented (`site/`, visual-QA-passed); a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability, with its reviewed persistence and token-semantics contract implemented and exercised twice for real (`project-health`, two persisted runs); a local interactive dashboard preview added at `site/dashboard.html`; Context Gate Phases I1-I2 implemented as a standard-library-only CLI with read-only validation/preview plus the first guarded write path. Six admitted preview records are now hash-verified in the immutable canonical store, C7 is backfilled in the aggregate-safe refusal log, and C8 is durably rejected. **Milestone A — Operational Trust is closed**; Milestone B — One Brain is implemented through I2. Still local-only, not published, no runtime provider integration.
 
 Local repo path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
 
 Current branch: `publish/mellycore-main-001`
 
-Current HEAD (before this task's commit): `ba810ba` (`docs(aios): specify context gate implementation`), on top of `b3597df` (`docs(aios): admit first context sources`), on top of `f7a2d9f` (`docs(aios): dry run context ingestion gate`)
+Current HEAD (before this task's final commit): `f05b5df9` (`feat(aios): implement context gate preview`)
 
 MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker credentials, execution routes, or trading UI.
 
@@ -69,12 +69,12 @@ Reviewed and closed by `MELLYCORE-OPERATIONAL-TRUST-REVIEW-001`. All of the foll
 
 `MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I1-001` is complete: added the Python 3.9/standard-library `scripts/context_gate/` package with `validate-record` and no-write `preview`, the full R1-R9 refusal path, fixed outcome precedence, trust/warning/parking/staleness/contradiction handling, deterministic JSON/canonical preview bytes, aggregate-safe refusal output, and 50 focused tests. The CLI has no `apply`, store writer, migration, refusal-log writer, index, audit, or dashboard code. The six admitted preview records remain byte-unchanged in their existing location; canonical `shared_context/context_provenance/` still does not exist. See `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I1-001.md`.
 
+`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001` is complete: added guarded `apply` with non-empty operator approval, expected-HEAD, and clean-tree gates; write-once canonical record enforcement; aggregate-safe append-only refusal logging; and apply-time R1-R9 rechecks. The real migration ran: all six admitted preview records were relocated with SHA-256 and parsed-field identity evidence in `shared_context/context_provenance/MIGRATION_001.md`, the C7 `trust_cap_violation` was backfilled as refusal-log line one, and the preview directory was tombstoned. The operator-directed C8 decline was previewed cleanly and written as a durable `decision: rejected` record without duplicating the machine-specific path value. Phase I2 has 82 focused context-gate tests total. I3 index/audit and I4 dashboard remain unimplemented. See `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001.md`.
+
 Next tasks:
 
-1. Milestone B (recommended next): `MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001` — separately approve and implement the first guarded write path, immutable store/refusal log, and verified migration exactly per the implementation spec.
-2. Operator decision: answer the blocked C8 repo-path question before or during I2 (spec recommendation: decline with a durable rejection record).
-3. `MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001` — after I2, add deterministic `rebuild-index` and read-only `audit --json`.
-4. Dashboard I4 — only after I2/I3, add the separately approved read-only Context tab under the dashboard-read contract.
+1. Milestone B (recommended next): `MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001` — add deterministic `rebuild-index` and read-only `audit --json`, including stale, supersession, refusal, blocked, and index-drift findings.
+2. Dashboard I4 — only after I3, add the separately approved read-only Context tab under the dashboard-read contract.
 5. A second weekly L1 pilot run (repeat cadence): each future run remains a separate, explicit human action; no scheduler exists.
 6. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
 

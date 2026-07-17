@@ -56,7 +56,9 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 
 - Context Gate implementation Phase I1 (`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I1-001` — Python 3.9/stdlib `ContextSource` models, `validate-record`, no-write `preview`, full R1-R9 checks, deterministic aggregate-safe output, warnings/parking/staleness/contradiction handling, 50 focused tests): **completed (read-only implementation)**. No apply/store/migration/refusal-log/index/audit/dashboard code exists; see `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I1-001.md`.
 
-The project's first six `ContextSource` records remain **admitted** in `shared_context/context_provenance_preview/`, byte-unchanged and pending canonical migration in separately approved implementation Phase I2. I1 now mechanically validates/previews new candidates; I2 (guarded writes/migration), I3 (index/audit), and I4 (dashboard) remain future separately approved tasks.
+- Context Gate implementation Phase I2 (`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001` — guarded `apply`, write-once canonical store, aggregate-safe refusal log, apply-time R1-R9 rechecks, verified migration of the six admissions, C7 backfill, preview tombstone, and durable C8 rejection): **completed**. See `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001.md`.
+
+The project's first six admitted `ContextSource` records now live in `shared_context/context_provenance/records/` with hash and parsed-field identity evidence in `MIGRATION_001.md`; C8 is resolved as a seventh canonical record with `decision: rejected`. I3 (deterministic index/read-only audit) and I4 (read-only dashboard Context tab) remain future separately approved tasks.
 
 ### Milestone C — Skill Intelligence
 

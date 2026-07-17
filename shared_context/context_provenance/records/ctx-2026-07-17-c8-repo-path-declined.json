@@ -1,0 +1,35 @@
+{
+  "allowed_use": "internal_summary_display",
+  "allowed_use_override_rationale": null,
+  "captured_at": "2026-07-17",
+  "claim": "The C8 machine-specific repository-path candidate was declined because the committed project state already serves the operational reasoning need.",
+  "decision": "rejected",
+  "decision_at": "2026-07-17",
+  "decision_rationale": "Operator requested C8 decline handling in MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001. Declined per the implementation spec recommendation: avoid duplicating private machine-specific configuration in the canonical context store because PROJECT_STATE.md already provides it.",
+  "envelope": {
+    "migrated_at": null,
+    "migrated_from": null,
+    "store": "canonical"
+  },
+  "gate_audit": {
+    "gate_spec_version": "MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001 v1.0",
+    "mode": "apply",
+    "validated_at": "2026-07-17",
+    "validation_outcome": "ACCEPT",
+    "warnings": []
+  },
+  "notes": "Verified directly from the operator task instruction. Durable resolution of the previously blocked C8 question; the machine-specific path value is intentionally not duplicated in this record.",
+  "proposed_by": "MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001",
+  "review_after": null,
+  "reviewed_at": "2026-07-17",
+  "reviewed_by": "Melly (operator) via task instruction; recorded by Codex",
+  "sensitivity_level": "internal",
+  "source_id": "ctx-2026-07-17-c8-repo-path-declined",
+  "source_identity": "Operator decision in MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001 resolving C8 from MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001",
+  "source_type": "user_provided",
+  "staleness_policy": "immutable_historical",
+  "superseded_by": null,
+  "trust_level": "high",
+  "trust_level_rationale": null,
+  "verification_state": "verified"
+}

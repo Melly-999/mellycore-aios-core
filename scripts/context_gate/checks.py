@@ -570,6 +570,40 @@ def _evaluate_candidate(
     )
 
 
+def recheck_record_for_write(
+    item: Mapping[str, Any],
+    *,
+    root: Path,
+    existing: Sequence[Mapping[str, Any]] = (),
+) -> Optional[str]:
+    """Defense-in-depth re-check used only at write time (Phase I2 ``apply``
+    and preview-store migration): re-runs R1-R9 against an already-decided
+    record's own fields and returns the first refusal reason code, or
+    ``None`` if every hard rule passes.
+
+    This intentionally reuses :func:`_evaluate_candidate` unchanged rather
+    than re-implementing R1-R9 a second time, so apply-time enforcement can
+    never silently drift from preview-time enforcement. It does not compute
+    or return warnings, parking, staleness, or contradiction results -- a
+    decided record has already been through Step 7 human review for those;
+    only the hard, non-overridable refusal rules are re-checked here.
+    """
+
+    source_id = str(item.get("source_id"))
+    result = _evaluate_candidate(
+        item,
+        1,
+        as_of=date.today(),
+        root=root,
+        existing=existing,
+        batch_items=(item,),
+        duplicate_ids=Counter({source_id: 1}),
+    )
+    if result.outcome == REFUSE:
+        return result.reason_codes[0]
+    return None
+
+
 def preview_batch(
     manifest: Mapping[str, Any],
     *,

@@ -84,3 +84,49 @@ def canonical_record(**overrides: Any) -> Dict[str, Any]:
 
 def canonical_bytes(**overrides: Any) -> bytes:
     return deterministic_json_bytes(canonical_record(**overrides))
+
+
+def preview_record(**overrides: Any) -> Dict[str, Any]:
+    """A decided, admitted record shaped exactly like the six real files
+    under ``shared_context/context_provenance_preview/``: full
+    ``ContextSource`` fields, a filled human decision, a ``gate_audit``
+    block, plus the preview-only envelope fields (``preview``,
+    ``record_status``) that migration must strip."""
+
+    base = record(
+        reviewed_by="Test Operator",
+        reviewed_at=AS_OF,
+        decision="admitted",
+        decision_at=AS_OF,
+        decision_rationale="Admitted for test purposes.",
+    )
+    base["gate_audit"] = {
+        "gate_spec_version": GATE_SPEC_VERSION,
+        "validation_outcome": "ACCEPT",
+        "warnings": [],
+        "validated_at": AS_OF,
+        "mode": "preview_hand_exercised",
+    }
+    base["preview"] = True
+    base["record_status"] = "ADMITTED_IN_PREVIEW_LOCATION_PENDING_CANONICAL_MIGRATION"
+    base.update(overrides)
+    return base
+
+
+def decided_candidate(**overrides: Any) -> Dict[str, Any]:
+    """A batch-manifest item already carrying its human Step 7 decision --
+    exactly the shape Phase I2's ``apply --batch`` requires before it will
+    write anything."""
+
+    item = candidate()
+    item.update(
+        {
+            "reviewed_by": "Test Operator",
+            "reviewed_at": AS_OF,
+            "decision": "admitted",
+            "decision_at": AS_OF,
+            "decision_rationale": "Admitted for test purposes.",
+        }
+    )
+    item.update(overrides)
+    return item

@@ -1,0 +1,35 @@
+{
+  "allowed_use": "internal_summary_display",
+  "allowed_use_override_rationale": null,
+  "captured_at": "2026-07-17",
+  "claim": "The Milestone B context ingestion gate specification exists at docs/specs/MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001.md, committed as c4f9b6f; it defines five validation outcomes, nine refusal rules, and a no-write preview mode, and authorizes no implementation.",
+  "decision": "admitted",
+  "decision_at": "2026-07-17",
+  "decision_rationale": "Admitted: file re-verified present at docs/specs/MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001.md and commit c4f9b6f re-verified with the exact message at review HEAD f7a2d9f. Immutable historical fact. Classification confirmed as proposed.",
+  "envelope": {
+    "migrated_at": "2026-07-17",
+    "migrated_from": "shared_context/context_provenance_preview/ctx-2026-07-17-gate-spec-exists.json",
+    "store": "canonical"
+  },
+  "gate_audit": {
+    "gate_spec_version": "MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001 v1.0",
+    "mode": "preview_hand_exercised",
+    "validated_at": "2026-07-17",
+    "validation_outcome": "ACCEPT",
+    "warnings": []
+  },
+  "notes": "Records the dated committed event; this dry run itself is a hand exercise of that spec's preview semantics.",
+  "proposed_by": "MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001 (Claude Code, hand-exercised)",
+  "review_after": null,
+  "reviewed_at": "2026-07-17",
+  "reviewed_by": "Melly (operator) — Step 7 review delegated via task MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001, executed by Claude Code (Fable 5)",
+  "sensitivity_level": "internal",
+  "source_id": "ctx-2026-07-17-gate-spec-exists",
+  "source_identity": "docs/specs/MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001.md; commit c4f9b6f (docs(aios): specify context ingestion gate)",
+  "source_type": "repo_derived",
+  "staleness_policy": "immutable_historical",
+  "superseded_by": null,
+  "trust_level": "high",
+  "trust_level_rationale": null,
+  "verification_state": "verified"
+}

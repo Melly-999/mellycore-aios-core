@@ -1,4 +1,4 @@
-"""CLI and record-shape tests for Context Gate Phase I1."""
+"""CLI and record-shape tests for Context Gate Phases I1-I2."""
 
 from __future__ import annotations
 
@@ -36,14 +36,19 @@ class ContextSourceModelTests(unittest.TestCase):
         findings = validate_record_shape(record(decision="admitted"))
         self.assertIn("missing_decision_metadata", {finding.code for finding in findings})
 
-    def test_all_six_shipped_preview_records_validate(self):
-        preview_dir = ROOT / "shared_context" / "context_provenance_preview"
-        paths = sorted(preview_dir.glob("ctx-*.json"))
-        self.assertEqual(6, len(paths))
+    def test_all_seven_shipped_canonical_records_validate(self):
+        records_dir = ROOT / "shared_context" / "context_provenance" / "records"
+        paths = sorted(records_dir.glob("ctx-*.json"))
+        self.assertEqual(7, len(paths))
+        decisions = []
         for path in paths:
             with self.subTest(path=path.name):
-                data = json.loads(path.read_text(encoding="utf-8"))
-                self.assertEqual((), validate_record_shape(data))
+                raw = path.read_bytes()
+                data = json.loads(raw.decode("utf-8"))
+                self.assertEqual((), validate_record_shape(data, raw_bytes=raw))
+                decisions.append(data["decision"])
+        self.assertEqual(6, decisions.count("admitted"))
+        self.assertEqual(1, decisions.count("rejected"))
 
     def test_canonical_deterministic_serialization_passes(self):
         data = canonical_record()
@@ -63,17 +68,19 @@ class ContextGateCliTests(unittest.TestCase):
         path.write_bytes(deterministic_json_bytes(payload))
         return path
 
-    def test_help_exposes_only_i1_commands(self):
+    def test_help_exposes_i1_and_i2_commands_only(self):
         parser = build_parser()
         help_text = parser.format_help()
         self.assertIn("preview", help_text)
         self.assertIn("validate-record", help_text)
+        self.assertIn("apply", help_text)
         subcommands = next(
             action.choices
             for action in parser._actions
             if isinstance(action, __import__("argparse")._SubParsersAction)
         )
-        self.assertEqual({"preview", "validate-record"}, set(subcommands))
+        # I3 (rebuild-index, audit) and I4 (dashboard) do not exist yet.
+        self.assertEqual({"preview", "validate-record", "apply"}, set(subcommands))
 
     def test_no_command_is_exit_one_and_writes_nothing(self):
         out = io.StringIO()
