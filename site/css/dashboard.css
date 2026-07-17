@@ -714,7 +714,62 @@ button {
   white-space: nowrap;
 }
 .provider-chip--live { border-color: var(--cockpit-violet); background: rgba(124,58,237,.18); color: #fff; box-shadow: 0 0 15px rgba(168,108,255,.28); }
+.provider-chip--next { border-color: var(--cockpit-amber); color: var(--cockpit-amber); }
 .rail-provider-note { padding: 9px 12px; border-bottom: 1px solid var(--cockpit-line); color: var(--cockpit-muted); font-family: var(--font-mono); font-size: .6rem; letter-spacing: .04em; text-transform: uppercase; }
+
+/* Next-provider preview (GitHub Repository) — planned/demo, product-positioning only */
+.provider-preview {
+  width: min(100%, 820px);
+  margin-inline: auto;
+  border: 1px solid var(--cockpit-line);
+  border-radius: var(--cockpit-radius);
+  background: linear-gradient(150deg, rgba(23, 14, 42, .9), rgba(8, 6, 16, .86));
+  box-shadow: inset 0 1px rgba(255,255,255,.03), 0 0 26px rgba(109, 40, 217, .08);
+}
+.provider-preview summary { min-height: 46px; padding: 9px 14px; }
+.provider-preview-summary { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.provider-preview-summary strong { font-size: .8rem; }
+.provider-preview-hint { color: var(--cockpit-muted); font-family: var(--font-mono); font-size: .58rem; letter-spacing: .04em; text-transform: uppercase; }
+.provider-preview-caret { color: var(--cockpit-muted); transition: transform .15s ease; }
+.provider-preview[open] .provider-preview-caret { transform: rotate(180deg); }
+.provider-preview-body { padding: 0 16px 18px; }
+.provider-preview-intro { margin-bottom: 12px; color: #cbd2dd; font-size: .74rem; line-height: 1.55; }
+.provider-preview-badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+.provider-preview-badge {
+  padding: 5px 11px;
+  border: 1px solid var(--cockpit-line);
+  border-radius: 999px;
+  color: var(--cockpit-muted);
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.provider-preview-badge--planned { border-color: var(--cockpit-amber); color: var(--cockpit-amber); }
+.provider-preview-badge--not-live { border-color: var(--cockpit-nasa); color: var(--cockpit-nasa); }
+.provider-preview-facts { margin: 0 0 14px; padding: 10px 12px; border: 1px solid var(--cockpit-line); border-radius: 8px; }
+.provider-preview-facts a { color: var(--cockpit-cyan); }
+.provider-preview-subhead { margin-bottom: 8px; color: var(--cockpit-violet); font-family: var(--font-mono); font-size: .62rem; letter-spacing: .05em; text-transform: uppercase; }
+.provider-topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.provider-topic-list li {
+  padding: 5px 11px;
+  border: 1px solid var(--cockpit-line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.02);
+  color: #cbd2dd;
+  font-size: .68rem;
+  white-space: nowrap;
+}
+.provider-lens-list { margin-bottom: 12px; padding: 0; }
+.provider-preview-footnote { margin: 0; color: var(--cockpit-muted); font-size: .68rem; line-height: 1.5; }
 
 .model-rail { display: flex; flex-direction: column; }
 .model-feed-disclaimer { padding: 10px 12px; border-bottom: 1px solid var(--cockpit-line); color: var(--cockpit-muted); font-size: .68rem; line-height: 1.45; }
