@@ -1,9 +1,9 @@
 {
-  "_label": "FROZEN SNAPSHOT — captured by running real local CLI commands during MELLYCORE-AIOS-LIVE-DASHBOARD-PREVIEW-001. Not live. Does not auto-refresh. Re-run the commands listed below and regenerate this file to update.",
-  "captured_at": "2026-07-16T20:21:30Z",
+  "_label": "FROZEN SNAPSHOT — re-confirmed by running the real local CLI commands during MELLYCORE-LIVE-COCKPIT-V2-001. Not live. Does not auto-refresh. Re-run the commands listed below and regenerate this file to update.",
+  "captured_at": "2026-07-17T07:46:46Z",
   "repository": "mellycore-aios",
   "branch": "publish/mellycore-main-001",
-  "head_sha": "87077b91468acaf9fb3d27879acc4f7070c11321",
+  "head_sha": "def9000b67daa3c1fd87dcc104ced124a9a7d4a2",
   "commands": {
     "validate": {
       "cmd": "py -3.9 -m scripts.loop_ops validate",
@@ -13,7 +13,7 @@
     "tests": {
       "cmd": "py -3.9 -m unittest discover -s tests -p \"test_loop_ops*.py\"",
       "exit_code": 0,
-      "result": "Ran 150 tests in 0.546s — OK",
+      "result": "Ran 150 tests in 0.583s — OK",
       "passed": 150,
       "failed": 0,
       "skipped": 0

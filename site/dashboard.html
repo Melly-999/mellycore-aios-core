@@ -3,162 +3,278 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MellyCore AIOS — local interactive dashboard preview. Reads real local project files where available; mock data is explicitly labeled. No live provider calls, no secrets, no write actions.">
-  <title>MellyCore AIOS — Live Dashboard Preview (Local)</title>
+  <meta name="description" content="MellyCore AIOS Live Cockpit V2 — a static-first, read-only local command center with safe context telemetry and public NASA media search.">
+  <title>MellyCore AIOS — Live Cockpit V2</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body class="dash-body">
-  <a class="skip-link" href="#dash-main">Skip to content</a>
+  <a class="skip-link" href="#dash-main">Skip to cockpit</a>
 
   <header class="dash-topbar">
-    <div class="container">
-      <span class="dash-brand">MellyCore AIOS <span class="hud-label hud-label--caution">Live Dashboard Preview</span></span>
-      <nav class="dash-tabs" role="tablist" aria-label="Dashboard sections">
-        <button class="dash-tab-btn" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="true" data-tab="overview">Overview</button>
+    <div class="cockpit-shell dash-topbar-inner">
+      <a class="dash-brand" href="index.html" aria-label="MellyCore AIOS homepage">
+        <span>MellyCore AIOS</span><span class="dash-version">Live Cockpit V2</span>
+      </a>
+      <nav class="dash-tabs" role="tablist" aria-label="Cockpit sections">
+        <button class="dash-tab-btn" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="false" data-tab="overview">Overview</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-context" aria-controls="tab-context" aria-selected="false" data-tab="context">Context</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-nasa" aria-controls="tab-nasa" aria-selected="true" data-tab="nasa">NASA Arena</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-compare" aria-controls="tab-compare" aria-selected="false" data-tab="compare">Compare</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-loops" aria-controls="tab-loops" aria-selected="false" data-tab="loops">Loops</button>
-        <button class="dash-tab-btn" role="tab" id="tab-btn-models" aria-controls="tab-models" aria-selected="false" data-tab="models">Models</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-evidence" aria-controls="tab-evidence" aria-selected="false" data-tab="evidence">Evidence</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-roadmap" aria-controls="tab-roadmap" aria-selected="false" data-tab="roadmap">Roadmap</button>
-        <button class="dash-tab-btn" role="tab" id="tab-btn-live" aria-controls="tab-live" aria-selected="false" data-tab="live">Live</button>
       </nav>
-      <span class="dash-localbadge">Local-only · read-only · 127.0.0.1</span>
+      <div class="dash-session" aria-label="Session status">
+        <span class="dash-session-dot" aria-hidden="true"></span>
+        <span>Local session</span>
+        <time class="dash-clock" id="dash-clock">--:--:--</time>
+      </div>
     </div>
   </header>
 
-  <main id="dash-main">
-    <div class="container">
-
-      <!-- ══════════ OVERVIEW ══════════ -->
-      <section class="dash-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview">
-        <div class="dash-grid">
-
-          <!-- Left panel -->
-          <div class="dash-col dash-col--left">
-            <div class="dash-card">
-              <span class="dash-card-label">Current milestone <span class="dash-real-flag">real</span></span>
-              <h3 id="ov-milestone">Loading…</h3>
-              <p class="dash-source-note">Source: shared_context/ROADMAP.md</p>
-            </div>
-            <div class="dash-card">
-              <span class="dash-card-label">Next recommended task <span class="dash-real-flag">real</span></span>
-              <p id="ov-next-task" class="dash-loading-note">Loading…</p>
-              <p class="dash-source-note">Source: shared_context/ROADMAP.md + RUN_QUEUE.md</p>
-            </div>
-            <div class="dash-card">
-              <span class="dash-card-label">Task queue tail <span class="dash-real-flag">real</span></span>
-              <ol class="dash-roadmap-list" id="ov-queue-tail"></ol>
-              <p class="dash-source-note">Source: shared_context/RUN_QUEUE.md (last entries)</p>
-            </div>
-          </div>
-
-          <!-- Center: Live System Map -->
-          <div class="dash-col dash-col--center">
-            <div class="dash-card">
-              <h3>MellyCore Live System Map</h3>
-              <p class="section-subtitle">Loop registry rendered as a hub-and-spoke map. Node color reflects each loop's real, currently-earned tier.</p>
-              <div class="dash-systemmap">
-                <div class="dash-systemmap-hub">AIOS</div>
-                <div class="dash-node-grid" id="ov-systemmap-nodes"></div>
-              </div>
-              <p class="dash-source-note">Source: shared_context/loops/LOOP_REGISTRY.json + audit snapshot <span class="dash-mock-flag">snapshot, not live</span></p>
-            </div>
-            <div class="dash-card">
-              <span class="dash-card-label">Test status <span class="dash-real-flag">real (snapshot)</span></span>
-              <p id="ov-test-status" class="dash-loading-note">Loading…</p>
-              <p class="dash-source-note">Captured by actually running the suite during this task. Does not re-run automatically — see site/data/dashboard_snapshot.json.</p>
-            </div>
-          </div>
-
-          <!-- Right panel -->
-          <div class="dash-col dash-col--right">
-            <div class="dash-card">
-              <span class="dash-card-label">Safety posture <span class="dash-real-flag">real</span></span>
-              <ul class="dash-roadmap-list" id="ov-safety-list"></ul>
-              <p class="dash-source-note">Source: shared_context/SAFETY_CONTRACT.md</p>
-            </div>
-            <div class="dash-card">
-              <span class="dash-card-label">Model router preview <span class="dash-mock-flag">documented, no live connection</span></span>
-              <ul class="dash-roadmap-list" id="ov-model-preview"></ul>
-              <p class="dash-source-note">Source: shared_context/MODEL_ROUTING.md</p>
-            </div>
-            <div class="dash-card">
-              <span class="dash-card-label">Latest evidence <span class="dash-real-flag">real</span></span>
-              <p id="ov-evidence" class="dash-loading-note">Loading…</p>
-              <p class="dash-source-note">Source: shared_context/loops/states/project-health.state.json</p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- ══════════ LOOPS ══════════ -->
-      <section class="dash-panel" id="tab-loops" role="tabpanel" aria-labelledby="tab-btn-loops" hidden>
-        <div class="dash-card">
-          <h3>Loop Registry <span class="dash-real-flag">real</span></h3>
-          <p class="section-subtitle">All 9 registered loops. Phase 1 is report-only: no loop may write to the repository, push, merge, deploy, or call a provider. Expand a card for its full contract.</p>
-          <p class="dash-source-note">Source: shared_context/loops/LOOP_REGISTRY.json, tiers from site/data/dashboard_snapshot.json <span class="dash-mock-flag">tiers are a snapshot, not live</span></p>
-          <div id="loops-list"></div>
-        </div>
-      </section>
-
-      <!-- ══════════ MODELS ══════════ -->
-      <section class="dash-panel" id="tab-models" role="tabpanel" aria-labelledby="tab-btn-models" hidden>
-        <div class="dash-card">
-          <h3>Model Router Preview <span class="dash-mock-flag">no live connection</span></h3>
-          <p class="section-subtitle">Documented routing roles from MODEL_ROUTING.md. Click a card to preview its role — this never sends a request; no provider is connected, no API key exists in this repository.</p>
-          <div class="dash-model-grid" id="models-grid"></div>
-          <div class="dash-model-detail dash-card" id="models-detail" hidden></div>
-        </div>
-      </section>
-
-      <!-- ══════════ EVIDENCE ══════════ -->
-      <section class="dash-panel" id="tab-evidence" role="tabpanel" aria-labelledby="tab-btn-evidence" hidden>
-        <div class="dash-card">
-          <h3>Latest Run Evidence <span class="dash-real-flag">real, persisted evidence</span></h3>
-          <p class="section-subtitle">The immutable run ledger for the one loop that has actually been exercised so far: <code>project-health</code>.</p>
-          <div id="evidence-body" class="dash-loading-note">Loading…</div>
-        </div>
-      </section>
-
-      <!-- ══════════ ROADMAP ══════════ -->
-      <section class="dash-panel" id="tab-roadmap" role="tabpanel" aria-labelledby="tab-btn-roadmap" hidden>
-        <div class="dash-card">
-          <h3>Milestone A — Operational Trust <span class="dash-real-flag">real</span></h3>
-          <ol class="dash-roadmap-list" id="roadmap-milestone-a"></ol>
-          <p class="dash-source-note">Source: shared_context/ROADMAP.md</p>
-        </div>
-        <div class="dash-card">
-          <h3>Recent Run Queue <span class="dash-real-flag">real</span></h3>
-          <ol class="dash-roadmap-list" id="roadmap-queue"></ol>
-          <p class="dash-source-note">Source: shared_context/RUN_QUEUE.md (last 8 entries)</p>
-        </div>
-      </section>
-
-      <!-- ══════════ LIVE ══════════ -->
-      <section class="dash-panel" id="tab-live" role="tabpanel" aria-labelledby="tab-btn-live" hidden>
-        <div class="dash-card">
-          <h3>Live Event Stream <span class="dash-mock-flag">simulated — mock data</span></h3>
-          <p class="section-subtitle">Every line below is generated client-side for visual preview only. There is no scheduler, no backend, no provider connection, and no autonomous execution anywhere in this repository.</p>
-          <div class="dash-live-controls">
-            <button class="dash-btn" id="live-toggle" aria-pressed="true">Pause stream</button>
-            <span class="dash-badge dash-badge--running" id="live-status-badge">Running</span>
-          </div>
-          <ul class="dash-eventlog" id="live-eventlog"></ul>
-        </div>
-      </section>
-
+  <main id="dash-main" class="cockpit-shell">
+    <div class="dash-announcement" role="note">
+      <span>Static-first cockpit</span>
+      <span>Read only</span>
+      <span>NASA public API</span>
+      <span>No API key</span>
+      <span>No provider calls</span>
     </div>
+
+    <section class="dash-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview" hidden>
+      <div class="dash-section-head">
+        <div>
+          <p class="dash-kicker">Command overview</p>
+          <h1>Operational truth, one screen.</h1>
+        </div>
+        <p>Committed project state is rendered locally. NASA media is fetched directly from its public API. Simulated output is labeled at the point of use.</p>
+      </div>
+      <div class="overview-grid">
+        <article class="dash-surface overview-primary">
+          <div class="surface-head"><span>Current milestone</span><span class="data-origin data-origin--local">Committed local data</span></div>
+          <h2 id="ov-milestone">Loading project state…</h2>
+          <p id="ov-next-task" class="dash-muted">Loading next task…</p>
+          <p class="dash-source-note">Source: shared_context/ROADMAP.md + RUN_QUEUE.md</p>
+        </article>
+        <article class="dash-surface">
+          <div class="surface-head"><span>Context health</span><span class="data-origin data-origin--snapshot">Audit snapshot</span></div>
+          <div class="metric-strip metric-strip--compact" id="ov-context-metrics"></div>
+          <p class="dash-source-note">Safe aggregates only. No claims, notes, private paths, or refused content.</p>
+        </article>
+        <article class="dash-surface">
+          <div class="surface-head"><span>Loop readiness</span><span class="data-origin data-origin--snapshot">Validated snapshot</span></div>
+          <div class="overview-orbit" id="ov-systemmap-nodes"></div>
+          <p id="ov-test-status" class="dash-source-note">Loading validation snapshot…</p>
+        </article>
+        <article class="dash-surface">
+          <div class="surface-head"><span>Safety contract</span><span class="data-origin data-origin--local">Committed local data</span></div>
+          <ul class="dash-line-list" id="ov-safety-list"></ul>
+        </article>
+        <article class="dash-surface overview-wide">
+          <div class="surface-head"><span>Latest evidence</span><span class="data-origin data-origin--local">Immutable ledger</span></div>
+          <p id="ov-evidence" class="dash-muted">Loading evidence…</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="dash-panel" id="tab-context" role="tabpanel" aria-labelledby="tab-btn-context" hidden>
+      <div class="dash-section-head">
+        <div>
+          <p class="dash-kicker">Context provenance</p>
+          <h1>What the cockpit is allowed to know.</h1>
+        </div>
+        <p>Content-free index metadata and aggregate audit output only. Records marked internal reasoning only are counted, never opened or rendered.</p>
+      </div>
+
+      <div class="context-command-row">
+        <span class="data-origin data-origin--local">INDEX.json · live local read</span>
+        <span class="data-origin data-origin--snapshot" id="context-audit-captured">Audit snapshot · loading</span>
+        <span class="context-index-state" id="context-index-state">Checking index…</span>
+      </div>
+
+      <div class="metric-strip" id="context-metrics" aria-label="Context audit aggregate metrics"></div>
+
+      <div class="context-layout">
+        <article class="dash-surface context-register">
+          <div class="surface-head">
+            <span>Display-safe provenance register</span>
+            <span id="context-visible-count">0 visible</span>
+          </div>
+          <div class="context-table-wrap">
+            <table class="context-table">
+              <thead>
+                <tr><th>Source ID</th><th>Type</th><th>Trust</th><th>Freshness</th><th>Decision</th></tr>
+              </thead>
+              <tbody id="context-records"></tbody>
+            </table>
+          </div>
+          <p class="dash-source-note">Only admitted records with <code>public_display</code> or <code>internal_summary_display</code> appear. Claims and notes are never requested.</p>
+        </article>
+        <aside class="context-rail">
+          <article class="dash-surface">
+            <div class="surface-head"><span>Allowed-use boundary</span></div>
+            <dl class="context-rule-list" id="context-use-counts"></dl>
+          </article>
+          <article class="dash-surface">
+            <div class="surface-head"><span>Aggregate-safe refusals</span></div>
+            <ul class="dash-line-list" id="context-refusals"></ul>
+            <p class="dash-source-note">Reason-code counts only. Refused content is never loaded.</p>
+          </article>
+          <article class="dash-surface context-safety-note">
+            <span class="context-lock" aria-hidden="true">◎</span>
+            <div><strong>Read boundary enforced in UI</strong><p>No canonical record body, notes field, private path, or refusal log line is fetched by this tab.</p></div>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <section class="dash-panel dash-panel--nasa" id="tab-nasa" role="tabpanel" aria-labelledby="tab-btn-nasa">
+      <div class="nasa-layout">
+        <aside class="mission-rail dash-surface">
+          <div class="surface-head"><span>Mission rail</span><span class="mission-index">01</span></div>
+          <div class="mission-context-mini">
+            <span>Context health</span>
+            <strong id="mission-context-health">7 valid · 0 findings</strong>
+            <span class="mission-health-line"><i></i></span>
+          </div>
+          <div class="task-selector" aria-label="NASA task selector">
+            <span class="rail-label">Task selector</span>
+            <button type="button" class="task-button" aria-pressed="true" data-task="apollo"><span>01</span>Apollo</button>
+            <button type="button" class="task-button" aria-pressed="false" data-task="asteroid"><span>02</span>Asteroid</button>
+            <button type="button" class="task-button" aria-pressed="false" data-task="solar-flare"><span>03</span>Solar flare</button>
+            <button type="button" class="task-button" aria-pressed="false" data-task="aurora"><span>04</span>Aurora</button>
+            <button type="button" class="task-button" aria-pressed="false" data-task="mars"><span>05</span>Mars</button>
+          </div>
+          <div class="feed-control">
+            <span class="rail-label">Comparison feed</span>
+            <span class="feed-state"><i></i><span id="feed-state-label">Simulated feed active</span></span>
+            <button class="cockpit-button cockpit-button--secondary" id="feed-toggle" type="button" aria-pressed="true">Pause feed</button>
+          </div>
+        </aside>
+
+        <aside class="search-rail dash-surface">
+          <div class="surface-head"><span>NASA public API controls</span><span class="data-origin data-origin--nasa">Real data</span></div>
+          <form id="nasa-search-form" class="nasa-search-form">
+            <label>q <input id="nasa-q" name="q" type="search" value="Apollo 11" autocomplete="off" required></label>
+            <label>media_type
+              <select id="nasa-media-type" name="media_type">
+                <option value="image" selected>image</option>
+                <option value="video">video</option>
+                <option value="audio">audio</option>
+                <option value="image,video,audio">all media</option>
+              </select>
+            </label>
+            <div class="form-pair">
+              <label>year_start <input id="nasa-year-start" name="year_start" type="number" inputmode="numeric" min="1900" max="2100" value="1968"></label>
+              <label>year_end <input id="nasa-year-end" name="year_end" type="number" inputmode="numeric" min="1900" max="2100" value="1972"></label>
+            </div>
+            <div class="form-pair">
+              <label>page <input id="nasa-page" name="page" type="number" inputmode="numeric" min="1" value="1"></label>
+              <label>page_size
+                <select id="nasa-page-size" name="page_size">
+                  <option value="8">8</option>
+                  <option value="12" selected>12</option>
+                  <option value="24">24</option>
+                  <option value="48">48</option>
+                </select>
+              </label>
+            </div>
+            <button class="cockpit-button cockpit-button--primary" type="submit">Search NASA</button>
+          </form>
+          <p class="nasa-form-error" id="nasa-form-error" role="alert"></p>
+          <div class="queue-head"><span>Media queue</span><span id="nasa-result-count">Waiting</span></div>
+          <ol class="nasa-queue" id="nasa-queue" aria-label="NASA search results"></ol>
+          <div class="queue-pagination">
+            <button type="button" class="queue-page-btn" id="nasa-prev-page" aria-label="Previous NASA results page">Prev</button>
+            <span id="nasa-page-label">Page 1</span>
+            <button type="button" class="queue-page-btn" id="nasa-next-page" aria-label="Next NASA results page">Next</button>
+          </div>
+        </aside>
+
+        <section class="media-stage-wrap" aria-live="polite">
+          <div class="media-stage" id="nasa-stage">
+            <div class="media-stage-loading">
+              <span class="stage-scan" aria-hidden="true"></span>
+              <strong>Opening NASA Arena…</strong>
+              <span>Public search request pending</span>
+            </div>
+          </div>
+          <div class="stage-pagination" id="nasa-stage-dots" aria-label="Select NASA media"></div>
+          <div class="stage-nav">
+            <button type="button" id="nasa-prev-item" aria-label="Previous NASA media">↑</button>
+            <span>Swipe or scroll to browse</span>
+            <button type="button" id="nasa-next-item" aria-label="Next NASA media">↓</button>
+          </div>
+        </section>
+
+        <aside class="model-rail dash-surface">
+          <div class="surface-head"><span>Model feed</span><span class="data-origin data-origin--mock">Simulated</span></div>
+          <p class="model-feed-disclaimer">All model text below is deterministic mock copy. No provider is connected or called.</p>
+          <div class="model-feed" id="model-feed"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="dash-panel" id="tab-compare" role="tabpanel" aria-labelledby="tab-btn-compare" hidden>
+      <div class="dash-section-head">
+        <div>
+          <p class="dash-kicker">Model comparison</p>
+          <h1>One real source. Four simulated lenses.</h1>
+        </div>
+        <p>Fable 5, Opus, GPT, and GLM panels are interface demonstrations only. Selecting a task changes deterministic local mock copy; it never sends a prompt.</p>
+      </div>
+      <div class="compare-command-row">
+        <div class="task-selector task-selector--horizontal" id="compare-task-selector" aria-label="Comparison task selector"></div>
+        <button class="cockpit-button cockpit-button--secondary" id="compare-feed-toggle" type="button" aria-pressed="true">Pause simulated feed</button>
+      </div>
+      <div class="compare-source-strip">
+        <span class="data-origin data-origin--nasa">Selected media: real NASA API data</span>
+        <strong id="compare-source-title">Waiting for NASA result…</strong>
+      </div>
+      <div class="compare-grid" id="compare-grid"></div>
+    </section>
+
+    <section class="dash-panel" id="tab-loops" role="tabpanel" aria-labelledby="tab-btn-loops" hidden>
+      <div class="dash-section-head">
+        <div><p class="dash-kicker">Loop operations</p><h1>Report-only by contract.</h1></div>
+        <p>All nine registered loops. Tier labels combine committed registry data with the frozen validation snapshot.</p>
+      </div>
+      <div class="dash-surface loops-register" id="loops-list"></div>
+    </section>
+
+    <section class="dash-panel" id="tab-evidence" role="tabpanel" aria-labelledby="tab-btn-evidence" hidden>
+      <div class="dash-section-head">
+        <div><p class="dash-kicker">Immutable evidence</p><h1>Runs that actually happened.</h1></div>
+        <p>The latest persisted <code>project-health</code> ledger is discovered from the local runs directory. Unmeasured remains null—never a fake zero.</p>
+      </div>
+      <article class="dash-surface evidence-body" id="evidence-body">Loading persisted run evidence…</article>
+    </section>
+
+    <section class="dash-panel" id="tab-roadmap" role="tabpanel" aria-labelledby="tab-btn-roadmap" hidden>
+      <div class="dash-section-head">
+        <div><p class="dash-kicker">Roadmap orbit</p><h1>Completed work and next signals.</h1></div>
+        <p>Rendered from the committed roadmap and run queue. No task is inferred from external state.</p>
+      </div>
+      <div class="roadmap-layout">
+        <article class="dash-surface"><div class="surface-head"><span>Milestone B</span><span class="data-origin data-origin--local">ROADMAP.md</span></div><ol class="dash-line-list" id="roadmap-milestone"></ol></article>
+        <article class="dash-surface"><div class="surface-head"><span>Recent run queue</span><span class="data-origin data-origin--local">RUN_QUEUE.md</span></div><ol class="dash-line-list" id="roadmap-queue"></ol></article>
+      </div>
+    </section>
   </main>
 
   <footer class="dash-bottombar">
-    <div class="container">
-      <span><strong>MellyCore AIOS</strong> — Phase 1, report-only</span>
-      <span class="dash-badge dash-badge--ready">Ready</span>
-      <span>No write scope · No secrets · No live providers · No push</span>
-      <span class="dash-clock" id="dash-clock">--:--:--</span>
+    <div class="cockpit-shell">
+      <span class="command-label">Command / status</span>
+      <span>Local static</span>
+      <span>Read only</span>
+      <span>NASA public API</span>
+      <span>No API key</span>
+      <span>No provider calls</span>
+      <strong id="footer-system-state"><i></i> Cockpit ready</strong>
     </div>
   </footer>
 

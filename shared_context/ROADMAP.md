@@ -60,7 +60,9 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 
 - Context Gate implementation Phase I3 (`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001` — deterministic content-free `rebuild-index`, canonical-record validation, computed read-only `audit --json`, freshness/supersession/refusal/index-drift findings, and 95 focused tests): **completed**. The shipped audit is clean: 7 valid records, zero stale, one expiring, one aggregate-safe refusal, zero blocked, zero findings. See `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001.md`.
 
-The project's first six admitted `ContextSource` records remain immutable in `shared_context/context_provenance/records/`; C8 remains a seventh canonical record with `decision: rejected`. I3's derived `INDEX.json` and read-only audit now satisfy the data dependency for I4. Only I4 (the separately approved read-only dashboard Context tab) remains in the four-phase Context Gate implementation sequence.
+- Context Gate dashboard Phase I4 / Live Cockpit V2 (`MELLYCORE-LIVE-COCKPIT-V2-001` — cinematic mobile-first `site/dashboard.html`, safe Context tab consuming the content-free index plus a clearly dated aggregate audit snapshot, keyless browser-side NASA Images API search/asset manifests, and an explicitly simulated Fable 5/Opus/GPT/GLM comparison feed): **completed locally, committed, not pushed or deployed**. The Context tab never opens canonical record bodies or the refusal log; NASA is the only external data request and requires no API key. See `docs/tasks/MELLYCORE-LIVE-COCKPIT-V2-001.md`.
+
+The project's first six admitted `ContextSource` records remain immutable in `shared_context/context_provenance/records/`; C8 remains a seventh canonical record with `decision: rejected`. The four-phase Context Gate implementation sequence is now complete through its read-only dashboard surface. No backend, provider integration, database, scheduler, or dashboard write path was introduced.
 
 ### Milestone C — Skill Intelligence
 
