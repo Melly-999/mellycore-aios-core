@@ -1,6 +1,13 @@
 # Agent Handoff
 
-Latest integration task: `MELLYCORE-LIVE-COCKPIT-V2-MAIN-INTEGRATION-001`
+Latest completed task: `MELLYCORE-LIVE-COCKPIT-V2-RELEASE-REVIEW-001`
+
+- Outcome: docs-only post-release close-out. **Live Cockpit V2 / Social Source Arena is released** as `v0.2.0`, tagged and published from `clean-origin/main` at `09db8a7`: <https://github.com/Melly-999/mellycore-aios-core/releases/tag/v0.2.0>. Fresh-clone validation at the release commit confirmed clean: `context_gate audit --json` 0 findings, `loop_ops validate` PASS, `validate_project_state` PASS, `unittest discover` 245/245 passing.
+- Files: `shared_context/AGENT_HANDOFF.md`, `shared_context/ROADMAP.md`, `shared_context/PROJECT_STATE.md`, `shared_context/RUN_QUEUE.md`, `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`, `docs/tasks/MELLYCORE-LIVE-COCKPIT-V2-RELEASE-REVIEW-001.md` (new)
+- Posture: docs-only; no dashboard/site code, `ContextSource` record, or canonical provenance content was touched; no push performed by this task.
+- Next: `MELLYCORE-GITHUB-SOURCE-PROVIDER-DEMO-001`.
+
+Previous integration task: `MELLYCORE-LIVE-COCKPIT-V2-MAIN-INTEGRATION-001`
 
 - Outcome: the public-presentation history from `clean-origin/main` and the latest Live Cockpit V2 / Social Source Arena history from `publish/mellycore-main-001` are integrated on the dedicated `integrate/live-cockpit-v2` branch for PR review; `main` is intentionally not updated by this task.
 - Conflict resolution: retained the evidence-backed public README and privacy hygiene from `MELLYCORE-PUBLIC-POLISH-001`, then added the implemented Loop Operations, Context Gate, Live Cockpit V2, GET-only NASA demo, and simulated-model facts. This handoff retains the latest project state and the public-polish record without restoring machine-specific QA paths or the unrelated remote URL.
@@ -238,7 +245,9 @@ Newest addition (`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001`, code/tests/shar
 
 Newest addition (`MELLYCORE-LIVE-COCKPIT-V2-001`, site/data/docs/shared-context only): completed Context Gate dashboard Phase I4 and upgraded `site/dashboard.html` into a cinematic mobile-first cockpit. The safe Context tab consumes only the content-free index plus a dated aggregate audit snapshot; NASA Arena uses the public keyless Images API and `/asset/{nasa_id}` manifests for real image/video/audio media; Fable 5/Opus/GPT/GLM responses are deterministic local mock copy labeled at every panel. Browser QA covered desktop, 390px emulation, Context filtering, media manifests, task switching, and pause/resume. No backend, provider, secret, database, scheduler, workflow, deploy, push, canonical-record mutation, or MellyTrade change. See `docs/tasks/MELLYCORE-LIVE-COCKPIT-V2-001.md`.
 
-Next recommended task: review the `integrate/live-cockpit-v2` pull request against `clean-origin/main`, then merge only with explicit operator approval. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-REVIEW-PUSH-001` and `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remain separately deferred/operator-gated; see `shared_context/RUN_QUEUE.md` for full sequencing. The static-first, safety-first posture continues to apply: no backend, authenticated provider integration, secrets, live/trading UX, deploy, or workflow publishing.
+PR #2 (`integrate/live-cockpit-v2` into `clean-origin/main`) was merged with a normal merge commit at `09db8a7`, and Live Cockpit V2 / Social Source Arena was released as `v0.2.0` from that commit: <https://github.com/Melly-999/mellycore-aios-core/releases/tag/v0.2.0>.
+
+Next recommended task: `MELLYCORE-GITHUB-SOURCE-PROVIDER-DEMO-001`. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-REVIEW-PUSH-001` and `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remain separately deferred/operator-gated; see `shared_context/RUN_QUEUE.md` for full sequencing. The static-first, safety-first posture continues to apply: no backend, authenticated provider integration, secrets, live/trading UX, deploy, or workflow publishing.
 
 Required final report format:
 

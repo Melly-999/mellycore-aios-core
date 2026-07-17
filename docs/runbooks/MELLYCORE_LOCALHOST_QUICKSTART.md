@@ -77,6 +77,8 @@ py -3.9 -m http.server 4174 --bind 127.0.0.1 --directory site
 
 **Page loads but assets 404:** confirm the command is run with `--directory site` from the repository root (`C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`), not from inside `site/` itself (which would require dropping `--directory site`) or from any other working directory.
 
+**Windows stale-checkout CRLF artifact:** if `py -3.9 -m scripts.context_gate audit --json` reports `non_deterministic_serialization` findings after a `.gitattributes` change to `shared_context/context_provenance/`, this is very likely a stale local working tree that predates the attribute being added, not a real regression — `.gitattributes` does not retroactively rewrite files already checked out with the wrong line ending. Before treating it as a real defect: validate against a fresh clone of the same commit, or run `git add --renormalize -- shared_context/context_provenance` in the existing checkout and re-run the audit. This does not change any provenance record content, only the working-tree line endings.
+
 ## Safety note
 
 This server binds only to `127.0.0.1` (loopback) via `--bind 127.0.0.1`. It is not reachable from the local network or the internet. Do not remove or change the `--bind 127.0.0.1` flag, and do not port-forward or otherwise expose this server beyond the local machine.
