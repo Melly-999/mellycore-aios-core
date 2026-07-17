@@ -48,7 +48,9 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 - Context Pack Generator: **pending** — spec exists (`CONTEXT_PACK_GENERATOR_SPEC.md`), no implementation.
 - Living Context Graph integration (beyond the current static preview section): **pending**.
 
-No `ContextSource` record has been created and no ingestion gate implementation exists yet — this milestone remains specification-only (two specs: provenance/sensitivity model, ingestion gate).
+- Ingestion gate dry run (`MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001` — hand-exercised the gate in preview semantics on an 8-item batch of committed repo facts: 5 ACCEPT, 1 ACCEPT_WITH_WARNINGS, 1 REFUSE via the generated-content trust cap, 1 NEEDS_HUMAN_REVIEW for private sensitivity, 0 contradictions; 6 draft `ContextSource` records created under `shared_context/context_provenance_preview/`, all pending human Step 7 review): **completed (preview only — nothing admitted)**. See `docs/tasks/MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001.md`.
+
+No `ContextSource` record has been **admitted** and no ingestion gate implementation exists yet — six draft records exist in a clearly marked preview directory, pending human review; everything else in this milestone remains specification-only.
 
 ### Milestone C — Skill Intelligence
 

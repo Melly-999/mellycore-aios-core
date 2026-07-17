@@ -1,0 +1,31 @@
+{
+  "preview": true,
+  "record_status": "DRAFT_PENDING_HUMAN_REVIEW",
+  "source_id": "ctx-2026-07-17-gate-spec-exists",
+  "source_identity": "docs/specs/MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001.md; commit c4f9b6f (docs(aios): specify context ingestion gate)",
+  "source_type": "repo_derived",
+  "verification_state": "verified",
+  "trust_level": "high",
+  "trust_level_rationale": null,
+  "sensitivity_level": "internal",
+  "allowed_use": "internal_summary_display",
+  "allowed_use_override_rationale": null,
+  "claim": "The Milestone B context ingestion gate specification exists at docs/specs/MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001.md, committed as c4f9b6f; it defines five validation outcomes, nine refusal rules, and a no-write preview mode, and authorizes no implementation.",
+  "captured_at": "2026-07-17",
+  "staleness_policy": "immutable_historical",
+  "review_after": null,
+  "proposed_by": "MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001 (Claude Code, hand-exercised)",
+  "reviewed_by": null,
+  "decision": null,
+  "decision_at": null,
+  "decision_rationale": null,
+  "superseded_by": null,
+  "notes": "Records the dated committed event; this dry run itself is a hand exercise of that spec's preview semantics.",
+  "gate_audit": {
+    "gate_spec_version": "MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001 v1.0",
+    "validation_outcome": "ACCEPT",
+    "warnings": [],
+    "validated_at": "2026-07-17",
+    "mode": "preview_hand_exercised"
+  }
+}
