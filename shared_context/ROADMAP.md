@@ -43,12 +43,12 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 ### Milestone B — One Brain
 
 - Provenance and sensitivity tagging for ingested context (`MELLYCORE-CONTEXT-PROVENANCE-AND-SENSITIVITY-SPEC-001` — docs-only spec: the `ContextSource` record shape, provenance/sensitivity/trust labels, an `allowed_use` matrix, staleness policy, contradiction precedence guidance, an admission workflow extending `SOURCE_INGEST_WORKFLOW.md`, and future dashboard fields): **completed (spec only)**.
-- Ingestion gate (validation before context is trusted): **pending** — recommended next; see `docs/tasks/MELLYCORE-CONTEXT-PROVENANCE-AND-SENSITIVITY-SPEC-001.md`.
+- Ingestion gate (validation before context is trusted) (`MELLYCORE-CONTEXT-INGESTION-GATE-SPEC-001` — docs-only spec: admissible inputs, required metadata, nine refusal rules, five validation outcomes with `ACCEPT` never meaning admitted, human-review parking conditions, stale-claim detection, contradiction routing to the ledger, write-once recording conventions, no-write preview mode with future operator-gated apply, and future implementation boundaries): **completed (spec only)** — no gate code exists; recommended next is a hand-exercised gate dry run; see `docs/tasks/MELLYCORE-CONTEXT-INGESTION-GATE-SPEC-001.md`.
 - Contradiction/freshness handling across shared context files: **pending** — precedence guidance specified above; the ledger and workflow already exist (`CONTRADICTION_LEDGER.md`, `SOURCE_INGEST_WORKFLOW.md`), no live entries yet.
 - Context Pack Generator: **pending** — spec exists (`CONTEXT_PACK_GENERATOR_SPEC.md`), no implementation.
 - Living Context Graph integration (beyond the current static preview section): **pending**.
 
-No `ContextSource` record has been created and no ingestion gate exists yet — this milestone remains specification-only.
+No `ContextSource` record has been created and no ingestion gate implementation exists yet — this milestone remains specification-only (two specs: provenance/sensitivity model, ingestion gate).
 
 ### Milestone C — Skill Intelligence
 
