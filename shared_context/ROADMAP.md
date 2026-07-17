@@ -1,5 +1,9 @@
 # Roadmap
 
+## Operator Commands
+
+`/roadmap`: Show current MellyCore AIOS roadmap, milestone completion, task counts, current release, branch state, next recommended task, model/effort recommendation, and safety reminders. This is the standard operator command for a full project-status read — docs-only, no CLI/dashboard implementation, answered by reading this file plus `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`, `shared_context/PROJECT_STATE.md`, `shared_context/MODEL_ROUTING.md`, and `shared_context/SAFETY_CONTRACT.md`. Full field-by-field definition: `docs/runbooks/MELLYCORE_ROADMAP_COMMAND.md`. Added by `MELLYCORE-ROADMAP-COMMAND-001`, superseding the informal one-off `/status-aios` heading previously used in a single task report; that heading was never a registered command and is not kept as an alias.
+
 ## 7-Day Setup
 
 - Confirm cross-agent context works across Codex, Claude, ChatGPT, GLM, Grok, Warp, Zed, VS Code, and GitHub.
