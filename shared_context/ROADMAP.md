@@ -58,7 +58,9 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 
 - Context Gate implementation Phase I2 (`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001` — guarded `apply`, write-once canonical store, aggregate-safe refusal log, apply-time R1-R9 rechecks, verified migration of the six admissions, C7 backfill, preview tombstone, and durable C8 rejection): **completed**. See `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001.md`.
 
-The project's first six admitted `ContextSource` records now live in `shared_context/context_provenance/records/` with hash and parsed-field identity evidence in `MIGRATION_001.md`; C8 is resolved as a seventh canonical record with `decision: rejected`. I3 (deterministic index/read-only audit) and I4 (read-only dashboard Context tab) remain future separately approved tasks.
+- Context Gate implementation Phase I3 (`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001` — deterministic content-free `rebuild-index`, canonical-record validation, computed read-only `audit --json`, freshness/supersession/refusal/index-drift findings, and 95 focused tests): **completed**. The shipped audit is clean: 7 valid records, zero stale, one expiring, one aggregate-safe refusal, zero blocked, zero findings. See `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001.md`.
+
+The project's first six admitted `ContextSource` records remain immutable in `shared_context/context_provenance/records/`; C8 remains a seventh canonical record with `decision: rejected`. I3's derived `INDEX.json` and read-only audit now satisfy the data dependency for I4. Only I4 (the separately approved read-only dashboard Context tab) remains in the four-phase Context Gate implementation sequence.
 
 ### Milestone C — Skill Intelligence
 

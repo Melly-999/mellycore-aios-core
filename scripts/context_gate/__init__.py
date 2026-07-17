@@ -1,4 +1,4 @@
-"""Read-only Context Gate preview and record-validation tooling."""
+"""Context Gate validation, guarded apply, derived index, and read-only audit."""
 
 from __future__ import annotations
 

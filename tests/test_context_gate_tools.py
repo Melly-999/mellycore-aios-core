@@ -1,4 +1,4 @@
-"""CLI and record-shape tests for Context Gate Phases I1-I2."""
+"""CLI and record-shape tests for Context Gate Phases I1-I3."""
 
 from __future__ import annotations
 
@@ -68,19 +68,24 @@ class ContextGateCliTests(unittest.TestCase):
         path.write_bytes(deterministic_json_bytes(payload))
         return path
 
-    def test_help_exposes_i1_and_i2_commands_only(self):
+    def test_help_exposes_i1_through_i3_commands_only(self):
         parser = build_parser()
         help_text = parser.format_help()
         self.assertIn("preview", help_text)
         self.assertIn("validate-record", help_text)
         self.assertIn("apply", help_text)
+        self.assertIn("rebuild-index", help_text)
+        self.assertIn("audit", help_text)
         subcommands = next(
             action.choices
             for action in parser._actions
             if isinstance(action, __import__("argparse")._SubParsersAction)
         )
-        # I3 (rebuild-index, audit) and I4 (dashboard) do not exist yet.
-        self.assertEqual({"preview", "validate-record", "apply"}, set(subcommands))
+        # I4 (dashboard) remains separately scoped and has no CLI command.
+        self.assertEqual(
+            {"preview", "validate-record", "apply", "rebuild-index", "audit"},
+            set(subcommands),
+        )
 
     def test_no_command_is_exit_one_and_writes_nothing(self):
         out = io.StringIO()

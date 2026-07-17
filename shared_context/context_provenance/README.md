@@ -16,7 +16,8 @@ Rules:
 - `MIGRATION_001.md` is the hash-verified manifest of the one-time relocation of the
   project's first six admitted `ContextSource` records from
   `shared_context/context_provenance_preview/`.
-- `INDEX.json` does not exist yet -- it is derived data reserved for implementation
-  Phase I3 (`rebuild-index`). Nothing in this store depends on it existing.
+- `INDEX.json` is derived, content-free routing metadata created by Phase I3's
+  deterministic `rebuild-index` command. It is never a source of truth; it may be
+  replaced only from validated `records/*.json`, and `audit` reports any drift.
 - No secrets, credentials, `.env` values, account identifiers, or MellyTrade content
   may ever appear in any file in this directory.

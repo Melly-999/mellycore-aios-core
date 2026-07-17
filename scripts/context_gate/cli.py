@@ -1,10 +1,12 @@
-"""Command-line interface for Context Gate implementation Phases I1-I2.
+"""Command-line interface for Context Gate implementation Phases I1-I3.
 
 Commands:
     preview          Evaluate a candidate batch with R1-R9 and write nothing.
     validate-record  Validate one draft, decided, preview, or canonical record.
     apply            Write already-decided records and/or migrate the six
                       admitted preview records. The only command that writes.
+    rebuild-index    Validate canonical records and replace only derived INDEX.json.
+    audit            Compute a content-free, read-only canonical-store audit.
 
 Exit codes:
     0  command completed and no record/item was invalid, refused, or skipped
@@ -15,9 +17,8 @@ Exit codes:
        or apply completed with at least one batch item refused or skipped
        for lacking a human decision
 
-Phase I2 adds the repository's first write path. It contains no
-`rebuild-index` or `audit` command (Phase I3) and no dashboard change
-(Phase I4). `apply` never performs a network or provider call.
+Phase I3 adds the derived index and read-only audit. No dashboard change
+(Phase I4), network, provider, MCP, database, scheduler, or watcher exists.
 """
 
 from __future__ import annotations
@@ -28,6 +29,8 @@ import sys
 from pathlib import Path
 from typing import Any, List, Mapping, Optional
 
+from . import audit as audit_module
+from . import index as index_module
 from . import store as store_module
 from .checks import OUTCOME_ORDER, REFUSE, load_default_records, preview_batch, repo_root
 from .models import (
@@ -216,14 +219,45 @@ def cmd_apply(args: argparse.Namespace) -> int:
     return EXIT_REFUSED if problem_items else EXIT_OK
 
 
+def cmd_rebuild_index(args: argparse.Namespace) -> int:
+    result = index_module.rebuild_index(repo_root())
+    print("MellyCore Context Provenance index")
+    print("  index:             {}".format(result.to_dict()["index"]))
+    print("  records:           {}".format(result.record_count))
+    print("  status:            {}".format(result.status))
+    print("  writes_performed:  {}".format(result.writes_performed))
+    return EXIT_OK
+
+
+def cmd_audit(args: argparse.Namespace) -> int:
+    result = audit_module.audit_store(repo_root())
+    if args.json:
+        _emit_json(result)
+    else:
+        counts = result["counts"]
+        print("MellyCore Context Provenance audit")
+        print("  as_of:             {}".format(result["as_of"]))
+        print("  records:           {}".format(counts["record_files"]))
+        print("  valid_records:     {}".format(counts["valid_records"]))
+        print("  stale_implicated:  {}".format(result["stale_implicated_count"]))
+        print("  blocked_or_parked: {}".format(result["blocked_or_parked_count"]))
+        print("  refusal_entries:   {}".format(result["refusal_entries"]))
+        print("  index_status:      {}".format(result["index_status"]))
+        print("  findings:          {}".format(result["finding_count"]))
+        print("  writes_performed:  0")
+        for finding in result["findings"]:
+            print("  finding: {}".format(finding["code"]))
+    return EXIT_INVALID if result["finding_count"] else EXIT_OK
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = SafeArgumentParser(
         prog=PROG,
         description=(
-            "MellyCore Context Gate Phases I1-I2. Read-only ContextSource validation, "
+            "MellyCore Context Gate Phases I1-I3. Read-only ContextSource validation, "
             "R1-R9 batch preview, and guarded apply (write-once store, preview-store "
-            "migration, aggregate-safe refusal log). No rebuild-index, audit, or "
-            "dashboard command exists yet."
+            "migration, aggregate-safe refusal log), plus deterministic content-free "
+            "index rebuild and read-only audit. No dashboard command exists yet."
         ),
     )
     sub = parser.add_subparsers(dest="command", parser_class=SafeArgumentParser)
@@ -251,6 +285,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_apply.add_argument("--json", action="store_true", help="Emit deterministic JSON")
     p_apply.set_defaults(func=cmd_apply)
+
+    p_rebuild = sub.add_parser(
+        "rebuild-index", help="Validate canonical records and replace only derived INDEX.json"
+    )
+    p_rebuild.set_defaults(func=cmd_rebuild_index)
+
+    p_audit = sub.add_parser("audit", help="Compute a read-only, content-free canonical-store audit")
+    p_audit.add_argument("--json", action="store_true", help="Emit deterministic JSON")
+    p_audit.set_defaults(func=cmd_audit)
     return parser
 
 
