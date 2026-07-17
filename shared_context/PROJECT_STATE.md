@@ -8,7 +8,7 @@ Local repo path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
 
 Current branch: `publish/mellycore-main-001`
 
-Current HEAD: `708590b` (`feat(aios): add guarded loop evidence persistence`), on top of `ac27dc6` (`docs(aios): sync project history and verify localhost boot`), on top of `27ccd9e` (`docs(aios): define loop evidence persistence contract`)
+Current HEAD (before this task's commit): `4272e1b` (`feat(aios): add live dashboard preview`), on top of `87077b9` (`chore(aios): register first project health run`), on top of `708590b` (`feat(aios): add guarded loop evidence persistence`)
 
 MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker credentials, execution routes, or trading UI.
 
@@ -38,6 +38,10 @@ Completed as the project's first tooling (non-site) capability: a machine-readab
 ## Live Dashboard Preview
 
 Added a local, interactive dashboard preview (`MELLYCORE-AIOS-LIVE-DASHBOARD-PREVIEW-001`) at `site/dashboard.html`: a cinematic cockpit UI with Overview/Loops/Models/Evidence/Roadmap/Live tabs. It reads real local files live at page load (`ROADMAP.md`, `RUN_QUEUE.md`, `LOOP_REGISTRY.json`, `project-health.state.json`, the latest persisted `project-health` run ledger, `MODEL_ROUTING.md`, `SAFETY_CONTRACT.md`) plus one frozen snapshot of real CLI output (`site/data/dashboard_snapshot.json`, from `validate`/`audit --json`/the test suite). The Live tab's event stream and its pause/resume control are mock data, explicitly labeled `[MOCK]` in the UI — there is no scheduler, backend, or provider connection. This is the only page in `site/` that uses JavaScript; the original static homepage (`site/index.html`, pure HTML/CSS, no JS, no packages) is unchanged in scope. Any local server used to preview it must still bind only to `127.0.0.1`, per the rule below.
+
+## Weekly L1 Pilot
+
+The first weekly L1 pilot run (`MELLYCORE-L1-WEEKLY-PILOT-001`) is complete: `project-health` was hand-run and persisted a second time via `persist-run --apply`, additively. New evidence: `shared_context/loops/runs/project-health/project-health--20260717T011848Z--6b2e45cf7c51.json`. The first run's evidence file is untouched (write-once immutability held). `shared_context/loops/states/project-health.state.json` now lists both runs in `run_history`. `audit --json` still reports `exercised: 1` for `project-health` (the tier counts loops, not run count — this is expected). The live dashboard (`site/dashboard.html`) picked up the new run automatically with no code change, since its Evidence tab discovers the latest run by listing the `runs/project-health/` directory rather than hardcoding a filename. There is still no scheduler; each weekly run remains a separate, explicit, human-invoked action.
 
 ## Safety boundaries (current)
 
