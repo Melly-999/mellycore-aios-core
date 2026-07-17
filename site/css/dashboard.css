@@ -455,7 +455,6 @@ button {
 }
 
 .mission-rail { display: flex; flex-direction: column; }
-.mission-index { font-size: .62rem; }
 .mission-context-mini { padding: 18px 14px; border-bottom: 1px solid var(--cockpit-line); }
 .mission-context-mini > span:first-child { display: block; color: var(--cockpit-muted); font-family: var(--font-mono); font-size: .63rem; text-transform: uppercase; }
 .mission-context-mini strong { display: block; margin-top: 6px; font-family: var(--font-mono); font-size: .74rem; }
@@ -807,6 +806,10 @@ button {
 .dash-bottombar .command-label { padding-left: 0; color: var(--cockpit-violet); text-transform: uppercase; }
 .dash-bottombar strong { display: flex; align-items: center; gap: 8px; margin-left: auto; padding-left: 18px; color: var(--cockpit-green); font-family: var(--font-mono); font-size: .64rem; white-space: nowrap; text-transform: uppercase; }
 
+@media (max-width: 1440px) {
+  .nasa-layout { grid-template-columns: 170px 250px minmax(370px, 1fr) 360px; }
+}
+
 @media (max-width: 1240px) {
   .nasa-layout { grid-template-columns: 190px 270px minmax(380px, 1fr); }
   .model-rail { grid-column: 1 / -1; max-height: none; }
@@ -892,7 +895,7 @@ button {
   .stage-desc { max-height: 88px; }
   .stage-fine { font-size: .55rem; }
   .stage-actions { right: 8px; bottom: 178px; gap: 11px; }
-  .stage-action { width: 42px; height: 42px; font-size: .95rem; }
+  .stage-action { width: 44px; height: 44px; font-size: .95rem; }
   .stage-pagination { left: 8px; }
   .stage-nav { justify-content: space-between; width: 100%; }
   .task-selector--horizontal { display: flex; width: 100%; }

@@ -166,6 +166,17 @@
     return parseBulletList(block);
   }
 
+  const COMPLETED_BULLET_PATTERN = /\*\*completed|\*\*complete\b|\bcomplete\s*\(|\bcompleted\s*\(|\bcomplete\s+locally|\bcompleted\s+locally/i;
+
+  function isCompletedRoadmapBullet(item) {
+    return COMPLETED_BULLET_PATTERN.test(item);
+  }
+
+  function findRecommendedNextTask(runQueueText) {
+    const matches = Array.from((runQueueText || "").matchAll(/Recommended next:\s*`([^`]+)`/g));
+    return matches.length ? matches[matches.length - 1][1].trim() : null;
+  }
+
   function activateTab(tabName, focus) {
     document.querySelectorAll(".dash-tab-btn").forEach((button) => {
       const selected = button.dataset.tab === tabName;
@@ -227,9 +238,17 @@
   function renderOverview() {
     const milestoneB = parseMilestone(state.roadmapText, "Milestone B — One Brain");
     document.getElementById("ov-milestone").textContent = "Milestone B — One Brain";
-    const next = milestoneB.find((item) => /next|dashboard|cockpit/i.test(item));
-    const queue = parseRunQueueTail(state.runQueueText, 1)[0];
-    document.getElementById("ov-next-task").textContent = (next || queue || "No queued task found.").replace(/\*\*/g, "");
+
+    const recommendedNext = findRecommendedNextTask(state.runQueueText);
+    const pendingMilestoneBullet = milestoneB.find(
+      (item) => /next|dashboard|cockpit/i.test(item) && !isCompletedRoadmapBullet(item)
+    );
+    const nextTaskText = recommendedNext
+      ? `Recommended next: \`${recommendedNext}\``
+      : pendingMilestoneBullet;
+    document.getElementById("ov-next-task").textContent = nextTaskText
+      ? nextTaskText.replace(/\*\*/g, "")
+      : "No queued task — ready for review.";
 
     document.getElementById("ov-context-metrics").innerHTML = contextMetricMarkup(contextAudit());
     const audit = contextAudit();
