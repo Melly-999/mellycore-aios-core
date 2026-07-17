@@ -1,0 +1,48 @@
+{
+  "_label": "FROZEN SNAPSHOT — re-confirmed by running the real local CLI commands during MELLYCORE-LIVE-COCKPIT-V2-001. Not live. Does not auto-refresh. Re-run the commands listed below and regenerate this file to update.",
+  "captured_at": "2026-07-17T07:46:46Z",
+  "repository": "mellycore-aios",
+  "branch": "publish/mellycore-main-001",
+  "head_sha": "def9000b67daa3c1fd87dcc104ced124a9a7d4a2",
+  "commands": {
+    "validate": {
+      "cmd": "py -3.9 -m scripts.loop_ops validate",
+      "exit_code": 0,
+      "result": "PASS no findings; registry is valid for Phase 1 (9 loops)"
+    },
+    "tests": {
+      "cmd": "py -3.9 -m unittest discover -s tests -p \"test_loop_ops*.py\"",
+      "exit_code": 0,
+      "result": "Ran 150 tests in 0.583s — OK",
+      "passed": 150,
+      "failed": 0,
+      "skipped": 0
+    },
+    "audit": {
+      "cmd": "py -3.9 -m scripts.loop_ops audit --json",
+      "exit_code": 0,
+      "summary": {
+        "loops_total": 9,
+        "loops_enabled": 6,
+        "loops_disabled": 3,
+        "configured": 9,
+        "validated": 9,
+        "exercised": 1,
+        "human_approved": 0,
+        "production_enabled": 0
+      },
+      "honest_assessment": "1 loop(s) have recorded run evidence. Review each loop's tiers before claiming readiness; configured is not exercised.",
+      "loop_tiers": [
+        { "loop_id": "project-health", "highest_earned_tier": "exercised" },
+        { "loop_id": "context-drift", "highest_earned_tier": "validated" },
+        { "loop_id": "safety-posture", "highest_earned_tier": "validated" },
+        { "loop_id": "pr-review-monitor", "highest_earned_tier": "validated" },
+        { "loop_id": "worktree-hygiene", "highest_earned_tier": "validated" },
+        { "loop_id": "changelog-drafter", "highest_earned_tier": "validated" },
+        { "loop_id": "ci-sweeper", "highest_earned_tier": "validated", "note": "DISABLED — L2, action_capable, not permitted in Phase 1" },
+        { "loop_id": "dependency-sweeper", "highest_earned_tier": "validated", "note": "DISABLED — L2, action_capable, not permitted in Phase 1" },
+        { "loop_id": "post-merge-cleanup", "highest_earned_tier": "validated", "note": "DISABLED — L2, action_capable, not permitted in Phase 1" }
+      ]
+    }
+  }
+}

@@ -16,6 +16,8 @@
   --color-dormant-gray: #6b7280;
   --color-dormant-text: #9ca3af; /* dormant-gray range lifted for AA text on void black */
   --color-active-route: #2563eb;
+  --color-blocked-red: #ef4444; /* dashboard preview: reserved for BLOCKED state only, never decorative */
+  --color-teal-active: #14b8a6; /* dashboard preview: knowledge/active-system accent alongside signal-cyan */
 
   --gradient-nebula: radial-gradient(
     ellipse at center,

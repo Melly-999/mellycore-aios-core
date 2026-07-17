@@ -1,0 +1,167 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "mellycore/loops/LOOP_REGISTRY_SCHEMA.json",
+  "title": "MellyCore Loop Registry",
+  "description": "Contract for shared_context/loops/LOOP_REGISTRY.json. This file is the human- and agent-readable contract. It is NOT executed by a JSON Schema library: MellyCore adds no runtime dependencies, so scripts/loop_ops/validators.py enforces these rules in plain Python. If the two ever disagree, that is a defect to fix, not a rule to reinterpret.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "registry_id",
+    "phase",
+    "global_kill_switch",
+    "global_forbidden_paths",
+    "lifecycle_states",
+    "levels",
+    "loops"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Registry contract version. scripts/loop_ops refuses a major version it does not understand rather than guessing."
+    },
+    "registry_id": { "type": "string" },
+    "task_id": { "type": "string" },
+    "phase": {
+      "type": "integer",
+      "description": "Rollout phase. Phase 1 is report-only and is enforced by the validator.",
+      "minimum": 1
+    },
+    "phase_note": { "type": "string" },
+    "global_kill_switch": {
+      "type": "object",
+      "required": ["file", "semantics"],
+      "properties": {
+        "file": { "type": "string" },
+        "semantics": { "type": "string" },
+        "present_by_default": { "type": "boolean" }
+      }
+    },
+    "global_forbidden_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "Baseline deny list. Every loop entry must repeat all of these in its own forbidden_paths."
+    },
+    "global_forbidden_paths_note": { "type": "string" },
+    "lifecycle_states": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "levels": { "type": "object" },
+    "loops": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/loop" }
+    }
+  },
+  "definitions": {
+    "loop": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "purpose",
+        "owner",
+        "level",
+        "status",
+        "trigger_type",
+        "suggested_cadence",
+        "read_scope",
+        "allowed_write_scope",
+        "forbidden_paths",
+        "state_file",
+        "verifier_required",
+        "max_attempts",
+        "stagnation_threshold",
+        "no_progress_threshold",
+        "per_run_token_budget",
+        "daily_token_budget",
+        "human_gates",
+        "kill_switch",
+        "success_condition",
+        "escalation_condition"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Unique kebab-case identifier. Duplicates are a validation failure."
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "purpose": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string", "minLength": 1 },
+        "level": {
+          "type": "string",
+          "enum": ["L0", "L1", "L2", "L3"],
+          "description": "L2 and L3 are action-capable and must not be enabled in Phase 1."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "DRAFT",
+            "REPORT_ONLY",
+            "ASSISTED",
+            "WAITING_HUMAN",
+            "PAUSED",
+            "BLOCKED",
+            "COMPLETED",
+            "DISABLED"
+          ]
+        },
+        "trigger_type": {
+          "type": "string",
+          "enum": ["manual", "schedule", "event"],
+          "description": "Declares intent only. No scheduler is installed or activated in Phase 1; 'schedule' and 'event' loops are still started by a human."
+        },
+        "suggested_cadence": { "type": "string" },
+        "read_scope": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "allowed_write_scope": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Must be empty for any loop that is enabled in Phase 1."
+        },
+        "forbidden_paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "Must be a superset of registry.global_forbidden_paths."
+        },
+        "state_file": { "type": "string", "minLength": 1 },
+        "state_file_is_template": {
+          "type": "boolean",
+          "description": "True means the state file need not exist yet. False means it must exist on disk."
+        },
+        "verifier_required": { "type": "boolean" },
+        "max_attempts": { "type": "integer", "minimum": 1 },
+        "stagnation_threshold": { "type": "integer", "minimum": 1 },
+        "no_progress_threshold": { "type": "integer", "minimum": 1 },
+        "per_run_token_budget": { "type": "integer", "minimum": 1 },
+        "daily_token_budget": { "type": "integer", "minimum": 1 },
+        "human_gates": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "At least one gate is required. A loop with no human gate is not acceptable in Phase 1."
+        },
+        "kill_switch": { "type": "string", "minLength": 1 },
+        "success_condition": { "type": "string", "minLength": 1 },
+        "escalation_condition": { "type": "string", "minLength": 1 },
+        "explicit_prohibitions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "disabled_reason": {
+          "type": "string",
+          "description": "Required when status is DISABLED, so that 'off' always carries a stated reason."
+        },
+        "allowed_write_scope_note": { "type": "string" }
+      }
+    }
+  }
+}

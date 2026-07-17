@@ -1,0 +1,35 @@
+{
+  "allowed_use": "internal_summary_display",
+  "allowed_use_override_rationale": null,
+  "captured_at": "2026-07-17",
+  "claim": "The project-health loop currently has exactly two persisted run-evidence files under shared_context/loops/runs/project-health/, both persisted via persist-run --apply with operator approval; audit --json reports exercised: 1 because the exercised tier counts loops, not runs.",
+  "decision": "admitted",
+  "decision_at": "2026-07-17",
+  "decision_rationale": "Admitted: both evidence files re-listed by directory read at review HEAD f7a2d9f — exactly two, filenames matching the claim. Volatile with review_after 2026-07-24 aligned to the weekly pilot cadence; this record is expected to be re-verified or superseded after the next run rather than silently trusted past that date. The embedded loops-not-runs clarification was confirmed against audit semantics.",
+  "envelope": {
+    "migrated_at": "2026-07-17",
+    "migrated_from": "shared_context/context_provenance_preview/ctx-2026-07-17-project-health-two-runs.json",
+    "store": "canonical"
+  },
+  "gate_audit": {
+    "gate_spec_version": "MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001 v1.0",
+    "mode": "preview_hand_exercised",
+    "validated_at": "2026-07-17",
+    "validation_outcome": "ACCEPT",
+    "warnings": []
+  },
+  "notes": "Volatile by design: the count changes with the next weekly pilot run, so review_after is set to the next expected weekly cadence date. The loops-not-runs clarification is embedded in the claim to prevent a future false-contradiction report against audit output.",
+  "proposed_by": "MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001 (Claude Code, hand-exercised)",
+  "review_after": "2026-07-24",
+  "reviewed_at": "2026-07-17",
+  "reviewed_by": "Melly (operator) — Step 7 review delegated via task MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001, executed by Claude Code (Fable 5)",
+  "sensitivity_level": "internal",
+  "source_id": "ctx-2026-07-17-project-health-two-runs",
+  "source_identity": "shared_context/loops/runs/project-health/ directory listing at commit c4f9b6f (two evidence files: project-health--20260715T195201Z--03d7b0224ae0.json, project-health--20260717T011848Z--6b2e45cf7c51.json)",
+  "source_type": "repo_derived",
+  "staleness_policy": "volatile",
+  "superseded_by": null,
+  "trust_level": "high",
+  "trust_level_rationale": null,
+  "verification_state": "verified"
+}
