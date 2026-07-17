@@ -136,7 +136,7 @@
       <div class="arena-topbar">
         <div class="arena-head">
           <p class="dash-kicker">External Data Arena</p>
-          <span class="arena-head-note">One real external source · simulated model lenses · demo provider proves real ingestion</span>
+          <span class="arena-head-note">One real source today (NASA) · next planned provider: GitHub Repository · simulated model lenses throughout</span>
         </div>
         <form id="arena-search-form" class="arena-search" role="search" aria-label="Find related sources">
           <span class="arena-search-icon" aria-hidden="true">⌕</span>
@@ -145,16 +145,89 @@
         </form>
         <div class="provider-rail" aria-label="Source providers — one live demo provider, planned source types">
           <span class="provider-chip provider-chip--live">Demo provider: NASA Images API · live</span>
-          <span class="provider-chip">GitHub repositories · planned</span>
+          <span class="provider-chip provider-chip--next">GitHub Repository · planned</span>
           <span class="provider-chip">PDFs &amp; docs · planned</span>
           <span class="provider-chip">Websites · planned</span>
           <span class="provider-chip">Changelogs · planned</span>
           <span class="provider-chip">Issues · planned</span>
           <span class="provider-chip">CVs &amp; job offers · planned</span>
           <span class="provider-chip">Research sources · planned</span>
-          <span class="provider-chip">Marketplace data · planned</span>
+          <span class="provider-chip">Marketplace / e-commerce data · planned</span>
           <span class="provider-chip">Local project files · planned</span>
         </div>
+
+        <details class="dash-details provider-preview" id="provider-preview-github">
+          <summary>
+            <span class="provider-preview-summary">
+              <span class="provider-preview-badge provider-preview-badge--planned">Planned provider</span>
+              <strong>GitHub Repository</strong>
+              <span class="provider-preview-hint">Next external data source · preview</span>
+            </span>
+            <span class="provider-preview-caret" aria-hidden="true">▾</span>
+          </summary>
+          <div class="dash-details-body provider-preview-body">
+            <p class="provider-preview-intro">NASA Images API is the current real, keyless demo provider — proof that the External Data Arena can ingest a live external source today. <strong>GitHub Repository</strong> is the next MellyCore-aligned planned/demo provider: a better fit for architecture intelligence, repo analysis, docs analysis, system design review, and model-lens comparison.</p>
+
+            <div class="provider-preview-badges">
+              <span class="provider-preview-badge provider-preview-badge--planned">Planned provider</span>
+              <span class="provider-preview-badge">External repository</span>
+              <span class="provider-preview-badge">Public source</span>
+              <span class="provider-preview-badge">Provenance required</span>
+              <span class="provider-preview-badge provider-preview-badge--not-live">Not live ingestion</span>
+            </div>
+
+            <dl class="context-rule-list provider-preview-facts">
+              <div><dt>Provider</dt><dd>GitHub Repository</dd></div>
+              <div><dt>Example source</dt><dd><a href="https://github.com/liquidslr/system-design-notes" target="_blank" rel="noopener noreferrer">liquidslr/system-design-notes</a></dd></div>
+              <div><dt>Source type</dt><dd>Public GitHub repository</dd></div>
+              <div><dt>Purpose</dt><dd>System design knowledge benchmark</dd></div>
+              <div><dt>Status</dt><dd>Planned / demo provider</dd></div>
+              <div><dt>Real ingestion</dt><dd>Not live — no frontend fetch is implemented</dd></div>
+            </dl>
+
+            <p class="provider-preview-subhead">Safe topic coverage — titles only, no chapter content reproduced</p>
+            <ul class="provider-topic-list">
+              <li>Scaling from zero to millions</li>
+              <li>Back-of-the-envelope estimation</li>
+              <li>System design framework</li>
+              <li>Rate limiter</li>
+              <li>Consistent hashing</li>
+              <li>Key-value store</li>
+              <li>Unique ID generator</li>
+              <li>URL shortener</li>
+              <li>Web crawler</li>
+              <li>Notification system</li>
+              <li>News feed</li>
+              <li>Chat system</li>
+              <li>Search autocomplete</li>
+              <li>YouTube-like video system</li>
+              <li>Google Drive-like storage</li>
+              <li>Proximity service</li>
+              <li>Distributed message queue</li>
+              <li>Metrics monitoring and alerting</li>
+              <li>Ad click aggregation</li>
+              <li>Hotel reservation</li>
+              <li>Distributed email</li>
+              <li>S3-like object storage</li>
+              <li>Real-time gaming leaderboard</li>
+              <li>Payment system</li>
+              <li>Digital wallet</li>
+              <li>Stock exchange</li>
+            </ul>
+
+            <p class="provider-preview-subhead">Planned model-lens use cases</p>
+            <ul class="dash-line-list provider-lens-list">
+              <li>Architecture summary</li>
+              <li>Bottleneck detection</li>
+              <li>Tradeoff extraction</li>
+              <li>Scaling risk review</li>
+              <li>Implementation task generation</li>
+              <li>Provenance-aware source comparison</li>
+            </ul>
+
+            <p class="provider-preview-footnote">Product-positioning preview only, not live ingestion. External Data Arena's other future providers — PDFs/docs, websites, changelogs, issues, CVs/job offers, research sources, marketplace/e-commerce data, and local project files — remain planned, none implemented.</p>
+          </div>
+        </details>
       </div>
 
       <div class="nasa-layout">
