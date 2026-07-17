@@ -42,13 +42,13 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 
 ### Milestone B — One Brain
 
-Recommended first task: a docs-only provenance-and-sensitivity-tagging spec (see `docs/tasks/MELLYCORE-OPERATIONAL-TRUST-REVIEW-001.md` for the full rationale). No ingestion, database, MCP, or runtime implementation is authorized by this note; a spec must exist and be reviewed before any code change, matching this project's established docs-first pattern.
-
-- Provenance and sensitivity tagging for ingested context: **pending** — recommended next.
-- Ingestion gate (validation before context is trusted): **pending**.
-- Contradiction/freshness handling across shared context files: **pending**.
-- Context Pack Generator: **pending**.
+- Provenance and sensitivity tagging for ingested context (`MELLYCORE-CONTEXT-PROVENANCE-AND-SENSITIVITY-SPEC-001` — docs-only spec: the `ContextSource` record shape, provenance/sensitivity/trust labels, an `allowed_use` matrix, staleness policy, contradiction precedence guidance, an admission workflow extending `SOURCE_INGEST_WORKFLOW.md`, and future dashboard fields): **completed (spec only)**.
+- Ingestion gate (validation before context is trusted): **pending** — recommended next; see `docs/tasks/MELLYCORE-CONTEXT-PROVENANCE-AND-SENSITIVITY-SPEC-001.md`.
+- Contradiction/freshness handling across shared context files: **pending** — precedence guidance specified above; the ledger and workflow already exist (`CONTRADICTION_LEDGER.md`, `SOURCE_INGEST_WORKFLOW.md`), no live entries yet.
+- Context Pack Generator: **pending** — spec exists (`CONTEXT_PACK_GENERATOR_SPEC.md`), no implementation.
 - Living Context Graph integration (beyond the current static preview section): **pending**.
+
+No `ContextSource` record has been created and no ingestion gate exists yet — this milestone remains specification-only.
 
 ### Milestone C — Skill Intelligence
 

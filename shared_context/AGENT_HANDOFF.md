@@ -187,7 +187,9 @@ Last completed tasks (most recent last):
 9. `MELLYCORE-STATIC-VISUAL-QA-001`
 10. `MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001`
 
-Next recommended task: Milestone B kickoff — a docs-only provenance-and-sensitivity-tagging spec for ingested shared context (see `shared_context/ROADMAP.md` Milestone B and `docs/tasks/MELLYCORE-OPERATIONAL-TRUST-REVIEW-001.md`); no ingestion, database, MCP, or runtime implementation is authorized yet. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-REVIEW-PUSH-001` and `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remain separately deferred/operator-gated; see `shared_context/RUN_QUEUE.md` for full sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
+Latest addition (`MELLYCORE-CONTEXT-PROVENANCE-AND-SENSITIVITY-SPEC-001`, docs-only): the first Milestone B spec, defining the `ContextSource` record, provenance/sensitivity/trust labels, an `allowed_use` matrix, staleness policy, contradiction precedence guidance, an admission workflow, and future dashboard fields — see `docs/specs/MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001.md`. No record, gate, or code was created.
+
+Next recommended task: `MELLYCORE-CONTEXT-INGESTION-GATE-SPEC-001` — a docs-only spec for the gate logic that enforces the provenance/sensitivity model above; no ingestion, database, MCP, or runtime implementation is authorized yet. `MELLYCORE-OBSIDIAN-3D-VISUAL-LANGUAGE-REVIEW-PUSH-001` and `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` remain separately deferred/operator-gated; see `shared_context/RUN_QUEUE.md` for full sequencing. The static-first, safety-first posture continues to apply: no runtime, no providers, no secrets, no live/trading UX, no deploy or workflow publishing.
 
 Required final report format:
 

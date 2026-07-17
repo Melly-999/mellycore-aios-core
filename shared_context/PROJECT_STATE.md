@@ -8,7 +8,7 @@ Local repo path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
 
 Current branch: `publish/mellycore-main-001`
 
-Current HEAD (before this task's commit): `d59db8a` (`chore(aios): run weekly l1 pilot`), on top of `4272e1b` (`feat(aios): add live dashboard preview`), on top of `87077b9` (`chore(aios): register first project health run`)
+Current HEAD (before this task's commit): `befaee5` (`docs(aios): close operational trust milestone`), on top of `d59db8a` (`chore(aios): run weekly l1 pilot`), on top of `4272e1b` (`feat(aios): add live dashboard preview`)
 
 MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker credentials, execution routes, or trading UI.
 
@@ -55,9 +55,13 @@ The static `site/` scaffold can be served locally with `py -3.9 -m http.server 4
 
 Reviewed and closed by `MELLYCORE-OPERATIONAL-TRUST-REVIEW-001`. All of the following were re-confirmed in that review, not just asserted: git root/branch/HEAD/clean working tree; the four key commits (`708590b` persistence/token contract, `87077b9` registered run, `4272e1b` dashboard preview, `d59db8a` weekly pilot) all present on `publish/mellycore-main-001`; both `project-health` run ledgers exist, are internally consistent with `project-health.state.json`, and are referenced correctly by `LOOP_REGISTRY.json`'s `state_file` pointer; the dashboard discovers both runs with no code change; `scripts.loop_ops validate` PASS; the full `test_loop_ops*` suite (150 tests) PASS; `scripts/validate_project_state.py` PASS. See `docs/tasks/MELLYCORE-OPERATIONAL-TRUST-REVIEW-001.md` for the full capability/risk/real-vs-mock summary and portfolio guidance.
 
+## Milestone B — One Brain: started (spec only)
+
+`MELLYCORE-CONTEXT-PROVENANCE-AND-SENSITIVITY-SPEC-001` is complete (docs-only): specified the `ContextSource` record shape, the provenance labels (`user_provided`/`repo_derived`/`generated`/`externally_sourced` × `verified`/`unverified`, with a `trust_level` default lookup), the sensitivity labels (`public`/`internal`/`private`/`secret`/`regulated_high_risk`, with a hard refusal rule for the last two and an `allowed_use` default matrix), a staleness/expiry policy directly motivated by the two stale-claim bugs `MELLYCORE-OPERATIONAL-TRUST-REVIEW-001` found, contradiction precedence guidance that still always routes to `CONTRADICTION_LEDGER.md` for human resolution, an admission workflow generalizing `SOURCE_INGEST_WORKFLOW.md`'s ten steps, and future (unbuilt) dashboard fields. See `docs/specs/MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001.md`. No `ContextSource` record exists yet; no ingestion gate, dashboard code, database, MCP, or backend was implemented.
+
 Next tasks:
 
-1. Milestone B kickoff (recommended first task): a docs-only provenance-and-sensitivity-tagging spec for ingested shared context — no ingestion, database, MCP, or runtime implementation authorized yet. See the Milestone B section of `shared_context/ROADMAP.md` and `docs/tasks/MELLYCORE-OPERATIONAL-TRUST-REVIEW-001.md`.
+1. Milestone B (recommended next): `MELLYCORE-CONTEXT-INGESTION-GATE-SPEC-001` — a docs-only spec for the actual gate logic that enforces the provenance/sensitivity model above. No ingestion, database, MCP, or runtime implementation authorized yet.
 2. A second weekly L1 pilot run (repeat cadence): the first two runs were both explicit, human-invoked actions; no scheduler exists, so each future run remains a separate task until a scheduler is separately proposed and approved.
 3. `MELLYCORE-GITHUB-REMOTE-SETUP-001` — prepare GitHub remote setup without pushing; any push requires explicit operator approval.
 4. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
