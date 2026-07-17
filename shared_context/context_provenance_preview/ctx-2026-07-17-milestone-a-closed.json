@@ -1,6 +1,6 @@
 {
   "preview": true,
-  "record_status": "DRAFT_PENDING_HUMAN_REVIEW",
+  "record_status": "ADMITTED_IN_PREVIEW_LOCATION_PENDING_CANONICAL_MIGRATION",
   "source_id": "ctx-2026-07-17-milestone-a-closed",
   "source_identity": "shared_context/ROADMAP.md and shared_context/PROJECT_STATE.md as of commit c4f9b6f; closure commit befaee5 (docs(aios): close operational trust milestone)",
   "source_type": "repo_derived",
@@ -15,10 +15,11 @@
   "staleness_policy": "immutable_historical",
   "review_after": null,
   "proposed_by": "MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001 (Claude Code, hand-exercised)",
-  "reviewed_by": null,
-  "decision": null,
-  "decision_at": null,
-  "decision_rationale": null,
+  "reviewed_by": "Melly (operator) — Step 7 review delegated via task MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001, executed by Claude Code (Fable 5)",
+  "reviewed_at": "2026-07-17",
+  "decision": "admitted",
+  "decision_at": "2026-07-17",
+  "decision_rationale": "Admitted: commit befaee5 re-verified present on publish/mellycore-main-001 at review HEAD f7a2d9f with the exact closure message; ROADMAP.md and PROJECT_STATE.md consistently record Milestone A as closed. Immutable historical fact; trust high from direct repo read. Classification, staleness, and allowed_use confirmed as proposed.",
   "superseded_by": null,
   "notes": "Dated, completed event; cannot go stale as a historical fact even as later milestones progress.",
   "gate_audit": {

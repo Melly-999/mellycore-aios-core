@@ -50,7 +50,9 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 
 - Ingestion gate dry run (`MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001` — hand-exercised the gate in preview semantics on an 8-item batch of committed repo facts: 5 ACCEPT, 1 ACCEPT_WITH_WARNINGS, 1 REFUSE via the generated-content trust cap, 1 NEEDS_HUMAN_REVIEW for private sensitivity, 0 contradictions; 6 draft `ContextSource` records created under `shared_context/context_provenance_preview/`, all pending human Step 7 review): **completed (preview only — nothing admitted)**. See `docs/tasks/MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001.md`.
 
-No `ContextSource` record has been **admitted** and no ingestion gate implementation exists yet — six draft records exist in a clearly marked preview directory, pending human review; everything else in this milestone remains specification-only.
+- First admissions (`MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001` — operator-delegated Step 7 review of the dry-run batch: all 6 drafts admitted, 1 with the gate warning acknowledged and a documented verification/trust upgrade; 0 rejected; the private repo-path item remains blocked on an operator question; records decided in place in the preview directory, now write-once immutable; canonical `context_provenance/` home deliberately not created — reserved for the implementation task): **completed**. See `docs/tasks/MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001.md`.
+
+The project's first six `ContextSource` records are now **admitted** (in `shared_context/context_provenance_preview/`, pending canonical migration). No ingestion gate implementation exists yet — the full workflow has been proven by hand end-to-end (model spec → gate spec → preview dry run → human admission); implementation remains a future, separately approved task.
 
 ### Milestone C — Skill Intelligence
 

@@ -1,6 +1,8 @@
-# Context Provenance — PREVIEW DRAFTS ONLY
+# Context Provenance — PREVIEW LOCATION
 
 **This is not the canonical `ContextSource` record store.**
+
+**Status update (2026-07-17, `MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001`):** the Step 7 human review of the dry-run batch is complete. All six records in this directory now carry `decision: admitted` with `reviewed_by`, `reviewed_at`, `decision_at`, and `decision_rationale` filled — they are the project's first admitted `ContextSource` records. Per the write-once rule they are now **immutable**: no field may be edited except setting `superseded_by`; any change means a new record with a new `source_id`. They remain in this preview location (`record_status: ADMITTED_IN_PREVIEW_LOCATION_PENDING_CANONICAL_MIGRATION`) because the gate spec reserves creating the canonical `shared_context/context_provenance/` home for a future, separately approved implementation task, which should migrate them and mark these superseded. The draft-era rules below are retained for history and still govern any future draft placed here.
 
 Everything in this directory was produced by `MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001`, a **hand-exercised preview pass** of the ingestion gate specified in `docs/specs/MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001.md`. No gate implementation exists; every check was evaluated by hand against the spec and recorded in the dry-run report at `docs/tasks/MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001.md`.
 

@@ -1,6 +1,6 @@
 {
   "preview": true,
-  "record_status": "DRAFT_PENDING_HUMAN_REVIEW",
+  "record_status": "ADMITTED_IN_PREVIEW_LOCATION_PENDING_CANONICAL_MIGRATION",
   "source_id": "ctx-2026-07-17-dashboard-preview-committed",
   "source_identity": "site/dashboard.html (existence confirmed by directory read at commit c4f9b6f); commit 4272e1b (feat(aios): add live dashboard preview)",
   "source_type": "repo_derived",
@@ -15,10 +15,11 @@
   "staleness_policy": "immutable_historical",
   "review_after": null,
   "proposed_by": "MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001 (Claude Code, hand-exercised)",
-  "reviewed_by": null,
-  "decision": null,
-  "decision_at": null,
-  "decision_rationale": null,
+  "reviewed_by": "Melly (operator) — Step 7 review delegated via task MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001, executed by Claude Code (Fable 5)",
+  "reviewed_at": "2026-07-17",
+  "decision": "admitted",
+  "decision_at": "2026-07-17",
+  "decision_rationale": "Admitted: commit 4272e1b re-verified present with the exact message 'feat(aios): add live dashboard preview', and site/dashboard.html exists at review HEAD f7a2d9f. Claim is phrased as the dated committed event, so it remains immutable_historical regardless of later dashboard changes. Classification confirmed as proposed.",
   "superseded_by": null,
   "notes": "Phrased as the dated committed event (what 4272e1b added), not as a claim about the file's current content, so the record stays immutable_historical.",
   "gate_audit": {
