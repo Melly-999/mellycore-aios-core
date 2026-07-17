@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "task_id": "MELLYCORE-LOOP-OPERATIONS-FOUNDATION-001",
+  "basis": "ESTIMATE_NOT_MEASURED",
+  "basis_note": "Every number in this file is a planning ceiling chosen by a human, not an observed cost. MellyCore has never run a loop and therefore has no measured token spend. The estimate-cost command labels its output the same way. A value may only be described as measured when it comes from a run ledger iteration with tokens.measured = true.",
+  "global": {
+    "paused": false,
+    "paused_note": "Operator-controlled soft pause. When true, every loop must stop even if the kill switch file is absent.",
+    "kill_switch_file": "shared_context/loops/KILL_SWITCH",
+    "daily_token_budget_all_loops": 400000,
+    "max_parallel_loops": 1,
+    "max_parallel_loops_note": "One loop at a time in Phase 1. Concurrency is a collision risk that Phase 1 does not attempt to manage."
+  },
+  "estimation_model": {
+    "note": "Inputs to the deterministic estimator in scripts/loop_ops/cost.py. Adjusting these changes estimates only; they never become measured figures.",
+    "scenarios": {
+      "no_op": {
+        "description": "Loop starts, reads state, finds nothing to do, exits.",
+        "input_tokens": 4000,
+        "output_tokens": 500
+      },
+      "report": {
+        "description": "Loop reads its declared scope and writes findings to a report. This is the only scenario Phase 1 actually authorizes.",
+        "input_tokens": 25000,
+        "output_tokens": 3000
+      },
+      "assisted_action": {
+        "description": "Hypothetical: loop proposes a change behind a human gate. Not authorized in Phase 1. Estimated for planning only.",
+        "input_tokens": 60000,
+        "output_tokens": 8000
+      }
+    },
+    "realistic_mix": {
+      "description": "A realistic estimate assumes most runs find nothing and a minority produce a full report. Weights must sum to 1.0.",
+      "weights": {
+        "no_op": 0.6,
+        "report": 0.35,
+        "assisted_action": 0.05
+      }
+    },
+    "multipliers": {
+      "maker_checker": {
+        "value": 2.0,
+        "description": "An independent verifier re-reads the work. Applied when a loop sets verifier_required = true. Roughly doubles cost, which is the price of not letting an agent grade its own homework."
+      },
+      "parallel_agents_default": {
+        "value": 1.0,
+        "description": "Phase 1 runs one agent. A caller may pass a higher multiplier to model a hypothetical fan-out."
+      },
+      "retry_overhead": {
+        "value": 1.25,
+        "description": "Allowance for retries within max_attempts."
+      }
+    }
+  }
+}

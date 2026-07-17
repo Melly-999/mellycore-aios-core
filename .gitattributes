@@ -1,0 +1,3 @@
+shared_context/context_provenance/*.json text eol=lf
+shared_context/context_provenance/records/*.json text eol=lf
+shared_context/context_provenance/refusals/*.jsonl text eol=lf

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "loop_id": "project-health",
+  "run_id": "example-run-0001",
+  "started_at": "2026-01-01T00:00:00Z",
+  "finished_at": "2026-01-01T00:04:12Z",
+  "status_before": "REPORT_ONLY",
+  "status_after": "REPORT_ONLY",
+  "example_notice": "This is a hand-written EXAMPLE showing the ledger shape. It is not evidence of a real run. The iterations below are marked measured=false with total=null, per the corrected token contract (docs/research/LOOP_STATE_PERSISTENCE_REVIEW_001.md Section 5): an unmeasured iteration must never carry a numeric total, including zero, so the guard reports the per-run budget as unenforceable rather than counting these toward it. No loop has been exercised in Phase 1.",
+  "iterations": [
+    {
+      "index": 1,
+      "started_at": "2026-01-01T00:00:05Z",
+      "outcome": "failure",
+      "error_signature": "validator_not_found",
+      "progress_marker": "read-shared-context",
+      "tokens": {
+        "input": null,
+        "output": null,
+        "total": null,
+        "measured": false
+      },
+      "verifier": {
+        "verdict": "NOT_RUN",
+        "verified_by": null,
+        "evidence": null
+      },
+      "notes": "Illustrative first attempt: the validator path could not be resolved."
+    },
+    {
+      "index": 2,
+      "started_at": "2026-01-01T00:02:10Z",
+      "outcome": "success",
+      "error_signature": null,
+      "progress_marker": "health-report-drafted",
+      "tokens": {
+        "input": null,
+        "output": null,
+        "total": null,
+        "measured": false
+      },
+      "verifier": {
+        "verdict": "NOT_RUN",
+        "verified_by": null,
+        "evidence": null
+      },
+      "notes": "Illustrative second attempt: report produced. project-health does not require a verifier."
+    }
+  ],
+  "daily_tokens_used": null,
+  "kill_switch_engaged": false,
+  "notes": "daily_tokens_used is null because no measured daily total exists. The guard reports the daily budget as unenforceable in that case rather than reporting a pass."
+}

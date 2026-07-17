@@ -101,6 +101,19 @@ Line glow should be subtle. Dense edge bundles should fade into grouped lanes ra
 
 The 8 Fixture 001 clusters should appear as spatial neighborhoods rather than equal decorative bubbles.
 
+Fixture 001 cluster coverage:
+
+| Cluster ID | Label | 3D visual treatment |
+| --- | --- | --- |
+| `product-foundation` | Product Foundation | Central root constellation near the graph gravity point, with strong product/context anchoring. |
+| `static-showcase` | Static Showcase | Inner orbit tied to current local static preview evidence and completed showcase state. |
+| `shared-context` | Shared Context | Memory-backbone lane connecting handoff, run queue, and project-state context nodes. |
+| `safety-governance` | Safety Governance | Prominent shield lane near the safety rail, with green/amber safety and risk markers. |
+| `knowledge-graph` | Knowledge Graph | Dense graph-method cluster close to the core, with relation and fixture semantics emphasized. |
+| `repository-governance` | Repository Governance | Caution-aware lane for clean-origin, old-origin risk, branch posture, and git safety nodes. |
+| `future-modules` | Future Modules | Outer orbit, ghosted and explicitly future-only or approval-gated. |
+| `external-inspiration` | External Inspiration | Boundary cluster with dotted source styling, low-confidence labels where applicable, and no copied-source implication. |
+
 Guidance:
 
 - Cluster shells should be faint glass or nebula fields, not hard cards.
@@ -136,6 +149,12 @@ Camera and framing:
 - Avoid extreme perspective distortion that makes labels unreadable.
 - Keep panels anchored and stable while the graph can appear spatial.
 - The first viewport should communicate "MellyCore Obsidian-style context graph" without requiring scroll or interaction.
+
+Compact composition:
+
+- Tablet should reduce depth and edge density before reducing text size.
+- Mobile should prioritize the stacked constellation summary, selected-node text, safety posture, relation legend, and fallback list over the spatial graph.
+- Compact views may flatten the 3D scene into a poster-like map, but must keep the same cluster, node, edge, source, and safety information available in text.
 
 ## Motion Principles
 
@@ -182,7 +201,9 @@ Required fallback behavior:
 - Non-3D list or table summary of clusters, nodes, and relation types.
 - Screen-reader summary that states: "Static fixture-backed context graph: 8 clusters, 45 nodes, 66 edges."
 - Keyboard-readable structure with semantic headings and focusable inspector/fallback regions.
+- Visible keyboard focus indicators for graph fallback rows, inspector controls, drawers, and any future static scaffold controls.
 - Text alternative for every selected visual node and relation.
+- High-contrast mode or reduced-transparency treatment for users who need stronger separation than glass panels provide.
 - High contrast labels and minimum readable text sizes.
 - Persistent relation legend.
 - Reduced-motion mode with no loss of content.
