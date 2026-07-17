@@ -43,7 +43,7 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 ### Milestone B — One Brain
 
 - Provenance and sensitivity tagging for ingested context (`MELLYCORE-CONTEXT-PROVENANCE-AND-SENSITIVITY-SPEC-001` — docs-only spec: the `ContextSource` record shape, provenance/sensitivity/trust labels, an `allowed_use` matrix, staleness policy, contradiction precedence guidance, an admission workflow extending `SOURCE_INGEST_WORKFLOW.md`, and future dashboard fields): **completed (spec only)**.
-- Ingestion gate (validation before context is trusted) (`MELLYCORE-CONTEXT-INGESTION-GATE-SPEC-001` — docs-only spec: admissible inputs, required metadata, nine refusal rules, five validation outcomes with `ACCEPT` never meaning admitted, human-review parking conditions, stale-claim detection, contradiction routing to the ledger, write-once recording conventions, no-write preview mode with future operator-gated apply, and future implementation boundaries): **completed (spec only)** — no gate code exists; recommended next is a hand-exercised gate dry run; see `docs/tasks/MELLYCORE-CONTEXT-INGESTION-GATE-SPEC-001.md`.
+- Ingestion gate (validation before context is trusted) (`MELLYCORE-CONTEXT-INGESTION-GATE-SPEC-001` — docs-only spec: admissible inputs, required metadata, nine refusal rules, five validation outcomes with `ACCEPT` never meaning admitted, human-review parking conditions, stale-claim detection, contradiction routing to the ledger, write-once recording conventions, no-write preview mode with future operator-gated apply, and future implementation boundaries): **completed (spec only)**. The later hand dry run, admissions, implementation spec, and read-only I1 implementation are tracked below; see `docs/tasks/MELLYCORE-CONTEXT-INGESTION-GATE-SPEC-001.md`.
 - Contradiction/freshness handling across shared context files: **pending** — precedence guidance specified above; the ledger and workflow already exist (`CONTRADICTION_LEDGER.md`, `SOURCE_INGEST_WORKFLOW.md`), no live entries yet.
 - Context Pack Generator: **pending** — spec exists (`CONTEXT_PACK_GENERATOR_SPEC.md`), no implementation.
 - Living Context Graph integration (beyond the current static preview section): **pending**.
@@ -54,7 +54,9 @@ Public-project facts (below) reflect only what has actually shipped in this repo
 
 - Gate implementation spec (`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-SPEC-001` — docs-only: canonical `shared_context/context_provenance/` layout with write-once records and envelope/content split, hash-verified migration plan for the six admitted preview records, structurally aggregate-safe append-only refusal log, five CLI commands (`preview` default/non-writing, `validate-record`, `apply` gated on operator approval + expected HEAD with all checks re-run at write time, `rebuild-index`, `audit`), blocked-item lifecycle for the open C8 question, full test plan, dashboard-read contract, and four separately-approved implementation phases I1–I4): **completed (spec only)** — see `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-SPEC-001.md`.
 
-The project's first six `ContextSource` records are now **admitted** (in `shared_context/context_provenance_preview/`, pending canonical migration in implementation Phase I2). No ingestion gate implementation exists yet — the full workflow has been proven by hand end-to-end (model spec → gate spec → preview dry run → human admission → implementation spec); code remains a future, separately approved task per phase.
+- Context Gate implementation Phase I1 (`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I1-001` — Python 3.9/stdlib `ContextSource` models, `validate-record`, no-write `preview`, full R1-R9 checks, deterministic aggregate-safe output, warnings/parking/staleness/contradiction handling, 50 focused tests): **completed (read-only implementation)**. No apply/store/migration/refusal-log/index/audit/dashboard code exists; see `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I1-001.md`.
+
+The project's first six `ContextSource` records remain **admitted** in `shared_context/context_provenance_preview/`, byte-unchanged and pending canonical migration in separately approved implementation Phase I2. I1 now mechanically validates/previews new candidates; I2 (guarded writes/migration), I3 (index/audit), and I4 (dashboard) remain future separately approved tasks.
 
 ### Milestone C — Skill Intelligence
 
@@ -78,4 +80,3 @@ The project's first six `ContextSource` records are now **admitted** (in `shared
 - Report-only scheduler (later; no autonomous actions): **pending**.
 - Voice Inbox (later): **pending**.
 - No autonomous actions are authorized at any point in this milestone without explicit, separate operator approval.
-
