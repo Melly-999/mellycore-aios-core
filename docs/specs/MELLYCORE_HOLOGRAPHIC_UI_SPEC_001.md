@@ -691,7 +691,7 @@ backend, no keys, no autonomous actions."*
 ### 6.2 GitHub README top section (structure to adopt)
 
 1. Wordmark line + the one-liner.
-2. One hero screenshot: Overview (core + orbit + hull) in `holo-pose`.
+2. One hero screenshot: Source Arena — 390×844 mobile model-lens hero matching Section 6.3. Overview (core + orbit + hull) may appear only as supporting imagery and must not be presented as the primary hero.
 3. A three-badge honesty row rendered as plain text/shields: `static · no backend`,
    `zero-autonomy by design`, `v0.3.0`.
 4. "What is real vs. simulated" table — four rows: NASA Images API (real, live,
