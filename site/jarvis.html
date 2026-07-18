@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS // Orbital Command Interface</title>
+
+<!-- ============================================================
+     JARVIS ORBITAL COMMAND — single-file sci-fi HUD prototype
+     Demo interface: all telemetry values are simulated locally.
+     No backend, no API keys, no external data — procedural only.
+     ============================================================
+
+     DESIGN SYSTEM
+     ─────────────
+     Colors
+       --void        #000811   deep-space background
+       --cyan        #00f0ff   primary glow / data
+       --magenta     #ff00aa   alerts / accents
+       --violet      #7b5cff   secondary orbital accent
+       --white       #eaf6ff   text high
+       --dim         #5d7a8c   text low
+     Glow rules
+       text:  0 0 6px  color @ 80%
+       panel: 0 0 24px color @ 25%, inset 0 0 18px color @ 6%
+       hover: intensity ×1.6, scale 1.05
+     Typography
+       Display  : 'Orbitron'  (headers, logo, numerals)
+       Body     : 'Rajdhani'  (labels, copy)
+       Terminal : 'Share Tech Mono' (log feed, code)
+     Spacing: 4px base grid. Panel radius 10px. Border 1px @ 35% glow color.
+     Motion: orbits 12–60s/rev; pulses 2–4s; all eased, GPU transforms only.
+-->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+
+<style>
+:root{
+  --void:#000811; --cyan:#00f0ff; --magenta:#ff00aa; --violet:#7b5cff;
+  --white:#eaf6ff; --dim:#5d7a8c;
+}
+*{ box-sizing:border-box; }
+html,body{ margin:0; height:100%; overflow:hidden; background:var(--void);
+  font-family:'Rajdhani',system-ui,sans-serif; color:var(--white);
+  -webkit-font-smoothing:antialiased; user-select:none; }
+::selection{ background:rgba(0,240,255,.3); }
+
+#space{ position:fixed; inset:0; z-index:0; display:block; }
+
+/* ── CRT / scanline atmosphere ─────────────────────────── */
+#crt{ position:fixed; inset:0; z-index:60; pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,4,10,.55) 100%);
+  mix-blend-mode:screen; }
+#crt::after{ content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 0%, rgba(0,240,255,.03) 50%, transparent 100%);
+  background-size:100% 220px; animation:scanDrift 9s linear infinite; }
+@keyframes scanDrift{ from{background-position:0 -220px} to{background-position:0 100vh} }
+
+.font-display{ font-family:'Orbitron',sans-serif; }
+.font-term{ font-family:'Share Tech Mono',monospace; }
+
+/* ── glass panels ──────────────────────────────────────── */
+.glass{
+  background:linear-gradient(160deg, rgba(3,20,34,.72), rgba(2,10,20,.55));
+  border:1px solid rgba(0,240,255,.22);
+  box-shadow:0 0 24px rgba(0,240,255,.10), inset 0 0 18px rgba(0,240,255,.05);
+  backdrop-filter:blur(9px); border-radius:10px;
+}
+.glass-mg{ border-color:rgba(255,0,170,.28);
+  box-shadow:0 0 24px rgba(255,0,170,.10), inset 0 0 18px rgba(255,0,170,.05); }
+
+.corner{ position:relative; }
+.corner::before,.corner::after{ content:""; position:absolute; width:10px; height:10px; pointer-events:none; }
+.corner::before{ top:-1px; left:-1px; border-top:2px solid var(--cyan); border-left:2px solid var(--cyan); }
+.corner::after{ bottom:-1px; right:-1px; border-bottom:2px solid var(--cyan); border-right:2px solid var(--cyan); }
+
+.glow-c{ text-shadow:0 0 6px rgba(0,240,255,.8); color:var(--cyan); }
+.glow-m{ text-shadow:0 0 6px rgba(255,0,170,.8); color:var(--magenta); }
+.glow-w{ text-shadow:0 0 8px rgba(120,220,255,.6); }
+
+.tick{ letter-spacing:.18em; text-transform:uppercase; font-size:10px; color:var(--dim); }
+
+/* ── orbiting panels ───────────────────────────────────── */
+.orb-panel{ position:absolute; left:0; top:0; will-change:transform,opacity;
+  transition:box-shadow .25s, border-color .25s; cursor:pointer; }
+.orb-panel:hover{ border-color:rgba(0,240,255,.65);
+  box-shadow:0 0 34px rgba(0,240,255,.35), inset 0 0 22px rgba(0,240,255,.10); z-index:400 !important; }
+.orb-panel.mg:hover{ border-color:rgba(255,0,170,.65);
+  box-shadow:0 0 34px rgba(255,0,170,.30), inset 0 0 22px rgba(255,0,170,.10); }
+
+.module-tile{ width:86px; padding:8px 4px 7px; text-align:center; }
+.module-tile .ico{ font-size:20px; filter:drop-shadow(0 0 6px rgba(0,240,255,.8)); }
+.module-tile:active{ cursor:grabbing; }
+
+/* gauges */
+.gauge-ring{ transform:rotate(-90deg); }
+.gauge-ring .track{ stroke:rgba(0,240,255,.12); }
+.gauge-ring .val{ stroke:var(--cyan); stroke-linecap:round;
+  filter:drop-shadow(0 0 4px rgba(0,240,255,.9)); transition:stroke-dashoffset .8s ease; }
+.gauge-ring.mg .val{ stroke:var(--magenta); filter:drop-shadow(0 0 4px rgba(255,0,170,.9)); }
+
+/* ── core ──────────────────────────────────────────────── */
+#coreHit{ position:absolute; width:190px; height:190px; border-radius:50%;
+  transform:translate(-50%,-50%); cursor:pointer; z-index:300; }
+#coreLabel{ position:absolute; transform:translate(-50%,-50%); text-align:center;
+  pointer-events:none; z-index:301; width:230px; }
+#coreStatus{ animation:corePulse 3s ease-in-out infinite; }
+@keyframes corePulse{ 0%,100%{opacity:.85} 50%{opacity:1; text-shadow:0 0 14px rgba(0,240,255,1)} }
+
+/* radial menu */
+.radial-btn{ position:absolute; width:64px; height:64px; border-radius:50%;
+  transform:translate(-50%,-50%) scale(0); display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:1px; z-index:320;
+  background:radial-gradient(circle, rgba(4,26,42,.9), rgba(2,12,24,.85));
+  border:1px solid rgba(0,240,255,.5); cursor:pointer;
+  box-shadow:0 0 18px rgba(0,240,255,.35);
+  transition:transform .45s cubic-bezier(.2,1.6,.4,1), opacity .3s; opacity:0; }
+.radial-btn.open{ opacity:1; }
+.radial-btn:hover{ border-color:var(--magenta); box-shadow:0 0 22px rgba(255,0,170,.5); }
+.radial-btn span{ font-size:16px } .radial-btn small{ font-size:7px; letter-spacing:.12em; color:var(--cyan) }
+
+/* ── HUD chrome ────────────────────────────────────────── */
+#hudTop{ position:fixed; top:0; left:0; right:0; z-index:50; }
+#sidebar{ position:fixed; top:64px; bottom:76px; left:10px; width:190px; z-index:45;
+  transition:transform .4s cubic-bezier(.4,0,.2,1); }
+#sidebar.closed{ transform:translateX(-206px); }
+#feed{ position:fixed; top:64px; bottom:76px; right:10px; width:270px; z-index:45;
+  display:flex; flex-direction:column; transition:transform .4s cubic-bezier(.4,0,.2,1); }
+#feed.closed{ transform:translateX(292px); }
+#cmdBar{ position:fixed; bottom:0; left:0; right:0; z-index:50; }
+
+.side-item{ display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:8px;
+  border:1px solid transparent; cursor:pointer; transition:.2s; font-weight:600; letter-spacing:.06em; }
+.side-item:hover{ background:rgba(0,240,255,.07); border-color:rgba(0,240,255,.3);
+  text-shadow:0 0 8px rgba(0,240,255,.8); }
+.side-item.active{ background:rgba(0,240,255,.1); border-color:rgba(0,240,255,.45); color:var(--cyan); }
+
+#logBox{ flex:1; overflow-y:auto; scrollbar-width:thin; scrollbar-color:rgba(0,240,255,.3) transparent; }
+#logBox::-webkit-scrollbar{ width:4px } #logBox::-webkit-scrollbar-thumb{ background:rgba(0,240,255,.3) }
+.log-line{ animation:logIn .35s ease both; border-left:2px solid rgba(0,240,255,.35);
+  padding:3px 8px; margin-bottom:5px; font-size:11px; line-height:1.45; }
+.log-line.warn{ border-left-color:var(--magenta) }
+.log-line.ok{ border-left-color:#37ffb4 }
+@keyframes logIn{ from{opacity:0; transform:translateX(14px)} to{opacity:1; transform:none} }
+
+.cmd-btn{ padding:7px 18px; border-radius:8px; border:1px solid rgba(0,240,255,.35);
+  background:rgba(0,240,255,.06); font-family:'Orbitron'; font-size:11px; letter-spacing:.15em;
+  color:var(--cyan); cursor:pointer; transition:.2s; }
+.cmd-btn:hover{ background:rgba(0,240,255,.16); box-shadow:0 0 16px rgba(0,240,255,.4); transform:translateY(-1px); }
+.cmd-btn.danger{ border-color:rgba(255,0,170,.4); color:var(--magenta); background:rgba(255,0,170,.06); }
+.cmd-btn.danger:hover{ background:rgba(255,0,170,.14); box-shadow:0 0 16px rgba(255,0,170,.4); }
+
+/* voice */
+#voiceBtn.listening{ animation:voicePulse 1s ease-in-out infinite; border-color:var(--magenta); color:var(--magenta); }
+@keyframes voicePulse{ 0%,100%{box-shadow:0 0 8px rgba(255,0,170,.4)} 50%{box-shadow:0 0 26px rgba(255,0,170,.9)} }
+
+/* tooltip */
+#tip{ position:fixed; z-index:500; pointer-events:none; max-width:250px; padding:10px 12px;
+  opacity:0; transform:translateY(6px); transition:opacity .2s, transform .2s; font-size:11px; }
+#tip.show{ opacity:1; transform:none; }
+#tip h4{ margin:0 0 4px; font-family:'Orbitron'; font-size:10px; letter-spacing:.15em; color:var(--cyan); }
+#tip p{ margin:0; color:#a8c8d8; line-height:1.5; }
+
+/* modal */
+#modalWrap{ position:fixed; inset:0; z-index:600; display:flex; align-items:center; justify-content:center;
+  background:rgba(0,5,12,.75); backdrop-filter:blur(6px); opacity:0; pointer-events:none; transition:opacity .3s; }
+#modalWrap.open{ opacity:1; pointer-events:auto; }
+#modal{ width:min(860px,92vw); max-height:86vh; overflow-y:auto; padding:26px 30px;
+  transform:scale(.92); transition:transform .35s cubic-bezier(.2,1.4,.4,1); }
+#modalWrap.open #modal{ transform:scale(1); }
+#modal::-webkit-scrollbar{ width:4px } #modal::-webkit-scrollbar-thumb{ background:rgba(0,240,255,.3) }
+.mstat{ padding:10px 14px; border:1px solid rgba(0,240,255,.2); border-radius:8px; background:rgba(0,240,255,.04); }
+.mstat b{ font-family:'Orbitron'; font-size:17px; color:var(--cyan); text-shadow:0 0 8px rgba(0,240,255,.7); }
+.mstat span{ display:block; font-size:9px; letter-spacing:.16em; color:var(--dim); text-transform:uppercase; margin-top:2px; }
+
+/* shutdown overlay */
+#shutdown{ position:fixed; inset:0; z-index:900; background:#000; display:flex; align-items:center;
+  justify-content:center; opacity:0; pointer-events:none; transition:opacity .8s; }
+#shutdown.on{ opacity:1; pointer-events:auto; }
+
+/* responsive */
+@media (max-width:1100px){ #feed{ width:230px } #sidebar{ width:170px } }
+@media (max-width:900px){
+  #sidebar{ transform:translateX(-206px) } #sidebar.open-m{ transform:none }
+  #feed{ transform:translateX(292px) } #feed.open-m{ transform:none }
+}
+</style>
+</head>
+
+<body>
+<canvas id="space"></canvas>
+<div id="crt"></div>
+
+<!-- ═══════════ TOP HUD BAR ═══════════ -->
+<header id="hudTop" class="px-3 pt-2">
+  <div class="glass corner flex items-center gap-3 px-4 py-2">
+    <button id="menuToggle" class="cmd-btn !px-2.5 !py-1.5 md:hidden" aria-label="Toggle sidebar">☰</button>
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-full border border-cyan-300/50 flex items-center justify-center
+                  shadow-[0_0_14px_rgba(0,240,255,.5)]">
+        <div class="w-3.5 h-3.5 rounded-full bg-cyan-300 animate-pulse shadow-[0_0_10px_#00f0ff]"></div>
+      </div>
+      <div>
+        <div class="font-display font-extrabold text-lg tracking-[.3em] glow-c leading-none">JARVIS</div>
+        <div class="tick">Orbital Command v4.2 · demo</div>
+      </div>
+    </div>
+
+    <div class="hidden sm:flex flex-1 max-w-md mx-auto items-center gap-2 glass !rounded-full px-4 py-1.5">
+      <span class="text-cyan-300 text-xs">◈</span>
+      <input id="searchInput" placeholder="Query stellar database…" aria-label="Search"
+        class="bg-transparent outline-none flex-1 text-sm placeholder:text-[color:var(--dim)] font-term">
+      <button id="voiceBtn" class="cmd-btn !rounded-full !px-2.5 !py-1" aria-label="Voice input" title="Voice input">🎙</button>
+    </div>
+
+    <div class="ml-auto flex items-center gap-4">
+      <button id="muteBtn" class="cmd-btn !px-2.5 !py-1.5" title="Toggle interface audio">♪</button>
+      <div class="relative cursor-pointer" id="notifBell" title="Notifications">
+        <span class="text-lg">◍</span>
+        <span class="absolute -top-1.5 -right-2 text-[9px] font-display bg-[color:var(--magenta)] text-black
+                     rounded-full px-1.5 shadow-[0_0_10px_rgba(255,0,170,.8)]">3</span>
+      </div>
+      <div class="text-right leading-tight hidden md:block">
+        <div id="clock" class="font-display text-sm glow-c">00:00:00</div>
+        <div id="stardate" class="tick">SOL —</div>
+      </div>
+      <div class="w-9 h-9 rounded-full border border-fuchsia-400/60 shadow-[0_0_14px_rgba(255,0,170,.4)]
+                  flex items-center justify-center font-display text-xs text-fuchsia-300
+                  bg-[radial-gradient(circle,rgba(255,0,170,.18),transparent)]" title="Cmdr. T. Stark — clearance ALPHA">TS</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ LEFT SIDEBAR ═══════════ -->
+<aside id="sidebar" class="glass corner p-3 flex flex-col gap-1">
+  <div class="tick mb-2 px-2">Command Modules</div>
+  <div class="side-item active" data-mod="overview"><span>◉</span>Overview</div>
+  <div class="side-item" data-mod="voice"><span>🎙</span>Voice Command</div>
+  <div class="side-item" data-mod="sensors"><span>📡</span>Sensor Array</div>
+  <div class="side-item" data-mod="security"><span>🛡</span>Security Grid</div>
+  <div class="side-item" data-mod="nav"><span>🧭</span>Navigation</div>
+  <div class="side-item" data-mod="ent"><span>♫</span>Entertainment</div>
+  <div class="side-item" data-mod="analysis"><span>⬡</span>Deep Analysis</div>
+  <div class="mt-auto glass !border-fuchsia-500/25 p-3 text-[11px] leading-relaxed">
+    <div class="tick !text-fuchsia-300 mb-1">Threat Level</div>
+    <div class="font-display text-emerald-300 text-sm" style="text-shadow:0 0 8px rgba(55,255,180,.8)">▚ LOW</div>
+    <div class="text-[color:var(--dim)] mt-1">Perimeter nominal · 0 intrusions this cycle</div>
+  </div>
+</aside>
+
+<!-- ═══════════ RIGHT LIVE FEED ═══════════ -->
+<aside id="feed" class="glass corner p-3">
+  <div class="flex items-center justify-between mb-2">
+    <div class="tick">Live Telemetry Feed</div>
+    <span class="text-[9px] font-term text-emerald-300 animate-pulse">● STREAM</span>
+  </div>
+  <div id="logBox" class="font-term pr-1"></div>
+</aside>
+
+<!-- ═══════════ ORBIT STAGE (center) ═══════════ -->
+<main id="stage" class="fixed inset-0 z-30" style="pointer-events:none"></main>
+
+<!-- ═══════════ BOTTOM COMMAND BAR ═══════════ -->
+<footer id="cmdBar" class="px-3 pb-2">
+  <div class="glass corner flex items-center gap-2 px-4 py-2 flex-wrap">
+    <span class="font-term text-cyan-300 text-sm hidden sm:inline">❯</span>
+    <input id="cmdInput" placeholder="Speak or type a command, sir…" aria-label="Command input"
+      class="bg-transparent outline-none flex-1 min-w-[140px] font-term text-sm placeholder:text-[color:var(--dim)]">
+    <button class="cmd-btn" data-cmd="analyze">Analyze</button>
+    <button class="cmd-btn" data-cmd="scan">Scan</button>
+    <button class="cmd-btn" data-cmd="engage">Engage</button>
+    <button class="cmd-btn danger" data-cmd="shutdown">Shutdown</button>
+    <button id="feedToggle" class="cmd-btn md:hidden" aria-label="Toggle feed">☰◗</button>
+  </div>
+</footer>
+
+<!-- tooltip -->
+<div id="tip" class="glass"><h4 id="tipTitle"></h4><p id="tipBody"></p></div>
+
+<!-- modal -->
+<div id="modalWrap">
+  <div id="modal" class="glass corner">
+    <div class="flex items-start justify-between gap-4 mb-4">
+      <div>
+        <h2 id="modalTitle" class="font-display text-xl tracking-[.2em] glow-c m-0"></h2>
+        <div id="modalSub" class="tick mt-1"></div>
+      </div>
+      <button id="modalClose" class="cmd-btn danger !px-3">✕ CLOSE</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- shutdown sequence -->
+<div id="shutdown">
+  <div class="text-center font-term">
+    <div id="shutMsg" class="glow-m text-lg tracking-[.3em]">POWERING DOWN…</div>
+    <div class="tick mt-3">arc reactor entering standby</div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* ════════════════════════════════════════════════════════════
+   0 · AUDIO — tiny procedural WebAudio blips
+   ════════════════════════════════════════════════════════════ */
+let AC=null, muted=false;
+const audio=(f0,f1,dur,gain=.04,type='sine')=>{
+  if(muted) return;
+  try{
+    AC ??= new (window.AudioContext||window.webkitAudioContext)();
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(), g=AC.createGain(), t=AC.currentTime;
+    o.type=type; o.frequency.setValueAtTime(f0,t); o.frequency.exponentialRampToValueAtTime(f1,t+dur);
+    g.gain.setValueAtTime(gain,t); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.connect(g).connect(AC.destination); o.start(t); o.stop(t+dur);
+  }catch(e){}
+};
+const sHover=()=>audio(680,760,.06,.02);
+const sClick=()=>audio(240,880,.14,.05,'triangle');
+const sAlert=()=>audio(880,220,.3,.05,'square');
+document.getElementById('muteBtn').onclick=e=>{ muted=!muted; e.target.style.opacity=muted?.35:1; if(!muted)sClick(); };
+
+/* ════════════════════════════════════════════════════════════
+   1 · THREE.JS — deep space, nebulae, core, rings, particles
+   ════════════════════════════════════════════════════════════ */
+const canvas=document.getElementById('space');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();
+scene.fog=new THREE.FogExp2(0x000811,.028);
+const camera=new THREE.PerspectiveCamera(58,1,.1,200);
+camera.position.set(0,.6,9);
+
+/* starfield — two parallax layers */
+const mkStars=(n,spread,size,hue)=>{
+  const g=new THREE.BufferGeometry(), p=new Float32Array(n*3), c=new Float32Array(n*3);
+  const col=new THREE.Color();
+  for(let i=0;i<n;i++){
+    p[i*3]=(Math.random()-.5)*spread; p[i*3+1]=(Math.random()-.5)*spread; p[i*3+2]=(Math.random()-.5)*spread;
+    col.setHSL(hue+Math.random()*.1,.6,.6+Math.random()*.4);
+    c[i*3]=col.r; c[i*3+1]=col.g; c[i*3+2]=col.b;
+  }
+  g.setAttribute('position',new THREE.BufferAttribute(p,3));
+  g.setAttribute('color',new THREE.BufferAttribute(c,3));
+  return new THREE.Points(g,new THREE.PointsMaterial({size,vertexColors:true,transparent:true,opacity:.9,depthWrite:false}));
+};
+const starsFar=mkStars(2600,120,.10,.55), starsNear=mkStars(900,70,.2,.85);
+scene.add(starsFar,starsNear);
+
+/* procedural nebula sprites */
+const nebTex=(r,g,b)=>{
+  const cv=document.createElement('canvas'); cv.width=cv.height=256;
+  const x=cv.getContext('2d'), gr=x.createRadialGradient(128,128,10,128,128,128);
+  gr.addColorStop(0,`rgba(${r},${g},${b},.55)`); gr.addColorStop(.45,`rgba(${r},${g},${b},.16)`);
+  gr.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=gr; x.fillRect(0,0,256,256);
+  return new THREE.CanvasTexture(cv);
+};
+const nebulae=new THREE.Group();
+[[123,92,255],[0,140,255],[255,0,170],[60,40,160],[0,240,255]].forEach((c,i)=>{
+  const m=new THREE.Sprite(new THREE.SpriteMaterial({
+    map:nebTex(...c), blending:THREE.AdditiveBlending, depthWrite:false, opacity:.34}));
+  const a=i/5*Math.PI*2;
+  m.position.set(Math.cos(a)*26+(Math.random()-.5)*10, (Math.random()-.5)*16, -30-Math.random()*22);
+  m.scale.setScalar(30+Math.random()*26);
+  nebulae.add(m);
+});
+scene.add(nebulae);
+
+/* core — inner fresnel-shader sphere + outer wireframe shell */
+const coreUniforms={ uTime:{value:0}, uPulse:{value:0},
+  uColA:{value:new THREE.Color(0x00f0ff)}, uColB:{value:new THREE.Color(0x7b5cff)} };
+const coreMat=new THREE.ShaderMaterial({
+  uniforms:coreUniforms, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false,
+  vertexShader:`
+    varying vec3 vN; varying vec3 vP; uniform float uTime;
+    void main(){
+      vN=normalize(normalMatrix*normal);
+      vec3 pos=position*(1.0+0.02*sin(uTime*2.0+position.y*6.0));
+      vP=(modelViewMatrix*vec4(pos,1.0)).xyz;
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(pos,1.0);
+    }`,
+  fragmentShader:`
+    varying vec3 vN; varying vec3 vP;
+    uniform float uTime; uniform float uPulse; uniform vec3 uColA; uniform vec3 uColB;
+    void main(){
+      vec3 V=normalize(-vP);
+      float fres=pow(1.0-abs(dot(vN,V)),2.2);
+      float bands=0.5+0.5*sin(vP.y*22.0-uTime*3.0);           // energy stream bands
+      vec3 col=mix(uColB,uColA,fres)* (0.55+0.45*bands);
+      float a=fres*0.9+0.12+uPulse*0.4;
+      gl_FragColor=vec4(col,a);
+    }`});
+const core=new THREE.Mesh(new THREE.SphereGeometry(1.15,64,64),coreMat);
+const shell=new THREE.Mesh(new THREE.IcosahedronGeometry(1.5,1),
+  new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:.28}));
+const shell2=new THREE.Mesh(new THREE.IcosahedronGeometry(1.78,1),
+  new THREE.MeshBasicMaterial({color:0xff00aa,wireframe:true,transparent:true,opacity:.10}));
+const coreGrp=new THREE.Group(); coreGrp.add(core,shell,shell2); scene.add(coreGrp);
+
+/* orbital ring guides matching DOM orbit planes */
+const ringMat=o=>new THREE.LineBasicMaterial({color:0x00f0ff,transparent:true,opacity:o});
+const mkRing=(r,op,tilt)=>{
+  const pts=[]; for(let i=0;i<=128;i++){ const a=i/128*Math.PI*2; pts.push(new THREE.Vector3(Math.cos(a)*r,0,Math.sin(a)*r)); }
+  const l=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),ringMat(op));
+  l.rotation.x=tilt; return l;
+};
+const rings=[mkRing(2.6,.35,1.15),mkRing(3.7,.25,1.15),mkRing(4.8,.18,1.15)];
+rings.forEach(r=>scene.add(r));
+
+/* orbiting energy particles around core */
+const orbN=260, orbGeo=new THREE.BufferGeometry(), orbPos=new Float32Array(orbN*3), orbDat=[];
+for(let i=0;i<orbN;i++){ orbDat.push({a:Math.random()*Math.PI*2, r:2.1+Math.random()*3.2, s:.2+Math.random()*.5, y:(Math.random()-.5)*.4}); }
+orbGeo.setAttribute('position',new THREE.BufferAttribute(orbPos,3));
+const orbPts=new THREE.Points(orbGeo,new THREE.PointsMaterial({color:0x00f0ff,size:.05,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}));
+orbPts.rotation.x=1.15; scene.add(orbPts);
+
+/* mouse parallax + cursor particle trail */
+const mouse={x:0,y:0,tx:0,ty:0};
+addEventListener('pointermove',e=>{
+  mouse.tx=(e.clientX/innerWidth-.5)*2; mouse.ty=(e.clientY/innerHeight-.5)*2;
+  tipFollow(e); trailSpawn(e);
+});
+const trailN=90, trailGeo=new THREE.BufferGeometry(), trailPos=new Float32Array(trailN*3), trailLife=new Float32Array(trailN);
+trailPos.fill(9999);
+trailGeo.setAttribute('position',new THREE.BufferAttribute(trailPos,3));
+const trailPts=new THREE.Points(trailGeo,new THREE.PointsMaterial({color:0xff00aa,size:.07,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false}));
+scene.add(trailPts); let trailI=0, lastTrail=0;
+function trailSpawn(e){
+  const now=performance.now(); if(now-lastTrail<28) return; lastTrail=now;
+  const v=new THREE.Vector3((e.clientX/innerWidth)*2-1,-(e.clientY/innerHeight)*2+1,.5).unproject(camera);
+  const dir=v.sub(camera.position).normalize(), p=camera.position.clone().add(dir.multiplyScalar(6));
+  trailPos.set([p.x,p.y,p.z],trailI*3); trailLife[trailI]=1; trailI=(trailI+1)%trailN;
+}
+
+function resize(){
+  renderer.setSize(innerWidth,innerHeight,false);
+  camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+}
+addEventListener('resize',resize); resize();
+
+/* ════════════════════════════════════════════════════════════
+   2 · SIMULATED TELEMETRY  (hardcoded demo data, drifts smoothly)
+   ════════════════════════════════════════════════════════════ */
+const T={ cpu:34, mem:52, net:71, ai:88, integrity:99.8, marsMs:142, earthSync:99.2, power:87 };
+const drift=(v,min,max,amp)=>Math.min(max,Math.max(min,v+(Math.random()-.5)*amp));
+setInterval(()=>{
+  T.cpu=drift(T.cpu,12,96,9); T.mem=drift(T.mem,30,88,5); T.net=drift(T.net,40,99,7);
+  T.ai=drift(T.ai,70,99,4); T.marsMs=Math.round(drift(T.marsMs,128,171,8));
+  T.integrity=drift(T.integrity,99.1,99.9,.1); T.power=drift(T.power,72,99,4);
+  updateGauges(); chartPush(T.net);
+},1200);
+
+/* ════════════════════════════════════════════════════════════
+   3 · ORBITING DOM PANELS
+   ════════════════════════════════════════════════════════════ */
+const stage=document.getElementById('stage');
+const panels=[];   // {el, ring, angle, speed, hover, drag}
+const RING_SPEED=[.14,-.09,.055];   // rad/s per ring (ring2 counter-rotates)
+
+function addPanel(html,{ring,angle,cls='',info=null,onClick=null,id=null}){
+  const el=document.createElement('div');
+  el.className=`orb-panel glass ${cls}`; el.innerHTML=html; el.style.pointerEvents='auto';
+  if(id) el.id=id;
+  const p={el,ring,angle,speed:RING_SPEED[ring],hover:false,drag:false};
+  el.addEventListener('pointerenter',()=>{ p.hover=true; sHover(); if(info) tipShow(info); });
+  el.addEventListener('pointerleave',()=>{ p.hover=false; tipHide(); });
+  if(onClick) el.addEventListener('click',e=>{ if(!p.dragMoved){ sClick(); onClick(); } });
+  stage.appendChild(el); panels.push(p); return p;
+}
+
+/* ── Ring 1 · system gauges ── */
+const gauge=(id,label,unit)=>`
+  <div class="p-2.5 w-[108px] text-center">
+    <svg class="gauge-ring ${id==='g-ai'?'mg':''}" width="64" height="64" viewBox="0 0 64 64" style="margin:0 auto;display:block">
+      <circle class="track" cx="32" cy="32" r="26" fill="none" stroke-width="5"/>
+      <circle class="val" id="${id}" cx="32" cy="32" r="26" fill="none" stroke-width="5"
+        stroke-dasharray="163.4" stroke-dashoffset="163.4"/>
+    </svg>
+    <div class="font-display text-sm mt-1" id="${id}-v" style="color:var(--cyan)">—</div>
+    <div class="tick">${label}${unit?` · ${unit}`:''}</div>
+  </div>`;
+addPanel(gauge('g-cpu','CPU','QTHz'),{ring:0,angle:0,info:{t:'CPU CORE',b:'Quantum thread scheduler nominal. 4 096 virtual cores active across the arc lattice.'},onClick:()=>openModal('sensors')});
+addPanel(gauge('g-mem','MEMORY',''),{ring:0,angle:Math.PI*.5,info:{t:'MEMORY LATTICE',b:'Holographic storage banks A–F online. Defrag cycle scheduled at 04:00 UTC.'},onClick:()=>openModal('analysis')});
+addPanel(gauge('g-net','NETWORK',''),{ring:0,angle:Math.PI,info:{t:'ORBITAL UPLINK',b:'Laser mesh to 14 relay satellites. Earth Orbit Sync 99.2% · Mars Link 142 ms.'},onClick:()=>openModal('nav')});
+addPanel(gauge('g-ai','AI CORE',''),{ring:0,angle:Math.PI*1.5,cls:'mg glass-mg',info:{t:'AI CORE LOAD',b:'Cognitive inference engine at high duty cycle. 312 concurrent reasoning threads.'},onClick:()=>openModal('analysis')});
+
+/* ── Ring 2 · data viz ── */
+addPanel(`
+  <div class="p-3 w-[210px]">
+    <div class="tick mb-1">Uplink Throughput · live</div>
+    <canvas id="lineChart" width="184" height="64"></canvas>
+    <div class="flex justify-between font-term text-[10px] text-cyan-300 mt-1">
+      <span>-60s</span><span id="lineNow">— Gb/s</span>
+    </div>
+  </div>`,{ring:1,angle:.4,info:{t:'THROUGHPUT',b:'Real-time laser-mesh bandwidth, 60-second rolling window. Peak this cycle: 9.4 Gb/s.'},onClick:()=>openModal('nav')});
+addPanel(`
+  <div class="p-3 w-[176px] text-center">
+    <div class="tick mb-1">Resource Allocation</div>
+    <canvas id="pieChart" width="92" height="92" style="margin:0 auto;display:block"></canvas>
+    <div class="font-term text-[9.5px] mt-1.5 text-left leading-relaxed" style="color:#a8c8d8">
+      <span style="color:#00f0ff">■</span> Defense 38% ·
+      <span style="color:#ff00aa">■</span> Research 27%<br>
+      <span style="color:#7b5cff">■</span> Ops 21% ·
+      <span style="color:#37ffb4">■</span> Reserve 14%
+    </div>
+  </div>`,{ring:1,angle:2.5,info:{t:'ALLOCATION',b:'Arc-reactor output distribution across station subsystems.'},onClick:()=>openModal('analysis')});
+addPanel(`
+  <div class="p-3 w-[196px]">
+    <div class="tick mb-1.5">Planetary Links</div>
+    <div class="font-term text-[11px] leading-[1.8]">
+      <div class="flex justify-between"><span>🜨 Earth Orbit Sync</span><span class="glow-c" id="earthSync">99.2%</span></div>
+      <div class="flex justify-between"><span>♂ Mars Link Latency</span><span class="glow-m" id="marsMs">142ms</span></div>
+      <div class="flex justify-between"><span>☾ Luna Relay</span><span style="color:#37ffb4;text-shadow:0 0 6px rgba(55,255,180,.7)">LOCKED</span></div>
+      <div class="flex justify-between"><span>⚚ Deep Space Net</span><span class="glow-c">3/3 UP</span></div>
+    </div>
+  </div>`,{ring:1,angle:4.6,info:{t:'PLANETARY NETWORK',b:'Interplanetary comm status. Mars round-trip via relay Ares-7. Luna relay locked on crater array.'},onClick:()=>openModal('nav')});
+
+/* ── Ring 3 · module tiles (draggable along orbit) ── */
+const MODS=[
+  ['voice','🎙','VOICE'],['sensors','📡','SENSORS'],['security','🛡','SECURITY'],
+  ['nav','🧭','NAV'],['ent','♫','MEDIA'],['analysis','⬡','ANALYSIS']];
+MODS.forEach(([key,ico,label],i)=>{
+  const p=addPanel(`
+    <div class="module-tile">
+      <div class="ico">${ico}</div>
+      <div class="font-display text-[9px] tracking-[.18em] mt-1" style="color:var(--cyan)">${label}</div>
+    </div>`,
+    {ring:2,angle:i/6*Math.PI*2,info:{t:label+' MODULE',b:'Click to open detailed view. Drag to re-slot this module along its orbit.'},onClick:()=>openModal(key)});
+  makeDraggable(p);
+});
+
+/* drag modules along their orbital ring */
+function makeDraggable(p){
+  p.el.addEventListener('pointerdown',e=>{
+    p.drag=true; p.dragMoved=false; p.el.setPointerCapture(e.pointerId);
+  });
+  p.el.addEventListener('pointermove',e=>{
+    if(!p.drag) return;
+    p.dragMoved=true;
+    const c=orbitCenter();
+    p.angle=Math.atan2((e.clientY-c.y)/c.ry,(e.clientX-c.x)/c.rx3);
+  });
+  p.el.addEventListener('pointerup',()=>{ p.drag=false; setTimeout(()=>p.dragMoved=false,50); });
+}
+
+/* orbit geometry (screen-space, tilted by mouse) */
+function orbitCenter(){
+  const s=Math.min(innerWidth,innerHeight);
+  return { x:innerWidth/2, y:innerHeight/2+8,
+    rx1:s*.24, rx2:s*.345, rx3:s*.45, ry:s*.13 };
+}
+
+/* main DOM orbit loop */
+let lastT=performance.now();
+function domOrbit(now){
+  const dt=Math.min(.05,(now-lastT)/1000); lastT=now;
+  const c=orbitCenter();
+  const tiltX=mouse.y*.16, tiltZ=mouse.x*.1;  // subtle plane tilt from cursor
+  for(const p of panels){
+    if(!p.hover&&!p.drag) p.angle+=p.speed*dt;
+    const rx=[c.rx1,c.rx2,c.rx3][p.ring], ry=c.ry*(1+tiltX);
+    let x=Math.cos(p.angle)*rx, y=Math.sin(p.angle)*ry;
+    const xr=x*Math.cos(tiltZ)-y*Math.sin(tiltZ), yr=x*Math.sin(tiltZ)+y*Math.cos(tiltZ);
+    const depth=Math.sin(p.angle);                       // -1 back … +1 front
+    const sc=(.78+.26*((depth+1)/2))*(p.hover?1.12:1);
+    p.el.style.transform=`translate(calc(${c.x+xr}px - 50%), calc(${c.y+yr}px - 50%)) scale(${sc})`;
+    p.el.style.opacity=p.hover?1:(.55+.45*((depth+1)/2));
+    p.el.style.zIndex=100+Math.round(depth*50)+(p.hover?300:0);
+  }
+  requestAnimationFrame(domOrbit);
+}
+requestAnimationFrame(domOrbit);
+
+/* ── core hit area + label + radial menu ── */
+const coreHit=document.createElement('div'); coreHit.id='coreHit'; coreHit.style.pointerEvents='auto';
+const coreLabel=document.createElement('div'); coreLabel.id='coreLabel';
+coreLabel.innerHTML=`
+  <div class="font-display text-[10px] tracking-[.35em] glow-c" id="coreStatus">JARVIS ONLINE</div>
+  <div class="font-term text-[10px] mt-1" style="color:#7fd6e8">SYSTEM INTEGRITY <span id="coreInt">99.8</span>%</div>
+  <div class="tick mt-0.5">tap core · command ring</div>`;
+stage.append(coreHit,coreLabel);
+function placeCore(){ const c=orbitCenter();
+  coreHit.style.left=c.x+'px'; coreHit.style.top=c.y+'px';
+  coreLabel.style.left=c.x+'px'; coreLabel.style.top=c.y+'px'; }
+placeCore(); addEventListener('resize',placeCore);
+
+let radialOpen=false; const radialBtns=[];
+MODS.forEach(([key,ico,label],i)=>{
+  const b=document.createElement('button'); b.className='radial-btn';
+  b.innerHTML=`<span>${ico}</span><small>${label}</small>`; b.style.pointerEvents='auto';
+  b.addEventListener('click',()=>{ sClick(); toggleRadial(false); openModal(key); });
+  b.addEventListener('pointerenter',sHover);
+  stage.appendChild(b); radialBtns.push(b);
+});
+function toggleRadial(force){
+  radialOpen=force??!radialOpen;
+  const c=orbitCenter(), R=132;
+  radialBtns.forEach((b,i)=>{
+    const a=-Math.PI/2+i/radialBtns.length*Math.PI*2;
+    b.style.left=c.x+'px'; b.style.top=c.y+'px';
+    b.classList.toggle('open',radialOpen);
+    b.style.transform=radialOpen
+      ?`translate(calc(-50% + ${Math.cos(a)*R}px), calc(-50% + ${Math.sin(a)*R}px)) scale(1)`
+      :`translate(-50%,-50%) scale(0)`;
+  });
+}
+coreHit.addEventListener('click',()=>{ sClick(); coreUniforms.uPulse.value=1; toggleRadial(); });
+coreHit.addEventListener('pointerenter',()=>{ sHover();
+  tipShow({t:'ARC CORE',b:'Primary fusion intelligence core. Click to open the command ring.'}); });
+coreHit.addEventListener('pointerleave',tipHide);
+
+/* ════════════════════════════════════════════════════════════
+   4 · GAUGES & CHARTS
+   ════════════════════════════════════════════════════════════ */
+const CIRC=163.4;
+function setGauge(id,pct){
+  const el=document.getElementById(id); if(!el) return;
+  el.style.strokeDashoffset=CIRC*(1-pct/100);
+  const v=document.getElementById(id+'-v'); if(v) v.textContent=Math.round(pct)+'%';
+}
+function updateGauges(){
+  setGauge('g-cpu',T.cpu); setGauge('g-mem',T.mem); setGauge('g-net',T.net); setGauge('g-ai',T.ai);
+  const e=document.getElementById('earthSync'); if(e) e.textContent=T.earthSync.toFixed(1)+'%';
+  const m=document.getElementById('marsMs'); if(m) m.textContent=T.marsMs+'ms';
+  const ci=document.getElementById('coreInt'); if(ci) ci.textContent=T.integrity.toFixed(1);
+}
+setTimeout(updateGauges,300);
+
+/* line chart */
+const lineData=Array.from({length:60},()=>60+Math.random()*20);
+function chartPush(v){ lineData.push(v); lineData.shift(); drawLine();
+  const n=document.getElementById('lineNow'); if(n) n.textContent=(v/10).toFixed(1)+' Gb/s'; }
+function drawLine(){
+  const cv=document.getElementById('lineChart'); if(!cv) return;
+  const x=cv.getContext('2d'), W=cv.width, H=cv.height;
+  x.clearRect(0,0,W,H);
+  x.strokeStyle='rgba(0,240,255,.12)';
+  for(let gy=0;gy<=4;gy++){ x.beginPath(); x.moveTo(0,gy*H/4); x.lineTo(W,gy*H/4); x.stroke(); }
+  const grad=x.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'rgba(0,240,255,.35)'); grad.addColorStop(1,'rgba(0,240,255,0)');
+  x.beginPath();
+  lineData.forEach((v,i)=>{ const px=i/(lineData.length-1)*W, py=H-(v/100)*H; i?x.lineTo(px,py):x.moveTo(px,py); });
+  x.strokeStyle='#00f0ff'; x.lineWidth=1.6; x.shadowColor='#00f0ff'; x.shadowBlur=6; x.stroke();
+  x.lineTo(W,H); x.lineTo(0,H); x.closePath(); x.shadowBlur=0; x.fillStyle=grad; x.fill();
+}
+/* pie chart */
+function drawPie(){
+  const cv=document.getElementById('pieChart'); if(!cv) return;
+  const x=cv.getContext('2d'), cx=46,cy=46,r=38;
+  const parts=[[.38,'#00f0ff'],[.27,'#ff00aa'],[.21,'#7b5cff'],[.14,'#37ffb4']];
+  let a=-Math.PI/2;
+  x.clearRect(0,0,92,92);
+  parts.forEach(([f,c])=>{
+    x.beginPath(); x.moveTo(cx,cy); x.arc(cx,cy,r,a,a+f*Math.PI*2); x.closePath();
+    x.fillStyle=c+'33'; x.fill(); x.strokeStyle=c; x.lineWidth=1.5;
+    x.shadowColor=c; x.shadowBlur=8; x.stroke(); x.shadowBlur=0;
+    a+=f*Math.PI*2;
+  });
+  x.beginPath(); x.arc(cx,cy,16,0,Math.PI*2); x.fillStyle='#000811'; x.fill();
+  x.strokeStyle='rgba(0,240,255,.4)'; x.stroke();
+}
+setTimeout(()=>{ drawLine(); drawPie(); },350);
+
+/* ════════════════════════════════════════════════════════════
+   5 · LIVE LOG FEED
+   ════════════════════════════════════════════════════════════ */
+const logBox=document.getElementById('logBox');
+const LOGS=[
+  ['ok','Orbital scan complete — sector 7G clear'],
+  ['','Telemetry packet burst: 4 812 frames verified'],
+  ['','Earth Orbit Sync drift corrected +0.003°'],
+  ['warn','Anomaly detected in sector 7G — reclassified: micrometeorite'],
+  ['','Mars relay Ares-7 handshake OK · 142 ms'],
+  ['ok','Arc reactor output stable at 8.4 GW'],
+  ['','Deep-space antenna array recalibrated'],
+  ['warn','Solar flare M2.1 inbound — shielding auto-raised'],
+  ['','Stark Industries uplink: encrypted burst received'],
+  ['','Navigation gyros within 0.0001 rad tolerance'],
+  ['ok','Security sweep: 0 intrusions · 14 probes deflected'],
+  ['','AI inference cache optimized — latency −12%'],
+  ['','Luna relay crater-array lock re-acquired'],
+  ['warn','Debris cluster tracked — TLE updated, no threat'],
+  ['','Cryo-loop Δ-2 temperature nominal: 4.2 K'],
+];
+let logi=0;
+function pushLog(forceMsg,cls){
+  const [lvl,msg]=forceMsg?[cls||'',forceMsg]:LOGS[logi++%LOGS.length];
+  const d=new Date(), ts=d.toTimeString().slice(0,8);
+  const line=document.createElement('div');
+  line.className=`log-line ${lvl}`;
+  line.innerHTML=`<span style="color:var(--dim)">${ts}</span> <span style="color:${lvl==='warn'?'var(--magenta)':lvl==='ok'?'#37ffb4':'#9fdcec'}">${msg}</span>`;
+  logBox.prepend(line);
+  if(lvl==='warn') sAlert();
+  while(logBox.children.length>34) logBox.lastChild.remove();
+}
+pushLog('JARVIS boot sequence complete — all systems nominal','ok');
+(function logLoop(){ pushLog(); setTimeout(logLoop,1800+Math.random()*2600); })();
+
+/* ════════════════════════════════════════════════════════════
+   6 · CLOCK / STARDATE
+   ════════════════════════════════════════════════════════════ */
+setInterval(()=>{
+  const d=new Date();
+  document.getElementById('clock').textContent=d.toTimeString().slice(0,8);
+  const sol=(d.getFullYear()-2000)*1000+Math.floor((d-new Date(d.getFullYear(),0,0))/864e5)+d.getHours()/24;
+  document.getElementById('stardate').textContent='SOL '+sol.toFixed(2)+' · LEO-STATION-01';
+},500);
+
+/* ════════════════════════════════════════════════════════════
+   7 · TOOLTIP
+   ════════════════════════════════════════════════════════════ */
+const tip=document.getElementById('tip');
+let tipOn=false;
+function tipShow(i){ document.getElementById('tipTitle').textContent=i.t;
+  document.getElementById('tipBody').textContent=i.b; tip.classList.add('show'); tipOn=true; }
+function tipHide(){ tip.classList.remove('show'); tipOn=false; }
+function tipFollow(e){ if(!tipOn) return;
+  const x=Math.min(e.clientX+18,innerWidth-260), y=Math.min(e.clientY+18,innerHeight-110);
+  tip.style.left=x+'px'; tip.style.top=y+'px'; }
+
+/* ════════════════════════════════════════════════════════════
+   8 · MODALS — detailed module views
+   ════════════════════════════════════════════════════════════ */
+const stats=(arr)=>`<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">${
+  arr.map(([v,l])=>`<div class="mstat"><b>${v}</b><span>${l}</span></div>`).join('')}</div>`;
+const radar=`
+  <div class="glass p-4 mb-5 flex items-center gap-5 flex-wrap">
+    <svg width="150" height="150" viewBox="0 0 150 150">
+      ${[60,44,28,12].map(r=>`<circle cx="75" cy="75" r="${r}" fill="none" stroke="rgba(0,240,255,.18)"/>`).join('')}
+      <line x1="75" y1="15" x2="75" y2="135" stroke="rgba(0,240,255,.12)"/>
+      <line x1="15" y1="75" x2="135" y2="75" stroke="rgba(0,240,255,.12)"/>
+      <g style="transform-origin:75px 75px;animation:sweep 3.2s linear infinite">
+        <path d="M75 75 L75 15 A60 60 0 0 1 117 32 Z" fill="rgba(0,240,255,.18)"/>
+        <line x1="75" y1="75" x2="75" y2="15" stroke="#00f0ff" stroke-width="1.5"/>
+      </g>
+      <circle cx="98" cy="52" r="3" fill="#ff00aa"><animate attributeName="opacity" values="1;.2;1" dur="1.4s" repeatCount="indefinite"/></circle>
+      <circle cx="52" cy="96" r="2.5" fill="#37ffb4"><animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/></circle>
+      <style>@keyframes sweep{to{transform:rotate(360deg)}}</style>
+    </svg>
+    <div class="font-term text-[11.5px] leading-[1.9] flex-1 min-w-[200px]" style="color:#a8c8d8">
+      <div><span class="glow-m">◆</span> Contact 01 — debris cluster · 412 km · benign</div>
+      <div><span style="color:#37ffb4">◆</span> Contact 02 — supply drone SI-88 · docking Q4</div>
+      <div><span class="glow-c">◆</span> Sweep cadence 3.2 s · gain AUTO · band X/Ka</div>
+    </div>
+  </div>`;
+const table=(rows)=>`
+  <table class="w-full font-term text-[11.5px]" style="border-collapse:collapse">
+    ${rows.map((r,i)=>`<tr style="border-top:1px solid rgba(0,240,255,${i?'.12':'0'})">
+      ${r.map((c,j)=>`<td class="py-1.5 ${j?'text-right':''}" style="color:${j?'#00f0ff':'#a8c8d8'}">${c}</td>`).join('')}</tr>`).join('')}
+  </table>`;
+
+const MODAL={
+  overview:{ t:'STATION OVERVIEW', s:'LEO-STATION-01 · orbital period 92.8 min',
+    b:()=>stats([['99.8%','integrity'],['8.4 GW','reactor out'],['412 km','altitude'],['27 493 km/h','velocity']])+radar+
+      table([['Crew modules pressurized','6/6'],['Docking ports','2 free / 4'],['Next perigee burn','T-04:12:55'],['Waste heat radiators','92% eff']]) },
+  voice:{ t:'VOICE COMMAND', s:'natural-language interface · EN/PL loaded',
+    b:()=>stats([['312','cmds today'],['98.7%','accuracy'],['0.21 s','avg latency'],['2','locales']])+
+      `<div class="glass p-4 mb-4 font-term text-[12px] leading-[2]" style="color:#a8c8d8">
+        <div>❯ <span class="glow-c">"scan sector seven gee"</span> → orbital sweep dispatched</div>
+        <div>❯ <span class="glow-c">"route power to shields"</span> → +14% forward array</div>
+        <div>❯ <span class="glow-c">"play something classic"</span> → AC/DC · Back in Black</div>
+      </div>`+table([['Wake phrase','“JARVIS”'],['Model','on-station inference'],['Fallback','manual console'],['Privacy','local only']]) },
+  sensors:{ t:'SENSOR ARRAY', s:'multispectral · lidar · gravimetric',
+    b:()=>stats([['84','active sensors'],['3','maintenance'],['0.02″','pointing err'],['X/Ka','radar bands']])+radar+
+      table([['Lidar mesh','ONLINE'],['IR telescope','tracking 12 objects'],['Gravimeter drift','2e-9 g'],['Dust counter','14 hits/h']]) },
+  security:{ t:'SECURITY GRID', s:'perimeter shield · intrusion countermeasures',
+    b:()=>stats([['LOW','threat level'],['0','intrusions'],['14','probes deflected'],['100%','shield charge']])+
+      table([['Firewall lattice','ACTIVE · 0 breaches'],['Airlock auth','biometric + token'],['Point-defense','STANDBY'],['Last sweep','00:07:12 ago'],['Encryption','quantum pad rotated 06:00']]) },
+  nav:{ t:'NAVIGATION', s:'orbital mechanics · interplanetary links',
+    b:()=>stats([['92.8 min','orbit period'],['51.6°','inclination'],['142 ms','Mars link'],['99.2%','Earth sync']])+
+      table([['Next node crossing','T-11:02'],['Δv budget','412 m/s'],['Star tracker lock','Vega · Altair'],['Collision watch','2 tracked · no action'],['Luna relay bearing','114.7° az / 22.1° el']]) },
+  ent:{ t:'ENTERTAINMENT', s:'ambient systems · crew morale',
+    b:()=>stats([['1 204','tracks cached'],['86','films'],['4.8/5','crew rating'],['72 dB','cabin limit']])+
+      table([['Now playing','Interstellar OST · Cornfield Chase'],['Holo-deck','reserved 19:00 · chess vs. AI'],['Viewport dimming','AUTO sunset mode'],['Zero-g cinema','Sat 20:00']]) },
+  analysis:{ t:'DEEP ANALYSIS', s:'AI core · predictive engineering',
+    b:()=>stats([['312','threads'],['88%','core load'],['1.4 PB','dataset'],['−12%','latency opt']])+
+      `<div class="glass p-4 mb-4"><div class="tick mb-2">Inference queue</div>${table([
+        ['Hull micro-fracture forecast','running · 62%'],['Solar-flare trajectory model','done · shield raised'],
+        ['Resource optimizer v9','done · −4% waste'],['Crew schedule synthesis','queued']])}</div>
+      <div class="font-term text-[11px]" style="color:var(--dim)">All model output is simulated demo copy — no external AI calls are made by this interface.</div>` },
+};
+const modalWrap=document.getElementById('modalWrap');
+function openModal(key){
+  const m=MODAL[key]||MODAL.overview;
+  document.getElementById('modalTitle').textContent=m.t;
+  document.getElementById('modalSub').textContent=m.s;
+  document.getElementById('modalBody').innerHTML=m.b();
+  modalWrap.classList.add('open'); toggleRadial(false);
+}
+document.getElementById('modalClose').onclick=()=>{ sClick(); modalWrap.classList.remove('open'); };
+modalWrap.addEventListener('click',e=>{ if(e.target===modalWrap) modalWrap.classList.remove('open'); });
+addEventListener('keydown',e=>{ if(e.key==='Escape') modalWrap.classList.remove('open'); });
+
+/* sidebar module list */
+document.querySelectorAll('.side-item').forEach(el=>{
+  el.addEventListener('pointerenter',sHover);
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('.side-item').forEach(x=>x.classList.remove('active'));
+    el.classList.add('active'); sClick(); openModal(el.dataset.mod);
+  });
+});
+document.getElementById('notifBell').addEventListener('click',()=>{ sClick();
+  pushLog('Notifications: 3 unread — flare advisory, dock request, defrag report','warn'); });
+
+/* mobile toggles */
+document.getElementById('menuToggle').onclick=()=>{ sClick(); document.getElementById('sidebar').classList.toggle('open-m'); };
+document.getElementById('feedToggle').onclick=()=>{ sClick(); document.getElementById('feed').classList.toggle('open-m'); };
+
+/* ════════════════════════════════════════════════════════════
+   9 · COMMAND BAR + VOICE + SHUTDOWN
+   ════════════════════════════════════════════════════════════ */
+const coreStatus=document.getElementById('coreStatus');
+function runCmd(cmd){
+  sClick(); coreUniforms.uPulse.value=1;
+  const c=cmd.toLowerCase();
+  if(c.includes('shutdown')) return shutdownSeq();
+  if(c.includes('scan')){ coreStatus.textContent='SCANNING…';
+    pushLog('Full-spectrum orbital scan initiated — ETA 6 s');
+    setTimeout(()=>{ pushLog('Scan complete: 0 threats, 2 tracked objects','ok'); coreStatus.textContent='JARVIS ONLINE'; },6000); }
+  else if(c.includes('analyze')){ coreStatus.textContent='ANALYZING…';
+    pushLog('Deep analysis pass over telemetry lake started');
+    setTimeout(()=>{ pushLog('Analysis: all subsystems within tolerance','ok'); coreStatus.textContent='JARVIS ONLINE'; },4500); }
+  else if(c.includes('engage')){ coreStatus.textContent='ENGAGED';
+    pushLog('Engagement protocol armed — awaiting vector','warn');
+    setTimeout(()=>{ pushLog('Protocol stood down — no target designated'); coreStatus.textContent='JARVIS ONLINE'; },5000); }
+  else pushLog(`Command parsed: "${cmd}" — acknowledged, sir`);
+}
+document.querySelectorAll('[data-cmd]').forEach(b=>{
+  b.addEventListener('pointerenter',sHover);
+  b.addEventListener('click',()=>runCmd(b.dataset.cmd));
+});
+const cmdInput=document.getElementById('cmdInput');
+cmdInput.addEventListener('keydown',e=>{ if(e.key==='Enter'&&cmdInput.value.trim()){ runCmd(cmdInput.value.trim()); cmdInput.value=''; } });
+document.getElementById('searchInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.value.trim()){ sClick();
+    pushLog(`Stellar DB query: "${e.target.value.trim()}" — 12 records matched`); e.target.value=''; } });
+
+/* fake voice capture */
+const voiceBtn=document.getElementById('voiceBtn');
+voiceBtn.addEventListener('click',()=>{
+  sClick(); voiceBtn.classList.add('listening');
+  pushLog('Voice capture armed — listening…');
+  setTimeout(()=>{ voiceBtn.classList.remove('listening');
+    pushLog('Transcript: “status report” → all systems nominal','ok'); audio(320,900,.2,.05); },2400);
+});
+
+/* cinematic shutdown + reboot */
+function shutdownSeq(){
+  sAlert(); const sd=document.getElementById('shutdown'), msg=document.getElementById('shutMsg');
+  coreStatus.textContent='POWERING DOWN'; sd.classList.add('on');
+  msg.textContent='POWERING DOWN…';
+  setTimeout(()=>{ msg.textContent='…ARC REACTOR STANDBY'; },1600);
+  setTimeout(()=>{ msg.innerHTML='REBOOT? <span class="glow-c" style="cursor:pointer" id="rebootBtn">[ CONFIRM ]</span>';
+    document.getElementById('rebootBtn').onclick=()=>{ sClick(); sd.classList.remove('on');
+      coreStatus.textContent='JARVIS ONLINE'; pushLog('Reboot complete — welcome back, sir','ok'); };
+  },3000);
+}
+
+/* ════════════════════════════════════════════════════════════
+   10 · RENDER LOOP
+   ════════════════════════════════════════════════════════════ */
+const clock3=new THREE.Clock();
+function render(){
+  const t=clock3.getElapsedTime(), dt=clock3.getDelta()||.016;
+  mouse.x+=(mouse.tx-mouse.x)*.04; mouse.y+=(mouse.ty-mouse.y)*.04;
+
+  camera.position.x=mouse.x*.9; camera.position.y=.6-mouse.y*.6;
+  camera.lookAt(0,0,0);
+
+  coreUniforms.uTime.value=t;
+  coreUniforms.uPulse.value=Math.max(0,coreUniforms.uPulse.value-.02);
+  coreGrp.rotation.y=t*.25; shell.rotation.y=-t*.4; shell.rotation.x=t*.18;
+  shell2.rotation.y=t*.15; shell2.rotation.z=-t*.1;
+  const pulse=1+.03*Math.sin(t*2)+coreUniforms.uPulse.value*.12;
+  coreGrp.scale.setScalar(pulse);
+
+  starsFar.rotation.y=t*.004+mouse.x*.02; starsFar.rotation.x=mouse.y*.02;
+  starsNear.rotation.y=t*.009+mouse.x*.05; starsNear.rotation.x=mouse.y*.05;
+  nebulae.rotation.y=t*.002;
+  rings.forEach((r,i)=>{ r.rotation.z=t*[.05,-.035,.02][i]; r.rotation.x=1.15+mouse.y*.08; });
+
+  for(let i=0;i<orbN;i++){ const d=orbDat[i]; d.a+=d.s*dt;
+    orbPos[i*3]=Math.cos(d.a)*d.r; orbPos[i*3+1]=d.y; orbPos[i*3+2]=Math.sin(d.a)*d.r; }
+  orbGeo.attributes.position.needsUpdate=true;
+  orbPts.rotation.x=1.15+mouse.y*.08;
+
+  for(let i=0;i<trailN;i++){ if(trailLife[i]>0){ trailLife[i]-=dt*1.6; if(trailLife[i]<=0) trailPos[i*3+1]=9999; } }
+  trailGeo.attributes.position.needsUpdate=true;
+  trailPts.material.opacity=.5;
+
+  renderer.render(scene,camera);
+  requestAnimationFrame(render);
+}
+render();
+pushLog('Orbital HUD calibrated — parallax lock engaged');
+</script>
+
+<!-- ════════════════════════════════════════════════════════════
+  HOW TO RUN
+  ──────────
+  1. Save this file as jarvis.html and open it directly in any modern
+     browser (Chrome / Edge / Firefox / Safari) — or serve locally:
+       python -m http.server 4173 --bind 127.0.0.1
+     then visit http://127.0.0.1:4173/jarvis.html
+  2. Internet access is required once for the CDNs (Tailwind, Three.js,
+     Google Fonts). Everything else is procedural — no assets, no APIs.
+  3. Interactions: move the mouse (parallax + trails), hover any panel
+     (expand + tooltip), click the core (radial command ring), click
+     panels/modules (detail modals), drag ring-3 module tiles along
+     their orbit, type in the command bar ("scan", "analyze", "engage",
+     "shutdown"), toggle audio with ♪.
+  ITERATION IDEAS
+  – Swap simulated telemetry (object T) for a real WebSocket feed.
+  – Add postprocessing (UnrealBloomPass) for stronger lens-flare glow.
+  – Extract the design tokens in :root into a shared theme file.
+  – Wire voiceBtn to the real Web Speech API for live voice commands.
+  All data shown is hardcoded demo content — no live systems attached.
+═════════════════════════════════════════════════════════════ -->
+</body>
+</html>
