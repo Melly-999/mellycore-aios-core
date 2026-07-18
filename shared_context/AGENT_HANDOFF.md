@@ -1,6 +1,48 @@
 # Agent Handoff
 
-Latest completed task: `MELLYCORE-PR3-CLOSEOUT-DOCS-001`
+Latest completed task: `MELLYCORE-HOLOGRAPHIC-UI-SPEC-REMEDIATION-001`
+
+- Outcome: docs-only remediation of `docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`
+  on draft PR #4, responding to `MELLYCORE-HOLOGRAPHIC-UI-SPEC-REVIEW-001`'s
+  verdict (**NEEDS SPEC FIXES BEFORE MERGE**) and findings F1–F5. Resolved F1
+  (wrong hero) by demoting the core+provider-orbit+containment-hull composition
+  to a secondary, Overview-only identity mark (Section 2.5 rewritten with hard
+  rules: static/ultra-slow, background-level, never inside the Source Arena
+  viewport, never the lead screenshot); the Source Arena social-feed
+  composition is now the explicit primary hero and required first screenshot.
+  Resolved F2 (comparison not in the central slide) by adding new Section 3.1a,
+  a required "model-lens slide" feed-slide type carrying a pinned real-source
+  header plus four Fable 5/Opus/GPT/GLM panels each badged `Simulated model
+  output` in its header, mirrored as a 2×2 desktop rail expansion; Model Arena
+  is now framed as the *expanded* version of this same slide, not a
+  disconnected tab. Resolved F3 (unspecified pagination/prompt list) by
+  requiring the existing `nasa-stage-dots` element under every slide and a
+  demo prompt/task chip rail labeled `Demo prompts / simulated comparison
+  tasks` with five example prompts and an explicit no-implied-capability
+  disclaimer. Resolved F4 (approximate breakpoint) by pinning the mobile
+  flatten rule to `max-width: 768px`. Resolved F5 (unanchored HTML insertion
+  points) by naming the exact anchor (`#tab-nasa`/`.dash-panel--nasa`) and
+  requiring reuse — not duplication — of the existing NASA stage, provider
+  rail, and pagination dots. Also re-scoped the safety containment hull to a
+  compact content-sized labeling frame (never a full-screen frame), pinned
+  390×844 as the spec's primary reference viewport with explicit acceptance
+  criteria, capped desktop decorative tilt at ~4°, and consolidated every
+  implementation constraint (no Three.js/Canvas/dependency/build step, no
+  backend/database/key/scheduler, no live GitHub ingestion, no autonomy, no
+  `ContextSource` body/refusal-log/private-path access) into Section 5.9.
+- Files: `docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md` (sections 2.4, 2.5,
+  3.1–3.4, 4.4, 4.9, 5.1, 5.3, 5.6, 5.9, 6.3 amended),
+  `docs/tasks/MELLYCORE-HOLOGRAPHIC-UI-SPEC-REMEDIATION-001.md` (new),
+  `shared_context/AGENT_HANDOFF.md`, `shared_context/RUN_QUEUE.md`
+- Posture: docs-only; no site/dashboard code, `ContextSource` record, refusal
+  log, loop evidence, or `PROJECT_STATE.md` release fact touched. The UI
+  remains unimplemented — this task edited specification text only. PR #4
+  remains open/draft/not-merged; canonical `main` unchanged at `fff50d2`; the
+  retired repository `Melly-999/mellycore-aios` was not contacted.
+- Next: `MELLYCORE-PR4-MERGE-001` — merge draft PR #4 now that the review's
+  blocking findings are remediated.
+
+Previous completed task: `MELLYCORE-PR3-CLOSEOUT-DOCS-001`
 
 - Outcome: docs-only closeout. Corrected stale pre-release claims in
   `shared_context/PROJECT_STATE.md`: removed "Cockpit V2 remains a local static

@@ -139,15 +139,23 @@ Hard rules:
 - **Starfield/media texture:** the existing CSS radial-dot starfield, kept sparse.
   Media itself (NASA imagery) supplies the cinematic texture; the UI never competes
   with it.
-- **Containment hull:** a rounded-rectangle frame with amber corner ticks and a
-  short amber caption. It visually "contains" anything autonomous-looking (model
-  lenses, loop status) and is always paired with the literal text of the constraint
-  (e.g. `Read-only · No autonomous actions`). The hull is the signature honest-UI
-  element: decoration that states policy.
+- **Containment hull:** a compact rounded-rectangle frame with amber corner ticks
+  and a short amber caption — **a labeling device, not architecture.** It wraps
+  specific simulated/autonomous-looking content (model-lens panels on the central
+  feed slide, the Model Arena panel set, the model rail on desktop, loop status on
+  Overview) at the size of that content, never the whole application shell or an
+  entire screen. Caption text: `Simulated · read-only · zero-autonomy` for
+  model-lens content, or the existing `Read-only · No autonomous actions` /
+  `Zero-autonomy containment · static · keyless · read-only` variants elsewhere.
+  The hull is the signature honest-UI element: decoration that states policy — its
+  job is legibility of the constraint, not visual weight.
 
-### 2.5 Signature composition: core, orbit, hull
+### 2.5 Secondary identity composition: core, orbit, hull (Overview only)
 
-The hero identity of HSSC (used on Overview, reusable as a brand illustration):
+**This is a secondary identity composition, not the product hero.** The primary
+hero of HSSC is the Source Arena social-feed composition (Sections 3.1/3.2). The
+core+orbit+hull composition below appears only on the Overview tab, as a compact,
+background-level identity mark:
 
 - **MellyCore core:** a small central emblem (layered concentric violet rings around
   the wordmark), softly pulsing glow, the only element allowed a slow idle animation.
@@ -157,6 +165,20 @@ The hero identity of HSSC (used on Overview, reusable as a brand illustration):
   product thesis at a glance: many providers, one core, exactly one live today.
 - **Safety containment hull:** the amber-ticked frame drawn around core + ring, with
   the caption `Zero-autonomy containment · static · keyless · read-only`.
+
+Hard rules for this composition:
+
+- The orbit is **static or ultra-slow** (existing 60s+ period keyframe, or reduced
+  further); it never reads as active motion competing for attention.
+- **Background-level only** — it renders behind the Overview status panels, never
+  as full-bleed foreground content.
+- **Never inside the Source Arena viewport.** The orbit ring does not render on
+  the Source Arena mobile or desktop screens (Sections 3.1/3.2).
+- **Never the lead screenshot.** See Section 6.3's screenshot order — Overview is
+  screenshot #4, not #1.
+- **Never visually stronger than the central social slide.** Its glow, size, and
+  contrast budget stay below the Source Arena stage's on every viewport where both
+  could theoretically be compared.
 
 NASA must never sit in the center. The center is always MellyCore.
 
@@ -187,42 +209,126 @@ described but not built, must carry `Planned`.
 
 ### 3.1 Source Arena — mobile (portrait, ≤ 480px)
 
+**This is the product's primary hero composition and required first screenshot
+(Section 6.3).**
+
 - **Layout:** full-bleed vertical stage (existing phone-frame pattern promoted to
-  the whole viewport). Top: search pill + provider chip rail (horizontal scroll,
-  scroll-fade). Center: the source media stage, one source per viewport, vertical
-  swipe/scroll between sources. Right edge: social action rail (like / inspect /
-  save / share) as floating glass buttons. Bottom: caption block — provider handle,
-  source title, provenance badge row, hashtags. Tab bar below.
+  the whole viewport), composed top to bottom:
+  1. **Top control row:** search pill + provider chip rail (horizontal scroll,
+     scroll-fade).
+  2. **Prompt/demo-task chip rail:** a second horizontal-scroll row directly below
+     the provider rail, listing demo prompts (Section 3.1a). Always visible, never
+     hidden behind a menu.
+  3. **Central slide:** one slide per viewport, vertical swipe/scroll between
+     slides. Two slide types exist and are interchangeable in the same feed
+     (Section 3.1a): a **media slide** (real NASA source, existing behavior) and a
+     **model-lens slide** (selected real source + four model-comparison panels,
+     new — required, not optional).
+  4. **Pagination dots:** the existing `nasa-stage-dots` element, rendered directly
+     below the central slide for every slide type (media and model-lens alike).
+  5. **Right edge:** social action rail (like / inspect / save / share) as floating
+     glass buttons, docked to the slide, not the viewport — it stays adjacent to
+     whichever slide is active.
+  6. **Bottom:** creator/caption/metadata block — provider handle, source/slide
+     title, provenance badge row, hashtags. Tab bar below.
+  All real/demo/simulated badges for the active slide are visible in this layout
+  without opening another tab — Model Arena remains available separately as the
+  *expanded* comparison view (Section 3.3), not as the only place the comparison
+  is visible.
 - **Real:** NASA Images API search results and media (image/video/audio) fetched
-  browser-side, keyless; source titles, dates, NASA ids.
+  browser-side, keyless; source titles, dates, NASA ids; on a model-lens slide, the
+  pinned selected-source thumbnail and its metadata.
 - **Simulated:** action-rail counts (`Demo counts` label stays attached to the rail,
-  not hidden in a tooltip); preset "missions" are demo presets.
+  not hidden in a tooltip); preset "missions" are demo presets; demo prompt/task
+  labels (Section 3.1a); on a model-lens slide, all four model panels' text.
 - **Planned:** all non-NASA provider chips; the GitHub chip opens the existing
   planned-provider card.
 - **Must-visible labels:** `Demo provider: NASA Images API`, `Real source` on the
-  caption, `Demo counts` on the rail, `Planned` on every inactive chip.
-- **Visually dominant:** the media itself. The stage gets ~75% of viewport height.
+  caption and on the model-lens slide's pinned source, `Demo counts` on the rail,
+  `Planned` on every inactive chip, `Simulated model output` in every model-panel
+  header on a model-lens slide, the prompt rail's `Demo prompts / simulated
+  comparison tasks` label (Section 3.1a).
+- **Visually dominant:** the central slide (media or model-lens). The slide gets
+  ~70–75% of the first viewport's height (Section 5.6 sets the exact figure).
 - **Reduced/hidden:** hologram-layer effects flatten to 2D on mobile (Section 4.9);
-  the orbit ring does not render here; nebula washes reduce to a single gradient.
+  the provider orbit ring does not render anywhere on this screen; nebula washes
+  reduce to a single gradient; the Overview secondary identity composition
+  (Section 2.5) is not present here at all.
+
+#### 3.1a Model-lens slide (required feed slide type)
+
+A model-lens slide is a first-class slide in the same vertical feed as media
+slides — not a separate screen. Contents, top to bottom within the slide frame:
+
+- **Pinned source header:** the selected real source's thumbnail, provider name,
+  and provenance metadata (capture date, NASA id or equivalent), with a `Real
+  source` badge. This is what makes the comparison honestly "over one real
+  source" rather than a floating claim.
+- **Four model panels**, stacked vertically on mobile: **Fable 5**, **Opus**,
+  **GPT**, **GLM**, in that order. Each panel: bold model name, a one-line role tag
+  (from `MODEL_ROUTING.md`), 2–3 lines of lens text, and a `Simulated model
+  output` badge in the panel **header** (not the footer — consistent with Model
+  Arena, Section 3.3).
+- No panel receives a "winner" treatment; Fable 5's panel may use the primary
+  violet edge (house model) but gains no size or glow advantage, matching Section
+  3.3's rule for the expanded view.
+
+**Demo prompt/task rail (Section 3.1's item 2):** a horizontal-scroll chip rail
+sourced from the existing demo presets, always labeled `Demo prompts / simulated
+comparison tasks` (never bare "Prompts" or "Tasks" without the qualifier — this is
+a hard honesty requirement, not styling). Example labels (illustrative set, reuse
+or extend the existing preset copy):
+
+- "Visualize every asteroid in the solar system from NASA data"
+- "Design a site plan for a 100-acre fitness retreat"
+- "Reconstruct Apollo control panels from technical PDFs"
+- "Simulate World Cup jersey supply chains by match outcome"
+- "Show how solar flares affect the auroras"
+
+Selecting a chip does not imply the described capability is implemented — only
+that it is one of the deterministic local demo comparisons available today. The
+rail must never be styled or worded in a way that implies every listed source
+type (PDFs, supply-chain data, site-plan generation, etc.) is a live, implemented
+capability; it remains explicitly a **demo prompt list over the one real NASA
+source and the four simulated model lenses**, not a general task-execution
+surface.
 
 ### 3.2 Source Arena — desktop (≥ 1024px)
 
-- **Layout:** three-column cockpit. Center: the phone-proportioned vertical stage
-  (existing centered phone-stage pattern kept — the mobile feed *is* the product
-  and desktop frames it like an instrument). Left rail: mission/search rail
-  (existing `mission-rail`/`search-rail`) restyled as tilted glass panels angled
-  ~4° toward center. Right rail: model rail (lens summaries) plus the action rail
-  docked to the stage edge. Behind the center stage: faint orbit-ring arc and
-  nebula depth, establishing the hologram layer without touching content.
+**Desktop adaptation of the same primary hero composition (Section 3.1) — not a
+different product.**
+
+- **Layout:** three-column social cockpit. Center: the phone-proportioned vertical
+  stage (existing centered phone-stage pattern kept — the mobile feed *is* the
+  product and desktop frames it like an instrument), including the prompt/demo-task
+  chip rail, both slide types (media and model-lens, Sections 3.1/3.1a), and
+  `nasa-stage-dots` pagination below the stage. Left rail: prompt/mission rail
+  (existing `mission-rail`/`search-rail`) restyled as tilted glass panels, maximum
+  decorative tilt **~4°** toward center (Section 4.5 sets the ceiling; reduce
+  further if legibility suffers). Right rail: model/source rail — on a model-lens
+  slide this rail may expand the same four panels into a **2×2 arrangement**
+  echoing the slide's own layout; plus the action rail docked to the stage edge.
+  Holographic depth here is limited to these subtle card transforms — no orbit
+  ring, no nebula arc, nothing behind the center stage competing with it.
 - **Real / Simulated / Planned:** identical to mobile — layout changes, honesty
   labels do not.
-- **Must-visible labels:** same set as mobile, plus the containment hull drawn
-  around the model rail with `Simulated model output · no live model calls`.
-- **Visually dominant:** center stage first, model rail second.
+- **Must-visible labels:** same set as mobile (Section 3.1), including `Simulated
+  model output` on every model panel; the compact containment-hull frame (Section
+  2.4/4.4) wraps the model rail / model-lens panel set with the caption
+  `Simulated · read-only · zero-autonomy`.
+- **Visually dominant:** the center stage — same as mobile. Desktop must remain
+  recognizably the same product as mobile, not a separate dashboard.
 - **Reduced/hidden:** side rails dim (opacity ~0.85) when the stage is interacted
-  with; the orbit arc never overlaps stage media.
+  with. **The provider orbit ring and the Overview secondary identity composition
+  (Section 2.5) do not render anywhere on this screen** — the orbit is
+  Overview-only per Section 2.5's hard rules.
 
 ### 3.3 Model Arena — comparison view
+
+This tab is the **expanded** version of the model-lens slide introduced in
+Section 3.1a — the central feed already contains a compact model-lens slide;
+this tab shows the same four panels at full size with no other feed chrome
+(no action rail, no caption block, no pagination dots).
 
 - **Layout:** top: compact selected-source card (thumbnail, title, `Real source`
   badge) — the single shared input, visually pinned so it is unmistakable that all
@@ -244,11 +350,12 @@ described but not built, must carry `Planned`.
 - **Reduced/hidden:** no social action rail here; no engagement counts; nebula
   reduced so card text dominates.
 
-### 3.4 Overview — hero / cockpit status
+### 3.4 Overview — secondary identity / cockpit status
 
-- **Layout:** top hero: the signature composition (core + provider orbit ring +
-  containment hull, Section 2.5) with the one-paragraph positioning line beneath
-  it. Below: three glass status panels — **Providers** (1 live demo / 1 planned
+- **Layout:** top: the compact secondary identity composition (core + provider
+  orbit ring + containment hull, Section 2.5) with the one-paragraph positioning
+  line beneath it — sized and weighted as a status-panel header, not a full-bleed
+  hero. Below: three glass status panels — **Providers** (1 live demo / 1 planned
   demo / 9 planned), **Provenance** (admitted records, refusals, index freshness —
   from the content-free index and dated audit snapshot), **Operations** (loops
   configured/exercised, release tag, validation state — from the dashboard
@@ -261,10 +368,13 @@ described but not built, must carry `Planned`.
 - **Planned:** provider ring's planned chips.
 - **Must-visible labels:** `v0.2.0` release marker, snapshot date on any frozen
   data, `Zero-autonomy containment` hull caption, `Planned` on planned chips.
-- **Visually dominant:** the core+orbit+hull composition — this is the screenshot
-  screen, the one that should look like nothing else on GitHub.
+- **Visually dominant:** the three status panels. The core+orbit+hull composition
+  above them is a compact identity mark, not the dominant element of this screen
+  or of the product — the Source Arena social feed (Sections 3.1/3.2) is the
+  product's primary hero and required lead screenshot (Section 6.3).
 - **Reduced/hidden:** no feeds, no media, no model copy; starfield at its sparsest
-  so the hologram reads clean.
+  so the hologram reads clean; the orbit composition itself stays visually quiet
+  (static/ultra-slow, background-level, per Section 2.5's hard rules).
 
 ### 3.5 Context — provenance view
 
@@ -354,6 +464,10 @@ allowed only where Section 5.4 explicitly says so.
   pseudo-elements with two-sided borders) in `--holo-amber`, a 1px amber-tinted
   outline at low alpha, and a caption tab (small uppercase text on a dark chip)
   anchored top-left.
+- **Sized to its content, not its screen.** On the central feed's model-lens slide
+  and in Model Arena, the hull wraps the four-panel set at that set's own bounds.
+  On Overview it wraps the compact core+orbit composition (Section 2.5), not the
+  page. It never becomes a full-screen or full-viewport frame.
 - The hull never animates. Stillness is the point: safety chrome is inert.
 
 ### 4.5 Floating source cards
@@ -396,11 +510,12 @@ allowed only where Section 5.4 explicitly says so.
 - `prefers-reduced-motion: reduce`: all animation (orbit, core breath, hover
   transitions beyond opacity) is disabled; the scene renders in the frozen pose.
   This is a hard requirement, not an enhancement.
-- Mobile flatten (≤ ~700px): `perspective` removed, tilts zeroed, orbit ring
-  replaced by the plain provider chip rail (which already exists and scrolls),
-  nebula reduced to one gradient, shadows simplified. The phone experience is
-  intentionally the flat, fast, readable one — the hologram is a desktop framing
-  device.
+- Mobile flatten (`max-width: 768px`): `perspective` removed, tilts zeroed; on
+  Overview (the only screen where the orbit composition appears, Section 2.5) the
+  orbit ring flattens to the plain provider chip rail; nebula reduced to one
+  gradient, shadows simplified. The phone experience is intentionally the flat,
+  fast, readable one — holographic depth is additive polish, never load-bearing
+  for comprehension on any screen size.
 - `prefers-contrast: more` / forced-colors: glow and glass alpha effects drop;
   borders go solid; badges rely on their text (they already carry words).
 
@@ -443,10 +558,17 @@ requirements, not suggestions.
   three-layer scene styles, orbit/core/hull components, card layering, fallbacks.
   Consider splitting new work into `site/css/holo.css` linked after `dashboard.css`
   if the file would exceed ~1600 lines; do not restructure existing selectors.
-- `site/dashboard.html` — add hologram-layer structure to Overview (core, orbit
-  chip list, hull), hull wrappers around the model rail and Context audit rail,
-  badge markup upgrades, no-JS fallback panels. Keep existing ids/roles/tabs
-  untouched — `dashboard.js` depends on them.
+- `site/dashboard.html` — add the model-lens slide type and prompt/demo-task rail
+  **inside the existing Source Arena panel** (`#tab-nasa` / `.dash-panel--nasa`),
+  reusing the existing NASA media stage, provider chip rail, and `nasa-stage-dots`
+  pagination element rather than duplicating them; add the compact secondary
+  identity composition (core, orbit chip list, re-scoped hull) to the Overview
+  panel only; add the re-scoped hull wrapper around the Model Arena panel set and
+  the desktop model rail; badge markup upgrades; no-JS fallback panels. **Preserve
+  every existing tab id, `role="tab"`/`role="tabpanel"` wiring, and navigation
+  behavior exactly** — `dashboard.js` depends on them. **Do not replace or
+  duplicate the existing safe Context tab implementation** (content-free index +
+  dated audit snapshot only) — it is out of scope for this spec entirely.
 - `site/css/*.css` for `index.html` **only if** the homepage hero is restyled to
   HSSC in the same task; otherwise leave `index.html` untouched and note it.
 - `docs/tasks/MELLYCORE-HOLOGRAPHIC-UI-SPEC-001.md` — task report (required).
@@ -465,9 +587,12 @@ reduced-motion block, mobile flatten block, forced-colors block.
 
 ### 5.3 HTML structure changes
 
-Only additive: new sections/wrappers/badges as in Section 3; no removal or renaming
-of existing ids, classes, tab roles, or aria wiring; native elements first
-(`ol/li` for orbit chips, `details` stays for the GitHub card).
+Only additive: new sections/wrappers/badges as in Section 3, inserted inside the
+existing Source Arena panel structure (reuse the NASA stage, provider rail, and
+`nasa-stage-dots` — do not fork or duplicate them for the model-lens slide type);
+no removal or renaming of existing ids, classes, tab roles, or aria wiring; native
+elements first (`ol/li` for orbit chips, `details` stays for the GitHub card). The
+Context tab's existing markup and data flow are untouched by this spec.
 
 ### 5.4 JS changes (only if absolutely needed)
 
@@ -491,9 +616,27 @@ or provenance reads. If the task cannot be done within this, stop and report.
 
 ### 5.6 Mobile requirements
 
-- 390×844 and 360×800: no horizontal overflow, flattened scene per Section 4.9,
-  stage ≥ 75% viewport height in Source Arena, all badges visible without
-  hover/long-press, tap targets ≥ 44px (existing `--cockpit-control`).
+**390×844 is the primary reference viewport for this entire spec** (360×800 is
+checked as a secondary safety margin, not the design target).
+
+At 390×844:
+
+- Central slide (media or model-lens, Sections 3.1/3.1a) occupies **~70–75%** of
+  the first viewport's height.
+- No provider orbit ring anywhere on the Source Arena screen (Overview-only,
+  Section 2.5).
+- No monumental containment hull — only the compact re-scoped frame (Section
+  2.4/4.4) around model-lens content, sized to fit inside the slide, never
+  covering the whole screen.
+- Zero horizontal page overflow at any scroll position.
+- The core product story (real source + simulated model comparison + honesty
+  labels) is legible within the first viewport without scrolling.
+- All interactive controls ≥ 44×44px (existing `--cockpit-control`).
+- Social/status labels and badges never occlude critical media or model-panel
+  text — badges dock to card edges/headers, not as overlays crossing body copy.
+- All badges visible without hover/long-press.
+
+At 360×800: no horizontal overflow (secondary safety check only).
 
 ### 5.7 Browser QA checklist
 
@@ -520,12 +663,18 @@ or provenance reads. If the task cannot be done within this, stop and report.
 
 ### 5.9 Safety constraints (restate in the task report)
 
-Static HTML/CSS/vanilla-JS only; no backend, database, API key, secret, scheduler,
+Static HTML/CSS/vanilla-JS only; no Three.js, no Canvas engine, no new
+dependency, no build step; no backend, database, API key, secret, scheduler,
 workflow YAML, deploy, push (commit only — push/PR is a separate approved step per
-repo policy), new dependency, or MellyTrade change. The keyless NASA Images API
-remains the sole external data path. Every honesty label in Section 3 is present
-after the restyle. No canonical provenance record, refusal log, or loop evidence
-file is touched. Local preview binds to `127.0.0.1` only.
+repo policy), or MellyTrade change; no live GitHub ingestion (GitHub Repository
+stays a planned/demo card — implementing this spec does not authorize a live
+fetch); no autonomous action of any kind. The keyless NASA Images API remains the
+sole external data path. Every honesty label in Section 3 is present after the
+restyle. No `ContextSource` record body, note, rationale, or refusal-log content
+is ever fetched or rendered — the Context tab's existing content-free
+index-and-snapshot-only contract (Section 3.5) is unchanged and untouched by this
+spec. No canonical provenance record, refusal log, loop evidence file, or private
+path is touched. Local preview binds to `127.0.0.1` only.
 
 ---
 
@@ -555,14 +704,22 @@ backend, no keys, no autonomous actions."*
 
 ### 6.3 Screenshots / GIFs to capture (in `holo-pose` unless noted)
 
-1. **Hero:** Overview desktop 1920×1080 — core, orbit ring, containment hull.
-2. **Source Arena mobile** 390×844 — real NASA media, caption badges, action rail
-   with the `Demo counts` label legible.
-3. **Model Arena desktop** — all four lens cards with `Simulated model output`
-   badges clearly readable (this screenshot *is* the honesty pitch).
-4. **Context tab** — badge rows + aggregate audit hull.
-5. One short GIF (≤ 8s, not posed): vertical source scroll on mobile emulation.
-   One optional GIF: the orbit ring rotating slowly on Overview.
+1. **Hero — required first screenshot:** Source Arena mobile 390×844, on a
+   **model-lens slide**: real selected source, four `Simulated model output`
+   panels, the demo prompt rail, provenance/social badges, all legible in one
+   frame. This is the lead image everywhere (README, showcase doc, portfolio) —
+   it must visibly contain real source + simulated model labels + prompt/task
+   context + social cockpit framing together.
+2. **Desktop social-cockpit adaptation** — the same composition per Section 3.2,
+   1920×1080 or 1280×800: center stage, prompt rail, model rail, action rail.
+3. **Expanded Model Arena** — all four lens cards at full size with `Simulated
+   model output` badges clearly readable (this screenshot *is* the honesty pitch).
+4. **Overview** — the secondary identity composition (core, orbit ring, compact
+   containment hull) plus the three status panels; captured as a supporting shot,
+   not the hero.
+5. **Context tab** — badge rows + aggregate audit hull.
+6. One short GIF (≤ 8s, not posed): vertical source-feed scroll on mobile
+   emulation, showing at least one media slide and one model-lens slide.
    Screenshots live outside the repo per existing evidence-pack policy, linked from
    the showcase doc.
 
