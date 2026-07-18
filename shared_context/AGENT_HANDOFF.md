@@ -1,6 +1,59 @@
 # Agent Handoff
 
-Latest completed task: `MELLYCORE-POSITIONING-AND-HOLOGRAPHIC-UI-SPEC-FABLE-001`
+Latest completed task: `MELLYCORE-PR3-CLOSEOUT-DOCS-001`
+
+- Outcome: docs-only closeout. Corrected stale pre-release claims in
+  `shared_context/PROJECT_STATE.md`: removed "Cockpit V2 remains a local static
+  preview until a separate push/deploy task" (Live Cockpit V2 / Social Source
+  Arena is pushed and released as `v0.2.0`), the stale branch
+  (`publish/mellycore-main-001`) and HEAD (`6e804e3d`), and recorded PR #3 as
+  merged (<https://github.com/Melly-999/mellycore-aios-core/pull/3>, merge
+  commit `fff50d2a49f7ee9824d1ad1dc29da81e8085ca2e`, containing `de6ae75`
+  GitHub Repository provider demo and `df787c4` `/roadmap` operator-command
+  docs as ancestors). Recorded draft PR #4
+  (<https://github.com/Melly-999/mellycore-aios-core/pull/4>, branch
+  `claude/mellycore-holographic-ui-spec-sqgfs3`) as open/draft/docs-only/
+  not-merged, carrying pushed commits `31abbea` (HSSC spec) and `33d24d7`
+  (visible-app run plan). Replaced the stale "Next tasks" list's
+  `MELLYCORE-LIVE-COCKPIT-V2-REVIEW-001` recommendation with
+  `MELLYCORE-HOLOGRAPHIC-UI-SPEC-REVIEW-001`. Preserved all real/demo/
+  simulated provider distinctions (NASA Images API = current real, live,
+  no-key demo provider; GitHub Repository = planned provider / demo source /
+  not live ingestion); did not claim the Holographic UI is implemented or
+  that `v0.3.0` exists; did not use the term "NASA APOD" (not applicable —
+  the live demo provider is the NASA Images API, a different endpoint). Small
+  approved hygiene fix: removed one trailing-whitespace line in
+  `docs/tasks/MELLYCORE-VISIBLE-APP-RUN-PLAN-001.md` (line 106), no other
+  content change to that file.
+- Files: `shared_context/PROJECT_STATE.md`, `shared_context/RUN_QUEUE.md`,
+  `shared_context/AGENT_HANDOFF.md`,
+  `docs/tasks/MELLYCORE-PR3-CLOSEOUT-DOCS-001.md` (new),
+  `docs/tasks/MELLYCORE-VISIBLE-APP-RUN-PLAN-001.md` (whitespace only)
+- Posture: docs-only; no site/dashboard code, `ContextSource` record,
+  refusal log, loop evidence, backend, secret, dependency, or MellyTrade
+  change. `shared_context/ROADMAP.md` was reviewed and found not stale
+  (already reflects PR #3 content); left unchanged. PR #4 not merged, not
+  marked ready; no release created; canonical `main` unchanged at `fff50d2`;
+  the retired repository `Melly-999/mellycore-aios` was not contacted.
+- Next: `MELLYCORE-HOLOGRAPHIC-UI-SPEC-REVIEW-001` — independent review of
+  the HSSC spec on draft PR #4 before any merge or UI implementation.
+
+Previous completed task: `MELLYCORE-VISIBLE-APP-RUN-PLAN-001`
+
+- Outcome: docs-only run plan (`docs/tasks/MELLYCORE-VISIBLE-APP-RUN-PLAN-001.md`)
+  defining the fastest path to a visible, polished, portfolio-ready cockpit:
+  task queue T1–T10 ending in `v0.3.0 — Holographic Social Cockpit`. Current
+  state snapshot noted `PROJECT_STATE.md` was stale on branch/HEAD/push
+  claims (corrected by the following `MELLYCORE-PR3-CLOSEOUT-DOCS-001` task).
+- Files: `docs/tasks/MELLYCORE-VISIBLE-APP-RUN-PLAN-001.md` (new)
+- Posture: docs-only; no UI implemented, no site code touched; committed
+  locally then pushed to draft PR #4's branch under explicit operator
+  approval (`MELLYCORE-VISIBLE-APP-RUN-PLAN-PUSH-001`) as commit `33d24d7`.
+  PR #4 remained open/draft throughout; no merge, no release.
+- Next: `MELLYCORE-PR3-CLOSEOUT-DOCS-001`, then
+  `MELLYCORE-HOLOGRAPHIC-UI-SPEC-REVIEW-001`.
+
+Previous completed task: `MELLYCORE-POSITIONING-AND-HOLOGRAPHIC-UI-SPEC-FABLE-001`
 
 - Outcome: docs-only (spec, no implementation). Produced the product positioning and
   "Holographic Social Source Cockpit" (HSSC-1) visual/UI specification at

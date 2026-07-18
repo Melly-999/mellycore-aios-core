@@ -103,7 +103,7 @@ exploration (needs its own safety spec).
 - Files: `shared_context/PROJECT_STATE.md`, `ROADMAP.md`, `RUN_QUEUE.md`,
   `AGENT_HANDOFF.md`, `docs/tasks/MELLYCORE-PR3-CLOSEOUT-DOCS-001.md` (new)
 - Validation: 3 validators + `unittest discover` + `git diff --check`
-- One session: yes · Risk: low · Depends on: — 
+- One session: yes · Risk: low · Depends on: —
 - Artifact: clean, non-contradictory shared state on a branch off `main`.
 
 ### T2 — `MELLYCORE-HOLOGRAPHIC-UI-SPEC-REVIEW-001` — PR #4 spec review

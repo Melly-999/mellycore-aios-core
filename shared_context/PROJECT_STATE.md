@@ -17,13 +17,17 @@ Project name: MellyCore AIOS
 
 `MELLYCORE-ROADMAP-COMMAND-001`: **complete (docs-only).** Renamed/reframed the project status command from the informal, once-used `/status-aios` heading to `/roadmap`, the standard operator command for a full project-status read (current state, branch/HEAD/release, milestone status, task counts remaining per milestone, next task, model/effort recommendation, safety posture, push/release status). No command registry exists in this repository, so this was implemented docs-only. Full definition: `docs/runbooks/MELLYCORE_ROADMAP_COMMAND.md`; summary: `shared_context/ROADMAP.md`'s "Operator Commands" section.
 
-Status: static homepage scaffold implemented (`site/`, visual-QA-passed); a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability, with its reviewed persistence and token-semantics contract implemented and exercised twice for real (`project-health`, two persisted runs); Live Cockpit V2 implemented at `site/dashboard.html` and realigned into a vertical social source cockpit (External Data Arena; NASA repositioned as `Demo provider: NASA Images API`); Context Gate Phases I1-I4 complete across the Python 3.9/standard-library CLI, guarded canonical store, deterministic content-free index, computed read-only audit, and provenance-safe dashboard Context tab. Six admitted records remain hash-verified and immutable in the canonical store, C7 remains aggregate-safely logged, and C8 remains durably rejected. **Milestone A — Operational Trust is closed**; Milestone B — One Brain is implemented through I4. Cockpit V2 remains a local static preview until a separate push/deploy task; no runtime provider integration exists.
+Status: static homepage scaffold implemented (`site/`, visual-QA-passed); a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability, with its reviewed persistence and token-semantics contract implemented and exercised twice for real (`project-health`, two persisted runs); Live Cockpit V2 implemented at `site/dashboard.html` and realigned into a vertical social source cockpit (External Data Arena; NASA repositioned as `Demo provider: NASA Images API`); Context Gate Phases I1-I4 complete across the Python 3.9/standard-library CLI, guarded canonical store, deterministic content-free index, computed read-only audit, and provenance-safe dashboard Context tab. Six admitted records remain hash-verified and immutable in the canonical store, C7 remains aggregate-safely logged, and C8 remains durably rejected. **Milestone A — Operational Trust is closed**; Milestone B — One Brain is implemented through I4. Live Cockpit V2 / Social Source Arena is pushed and released as `v0.2.0` (see "Current official release" above); it is not merely a local preview. No runtime provider integration exists beyond the keyless NASA Images API browser-side GETs.
 
-Local repo path: `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
+PR #3 (`feat/github-provider-and-roadmap-command` → `main`, GitHub Repository provider demo + `/roadmap` operator-command docs) is **merged**: <https://github.com/Melly-999/mellycore-aios-core/pull/3>, merge commit `fff50d2a49f7ee9824d1ad1dc29da81e8085ca2e`. Canonical `main` is at `fff50d2`, which contains both included commits — `de6ae75` (GitHub Repository provider demo) and `df787c4` (`/roadmap` operator-command documentation) — as ancestors. GitHub Repository remains a **planned provider / demo source**, not live ingestion; NASA Images API remains the current real, live, no-key demo provider. `/roadmap` remains documentation/operator-command scope only — no CLI or dashboard command registry exists. Nothing here is superseded by this correction; it restates already-shipped `v0.2.0`/PR #3 reality that this file previously described inaccurately as unpushed.
 
-Current branch: `publish/mellycore-main-001`
+Draft PR #4 (branch `claude/mellycore-holographic-ui-spec-sqgfs3`, base `main` at `fff50d2`) is **open, draft, docs-only, not merged**: <https://github.com/Melly-999/mellycore-aios-core/pull/4>. It carries two commits: `31abbea` (`docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`, the Holographic Social Source Cockpit positioning + UI spec) and `33d24d7` (`docs/tasks/MELLYCORE-VISIBLE-APP-RUN-PLAN-001.md`, the visible-app run plan) — both now pushed to the remote branch. PR #4 is the draft specification/run-plan PR for the next visible UI milestone; it authorizes no implementation. **The Holographic Social Source Cockpit UI has not been implemented**; no `v0.3.0` release exists.
 
-Current HEAD (before this task's final commit): `6e804e3d` (`feat(aios): add live cockpit v2 dashboard`)
+Local repo path (reference; this session used a proxied clone, not this literal path): `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
+
+Current branch: `claude/mellycore-holographic-ui-spec-sqgfs3`
+
+Current HEAD: `33d24d7ed795a821299e0f306d21356d91326a22` (`docs(aios): plan visible app run`), pushed to the remote. Canonical `main` remains at `fff50d2` (PR #4 has not been merged).
 
 MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker credentials, execution routes, or trading UI.
 
@@ -92,8 +96,10 @@ Reviewed and closed by `MELLYCORE-OPERATIONAL-TRUST-REVIEW-001`. All of the foll
 
 Next tasks:
 
-1. Recommended next: `MELLYCORE-LIVE-COCKPIT-V2-REVIEW-001` — independent read-only review of NASA error handling, Context non-disclosure, responsive behavior, and honest real-vs-simulated labeling before any further publish task.
-5. A second weekly L1 pilot run (repeat cadence): each future run remains a separate, explicit human action; no scheduler exists.
-6. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
+1. Recommended next: `MELLYCORE-HOLOGRAPHIC-UI-SPEC-REVIEW-001` — independent review of the Holographic Social Source Cockpit spec on draft PR #4 (`docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`): honesty-label completeness per screen, accessibility/reduced-motion/no-JS soundness, CSS-only feasibility, purple-not-blue rule, no-NASA-dominance rule. This gates PR #4's merge and the later Holographic UI implementation task.
+2. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
+3. A second weekly L1 pilot run (repeat cadence): each future run remains a separate, explicit human action; no scheduler exists.
+
+(The prior `MELLYCORE-LIVE-COCKPIT-V2-REVIEW-001` recommendation from this list was superseded by the shipped `v0.2.0` release and the newer draft-PR-#4 review need; removed here for accuracy, not as a claim that item was ever completed.)
 
 Filename convention note: `docs/design/` and `docs/specs/` use underscore-separated filenames for major spec documents (e.g. `MELLYCORE_HOMEPAGE_SPEC_001.md`); `docs/tasks/` uses hyphenated task IDs for task reports (e.g. `MELLYCORE-HOMEPAGE-SPEC-001.md`), matching the task-ID convention used across the project. This split is intentional, not a broken reference.
