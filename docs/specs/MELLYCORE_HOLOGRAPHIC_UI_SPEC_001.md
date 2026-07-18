@@ -6,6 +6,17 @@ Status: specification only. This document authorizes nothing by itself. It conta
 implementation, no code, and no site changes. A later, separately approved task
 (Section 5) implements it.
 
+> **Current-positioning notice (2026-07-18):**
+> `MELLYCORE-POSITIONING-REFRESH-001` supersedes this document's NASA-era
+> product-positioning and roadmap statements, including the word "canonical" in
+> Section 1.1. NASA references below are retained as implementation/historical
+> evidence for the existing legacy prototype, not as current product direction.
+> The accepted visual contract is unchanged: Source Arena remains the leading
+> 390×844 mobile model-lens hero; Overview/core/orbit/hull remains supporting
+> imagery; no holographic/3D implementation is claimed. Current positioning and
+> sequencing live in `README.md`, `shared_context/ROADMAP.md`, and
+> `docs/tasks/MELLYCORE-POSITIONING-REFRESH-001.md`.
+
 Ground truth this spec is written against (verified in-repo at authoring time):
 
 - Current release: `v0.2.0` — Live Cockpit V2 / Social Source Arena.
