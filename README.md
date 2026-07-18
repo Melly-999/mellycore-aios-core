@@ -1,133 +1,161 @@
 # MellyCore AIOS
 
-MellyCore AIOS is a static-first, docs-first demonstration of a Living Context Graph for structured context handoff between AI agents.
+MellyCore AIOS is a **local-first, operator-controlled AI Operations
+Observatory**. Its purpose is to make models, agents, runs, context, memory,
+recommendations, and approvals visible, inspectable, approval-gated, and
+auditable.
 
-[Explore the static source](site/index.html) · [Open Live Cockpit V2](site/dashboard.html) · [Review the graph fixture](shared_context/context_graph_fixture_001.json) · [Open the canonical repository](https://github.com/Melly-999/mellycore-aios-core)
+The operating loop is deliberately controlled:
 
-## Project Preview
+> observe → analyze → recommend → approve → implement → validate → record
 
-The repository includes a responsive command-center showcase under [`site/`](site/). The HTML/CSS homepage presents the system concept, safety boundaries, shared-context model, and static Living Context Graph. [`site/dashboard.html`](site/dashboard.html) adds Live Cockpit V2: a local, read-only social source cockpit backed by repository snapshots plus a public, keyless NASA Images API demo. Neither surface is a deployed application or live AI runtime.
+Consequential actions remain human-approved. MellyCore does not autonomously
+change its safety rules, merge or deploy changes, execute recommendations, or
+store provider credentials in this repository.
 
-No screenshot binary is tracked in the repository. The reviewed viewport coverage and local evidence policy are documented in the [static preview evidence pack](docs/showcase/static_preview_evidence_pack_001.md) and [visual QA report](docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-001.md).
+[Open the local cockpit](site/dashboard.html) · [Review the current roadmap](shared_context/ROADMAP.md) · [Inspect project state](shared_context/PROJECT_STATE.md) · [Open the canonical repository](https://github.com/Melly-999/mellycore-aios-core)
 
-## What It Demonstrates
+## Product Direction
 
-- A hand-authored, reviewable context graph with **8 clusters, 45 nodes, and 66 edges**.
-- A structured handoff concept for sharing project state, decisions, safety rules, evidence, and queued work between AI agents.
-- A static Knowledge Graph Console presentation built with semantic HTML and CSS.
-- Docs-first product architecture that keeps specifications, decisions, handoffs, and validation rules visible in source control.
-- Safety-aware copy that distinguishes implemented static evidence from future concepts.
-- Responsive visual QA documented across mobile, tablet, desktop, and wide desktop viewports from **375px to 1920px**.
-- An Obsidian-inspired spatial graph visual direction documented for future static exploration, not presented as a current Obsidian integration or 3D runtime.
-- A report-only Loop Operations Foundation with immutable run evidence, deterministic safety guards, and no production-enabled loops.
-- A standard-library Context Gate with guarded admission, a content-free index, and a read-only audit surface.
-- Live Cockpit V2 with a provenance-safe Context tab, one real external demo source, and model comparison copy explicitly labeled as simulated.
+The Observatory direction brings several operational views into one coherent
+cockpit:
 
-## Living Context Graph
+- **Mission Control** — current objectives, gates, blockers, and operator choices.
+- **Agent Activity** — visible work state and evidence without uncontrolled tool use.
+- **Context Pulse** — provenance, sensitivity, freshness, and contradiction signals.
+- **Model Router** — explicit model roles and later evidence-backed routing decisions.
+- **Unified Run Ledger** — one inspectable history for validated runs and outcomes.
+- **Approval Queue** — consequential recommendations waiting for operator decision.
+- **Memory & Recommendation Ledger** — durable, reviewable recommendations and their disposition.
+- **AI Estate Inventory** — the local models, agents, skills, tools, and governed surfaces in scope.
+- **Skill Gap Detector** — planned analysis of missing or weak operational capabilities.
+- **Memory Freshness Monitor** — planned detection of stale, conflicting, or superseded context.
 
-Fixture 001 is stored in [`shared_context/context_graph_fixture_001.json`](shared_context/context_graph_fixture_001.json). It models repository-backed context as clusters, nodes, and evidence-linked edges. Each node carries a reviewed summary and source references; each edge records the relationship and its evidence references.
+These are roadmap domains, not claims that the complete Observatory already
+exists. `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` is the next specification
+task; it will define the detailed contract without authorizing implementation.
 
-The fixture is a static snapshot authored from repository documentation. It is not generated from telemetry, a database, an external service, or live agent activity. The companion [fixture documentation](shared_context/CONTEXT_GRAPH_FIXTURE_001.md) explains its scope, review rules, schema mapping, and safety boundaries.
+## What Exists Today
 
-## Architecture And Data Flow
+| Area | Status | Truthful boundary |
+| --- | --- | --- |
+| Repository documentation and static homepage | Implemented | Local, reviewable source; no hosted runtime is claimed. |
+| Loop Operations Foundation | Implemented, report-only | Nine registered loops; no production-enabled or unattended loop. |
+| Context Gate | Implemented through I4 | Guarded CLI, immutable records, content-free index, read-only audit/dashboard surface. |
+| Project-health evidence | Implemented | Two human-invoked persisted runs; no scheduler. |
+| Live Cockpit V2 / Social Source Arena | Implemented legacy prototype | Local vanilla HTML/CSS/JS surface; not the completed Observatory. |
+| Model comparison copy | Simulated | Deterministic local text, not live model responses. |
+| Holographic Source Arena | Accepted specification | The 390×844 model-lens hero and 3D treatment are not implemented. |
+| Observatory modules and real adapters | Planned | Detailed specification and guarded implementation remain future work. |
+
+The repository also contains a hand-authored Living Context Graph fixture with
+8 clusters, 45 nodes, and 66 edges. It is useful historical prototype evidence,
+not a live telemetry or memory system.
+
+## Source Arena Visual Direction
+
+Source Arena remains the leading holographic visual metaphor: a 390×844
+mobile-first model-lens composition that puts the operator's selected evidence,
+model perspectives, provenance, recommendations, and approval state into one
+inspectable feed. It is the intended hero experience.
+
+The accepted visual contract is in
+[`MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`](docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md).
+That specification does not mean the holographic UI, 3D treatment, model-lens
+feed, or real-data adapters are already implemented. Overview's core/orbit/hull
+composition remains supporting imagery only.
+
+## NASA Images Disposition
+
+NASA Images is **not** a current product pillar, roadmap module, or intended core
+integration. The existing browser-side NASA Images API code and `v0.2.0` release
+evidence remain in the repository as a legacy external-source prototype. This
+documentation-only refresh does not remove that code or rewrite the historical
+task and release records that explain why it exists.
+
+Future implementation cleanup may replace or retire that prototype under a
+separately approved source-code task. Until then, references to NASA in completed
+task reports and released code describe implementation history, not current
+product direction.
+
+## Safety and Non-Goals
+
+MellyCore AIOS is not:
+
+- a NASA image browser or generic space-media application;
+- a trading terminal or part of MellyTrade;
+- an autonomous self-modifying system;
+- an autonomous merge, deployment, or recommendation-execution agent;
+- a provider-key or secret store;
+- a production backend that already executes approvals;
+- a system permitted to modify its own safety rules.
+
+Provider keys, tokens, account identifiers, and private runtime state stay
+outside the repository. Real adapters, runtime execution, and guarded operations
+remain later milestones requiring explicit specifications, reviews, operator
+approval, and validation.
+
+## Architecture and Evidence Flow
 
 ```text
-Repository documentation and shared context
+Repository evidence and local operational state
                     |
                     v
-      Hand-authored JSON graph fixture
+       Guarded context and run records
                     |
                     v
-       Static HTML/CSS visualization
-
-Project validator --------> repository structure and safety checks
-Agent handoff docs --------> conceptual multi-agent coordination
-Content-free index -------> read-only dashboard Context tab
-Public NASA Images API ---> browser-side GET-only demo source
+       Read-only observability surfaces
+                    |
+                    v
+     Operator review and explicit approval
+                    |
+                    v
+ Separately authorized implementation/validation
 ```
 
-The layers are intentionally separate:
-
-- **Static project fixture:** reviewed JSON data representing the current repository context.
-- **Context graph model:** documented node, edge, cluster, source, and safety-display conventions.
-- **Visualization layer:** the homepage is local HTML/CSS; Live Cockpit V2 adds dependency-free vanilla JavaScript for read-only local data rendering and public NASA API GET requests.
-- **Validation layer:** a repository-specific Python script checks required files, safety-sensitive patterns, and core documentation contracts.
-- **Conceptual handoff:** `AGENT_HANDOFF.md` and `RUN_QUEUE.md` show how agents can exchange reviewed context through files and Git history.
-
-## Safety And Scope Boundaries
-
-MellyCore AIOS currently provides a static project fixture, documentation, and local showcase. It does **not** provide:
-
-- durable context ingestion or automatic graph refresh;
-- a production AI-agent runtime or autonomous agent execution;
-- backend services, authenticated provider connections, or databases;
-- authentication, telemetry, workflow deployment, or hosted application infrastructure;
-- Obsidian, MCP, or real-time synchronization;
-- secrets, provider tokens, account identifiers, or committed runtime state.
-
-The only implemented external data path is a browser-side, keyless, GET-only NASA Images API demo. Planned source types are labeled as planned, and model outputs are deterministic local simulations rather than provider responses.
-
-MellyCore AIOS is separate from MellyTrade and contains no trading, broker, order, or execution functionality.
-
-## Tech Stack
-
-- **Interface:** HTML5, CSS3, and vanilla JavaScript
-- **Fixture:** JSON
-- **Documentation:** Markdown
-- **Validation:** Python
-- **Source control and review:** Git and GitHub
-
-React, TypeScript, FastAPI, provider SDKs, and database libraries are not dependencies of this static repository.
+The static graph fixture, Context Gate, loop evidence, cockpit prototype, and
+future Observatory modules are distinct layers. Planned views must not be
+presented as implemented merely because a specification names them.
 
 ## Local Setup
 
-No package installation or build step is required.
+No package installation or build step is required for the current local preview.
 
 1. Clone the canonical repository.
-2. Open [`site/index.html`](site/index.html) directly in a browser.
-3. Open [`site/dashboard.html`](site/dashboard.html) for Live Cockpit V2.
-4. Review the static graph, read-only cockpit states, and repository documentation.
+2. Serve the repository using the verified localhost instructions in
+   [`MELLYCORE_LOCALHOST_QUICKSTART.md`](docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md).
+3. Bind only to `127.0.0.1`.
+4. Open [`site/index.html`](site/index.html) or [`site/dashboard.html`](site/dashboard.html).
 
-For dashboard data loading, serve the repository through the verified localhost command in [`docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`](docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md). Bind only to `127.0.0.1`. A localhost address is a local preview, not a public deployment.
+The current dashboard includes legacy prototype behavior. A local preview is not
+a public deployment or proof that planned Observatory capabilities exist.
 
 ## Validation
 
-Run the project-specific validator from the repository root:
+Run from the repository root:
 
 ```powershell
-py scripts\validate_project_state.py
+py -3.9 -B -m scripts.context_gate audit --json
+py -3.9 -B -m scripts.loop_ops validate
+py -3.9 -B scripts/validate_project_state.py
+py -3.9 -B -m unittest discover
 ```
 
-The validator checks required project files, shared-context documents, agent guidance, editor/workflow examples, absence of a committed `.env`, focused secret patterns, and core design/routing documentation terms.
-
-The graph fixture and static UI evidence can also be reviewed directly:
-
-- [Fixture review report](docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-FIXTURE-REVIEW-001.md)
-- [Static UI scaffold review](docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SCAFFOLD-REVIEW-001.md)
-- [Responsive visual QA](docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-VISUAL-QA-001.md)
+The repository-specific checks validate the context index/audit, loop registry,
+project structure, safety-sensitive patterns, and standard-library test suite.
 
 ## Repository Structure
 
 ```text
-site/             Static homepage and vanilla-JS read-only cockpit
-shared_context/   Fixture, project state, handoff, safety, and model docs
-docs/             Product, design, architecture, evidence, and task reports
-agent_prompts/    Repo-specific guidance for supported agent workflows
-scripts/          Project validation utilities
-tests/            Standard-library tests for loop and context-gate tooling
+site/             Static homepage and legacy local cockpit prototype
+shared_context/   Concise operational state, queue, handoff, safety, and evidence
+docs/             Product, design, architecture, evidence, specifications, and task reports
+agent_prompts/    Repository-specific guidance for supported agent workflows
+scripts/          Project validation, Context Gate, and Loop Operations utilities
+tests/            Standard-library tests for the implemented guarded tooling
 ```
 
-## Current Limitations
-
-- The graph is a hand-authored fixture, not a live knowledge system.
-- Live Cockpit V2 is a local read-only preview; NASA is one demo provider, and all model comparison output is simulated.
-- Loop execution remains report-only and human-invoked; no scheduler or production-enabled loop exists.
-- Graph interactions shown in specifications are conceptual unless present in the static HTML/CSS preview.
-- The Obsidian-inspired 3D direction remains documentation for future static work.
-- Screenshot and HAR evidence is intentionally stored outside the repository; tracked reports describe the reviewed viewport coverage.
-- No public website deployment is configured by this repository.
-
-## Author And Related Work
+## Author and Related Work
 
 **Mateusz Ozimkiewicz**
 

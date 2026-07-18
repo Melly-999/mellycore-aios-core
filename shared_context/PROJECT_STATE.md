@@ -2,104 +2,72 @@
 
 Project name: MellyCore AIOS
 
-## Current official release
+## Canonical Product Identity
 
-- **Release:** `v0.2.0` — Live Cockpit V2 / Social Source Arena
-- **Commit:** `09db8a7` (merge commit on `clean-origin/main`, PR #2)
-- **Release URL:** <https://github.com/Melly-999/mellycore-aios-core/releases/tag/v0.2.0>
-- **Pre-release:** no (published release)
-- **Validation status at release commit (fresh clone):** `context_gate audit --json` 0 findings, index current; `loop_ops validate` PASS; `validate_project_state` PASS; `unittest discover` 245/245 passing.
-- **Known note:** a stale local Windows checkout predating this branch's `.gitattributes` addition can show local `context_gate audit` line-ending noise (CRLF vs. the enforced LF for `shared_context/context_provenance/`). A fresh clone validates clean, as confirmed above; see `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md` for the fix.
+MellyCore AIOS is a local-first, operator-controlled **AI Operations
+Observatory**. It exists to make models, agents, runs, context, memory,
+recommendations, and approvals visible, inspectable, approval-gated, and
+auditable.
 
-## Post-v0.2.0 work
+The controlled improvement loop is:
 
-`MELLYCORE-GITHUB-SOURCE-PROVIDER-DEMO-001`: **complete.** A GitHub Repository provider-demo card was added to External Data Arena, product-positioned as the next planned/demo provider after NASA (which remains the current real, no-key media API demo provider). Example source `liquidslr/system-design-notes` is referenced by link and short original topic-title labels only — no chapter content was copied or scraped, and no live GitHub fetch, backend, or dependency was added. This was a docs/site product-positioning task, not a backend integration task. See `docs/tasks/MELLYCORE-GITHUB-SOURCE-PROVIDER-DEMO-001.md`. (Corrected from a stale "being added" wording, found while editing this file for `MELLYCORE-ROADMAP-COMMAND-001`.)
+`observe → analyze → recommend → approve → implement → validate → record`
 
-`MELLYCORE-ROADMAP-COMMAND-001`: **complete (docs-only).** Renamed/reframed the project status command from the informal, once-used `/status-aios` heading to `/roadmap`, the standard operator command for a full project-status read (current state, branch/HEAD/release, milestone status, task counts remaining per milestone, next task, model/effort recommendation, safety posture, push/release status). No command registry exists in this repository, so this was implemented docs-only. Full definition: `docs/runbooks/MELLYCORE_ROADMAP_COMMAND.md`; summary: `shared_context/ROADMAP.md`'s "Operator Commands" section.
+Consequential action requires explicit operator approval. The system does not
+autonomously change safety rules, merge, deploy, execute recommendations, or
+store provider secrets.
 
-Status: static homepage scaffold implemented (`site/`, visual-QA-passed); a safety-first, report-only Loop Operations Foundation added as the project's first tooling capability, with its reviewed persistence and token-semantics contract implemented and exercised twice for real (`project-health`, two persisted runs); Live Cockpit V2 implemented at `site/dashboard.html` and realigned into a vertical social source cockpit (External Data Arena; NASA repositioned as `Demo provider: NASA Images API`); Context Gate Phases I1-I4 complete across the Python 3.9/standard-library CLI, guarded canonical store, deterministic content-free index, computed read-only audit, and provenance-safe dashboard Context tab. Six admitted records remain hash-verified and immutable in the canonical store, C7 remains aggregate-safely logged, and C8 remains durably rejected. **Milestone A — Operational Trust is closed**; Milestone B — One Brain is implemented through I4. Live Cockpit V2 / Social Source Arena is pushed and released as `v0.2.0` (see "Current official release" above); it is not merely a local preview. No runtime provider integration exists beyond the keyless NASA Images API browser-side GETs.
+## Durable Implemented State
 
-PR #3 (`feat/github-provider-and-roadmap-command` → `main`, GitHub Repository provider demo + `/roadmap` operator-command docs) is **merged**: <https://github.com/Melly-999/mellycore-aios-core/pull/3>, merge commit `fff50d2a49f7ee9824d1ad1dc29da81e8085ca2e`. Canonical `main` is at `fff50d2`, which contains both included commits — `de6ae75` (GitHub Repository provider demo) and `df787c4` (`/roadmap` operator-command documentation) — as ancestors. GitHub Repository remains a **planned provider / demo source**, not live ingestion; NASA Images API remains the current real, live, no-key demo provider. `/roadmap` remains documentation/operator-command scope only — no CLI or dashboard command registry exists. Nothing here is superseded by this correction; it restates already-shipped `v0.2.0`/PR #3 reality that this file previously described inaccurately as unpushed.
+- Static local homepage and Live Cockpit V2 prototype.
+- Report-only Loop Operations Foundation: 9 registered loops, 1 exercised loop,
+  0 production-enabled loops, and two human-invoked `project-health` runs.
+- Context Gate through I4: guarded admission, 7 validated canonical records,
+  content-free index, computed audit, and read-only dashboard Context surface.
+- Current audit baseline: 0 findings, index current, 0 writes.
+- Standard-library validation baseline: 245 tests.
 
-Draft PR #4 (branch `claude/mellycore-holographic-ui-spec-sqgfs3`, base `main` at `fff50d2`) is **open, draft, docs-only, not merged**: <https://github.com/Melly-999/mellycore-aios-core/pull/4>. It carries two commits: `31abbea` (`docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`, the Holographic Social Source Cockpit positioning + UI spec) and `33d24d7` (`docs/tasks/MELLYCORE-VISIBLE-APP-RUN-PLAN-001.md`, the visible-app run plan) — both now pushed to the remote branch. PR #4 is the draft specification/run-plan PR for the next visible UI milestone; it authorizes no implementation. **The Holographic Social Source Cockpit UI has not been implemented**; no `v0.3.0` release exists.
+The local dashboard's NASA Images browser GETs are **legacy prototype
+implementation**, retained as historical evidence. NASA Images is not a current
+product pillar, roadmap module, or intended core integration. This docs-only
+positioning task does not claim that the legacy code was removed.
 
-Local repo path (reference; this session used a proxied clone, not this literal path): `C:\AI\MellyCore_Workspace\01_Repo\mellycore-aios`
+## Specified, Not Implemented
 
-Current branch: `claude/mellycore-holographic-ui-spec-sqgfs3`
+The accepted Holographic UI specification defines Source Arena as the leading
+visual metaphor and first hero image: a 390×844 mobile model-lens composition.
+Overview/core/orbit/hull remains supporting imagery only. The complete
+holographic/3D Source Arena, real operational adapters, and approval-execution
+surface are not implemented.
 
-Current HEAD: `33d24d7ed795a821299e0f306d21356d91326a22` (`docs(aios): plan visible app run`), pushed to the remote. Canonical `main` remains at `fff50d2` (PR #4 has not been merged).
+## Planned Direction
 
-MellyCore AIOS is separate from MellyTrade. Do not import MellyTrade runtime code, broker credentials, execution routes, or trading UI.
+The Observatory roadmap includes Mission Control, Agent Activity, Context Pulse,
+Model Router, Unified Run Ledger, Approval Queue, Memory & Recommendation Ledger,
+AI Estate Inventory, Skill Gap Detector, and Memory Freshness Monitor. These are
+planned domains, not current capability claims.
 
-The GLM/Z.ai workspace at `C:\AI\MellyCore_Workspace\03_Assets\glm_workspace_reference` is reference only. Do not use it as the main repo, copy it wholesale, import `.git`, import `.env`, import `db/custom.db`, or copy local runtime state.
+Next roadmap task: `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` — specification
+only. Detailed schema and implementation contracts are intentionally deferred to
+that task and later separately approved work.
 
-Current visual direction: black-space background, purple/blue neon, orbital cube, HUD panels, glassmorphism, star field, roadmap orbit map, model-router constellation, OmniRouter provider hub, and cinematic command center website. The static `site/` scaffold (pure HTML/CSS, no JS, no packages) is visual-QA-passed across mobile/tablet/desktop/wide viewports and includes a Living Context Graph preview section.
+## Release and Historical Integrity
 
-## Loop Operations Foundation
+`v0.2.0` remains the official historical release of Live Cockpit V2 / Social
+Source Arena. PR #4 subsequently merged the accepted documentation-only
+Holographic UI specification. Exact release, PR, branch, and commit evidence
+lives in Git history and completed reports under `docs/tasks/`; it is not copied
+throughout current shared context.
 
-Completed as the project's first tooling (non-site) capability: a machine-readable loop registry (9 loops: 6 `REPORT_ONLY`, 3 `DISABLED`), state/ledger JSON-schema contracts, a standard-library-only read-only `scripts/loop_ops/` CLI (`validate`, `audit`, `guard`, `estimate-cost`, `worktree-audit`, `redact-check`), a deterministic circuit breaker, and canonical loop skills under `agent_prompts/loops/`. Phase 1 is report-only; no loop has write scope.
+Earlier graph, loop, Context Gate, cockpit, provider-demo, release, and UI-spec
+milestones remain preserved in their task reports and repository history.
 
-**First external `project-health` run** (`MELLYCORE-LOOP-REPORT-ONLY-DRY-RUN-001`): outcome `EXERCISED_EXTERNALLY_NOT_REGISTERED`. A real, schema-valid ledger was produced outside the repository (per that task's instructions) and processed by the deterministic guard, which returned `CONTINUE`. `audit --json` was byte-identical before and after, because the audit only recognizes evidence persisted under `shared_context/loops/states/`, which that task was forbidden to write to. The run surfaced a real defect: unmeasured tokens were recorded as numeric `0`, indistinguishable from a measured zero-cost run, which let a run with unmeasured cost report `per_run_budget: pass`.
+## Safety Boundaries
 
-**Persistence review** (`MELLYCORE-LOOP-STATE-PERSISTENCE-REVIEW-001`, docs-only): reviewed and specified the safe persistence contract and the token-semantics correction later implemented below. See `docs/research/LOOP_STATE_PERSISTENCE_REVIEW_001.md`.
-
-**Persistence and token-contract implementation** (`MELLYCORE-LOOP-PERSISTENCE-AND-TOKEN-CONTRACT-IMPLEMENTATION-001`): the reviewed contract is now implemented in code, together, as recommended:
-
-- **Token semantics corrected** (`scripts/loop_ops/models.py`, `scripts/loop_ops/registry.py`, `scripts/loop_ops/guard.py`, `shared_context/loops/RUN_LEDGER_SCHEMA.json`): an unmeasured iteration must never carry a numeric `total`, not even zero — rejected at parse time. A measured iteration requires a real non-negative integer. Any unmeasured iteration in a run now makes that run's `per_run_budget` check `unenforceable`, never a partial pass computed only over the measured iterations.
-- **`persist-run` CLI subcommand** (`scripts/loop_ops/persist.py`, new module): `py -3.9 -m scripts.loop_ops persist-run --ledger <path>` validates a candidate ledger and writes nothing by default. Persisting for real requires `--apply`, a non-empty `--operator-approval-id`, and an `--expected-head` matching the repository's actual current HEAD. Enforces write-once immutable evidence (identical bytes may recover an interrupted state update; different bytes are always refused), path/symlink/case-collision safety, redaction gate, timestamp validation, lifecycle-transition legality, and a Phase 1 rule that `repository_mutation_count` and `remote_action_count` must be zero.
-- **Audit closes D4** (`scripts/loop_ops/readiness.py`): a `run_history` entry now counts as `exercised` only when its `ledger_ref` resolves to a real, independently-validated evidence file under `runs/<loop-id>/` whose content is internally consistent with the state's own claim — an orphan claim in state, with no backing evidence, no longer counts.
-- 21 new/updated automated tests across `tests/test_loop_ops_guard.py`, `tests/test_loop_ops_tools.py`, and the new `tests/test_loop_ops_persist.py` (150 tests total, all passing).
-
-**First registered `project-health` run** (`MELLYCORE-PROJECT-HEALTH-REGISTERED-RUN-001`): the loop was hand-run for real (validators read, shared_context state read, no blocker found), its ledger built honestly with token usage marked unmeasured (this execution environment cannot measure real token spend, so `tokens.total: null`, never `0`), validated in dry-run, then persisted for real via `persist-run --apply` with operator approval `MELLYCORE-PROJECT-HEALTH-REGISTERED-RUN-001-APPROVED` and `--expected-head` matching the actual current HEAD. Evidence: `shared_context/loops/runs/project-health/project-health--20260715T195201Z--03d7b0224ae0.json`. State: `shared_context/loops/states/project-health.state.json`, rebuilt by `persist-run` itself. A repeat `--apply` with the identical ledger was confirmed idempotent: `evidence_status: "identical"`, byte-unchanged, no duplicate `run_history` entry. `per_run_budget` and `daily_budget` correctly report `unenforceable` (the run has an unmeasured iteration), not a false pass. `human_approval.granted` stays `false`; lifecycle stays `REPORT_ONLY`.
-
-**Current audit state:** `configured: 9`, `validated: 9`, `exercised: 1` (`project-health` only), `human_approved: 0`, `production_enabled: 0`. This is the first loop in this repository with real persisted run evidence. Every other loop remains unexercised. Do not describe the Loop Operations Foundation as operational or unattended-ready — one exercised report-only loop is not production readiness.
-
-## Live Cockpit V2
-
-The original local dashboard preview (`MELLYCORE-AIOS-LIVE-DASHBOARD-PREVIEW-001`) was upgraded by `MELLYCORE-LIVE-COCKPIT-V2-001` and then realigned by `MELLYCORE-LIVE-COCKPIT-V2-SOCIAL-REALIGN-001` into a vertical social source cockpit (TikTok/Hyperagent pattern only — no TikTok branding). The V2 surface retains Overview/Loops/Evidence/Roadmap plus Context, and reframes the external tabs as **Source Arena / External Data Arena** and **Model Arena**. NASA is positioned as one demo provider (`Demo provider: NASA Images API`) proving real external-source ingestion; Apollo/Asteroid/Solar flare/Aurora/Mars are demo presets; visible copy lists planned future source types (GitHub repositories, PDFs/docs, websites, changelogs, issues, CVs/job offers, research, marketplace data, local project files) as **planned**, never as live. The arena adds a top "Find related sources" search pill, a provider chip rail, a right-side social action rail (like/inspect/save/share) whose counts are deterministic local demo numbers labeled `Demo counts`, and a bottom caption block with `#MellyCore #ExternalData #ModelArena #AIOS` tags. Context reads the content-free `shared_context/context_provenance/INDEX.json` live and a clearly dated frozen aggregate snapshot of `py -3.9 -m scripts.context_gate audit --json`; it filters by `allowed_use` before rendering and never fetches canonical record bodies, notes, private paths, or the refusal log. The arena uses browser-side GET requests to the public, keyless `https://images-api.nasa.gov/search` and `/asset/{nasa_id}` endpoints, supporting image/video/audio media plus the required search filters; visible dates/times/numbers are pinned to en-US/ISO-style formatting. Fable 5/Opus/GPT/GLM text is deterministic local mock copy framed as simulated model lenses over one real source and labeled `Simulated model output`; no provider is connected. The page remains dependency-free vanilla HTML/CSS/JS with no backend or write action. The original static homepage (`site/index.html`, pure HTML/CSS, no JS, no packages) remains unchanged in scope. Any local server used to preview it must bind only to `127.0.0.1`.
-
-## Weekly L1 Pilot
-
-The first weekly L1 pilot run (`MELLYCORE-L1-WEEKLY-PILOT-001`) is complete: `project-health` was hand-run and persisted a second time via `persist-run --apply`, additively. New evidence: `shared_context/loops/runs/project-health/project-health--20260717T011848Z--6b2e45cf7c51.json`. The first run's evidence file is untouched (write-once immutability held). `shared_context/loops/states/project-health.state.json` now lists both runs in `run_history`. `audit --json` still reports `exercised: 1` for `project-health` (the tier counts loops, not run count — this is expected). The live dashboard (`site/dashboard.html`) picked up the new run automatically with no code change, since its Evidence tab discovers the latest run by listing the `runs/project-health/` directory rather than hardcoding a filename. There is still no scheduler; each weekly run remains a separate, explicit, human-invoked action.
-
-## Safety boundaries (current)
-
-No remote contact, fetch, pull, or push from any automated task without explicit operator approval; no PR or merge; no deployment; no provider API keys or secrets in the repository; no MCP; no scheduler; no live trading capability; no changes to MellyTrade; no destructive git actions without explicit approval. Any local server started for preview purposes must bind only to `127.0.0.1` and must never be exposed to LAN or the internet.
-
-## Localhost state
-
-The static `site/` scaffold can be served locally with `py -3.9 -m http.server 4173 --bind 127.0.0.1 --directory site` (Python standard library only, no dependencies). See `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md` for the full quickstart.
-
-## Milestone A — Operational Trust: closed
-
-Reviewed and closed by `MELLYCORE-OPERATIONAL-TRUST-REVIEW-001`. All of the following were re-confirmed in that review, not just asserted: git root/branch/HEAD/clean working tree; the four key commits (`708590b` persistence/token contract, `87077b9` registered run, `4272e1b` dashboard preview, `d59db8a` weekly pilot) all present on `publish/mellycore-main-001`; both `project-health` run ledgers exist, are internally consistent with `project-health.state.json`, and are referenced correctly by `LOOP_REGISTRY.json`'s `state_file` pointer; the dashboard discovers both runs with no code change; `scripts.loop_ops validate` PASS; the full `test_loop_ops*` suite (150 tests) PASS; `scripts/validate_project_state.py` PASS. See `docs/tasks/MELLYCORE-OPERATIONAL-TRUST-REVIEW-001.md` for the full capability/risk/real-vs-mock summary and portfolio guidance.
-
-## Milestone B — One Brain: implemented through Phase I3
-
-`MELLYCORE-CONTEXT-PROVENANCE-AND-SENSITIVITY-SPEC-001` is complete (docs-only): specified the `ContextSource` record shape, the provenance labels (`user_provided`/`repo_derived`/`generated`/`externally_sourced` × `verified`/`unverified`, with a `trust_level` default lookup), the sensitivity labels (`public`/`internal`/`private`/`secret`/`regulated_high_risk`, with a hard refusal rule for the last two and an `allowed_use` default matrix), a staleness/expiry policy directly motivated by the two stale-claim bugs `MELLYCORE-OPERATIONAL-TRUST-REVIEW-001` found, contradiction precedence guidance that still always routes to `CONTRADICTION_LEDGER.md` for human resolution, an admission workflow generalizing `SOURCE_INGEST_WORKFLOW.md`'s ten steps, and future (unbuilt) dashboard fields. See `docs/specs/MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001.md`. That spec task created no record or implementation; six records were admitted later and remain in the preview store pending I2 migration.
-
-`MELLYCORE-CONTEXT-INGESTION-GATE-SPEC-001` is complete (docs-only): specified the ingestion gate that enforces the model above — four admissible input classes, required metadata with no gate-side guessing, nine fail-fast refusal rules (secret/regulated content, forbidden paths including `**/MellyTrade/**`, incomplete metadata, `allowed_use` loosening, the generated-content trust cap enforced mechanically), five validation outcomes in fixed precedence where `ACCEPT` never means admitted (human Step 7 review remains the only path to admission), explicit human-review parking conditions, two-direction stale-claim detection without auto-expiry, contradiction routing that always drafts a `CONTRADICTION_LEDGER.md` entry and never auto-resolves, write-once recording reusing the `persist-run` conventions, no-write preview as the default and only mode (apply is future, operator-gated, a separate invocation), future dashboard gate signals, and hard future-implementation boundaries. See `docs/specs/MELLYCORE_CONTEXT_INGESTION_GATE_SPEC_001.md`. No gate code, ledger entry, or dashboard change was created by the two spec tasks.
-
-`MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001` is complete (docs/static artifacts only): the gate was hand-exercised in preview semantics — no implementation exists, every check applied manually — on an 8-item batch of committed repo facts. Outcomes: 5 `ACCEPT`, 1 `ACCEPT_WITH_WARNINGS` (stricter-than-default `allowed_use` on a generated safety summary), 1 `REFUSE` (deliberate R6 trust-cap exercise: `generated` item proposing `trust_level: high`), 1 `NEEDS_HUMAN_REVIEW` (`private` machine-specific repo path, parked with a specific reviewer question), 0 contradictions. Six draft `ContextSource` records were created under the clearly marked `shared_context/context_provenance_preview/` directory. See `docs/tasks/MELLYCORE-CONTEXT-INGESTION-GATE-DRY-RUN-001.md`.
-
-`MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001` is complete (docs/static artifacts only): the Step 7 human review of that batch, performed under explicit operator delegation recorded verbatim in each record's `reviewed_by`. All facts were re-verified against the repo at review HEAD `f7a2d9f` before deciding. **All six drafts are now admitted** — the project's first admitted `ContextSource` records — five as clean ADMIT and one ADMIT_WITH_WARNINGS (the generated safety-posture summary: stricter `allowed_use` accepted; `verification_state`/`trust_level` upgraded to `verified`/`medium` as a documented Step 7 override, still capped below `high` per the generated-content rule). Zero rejected. One item remains `BLOCKED_NEEDS_OPERATOR_DECISION`: the private machine-specific repo-path candidate, never admitted under delegation alone (exact operator question in the task doc). Records were decided in place and are now write-once immutable; the canonical `shared_context/context_provenance/` home was deliberately **not** created (the gate spec reserves that for the implementation task, which should migrate these records). The full One Brain admission workflow — model spec → gate spec → preview dry run → human admission — is now proven end-to-end by hand; no gate implementation exists. See `docs/tasks/MELLYCORE-CONTEXT-FIRST-ADMISSION-REVIEW-001.md`.
-
-`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-SPEC-001` is complete (docs-only): specified the gate CLI implementation — canonical `shared_context/context_provenance/` layout (write-once `records/`, structurally aggregate-safe append-only refusal log, derived content-free `INDEX.json`), the envelope/content split enabling a hash-verified relocation migration of the six admitted preview records, five stdlib-only commands (`preview` default/non-writing, `validate-record`, `apply` as sole writer gated on operator approval + expected HEAD + per-record human decisions with all R1–R9 checks re-run at write time, `rebuild-index`, `audit`), a blocked-item lifecycle for the open C8 repo-path question (recommendation: decline with a durable rejection record; decision remains the operator's), a full test plan, a dashboard-read contract, and four separately-approved implementation phases I1–I4. No code, directory, migration, or dashboard change was made. See `docs/specs/MELLYCORE_CONTEXT_GATE_IMPLEMENTATION_SPEC_001.md`.
-
-`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I1-001` is complete: added the Python 3.9/standard-library `scripts/context_gate/` package with `validate-record` and no-write `preview`, the full R1-R9 refusal path, fixed outcome precedence, trust/warning/parking/staleness/contradiction handling, deterministic JSON/canonical preview bytes, aggregate-safe refusal output, and 50 focused tests. The CLI has no `apply`, store writer, migration, refusal-log writer, index, audit, or dashboard code. The six admitted preview records remain byte-unchanged in their existing location; canonical `shared_context/context_provenance/` still does not exist. See `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I1-001.md`.
-
-`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001` is complete: added guarded `apply` with non-empty operator approval, expected-HEAD, and clean-tree gates; write-once canonical record enforcement; aggregate-safe append-only refusal logging; and apply-time R1-R9 rechecks. The real migration ran: all six admitted preview records were relocated with SHA-256 and parsed-field identity evidence in `shared_context/context_provenance/MIGRATION_001.md`, the C7 `trust_cap_violation` was backfilled as refusal-log line one, and the preview directory was tombstoned. The operator-directed C8 decline was previewed cleanly and written as a durable `decision: rejected` record without duplicating the machine-specific path value. Phase I2 has 82 focused context-gate tests total; I3 and I4 were completed by later tasks. See `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I2-001.md`.
-
-`MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001` is complete: added deterministic `rebuild-index`, which validates every canonical record and may replace only derived `shared_context/context_provenance/INDEX.json`, plus computed read-only `audit --json`. The index contains only the Section 5.4 metadata allowlist, sorted by `source_id`; it contains no claim, notes, source identity, rationale, refused content, or private path. The shipped audit reports 7/7 valid canonical records, decisions 6 admitted/1 rejected, trust 6 high/1 medium, sensitivity 7 internal, freshness 5 immutable/1 fresh/1 expiring/0 stale/0 superseded, one aggregate-safe `trust_cap_violation` refusal, zero blocked/parked, zero findings, and a current index. A before/after SHA-256 snapshot proved audit changed no provenance file. Phase I3 has 95 focused context-gate tests total. I4 was subsequently completed by Live Cockpit V2. See `docs/tasks/MELLYCORE-CONTEXT-GATE-IMPLEMENTATION-I3-001.md`.
-
-`MELLYCORE-LIVE-COCKPIT-V2-001` completes dashboard Phase I4: the local Context tab consumes only I3's content-free index and aggregate audit snapshot, the NASA Arena integrates the public keyless Images API and asset manifests, and the Fable 5/Opus/GPT/GLM comparison feed remains explicitly simulated. Browser QA covered desktop and mobile layouts, all tabs, Context filtering, image/video/audio manifests, task switching, and pause/resume. No canonical ContextSource record or refusal entry was modified.
-
-Next tasks:
-
-1. Recommended next: `MELLYCORE-HOLOGRAPHIC-UI-SPEC-REVIEW-001` — independent review of the Holographic Social Source Cockpit spec on draft PR #4 (`docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`): honesty-label completeness per screen, accessibility/reduced-motion/no-JS soundness, CSS-only feasibility, purple-not-blue rule, no-NASA-dominance rule. This gates PR #4's merge and the later Holographic UI implementation task.
-2. `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001` — deferred; run from a clean `main` worktree per `shared_context/BRANCH_INVENTORY_001.md`.
-3. A second weekly L1 pilot run (repeat cadence): each future run remains a separate, explicit human action; no scheduler exists.
-
-(The prior `MELLYCORE-LIVE-COCKPIT-V2-REVIEW-001` recommendation from this list was superseded by the shipped `v0.2.0` release and the newer draft-PR-#4 review need; removed here for accuracy, not as a claim that item was ever completed.)
-
-Filename convention note: `docs/design/` and `docs/specs/` use underscore-separated filenames for major spec documents (e.g. `MELLYCORE_HOMEPAGE_SPEC_001.md`); `docs/tasks/` uses hyphenated task IDs for task reports (e.g. `MELLYCORE-HOMEPAGE-SPEC-001.md`), matching the task-ID convention used across the project. This split is intentional, not a broken reference.
+- MellyCore AIOS is separate from MellyTrade; no trading or broker operations.
+- No provider keys, credentials, `.env` values, account identifiers, or private
+  runtime state in the repository.
+- No autonomous merge, deployment, safety-rule mutation, or uncontrolled tool use.
+- No production backend or recommendation execution is claimed.
+- Remote mutation, implementation, deployment, and release work require separate
+  explicit authorization.
