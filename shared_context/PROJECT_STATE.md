@@ -40,6 +40,14 @@ Overview/core/orbit/hull remains supporting imagery only. The complete
 holographic/3D Source Arena, real operational adapters, and approval-execution
 surface are not implemented.
 
+The AI Operations Intelligence specification
+(`docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md`) is authored
+locally and pending review/integration; it defines the logical contracts for the
+AI Estate Inventory, Unified Run Ledger, Skill Gap Detector, Memory Freshness
+Monitor, Recommendation Ledger, exact operator-approval, and the controlled
+improvement loop. It is specification only — no backend, adapter, runtime, or UI
+is implemented or claimed by it.
+
 ## Planned Direction
 
 The Observatory roadmap includes Mission Control, Agent Activity, Context Pulse,
@@ -47,9 +55,11 @@ Model Router, Unified Run Ledger, Approval Queue, Memory & Recommendation Ledger
 AI Estate Inventory, Skill Gap Detector, and Memory Freshness Monitor. These are
 planned domains, not current capability claims.
 
-Next roadmap task: `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` — specification
-only. Detailed schema and implementation contracts are intentionally deferred to
-that task and later separately approved work.
+Next roadmap task (after the AI Operations Intelligence specification is
+integrated): `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` — translate the approved
+logical contracts into fixture/schema artifacts and validation requirements.
+Detailed schema and implementation contracts remain deferred to that task and
+later separately approved work.
 
 ## Release and Historical Integrity
 

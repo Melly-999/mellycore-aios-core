@@ -34,14 +34,21 @@ history rather than being duplicated here.
 
 ## Active Milestone — AI Operations Intelligence
 
-Next task: **`MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001`**.
+The AI Operations Intelligence specification
+(`MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001`,
+`docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md`) is **authored
+locally and pending integration**. Specification completion is not
+implementation: the specification defines logical contracts and truth/safety
+boundaries only, and claims no runtime adapters, approval execution, or
+autonomous improvement.
 
-That task is a specification boundary for the Observatory's operational
-intelligence. It may define the subject areas and their truth/safety contracts;
-it must not claim that runtime adapters, approval execution, or autonomous
-improvement already exist.
+After integration, the next task is **`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`**,
+which translates the approved logical contracts into fixture/schema artifacts and
+validation requirements — still specification/fixture scope, not runtime
+implementation.
 
-Planned subject areas:
+Planned subject areas (all remain planned; the specification does not implement
+them):
 
 1. Mission Control
 2. Agent Activity

@@ -2,19 +2,20 @@
 
 ## Latest Completed Task
 
-`MELLYCORE-POSITIONING-REFRESH-001`
+`MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001`
 
-- Refreshed the canonical identity to a local-first, operator-controlled AI
-  Operations Observatory.
-- Separated implemented foundations, legacy prototype behavior, accepted visual
-  specification, and planned Observatory capabilities.
-- Removed NASA Images from current product direction without deleting code or
-  rewriting historical task/release evidence.
-- Preserved Source Arena as the intended 390×844 model-lens hero; the
-  holographic/3D implementation remains unbuilt.
-- Reduced shared-context duplication. Durable detail is in
-  `docs/tasks/MELLYCORE-POSITIONING-REFRESH-001.md`, completed task reports, and
-  Git history.
+- Authored the documentation-only AI Operations Intelligence specification at
+  `docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md`: logical contracts
+  for the AI Estate Inventory, Unified Run Ledger, Skill Gap Detector, Memory
+  Freshness Monitor, Recommendation Ledger, exact operator-approval, and the
+  controlled improvement loop.
+- Preserved the existing run/token, Loop Operations, and Context Gate contracts
+  by reference; redefined none of them.
+- Specification only — no backend, adapter, runtime, UI, scheduler, or provider
+  integration is implemented or claimed. Durable detail is in
+  `docs/tasks/MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001.md` and Git history.
+- The immediately prior task, `MELLYCORE-POSITIONING-REFRESH-001`, is integrated
+  into canonical main.
 
 ## Current Operational Boundary
 
@@ -32,15 +33,17 @@ No consequential action may bypass operator approval.
 
 ## Next Run
 
-Before roadmap work continues, review the single signed local positioning commit.
-Push or PR creation requires separate authorization.
+Before roadmap work continues, review the single signed local commit on
+`docs/mellycore-ai-operations-intelligence-001`. Push or PR creation requires
+separate authorization.
 
-After this positioning commit is integrated, the exact next roadmap task is:
+After this specification commit is integrated, the exact next roadmap task is:
 
-`MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001`
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`
 
-That task is specification-only. It must not implement adapters, approval
-execution, autonomous improvement, backend services, or safety-rule changes.
+That task is specification/fixture scope only. It must not implement adapters,
+approval execution, autonomous improvement, backend services, runtime-consumed
+schema, or safety-rule changes.
 
 ## Safety Reminders
 
