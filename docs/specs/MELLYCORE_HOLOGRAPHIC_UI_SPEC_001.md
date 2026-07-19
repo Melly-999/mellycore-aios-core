@@ -17,6 +17,36 @@ implementation, no code, and no site changes. A later, separately approved task
 > sequencing live in `README.md`, `shared_context/ROADMAP.md`, and
 > `docs/tasks/MELLYCORE-POSITIONING-REFRESH-001.md`.
 
+> **Renderer amendment notice (2026-07-19):**
+> `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (status: PROPOSED, not
+> yet accepted) narrowly supersedes this document's Section 4, Section 5.4,
+> Section 5.9, and Section 8 dependency/build-step/renderer-technology clauses —
+> **only** for Source Arena's central-stage enhanced renderer. It permits exactly
+> one pinned, checksummed, vendored Three.js ESM module as progressive
+> enhancement over a mandatory, complete CSS/DOM fallback that implements this
+> document's Section 4 in full. The zero-build-step guarantee and the
+> zero-external-runtime-network guarantee are both preserved exactly. Every other
+> requirement in this document remains fully binding and unchanged: Source Arena
+> as the 390×844 primary hero and required first screenshot (Section 3.1,
+> Section 6.3); Overview's core/orbit/hull as supporting-only, background-level
+> imagery, never inside the Source Arena viewport (Section 2.5); Model Arena as
+> the expanded model-lens relationship (Section 3.3); every `Real source` /
+> `Simulated model output` / `Planned` label and the truthful-state taxonomy of
+> the integrated AI Operations Intelligence specification; DOM as the sole
+> authoritative carrier of every label and control in both renderers; every
+> accessibility requirement in Section 5.5, extended so the enhanced-renderer
+> canvas is `aria-hidden="true"` and never carries an exclusive interaction; and
+> reduced-motion (Section 4.9), extended so `prefers-reduced-motion: reduce`
+> prevents the WebGL renderer from mounting at all, leaving the CSS frozen pose
+> as the rendered result. Section 5.9's "the keyless NASA Images API remains the
+> sole external data path" is superseded by the ADR's NASA runtime-retirement
+> boundary: the future Source Arena implementation removes active NASA API calls
+> and `nasa`-named runtime identifiers, while historical task reports and release
+> evidence remain untouched. **No CSS-only implementation, no Hybrid
+> implementation, and no vendored Three.js file exist in the repository as of
+> this notice.** See the ADR for the complete rationale, supersession map, and
+> implementation sequencing.
+
 Ground truth this spec is written against (verified in-repo at authoring time):
 
 - Current release: `v0.2.0` — Live Cockpit V2 / Social Source Arena.

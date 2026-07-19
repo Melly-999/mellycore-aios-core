@@ -41,6 +41,33 @@ After a reviewed intelligence specification, separately approved work may addres
 real adapters, guarded operations, observability UI, and validation evidence.
 No implementation task is authorized by this queue entry.
 
+## Parallel Decision Track — Source Arena Renderer
+
+This track is independent of, and does not reorder, the primary roadmap
+sequence above. It does not begin before, does not supersede, and does not
+require `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` to be integrated first.
+
+1. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001` — complete (docs-only, this
+   commit). Records `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`,
+   status PROPOSED, pending push/PR and independent review.
+2. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001` — independent
+   Codex/GPT-5.6 Sol review of supersession scope, consistency, Git diff, and
+   acceptance criteria. Not started.
+3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
+   API calls and `nasa-*` active runtime handles from the Source Arena surface,
+   preserving historical evidence; may run as the first bounded slice of task 4
+   if the accepting review prefers that grouping. Not started.
+4. `MELLYCORE-3D-SCENE-FOUNDATION-001` — implement the shared state, complete
+   CSS fallback, vendored/pinned Three.js enhanced renderer, lifecycle,
+   context-loss recovery, and mobile-first Source Arena. Not started.
+5. `MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001` — keyboard/screen-reader
+   parity, reduced-motion, forced-fallback, context-loss, memory/RAF cleanup,
+   mobile and desktop performance. Not started.
+6. `MELLYCORE-3D-SCENE-INTEGRATION-REVIEW-001` — independent final review
+   before any merge or release claim. Not started.
+
+None of tasks 2–6 is implemented, active, or authorized by this entry alone.
+
 ## Deferred Work
 
 - Cross-agent context smoke testing remains a separate clean-worktree task.
@@ -64,6 +91,9 @@ No implementation task is authorized by this queue entry.
   `docs/tasks/MELLYCORE-POSITIONING-REFRESH-001.md`.
 - AI Operations Intelligence specification — current local documentation task;
   durable report at `docs/tasks/MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001.md`.
+- Source Arena Hybrid renderer ADR — current local documentation task,
+  PROPOSED status, pending review/integration; durable report at
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001.md`.
 
 ## Standing Safety Gate
 

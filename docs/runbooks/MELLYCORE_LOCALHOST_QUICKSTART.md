@@ -83,8 +83,21 @@ py -3.9 -m http.server 4174 --bind 127.0.0.1 --directory site
 
 This server binds only to `127.0.0.1` (loopback) via `--bind 127.0.0.1`. It is not reachable from the local network or the internet. Do not remove or change the `--bind 127.0.0.1` flag, and do not port-forward or otherwise expose this server beyond the local machine.
 
+## Forward-looking note: proposed Hybrid Source Arena renderer
+
+`docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (status: PROPOSED, not
+accepted) proposes a WebGL-enhanced Source Arena renderer using exactly one
+pinned, vendored Three.js ESM module served from `site/vendor/`. If that ADR is
+accepted and later implemented, this quickstart's guarantees are designed to
+remain unchanged: no `package.json`, no build step, and no external runtime
+network request — the vendored file would be served as a static asset from
+this same `--directory site` root, not fetched from a CDN. As of this note, no
+such file exists in the repository and this command continues to serve only
+the current static scaffold described above.
+
 ## Related documents
 
 - `[[../../README]]`
 - `[[../showcase/static_preview_evidence_pack_001]]`
 - `[[../tasks/MELLYCORE-PROJECT-HISTORY-AND-LOCALHOST-BOOT-001]]`
+- `[[../decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001]]`

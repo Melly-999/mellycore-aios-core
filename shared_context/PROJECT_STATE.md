@@ -48,6 +48,14 @@ Monitor, Recommendation Ledger, exact operator-approval, and the controlled
 improvement loop. It is specification only — no backend, adapter, runtime, or UI
 is implemented or claimed by it.
 
+A proposed Source Arena Hybrid renderer decision
+(`docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status: PROPOSED,
+not accepted) would narrowly permit a WebGL-enhanced renderer — one pinned,
+vendored Three.js ESM module, paired with a mandatory complete CSS/DOM
+fallback — for Source Arena's central stage only. Neither renderer is
+implemented; no dependency has been vendored; NASA runtime retirement (also
+recorded by this ADR as a future decision) has not been performed.
+
 ## Planned Direction
 
 The Observatory roadmap includes Mission Control, Agent Activity, Context Pulse,

@@ -1,6 +1,36 @@
 # Agent Handoff
 
-## Latest Completed Task
+## Latest Completed Task (this branch)
+
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001`
+
+- Created `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (status:
+  PROPOSED, not accepted) recording the operator's Hybrid renderer decision for
+  Source Arena: a WebGL-enhanced renderer (one pinned, vendored Three.js ESM
+  module) as progressive enhancement over a mandatory, complete CSS/DOM
+  fallback.
+- Added a narrow, additive amendment notice to
+  `docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md` superseding only its
+  dependency/build-step/renderer-technology clauses (Sections 4, 5.4, 5.9, 8)
+  for Source Arena's enhanced-renderer layer; every other requirement in that
+  document remains binding.
+- Synced `README.md`, `shared_context/DESIGN_SYSTEM.md`,
+  `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`, and `docs/3d/README.md` to
+  reference the proposed decision truthfully, without claiming implementation.
+- Recorded the future task sequence (ADR review, NASA runtime retirement, the
+  3D scene foundation, accessibility/performance QA, integration review) in
+  `shared_context/RUN_QUEUE.md` and `shared_context/ROADMAP.md` as a parallel
+  decision track that does not reorder the primary Data-Contract-first roadmap.
+- Docs-only. No site/runtime code, dependency file, or Three.js distribution
+  was added. This commit is on branch `docs/mellycore-3d-renderer-hybrid-adr-001`,
+  pending push/PR under separate authorization, exactly like the pattern used
+  by the AI Operations Intelligence task before it.
+- The immediately prior integrated task on canonical `main` is
+  `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` (merged via PR #7). The Operations
+  Data Contract task remains on its own separate, unmerged branch and is not
+  touched or reordered by this task.
+
+## Prior Completed Task (integrated into canonical main via PR #7)
 
 `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001`
 
@@ -44,6 +74,18 @@ After this specification commit is integrated, the exact next roadmap task is:
 That task is specification/fixture scope only. It must not implement adapters,
 approval execution, autonomous improvement, backend services, runtime-consumed
 schema, or safety-rule changes.
+
+## Next Run (Source Arena Renderer track)
+
+Review the single signed local commit on
+`docs/mellycore-3d-renderer-hybrid-adr-001`. Push or PR creation requires
+separate authorization. The exact next task in this parallel track is:
+
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001`
+
+That task is an independent review only — it must not implement the renderer,
+vendor Three.js, or touch `site/`. This track does not begin before, and does
+not require, `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`'s integration.
 
 ## Safety Reminders
 
