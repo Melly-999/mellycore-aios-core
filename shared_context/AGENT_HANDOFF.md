@@ -2,6 +2,46 @@
 
 ## Latest Completed Task (this branch)
 
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001`
+
+- Independent review `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001`
+  returned `NEEDS_FIXES` (findings HR-01 through HR-06) on the ADR commit
+  below. This remediation task closed all six findings without accepting the
+  ADR, implementing the renderer, or touching `site/`:
+  - HR-01: added Appendix A (complete, conditional NASA-transition
+    supersession map and provider-neutral replacement contract) and expanded
+    ADR Section 24 to point to it.
+  - HR-02: corrected `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md` to
+    truthfully separate `site/index.html`'s zero-external-network behavior
+    from `site/dashboard.html`'s existing automatic `https://images-api.nasa.gov`
+    call, reserving the zero-network claim for the future post-retirement
+    Source Arena.
+  - HR-03: made "supersedes"/"permits"/"authorizes" wording conditional on
+    explicit operator acceptance everywhere the PROPOSED ADR is referenced (ADR
+    Section 7 preface, Holographic UI Spec amendment notice).
+  - HR-04: corrected `README.md`, `shared_context/PROJECT_STATE.md`, and
+    `shared_context/ROADMAP.md` to state that AI Operations Intelligence is
+    integrated into canonical `main` via PR #7 (previously described
+    inconsistently as "pending integration"), and that the Operations Data
+    Contract exists only on its own separate, unmerged branch
+    (`NOT_PRESENT_PENDING_INTEGRATION`), without reordering that track.
+  - HR-05: replaced ADR Section 23's approximate performance language with an
+    exact, reproducible measurement contract (draw-call/triangle/DPR limits,
+    reference viewports/browsers/device, measurement protocol, hidden-idle and
+    lifecycle tests, required evidence fields) — future acceptance criteria,
+    not measured results.
+  - HR-06: split the ADR's single shared-state model into three explicit
+    categories (DOM-owned, environment, renderer-lifecycle; Section 11) and
+    specified the exact reduced-motion transition step order in both
+    directions (Section 14).
+- Docs-only. No site/runtime code, dependency file, or Three.js distribution
+  was added or modified. The ADR's status remains **PROPOSED**; this
+  remediation does not accept it or authorize implementation.
+- Exact next task: `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002`
+  (independent re-review of this remediation).
+
+## Prior Completed Task (this branch, prior to remediation)
+
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001`
 
 - Created `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (status:
@@ -63,29 +103,33 @@ No consequential action may bypass operator approval.
 
 ## Next Run
 
-Before roadmap work continues, review the single signed local commit on
-`docs/mellycore-ai-operations-intelligence-001`. Push or PR creation requires
-separate authorization.
+`MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` is already integrated into
+canonical `main` via PR #7 — no further action is needed on that commit.
 
-After this specification commit is integrated, the exact next roadmap task is:
+The exact next roadmap task is:
 
 `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`
 
 That task is specification/fixture scope only. It must not implement adapters,
 approval execution, autonomous improvement, backend services, runtime-consumed
-schema, or safety-rule changes.
+schema, or safety-rule changes. Its work exists only on the separate, unmerged
+branch `docs/mellycore-operations-data-contract-001` (status:
+`NOT_PRESENT_PENDING_INTEGRATION` in canonical `main`); this file does not
+claim that branch is canonical.
 
 ## Next Run (Source Arena Renderer track)
 
-Review the single signed local commit on
-`docs/mellycore-3d-renderer-hybrid-adr-001`. Push or PR creation requires
-separate authorization. The exact next task in this parallel track is:
+Review the single signed local remediation commit on
+`docs/mellycore-3d-renderer-hybrid-adr-001` (on top of the original ADR
+commit). Push or PR creation requires separate authorization. The exact next
+task in this parallel track is:
 
-`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001`
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002`
 
-That task is an independent review only — it must not implement the renderer,
-vendor Three.js, or touch `site/`. This track does not begin before, and does
-not require, `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`'s integration.
+That task is an independent re-review of the remediation only — it must not
+implement the renderer, vendor Three.js, accept the ADR, or touch `site/`.
+This track does not begin before, and does not require,
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`'s integration.
 
 ## Safety Reminders
 

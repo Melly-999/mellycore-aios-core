@@ -28,7 +28,45 @@ py -3.9 -m http.server 4173 --bind 127.0.0.1 --directory site
 http://127.0.0.1:4173/
 ```
 
-Loads `site/index.html`. CSS assets (`tokens.css`, `base.css`, `components.css`, `sections.css`) are served alongside it; no `/api/` calls and no external network requests occur.
+Loads `site/index.html`. CSS assets (`tokens.css`, `base.css`, `components.css`, `sections.css`) are served alongside it; no `/api/` calls and no external network requests occur. **This guarantee covers `site/index.html` only** — see "Current network behavior, by page" below before opening `site/dashboard.html` from the same server.
+
+## Current network behavior, by page (exact, verified 2026-07-20)
+
+This section corrects a prior overstatement: the zero-external-network
+guarantee above was previously implied to cover the whole local preview. It
+does not. Verified by read-only inspection of `site/index.html`,
+`site/dashboard.html`, and `site/js/dashboard.js`:
+
+- **`site/index.html` (the static landing/scaffold page):** contains no
+  `<script>` tag, no `fetch()` call, and no external URL. Serving and loading
+  it makes **zero** external network requests. This guarantee is accurate
+  today, as originally stated.
+- **`site/dashboard.html` (the current legacy Live Cockpit V2 / Social Source
+  Arena dashboard):** loads `site/js/dashboard.js`, which defines
+  `NASA_API_ROOT = "https://images-api.nasa.gov"` and calls it automatically —
+  `document.addEventListener("DOMContentLoaded", boot)` runs `boot()`, which
+  itself calls `await searchNasa({ preserveTask: true })` before any user
+  interaction. **Opening `site/dashboard.html` today makes a live, automatic,
+  keyless GET request to `https://images-api.nasa.gov`, and further requests
+  to the same host on every subsequent search.** This is existing, verified
+  behavior, not a regression introduced by this note — it is documented here
+  because the guarantee above previously did not distinguish it from
+  `index.html`.
+- **The future, post-retirement Source Arena** (planned; see
+  `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status PROPOSED,
+  not accepted, and its Section 24 / Appendix A): would make **zero** external
+  runtime network requests, using a locally bundled fixture in place of the
+  live NASA call above. This is a future planned guarantee, not a description
+  of any behavior that exists today.
+- **The future vendored Three.js module** (planned; ADR Section 20, not yet
+  vendored, no such file exists in the repository): if and when it is ever
+  vendored under `site/vendor/` per a separately authorized implementation
+  task, it would be served as a static asset from this same `--directory site`
+  root — not fetched from a CDN — so it would not change the zero-external-
+  network status of whichever page loads it.
+
+Do not read the "no external network requests" line under "Expected URL" above
+as covering `dashboard.html`; it covers `index.html` only.
 
 ## How to stop the server
 
@@ -88,12 +126,17 @@ This server binds only to `127.0.0.1` (loopback) via `--bind 127.0.0.1`. It is n
 `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (status: PROPOSED, not
 accepted) proposes a WebGL-enhanced Source Arena renderer using exactly one
 pinned, vendored Three.js ESM module served from `site/vendor/`. If that ADR is
-accepted and later implemented, this quickstart's guarantees are designed to
-remain unchanged: no `package.json`, no build step, and no external runtime
-network request — the vendored file would be served as a static asset from
-this same `--directory site` root, not fetched from a CDN. As of this note, no
-such file exists in the repository and this command continues to serve only
-the current static scaffold described above.
+accepted and later implemented (including the separately-authorized NASA
+runtime-retirement task recorded in the ADR's Section 24 and Appendix A), this
+quickstart's guarantees are designed to remain unchanged for the resulting
+Source Arena page: no `package.json`, no build step, and no external runtime
+network request — the vendored Three.js file would be served as a static asset
+from this same `--directory site` root, not fetched from a CDN, and the live
+NASA call documented above under "Current network behavior, by page" would be
+retired in favor of a local fixture. As of this note, no such file exists in
+the repository, no renaming or retirement has occurred, and this command
+continues to serve only the current static scaffold and legacy dashboard
+described above.
 
 ## Related documents
 

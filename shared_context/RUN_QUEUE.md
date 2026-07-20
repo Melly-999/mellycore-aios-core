@@ -3,18 +3,21 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
-## Integration Gate
+## Integration Status (AI Operations Intelligence)
 
-1. Review the single signed local commit produced by
-   `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` on branch
-   `docs/mellycore-ai-operations-intelligence-001`.
-2. Under separate authorization, push only that immutable commit to a new
-   canonical remote branch and create a review PR.
-3. Do not start the next roadmap task until this specification is integrated.
+`MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` is **integrated into canonical
+`main` via PR #7**. This gate is closed; it is recorded here only as history,
+not as a pending step.
 
 ## Exact Next Roadmap Task
 
 `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`
+
+Status: present only on its separate, unmerged branch
+`docs/mellycore-operations-data-contract-001`; not present in canonical `main`.
+Status in canonical `main`: `NOT_PRESENT_PENDING_INTEGRATION`. This entry does
+not claim that branch's content is canonical and is not modified by this or
+any other current task.
 
 Type: documentation/fixture-and-schema specification.
 
@@ -47,12 +50,18 @@ This track is independent of, and does not reorder, the primary roadmap
 sequence above. It does not begin before, does not supersede, and does not
 require `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` to be integrated first.
 
-1. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001` — complete (docs-only, this
-   commit). Records `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`,
-   status PROPOSED, pending push/PR and independent review.
+1. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001` — complete (docs-only).
+   Records `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status
+   PROPOSED.
 2. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001` — independent
-   Codex/GPT-5.6 Sol review of supersession scope, consistency, Git diff, and
-   acceptance criteria. Not started.
+   review complete. Outcome: **`NEEDS_FIXES`** (findings HR-01 through HR-06).
+2a. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001` — complete
+   (this commit, docs-only). Closed HR-01 through HR-06 in the ADR, the
+   Holographic UI Spec amendment notice, this file, and other shared-context
+   files; ADR status remains PROPOSED. Exact next task:
+   `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002` (independent
+   re-review; not started). Implementation remains blocked pending that
+   review's PASS and separate operator acceptance of the ADR.
 3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
    API calls and `nasa-*` active runtime handles from the Source Arena surface,
    preserving historical evidence; may run as the first bounded slice of task 4
@@ -89,11 +98,16 @@ None of tasks 2–6 is implemented, active, or authorized by this entry alone.
   hero contract preserved, implementation not claimed.
 - Positioning refresh — integrated into canonical main; durable report at
   `docs/tasks/MELLYCORE-POSITIONING-REFRESH-001.md`.
-- AI Operations Intelligence specification — current local documentation task;
-  durable report at `docs/tasks/MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001.md`.
-- Source Arena Hybrid renderer ADR — current local documentation task,
-  PROPOSED status, pending review/integration; durable report at
-  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001.md`.
+- AI Operations Intelligence specification — integrated into canonical `main`
+  via PR #7; durable report at
+  `docs/tasks/MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001.md`.
+- Source Arena Hybrid renderer ADR — local documentation task, PROPOSED
+  status, not accepted, not integrated; durable report at
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001.md`. Independent
+  review returned `NEEDS_FIXES`; remediation is recorded at
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001.md`.
+  ADR status remains PROPOSED; exact next task:
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002`.
 
 ## Standing Safety Gate
 

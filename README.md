@@ -32,8 +32,15 @@ cockpit:
 - **Memory Freshness Monitor** — planned detection of stale, conflicting, or superseded context.
 
 These are roadmap domains, not claims that the complete Observatory already
-exists. `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` is the next specification
-task; it will define the detailed contract without authorizing implementation.
+exists. The AI Operations Intelligence specification
+(`MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001`) is **integrated into canonical
+`main` via PR #7**; it defines the detailed logical contract for these domains
+without authorizing implementation — its modules remain `SPECIFIED`, not
+runtime-implemented. The next roadmap task,
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`, translates that contract into
+fixture/schema artifacts; it exists only on its own separate, unmerged branch
+today (status: `NOT_PRESENT_PENDING_INTEGRATION` in canonical `main`) and is
+not touched or reordered by this or any other current task.
 
 ## What Exists Today
 

@@ -5,6 +5,20 @@
 **Date:** 2026-07-19
 **Decision owners:** Operator (sole acceptance authority). Drafted by Claude Code under task `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001`. Independent spec-compatibility and Git review is required from GPT-5.6 Sol / Codex (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001`) before this ADR may be treated as accepted.
 
+> **Remediation note (2026-07-20):** Independent review
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001` returned
+> `NEEDS_FIXES` (findings HR-01 through HR-06). This document was amended by
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001` to close those
+> findings: Section 7's supersession table is now marked explicitly
+> not-yet-operative (HR-03); Section 11 splits DOM-owned, environment, and
+> renderer-lifecycle state, and Section 14 specifies the exact reduced-motion
+> transition ordering (HR-06); Section 23 replaces approximate performance
+> language with an exact, reproducible measurement contract (HR-05); Section 24
+> and new Appendix A define a complete, conditional NASA-transition
+> supersession map (HR-01). This ADR's status remains **PROPOSED**; none of
+> these amendments move it to ACCEPTED or authorize implementation. The exact
+> next task is `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002`.
+
 ---
 
 ## 1. Context
@@ -42,7 +56,13 @@ A dual-renderer Source Arena: one shared, plain-JavaScript state object; two int
 
 ## 7. Exact supersession map
 
-| Source / Section | Disposition | Replacement rule |
+**This table is prospective and not yet operative.** Every "Disposition" cell
+below describes what would happen only if and when this ADR is explicitly
+accepted by the operator. While this ADR remains PROPOSED, none of these
+supersessions are in effect, and every quoted source document listed below
+remains fully and currently binding exactly as written.
+
+| Source / Section | Disposition (conditional on acceptance — not yet operative) | Replacement rule |
 |---|---|---|
 | Holographic UI Spec §4 (dependency/build-step clause) | **Narrowly superseded** | WebGL, Canvas, and exactly one vendored Three.js ESM dependency are permitted, but only as the enhanced renderer of Source Arena's central stage, and only when a complete CSS/DOM fallback exists and is authoritative whenever WebGL is unavailable |
 | Holographic UI Spec §4.1–4.11 (CSS techniques) | **Preserved as the mandatory fallback spec** | Every technique becomes the required CSS/DOM baseline implementation, not diminished |
@@ -75,9 +95,46 @@ Owns: procedural deep-space background, the central Source Arena model-lens core
 
 The complete Holographic UI Spec §4.1–4.11 CSS-only technique set (perspective scene, orbit ring, core, hull, layered cards, shadows, frozen pose), rendered unconditionally first, in the DOM, structurally present without JavaScript (§4.10's no-JS contract preserved).
 
-## 11. Shared-state model
+## 11. State model (three explicit categories)
 
-A single plain JavaScript state object (no framework): selected slide/source id, active model-lens id, per-node truthful-state label, reduced-motion flag, viewport size, active-renderer flag. Written only by existing DOM controls. Read by whichever renderer is mounted. Both renderers observe the same object; neither renderer is a second source of truth.
+The prior draft's single "shared-state object" conflated three different kinds
+of state with three different owners and lifetimes. This ADR replaces that
+single model with three explicit, separately owned categories. All three are
+read by whichever renderer (WebGL or CSS) is mounted; neither renderer is a
+second source of truth for any of them.
+
+### 11.1 DOM-owned interaction state
+
+Written only through existing DOM/controller actions (a click, a tap, a form
+submit already wired to `dashboard.js`): selected source/slide id, selected
+model-lens id, user-controlled filters, and every truthful-state label value
+(`Real source` / `Simulated model output` / `Planned` / etc.) whose source of
+truth is DOM content. The renderer never writes to this category; it only
+reads it.
+
+### 11.2 Environment state
+
+Written only by the browser/media/visibility platform, never chosen by
+application code: viewport dimensions, device pixel ratio,
+`document.visibilityState`, the Source Arena panel's own active/hidden state
+(the existing `activateTab`/`panel.hidden` mechanism), the
+`prefers-reduced-motion` media-query result, and the outcome of WebGL
+capability detection (Section 15). Both the DOM controller and the renderer
+read this category; neither one sets its values — the platform does.
+
+### 11.3 Renderer lifecycle state
+
+Written only internally by the renderer's own lifecycle manager, and exposed
+**read-only** to DOM diagnostics — DOM/controller code may read it (e.g. to
+show a non-blocking degraded-state note per Section 26) but never assigns to
+it: lifecycle phase (uninitialized / initializing / running / suspended /
+disposed / failed), which renderer is active (WebGL or CSS), WebGL context
+state, first-frame-rendered status, suspended-vs-running status, and the last
+recorded failure reason, if any.
+
+The requirement that "WebGL never owns safety, approval, or navigation state"
+(Section 4) is satisfied structurally: 11.1 and 11.2 — never 11.3 — are the
+only categories a safety, approval, or navigation decision may read from.
 
 ## 12. Truthful-state semantics
 
@@ -87,9 +144,51 @@ Every visual element's truthful-state label — the integrated AI Operations Int
 
 Canvas is `aria-hidden="true"`. Every interactive affordance (selecting a model lens, an orbit node) has a real DOM control of record. Keyboard and screen-reader users operate entirely through DOM. Pointer/tap-on-canvas, if implemented, is an alias that calls the same state-change function the DOM controls call — never an exclusive capability.
 
-## 14. Reduced-motion policy
+## 14. Reduced-motion policy and exact transition ordering
 
-`prefers-reduced-motion: reduce` → WebGL is not mounted at all; the CSS frozen pose renders instead. Checked at initialization and re-checked on `change`.
+`prefers-reduced-motion: reduce`, evaluated at initialization and re-evaluated
+on the media query's `change` event (Section 11.2, environment state), gates
+WebGL mounting entirely. The transition in each direction must follow this
+exact, idempotent step order — repeating any step, or invoking it out of
+order, must not throw, double-register a listener, or leak a resource (Section
+19).
+
+### 14.1 Transition: no-preference → reduce
+
+1. Synchronously make the complete CSS fallback layer (Section 10) visible.
+2. Mark WebGL promotion as disabled for the remainder of this preference state.
+3. Cancel/suspend the renderer's `requestAnimationFrame` loop.
+4. Stop renderer-owned animation and pointer/tap-on-canvas input aliases
+   (Section 13); DOM controls remain fully functional throughout.
+5. Release or dispose GPU resources per the permanent reduced-motion lifecycle
+   policy (Section 19 governs exactly which resources this includes).
+6. Leave all DOM controls, labels, focus state, and selection state (Section
+   11.1) untouched by this transition.
+7. Set renderer lifecycle state (Section 11.3) to `css-fallback / reduced-motion`.
+8. At no point during or after this transition is a frozen or black canvas left
+   visible — the CSS layer is authoritative and on-screen before any WebGL
+   teardown step begins.
+
+### 14.2 Transition: reduce → no-preference
+
+1. Keep the CSS fallback visible and fully functional throughout; it is never
+   hidden speculatively.
+2. Re-run guarded capability detection (Section 15) from scratch.
+3. Initialize WebGL only if capability detection passes.
+4. Render and verify the first successful frame before any visual change
+   (Section 16's first-frame rule applies identically here).
+5. Only after that first frame succeeds, hide the decorative CSS visual layer
+   (never the DOM labels/controls layer, which is never hidden by either
+   renderer, per Section 4).
+6. Preserve DOM labels, controls, focus, and selection state (Section 11.1)
+   unchanged across this transition.
+7. On any failure at steps 2–4, retain the CSS layer as the rendered result and
+   record a non-blocking degraded state in renderer lifecycle state (Section
+   11.3) — never surfaced as a blocking error to the user (Section 26).
+
+Initialization, suspension, resumption, and disposal remain idempotent
+(Section 19) regardless of how many times reduced-motion toggles back and
+forth in a single session.
 
 ## 15. Capability detection
 
@@ -123,13 +222,114 @@ Before any vendoring occurs, the implementation task must verify and record, wit
 
 `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`'s `py -3.9 -m http.server` workflow is unchanged. No `package.json`, `node_modules`, or build command is introduced. Zero runtime network requests occur beyond the same-origin static server once the vendored file is in place.
 
-## 23. Mobile and desktop performance budgets
+## 23. Performance contract (exact, reproducible — future acceptance criteria)
 
-Targets are set for ordinary consumer mobile and desktop hardware, not the operator's development machine: ≤50 draw calls per frame; ≤~20,000 triangles across the whole scene; device-pixel-ratio capped at 2 on desktop and ~1.5 on mobile; a 60fps desktop target and a 30fps sustained mobile target; zero ongoing GPU/CPU cost while hidden or while `prefers-reduced-motion` is active. These are conservative, ordinary-device budgets and must not be validated only against a high-end development GPU.
+The prior draft's approximate language (`≤~20,000`, `~1.5`, "ordinary consumer
+hardware", unqualified "sustained") is replaced by the exact, testable contract
+below. **Nothing in this section has been measured yet.** These are acceptance
+criteria for the future implementation task
+(`MELLYCORE-3D-SCENE-FOUNDATION-001`) and its QA task
+(`MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001`), not results claimed by
+this ADR.
 
-## 24. NASA runtime-retirement boundary
+### 23.1 Geometry and renderer limits (hold for every sampled frame)
 
-Active NASA Images search/fetch/runtime integration is to be **removed** from the active Source Arena surface during the future implementation phase — not indefinitely isolated. New Source Arena runtime identifiers introduced by that future task must not use the `nasa-*` namespace (current examples observed by read-only inspection of `site/dashboard.html`, listed for reference only and not modified by this task: `#tab-nasa`, `.dash-panel--nasa`, `#nasa-stage`, `#nasa-stage-dots`, `#nasa-search-form`, `#nasa-queue`, and related form-field ids). The future Hybrid renderer must not initialize from, call, or depend on any NASA API. Historical task reports and `v0.2.0` release evidence describing why the NASA prototype exists remain untouched by both this ADR and the future implementation task; only active runtime code and identifiers are in scope for retirement, not the historical record.
+- Maximum draw calls per rendered frame: **50**.
+- Maximum rendered triangles per frame: **20,000**.
+- Maximum device pixel ratio: **1.5 on mobile**, **2.0 on desktop**.
+- Exactly one active renderer canvas at any time.
+- Zero renderer `requestAnimationFrame` callbacks while hidden, after the
+  suspension grace period defined in 23.4.
+
+### 23.2 Reference viewports and browsers
+
+- Mobile reference viewport: **390×844 CSS pixels**.
+- Desktop reference viewport: **1920×1080 CSS pixels**.
+- Desktop reference browser: current stable Chromium-based desktop browser at
+  test time, with the exact version recorded in the future task's evidence.
+- Mobile reference browser: current stable Android Chromium browser on the
+  named physical reference device below, exact version recorded in evidence.
+- If no physical mobile device is available at test time, emulation results
+  must be labeled **provisional** in that evidence and cannot alone produce a
+  final physical-mobile PASS.
+
+### 23.3 Reference mobile device
+
+One reproducible physical baseline device, explicitly named in the future
+task's evidence — for example a Google Pixel 6 or another explicitly named
+device of comparable or lower capability. The future task must not claim
+operator ownership of the device, and if the named device is unavailable at
+test time, the physical-mobile gate must be reported as **unavailable**, never
+as passed.
+
+### 23.4 Measurement protocol
+
+- 5-second warm-up after the first successful WebGL frame, excluded from the
+  sample.
+- 30-second active-animation sample window, no user interaction during the
+  sample.
+- Exact scene/slide and object count recorded alongside every sample.
+- Desktop: average FPS ≥ **55**; p95 frame time ≤ **20 ms**.
+- Mobile: average FPS ≥ **30**; p95 frame time ≤ **33.3 ms**.
+- Draw-call and triangle limits (23.1) must hold for every sampled frame, not
+  only on average.
+- Zero uncaught console errors during the sample.
+- Zero WebGL context loss events during the sample.
+
+### 23.5 Hidden-idle test
+
+- Hide the Source Arena tab or document.
+- Allow a maximum **1-second** suspension grace period.
+- Observe for 10 seconds.
+- Renderer-owned RAF callback count must be exactly **0**.
+- Renderer draw-call count must be exactly **0**.
+
+### 23.6 Lifecycle / leak test
+
+- Perform 20 Source Arena hide/show cycles.
+- Exactly one canvas remains afterward.
+- Exactly one active renderer lifecycle instance remains.
+- No duplicate listeners or RAF loops.
+- Post-GC heap must not show monotonically increasing retained renderer
+  instances across the 20 cycles; if precise heap measurement is unavailable
+  in the test environment, the future task must report that limitation
+  honestly rather than claim this portion PASS.
+
+### 23.7 Required evidence fields (future task, not this ADR)
+
+Device, OS, browser and version, viewport, device pixel ratio, scene
+description, sample duration, average FPS, p95 frame time, draw calls,
+triangles, hidden-idle RAF result, and lifecycle/leak result — recorded for
+every completed measurement run.
+
+These targets apply regardless of the development machine used to author this
+ADR or the future implementation; they must not be validated only against a
+single high-end development GPU.
+
+## 24. NASA runtime-retirement boundary (conditional, not yet operative)
+
+**Nothing in this section is in effect while this ADR remains PROPOSED, and
+none of it is performed by this ADR.** It records what a future,
+separately-authorized implementation task would do, conditional on both (a)
+explicit operator acceptance of this ADR and (b) that future task's own
+separate authorization and review gates. As of this remediation, `site/`,
+`docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`'s binding requirements, and
+every `nasa-*` identifier remain unmodified and fully in force.
+
+If and when both gates above are met: active NASA Images search/fetch/runtime
+integration would be removed from the active Source Arena surface — not
+indefinitely isolated. New Source Arena runtime identifiers introduced by that
+future task would not use the `nasa-*` namespace. The future Hybrid renderer
+would not initialize from, call, or depend on any NASA API. Historical task
+reports and `v0.2.0` release evidence describing why the NASA prototype exists
+would remain untouched by both this ADR and the future implementation task;
+only active runtime code and identifiers are ever in scope for retirement, not
+the historical record.
+
+**Appendix A** (end of this document) is the complete, exact conditional
+supersession map and provider-neutral replacement contract for every
+currently-verified `nasa-*` identifier, label, and behavior — closing the gap
+left by this section's prior, partial identifier list.
 
 ## 25. Security considerations
 
@@ -173,3 +373,71 @@ Reconsider this ADR if: the vendored file's provenance cannot be fully verified 
 ## 34. Approval boundary
 
 This document, in its current PROPOSED state, authorizes no commit beyond its own creation, no dependency download, no vendoring, no site/runtime change, and no push, PR, merge, or deployment. Moving this ADR to ACCEPTED requires an explicit operator decision recorded after the independent review task above; this document does not assert that acceptance has occurred.
+
+---
+
+## Appendix A: NASA transition supersession map (conditional, not yet operative)
+
+This appendix is the complete, exact conditional map required to close
+independent-review finding HR-01. **None of this table is in effect.** Every
+row's "Future disposition" and "Provider-neutral replacement" describe what
+would happen only if this ADR is accepted **and** the separately-authorized
+NASA runtime-retirement task
+(`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`) is itself later
+implemented and reviewed. Until then, every current identifier below remains
+exactly as verified in the repository at remediation time (read-only
+inspection of `site/dashboard.html`, `site/js/dashboard.js`,
+`site/css/dashboard.css`), unrenamed and fully functional.
+
+### A.1 Identifier map
+
+| Category | Current identifier (verified in-repo) | Future disposition | Provider-neutral replacement |
+|---|---|---|---|
+| Active nav tab button | `#tab-btn-nasa`, `data-tab="nasa"` | Conditionally renamed | `#tab-btn-source-arena`, `data-tab="source-arena"` |
+| Tab panel id | `#tab-nasa` (`aria-controls` target of the tab button) | Conditionally renamed | `#tab-source-arena` |
+| Panel identifier (class) | `.dash-panel--nasa` | Conditionally renamed | `.dash-panel--source-arena` |
+| Central-stage identifier | `#nasa-stage` (`.media-stage`) | Conditionally renamed | `#source-arena-stage` |
+| Pagination-dot container | `#nasa-stage-dots` (`.stage-pagination`) | Conditionally renamed | `#source-arena-stage-dots` |
+| Pagination-dot buttons | `.stage-dot` (class already provider-neutral) | Preserved unchanged | `.stage-dot` (no rename; see the `aria-label` row below for the text each dot carries) |
+| Search-form identifiers | `#nasa-search-form` / `.nasa-search-form` (and its `input`/`select` children) | Conditionally renamed | `#source-arena-search-form` / `.source-arena-search-form` |
+| Query-control / results-queue identifiers | `#nasa-queue` / `.nasa-queue`, `.nasa-queue-item`, `.nasa-queue-button`, `.nasa-queue-thumb`, `.nasa-queue-copy` | Conditionally renamed | `#source-arena-queue` / `.source-arena-queue`, `.source-arena-queue-item`, `.source-arena-queue-button`, `.source-arena-queue-thumb`, `.source-arena-queue-copy` |
+| NASA API root / boot-time fetch behavior | `NASA_API_ROOT = "https://images-api.nasa.gov"` (`site/js/dashboard.js`); `searchNasa()` is invoked automatically from `boot()` on `DOMContentLoaded`, performing a live `fetch()` to that root before the user takes any action | Retired | No provider API root constant of any kind in the foundation slice; `searchNasa()`'s network call is replaced by a local-fixture loader (e.g. `loadSourceArenaFixture()`) that performs **zero** network requests; `boot()` calls the loader directly, not an async remote fetch |
+| Loading-state copy naming NASA | `"NASA Images API · public request · no API key"` (loading string in `dashboard.js`) | Retired | Loader string names the local fixture, not any external provider |
+| Result-count `aria-label` | `aria-label="Demo provider search results"` on `.nasa-queue` | Conditionally renamed | `aria-label="Local source fixture results"` |
+| Per-dot `aria-label` | `aria-label="Show NASA result ${index + 1}"` | Conditionally renamed | `aria-label="Show source result ${index + 1}"` |
+| Must-visible label: `Demo provider: NASA Images API` (Holographic UI Spec §3.1) | Spec text | Retired | Replaced by `Local source fixture`, from this ADR's truthful-label set (A.2 below) |
+| `Real source` badge on a NASA-sourced item (Holographic UI Spec §3.1, §3.1a) | Spec text — currently accurate, since the source is genuinely live NASA data | Conditionally re-scoped | `Real source` remains usable post-retirement **only** where an actual bundled fixture record has verifiable, recorded provenance; otherwise the item must carry `Local source fixture` or `Planned`, never `Real source` by default |
+| "NASA id" field in the pinned-source header (Holographic UI Spec §3.1a) | Spec text | Conditionally renamed | Generic fixture record id (e.g. `source id`), no provider-specific field name |
+| No-JS fallback copy (Holographic UI Spec §4.10: "a static glass panel stating that live search requires JavaScript and linking the NASA API docs") | Spec text; **not yet implemented in `site/` today** | Conditionally renamed | Provider-neutral no-JS fallback copy stating the Source Arena fixture requires JavaScript to render, with no NASA-specific wording and no NASA API doc link |
+| Mobile/desktop composition (Holographic UI Spec §3.1/§3.2) referencing "NASA media"/"NASA source" as example content | Spec text | Preserved structurally; content genericized | Layout, proportions, and composition rules (Sections 8–10 above) are unchanged; "NASA media" as an example content type is replaced by "bundled Source Arena fixture media" |
+| QA selector: "NASA search still works end-to-end" (Holographic UI Spec §5.7) | Spec text | Retired, replaced | Future QA criterion: "Source Arena fixture renders end-to-end (image/video/audio fixture types) with zero network requests in the request log" |
+| Screenshot requirement content (Holographic UI Spec §6.3) referencing NASA imagery as the pictured content | Spec text | Preserved structurally; content genericized | Exact screenshot composition, order, and required-labels rules (Section 7's "Screenshot order" row) are unchanged; "NASA imagery" as pictured content is replaced by "bundled Source Arena fixture imagery" |
+| No-rename clause (Holographic UI Spec §5.3: "no removal or renaming of existing ids, classes, tab roles, or aria wiring") | Spec text, currently fully binding | Narrowly and conditionally excepted | This appendix is the ADR's sole, narrow, conditional exception to that clause, limited exactly to the `nasa-*` identifiers enumerated above, and only takes effect if/when both this ADR and the future NASA-retirement task are separately authorized and implemented |
+| "NASA search must work" requirement (Holographic UI Spec §3.1 "Real:" row, §5.7) | Spec text | Retired | Superseded by: local-fixture search/filter must work identically over bundled deterministic data, with zero external requests |
+| Historical evidence: `v0.2.0` release notes and NASA-referencing completed task reports under `docs/tasks/` | Existing files | **Untouched** | Not modified by this ADR or by any future task in this sequence; remains the historical record of why the NASA prototype exists |
+
+### A.2 Future data contract (conditional; establishes no current behavior)
+
+If and when the conditions above are met, the future foundation renderer:
+
+- Uses deterministic, locally bundled Source Arena showcase data.
+- Performs no external provider/API request of any kind.
+- Requires no backend, database, provider key, or scheduler.
+- Never claims simulated or fixture content is a real external source.
+- Uses truthful visible labels drawn from this set: `Local source fixture`,
+  `Simulated model output`, `Planned`. `Real source` is used only where an
+  actual bundled source record has verifiable, recorded provenance (A.1's
+  `Real source` row).
+- Keeps DOM as the sole authoritative carrier of every label (Section 12,
+  Section 11.1 above) — canvas never carries a label alone (Section 13).
+- Leaves historical NASA evidence and task reports unchanged (A.1's last row).
+
+### A.3 Preserved visual/product requirements (unaffected by this appendix)
+
+Source Arena remains the lead hero; 390×844 remains the primary reference
+viewport; Source Arena remains required screenshot #1; Overview remains
+screenshot #4, supporting-only; Model Arena remains the expanded model-lens
+relationship; pagination dots remain required, using the provider-neutral
+successor identifier in A.1 once (and only once) the conditions above are met;
+every accessibility and reduced-motion requirement in Sections 11–14 above
+remains binding regardless of this appendix's status.
