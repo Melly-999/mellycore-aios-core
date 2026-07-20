@@ -1,6 +1,68 @@
 # Agent Handoff
 
-## Latest Completed Task (this branch)
+## Latest Completed Task (this track)
+
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-001`
+
+- Synchronized the Hybrid Renderer ADR and shared coordination docs with the
+  now-merged canonical-`main` state from PR #8 (ADR status
+  `ACCEPTED_CANONICAL_MAIN`), clarified implementation sequencing, and recorded
+  the sync as its own task report — without changing architecture, runtime
+  code, dependencies, NASA status, or deployment state.
+- A follow-on P2 remediation
+  (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-001`)
+  then resolved two Codex review findings on PR #9: ADR Section 31 no longer
+  sequences the Operations Data Contract as a prerequisite of the Source Arena
+  renderer track (preserving track independence per `RUN_QUEUE.md`), and this
+  handoff's latest-completed-task pointer now names the state-sync task. The
+  Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION`.
+- Docs-only. No site/runtime code, dependency file, or Three.js distribution
+  was added or modified; no NASA retirement, release, or deployment occurred.
+- Exact next task:
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-PUBLISH-001`
+
+## Prior Completed Task (this track, PR #8 merge)
+
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-PR-MERGE-001`
+
+- After the ADR's operator acceptance (below), the acceptance record was
+  independently re-reviewed twice: `-ACCEPTANCE-REVIEW-001` returned
+  `NEEDS_FIXES` (two persisted gating-text contradictions in ADR Section 7's
+  table header and Appendix A's NASA-row); `-ACCEPTANCE-REMEDIATION-001`
+  closed both with two localized wording corrections; `-ACCEPTANCE-REVIEW-002`
+  returned `PASS_HYBRID_RENDERER_ADR_ACCEPTANCE_REVIEW_002_COMPLETE`.
+- `-PR-001` pushed the branch to canonical `clean-origin` and opened draft PR
+  [#8](https://github.com/Melly-999/mellycore-aios-core/pull/8).
+  `-PR-REVIEW-001` returned `PASS_HYBRID_RENDERER_ADR_PR_REVIEW_COMPLETE`.
+  `-PR-READY-001` marked PR #8 ready for review; Sourcery's ready-state check
+  did not trigger a fresh run because it had already exhausted its own
+  external weekly diff-character quota — recorded as
+  `WAIVED_UNAVAILABLE_BY_OPERATOR` / `EXTERNAL_WEEKLY_RATE_LIMIT_NOT_CODE_FAILURE`,
+  never reported as passing; `main` has no branch protection or required
+  status checks.
+- `-PR-MERGE-001` merged PR #8 into canonical `main` via merge commit
+  `f93be7018a1da3bba50eb66346b1f9e627a46dd2` (parents
+  `06a7a421a06abbe38450d276af94985da8ddeba0` and
+  `dcfcd8db2089e6f27b5aea59446244bf964f4aea`), confirmed by independent
+  pre- and post-merge fresh clones: 245/245 tests passing in each, all
+  validators passing, all five commit signatures verified, all five commits
+  confirmed ancestors of the new `main`.
+- The ADR's status is now **`ACCEPTED_CANONICAL_MAIN`**. Integration into
+  canonical `main` makes the ADR's narrow, exact-clause supersession of the
+  Holographic UI Spec (Section 7) authoritative and makes NASA runtime
+  retirement (Section 24, Appendix A) an accepted future requirement — it
+  does not execute that retirement, vendor Three.js, or implement any
+  renderer. The complete CSS/DOM fallback, the no-build-step guarantee, and
+  DOM's sole authority over labels/controls/navigation/safety state all
+  remain unconditionally binding. The current legacy dashboard's NASA API
+  calls remain present and unchanged. No release or deployment exists.
+- Docs-only throughout. No site/runtime code, dependency file, or Three.js
+  distribution was added or modified at any point in this chain.
+- Exact next task:
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`
+  (independent review of the post-merge documentation sync).
+
+## Prior Completed Task (this branch, ADR acceptance)
 
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-001`
 
@@ -14,20 +76,10 @@
   reviewed baseline, on this exact branch, in one new signed local commit only
   — no push, no PR, no merge, no Three.js implementation, no runtime change,
   no NASA removal.
-- The ADR's status is now **ACCEPTED** (decision/specification level only,
-  2026-07-20). Acceptance makes the ADR's narrow, exact-clause supersession of
-  the Holographic UI Spec (Section 7) authoritative and makes NASA runtime
-  retirement (Section 24, Appendix A) an accepted future requirement — it
-  does not execute that retirement, vendor Three.js, or implement any
-  renderer. The complete CSS/DOM fallback, the no-build-step guarantee, and
-  DOM's sole authority over labels/controls/navigation/safety state all
-  remain unconditionally binding. The current legacy dashboard's NASA API
-  calls remain present and unchanged.
+- The ADR's status became **ACCEPTED** (decision/specification level only,
+  2026-07-20), later integrated into canonical `main` as recorded above.
 - Docs-only. No site/runtime code, dependency file, or Three.js distribution
-  was added or modified. No push, PR, merge, or deployment occurred.
-- Exact next task:
-  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`
-  (independent re-review of this acceptance commit).
+  was added or modified.
 
 ## Prior Completed Task (this branch, prior to acceptance)
 
@@ -179,19 +231,22 @@ claim that branch is canonical.
 
 ## Next Run (Source Arena Renderer track)
 
-Review the four signed local commits on
-`docs/mellycore-3d-renderer-hybrid-adr-001` (original ADR, remediation 001,
-remediation 002, acceptance 001). Push or PR creation requires separate
-authorization. The exact next task in this parallel track is:
+The ADR architecture milestone is **`CLOSED_IN_CANONICAL_MAIN`** — PR #8
+merged into canonical `main` via commit
+`f93be7018a1da3bba50eb66346b1f9e627a46dd2`. Runtime implementation is
+**`NOT_STARTED`**: no Three.js file, renderer code, or NASA-retirement change
+exists anywhere in the repository. The exact next task in this parallel track
+is:
 
-`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`
 
-That task is an independent re-review of the acceptance commit only — it must
-not implement the renderer, vendor Three.js, retire NASA, touch `site/`, or
-push/PR/merge. The ADR's decision-level status is ACCEPTED; nothing beyond
-that decision has been implemented, vendored, or retired. This track does not
-begin before, and does not require, `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`'s
-integration.
+That task is an independent review of this documentation-state sync only —
+it must not implement the renderer, vendor Three.js, retire NASA, touch
+`site/`, or push/PR/merge. After it passes, the next prerequisite for
+`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` is the Operations Data
+Contract integration gate, if still pending at that time (see below); NASA
+retirement, Three.js vendoring, and the renderer foundation task each remain
+separately unauthorized until their own explicit tasks.
 
 ## Safety Reminders
 

@@ -1,7 +1,7 @@
 # ADR: MellyCore Source Arena Hybrid Renderer (WebGL-Enhanced, CSS-Complete-Fallback)
 
 **ADR ID:** `MELLYCORE_3D_RENDERER_HYBRID_ADR_001`
-**Status:** ACCEPTED (2026-07-20). Accepted by the Operator on branch `docs/mellycore-3d-renderer-hybrid-adr-001` at reviewed baseline commit `b95a741231d18ef712379837c7167aa22b37d42f`, following `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`'s `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE` outcome. Acceptance is a decision/specification-level authorization only — see the acceptance record below and Section 34. Not yet integrated into canonical `main`; not yet pushed. This document still authorizes no dependency download, no vendoring, no site/runtime change, and no push, PR, merge, or deployment by itself.
+**Status:** ACCEPTED (2026-07-20). Accepted by the Operator on branch `docs/mellycore-3d-renderer-hybrid-adr-001` at reviewed baseline commit `b95a741231d18ef712379837c7167aa22b37d42f`, following `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`'s `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE` outcome. Acceptance is a decision/specification-level authorization only — see the acceptance record below and Section 34. Integrated into canonical `main` via merge commit `f93be7018a1da3bba50eb66346b1f9e627a46dd2` (PR #8, `docs/mellycore-3d-renderer-hybrid-adr-001` → `main`) — see the canonical integration record below. This document still authorizes no dependency download, no vendoring, no site/runtime change, and no release or deployment by itself.
 **Date:** 2026-07-19 (original decision); accepted 2026-07-20.
 **Decision owners:** Operator (sole acceptance authority — exercised 2026-07-20; see acceptance record below). Drafted by Claude Code under task `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001`. Independent spec-compatibility and Git review (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001` through `-REVIEW-003`) is complete; `-REVIEW-003` returned `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE`, the gate this ADR required before operator acceptance.
 
@@ -67,6 +67,36 @@
 > `ACCEPTED_REQUIREMENT_NOT_EXECUTED`; Git publication status
 > `LOCAL_ONLY_NOT_PUSHED`. Exact next task:
 > `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`.
+
+> **Canonical integration record (2026-07-20):** Following
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`
+> (`NEEDS_FIXES`, two persisted Section 7 / Appendix A gating-text
+> contradictions), `-ACCEPTANCE-REMEDIATION-001` (closed both), and
+> `-ACCEPTANCE-REVIEW-002` (`PASS_HYBRID_RENDERER_ADR_ACCEPTANCE_REVIEW_002_COMPLETE`),
+> the operator separately authorized `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-PR-001`
+> to push this branch to canonical `clean-origin` and open draft PR #8; then
+> `-PR-REVIEW-001` (`PASS`), `-PR-READY-001` (marked ready; Sourcery's
+> ready-state check did not trigger a fresh run because it had exhausted its
+> own external weekly diff-character quota — waived by the operator as
+> `WAIVED_UNAVAILABLE_BY_OPERATOR` / `EXTERNAL_WEEKLY_RATE_LIMIT_NOT_CODE_FAILURE`,
+> not reported as a passing check — and this repository has no branch
+> protection or required status checks on `main`), and finally
+> `-PR-MERGE-001` merged PR #8 into canonical `main` via merge commit
+> `f93be7018a1da3bba50eb66346b1f9e627a46dd2` (parents
+> `06a7a421a06abbe38450d276af94985da8ddeba0` and
+> `dcfcd8db2089e6f27b5aea59446244bf964f4aea`), confirmed by independent
+> pre- and post-merge fresh clones (245/245 tests, all validators passing,
+> all five commit signatures verified, all five commits confirmed ancestors
+> of the new `main`). This ADR is now present in canonical `main`. None of
+> this integration implements the renderer, vendors Three.js, retires NASA,
+> or performs any release/deployment. Exact status tokens as of this record:
+> decision status `ACCEPTED_CANONICAL_MAIN`; renderer implementation status
+> `NOT_IMPLEMENTED`; CSS fallback status `NOT_IMPLEMENTED`; Three.js
+> dependency status `NOT_VENDORED`; NASA runtime-retirement status
+> `ACCEPTED_REQUIREMENT_NOT_EXECUTED`; Git publication status
+> `MERGED_CANONICAL_MAIN` (PR #8); release/deployment status
+> `NOT_PERFORMED`. Exact next task:
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`.
 
 ---
 
@@ -412,7 +442,11 @@ At any time, forcing WebGL off — via capability-detection failure, a debug fla
 
 ## 31. Implementation sequencing
 
-This ADR (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001`) → independent review (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001`) → NASA runtime retirement (`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`, which may be executed as the first tightly bounded slice of the foundation task if the accepting review prefers that grouping) → Hybrid renderer implementation (`MELLYCORE-3D-SCENE-FOUNDATION-001`) → accessibility/performance QA (`MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001`) → independent integration review (`MELLYCORE-3D-SCENE-INTEGRATION-REVIEW-001`).
+**Completed decision/integration path** (every step below is done; none of it implements the renderer): ADR authored (`-ADR-001`) → independent review found defects (`-REVIEW-001`, `NEEDS_FIXES`) → remediated (`-REMEDIATION-001`) → residual defects found (`-REVIEW-002`, `NEEDS_FIXES`) → remediated (`-REMEDIATION-002`) → final ADR review passed (`-REVIEW-003`, `PASS`) → explicit operator acceptance (`-ACCEPTANCE-001`) → acceptance re-review found a narrow gating-text contradiction (`-ACCEPTANCE-REVIEW-001`, `NEEDS_FIXES`) → remediated (`-ACCEPTANCE-REMEDIATION-001`) → final acceptance review passed (`-ACCEPTANCE-REVIEW-002`, `PASS`) → branch pushed and draft PR #8 opened (`-PR-001`) → PR review passed (`-PR-REVIEW-001`, `PASS`) → PR marked ready, Sourcery's check waived as unavailable rather than passed (`-PR-READY-001`) → merged into canonical `main` via merge commit `f93be7018a1da3bba50eb66346b1f9e627a46dd2` (`-PR-MERGE-001`) → this documentation-state sync (`-POST-MERGE-STATE-SYNC-001`).
+
+**Remaining runtime path** (every step below is not started and each requires its own separate authorization and review gate): NASA runtime retirement (`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`; may run as the first tightly bounded slice of the foundation task if the accepting review prefers that grouping) → Three.js provenance verification and vendoring inside the authorized foundation task → CSS/DOM fallback implementation → Hybrid WebGL Source Arena implementation (together, `MELLYCORE-3D-SCENE-FOUNDATION-001`) → accessibility/performance QA (`MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001`) → independent integration review (`MELLYCORE-3D-SCENE-INTEGRATION-REVIEW-001`) → a separate implementation PR and its own merge → optional public deployment, itself requiring separate authorization.
+
+The Operations Data Contract (`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`) is **not** a step in, prerequisite of, or gate on the runtime path above. Consistent with `shared_context/RUN_QUEUE.md`, this Source Arena renderer track is independent of it: the renderer track does not begin before it, does not supersede it, and does not require it to be integrated first. The Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION` as a separately-authorized, parallel roadmap track; if both tracks are ever active they proceed independently, each keeping its own authorization and review gates.
 
 ## 32. Review and acceptance gates
 
