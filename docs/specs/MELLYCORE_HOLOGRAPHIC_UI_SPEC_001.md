@@ -17,24 +17,29 @@ implementation, no code, and no site changes. A later, separately approved task
 > sequencing live in `README.md`, `shared_context/ROADMAP.md`, and
 > `docs/tasks/MELLYCORE-POSITIONING-REFRESH-001.md`.
 
-> **Renderer amendment notice (2026-07-19; conditional wording corrected 2026-07-20):**
-> `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` remains status:
-> **PROPOSED, not accepted**. While it remains PROPOSED, it supersedes nothing
-> in this document and authorizes no implementation. **If and only if** the
-> operator explicitly accepts that ADR, it would then narrowly supersede this
-> document's Section 4, Section 5.4, Section 5.9, and Section 8
-> dependency/build-step/renderer-technology clauses — **only** for Source
-> Arena's central-stage enhanced renderer. It would permit exactly one pinned,
-> checksummed, vendored Three.js ESM module as progressive enhancement over a
-> mandatory, complete CSS/DOM fallback that implements this document's Section
-> 4 in full. The zero-build-step guarantee and a future zero-external-runtime-
-> network guarantee for the post-retirement Source Arena would both be
-> preserved exactly under that conditional supersession — this notice makes no
-> claim about the **current** dashboard's network behavior; see
-> `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md` for the current, verified
-> network behavior of `site/index.html` versus `site/dashboard.html`. Every
-> other requirement in this document remains fully binding and unchanged
-> regardless of the ADR's status: Source Arena as the 390×844 primary hero and
+> **Renderer amendment notice (2026-07-19; conditional wording corrected
+> 2026-07-20; acceptance recorded 2026-07-20):**
+> `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` is now status:
+> **ACCEPTED**. The operator explicitly accepted it on 2026-07-20, on branch
+> `docs/mellycore-3d-renderer-hybrid-adr-001` at reviewed baseline commit
+> `b95a741231d18ef712379837c7167aa22b37d42f`, following
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`'s
+> `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE` outcome (task
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-001`). Acceptance
+> makes the ADR's narrow supersession of this document's Section 4, Section
+> 5.4, Section 5.9, and Section 8 dependency/build-step/renderer-technology
+> clauses authoritative — **only** for Source Arena's central-stage enhanced
+> renderer, and **only** the exact clauses the ADR enumerates (ADR Section 7).
+> It permits exactly one pinned, checksummed, vendored Three.js ESM module as
+> progressive enhancement over a mandatory, complete CSS/DOM fallback that
+> implements this document's Section 4 in full. The zero-build-step guarantee
+> remains binding; a zero-external-runtime-network guarantee for the future
+> post-retirement Source Arena is accepted as a requirement but not yet
+> implemented — this notice makes no claim about the **current** dashboard's
+> network behavior; see `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md` for
+> the current, verified network behavior of `site/index.html` versus
+> `site/dashboard.html`. Every other requirement in this document remains
+> fully binding and unchanged: Source Arena as the 390×844 primary hero and
 > required first screenshot (Section 3.1, Section 6.3); Overview's
 > core/orbit/hull as supporting-only, background-level imagery, never inside
 > the Source Arena viewport (Section 2.5); Model Arena as the expanded
@@ -43,20 +48,25 @@ implementation, no code, and no site changes. A later, separately approved task
 > the integrated AI Operations Intelligence specification (integrated into
 > canonical `main` via PR #7); DOM as the sole authoritative carrier of every
 > label and control in both renderers; every accessibility requirement in
-> Section 5.5, which **would be** extended so the enhanced-renderer canvas is
-> `aria-hidden="true"` and never carries an exclusive interaction, conditional
-> on the same acceptance; and reduced-motion (Section 4.9), which **would be**
-> extended so `prefers-reduced-motion: reduce` prevents the WebGL renderer from
-> mounting at all, leaving the CSS frozen pose as the rendered result. Section
-> 5.9's "the keyless NASA Images API remains the sole external data path"
-> would, under that same condition, be superseded by the ADR's NASA
-> runtime-retirement boundary (ADR Section 24 and Appendix A give the complete,
-> exact, conditional identifier map): a future, separately-authorized Source
-> Arena implementation would remove active NASA API calls and `nasa`-named
-> runtime identifiers, while historical task reports and release evidence
-> remain untouched. **No CSS-only implementation, no Hybrid implementation, and
-> no vendored Three.js file exist in the repository as of this notice, and this
-> ADR has not been accepted.** See the ADR for the complete rationale,
+> Section 5.5, now extended so the enhanced-renderer canvas is
+> `aria-hidden="true"` and never carries an exclusive interaction; and
+> reduced-motion (Section 4.9), now extended so `prefers-reduced-motion:
+> reduce` prevents the WebGL renderer from mounting at all, leaving the CSS
+> frozen pose as the rendered result. Section 5.9's "the keyless NASA Images
+> API remains the sole external data path" is accepted as a future
+> requirement to be superseded by the ADR's NASA runtime-retirement boundary
+> (ADR Section 24 and Appendix A give the complete, exact, conditional
+> identifier map) — **but that retirement has not been executed**: it requires
+> its own separately-authorized implementation task
+> (`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`), which has not begun.
+> The current legacy dashboard's NASA API calls and `nasa`-named runtime
+> identifiers remain present and unchanged today; historical task reports and
+> release evidence remain untouched regardless. **No CSS-only implementation,
+> no Hybrid implementation, and no vendored Three.js file exist in the
+> repository as of this notice.** Acceptance of the ADR does not itself
+> authorize that implementation, dependency acquisition, NASA retirement,
+> push, PR, merge, or deployment — those require their own separate
+> authorization and review gates. See the ADR for the complete rationale,
 > supersession map, and implementation sequencing.
 
 Ground truth this spec is written against (verified in-repo at authoring time):

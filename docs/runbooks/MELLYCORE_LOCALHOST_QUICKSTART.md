@@ -9,7 +9,7 @@ The command below exposes the static files under `site/` — no `package.json`, 
 - `site/index.html` — the entrypoint — is pure HTML/CSS with **zero JavaScript**: no `<script>` tag, no `fetch()` call, no external request of any kind.
 - `site/dashboard.html` — the current legacy Live Cockpit V2 / Social Source Arena dashboard, also served from this same root — loads `site/js/dashboard.js`, which performs external, keyless GET requests to the NASA Images API automatically on load and on every search. It is not zero-network.
 
-See "Current network behavior, by page" below for the exact, verified per-page detail (constants, call sites, and what remains true once the proposed Hybrid renderer ADR is eventually accepted and implemented).
+See "Current network behavior, by page" below for the exact, verified per-page detail (constants, call sites, and what remains true once the accepted Hybrid renderer ADR is eventually implemented).
 
 - Static root: `site/`
 - Entrypoint: `site/index.html`
@@ -58,8 +58,9 @@ does not. Verified by read-only inspection of `site/index.html`,
   because the guarantee above previously did not distinguish it from
   `index.html`.
 - **The future, post-retirement Source Arena** (planned; see
-  `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status PROPOSED,
-  not accepted, and its Section 24 / Appendix A): would make **zero** external
+  `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status
+  **ACCEPTED** (2026-07-20, decision/specification level only, not
+  implemented), and its Section 24 / Appendix A): would make **zero** external
   runtime network requests, using a locally bundled fixture in place of the
   live NASA call above. This is a future planned guarantee, not a description
   of any behavior that exists today.
@@ -126,22 +127,25 @@ py -3.9 -m http.server 4174 --bind 127.0.0.1 --directory site
 
 This server binds only to `127.0.0.1` (loopback) via `--bind 127.0.0.1`. It is not reachable from the local network or the internet. Do not remove or change the `--bind 127.0.0.1` flag, and do not port-forward or otherwise expose this server beyond the local machine.
 
-## Forward-looking note: proposed Hybrid Source Arena renderer
+## Forward-looking note: accepted Hybrid Source Arena renderer decision
 
-`docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (status: PROPOSED, not
-accepted) proposes a WebGL-enhanced Source Arena renderer using exactly one
-pinned, vendored Three.js ESM module served from `site/vendor/`. If that ADR is
-accepted and later implemented (including the separately-authorized NASA
-runtime-retirement task recorded in the ADR's Section 24 and Appendix A), this
-quickstart's guarantees are designed to remain unchanged for the resulting
-Source Arena page: no `package.json`, no build step, and no external runtime
-network request — the vendored Three.js file would be served as a static asset
-from this same `--directory site` root, not fetched from a CDN, and the live
-NASA call documented above under "Current network behavior, by page" would be
+`docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` is now status:
+**ACCEPTED** (2026-07-20, decision/specification level only) — it decides that
+a WebGL-enhanced Source Arena renderer using exactly one pinned, vendored
+Three.js ESM module served from `site/vendor/` is permitted, subject to its
+own separately-authorized implementation task. Once that implementation task
+(including the separately-authorized NASA runtime-retirement task recorded in
+the ADR's Section 24 and Appendix A) is itself carried out, this quickstart's
+guarantees are designed to remain unchanged for the resulting Source Arena
+page: no `package.json`, no build step, and no external runtime network
+request — the vendored Three.js file would be served as a static asset from
+this same `--directory site` root, not fetched from a CDN, and the live NASA
+call documented above under "Current network behavior, by page" would be
 retired in favor of a local fixture. As of this note, no such file exists in
 the repository, no renaming or retirement has occurred, and this command
 continues to serve only the current static scaffold and legacy dashboard
-described above.
+described above; the ADR's acceptance authorizes none of that implementation
+by itself.
 
 ## Related documents
 

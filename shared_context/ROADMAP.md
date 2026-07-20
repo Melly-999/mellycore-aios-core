@@ -78,14 +78,16 @@ model-lens composition first; Overview/core/orbit/hull supporting only; honest
 real/simulated/planned labels throughout. The accepted specification is not an
 implementation claim.
 
-A proposed Hybrid renderer decision — `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`,
-status PROPOSED, not accepted — would narrowly permit a WebGL-enhanced
-renderer (one pinned, vendored Three.js module) as progressive enhancement
-over a mandatory, complete CSS/DOM fallback, without changing any visual rule
-above. Its future task sequence (independent review, NASA runtime retirement,
-the 3D scene foundation, accessibility/performance QA, integration review) runs
-as a parallel track recorded in `shared_context/RUN_QUEUE.md` and does not
-reorder the Operations Data Contract sequence below.
+An accepted Hybrid renderer decision — `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`,
+status **ACCEPTED** (2026-07-20, decision/specification level only, not
+implemented) — narrowly permits a WebGL-enhanced renderer (one pinned,
+vendored Three.js module) as progressive enhancement over a mandatory,
+complete CSS/DOM fallback, without changing any visual rule above. Its
+remaining task sequence (NASA runtime retirement, the 3D scene foundation,
+accessibility/performance QA, integration review) runs as a parallel track
+recorded in `shared_context/RUN_QUEUE.md` and does not reorder the Operations
+Data Contract sequence below; none of those tasks is implemented, active, or
+authorized by this acceptance alone.
 
 ## Safety Gates
 

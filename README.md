@@ -53,7 +53,7 @@ not touched or reordered by this or any other current task.
 | Live Cockpit V2 / Social Source Arena | Implemented legacy prototype | Local vanilla HTML/CSS/JS surface; not the completed Observatory. |
 | Model comparison copy | Simulated | Deterministic local text, not live model responses. |
 | Holographic Source Arena | Accepted specification | The 390×844 model-lens hero and 3D treatment are not implemented. |
-| Source Arena Hybrid renderer decision | Proposed (ADR drafted, not accepted) | `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` proposes a WebGL-enhanced, CSS-complete-fallback renderer; no WebGL code, vendored dependency, or NASA runtime retirement exists in the repository yet. |
+| Source Arena Hybrid renderer decision | Accepted (decision/specification level only, 2026-07-20) | `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` records an accepted WebGL-enhanced, CSS-complete-fallback renderer decision; no WebGL code, vendored dependency, or NASA runtime retirement exists in the repository yet — implementation requires its own separately-authorized task. |
 | Observatory modules and real adapters | Planned | Detailed specification and guarded implementation remain future work. |
 
 The repository also contains a hand-authored Living Context Graph fixture with
@@ -73,14 +73,15 @@ That specification does not mean the holographic UI, 3D treatment, model-lens
 feed, or real-data adapters are already implemented. Overview's core/orbit/hull
 composition remains supporting imagery only.
 
-A proposed Hybrid renderer decision —
+An accepted Hybrid renderer decision —
 [`MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`](docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md)
-(status: PROPOSED, not accepted) — would narrowly permit a WebGL-enhanced
-renderer for Source Arena's central stage, backed by one pinned, vendored
-Three.js module, always paired with a complete CSS/DOM fallback. Zero build
-step and zero external runtime network requests remain preserved under that
-proposal. No WebGL code, no vendored dependency, and no such renderer exist in
-this repository as of this note.
+(status: **ACCEPTED**, 2026-07-20, decision/specification level only) —
+narrowly permits a WebGL-enhanced renderer for Source Arena's central stage,
+backed by one pinned, vendored Three.js module, always paired with a complete
+CSS/DOM fallback. Zero build step and zero external runtime network requests
+remain preserved under this decision. No WebGL code, no vendored dependency,
+and no such renderer exist in this repository as of this note — implementing
+any of it requires its own separately-authorized task.
 
 ## NASA Images Disposition
 
@@ -95,11 +96,12 @@ separately approved source-code task. Until then, references to NASA in complete
 task reports and released code describe implementation history, not current
 product direction.
 
-`docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (PROPOSED, not accepted)
-records a decision that active NASA Images runtime functionality is to be
-removed from the Source Arena surface during a future implementation task,
-with historical task reports and release evidence left untouched. No such
-removal has occurred yet.
+`docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (**ACCEPTED**,
+2026-07-20, decision/specification level only) records a decision that active
+NASA Images runtime functionality is to be removed from the Source Arena
+surface during a future, separately-authorized implementation task, with
+historical task reports and release evidence left untouched. No such removal
+has occurred yet.
 
 ## Safety and Non-Goals
 

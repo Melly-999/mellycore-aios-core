@@ -2,6 +2,35 @@
 
 ## Latest Completed Task (this branch)
 
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-001`
+
+- Independent review `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`
+  returned `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE` against remediation
+  commit `b95a741231d18ef712379837c7167aa22b37d42f`, confirming HR-01 through
+  HR-06, RF-01, and RF-02 all closed, three valid signed commits, exact scope,
+  and 245/245 tests passing.
+- The operator then explicitly authorized recording acceptance of
+  `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` at that exact
+  reviewed baseline, on this exact branch, in one new signed local commit only
+  — no push, no PR, no merge, no Three.js implementation, no runtime change,
+  no NASA removal.
+- The ADR's status is now **ACCEPTED** (decision/specification level only,
+  2026-07-20). Acceptance makes the ADR's narrow, exact-clause supersession of
+  the Holographic UI Spec (Section 7) authoritative and makes NASA runtime
+  retirement (Section 24, Appendix A) an accepted future requirement — it
+  does not execute that retirement, vendor Three.js, or implement any
+  renderer. The complete CSS/DOM fallback, the no-build-step guarantee, and
+  DOM's sole authority over labels/controls/navigation/safety state all
+  remain unconditionally binding. The current legacy dashboard's NASA API
+  calls remain present and unchanged.
+- Docs-only. No site/runtime code, dependency file, or Three.js distribution
+  was added or modified. No push, PR, merge, or deployment occurred.
+- Exact next task:
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`
+  (independent re-review of this acceptance commit).
+
+## Prior Completed Task (this branch, prior to acceptance)
+
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002`
 
 - Independent review `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002`
@@ -150,17 +179,19 @@ claim that branch is canonical.
 
 ## Next Run (Source Arena Renderer track)
 
-Review the three signed local commits on
+Review the four signed local commits on
 `docs/mellycore-3d-renderer-hybrid-adr-001` (original ADR, remediation 001,
-remediation 002). Push or PR creation requires separate authorization. The
-exact next task in this parallel track is:
+remediation 002, acceptance 001). Push or PR creation requires separate
+authorization. The exact next task in this parallel track is:
 
-`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`
 
-That task is an independent re-review of remediation 002 only — it must not
-implement the renderer, vendor Three.js, accept the ADR, or touch `site/`.
-This track does not begin before, and does not require,
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`'s integration.
+That task is an independent re-review of the acceptance commit only — it must
+not implement the renderer, vendor Three.js, retire NASA, touch `site/`, or
+push/PR/merge. The ADR's decision-level status is ACCEPTED; nothing beyond
+that decision has been implemented, vendored, or retired. This track does not
+begin before, and does not require, `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`'s
+integration.
 
 ## Safety Reminders
 

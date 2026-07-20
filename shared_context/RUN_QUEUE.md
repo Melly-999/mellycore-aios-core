@@ -72,6 +72,19 @@ require `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` to be integrated first.
    next task: `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`
    (independent re-review; not started). Implementation remains blocked
    pending that review's PASS and separate operator acceptance of the ADR.
+2d. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003` — independent
+   re-review complete. Outcome: **`PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE`**;
+   RF-01 and RF-02 confirmed closed alongside HR-01 through HR-06; three valid
+   signed commits; exact scope confirmed; 245/245 tests passing.
+2e. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-001` — complete
+   (this commit, docs-only). The operator explicitly accepted the ADR on
+   2026-07-20 at reviewed baseline `b95a741231d18ef712379837c7167aa22b37d42f`.
+   ADR status is now **ACCEPTED** (decision/specification level only — see
+   `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`'s acceptance
+   record). No Three.js implementation, dependency acquisition, NASA
+   retirement, push, PR, or merge is authorized by this acceptance. Exact next
+   task: `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`
+   (independent re-review of this acceptance commit; not started).
 3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
    API calls and `nasa-*` active runtime handles from the Source Arena surface,
    preserving historical evidence; may run as the first bounded slice of task 4
@@ -85,7 +98,10 @@ require `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` to be integrated first.
 6. `MELLYCORE-3D-SCENE-INTEGRATION-REVIEW-001` — independent final review
    before any merge or release claim. Not started.
 
-None of tasks 2–6 is implemented, active, or authorized by this entry alone.
+None of tasks 3–6 is implemented, active, or authorized by this entry alone.
+Task 1 (the ADR decision) is now accepted at the decision/specification level
+only (2e above); this does not implement, vendor, retire, push, or merge
+anything.
 
 ## Deferred Work
 
@@ -111,16 +127,22 @@ None of tasks 2–6 is implemented, active, or authorized by this entry alone.
 - AI Operations Intelligence specification — integrated into canonical `main`
   via PR #7; durable report at
   `docs/tasks/MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001.md`.
-- Source Arena Hybrid renderer ADR — local documentation task, PROPOSED
-  status, not accepted, not integrated; durable report at
+- Source Arena Hybrid renderer ADR — local documentation decision, status
+  **ACCEPTED** (2026-07-20, decision/specification level only; not integrated
+  into canonical `main`, not pushed); durable report at
   `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001.md`. Independent
   review 001 returned `NEEDS_FIXES`; remediation 001 recorded at
   `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001.md`.
   Independent review 002 confirmed HR-01–HR-06 closed but returned
   `NEEDS_FIXES` on two residual findings; remediation 002 recorded at
   `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002.md`.
-  ADR status remains PROPOSED; exact next task:
-  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`.
+  Independent review 003 returned
+  `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE`; the operator then explicitly
+  accepted the ADR, recorded at
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-001.md`.
+  No Three.js implementation, dependency acquisition, or NASA runtime
+  retirement exists; exact next task:
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`.
 
 ## Standing Safety Gate
 

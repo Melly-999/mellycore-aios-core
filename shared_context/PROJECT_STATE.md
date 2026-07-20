@@ -49,13 +49,15 @@ improvement loop. It is specification only — no backend, adapter, runtime, or 
 is implemented or claimed by it; its modules remain `SPECIFIED`, not
 runtime-implemented.
 
-A proposed Source Arena Hybrid renderer decision
-(`docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status: PROPOSED,
-not accepted) would narrowly permit a WebGL-enhanced renderer — one pinned,
-vendored Three.js ESM module, paired with a mandatory complete CSS/DOM
-fallback — for Source Arena's central stage only. Neither renderer is
-implemented; no dependency has been vendored; NASA runtime retirement (also
-recorded by this ADR as a future decision) has not been performed.
+An accepted Source Arena Hybrid renderer decision
+(`docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status:
+**ACCEPTED**, 2026-07-20, decision/specification level only) narrowly permits
+a WebGL-enhanced renderer — one pinned, vendored Three.js ESM module, paired
+with a mandatory complete CSS/DOM fallback — for Source Arena's central stage
+only. Neither renderer is implemented; no dependency has been vendored; NASA
+runtime retirement (accepted by this ADR as a future requirement) has not
+been executed; both require their own separately-authorized implementation
+task.
 
 ## Planned Direction
 

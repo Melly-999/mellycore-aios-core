@@ -1,9 +1,9 @@
 # ADR: MellyCore Source Arena Hybrid Renderer (WebGL-Enhanced, CSS-Complete-Fallback)
 
 **ADR ID:** `MELLYCORE_3D_RENDERER_HYBRID_ADR_001`
-**Status:** PROPOSED. Not yet accepted, not yet integrated into canonical `main`. This document authorizes no implementation, no dependency download, and no site/runtime change by itself.
-**Date:** 2026-07-19
-**Decision owners:** Operator (sole acceptance authority). Drafted by Claude Code under task `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001`. Independent spec-compatibility and Git review is required from GPT-5.6 Sol / Codex (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001`) before this ADR may be treated as accepted.
+**Status:** ACCEPTED (2026-07-20). Accepted by the Operator on branch `docs/mellycore-3d-renderer-hybrid-adr-001` at reviewed baseline commit `b95a741231d18ef712379837c7167aa22b37d42f`, following `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`'s `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE` outcome. Acceptance is a decision/specification-level authorization only — see the acceptance record below and Section 34. Not yet integrated into canonical `main`; not yet pushed. This document still authorizes no dependency download, no vendoring, no site/runtime change, and no push, PR, merge, or deployment by itself.
+**Date:** 2026-07-19 (original decision); accepted 2026-07-20.
+**Decision owners:** Operator (sole acceptance authority — exercised 2026-07-20; see acceptance record below). Drafted by Claude Code under task `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001`. Independent spec-compatibility and Git review (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001` through `-REVIEW-003`) is complete; `-REVIEW-003` returned `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE`, the gate this ADR required before operator acceptance.
 
 > **Remediation note (2026-07-20):** Independent review
 > `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001` returned
@@ -35,6 +35,38 @@
 > remains **PROPOSED**; neither correction moves it to ACCEPTED or authorizes
 > implementation. The exact next task is
 > `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`.
+
+> **Acceptance record (2026-07-20):** Independent review
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003` returned
+> `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE`, confirming HR-01 through
+> HR-06, RF-01, and RF-02 all closed against reviewed baseline
+> `b95a741231d18ef712379837c7167aa22b37d42f`. The operator then explicitly
+> accepted this ADR at that exact baseline, on this exact branch, authorizing
+> only the recording of that acceptance in one new signed local commit
+> (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-001`) — no push, no
+> PR, no merge, no Three.js implementation, no site/runtime change, and no
+> NASA removal. This ADR's status is now **ACCEPTED**. Acceptance makes the
+> decision-level supersession in Section 7 authoritative and makes NASA
+> runtime retirement (Section 24, Appendix A) an accepted future requirement
+> — it does not execute that retirement, vendor Three.js, or implement any
+> renderer. The complete CSS/DOM fallback (Section 10) remains mandatory; the
+> no-build-step and zero-external-runtime-network guarantees (Section 22)
+> remain binding; DOM remains the sole authoritative carrier of labels,
+> controls, navigation, and safety/approval state (Sections 11–13),
+> unconditionally. The current legacy NASA runtime
+> (`site/js/dashboard.js`, verified in
+> `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`'s "Current network
+> behavior, by page" section) remains present and unretired until a
+> separately-authorized implementation task
+> (`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`) removes it. No
+> Three.js file has been downloaded or vendored; no renderer implementation
+> exists. This acceptance authorizes no push, PR creation, merge, or
+> deployment. Exact status tokens as of this record: decision status
+> `ACCEPTED`; renderer implementation status `NOT_IMPLEMENTED`; Three.js
+> dependency status `NOT_VENDORED`; NASA runtime-retirement status
+> `ACCEPTED_REQUIREMENT_NOT_EXECUTED`; Git publication status
+> `LOCAL_ONLY_NOT_PUSHED`. Exact next task:
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`.
 
 ---
 
@@ -73,11 +105,13 @@ A dual-renderer Source Arena: one shared, plain-JavaScript state object; two int
 
 ## 7. Exact supersession map
 
-**This table is prospective and not yet operative.** Every "Disposition" cell
-below describes what would happen only if and when this ADR is explicitly
-accepted by the operator. While this ADR remains PROPOSED, none of these
-supersessions are in effect, and every quoted source document listed below
-remains fully and currently binding exactly as written.
+**This table's decision-level supersessions are authoritative as of operator
+acceptance (2026-07-20; see the acceptance record above).** Each
+"Disposition" cell describes a specification-level supersession — which
+constraint text no longer blocks the operator-selected direction — not an
+implementation event. No renderer code, dependency, or site/runtime file has
+been added or changed by acceptance itself; implementing the WebGL renderer
+still requires its own separately-authorized task (Section 31).
 
 | Source / Section | Disposition (conditional on acceptance — not yet operative) | Replacement rule |
 |---|---|---|
@@ -325,11 +359,12 @@ single high-end development GPU.
 
 ## 24. NASA runtime-retirement boundary (conditional, not yet operative)
 
-**Nothing in this section is in effect while this ADR remains PROPOSED, and
-none of it is performed by this ADR.** It records what a future,
-separately-authorized implementation task would do, conditional on both (a)
-explicit operator acceptance of this ADR and (b) that future task's own
-separate authorization and review gates. As of this remediation, `site/`,
+**Nothing in this section has been executed.** Gate (a) — explicit operator
+acceptance of this ADR — is now met (2026-07-20; see the acceptance record
+above). Gate (b) — the future NASA runtime-retirement task's own separate
+authorization, implementation, and review — is not met. This section records
+what that future task would do once gate (b) is also met; it is not
+performed by this ADR or by its acceptance. As of this acceptance, `site/`,
 `docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`'s binding requirements, and
 every `nasa-*` identifier remain unmodified and fully in force.
 
@@ -381,7 +416,7 @@ This ADR (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001`) → independent revi
 
 ## 32. Review and acceptance gates
 
-Independent spec-compatibility, supersession-scope, Git-diff, and acceptance-criteria review by GPT-5.6 Sol / Codex is required before this ADR is treated as accepted. Independent architecture, accessibility, and failure-mode review by Claude Code informed this draft. Operator acceptance is the final gate; acceptance of this ADR does not itself authorize the implementation task — that requires its own separate authorization and review gates.
+Independent spec-compatibility, supersession-scope, Git-diff, and acceptance-criteria review (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001` through `-REVIEW-003`) was required before this ADR could be treated as accepted, and is now complete — `-REVIEW-003` returned `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE`. Independent architecture, accessibility, and failure-mode review by Claude Code informed this draft. Operator acceptance was the final gate and has now been exercised (2026-07-20; see the acceptance record above); acceptance of this ADR does not itself authorize the implementation task — that requires its own separate authorization and review gates.
 
 ## 33. Future reconsideration triggers
 
@@ -389,7 +424,7 @@ Reconsider this ADR if: the vendored file's provenance cannot be fully verified 
 
 ## 34. Approval boundary
 
-This document, in its current PROPOSED state, authorizes no commit beyond its own creation, no dependency download, no vendoring, no site/runtime change, and no push, PR, merge, or deployment. Moving this ADR to ACCEPTED requires an explicit operator decision recorded after the independent review task above; this document does not assert that acceptance has occurred.
+This document is now **ACCEPTED** (2026-07-20; see the acceptance record above and `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-001`). Acceptance itself authorizes no dependency download, no vendoring, no site/runtime change, no NASA removal, and no push, PR, merge, or deployment — only the decision-level specification supersession in Section 7. Any future implementation, dependency acquisition, or NASA retirement task requires its own separate authorization and review gates, as Sections 20, 21, 24, and 31 already require.
 
 ---
 
@@ -399,14 +434,14 @@ This appendix is the complete, exact conditional map required to close
 independent-review finding HR-01, extended by
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002` to also close
 residual finding RF-02 (the §A.1 README truthfulness-table row below).
-**None of this table is in effect.** Every
-row's "Future disposition" and "Provider-neutral replacement" describe what
-would happen only if this ADR is accepted **and** the separately-authorized
-NASA runtime-retirement task
-(`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`) is itself later
-implemented and reviewed. Until then, every current identifier below remains
-exactly as verified in the repository at remediation time (read-only
-inspection of `site/dashboard.html`, `site/js/dashboard.js`,
+**None of this table is executed yet.** This ADR is now accepted (2026-07-20),
+satisfying the first of the two gates every row requires. Every row's "Future
+disposition" and "Provider-neutral replacement" still additionally require
+the separately-authorized NASA runtime-retirement task
+(`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`) to itself be
+authorized, implemented, and reviewed before it takes effect. Until then,
+every current identifier below remains exactly as verified in the repository
+(read-only inspection of `site/dashboard.html`, `site/js/dashboard.js`,
 `site/css/dashboard.css`), unrenamed and fully functional.
 
 ### A.1 Identifier map
