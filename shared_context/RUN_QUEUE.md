@@ -55,13 +55,23 @@ require `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` to be integrated first.
    PROPOSED.
 2. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001` — independent
    review complete. Outcome: **`NEEDS_FIXES`** (findings HR-01 through HR-06).
-2a. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001` — complete
-   (this commit, docs-only). Closed HR-01 through HR-06 in the ADR, the
-   Holographic UI Spec amendment notice, this file, and other shared-context
-   files; ADR status remains PROPOSED. Exact next task:
-   `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002` (independent
-   re-review; not started). Implementation remains blocked pending that
-   review's PASS and separate operator acceptance of the ADR.
+2a. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001` — complete.
+   Closed HR-01 through HR-06 in the ADR, the Holographic UI Spec amendment
+   notice, this file, and other shared-context files; ADR status remained
+   PROPOSED.
+2b. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002` — independent
+   re-review complete. Outcome: **`NEEDS_FIXES`** on two residual findings
+   (RF-01, RF-02); HR-01 through HR-06 confirmed closed.
+2c. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002` — complete
+   (this commit, docs-only). Closed RF-01 (corrected
+   `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`'s "What this serves"
+   section, which previously described the whole `site/` scaffold as having
+   no JavaScript) and RF-02 (added an Appendix A §A.1 row mapping the
+   Holographic UI Spec §6.2.4 planned README truthfulness-table entry to its
+   future provider-neutral replacement); ADR status remains PROPOSED. Exact
+   next task: `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`
+   (independent re-review; not started). Implementation remains blocked
+   pending that review's PASS and separate operator acceptance of the ADR.
 3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
    API calls and `nasa-*` active runtime handles from the Source Arena surface,
    preserving historical evidence; may run as the first bounded slice of task 4
@@ -104,10 +114,13 @@ None of tasks 2–6 is implemented, active, or authorized by this entry alone.
 - Source Arena Hybrid renderer ADR — local documentation task, PROPOSED
   status, not accepted, not integrated; durable report at
   `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001.md`. Independent
-  review returned `NEEDS_FIXES`; remediation is recorded at
+  review 001 returned `NEEDS_FIXES`; remediation 001 recorded at
   `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001.md`.
+  Independent review 002 confirmed HR-01–HR-06 closed but returned
+  `NEEDS_FIXES` on two residual findings; remediation 002 recorded at
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002.md`.
   ADR status remains PROPOSED; exact next task:
-  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002`.
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`.
 
 ## Standing Safety Gate
 

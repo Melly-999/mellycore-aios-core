@@ -4,7 +4,12 @@
 
 ## What this serves
 
-The existing static `site/` scaffold — pure HTML/CSS, no JavaScript, no build step, no `package.json`, no dependencies. This is the fastest existing runnable application surface in the repository.
+The command below exposes the static files under `site/` — no `package.json`, no build step, and no package installation for either page described below. This is the fastest existing runnable application surface in the repository. The two pages served from this root differ in what they do once loaded:
+
+- `site/index.html` — the entrypoint — is pure HTML/CSS with **zero JavaScript**: no `<script>` tag, no `fetch()` call, no external request of any kind.
+- `site/dashboard.html` — the current legacy Live Cockpit V2 / Social Source Arena dashboard, also served from this same root — loads `site/js/dashboard.js`, which performs external, keyless GET requests to the NASA Images API automatically on load and on every search. It is not zero-network.
+
+See "Current network behavior, by page" below for the exact, verified per-page detail (constants, call sites, and what remains true once the proposed Hybrid renderer ADR is eventually accepted and implemented).
 
 - Static root: `site/`
 - Entrypoint: `site/index.html`

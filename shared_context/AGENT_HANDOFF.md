@@ -2,6 +2,37 @@
 
 ## Latest Completed Task (this branch)
 
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002`
+
+- Independent review `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002`
+  confirmed HR-01 through HR-06 closed and returned `NEEDS_FIXES` on two
+  residual findings (RF-01, RF-02) against remediation commit
+  `7bd339e850ba491ce787d0c977aaa9f340e84579`. This remediation task closed
+  both without accepting the ADR, implementing the renderer, or touching
+  `site/`:
+  - RF-01: corrected `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`'s
+    "What this serves" section, which previously described the entire
+    `site/` scaffold as "pure HTML/CSS, no JavaScript" even though
+    `site/dashboard.html` in that same scaffold loads `dashboard.js` and
+    makes live, automatic NASA Images API requests. The section now
+    distinguishes `index.html` (zero JavaScript, zero network) from
+    `dashboard.html` (loads JavaScript, not zero-network) at first mention,
+    and still points to the detailed "Current network behavior, by page"
+    section further down the same file.
+  - RF-02: added a row to ADR Appendix A §A.1 mapping the Holographic UI
+    Spec §6.2.4 planned README truthfulness-table entry
+    (`NASA Images API — real, live, keyless`, not yet implemented in
+    `README.md`) to its future provider-neutral replacement
+    (`Local source fixture`, conditional on the same acceptance and
+    implementation gates as every other Appendix A row).
+- Docs-only. No site/runtime code, dependency file, or Three.js distribution
+  was added or modified. The ADR's status remains **PROPOSED**; this
+  remediation does not accept it or authorize implementation.
+- Exact next task: `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`
+  (independent re-review of this remediation).
+
+## Prior Completed Task (this branch, prior to remediation 002)
+
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001`
 
 - Independent review `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001`
@@ -119,14 +150,14 @@ claim that branch is canonical.
 
 ## Next Run (Source Arena Renderer track)
 
-Review the single signed local remediation commit on
-`docs/mellycore-3d-renderer-hybrid-adr-001` (on top of the original ADR
-commit). Push or PR creation requires separate authorization. The exact next
-task in this parallel track is:
+Review the three signed local commits on
+`docs/mellycore-3d-renderer-hybrid-adr-001` (original ADR, remediation 001,
+remediation 002). Push or PR creation requires separate authorization. The
+exact next task in this parallel track is:
 
-`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002`
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`
 
-That task is an independent re-review of the remediation only — it must not
+That task is an independent re-review of remediation 002 only — it must not
 implement the renderer, vendor Three.js, accept the ADR, or touch `site/`.
 This track does not begin before, and does not require,
 `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`'s integration.

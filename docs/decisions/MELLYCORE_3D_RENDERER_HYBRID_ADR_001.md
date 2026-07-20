@@ -19,6 +19,23 @@
 > these amendments move it to ACCEPTED or authorize implementation. The exact
 > next task is `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002`.
 
+> **Remediation note (2026-07-20, second pass):** Independent review
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002` returned
+> `NEEDS_FIXES` on two residual findings (RF-01, RF-02), not on HR-01 through
+> HR-06, which it confirmed closed. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002`
+> closed both: RF-02 by adding a row to Appendix A §A.1 mapping the
+> Holographic UI Spec §6.2.4 planned README truthfulness-table entry (`NASA
+> Images API — real, live, keyless`) to its future provider-neutral
+> replacement, conditional on the same acceptance and implementation gates as
+> every other Appendix A row; RF-01 by correcting
+> `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`'s "What this serves"
+> section, which previously described the entire `site/` scaffold as having
+> no JavaScript even though `site/dashboard.html` in that same scaffold loads
+> `dashboard.js` and makes live NASA Images API calls. This ADR's status
+> remains **PROPOSED**; neither correction moves it to ACCEPTED or authorizes
+> implementation. The exact next task is
+> `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`.
+
 ---
 
 ## 1. Context
@@ -379,7 +396,10 @@ This document, in its current PROPOSED state, authorizes no commit beyond its ow
 ## Appendix A: NASA transition supersession map (conditional, not yet operative)
 
 This appendix is the complete, exact conditional map required to close
-independent-review finding HR-01. **None of this table is in effect.** Every
+independent-review finding HR-01, extended by
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002` to also close
+residual finding RF-02 (the §A.1 README truthfulness-table row below).
+**None of this table is in effect.** Every
 row's "Future disposition" and "Provider-neutral replacement" describe what
 would happen only if this ADR is accepted **and** the separately-authorized
 NASA runtime-retirement task
@@ -412,6 +432,7 @@ inspection of `site/dashboard.html`, `site/js/dashboard.js`,
 | Mobile/desktop composition (Holographic UI Spec §3.1/§3.2) referencing "NASA media"/"NASA source" as example content | Spec text | Preserved structurally; content genericized | Layout, proportions, and composition rules (Sections 8–10 above) are unchanged; "NASA media" as an example content type is replaced by "bundled Source Arena fixture media" |
 | QA selector: "NASA search still works end-to-end" (Holographic UI Spec §5.7) | Spec text | Retired, replaced | Future QA criterion: "Source Arena fixture renders end-to-end (image/video/audio fixture types) with zero network requests in the request log" |
 | Screenshot requirement content (Holographic UI Spec §6.3) referencing NASA imagery as the pictured content | Spec text | Preserved structurally; content genericized | Exact screenshot composition, order, and required-labels rules (Section 7's "Screenshot order" row) are unchanged; "NASA imagery" as pictured content is replaced by "bundled Source Arena fixture imagery" |
+| README "what is real vs. simulated" truthfulness-table row (Holographic UI Spec §6.2.4: the first of four planned rows reads `NASA Images API (real, live, keyless)`; this table is a planned README section and **does not exist in `README.md` today**) | Spec text describing an unimplemented future README section; currently fully binding as written, exactly like every other unimplemented clause of this spec | Conditionally replaced | This one row becomes `Local source fixture` — bundled locally, zero external runtime request, no backend/provider key/database/scheduler — labeled `Local source fixture` by default; `Real source` is used in its place only where the bundled record has verifiable, recorded provenance (see the `Real source` row above). §6.2.4's other three planned rows (`provenance index + audit`, `model lenses`, `GitHub provider`) do not describe NASA and are unaffected by this replacement. Like every row in this appendix: while this ADR remains PROPOSED, §6.2.4 as currently written stays binding and the current NASA runtime remains present and unretired; this replacement becomes operative only if and when both (a) this ADR is explicitly accepted by the operator and (b) the separately-authorized NASA runtime-retirement task is itself later implemented and reviewed. No historical README, task, or evidence statement describing why the NASA prototype exists is altered by this row |
 | No-rename clause (Holographic UI Spec §5.3: "no removal or renaming of existing ids, classes, tab roles, or aria wiring") | Spec text, currently fully binding | Narrowly and conditionally excepted | This appendix is the ADR's sole, narrow, conditional exception to that clause, limited exactly to the `nasa-*` identifiers enumerated above, and only takes effect if/when both this ADR and the future NASA-retirement task are separately authorized and implemented |
 | "NASA search must work" requirement (Holographic UI Spec §3.1 "Real:" row, §5.7) | Spec text | Retired | Superseded by: local-fixture search/filter must work identically over bundled deterministic data, with zero external requests |
 | Historical evidence: `v0.2.0` release notes and NASA-referencing completed task reports under `docs/tasks/` | Existing files | **Untouched** | Not modified by this ADR or by any future task in this sequence; remains the historical record of why the NASA prototype exists |
