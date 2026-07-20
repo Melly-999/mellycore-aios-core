@@ -41,12 +41,23 @@ holographic/3D Source Arena, real operational adapters, and approval-execution
 surface are not implemented.
 
 The AI Operations Intelligence specification
-(`docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md`) is authored
-locally and pending review/integration; it defines the logical contracts for the
+(`docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md`) is **integrated
+into canonical `main` via PR #7**; it defines the logical contracts for the
 AI Estate Inventory, Unified Run Ledger, Skill Gap Detector, Memory Freshness
 Monitor, Recommendation Ledger, exact operator-approval, and the controlled
 improvement loop. It is specification only — no backend, adapter, runtime, or UI
-is implemented or claimed by it.
+is implemented or claimed by it; its modules remain `SPECIFIED`, not
+runtime-implemented.
+
+An accepted Source Arena Hybrid renderer decision
+(`docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status:
+**ACCEPTED**, 2026-07-20, decision/specification level only) narrowly permits
+a WebGL-enhanced renderer — one pinned, vendored Three.js ESM module, paired
+with a mandatory complete CSS/DOM fallback — for Source Arena's central stage
+only. Neither renderer is implemented; no dependency has been vendored; NASA
+runtime retirement (accepted by this ADR as a future requirement) has not
+been executed; both require their own separately-authorized implementation
+task.
 
 ## Planned Direction
 
@@ -55,10 +66,13 @@ Model Router, Unified Run Ledger, Approval Queue, Memory & Recommendation Ledger
 AI Estate Inventory, Skill Gap Detector, and Memory Freshness Monitor. These are
 planned domains, not current capability claims.
 
-Next roadmap task (after the AI Operations Intelligence specification is
-integrated): `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` — translate the approved
-logical contracts into fixture/schema artifacts and validation requirements.
-Detailed schema and implementation contracts remain deferred to that task and
+Exact next roadmap task: `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` — translate
+the approved logical contracts into fixture/schema artifacts and validation
+requirements. Its work exists only on the separate, unmerged branch
+`docs/mellycore-operations-data-contract-001` today; status in canonical
+`main`: `NOT_PRESENT_PENDING_INTEGRATION`. This document does not claim that
+branch's content is canonical and does not modify it. Detailed schema and
+implementation contracts remain deferred to that task's own integration and
 later separately approved work.
 
 ## Release and Historical Integrity

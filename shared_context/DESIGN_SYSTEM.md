@@ -11,6 +11,16 @@ The accepted contract lives in
 `docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md`. It is a specification, not a
 claim that the complete holographic/3D experience is implemented.
 
+An accepted Hybrid renderer decision, `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`
+(status: **ACCEPTED**, 2026-07-20, decision/specification level only), lets
+Source Arena's space/hologram layers be rendered by an enhanced WebGL
+renderer (one pinned, vendored Three.js module) or by the CSS-only
+description below, selected automatically by capability detection, with the
+CSS path always complete and mandatory as fallback. The feed/content layer,
+honesty labels, and layer ordering are identical under either renderer and
+are not affected by this decision. No WebGL renderer exists in the repository
+yet; implementation requires its own separately-authorized task.
+
 ## Visual Hierarchy
 
 1. **Feed/content layer:** Source Arena evidence, model lenses, recommendations,

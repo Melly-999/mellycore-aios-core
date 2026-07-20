@@ -3,18 +3,21 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
-## Integration Gate
+## Integration Status (AI Operations Intelligence)
 
-1. Review the single signed local commit produced by
-   `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` on branch
-   `docs/mellycore-ai-operations-intelligence-001`.
-2. Under separate authorization, push only that immutable commit to a new
-   canonical remote branch and create a review PR.
-3. Do not start the next roadmap task until this specification is integrated.
+`MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` is **integrated into canonical
+`main` via PR #7**. This gate is closed; it is recorded here only as history,
+not as a pending step.
 
 ## Exact Next Roadmap Task
 
 `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`
+
+Status: present only on its separate, unmerged branch
+`docs/mellycore-operations-data-contract-001`; not present in canonical `main`.
+Status in canonical `main`: `NOT_PRESENT_PENDING_INTEGRATION`. This entry does
+not claim that branch's content is canonical and is not modified by this or
+any other current task.
 
 Type: documentation/fixture-and-schema specification.
 
@@ -41,6 +44,65 @@ After a reviewed intelligence specification, separately approved work may addres
 real adapters, guarded operations, observability UI, and validation evidence.
 No implementation task is authorized by this queue entry.
 
+## Parallel Decision Track — Source Arena Renderer
+
+This track is independent of, and does not reorder, the primary roadmap
+sequence above. It does not begin before, does not supersede, and does not
+require `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` to be integrated first.
+
+1. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001` — complete (docs-only).
+   Records `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status
+   PROPOSED.
+2. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-001` — independent
+   review complete. Outcome: **`NEEDS_FIXES`** (findings HR-01 through HR-06).
+2a. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001` — complete.
+   Closed HR-01 through HR-06 in the ADR, the Holographic UI Spec amendment
+   notice, this file, and other shared-context files; ADR status remained
+   PROPOSED.
+2b. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-002` — independent
+   re-review complete. Outcome: **`NEEDS_FIXES`** on two residual findings
+   (RF-01, RF-02); HR-01 through HR-06 confirmed closed.
+2c. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002` — complete
+   (this commit, docs-only). Closed RF-01 (corrected
+   `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`'s "What this serves"
+   section, which previously described the whole `site/` scaffold as having
+   no JavaScript) and RF-02 (added an Appendix A §A.1 row mapping the
+   Holographic UI Spec §6.2.4 planned README truthfulness-table entry to its
+   future provider-neutral replacement); ADR status remains PROPOSED. Exact
+   next task: `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003`
+   (independent re-review; not started). Implementation remains blocked
+   pending that review's PASS and separate operator acceptance of the ADR.
+2d. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REVIEW-003` — independent
+   re-review complete. Outcome: **`PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE`**;
+   RF-01 and RF-02 confirmed closed alongside HR-01 through HR-06; three valid
+   signed commits; exact scope confirmed; 245/245 tests passing.
+2e. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-001` — complete
+   (this commit, docs-only). The operator explicitly accepted the ADR on
+   2026-07-20 at reviewed baseline `b95a741231d18ef712379837c7167aa22b37d42f`.
+   ADR status is now **ACCEPTED** (decision/specification level only — see
+   `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`'s acceptance
+   record). No Three.js implementation, dependency acquisition, NASA
+   retirement, push, PR, or merge is authorized by this acceptance. Exact next
+   task: `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`
+   (independent re-review of this acceptance commit; not started).
+3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
+   API calls and `nasa-*` active runtime handles from the Source Arena surface,
+   preserving historical evidence; may run as the first bounded slice of task 4
+   if the accepting review prefers that grouping. Not started.
+4. `MELLYCORE-3D-SCENE-FOUNDATION-001` — implement the shared state, complete
+   CSS fallback, vendored/pinned Three.js enhanced renderer, lifecycle,
+   context-loss recovery, and mobile-first Source Arena. Not started.
+5. `MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001` — keyboard/screen-reader
+   parity, reduced-motion, forced-fallback, context-loss, memory/RAF cleanup,
+   mobile and desktop performance. Not started.
+6. `MELLYCORE-3D-SCENE-INTEGRATION-REVIEW-001` — independent final review
+   before any merge or release claim. Not started.
+
+None of tasks 3–6 is implemented, active, or authorized by this entry alone.
+Task 1 (the ADR decision) is now accepted at the decision/specification level
+only (2e above); this does not implement, vendor, retire, push, or merge
+anything.
+
 ## Deferred Work
 
 - Cross-agent context smoke testing remains a separate clean-worktree task.
@@ -62,8 +124,25 @@ No implementation task is authorized by this queue entry.
   hero contract preserved, implementation not claimed.
 - Positioning refresh — integrated into canonical main; durable report at
   `docs/tasks/MELLYCORE-POSITIONING-REFRESH-001.md`.
-- AI Operations Intelligence specification — current local documentation task;
-  durable report at `docs/tasks/MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001.md`.
+- AI Operations Intelligence specification — integrated into canonical `main`
+  via PR #7; durable report at
+  `docs/tasks/MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001.md`.
+- Source Arena Hybrid renderer ADR — local documentation decision, status
+  **ACCEPTED** (2026-07-20, decision/specification level only; not integrated
+  into canonical `main`, not pushed); durable report at
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001.md`. Independent
+  review 001 returned `NEEDS_FIXES`; remediation 001 recorded at
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-001.md`.
+  Independent review 002 confirmed HR-01–HR-06 closed but returned
+  `NEEDS_FIXES` on two residual findings; remediation 002 recorded at
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002.md`.
+  Independent review 003 returned
+  `PASS_HYBRID_RENDERER_ADR_REVIEW_003_COMPLETE`; the operator then explicitly
+  accepted the ADR, recorded at
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-001.md`.
+  No Three.js implementation, dependency acquisition, or NASA runtime
+  retirement exists; exact next task:
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-ACCEPTANCE-REVIEW-001`.
 
 ## Standing Safety Gate
 

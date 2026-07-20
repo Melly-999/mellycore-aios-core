@@ -32,20 +32,24 @@ Naming a module here does not authorize or claim its implementation.
 Durable completion evidence lives in `docs/tasks/`, release records, and Git
 history rather than being duplicated here.
 
-## Active Milestone — AI Operations Intelligence
+## Active Milestone — Operations Data Contract
 
 The AI Operations Intelligence specification
 (`MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001`,
-`docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md`) is **authored
-locally and pending integration**. Specification completion is not
+`docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md`) is **integrated
+into canonical `main` via PR #7**. Specification integration is not
 implementation: the specification defines logical contracts and truth/safety
 boundaries only, and claims no runtime adapters, approval execution, or
-autonomous improvement.
+autonomous improvement; its modules remain `SPECIFIED`.
 
-After integration, the next task is **`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`**,
-which translates the approved logical contracts into fixture/schema artifacts and
+The exact next task is **`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`**, which
+translates the approved logical contracts into fixture/schema artifacts and
 validation requirements — still specification/fixture scope, not runtime
-implementation.
+implementation. Its work exists only on the separate, unmerged branch
+`docs/mellycore-operations-data-contract-001` today; status in canonical
+`main`: `NOT_PRESENT_PENDING_INTEGRATION`. This roadmap does not claim that
+branch's content is canonical, does not reorder its track, and is not modified
+by any other current task.
 
 Planned subject areas (all remain planned; the specification does not implement
 them):
@@ -73,6 +77,17 @@ image. The accepted visual rules in
 model-lens composition first; Overview/core/orbit/hull supporting only; honest
 real/simulated/planned labels throughout. The accepted specification is not an
 implementation claim.
+
+An accepted Hybrid renderer decision — `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`,
+status **ACCEPTED** (2026-07-20, decision/specification level only, not
+implemented) — narrowly permits a WebGL-enhanced renderer (one pinned,
+vendored Three.js module) as progressive enhancement over a mandatory,
+complete CSS/DOM fallback, without changing any visual rule above. Its
+remaining task sequence (NASA runtime retirement, the 3D scene foundation,
+accessibility/performance QA, integration review) runs as a parallel track
+recorded in `shared_context/RUN_QUEUE.md` and does not reorder the Operations
+Data Contract sequence below; none of those tasks is implemented, active, or
+authorized by this acceptance alone.
 
 ## Safety Gates
 
