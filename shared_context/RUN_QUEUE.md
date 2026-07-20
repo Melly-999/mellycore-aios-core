@@ -47,8 +47,13 @@ No implementation task is authorized by this queue entry.
 ## Parallel Decision Track — Source Arena Renderer
 
 This track is independent of, and does not reorder, the primary roadmap
-sequence above. It does not begin before, does not supersede, and does not
-require `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` to be integrated first.
+sequence above. `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` integration has
+**no ordering relationship** with this track: it is not a prerequisite, gate,
+blocker, dependency, sequencing step, or required prior task for this track
+or for `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`, and it does not
+supersede this track. This track's work may be independently authorized and
+reviewed on its own gates regardless of whether that contract's integration
+is pending, in progress, or complete.
 
 1. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-001` — complete (docs-only).
    Records `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status
@@ -113,11 +118,46 @@ require `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` to be integrated first.
    status is now **`ACCEPTED_CANONICAL_MAIN`**. No renderer implementation,
    Three.js vendoring, NASA retirement, or release/deployment occurred.
 2m. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-001` —
-   this entry; synchronizes current documentation to the merged state and
-   resolves a non-blocking Codex clarity finding in ADR Section 31. Exact
-   next task:
-   `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`
-   (independent review of this sync; not started).
+   synchronized current documentation to the merged state and resolved a
+   non-blocking Codex clarity finding in ADR Section 31. Its independent
+   review did not remain "not started": it ran to completion through the
+   chain recorded in 2n–2r below.
+2n. Independent post-merge canonical-state review (read-only) — after PR #9
+   merged 2m into canonical `main` at `c7e24b8207598c600bb168a07959aeec7bebe003`,
+   this review found `shared_context/AGENT_HANDOFF.md` self-contradictory on
+   whether Operations Data Contract integration gates
+   `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`. Outcome: `NEEDS_FIXES`.
+2o. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-002`
+   — fixed that contradiction (docs-only); its own review
+   (`-REVIEW-001`) passed; opened PR
+   [#10](https://github.com/Melly-999/mellycore-aios-core/pull/10);
+   `-PR-REVIEW-001` found no blocking issue, but the pre-merge gate check
+   (`-MERGE-001`) itself surfaced a new Codex P2 finding — residual "does not
+   begin before" wording still readable as an ordering constraint — and
+   stopped with `NEEDS_FIXES` before merging.
+2p. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-003`
+   — removed that residual wording, replacing it with an explicit
+   "no ordering relationship" statement; its own review (`-REVIEW-001`)
+   passed; pushed to PR #10 (`-PUSH-001`); `-PR-REVIEW-002` found no
+   blocking issue; `-MERGE-001` passed every gate and merged PR #10 into
+   canonical `main` via merge commit
+   `b3b4f8b0124b8ee10c8ab6e5334cd35cf059fc88` (parents
+   `c7e24b8207598c600bb168a07959aeec7bebe003` and
+   `416a6f2ef1a69dd53c957e6a77cc5cd9633c1ad4`).
+2q. A fresh independent canonical-state review of that merged state returned
+   `NEEDS_FIXES`: residual "does not begin before" wording persisted in this
+   file (above) and in ADR Section 31; `AGENT_HANDOFF.md`'s living
+   "Exact next task" pointer still named the already-completed PR #9
+   publication task; and this file's own item 2m still described its review
+   as "not started" after it had, in fact, completed (2n above).
+2r. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-004`
+   — this entry (docs-only): removed the residual ordering wording from this
+   file and ADR Section 31, corrected `AGENT_HANDOFF.md`'s stale task
+   pointer, and corrected this file's stale review-status claim. No
+   renderer, CSS fallback, Three.js, NASA, runtime, release, or deployment
+   change. Exact next task:
+   `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-004-REVIEW-001`
+   (independent review of this remediation; not started).
 3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
    API calls and `nasa-*` active runtime handles from the Source Arena surface,
    preserving historical evidence; may run as the first bounded slice of task 4
