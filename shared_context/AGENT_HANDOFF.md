@@ -242,11 +242,18 @@ is:
 
 That task is an independent review of this documentation-state sync only —
 it must not implement the renderer, vendor Three.js, retire NASA, touch
-`site/`, or push/PR/merge. After it passes, the next prerequisite for
-`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` is the Operations Data
-Contract integration gate, if still pending at that time (see below); NASA
-retirement, Three.js vendoring, and the renderer foundation task each remain
-separately unauthorized until their own explicit tasks.
+`site/`, or push/PR/merge. After it passes,
+`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` requires its own
+separate operator authorization and review gate. Per ADR Section 31 and
+`RUN_QUEUE.md`'s Parallel Decision Track, the Operations Data Contract
+integration (status: `NOT_PRESENT_PENDING_INTEGRATION`, tracked separately
+above) has **no ordering relationship** with this renderer track: it is not a
+prerequisite, gate, blocker, dependency, sequencing step, or required prior
+task for `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`, which may be
+authorized and reviewed on its own gates regardless of whether that
+contract's integration is still pending, in progress, or complete at that
+time. NASA retirement, Three.js vendoring, and the renderer foundation task
+each remain separately unauthorized until their own explicit tasks.
 
 ## Safety Reminders
 
