@@ -2,6 +2,27 @@
 
 ## Latest Completed Task (this track)
 
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-001`
+
+- Synchronized the Hybrid Renderer ADR and shared coordination docs with the
+  now-merged canonical-`main` state from PR #8 (ADR status
+  `ACCEPTED_CANONICAL_MAIN`), clarified implementation sequencing, and recorded
+  the sync as its own task report — without changing architecture, runtime
+  code, dependencies, NASA status, or deployment state.
+- A follow-on P2 remediation
+  (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-001`)
+  then resolved two Codex review findings on PR #9: ADR Section 31 no longer
+  sequences the Operations Data Contract as a prerequisite of the Source Arena
+  renderer track (preserving track independence per `RUN_QUEUE.md`), and this
+  handoff's latest-completed-task pointer now names the state-sync task. The
+  Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION`.
+- Docs-only. No site/runtime code, dependency file, or Three.js distribution
+  was added or modified; no NASA retirement, release, or deployment occurred.
+- Exact next task:
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-PUBLISH-001`
+
+## Prior Completed Task (this track, PR #8 merge)
+
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-PR-MERGE-001`
 
 - After the ADR's operator acceptance (below), the acceptance record was
