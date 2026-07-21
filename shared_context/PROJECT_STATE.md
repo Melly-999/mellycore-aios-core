@@ -68,12 +68,28 @@ planned domains, not current capability claims.
 
 Exact next roadmap task: `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` — translate
 the approved logical contracts into fixture/schema artifacts and validation
-requirements. Its work exists only on the separate, unmerged branch
-`docs/mellycore-operations-data-contract-001` today; status in canonical
-`main`: `NOT_PRESENT_PENDING_INTEGRATION`. This document does not claim that
-branch's content is canonical and does not modify it. Detailed schema and
-implementation contracts remain deferred to that task's own integration and
-later separately approved work.
+requirements. Its work exists on two separate, unmerged local branches today:
+the original `docs/mellycore-operations-data-contract-001` (2026-07-19), and a
+second pass, `docs/mellycore-operations-data-contract-001-v2` (documented in
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`), authored against
+current canonical `main` and defining eleven dashboard-facing fixture entities
+per `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`. Status in
+canonical `main` for both branches: `NOT_PRESENT_PENDING_INTEGRATION`. This
+document does not claim either branch's content is canonical and does not
+modify them.
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` compared both
+branches (no push, no merge) and selected `-v2` as the canonical integration
+candidate; the original branch remains unmerged and unpushed.
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001` has since
+folded three of the original branch's entities (AI Estate Inventory, Skill
+Gap Detector, Memory Freshness Monitor) plus its Truthful-State Labels
+reference into `-v2`, bringing it to fourteen entities total (still one
+local commit, still not pushed). Status in canonical `main` remains
+`NOT_PRESENT_PENDING_INTEGRATION` — this document does not claim
+integration. Detailed schema and implementation contracts remain deferred to
+a future push/PR task and later separately approved work.
 
 ## Release and Historical Integrity
 

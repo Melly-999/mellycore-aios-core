@@ -45,11 +45,29 @@ autonomous improvement; its modules remain `SPECIFIED`.
 The exact next task is **`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`**, which
 translates the approved logical contracts into fixture/schema artifacts and
 validation requirements — still specification/fixture scope, not runtime
-implementation. Its work exists only on the separate, unmerged branch
-`docs/mellycore-operations-data-contract-001` today; status in canonical
-`main`: `NOT_PRESENT_PENDING_INTEGRATION`. This roadmap does not claim that
-branch's content is canonical, does not reorder its track, and is not modified
-by any other current task.
+implementation. Its work exists on two separate, unmerged local branches
+today: the original `docs/mellycore-operations-data-contract-001`
+(2026-07-19), and a second pass, `docs/mellycore-operations-data-contract-001-v2`,
+which defines eleven dashboard-facing fixture entities
+(`operation_run`, `task_record`, `agent_identity`, `model_provider_usage`,
+`token_cost_record`, `validation_result`, `artifact_record`,
+`environment_capability_snapshot`, `approval_gate`, `safety_status`,
+`recommendation_ledger_entry`) in
+`docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`; see
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`. Status in canonical
+`main` for both branches: `NOT_PRESENT_PENDING_INTEGRATION`. This roadmap does
+not claim either branch's content is canonical and does not reorder its track.
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` compared both
+branches and selected `-v2` as the canonical integration candidate (no push,
+no merge); see that document's Section 6 in
+`docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`. Three entities
+from the original branch — AI Estate Inventory, Skill Gap Detector, and
+Memory Freshness Monitor, plus its Truthful-State Labels reference — were
+judged not superseded and have since been folded into `-v2` by
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001`, bringing
+it to fourteen entities total. This remains local-only (one commit, not
+pushed); canonical `main` status is still `NOT_PRESENT_PENDING_INTEGRATION`.
 
 Planned subject areas (all remain planned; the specification does not implement
 them):

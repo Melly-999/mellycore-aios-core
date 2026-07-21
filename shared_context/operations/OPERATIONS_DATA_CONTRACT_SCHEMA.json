@@ -1,0 +1,424 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "mellycore/operations/OPERATIONS_DATA_CONTRACT_SCHEMA.json",
+  "title": "MellyCore Operations Data Contract",
+  "description": "Documentation contract only. Not runtime config, not live data ingestion, not execution authority, and not consumed by any validator script in this repository. Field lists here MUST NOT diverge from docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md Section 2, which is the authoritative field-list source. Every instance validated against a $defs entry here MUST also satisfy the truthfulness rules in that document's Section 1.5.",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "operation_run",
+    "task_record",
+    "agent_identity",
+    "model_provider_usage",
+    "token_cost_record",
+    "validation_result",
+    "artifact_record",
+    "environment_capability_snapshot",
+    "approval_gate",
+    "safety_status",
+    "recommendation_ledger_entry",
+    "ai_estate_asset",
+    "skill_gap_candidate",
+    "memory_freshness_record"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "contract_version": { "type": "string" },
+    "operation_run": { "$ref": "#/$defs/operation_run" },
+    "task_record": { "$ref": "#/$defs/task_record" },
+    "agent_identity": { "$ref": "#/$defs/agent_identity" },
+    "model_provider_usage": { "$ref": "#/$defs/model_provider_usage" },
+    "token_cost_record": { "$ref": "#/$defs/token_cost_record" },
+    "validation_result": { "$ref": "#/$defs/validation_result" },
+    "artifact_record": { "$ref": "#/$defs/artifact_record" },
+    "environment_capability_snapshot": { "$ref": "#/$defs/environment_capability_snapshot" },
+    "approval_gate": { "$ref": "#/$defs/approval_gate" },
+    "safety_status": { "$ref": "#/$defs/safety_status" },
+    "recommendation_ledger_entry": { "$ref": "#/$defs/recommendation_ledger_entry" },
+    "ai_estate_asset": { "$ref": "#/$defs/ai_estate_asset" },
+    "skill_gap_candidate": { "$ref": "#/$defs/skill_gap_candidate" },
+    "memory_freshness_record": { "$ref": "#/$defs/memory_freshness_record" }
+  },
+  "$defs": {
+    "dashboard_status": {
+      "type": "string",
+      "description": "Section 1.6 of the spec. UI-facing truthful-status projection, distinct from truthful_state.",
+      "enum": [
+        "implemented",
+        "planned",
+        "simulated",
+        "fixture/example",
+        "not present",
+        "blocked",
+        "requires operator approval"
+      ]
+    },
+    "truthful_state": {
+      "type": "string",
+      "description": "The ten-value glossary from MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001 Section 1.9. Authoritative; not redefined here.",
+      "enum": [
+        "IMPLEMENTED",
+        "LEGACY_PROTOTYPE",
+        "SPECIFIED",
+        "PLANNED",
+        "SIMULATED",
+        "UNAVAILABLE",
+        "DEGRADED",
+        "STALE",
+        "UNKNOWN",
+        "ERROR"
+      ]
+    },
+    "operation_run": {
+      "type": "object",
+      "required": [
+        "schema_version", "operation_run_id", "task_id", "agent_id",
+        "started_at", "outcome", "dashboard_status", "truthful_state", "evidence_refs"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "operation_run_id": { "type": "string" },
+        "task_id": { "type": "string" },
+        "agent_id": { "type": "string" },
+        "started_at": { "type": "string" },
+        "completed_at": { "type": ["string", "null"] },
+        "outcome": { "type": "string", "enum": ["success", "failure", "escalated", "paused", "blocked"] },
+        "commit_sha": { "type": ["string", "null"] },
+        "approval_ref": { "type": ["string", "null"] },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "task_record": {
+      "type": "object",
+      "required": ["schema_version", "task_id", "title", "status", "created_at", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "task_id": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "in_progress", "blocked", "completed", "cancelled"] },
+        "created_at": { "type": "string" },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "parent_task_id": { "type": ["string", "null"] },
+        "owner_agent_id": { "type": ["string", "null"] },
+        "related_operation_run_ids": { "type": "array", "items": { "type": "string" } },
+        "blocked_reason": { "type": ["string", "null"] },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "agent_identity": {
+      "type": "object",
+      "required": ["schema_version", "agent_id", "display_name", "agent_class", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "agent_id": { "type": "string" },
+        "display_name": { "type": "string" },
+        "agent_class": { "type": "string", "enum": ["human_operator", "ai_agent_session", "automated_script"] },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "model_ref": { "type": ["string", "null"] },
+        "estate_ref": { "type": ["string", "null"] },
+        "notes": { "type": ["string", "null"] }
+      }
+    },
+    "model_provider_usage": {
+      "type": "object",
+      "required": ["schema_version", "operation_run_id", "provider", "model", "capability_used", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "operation_run_id": { "type": "string" },
+        "provider": { "type": "string" },
+        "model": { "type": "string" },
+        "capability_used": { "type": "string" },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "authentication_mode": {
+          "type": ["string", "null"],
+          "description": "Mode only (e.g. operator_local_cli, not_configured). MUST NEVER contain a credential, key, or token."
+        },
+        "request_count": { "type": ["integer", "null"], "minimum": 0 },
+        "region": { "type": ["string", "null"] }
+      }
+    },
+    "token_cost_record": {
+      "type": "object",
+      "required": ["schema_version", "operation_run_id", "measured", "input_tokens", "output_tokens", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "operation_run_id": { "type": "string" },
+        "measured": { "type": "boolean" },
+        "input_tokens": { "type": ["integer", "null"], "minimum": 0 },
+        "output_tokens": { "type": ["integer", "null"], "minimum": 0 },
+        "cache_read_tokens": { "type": ["integer", "null"], "minimum": 0 },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "estimated_cost": {
+          "type": ["object", "null"],
+          "required": ["amount", "currency", "calculation_method", "measured_or_estimated", "pricing_source", "pricing_timestamp"],
+          "additionalProperties": true,
+          "properties": {
+            "amount": { "type": "number" },
+            "currency": { "type": "string" },
+            "calculation_method": { "type": "string" },
+            "measured_or_estimated": { "type": "string", "enum": ["measured", "estimated"] },
+            "pricing_source": { "type": "string" },
+            "pricing_timestamp": { "type": "string" }
+          }
+        },
+        "budget_enforcement": { "type": ["string", "null"], "enum": ["pass", "fail", "unenforceable", null] }
+      },
+      "if": { "properties": { "measured": { "const": false } } },
+      "then": {
+        "properties": {
+          "budget_enforcement": { "const": "unenforceable" }
+        }
+      }
+    },
+    "validation_result": {
+      "type": "object",
+      "required": ["schema_version", "validation_id", "target_ref", "validator_identity", "verdict", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "validation_id": { "type": "string" },
+        "target_ref": { "type": "string" },
+        "validator_identity": { "type": "string" },
+        "verdict": { "type": "string", "enum": ["ACCEPT", "REJECT", "NOT_RUN"] },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "evidence_ref": { "type": ["string", "null"] },
+        "ran_at": { "type": ["string", "null"] },
+        "notes": { "type": ["string", "null"] }
+      }
+    },
+    "artifact_record": {
+      "type": "object",
+      "required": ["schema_version", "artifact_id", "operation_run_id", "path", "change_kind", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "artifact_id": { "type": "string" },
+        "operation_run_id": { "type": "string" },
+        "path": { "type": ["string", "null"] },
+        "change_kind": { "type": "string", "enum": ["added", "modified", "deleted", "unchanged"] },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "artifact_class": { "type": ["string", "null"], "enum": ["doc", "spec", "schema", "fixture", "report", "other", null] },
+        "content_digest": { "type": ["string", "null"] }
+      }
+    },
+    "environment_capability_snapshot": {
+      "type": "object",
+      "description": "MUST NEVER be populated by hardware polling, a telemetry agent, or automatic detection. source is fixed to operator_provided; dashboard_status is fixed to fixture/example and truthful_state to SIMULATED under this contract version (hard rule, spec Section 2.8).",
+      "required": ["schema_version", "snapshot_id", "recorded_at", "source", "os", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "snapshot_id": { "type": "string" },
+        "recorded_at": { "type": "string" },
+        "source": { "type": "string", "const": "operator_provided" },
+        "os": { "type": "string" },
+        "dashboard_status": { "type": "string", "const": "fixture/example" },
+        "truthful_state": { "type": "string", "const": "SIMULATED" },
+        "cpu": { "type": ["string", "null"] },
+        "ram_gb": { "type": ["number", "null"] },
+        "gpu": { "type": ["string", "null"] },
+        "storage": { "type": ["string", "null"] }
+      }
+    },
+    "approval_gate": {
+      "type": "object",
+      "required": [
+        "schema_version", "approval_id", "recommendation_id", "operator_identity",
+        "decision", "target_digest", "authorized_actions", "issued_at", "dashboard_status", "truthful_state"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "approval_id": { "type": "string" },
+        "recommendation_id": { "type": "string" },
+        "operator_identity": { "type": "string" },
+        "decision": { "type": "string", "enum": ["pending", "approved", "rejected", "revoked", "expired"] },
+        "target_digest": { "type": "string" },
+        "authorized_actions": { "type": "array", "items": { "type": "string" } },
+        "issued_at": { "type": "string" },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "expires_at": { "type": ["string", "null"] },
+        "revoked_at": { "type": ["string", "null"] },
+        "reason": { "type": ["string", "null"] },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "safety_status": {
+      "type": "object",
+      "required": ["schema_version", "safety_status_id", "operation_run_id", "evaluated_at", "gates", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "safety_status_id": { "type": "string" },
+        "operation_run_id": { "type": "string" },
+        "evaluated_at": { "type": "string" },
+        "gates": {
+          "type": "object",
+          "additionalProperties": { "type": "string", "enum": ["pass", "fail", "not_evaluated"] }
+        },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "violations": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": ["string", "null"] }
+      }
+    },
+    "recommendation_ledger_entry": {
+      "type": "object",
+      "required": [
+        "schema_version", "recommendation_id", "source_run_ids", "observation_summary",
+        "proposed_action", "risk_class", "status", "created_at", "dashboard_status", "truthful_state"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "recommendation_id": { "type": "string" },
+        "source_run_ids": { "type": "array", "items": { "type": "string" } },
+        "observation_summary": { "type": "string" },
+        "proposed_action": { "type": "string" },
+        "risk_class": { "type": "string", "enum": ["low", "medium", "high", "safety_relevant"] },
+        "status": {
+          "type": "string",
+          "enum": [
+            "OBSERVED", "ANALYZED", "RECOMMENDED", "APPROVED", "REJECTED", "EXPIRED",
+            "IMPLEMENTING", "IMPLEMENTED", "VALIDATING", "VALIDATED", "FAILED", "CANCELLED", "SUPERSEDED"
+          ]
+        },
+        "created_at": { "type": "string" },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "approval_ref": { "type": ["string", "null"] },
+        "implementation_refs": { "type": "array", "items": { "type": "string" } },
+        "validation_refs": { "type": "array", "items": { "type": "string" } },
+        "expires_at": { "type": ["string", "null"] },
+        "supersedes": { "type": ["string", "null"] },
+        "superseded_by": { "type": ["string", "null"] }
+      }
+    },
+    "ai_estate_asset": {
+      "type": "object",
+      "description": "Folded in from docs/mellycore-operations-data-contract-001 (2026-07-19) via MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001, adapted to add dashboard_status.",
+      "required": ["schema_version", "asset_id", "provider", "authentication_mode", "status", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "asset_id": { "type": "string" },
+        "provider": { "type": "string" },
+        "authentication_mode": {
+          "type": "string",
+          "enum": ["NONE", "ENV_REFERENCE", "OS_CREDENTIAL_STORE", "CLI_SESSION", "MANAGED_IDENTITY", "EXTERNAL_OPERATOR_SESSION", "UNKNOWN"],
+          "description": "Mode/availability only. MUST NEVER contain an API key, access/refresh token, cookie, private key, password, or other secret value, and never a live-session claim."
+        },
+        "status": { "type": "string", "enum": ["AVAILABLE", "DEGRADED", "UNAVAILABLE", "UNVALIDATED", "RETIRED", "UNKNOWN"] },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "model": { "type": ["string", "null"] },
+        "purpose": { "type": ["string", "null"] },
+        "cost_class": { "type": ["string", "null"], "enum": ["FREE", "TRIAL", "METERED", "SUBSCRIPTION", "LOCAL_COMPUTE", "UNKNOWN", null] },
+        "capabilities": { "type": "array", "items": { "type": "string" } },
+        "allowed_projects": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Must honor the MellyTrade boundary -- no estate asset is allowed for trading/broker runtime use."
+        },
+        "last_validated_at": { "type": ["string", "null"] },
+        "freshness_state": { "type": ["string", "null"], "enum": ["FRESH", "EXPIRING", "STALE", "UNKNOWN", null] },
+        "provenance": {
+          "type": ["object", "null"],
+          "properties": {
+            "source_type": { "type": "string", "enum": ["user_provided", "repo_derived", "generated", "externally_sourced"] },
+            "verification_state": { "type": "string", "enum": ["verified", "unverified"] },
+            "trust_level": { "type": "string", "enum": ["high", "medium", "low"] }
+          }
+        },
+        "sensitivity": { "type": ["string", "null"], "enum": ["public", "internal", "private", "secret", "regulated_high_risk", null] },
+        "notes": {
+          "type": ["string", "null"],
+          "description": "MUST NEVER contain secrets, credentials, .env values, or account identifiers."
+        }
+      }
+    },
+    "skill_gap_candidate": {
+      "type": "object",
+      "description": "RECOMMENDATION-ONLY. MUST NOT be read as authorizing skill creation, modification, installation, activation, instruction changes, permission grants, or commit/push. Folded in from docs/mellycore-operations-data-contract-001 (2026-07-19) via MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001, adapted to add dashboard_status and a required schema_version (absent in the source schema).",
+      "required": [
+        "schema_version", "candidate_id", "observed_pattern", "occurrence_count",
+        "evidence_refs", "recommendation_state", "operator_decision", "dashboard_status", "truthful_state"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "candidate_id": { "type": "string" },
+        "observed_pattern": { "type": "string" },
+        "occurrence_count": {
+          "type": "integer",
+          "minimum": 3,
+          "description": "A pattern observed fewer than three times is an observation, not a candidate, and MUST NOT appear under this entity."
+        },
+        "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "recommendation_state": {
+          "type": "string",
+          "enum": ["candidate", "rejected", "expired", "superseded"],
+          "description": "The only permitted lifecycle. No value implies a skill was created, modified, installed, or activated."
+        },
+        "operator_decision": { "type": ["string", "null"], "enum": ["approved_for_future_authoring", "rejected", null] },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "sensitivity": { "type": ["string", "null"], "enum": ["public", "internal", "private", "secret", "regulated_high_risk", null] },
+        "allowed_use": { "type": ["string", "null"] },
+        "expires_at": { "type": ["string", "null"] },
+        "provenance": { "type": ["object", "null"] }
+      }
+    },
+    "memory_freshness_record": {
+      "type": "object",
+      "description": "Read-only. Integrates with, and MUST NOT replace or redefine, the Context Gate provenance/sensitivity model. truthful_state is distinct from freshness_state: truthful_state describes whether this record itself is real/exercised evidence versus a specified/planned/simulated placeholder; freshness_state describes the age/validity of the memory item the record is about. Folded in from docs/mellycore-operations-data-contract-001 (2026-07-19) via MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001, adapted to add dashboard_status and a required schema_version (absent in the source schema).",
+      "required": [
+        "schema_version", "memory_ref", "source_ref", "freshness_state", "trust_level",
+        "relevance", "authorization_state", "sensitivity_level", "dashboard_status", "truthful_state"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "memory_ref": { "type": "string" },
+        "source_ref": { "type": "string" },
+        "freshness_state": {
+          "type": "string",
+          "enum": ["FRESH", "EXPIRING", "STALE", "UNKNOWN", "INVALID"],
+          "description": "A STALE item is flagged for human review, never auto-deleted, hidden, or silently refreshed."
+        },
+        "trust_level": {
+          "type": "string",
+          "enum": ["high", "medium", "low"],
+          "description": "MUST NOT be automatically elevated; raising trust_level requires a stated human rationale."
+        },
+        "relevance": { "type": "string", "enum": ["relevant", "not_relevant", "unknown"] },
+        "authorization_state": { "type": "string", "enum": ["authorized_for_task", "not_authorized_for_task", "unknown"] },
+        "sensitivity_level": {
+          "type": "string",
+          "enum": ["public", "internal", "private", "secret", "regulated_high_risk"],
+          "description": "secret and regulated_high_risk items MUST NOT be silently refreshed or re-fetched."
+        },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "last_validated_at": { "type": ["string", "null"] },
+        "review_after": { "type": ["string", "null"] },
+        "staleness_policy": { "type": ["string", "null"], "enum": ["immutable_historical", "volatile", "periodic_review", null] },
+        "provenance": { "type": ["object", "null"] }
+      }
+    }
+  }
+}
