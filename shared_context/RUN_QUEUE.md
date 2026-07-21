@@ -194,21 +194,21 @@ is pending, in progress, or complete.
    review; not started).
 3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
    API calls and `nasa-*` active runtime handles from the Source Arena surface,
-   preserving historical evidence. Status: `VISUAL_ACCEPTANCE_COMPLETE` /
-   `P2_POLISH_RESOLVED` / `READY_FOR_FINAL_MERGE_GATE` — implemented on branch
-   `fix/mellycore-source-arena-nasa-runtime-retirement-001`, pushed, PR #15
-   ready for review (two commits ahead of canonical `main`). Not merged.
-   Replaces the executable NASA Images fetch/parse/boot path in
-   `site/js/dashboard.js` with a local, deterministic Source Archive
-   dataset (zero external requests, no API key) and renames the `nasa-*`
-   runtime namespace to `source-arena-*` per this ADR's Appendix A mapping.
-   Visual acceptance (`...-FINAL-REVIEW-001`) returned
-   `PASS_WITH_NON_BLOCKING_NOTES`; VA-01 (procedural swatch palette) and
-   VA-02 (mission-rail scrollbar) were resolved in a follow-up commit;
-   VA-03 through VA-09 remain deferred, non-blocking backlog polish. Does
-   not implement task 4 (the 3D scene foundation), vendor Three.js, or
-   touch the CSS-fallback/renderer boundary. Exact next task:
-   `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-MERGE-GATE-001`.
+   preserving historical evidence. Status: `MERGED_INTO_CANONICAL_MAIN` —
+   implemented on branch `fix/mellycore-source-arena-nasa-runtime-retirement-001`,
+   merged via PR #15, merge commit `e0cbc332ff90f8787d981c9d86be717633f22d4d`
+   (reviewed head `1478b95c82cb85fd5e0efdf433e928ca92cac69b`). Replaced the
+   executable NASA Images fetch/parse/boot path in `site/js/dashboard.js`
+   with a local, deterministic Source Archive dataset (zero external
+   requests, no API key) and renamed the `nasa-*` runtime namespace to
+   `source-arena-*` per this ADR's Appendix A mapping. Visual acceptance
+   (`...-FINAL-REVIEW-001`) returned `PASS_WITH_NON_BLOCKING_NOTES`; VA-01
+   (procedural swatch palette) and VA-02 (mission-rail scrollbar) were
+   resolved before merge; VA-03 through VA-09 remain deferred, non-blocking
+   backlog polish. Does not implement task 4 (the 3D scene foundation),
+   vendor Three.js, or touch the CSS-fallback/renderer boundary. Exact next
+   task: `MELLYCORE-SOURCE-ARENA-NASA-RETIREMENT-POST-MERGE-STATE-SYNC-PUBLISH-001`
+   (push this docs-sync commit, open a PR, review, and merge if clean).
 4. `MELLYCORE-3D-SCENE-FOUNDATION-001` — implement the shared state, complete
    CSS fallback, vendored/pinned Three.js enhanced renderer, lifecycle,
    context-loss recovery, and mobile-first Source Arena. Not started.
@@ -218,8 +218,8 @@ is pending, in progress, or complete.
 6. `MELLYCORE-3D-SCENE-INTEGRATION-REVIEW-001` — independent final review
    before any merge or release claim. Not started.
 
-Task 3 (NASA runtime retirement) is `READY_FOR_FINAL_MERGE_GATE` with
-PR #15 open and ready for review, not merged (see item 3 above). Tasks 4–6 remain
+Task 3 (NASA runtime retirement) is `MERGED_INTO_CANONICAL_MAIN` via PR #15,
+merge commit `e0cbc332ff90f8787d981c9d86be717633f22d4d` (see item 3 above). Tasks 4–6 remain
 `NOT_STARTED` and are not implemented, active, or authorized by this entry
 alone. Task 1 (the ADR decision) is accepted at the decision/specification
 level and its architecture milestone is now `CLOSED_IN_CANONICAL_MAIN` —

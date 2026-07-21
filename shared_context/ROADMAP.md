@@ -28,10 +28,11 @@ Naming a module here does not authorize or claim its implementation.
   implemented.
 - **NASA Images:** executable runtime retired from `site/dashboard.html` /
   `site/js/dashboard.js` under `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`
-  (branch `fix/mellycore-source-arena-nasa-runtime-retirement-001`, draft PR
-  open, pending review); replaced with a local, deterministic Source Archive.
-  Historical task reports and release evidence remain untouched. It was never
-  a current pillar, roadmap module, or core integration.
+  and merged into canonical `main` via PR #15 (merge commit
+  `e0cbc332ff90f8787d981c9d86be717633f22d4d`); replaced with a local,
+  deterministic Source Archive. Historical task reports and release evidence
+  remain untouched. It was never a current pillar, roadmap module, or core
+  integration.
 
 Durable completion evidence lives in `docs/tasks/`, release records, and Git
 history rather than being duplicated here.

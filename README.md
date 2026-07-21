@@ -52,7 +52,7 @@ authorized by this merge.
 | Loop Operations Foundation | Implemented, report-only | Nine registered loops; no production-enabled or unattended loop. |
 | Context Gate | Implemented through I4 | Guarded CLI, immutable records, content-free index, read-only audit/dashboard surface. |
 | Project-health evidence | Implemented | Two human-invoked persisted runs; no scheduler. |
-| Live Cockpit V2 / Social Source Arena | Implemented legacy prototype | Local vanilla HTML/CSS/JS surface; not the completed Observatory. NASA runtime retirement (see "NASA Images Disposition" below) is implemented on a separate branch/draft PR, pending review and merge — canonical `main` as described here reflects the pre-retirement state until that PR lands. |
+| Live Cockpit V2 / Social Source Arena | Implemented legacy prototype | Local vanilla HTML/CSS/JS surface; not the completed Observatory. NASA runtime retirement (see "NASA Images Disposition" below) is merged into canonical `main` via PR #15. |
 | Model comparison copy | Simulated | Deterministic local text, not live model responses. |
 | Holographic Source Arena | Accepted specification | The 390×844 model-lens hero and 3D treatment are not implemented. |
 | Source Arena Hybrid renderer decision | Accepted (decision/specification level only, 2026-07-20) | `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` records an accepted WebGL-enhanced, CSS-complete-fallback renderer decision; no WebGL code or vendored dependency exists in the repository yet — implementation requires its own separately-authorized task. |
@@ -93,12 +93,13 @@ describing the earlier NASA-backed prototype remain untouched in the
 repository as the historical record of why it existed.
 
 `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` (implemented on branch
-`fix/mellycore-source-arena-nasa-runtime-retirement-001`, draft PR open,
-pending review) removes the executable NASA Images API code from
-`site/dashboard.html` / `site/js/dashboard.js` and replaces it with a local,
-deterministic Source Archive dataset: zero external requests, no API key, no
-boot-time network call. This status is accurate for that branch/PR; canonical
-`main` reflects it only once the PR is reviewed and merged.
+`fix/mellycore-source-arena-nasa-runtime-retirement-001`, merged into
+canonical `main` via PR #15, merge commit
+`e0cbc332ff90f8787d981c9d86be717633f22d4d`) removes the executable NASA
+Images API code from `site/dashboard.html` / `site/js/dashboard.js` and
+replaces it with a local, deterministic Source Archive dataset: zero
+external requests, no API key, no boot-time network call. This status is
+now canonical on `main`.
 
 `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (**ACCEPTED**,
 2026-07-20, decision/specification level only) recorded the decision
