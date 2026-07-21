@@ -19,9 +19,15 @@ Status: present only on two separate, unmerged local branches — the original
 canonical `main` (see `docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`
 and `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`); not present
 in canonical `main`. Status in canonical `main`: `NOT_PRESENT_PENDING_INTEGRATION`.
-This entry does not claim either branch's content is canonical, is not
-modified by this or any other current task, and does not decide how the two
-branches will be reconciled.
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` has since
+compared both branches and selected `docs/mellycore-operations-data-contract-001-v2`
+as the canonical integration candidate (see that document's Section 6); the
+original branch was not merged, rebased, deleted, or pushed. Four of its file
+pairs (`AI_ESTATE`, `SKILL_GAP_CANDIDATE`, `MEMORY_FRESHNESS`,
+`TRUTHFUL_STATE_LABELS.md`) were judged not superseded and are deferred to a
+further, separately authorized follow-up task. This entry still does not
+claim either branch's content is canonical in `main`.
 
 Type: documentation/fixture-and-schema specification.
 

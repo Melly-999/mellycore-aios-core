@@ -320,8 +320,15 @@ defining eleven dashboard-facing fixture entities per
 `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md` (task report:
 `docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`). Both remain
 `NOT_PRESENT_PENDING_INTEGRATION` in canonical `main`; this file does not
-claim either branch is canonical, and reconciling them is deferred to a
-future, separately authorized task.
+claim either branch is canonical.
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` (task report:
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001.md`)
+has since compared both branches and selected `-v2` as the canonical
+integration candidate; no push or merge was performed. A follow-up task is
+needed to fold in the original branch's AI Estate Inventory, Skill Gap
+Detector, and Memory Freshness Monitor file pairs, which were judged not
+superseded.
 
 ## Next Run (Source Arena Renderer track)
 

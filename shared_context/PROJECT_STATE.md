@@ -76,10 +76,16 @@ current canonical `main` and defining eleven dashboard-facing fixture entities
 per `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`. Status in
 canonical `main` for both branches: `NOT_PRESENT_PENDING_INTEGRATION`. This
 document does not claim either branch's content is canonical and does not
-modify them. Reconciling the two branches is deferred to a future,
-separately authorized task. Detailed schema and implementation contracts
-remain deferred to that task's own integration and later separately approved
-work.
+modify them.
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` has since
+compared both branches (no push, no merge) and selected `-v2` as the
+canonical integration candidate; the original branch remains unmerged and
+unpushed. Four of its file pairs address AI Estate Inventory, Skill Gap
+Detector, and Memory Freshness Monitor domains `-v2` does not yet cover and
+are deferred to a further, separately authorized follow-up task. Detailed
+schema and implementation contracts remain deferred to that task's own
+integration and later separately approved work.
 
 ## Release and Historical Integrity
 
