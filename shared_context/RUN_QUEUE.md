@@ -13,11 +13,15 @@ not as a pending step.
 
 `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`
 
-Status: present only on its separate, unmerged branch
-`docs/mellycore-operations-data-contract-001`; not present in canonical `main`.
-Status in canonical `main`: `NOT_PRESENT_PENDING_INTEGRATION`. This entry does
-not claim that branch's content is canonical and is not modified by this or
-any other current task.
+Status: present only on two separate, unmerged local branches — the original
+`docs/mellycore-operations-data-contract-001` (2026-07-19) and a second pass,
+`docs/mellycore-operations-data-contract-001-v2`, authored against current
+canonical `main` (see `docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`
+and `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`); not present
+in canonical `main`. Status in canonical `main`: `NOT_PRESENT_PENDING_INTEGRATION`.
+This entry does not claim either branch's content is canonical, is not
+modified by this or any other current task, and does not decide how the two
+branches will be reconciled.
 
 Type: documentation/fixture-and-schema specification.
 

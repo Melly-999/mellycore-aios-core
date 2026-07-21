@@ -313,10 +313,15 @@ The exact next roadmap task is:
 
 That task is specification/fixture scope only. It must not implement adapters,
 approval execution, autonomous improvement, backend services, runtime-consumed
-schema, or safety-rule changes. Its work exists only on the separate, unmerged
-branch `docs/mellycore-operations-data-contract-001` (status:
-`NOT_PRESENT_PENDING_INTEGRATION` in canonical `main`); this file does not
-claim that branch is canonical.
+schema, or safety-rule changes. Its work exists on two separate, unmerged
+local branches: the original `docs/mellycore-operations-data-contract-001`
+(2026-07-19), and a second pass, `docs/mellycore-operations-data-contract-001-v2`,
+defining eleven dashboard-facing fixture entities per
+`docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md` (task report:
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`). Both remain
+`NOT_PRESENT_PENDING_INTEGRATION` in canonical `main`; this file does not
+claim either branch is canonical, and reconciling them is deferred to a
+future, separately authorized task.
 
 ## Next Run (Source Arena Renderer track)
 

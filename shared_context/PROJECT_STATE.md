@@ -68,12 +68,18 @@ planned domains, not current capability claims.
 
 Exact next roadmap task: `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` — translate
 the approved logical contracts into fixture/schema artifacts and validation
-requirements. Its work exists only on the separate, unmerged branch
-`docs/mellycore-operations-data-contract-001` today; status in canonical
-`main`: `NOT_PRESENT_PENDING_INTEGRATION`. This document does not claim that
-branch's content is canonical and does not modify it. Detailed schema and
-implementation contracts remain deferred to that task's own integration and
-later separately approved work.
+requirements. Its work exists on two separate, unmerged local branches today:
+the original `docs/mellycore-operations-data-contract-001` (2026-07-19), and a
+second pass, `docs/mellycore-operations-data-contract-001-v2` (documented in
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`), authored against
+current canonical `main` and defining eleven dashboard-facing fixture entities
+per `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`. Status in
+canonical `main` for both branches: `NOT_PRESENT_PENDING_INTEGRATION`. This
+document does not claim either branch's content is canonical and does not
+modify them. Reconciling the two branches is deferred to a future,
+separately authorized task. Detailed schema and implementation contracts
+remain deferred to that task's own integration and later separately approved
+work.
 
 ## Release and Historical Integrity
 
