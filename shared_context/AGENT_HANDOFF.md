@@ -18,10 +18,12 @@
   `48c1622610f0d3ac258c0f5c2b1b3a2b63209032`) → `-POST-MERGE-VERIFY-001`
   independently confirmed the merge commit, its parentage, and the
   changed-file scope.
-- The Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION`;
-  renderer and CSS fallback implementation remain `NOT_IMPLEMENTED`;
-  Three.js vendoring remains `NOT_VENDORED`; NASA work remains
-  `ACCEPTED_REQUIREMENT_NOT_EXECUTED`; runtime, release, deploy, and
+- At the time of this task, the Operations Data Contract was
+  `NOT_PRESENT_PENDING_INTEGRATION`; it has since been integrated into
+  canonical `main` via PR #13 — see "Next Run (Operations Data Contract
+  track)" below. Renderer and CSS fallback implementation remain
+  `NOT_IMPLEMENTED`; Three.js vendoring remains `NOT_VENDORED`; NASA work
+  remains `ACCEPTED_REQUIREMENT_NOT_EXECUTED`; runtime, release, deploy, and
   provider integration all remain `NOT_PERFORMED`.
 - Docs-only throughout this entire chain. No site/runtime code, dependency
   file, or Three.js distribution was added or modified at any step; no NASA
@@ -42,10 +44,13 @@
   `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`
   as an unqualified "exact next task." `-P2-REMEDIATION-005` (this entry)
   corrected that single pointer only — no other scope.
-- The Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION` and
-  continues to have no ordering relationship, prerequisite, gate, blocker,
-  dependency, or sequencing-step relationship with this renderer track or
-  with `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` (recorded below).
+- At the time of this task, the Operations Data Contract was
+  `NOT_PRESENT_PENDING_INTEGRATION` (since integrated via PR #13; see "Next
+  Run (Operations Data Contract track)" below) and continued to have no
+  ordering relationship, prerequisite, gate, blocker, dependency, or
+  sequencing-step relationship with this renderer track or with
+  `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` (recorded below) —
+  that independence is unaffected by the ODC's later integration.
 - Docs-only. No site/runtime code, dependency file, or Three.js distribution
   was added or modified; no NASA retirement, provider integration, release,
   or deployment occurred.
@@ -302,38 +307,49 @@ execution.
 No planned domain may be described as implemented without repository evidence.
 No consequential action may bypass operator approval.
 
-## Next Run
+## Next Run (Operations Data Contract track)
 
 `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` is already integrated into
 canonical `main` via PR #7 — no further action is needed on that commit.
 
-The exact next roadmap task is:
-
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`
-
-That task is specification/fixture scope only. It must not implement adapters,
-approval execution, autonomous improvement, backend services, runtime-consumed
-schema, or safety-rule changes. Its work exists on two separate, unmerged
-local branches: the original `docs/mellycore-operations-data-contract-001`
-(2026-07-19), and a second pass, `docs/mellycore-operations-data-contract-001-v2`,
-defining eleven dashboard-facing fixture entities per
-`docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md` (task report:
-`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`). Both remain
-`NOT_PRESENT_PENDING_INTEGRATION` in canonical `main`; this file does not
-claim either branch is canonical.
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-001` (branch
+`docs/mellycore-operations-data-contract-001-v2`, tip `44dde78`) is **now
+integrated into canonical `main` via PR #13**
+(https://github.com/Melly-999/mellycore-aios-core/pull/13), merge commit
+`e0db28f06613d29028df96a2d651b6dfdf2f2aa8` — no further push/PR/merge action
+is needed for that commit. Integration is documentation/schema/fixture scope
+only: the fourteen-entity contract
+(`docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`) and its
+`shared_context/operations/` schema and example fixtures now exist on
+canonical `main`. No adapters, approval execution, autonomous improvement,
+backend services, runtime-consumed schema, or safety-rule change was
+implemented or authorized by this merge.
 
 `MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` (task report:
 `docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001.md`)
-compared both branches and selected `-v2` as the canonical integration
-candidate; no push or merge was performed.
+had already selected `-v2` as the canonical integration candidate ahead of
+this merge; the original, differently-scoped
+`docs/mellycore-operations-data-contract-001` branch (2026-07-19) remains
+unmerged, unpushed, and superseded.
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001` had
+already folded that branch's adoptable AI Estate Inventory, Skill Gap
+Detector, and Memory Freshness Monitor entities plus its Truthful-State
+Labels reference into `-v2` (Sections 2.12–2.14 of the spec document) before
+this merge, bringing it to fourteen entities.
 
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001` has since
-folded the original branch's AI Estate Inventory, Skill Gap Detector, and
-Memory Freshness Monitor entities plus its Truthful-State Labels reference
-into `-v2` (Sections 2.12–2.14 of the spec document), bringing it to
-fourteen entities. This remains one local commit on `-v2`, not pushed;
-canonical `main` status is still `NOT_PRESENT_PENDING_INTEGRATION`. The next
-step is a separately authorized push + PR task.
+The original task report,
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`, is a historical
+snapshot describing local-only, unpushed state prior to reconciliation and
+merge; it is not a current-state claim. Full merge evidence and validation:
+durable report
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-POST-MERGE-STATE-SYNC-001.md`.
+
+The exact next task on this track is:
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-POST-MERGE-STATE-SYNC-REVIEW-001`
+(independent re-review of this state sync; not started). No Operations Data
+Contract implementation, adapter, backend, or runtime task is authorized by
+this entry.
 
 ## Next Run (Source Arena Renderer track)
 
@@ -357,8 +373,9 @@ implementing the renderer, vendoring Three.js, retiring NASA, touching
 `MELLYCORE-3D-SCENE-FOUNDATION-001` each still require their own separate
 operator authorization and review gate. Per ADR Section 31 and
 `RUN_QUEUE.md`'s Parallel Decision Track, the Operations Data Contract
-integration (status: `NOT_PRESENT_PENDING_INTEGRATION`, tracked separately
-above) has **no ordering relationship** with this renderer track: it is not a
+integration (status: integrated into canonical `main` via PR #13, tracked
+separately above) has **no ordering relationship** with this renderer track:
+it is not a
 prerequisite, gate, blocker, dependency, sequencing step, or required prior
 task for `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`, which may be
 authorized and reviewed on its own gates regardless of whether that

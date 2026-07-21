@@ -66,30 +66,36 @@ Model Router, Unified Run Ledger, Approval Queue, Memory & Recommendation Ledger
 AI Estate Inventory, Skill Gap Detector, and Memory Freshness Monitor. These are
 planned domains, not current capability claims.
 
-Exact next roadmap task: `MELLYCORE-OPERATIONS-DATA-CONTRACT-001` — translate
-the approved logical contracts into fixture/schema artifacts and validation
-requirements. Its work exists on two separate, unmerged local branches today:
-the original `docs/mellycore-operations-data-contract-001` (2026-07-19), and a
-second pass, `docs/mellycore-operations-data-contract-001-v2` (documented in
-`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`), authored against
-current canonical `main` and defining eleven dashboard-facing fixture entities
-per `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`. Status in
-canonical `main` for both branches: `NOT_PRESENT_PENDING_INTEGRATION`. This
-document does not claim either branch's content is canonical and does not
-modify them.
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-001` — translating the approved logical
+contracts into fixture/schema artifacts and validation requirements — is
+**integrated into canonical `main` via PR #13**
+(https://github.com/Melly-999/mellycore-aios-core/pull/13), merge commit
+`e0db28f06613d29028df96a2d651b6dfdf2f2aa8`, from branch
+`docs/mellycore-operations-data-contract-001-v2` (tip `44dde78`). Integration
+is documentation/schema/fixture scope only: the fourteen dashboard-facing
+fixture entities defined in
+`docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`, and their
+companion JSON Schema and example fixtures in `shared_context/operations/`,
+now exist on canonical `main`. No adapter, backend execution, runtime-consumed
+schema, or safety-rule change was implemented or authorized by this merge.
 
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` compared both
-branches (no push, no merge) and selected `-v2` as the canonical integration
-candidate; the original branch remains unmerged and unpushed.
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` had already
+selected `-v2` as the canonical integration candidate ahead of this merge;
+the original, differently-scoped `docs/mellycore-operations-data-contract-001`
+branch (2026-07-19) remains unmerged, unpushed, and superseded — its
+adoptable content (AI Estate Inventory, Skill Gap Detector, Memory Freshness
+Monitor entities and its Truthful-State Labels reference) had already been
+folded into `-v2` before this merge by
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001`, bringing
+it to fourteen entities total.
 
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001` has since
-folded three of the original branch's entities (AI Estate Inventory, Skill
-Gap Detector, Memory Freshness Monitor) plus its Truthful-State Labels
-reference into `-v2`, bringing it to fourteen entities total (still one
-local commit, still not pushed). Status in canonical `main` remains
-`NOT_PRESENT_PENDING_INTEGRATION` — this document does not claim
-integration. Detailed schema and implementation contracts remain deferred to
-a future push/PR task and later separately approved work.
+Full merge evidence and validation: durable report
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-POST-MERGE-STATE-SYNC-001.md`.
+The original task report,
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`, is a historical
+snapshot of local-only, unpushed state prior to reconciliation and merge; it
+is not a current-state claim. Real adapters, backend execution, and guarded
+runtime work remain deferred to later, separately approved work.
 
 ## Release and Historical Integrity
 

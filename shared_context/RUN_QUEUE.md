@@ -9,49 +9,46 @@ in `docs/tasks/` and Git history, not duplicated here.
 `main` via PR #7**. This gate is closed; it is recorded here only as history,
 not as a pending step.
 
-## Exact Next Roadmap Task
+## Operations Data Contract — Integration Status
 
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-001`
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-001` (branch
+`docs/mellycore-operations-data-contract-001-v2`, tip commit `44dde78`) is
+**integrated into canonical `main` via PR #13**
+(https://github.com/Melly-999/mellycore-aios-core/pull/13), merge commit
+`e0db28f06613d29028df96a2d651b6dfdf2f2aa8`. This gate is closed; it is
+recorded here only as history, not as a pending step.
 
-Status: present only on two separate, unmerged local branches — the original
-`docs/mellycore-operations-data-contract-001` (2026-07-19) and a second pass,
-`docs/mellycore-operations-data-contract-001-v2`, authored against current
-canonical `main` (see `docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`
-and `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`); not present
-in canonical `main`. Status in canonical `main`: `NOT_PRESENT_PENDING_INTEGRATION`.
+Integration is documentation/schema/fixture scope only: the fourteen
+entities defined in `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`,
+and their companion JSON Schema and example fixtures in
+`shared_context/operations/`, now exist on canonical `main`. No adapters,
+backend execution, autonomous improvement, runtime-consumed schema,
+scheduler, or safety-rule mutation was implemented or authorized by this
+merge; no script in `scripts/` reads, imports, or validates these files (see
+`shared_context/operations/README.md`).
 
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` compared both
-branches and selected `docs/mellycore-operations-data-contract-001-v2`
-as the canonical integration candidate (see that document's Section 6); the
-original branch was not merged, rebased, deleted, or pushed. Four of its
-file items (`AI_ESTATE`, `SKILL_GAP_CANDIDATE`, `MEMORY_FRESHNESS` schema/
-example pairs, and `TRUTHFUL_STATE_LABELS.md`) were judged not superseded.
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` had already
+selected `docs/mellycore-operations-data-contract-001-v2` as the canonical
+integration candidate ahead of this merge (see spec Section 6). The original,
+differently-scoped `docs/mellycore-operations-data-contract-001` branch
+(2026-07-19) was never merged, rebased, deleted, or pushed and remains a
+superseded local branch; its adoptable content (`AI_ESTATE`,
+`SKILL_GAP_CANDIDATE`, `MEMORY_FRESHNESS` schema/example pairs, and
+`TRUTHFUL_STATE_LABELS.md`) had already been folded into `-v2` before this
+merge by `MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001`.
 
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001` has since
-folded all four into `-v2` (adapted to add `dashboard_status`, and
-`schema_version` where absent), bringing `-v2` to fourteen entities total.
-This entry still does not claim either branch's content is canonical in
-`main`: status remains `NOT_PRESENT_PENDING_INTEGRATION` until a push and PR
-are separately authorized.
+Full merge evidence and validation: durable report
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-POST-MERGE-STATE-SYNC-001.md`.
+The original task report,
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`, is a historical
+snapshot of local-only state prior to reconciliation and merge; it is not a
+current-state claim.
 
-Type: documentation/fixture-and-schema specification.
-
-Goal boundary: translate the approved logical contracts in
-`docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md` (AI Estate
-Inventory, Unified Run Ledger, Skill Gap Detector, Memory Freshness Monitor,
-Recommendation Ledger, and the exact operator-approval contract) into
-fixture/schema artifacts and validation requirements.
-
-Required posture:
-
-- distinguish implemented evidence from planned capability;
-- preserve operator approval for consequential action;
-- preserve the existing run/token and Context Gate contracts, referencing rather
-  than redefining them;
-- define visibility, provenance, audit, freshness, and recommendation boundaries;
-- do not implement adapters, backend execution, autonomous improvement, merge,
-  deployment, scheduler, runtime-consumed schema, or safety-rule mutation;
-- do not store provider keys or credentials.
+Exact next task:
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-POST-MERGE-STATE-SYNC-REVIEW-001`
+(independent re-review of this state sync; not started). No Operations Data
+Contract implementation, adapter, backend, or runtime task is authorized by
+this entry.
 
 ## Later Roadmap Domains
 

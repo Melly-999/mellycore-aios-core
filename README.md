@@ -38,9 +38,11 @@ exists. The AI Operations Intelligence specification
 without authorizing implementation — its modules remain `SPECIFIED`, not
 runtime-implemented. The next roadmap task,
 `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`, translates that contract into
-fixture/schema artifacts; it exists only on its own separate, unmerged branch
-today (status: `NOT_PRESENT_PENDING_INTEGRATION` in canonical `main`) and is
-not touched or reordered by this or any other current task.
+fixture/schema artifacts and is **integrated into canonical `main` via PR
+#13** (merge commit `e0db28f06613d29028df96a2d651b6dfdf2f2aa8`). Integration
+is documentation/schema/fixture scope only: no adapter, backend execution,
+runtime-consumed schema, or provider integration was implemented or
+authorized by this merge.
 
 ## What Exists Today
 

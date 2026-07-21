@@ -1,7 +1,20 @@
 # MELLYCORE-OPERATIONS-DATA-CONTRACT-001
 
-Status: complete locally (documentation/spec/fixture-and-schema scope only,
-one local commit, not pushed, not merged).
+**Historical snapshot notice:** the "Status" line and "Commit Evidence" /
+"Next Task" sections below describe this task's state at authoring time —
+local-only, one commit, not pushed, not merged. That state has since changed:
+this branch (`docs/mellycore-operations-data-contract-001-v2`, folded to
+fourteen entities by `MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001`)
+was pushed and merged into canonical `main` via PR #13
+(https://github.com/Melly-999/mellycore-aios-core/pull/13), merge commit
+`e0db28f06613d29028df96a2d651b6dfdf2f2aa8`. See
+`docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-POST-MERGE-STATE-SYNC-001.md`
+for current, authoritative merge-state evidence. Nothing below this notice is
+rewritten; it remains the original, dated record of this task as performed.
+
+Status (at authoring time, 2026-07-19/20): complete locally
+(documentation/spec/fixture-and-schema scope only, one local commit, not
+pushed, not merged).
 
 ## Task Purpose
 
