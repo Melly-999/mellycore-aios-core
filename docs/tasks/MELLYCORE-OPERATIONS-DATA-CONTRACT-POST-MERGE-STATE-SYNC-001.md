@@ -192,11 +192,16 @@ rewritten); `shared_context/operations/*`, `docs/specs/*`, `site/`,
 
 ## Remaining Risks
 
-- `README.md` still contains one stale `NOT_PRESENT_PENDING_INTEGRATION`
-  reference to the ODC (lines 40–43). It was not in this task's authorized
-  "Expected files" list, so it was left unedited rather than expanding scope
-  without authorization. Recommend a narrow follow-up task authorizing that
-  one-file correction.
+- `README.md` was found, at the time this report was first written, to still
+  contain one stale `NOT_PRESENT_PENDING_INTEGRATION` reference to the ODC
+  (lines 40–43); it was not in this task's authorized "Expected files" list,
+  so it was left unedited rather than expanding scope without authorization.
+  That inconsistency was subsequently corrected by a follow-up commit,
+  `77d7f5e1ff37aed8a58a5d548fe070732227476d`, within the same PR branch, and
+  is no longer an outstanding risk. The correction was documentation-only and
+  did not implement or authorize an adapter, backend execution,
+  runtime-consumed schema integration, provider integration, renderer, NASA
+  runtime retirement, deployment, or release.
 - No durable task report exists for PR #12's own merge
   (`MELLYCORE-P2-CLOSEOUT-MERGE-001`, referenced only in passing by
   `docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`'s "Canonical Base"
