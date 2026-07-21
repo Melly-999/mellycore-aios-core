@@ -30,12 +30,15 @@ store provider secrets.
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under
 `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`, implemented on branch
-`fix/mellycore-source-arena-nasa-runtime-retirement-001` (draft PR open,
-pending review). The Source Arena tab now renders a local, deterministic
-Source Archive dataset — zero external requests, no API key. Historical NASA
-task reports and `v0.2.0` release evidence remain untouched as the historical
-record. This status is accurate for that branch/PR; canonical `main` reflects
-it only once the PR is reviewed and merged.
+`fix/mellycore-source-arena-nasa-runtime-retirement-001` (PR #15: visual
+acceptance complete — `PASS_WITH_NON_BLOCKING_NOTES`; the two P2 findings
+(procedural swatch palette, mission-rail scrollbar theming) resolved in a
+follow-up commit; ready for the final merge-gate review). The Source Arena
+tab now renders a local, deterministic Source Archive dataset — zero
+external requests, no API key. Historical NASA task reports and `v0.2.0`
+release evidence remain untouched as the historical record. This status is
+accurate for that branch/PR; canonical `main` reflects it only once the PR
+is reviewed and merged.
 
 ## Specified, Not Implemented
 
@@ -61,10 +64,10 @@ a WebGL-enhanced renderer — one pinned, vendored Three.js ESM module, paired
 with a mandatory complete CSS/DOM fallback — for Source Arena's central stage
 only. Neither renderer is implemented; no dependency has been vendored. NASA
 runtime retirement (accepted by this ADR as a prerequisite) is implemented
-locally on `fix/mellycore-source-arena-nasa-runtime-retirement-001` (draft
-PR open, pending review); the renderer and vendoring themselves remain
-unimplemented and require their own separately-authorized implementation
-task.
+locally on `fix/mellycore-source-arena-nasa-runtime-retirement-001` (PR #15,
+visual acceptance complete, ready for final merge-gate review, not yet
+merged); the renderer and vendoring themselves remain unimplemented and
+require their own separately-authorized implementation task.
 
 ## Planned Direction
 

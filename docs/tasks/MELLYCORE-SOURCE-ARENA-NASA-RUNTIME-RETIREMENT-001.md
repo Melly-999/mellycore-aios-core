@@ -1,6 +1,6 @@
 # MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001
 
-**Status:** `IMPLEMENTED_LOCALLY_PENDING_REVIEW` / `DRAFT_PR_OPEN_PENDING_VISUAL_ACCEPTANCE`. Not merged.
+**Status:** `VISUAL_ACCEPTANCE_COMPLETE` / `P2_POLISH_RESOLVED` / `READY_FOR_FINAL_MERGE_GATE`. Not merged.
 
 ## Purpose
 
@@ -207,10 +207,16 @@ git diff --check                            → clean (no output, exit 0)
   functional effect.
 - No automated accessibility audit tool was run; accessibility checks
   above were manual/targeted, not exhaustive.
-- Visual acceptance (does the Source Archive read as a deliberate design
-  choice rather than a degraded placeholder) has not been performed by a
-  human or a dedicated visual-QA pass — that is the explicit purpose of
-  the next task below.
+- Visual acceptance has since been performed
+  (`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-FINAL-REVIEW-001`):
+  result `PASS_WITH_NON_BLOCKING_NOTES`, no P0/P1 findings. Two non-blocking
+  P2 findings (VA-01: hash-derived category hues colliding with reserved
+  semantic colors; VA-02: unthemed mission-rail scrollbar at 1440×900) were
+  independently confirmed and resolved in a single narrow follow-up commit.
+  Findings VA-03 through VA-09 (mobile spacing/gesture polish, category
+  select sync, empty-state copy, `--cockpit-nasa` rename, dead
+  `.queue-pagination`/`.queue-page-btn` selector cleanup, micro-type sizing)
+  remain deferred, non-blocking backlog polish — not implemented here.
 
 ## Explicit boundaries (not implemented by this task)
 
@@ -224,8 +230,7 @@ MellyTrade-related file was touched.
 
 ## Exact next task
 
-`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-VISUAL-ACCEPTANCE-001` —
-recommended model Fable 5, high effort — desktop/mobile visual QA,
-product-coherence review, interaction review, and confirmation that the
-Source Archive does not look like a degraded placeholder, before any
-merge is considered.
+`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-MERGE-GATE-001` —
+recommended model Claude Sonnet, medium effort — final read-only review of
+PR #15, final-head check verification, merge authorization decision, and,
+only if separately authorized, merge plus canonical-main verification.

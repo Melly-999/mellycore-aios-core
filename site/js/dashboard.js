@@ -194,12 +194,23 @@
     return base + (hash % spread);
   }
 
-  /* Deterministic hue for a category's procedural swatch — local, no image. */
+  /* Curated hue per category's procedural swatch — local, no image.
+     Fixed mapping (not hash-derived) so hues stay distinct and inside the
+     MellyCore violet/blue/cyan/magenta family, clear of the reserved
+     semantic colors (green=verified, amber=caution, red=danger). */
+  const CATEGORY_SWATCH_HUE = {
+    context: 182,
+    workflow: 200,
+    safety: 218,
+    observability: 236,
+    model: 255,
+    routing: 275,
+    memory: 294,
+    orchestration: 312,
+  };
   function hueForCategory(category) {
-    let hash = 0;
-    const text = String(category || "");
-    for (let i = 0; i < text.length; i += 1) hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
-    return hash % 360;
+    const hue = CATEGORY_SWATCH_HUE[category];
+    return hue === undefined ? 260 : hue;
   }
 
   function shortCount(value) {

@@ -454,8 +454,9 @@ button {
 }
 
 /* overflow-y: auto (not hidden) so the 8-category filter list scrolls
-   in-panel instead of being silently clipped on shorter viewports. */
-.mission-rail { max-height: calc(100vh - 178px); overflow-y: auto; display: flex; flex-direction: column; }
+   in-panel instead of being silently clipped on shorter viewports.
+   Scrollbar theming matches .source-arena-queue's treatment. */
+.mission-rail { max-height: calc(100vh - 178px); overflow-y: auto; display: flex; flex-direction: column; scrollbar-width: thin; scrollbar-color: var(--cockpit-violet) transparent; }
 .mission-context-mini { padding: 18px 14px; border-bottom: 1px solid var(--cockpit-line); }
 .mission-context-mini > span:first-child { display: block; color: var(--cockpit-muted); font-family: var(--font-mono); font-size: .63rem; text-transform: uppercase; }
 .mission-context-mini strong { display: block; margin-top: 6px; font-family: var(--font-mono); font-size: .74rem; }

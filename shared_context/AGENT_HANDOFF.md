@@ -1,14 +1,25 @@
 # Agent Handoff
 
-## In-Progress Task (draft PR open, not merged)
+## In-Progress Task (PR #15 ready for review, not merged)
 
 `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`
 
-- Status: `IMPLEMENTED_LOCALLY_PENDING_REVIEW` /
-  `DRAFT_PR_OPEN_PENDING_VISUAL_ACCEPTANCE`. Branch
+- Status: `VISUAL_ACCEPTANCE_COMPLETE` / `P2_POLISH_RESOLVED` /
+  `READY_FOR_FINAL_MERGE_GATE`. Branch
   `fix/mellycore-source-arena-nasa-runtime-retirement-001`, created from
   canonical `main` at `026809fbd6a6c980bcc40325c2a7d3f899997b81` (the PR #14
-  merge commit). One commit, pushed, draft PR opened. Not merged.
+  merge commit). Two commits, pushed, PR #15 marked ready for review. Not
+  merged.
+- Visual acceptance (`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-FINAL-REVIEW-001`)
+  returned `PASS_WITH_NON_BLOCKING_NOTES` — no P0/P1 findings. Two P2
+  findings were independently confirmed and resolved in one narrow
+  follow-up commit: VA-01 (procedural swatch hues were hash-derived and
+  collided with reserved semantic colors — replaced with a curated static
+  hue mapping inside the violet/blue/cyan/magenta family) and VA-02 (the
+  mission rail's default browser scrollbar clashed with the dark HUD at
+  1440×900 — themed to match `.source-arena-queue`'s existing scrollbar
+  treatment). VA-03 through VA-09 remain deferred, non-blocking backlog
+  polish; not implemented by this task.
 - Removed the executable NASA Images fetch/parse/boot path from
   `site/js/dashboard.js` (`NASA_API_ROOT`, `searchNasa()`, manifest
   resolution, boot-time automatic request) and replaced it with a
@@ -40,9 +51,9 @@
   `NOT_IMPLEMENTED` (unchanged). Three.js: `NOT_VENDORED`. Deployment and
   release: `NOT_PERFORMED`.
 - Exact next task:
-  `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-VISUAL-ACCEPTANCE-001`
-  (desktop/mobile visual QA and product-coherence review of the Source
-  Archive replacement before any merge is considered).
+  `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-MERGE-GATE-001`
+  (final read-only review of PR #15, final-head check verification, and
+  merge authorization decision).
 
 ## Latest Completed Task (this track)
 
