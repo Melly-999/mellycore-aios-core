@@ -2,6 +2,38 @@
 
 ## Latest Completed Task (this track)
 
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-CLOSEOUT-001`
+
+- Closes the post-merge renderer/ODC documentation-remediation chain
+  described below (`-P2-REMEDIATION-005` and its review/publish/merge
+  sequence).
+- `-P2-REMEDIATION-005-REVIEW-001` returned `PASS` (no blocking finding) →
+  `-PUBLISH-001` pushed the reviewed branch to `clean-origin` and opened
+  [PR #11](https://github.com/Melly-999/mellycore-aios-core/pull/11) →
+  `-PR-REVIEW-001` found no blocking review (Sourcery and Codex both left
+  non-blocking `COMMENTED` reviews) → `-MERGE-001` merged PR #11 into
+  canonical `main` via merge commit
+  `cad4e07f73f80c5794f9af2897fc10d922637ab3` (parents
+  `b3b4f8b0124b8ee10c8ab6e5334cd35cf059fc88` and
+  `48c1622610f0d3ac258c0f5c2b1b3a2b63209032`) → `-POST-MERGE-VERIFY-001`
+  independently confirmed the merge commit, its parentage, and the
+  changed-file scope.
+- The Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION`;
+  renderer and CSS fallback implementation remain `NOT_IMPLEMENTED`;
+  Three.js vendoring remains `NOT_VENDORED`; NASA work remains
+  `ACCEPTED_REQUIREMENT_NOT_EXECUTED`; runtime, release, deploy, and
+  provider integration all remain `NOT_PERFORMED`.
+- Docs-only throughout this entire chain. No site/runtime code, dependency
+  file, or Three.js distribution was added or modified at any step; no NASA
+  retirement, provider integration, release, or deployment occurred.
+- Exact next task: `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` (docs/spec-scope
+  review; not started). This is a docs/spec-safe next step only — it does
+  not authorize frontend scaffold, NASA retirement, Three.js vendoring, or
+  any runtime work, which each still require their own separate
+  authorization and review gate.
+
+## Prior Completed Task (this track, PR #11 merge, REMEDIATION-005 review/publish/merge chain)
+
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005`
 
 - An independent review of `-P2-REMEDIATION-004` (below) returned
@@ -17,8 +49,8 @@
 - Docs-only. No site/runtime code, dependency file, or Three.js distribution
   was added or modified; no NASA retirement, provider integration, release,
   or deployment occurred.
-- Exact next task:
-  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`
+- This task's then-exact-next-task pointer (`-P2-REMEDIATION-005-REVIEW-001`)
+  ran to completion through merge, recorded above.
 
 ## Prior Completed Task (this track, PR #10 merge, REMEDIATION-002 through -004)
 
@@ -289,19 +321,24 @@ claim that branch is canonical.
 ## Next Run (Source Arena Renderer track)
 
 The ADR architecture milestone is **`CLOSED_IN_CANONICAL_MAIN`** — PR #8,
-PR #9, and PR #10 are all merged into canonical `main`, most recently via
-merge commit `b3b4f8b0124b8ee10c8ab6e5334cd35cf059fc88`. Runtime
-implementation is **`NOT_STARTED`**: no Three.js file, renderer code, or
-NASA-retirement change exists anywhere in the repository. The exact next
-task in this parallel track is:
+PR #9, PR #10, and PR #11 are all merged into canonical `main`, most
+recently via merge commit `cad4e07f73f80c5794f9af2897fc10d922637ab3`
+(parents `b3b4f8b0124b8ee10c8ab6e5334cd35cf059fc88` and
+`48c1622610f0d3ac258c0f5c2b1b3a2b63209032`). Runtime implementation is
+**`NOT_STARTED`**: no Three.js file, renderer code, or NASA-retirement
+change exists anywhere in the repository. The post-merge documentation
+remediation/review/publish/merge chain for this track (`-P2-REMEDIATION-004`
+through `-P2-CLOSEOUT-001`) is now **`CLOSED`**; no further review of that
+chain is pending. The exact next task, docs/spec scope only, is:
 
-`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`
+`MELLYCORE-DOCS-INTEGRATION-REVIEW-001`
 
-That task is an independent review of the P2-REMEDIATION-005 documentation
-fix only — it must not implement the renderer, vendor Three.js, retire
-NASA, touch `site/`, or push/PR/merge. After it passes,
-`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` requires its own
-separate operator authorization and review gate. Per ADR Section 31 and
+That task is a docs/spec-scope review only — it does not authorize
+implementing the renderer, vendoring Three.js, retiring NASA, touching
+`site/`, or any push/PR/merge/deploy/release action. After it passes,
+`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` and
+`MELLYCORE-3D-SCENE-FOUNDATION-001` each still require their own separate
+operator authorization and review gate. Per ADR Section 31 and
 `RUN_QUEUE.md`'s Parallel Decision Track, the Operations Data Contract
 integration (status: `NOT_PRESENT_PENDING_INTEGRATION`, tracked separately
 above) has **no ordering relationship** with this renderer track: it is not a

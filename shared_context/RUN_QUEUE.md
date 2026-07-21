@@ -164,10 +164,22 @@ is pending, in progress, or complete.
    (above).
 2t. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005`
    — this entry (docs-only): corrected that pointer. No renderer, CSS
-   fallback, Three.js, NASA, runtime, release, or deployment change. Exact
-   next task:
-   `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`
-   (independent review of this remediation; not started).
+   fallback, Three.js, NASA, runtime, release, or deployment change. That
+   entry's then-next-task ran to completion, recorded in 2u below.
+2u. `-P2-REMEDIATION-005-REVIEW-001` returned `PASS` (no blocking finding) →
+   `-PUBLISH-001` pushed the branch to `clean-origin` and opened
+   [PR #11](https://github.com/Melly-999/mellycore-aios-core/pull/11) →
+   `-PR-REVIEW-001` found no blocking review (Sourcery and Codex both
+   `COMMENTED`, non-blocking) → `-MERGE-001` merged PR #11 into canonical
+   `main` via merge commit `cad4e07f73f80c5794f9af2897fc10d922637ab3`
+   (parents `b3b4f8b0124b8ee10c8ab6e5334cd35cf059fc88` and
+   `48c1622610f0d3ac258c0f5c2b1b3a2b63209032`) → `-POST-MERGE-VERIFY-001`
+   confirmed the merge commit, parentage, and changed-file scope
+   independently. `-P2-CLOSEOUT-001` (this entry's closeout) closes this
+   documentation-remediation chain: no renderer, CSS fallback, Three.js,
+   NASA, runtime, release, or deployment change occurred at any step. Exact
+   next task: `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` (docs/spec-scope
+   review; not started).
 3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
    API calls and `nasa-*` active runtime handles from the Source Arena surface,
    preserving historical evidence; may run as the first bounded slice of task 4
@@ -226,9 +238,13 @@ retire, or release anything; runtime implementation for tasks 3–6 remains
   vendoring, NASA runtime retirement, or release/deployment exists. That
   entry's then-next-task,
   `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`,
-  has since completed (see the Parallel Decision Track above, items 2n–2r);
-  the current exact next task is
-  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`.
+  has since completed (see the Parallel Decision Track above, items 2n–2r),
+  as has the subsequent `-P2-REMEDIATION-005` review/publish/merge chain
+  (items 2s–2u): PR #11 merged into canonical `main` via merge commit
+  `cad4e07f73f80c5794f9af2897fc10d922637ab3`. No Three.js implementation,
+  dependency vendoring, NASA runtime retirement, or release/deployment
+  exists at any point in this chain. The current exact next task is
+  `MELLYCORE-DOCS-INTEGRATION-REVIEW-001`.
 
 ## Standing Safety Gate
 
