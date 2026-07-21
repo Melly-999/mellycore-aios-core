@@ -1,5 +1,60 @@
 # Agent Handoff
 
+## In-Progress Task (PR #15 ready for review, not merged)
+
+`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`
+
+- Status: `VISUAL_ACCEPTANCE_COMPLETE` / `P2_POLISH_RESOLVED` /
+  `READY_FOR_FINAL_MERGE_GATE`. Branch
+  `fix/mellycore-source-arena-nasa-runtime-retirement-001`, created from
+  canonical `main` at `026809fbd6a6c980bcc40325c2a7d3f899997b81` (the PR #14
+  merge commit). Two commits, pushed, PR #15 marked ready for review. Not
+  merged.
+- Visual acceptance (`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-FINAL-REVIEW-001`)
+  returned `PASS_WITH_NON_BLOCKING_NOTES` — no P0/P1 findings. Two P2
+  findings were independently confirmed and resolved in one narrow
+  follow-up commit: VA-01 (procedural swatch hues were hash-derived and
+  collided with reserved semantic colors — replaced with a curated static
+  hue mapping inside the violet/blue/cyan/magenta family) and VA-02 (the
+  mission rail's default browser scrollbar clashed with the dark HUD at
+  1440×900 — themed to match `.source-arena-queue`'s existing scrollbar
+  treatment). VA-03 through VA-09 remain deferred, non-blocking backlog
+  polish; not implemented by this task.
+- Removed the executable NASA Images fetch/parse/boot path from
+  `site/js/dashboard.js` (`NASA_API_ROOT`, `searchNasa()`, manifest
+  resolution, boot-time automatic request) and replaced it with a
+  deterministic local `ARCHIVE_RECORDS` dataset (8 records — context,
+  workflow, safety, observability, model, routing, memory, orchestration —
+  each summarizing this repository's own already-documented, verifiable
+  committed state) plus local, synchronous filter/search logic. Zero
+  network requests occur at boot or during filtering; no API key; no
+  remote image URL; procedural CSS swatches (hue derived from category
+  name) replace NASA preview images.
+- Renamed the `nasa-*` runtime namespace to `source-arena-*` in
+  `site/dashboard.html` and `site/css/dashboard.css` per
+  `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` Appendix A's
+  conditional transition map (tab id/button, panel class, stage, stage
+  dots, search form, queue and its children). Removed NASA-specific
+  loading/error/pagination branches and aria-labels
+  (`aria-label="Show NASA result N"` → `"Show source result N"`; "Demo
+  provider: NASA Images API" → "Local source fixture"; "NASA id" →
+  "source id"). `--cockpit-nasa` (a generic danger-red color token
+  reused by unrelated UI, not a NASA-specific label) was intentionally
+  left unrenamed — internal token name only, not user-visible NASA
+  branding, no executable dependency; noted as a known limitation rather
+  than silently left out of the retirement search.
+- `site/index.html` was not touched — confirmed by direct inspection to
+  contain zero NASA references before this task began.
+- Does not implement the future Source Arena hybrid renderer, vendor
+  Three.js, create a WebGL scene, or touch any backend/provider/ODC
+  adapter surface. Renderer: `NOT_IMPLEMENTED`. CSS fallback:
+  `NOT_IMPLEMENTED` (unchanged). Three.js: `NOT_VENDORED`. Deployment and
+  release: `NOT_PERFORMED`.
+- Exact next task:
+  `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-MERGE-GATE-001`
+  (final read-only review of PR #15, final-head check verification, and
+  merge authorization decision).
+
 ## Latest Completed Task (this track)
 
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-CLOSEOUT-001`

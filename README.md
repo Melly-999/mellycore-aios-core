@@ -52,10 +52,10 @@ authorized by this merge.
 | Loop Operations Foundation | Implemented, report-only | Nine registered loops; no production-enabled or unattended loop. |
 | Context Gate | Implemented through I4 | Guarded CLI, immutable records, content-free index, read-only audit/dashboard surface. |
 | Project-health evidence | Implemented | Two human-invoked persisted runs; no scheduler. |
-| Live Cockpit V2 / Social Source Arena | Implemented legacy prototype | Local vanilla HTML/CSS/JS surface; not the completed Observatory. |
+| Live Cockpit V2 / Social Source Arena | Implemented legacy prototype | Local vanilla HTML/CSS/JS surface; not the completed Observatory. NASA runtime retirement (see "NASA Images Disposition" below) is implemented on a separate branch/draft PR, pending review and merge — canonical `main` as described here reflects the pre-retirement state until that PR lands. |
 | Model comparison copy | Simulated | Deterministic local text, not live model responses. |
 | Holographic Source Arena | Accepted specification | The 390×844 model-lens hero and 3D treatment are not implemented. |
-| Source Arena Hybrid renderer decision | Accepted (decision/specification level only, 2026-07-20) | `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` records an accepted WebGL-enhanced, CSS-complete-fallback renderer decision; no WebGL code, vendored dependency, or NASA runtime retirement exists in the repository yet — implementation requires its own separately-authorized task. |
+| Source Arena Hybrid renderer decision | Accepted (decision/specification level only, 2026-07-20) | `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` records an accepted WebGL-enhanced, CSS-complete-fallback renderer decision; no WebGL code or vendored dependency exists in the repository yet — implementation requires its own separately-authorized task. |
 | Observatory modules and real adapters | Planned | Detailed specification and guarded implementation remain future work. |
 
 The repository also contains a hand-authored Living Context Graph fixture with
@@ -87,23 +87,25 @@ any of it requires its own separately-authorized task.
 
 ## NASA Images Disposition
 
-NASA Images is **not** a current product pillar, roadmap module, or intended core
-integration. The existing browser-side NASA Images API code and `v0.2.0` release
-evidence remain in the repository as a legacy external-source prototype. This
-documentation-only refresh does not remove that code or rewrite the historical
-task and release records that explain why it exists.
+NASA Images was never a current product pillar, roadmap module, or intended
+core integration. Historical task reports and `v0.2.0` release evidence
+describing the earlier NASA-backed prototype remain untouched in the
+repository as the historical record of why it existed.
 
-Future implementation cleanup may replace or retire that prototype under a
-separately approved source-code task. Until then, references to NASA in completed
-task reports and released code describe implementation history, not current
-product direction.
+`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` (implemented on branch
+`fix/mellycore-source-arena-nasa-runtime-retirement-001`, draft PR open,
+pending review) removes the executable NASA Images API code from
+`site/dashboard.html` / `site/js/dashboard.js` and replaces it with a local,
+deterministic Source Archive dataset: zero external requests, no API key, no
+boot-time network call. This status is accurate for that branch/PR; canonical
+`main` reflects it only once the PR is reviewed and merged.
 
 `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` (**ACCEPTED**,
-2026-07-20, decision/specification level only) records a decision that active
-NASA Images runtime functionality is to be removed from the Source Arena
-surface during a future, separately-authorized implementation task, with
-historical task reports and release evidence left untouched. No such removal
-has occurred yet.
+2026-07-20, decision/specification level only) recorded the decision
+authorizing this retirement. The retirement task itself implements no
+adapter, backend, runtime-consumed schema, provider integration, renderer, or
+CSS fallback — those remain separately gated, not-yet-implemented future
+work.
 
 ## Safety and Non-Goals
 

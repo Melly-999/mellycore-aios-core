@@ -27,10 +27,18 @@ store provider secrets.
 - Current audit baseline: 0 findings, index current, 0 writes.
 - Standard-library validation baseline: 245 tests.
 
-The local dashboard's NASA Images browser GETs are **legacy prototype
-implementation**, retained as historical evidence. NASA Images is not a current
-product pillar, roadmap module, or intended core integration. This docs-only
-positioning task does not claim that the legacy code was removed.
+The local dashboard's former NASA Images browser GETs have been retired from
+`site/dashboard.html` / `site/js/dashboard.js` under
+`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`, implemented on branch
+`fix/mellycore-source-arena-nasa-runtime-retirement-001` (PR #15: visual
+acceptance complete — `PASS_WITH_NON_BLOCKING_NOTES`; the two P2 findings
+(procedural swatch palette, mission-rail scrollbar theming) resolved in a
+follow-up commit; ready for the final merge-gate review). The Source Arena
+tab now renders a local, deterministic Source Archive dataset — zero
+external requests, no API key. Historical NASA task reports and `v0.2.0`
+release evidence remain untouched as the historical record. This status is
+accurate for that branch/PR; canonical `main` reflects it only once the PR
+is reviewed and merged.
 
 ## Specified, Not Implemented
 
@@ -54,10 +62,12 @@ An accepted Source Arena Hybrid renderer decision
 **ACCEPTED**, 2026-07-20, decision/specification level only) narrowly permits
 a WebGL-enhanced renderer — one pinned, vendored Three.js ESM module, paired
 with a mandatory complete CSS/DOM fallback — for Source Arena's central stage
-only. Neither renderer is implemented; no dependency has been vendored; NASA
-runtime retirement (accepted by this ADR as a future requirement) has not
-been executed; both require their own separately-authorized implementation
-task.
+only. Neither renderer is implemented; no dependency has been vendored. NASA
+runtime retirement (accepted by this ADR as a prerequisite) is implemented
+locally on `fix/mellycore-source-arena-nasa-runtime-retirement-001` (PR #15,
+visual acceptance complete, ready for final merge-gate review, not yet
+merged); the renderer and vendoring themselves remain unimplemented and
+require their own separately-authorized implementation task.
 
 ## Planned Direction
 
