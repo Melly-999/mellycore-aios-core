@@ -3,7 +3,7 @@
 **Task ID:** MELLYCORE-OPERATIONS-DATA-CONTRACT-001
 **Version:** 1.0
 **Status:** Documentation/fixture/schema contract only. No runtime, backend, adapter, UI, scheduler, provider integration, hardware telemetry, or execution is authorized or created by this document.
-**Scope:** Translates the logical contracts approved in `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` (integrated into canonical `main` via PR #7) into eleven concrete, dashboard-facing fixture-level entities — `operation_run`, `task_record`, `agent_identity`, `model_provider_usage`, `token_cost_record`, `validation_result`, `artifact_record`, `environment_capability_snapshot`, `approval_gate`, `safety_status`, `recommendation_ledger_entry` — with their required/optional fields, allowed status values, forbidden claims, example fixtures, and dashboard display semantics.
+**Scope:** Translates the logical contracts approved in `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` (integrated into canonical `main` via PR #7) into fourteen concrete, dashboard-facing fixture-level entities — `operation_run`, `task_record`, `agent_identity`, `model_provider_usage`, `token_cost_record`, `validation_result`, `artifact_record`, `environment_capability_snapshot`, `approval_gate`, `safety_status`, `recommendation_ledger_entry`, `ai_estate_asset`, `skill_gap_candidate`, `memory_freshness_record` — with their required/optional fields, allowed status values, forbidden claims, example fixtures, and dashboard display semantics.
 
 ---
 
@@ -15,11 +15,11 @@ This document and its companion machine-readable files under `shared_context/ope
 
 ### 1.2 Relationship to the AI Operations Intelligence spec (source of truth)
 
-This document does **not** redefine the logical records in `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §4–§9 (AI Estate Inventory, Unified Run Ledger, Skill Gap Detector, Memory Freshness Monitor, Recommendation Ledger, Approval Contract). It decomposes and cross-references them into eleven concrete, narrower entities suited to dashboard rendering and deterministic fixture testing. Where a field, enum, or rule already exists in that spec or in `[[../../shared_context/loops/RUN_LEDGER_SCHEMA]]`, this document reuses it by reference and MUST NOT restate it incompatibly. This satisfies `MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001` §16 item 1 ("exact next task").
+This document does **not** redefine the logical records in `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §4–§9 (AI Estate Inventory, Unified Run Ledger, Skill Gap Detector, Memory Freshness Monitor, Recommendation Ledger, Approval Contract). It decomposes and cross-references them into fourteen concrete, narrower entities suited to dashboard rendering and deterministic fixture testing — eleven authored fresh (Sections 2.1–2.11) and three (`ai_estate_asset`, `skill_gap_candidate`, `memory_freshness_record`, Sections 2.12–2.14) folded in from reviewed prior art per `MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001`. Where a field, enum, or rule already exists in that spec or in `[[../../shared_context/loops/RUN_LEDGER_SCHEMA]]`, this document reuses it by reference and MUST NOT restate it incompatibly. This satisfies `MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001` §16 item 1 ("exact next task").
 
 ### 1.3 Relationship to prior unpushed work
 
-A separate local branch, `docs/mellycore-operations-data-contract-001` (dated 2026-07-19, never pushed to `clean-origin`, not referenced as canonical by any shared-context file — see `shared_context/PROJECT_STATE.md`, `ROADMAP.md`, `RUN_QUEUE.md`, `AGENT_HANDOFF.md`, all of which explicitly state its content is not claimed canonical), contains an earlier, differently-scoped attempt at an operations data contract (AI Estate Inventory, Unified Run Ledger, Skill Gap Candidate, Memory Freshness, Recommendation Ledger, Approval Record, and a ten-value Truthful-State Labels reference). That branch is based on a `main` commit roughly ten merged pull requests behind current canonical `main` and was not rebased or reconciled as part of this task — doing so would require conflict resolution in `shared_context/*`, which this task's authorization does not permit. This document is a fresh authoring pass against current canonical `main` and the operator's current eleven-entity specification; reconciling or superseding the older branch is explicitly deferred to a future, separately authorized task (Section 6).
+A separate local branch, `docs/mellycore-operations-data-contract-001` (dated 2026-07-19, never pushed to `clean-origin`, not referenced as canonical by any shared-context file — see `shared_context/PROJECT_STATE.md`, `ROADMAP.md`, `RUN_QUEUE.md`, `AGENT_HANDOFF.md`, all of which explicitly state its content is not claimed canonical), contains an earlier, differently-scoped attempt at an operations data contract (AI Estate Inventory, Unified Run Ledger, Skill Gap Candidate, Memory Freshness, Recommendation Ledger, Approval Record, and a ten-value Truthful-State Labels reference). That branch is based on a `main` commit roughly ten merged pull requests behind current canonical `main` and was not rebased or reconciled as part of this task — doing so would require conflict resolution in `shared_context/*`, which this task's authorization does not permit. This document is a fresh authoring pass against current canonical `main` and the operator's original eleven-entity specification; reconciling or superseding the older branch was deferred to a future, separately authorized task (Section 6) at authoring time. That task has since run and folded in three of the older branch's entities, bringing this document to fourteen — see Section 6 for the current, up-to-date status.
 
 ### 1.4 Non-goals (explicit)
 
@@ -307,6 +307,83 @@ Every entity's JSON Schema definition lives in `shared_context/operations/OPERAT
 
 **Dashboard display semantics.** Rendered as a lifecycle timeline; `dashboard_status: requires operator approval` is shown prominently whenever `status` is `RECOMMENDED` and no valid `approval_ref` exists yet.
 
+### 2.12 `ai_estate_asset`
+
+**Purpose.** Fixture-level view of one AI Estate Inventory asset (a model, agent, skill, tool, or governed surface available to MellyCore). Preserves `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §4 exactly. Folded in from prior art on `docs/mellycore-operations-data-contract-001` (2026-07-19); adapted to add `dashboard_status`, which that branch's schema predates.
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `schema_version` | string | yes | |
+| `asset_id` | string | yes | Stable unique identifier; must not encode volatile data. A change of provider or model identity produces a **new** `asset_id` — the prior record is retired, never mutated in place. |
+| `provider` | string | yes | Normalized provider identity; unresolved/unrecognized is `UNKNOWN`, never guessed. |
+| `authentication_mode` | enum | yes | `NONE` \| `ENV_REFERENCE` \| `OS_CREDENTIAL_STORE` \| `CLI_SESSION` \| `MANAGED_IDENTITY` \| `EXTERNAL_OPERATOR_SESSION` \| `UNKNOWN`. Mode/availability only — never a credential, key, or token, and never a live-session claim. |
+| `status` | enum | yes | `AVAILABLE` \| `DEGRADED` \| `UNAVAILABLE` \| `UNVALIDATED` \| `RETIRED` \| `UNKNOWN`. Distinct from `truthful_state`: `status` is operational availability; `truthful_state` is evidence quality. A newly inventoried asset is `UNVALIDATED` until confirmed — never inferred as `AVAILABLE` from a record's mere presence. |
+| `dashboard_status` | enum | yes | Section 1.6 vocabulary. |
+| `truthful_state` | enum | yes | §1.9 glossary. |
+| `model` | string \| null | no | Normalized model identity; `null`/`UNKNOWN` if this asset is not a model (e.g. a tool). |
+| `purpose` | string \| null | no | Routing role or tool function, e.g. `reasoning`, `review`, `retrieval`. |
+| `cost_class` | enum \| null | no | `FREE` \| `TRIAL` \| `METERED` \| `SUBSCRIPTION` \| `LOCAL_COMPUTE` \| `UNKNOWN`. Distinct from any measured run cost, which belongs to `token_cost_record`. |
+| `capabilities` | array | no | Controlled vocabulary (e.g. `text_generation`, `code`, `reasoning`, `review`, `vision`, `tool_use`, `embedding`); an unrecognized capability is `UNKNOWN`, never invented. |
+| `allowed_projects` | array | no | Projects this asset may serve. Must honor the MellyTrade boundary — no estate asset is allowed for trading/broker runtime use. An empty array means inventoried but not authorized for any project, never "authorized for all." |
+| `last_validated_at` | timestamp \| null | no | `null` means never validated. |
+| `freshness_state` | enum \| null | no | `FRESH` \| `EXPIRING` \| `STALE` \| `UNKNOWN`. Independent of trust. |
+| `provenance` | object \| null | no | Reuses the `ContextSource` vocabulary (`source_type`, `verification_state`, `trust_level`); does not invent new terms. |
+| `sensitivity` | enum \| null | no | `public` \| `internal` \| `private` \| `secret` \| `regulated_high_risk`. `secret`/`regulated_high_risk` must never resolve to the sensitive content itself, only its classification. |
+| `notes` | string \| null | no | Must never contain secrets, credentials, `.env` values, or account identifiers. |
+
+**Forbidden claims.** `authentication_mode` MUST NOT contain an API key, access/refresh token, cookie, private key, password, or any raw secret value. A capability claim must be evidence-backed or marked unvalidated. `allowed_projects` MUST NOT include any MellyTrade trading/broker runtime use.
+
+**Dashboard display semantics.** Rendered as an inventory row; `status` and `truthful_state` are shown as two distinct badges, never merged — an asset can be `AVAILABLE` (works) yet `SIMULATED` (not real evidence), or `UNVALIDATED` yet `IMPLEMENTED` (the record itself is real, its validation is pending).
+
+### 2.13 `skill_gap_candidate`
+
+**Purpose.** Fixture-level view of one Skill Gap Detector candidate — a **recommendation-only** record. Preserves `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §6 exactly, including the hard rule that this entity never authorizes creating, modifying, installing, or activating a skill. Folded in from prior art on `docs/mellycore-operations-data-contract-001` (2026-07-19); adapted to add `dashboard_status` and a required `schema_version` (the source schema omitted both).
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `schema_version` | string | yes | Added during fold-in for consistency with every other entity in this contract. |
+| `candidate_id` | string | yes | |
+| `observed_pattern` | string | yes | The repeated `pattern_key` this candidate is based on; must not contain secrets or `regulated_high_risk`/MellyTrade content. |
+| `occurrence_count` | integer | yes | Minimum `3`. A pattern observed fewer than three times is an observation, not a candidate, and MUST NOT appear under this entity. |
+| `evidence_refs` | array | yes | At least one entry; must cite the specific evidence establishing `occurrence_count`. |
+| `recommendation_state` | enum | yes | `candidate` \| `rejected` \| `expired` \| `superseded` — the **only** permitted lifecycle; no value implies a skill was created, modified, installed, or activated. |
+| `operator_decision` | enum \| null | yes | `approved_for_future_authoring` \| `rejected` \| `null` (until reviewed). Even `approved_for_future_authoring` does not itself create, modify, install, or activate anything. |
+| `dashboard_status` | enum | yes | Section 1.6 vocabulary. |
+| `truthful_state` | enum | yes | §1.9 glossary. |
+| `sensitivity` | enum \| null | no | `public` \| `internal` \| `private` \| `secret` \| `regulated_high_risk`. |
+| `allowed_use` | string \| null | no | Derived from `sensitivity` per the Context Gate allowed-use matrix; never looser than the default without a stated rationale. |
+| `expires_at` | timestamp \| null | no | A candidate past `expires_at` transitions to `expired`, not silently deleted. |
+| `provenance` | object \| null | no | Reuses the `ContextSource` vocabulary. |
+
+**Forbidden claims (hard rule).** A record conforming to this entity MUST NOT be read as authorizing skill creation, modification, installation, activation, instruction changes, permission grants, or commit/push. Its only output is a candidate for operator review. A candidate the operator rejects MUST NOT be immediately re-raised.
+
+**Dashboard display semantics.** Rendered as a review queue item; `recommendation_state: candidate` with `operator_decision: null` is shown as `dashboard_status: requires operator approval`.
+
+### 2.14 `memory_freshness_record`
+
+**Purpose.** Read-only, fixture-level view of the freshness, trust, and sensitivity of one knowledge/memory/context/recommendation input. Preserves `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §7 exactly, including the five distinct properties (exists / trusted / fresh / relevant / authorized) that must never be conflated. Integrates with, and does not redefine, `[[MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001]]`. Folded in from prior art on `docs/mellycore-operations-data-contract-001` (2026-07-19); adapted to add `dashboard_status` and a required `schema_version` (the source schema omitted both).
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `schema_version` | string | yes | Added during fold-in for consistency with every other entity in this contract. |
+| `memory_ref` | string | yes | Stable identifier of the memory/context item this record describes. |
+| `source_ref` | string | yes | Reference to the originating `ContextSource` record or evidence. |
+| `freshness_state` | enum | yes | `FRESH` \| `EXPIRING` \| `STALE` \| `UNKNOWN` \| `INVALID`. A `STALE` item is flagged for human review, never auto-deleted, hidden, or silently refreshed. |
+| `trust_level` | enum | yes | `high` \| `medium` \| `low`. Independent of freshness. MUST NOT be automatically elevated — raising `trust_level` requires a stated human rationale. |
+| `relevance` | enum | yes | `relevant` \| `not_relevant` \| `unknown`. Distinct from existence, trust, freshness, and authorization. |
+| `authorization_state` | enum | yes | `authorized_for_task` \| `not_authorized_for_task` \| `unknown`. A record can be relevant but unauthorized for the current task's sensitivity boundary. |
+| `sensitivity_level` | enum | yes | `public` \| `internal` \| `private` \| `secret` \| `regulated_high_risk`. `secret`/`regulated_high_risk` items MUST NOT be silently refreshed or re-fetched — the correct behavior is refusal plus a content-free refusal note. |
+| `dashboard_status` | enum | yes | Section 1.6 vocabulary. |
+| `truthful_state` | enum | yes | §1.9 glossary. Distinct from `freshness_state`: `truthful_state` describes whether this record itself is real/exercised evidence versus a specified/planned/simulated placeholder; `freshness_state` describes the age/validity of the memory item the record is about. |
+| `last_validated_at` | timestamp \| null | no | |
+| `review_after` | timestamp \| null | no | Required when `staleness_policy` is `volatile` or `periodic_review`; `null` for `immutable_historical` facts, which never go stale. |
+| `staleness_policy` | enum \| null | no | `immutable_historical` \| `volatile` \| `periodic_review` — reuses `[[MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001]]` §6 exactly. |
+| `provenance` | object \| null | no | Reuses the `ContextSource` vocabulary (`source_type`, `verification_state`). |
+
+**Forbidden claims.** `trust_level` MUST NOT be silently elevated. `secret`/`regulated_high_risk` items MUST NOT be silently refreshed. `freshness_state: STALE` MUST NOT be hidden or auto-corrected.
+
+**Dashboard display semantics.** Rendered with all five properties visible independently (exists / trusted / fresh / relevant / authorized are never merged into one badge); a `STALE` or `INVALID` record is always shown, flagged for human review.
+
 ---
 
 ## 3. Companion Machine-Readable Files
@@ -338,4 +415,6 @@ This document satisfies `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §16
 
 **Decision recorded by `MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001`.** That task compared this branch (`docs/mellycore-operations-data-contract-001-v2`) against the unpushed local branch `docs/mellycore-operations-data-contract-001` (Section 1.3) and found: (1) this branch's merge-base with `clean-origin/main` is current (`edf56ea4cace434c3e4cc52dcfe17984ba9f76ea`, zero drift), while the older branch's merge-base (`06a7a421a06abbe38450d276af94985da8ddeba0`) is roughly ten merged pull requests behind, and its own `shared_context/PROJECT_STATE.md`, `ROADMAP.md`, `RUN_QUEUE.md`, `AGENT_HANDOFF.md` edits would require conflict resolution against current canonical `main` to reconcile; (2) no semantic contradiction exists between the two branches' content — they differ in scope and granularity, not in conflicting facts; (3) the older branch's `APPROVAL_RECORD`, `RECOMMENDATION_LEDGER`, and `UNIFIED_RUN_LEDGER` schema/example pairs are conceptually superseded, for dashboard purposes, by this document's `approval_gate`, `recommendation_ledger_entry`, and `operation_run`/`token_cost_record`/`model_provider_usage`/`validation_result` decomposition; (4) the older branch's `AI_ESTATE_SCHEMA`/`.example`, `SKILL_GAP_CANDIDATE_SCHEMA`/`.example`, `MEMORY_FRESHNESS_SCHEMA`/`.example`, and `TRUTHFUL_STATE_LABELS.md` are **not** superseded — they address AI Operations Intelligence §4, §6, and §7 domains this document does not cover, are well-formed JSON, pass an overclaim grep, and were judged reviewer-quality (documentation-contract-only descriptions, mode-only `authentication_mode`, ten-value truthful-state cross-references). Those files also cross-reference each other (each schema points at `shared_context/operations/TRUTHFUL_STATE_LABELS.md`), so they must be folded in together, as a reviewed set, not copied individually.
 
-**This branch (`-v2`) is confirmed as the canonical integration candidate** for `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`. The older branch was not checked out, rebased, merged, deleted, or pushed. Folding the four non-superseded file pairs above into a later revision of this contract is deferred to a separate, explicitly authorized follow-up task (recommended name: `MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001`), since it requires its own content review rather than a blind file copy.
+**This branch (`-v2`) is confirmed as the canonical integration candidate** for `MELLYCORE-OPERATIONS-DATA-CONTRACT-001`. The older branch was not checked out, rebased, merged, deleted, or pushed.
+
+**Fold-in completed by `MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001`.** The three non-superseded schema/example pairs — `AI_ESTATE_SCHEMA`/`.example` → `ai_estate_asset` (Section 2.12), `SKILL_GAP_CANDIDATE_SCHEMA`/`.example` → `skill_gap_candidate` (Section 2.13), `MEMORY_FRESHNESS_SCHEMA`/`.example` → `memory_freshness_record` (Section 2.14) — were reviewed, adapted to add `dashboard_status` (absent in the source schemas, which predate the seven-value vocabulary in Section 1.6), and folded into this document and its companion `OPERATIONS_DATA_CONTRACT_SCHEMA.json`/`.example.json` files. `skill_gap_candidate` and `memory_freshness_record` additionally gained a required `schema_version`, which their source schemas omitted, for consistency with every other entity in this contract — per this task's rule against blind-copying weaker status semantics. `TRUTHFUL_STATE_LABELS.md` was folded in as `shared_context/operations/TRUTHFUL_STATE_LABELS.md`, adapted to note it mirrors (and does not compete with) this document's Section 1.6 and the canonical `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §1.9. The older branch remains untouched, deprecated-but-preserved, at commit `036ff244ae030deae71c612ab79a50fa95682fa2`.

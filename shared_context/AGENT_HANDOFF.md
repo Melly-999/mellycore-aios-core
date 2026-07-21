@@ -324,11 +324,16 @@ claim either branch is canonical.
 
 `MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` (task report:
 `docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001.md`)
-has since compared both branches and selected `-v2` as the canonical
-integration candidate; no push or merge was performed. A follow-up task is
-needed to fold in the original branch's AI Estate Inventory, Skill Gap
-Detector, and Memory Freshness Monitor file pairs, which were judged not
-superseded.
+compared both branches and selected `-v2` as the canonical integration
+candidate; no push or merge was performed.
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001` has since
+folded the original branch's AI Estate Inventory, Skill Gap Detector, and
+Memory Freshness Monitor entities plus its Truthful-State Labels reference
+into `-v2` (Sections 2.12–2.14 of the spec document), bringing it to
+fourteen entities. This remains one local commit on `-v2`, not pushed;
+canonical `main` status is still `NOT_PRESENT_PENDING_INTEGRATION`. The next
+step is a separately authorized push + PR task.
 
 ## Next Run (Source Arena Renderer track)
 

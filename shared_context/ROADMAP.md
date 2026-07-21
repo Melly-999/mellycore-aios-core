@@ -58,13 +58,16 @@ which defines eleven dashboard-facing fixture entities
 `main` for both branches: `NOT_PRESENT_PENDING_INTEGRATION`. This roadmap does
 not claim either branch's content is canonical and does not reorder its track.
 
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` has since
-compared both branches and selected `-v2` as the canonical integration
-candidate (no push, no merge); see that document's Section 6 in
-`docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`. Four file pairs
-from the original branch, covering AI Estate Inventory, Skill Gap Detector,
-and Memory Freshness Monitor, were judged not superseded and remain deferred
-to a further, separately authorized follow-up task.
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` compared both
+branches and selected `-v2` as the canonical integration candidate (no push,
+no merge); see that document's Section 6 in
+`docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`. Three entities
+from the original branch — AI Estate Inventory, Skill Gap Detector, and
+Memory Freshness Monitor, plus its Truthful-State Labels reference — were
+judged not superseded and have since been folded into `-v2` by
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001`, bringing
+it to fourteen entities total. This remains local-only (one commit, not
+pushed); canonical `main` status is still `NOT_PRESENT_PENDING_INTEGRATION`.
 
 Planned subject areas (all remain planned; the specification does not implement
 them):

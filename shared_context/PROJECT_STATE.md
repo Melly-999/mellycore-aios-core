@@ -78,14 +78,18 @@ canonical `main` for both branches: `NOT_PRESENT_PENDING_INTEGRATION`. This
 document does not claim either branch's content is canonical and does not
 modify them.
 
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` has since
-compared both branches (no push, no merge) and selected `-v2` as the
-canonical integration candidate; the original branch remains unmerged and
-unpushed. Four of its file pairs address AI Estate Inventory, Skill Gap
-Detector, and Memory Freshness Monitor domains `-v2` does not yet cover and
-are deferred to a further, separately authorized follow-up task. Detailed
-schema and implementation contracts remain deferred to that task's own
-integration and later separately approved work.
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` compared both
+branches (no push, no merge) and selected `-v2` as the canonical integration
+candidate; the original branch remains unmerged and unpushed.
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001` has since
+folded three of the original branch's entities (AI Estate Inventory, Skill
+Gap Detector, Memory Freshness Monitor) plus its Truthful-State Labels
+reference into `-v2`, bringing it to fourteen entities total (still one
+local commit, still not pushed). Status in canonical `main` remains
+`NOT_PRESENT_PENDING_INTEGRATION` — this document does not claim
+integration. Detailed schema and implementation contracts remain deferred to
+a future push/PR task and later separately approved work.
 
 ## Release and Historical Integrity
 

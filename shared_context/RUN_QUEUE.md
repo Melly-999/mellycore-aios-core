@@ -20,14 +20,19 @@ canonical `main` (see `docs/tasks/MELLYCORE-OPERATIONS-DATA-CONTRACT-001.md`
 and `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`); not present
 in canonical `main`. Status in canonical `main`: `NOT_PRESENT_PENDING_INTEGRATION`.
 
-`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` has since
-compared both branches and selected `docs/mellycore-operations-data-contract-001-v2`
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001` compared both
+branches and selected `docs/mellycore-operations-data-contract-001-v2`
 as the canonical integration candidate (see that document's Section 6); the
-original branch was not merged, rebased, deleted, or pushed. Four of its file
-pairs (`AI_ESTATE`, `SKILL_GAP_CANDIDATE`, `MEMORY_FRESHNESS`,
-`TRUTHFUL_STATE_LABELS.md`) were judged not superseded and are deferred to a
-further, separately authorized follow-up task. This entry still does not
-claim either branch's content is canonical in `main`.
+original branch was not merged, rebased, deleted, or pushed. Four of its
+file items (`AI_ESTATE`, `SKILL_GAP_CANDIDATE`, `MEMORY_FRESHNESS` schema/
+example pairs, and `TRUTHFUL_STATE_LABELS.md`) were judged not superseded.
+
+`MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001` has since
+folded all four into `-v2` (adapted to add `dashboard_status`, and
+`schema_version` where absent), bringing `-v2` to fourteen entities total.
+This entry still does not claim either branch's content is canonical in
+`main`: status remains `NOT_PRESENT_PENDING_INTEGRATION` until a push and PR
+are separately authorized.
 
 Type: documentation/fixture-and-schema specification.
 

@@ -148,7 +148,7 @@
     "recommendation_id": "example--recommendation--0001",
     "source_run_ids": ["example--operation-run--0001"],
     "observation_summary": "Illustrative: repeated need for a dashboard-facing operations fixture layer.",
-    "proposed_action": "Illustrative: adopt the eleven-entity Operations Data Contract for future dashboard work.",
+    "proposed_action": "Illustrative: adopt the fourteen-entity Operations Data Contract for future dashboard work.",
     "risk_class": "low",
     "status": "RECOMMENDED",
     "created_at": "2026-07-21T09:04:00Z",
@@ -161,5 +161,69 @@
     "supersedes": null,
     "superseded_by": null,
     "example_notice": "Illustrative only; deliberately left at RECOMMENDED with no approval_ref, implying no execution authority."
+  },
+  "ai_estate_asset": {
+    "schema_version": "1.0",
+    "asset_id": "asset-model-example-001",
+    "provider": "example-provider",
+    "authentication_mode": "ENV_REFERENCE",
+    "status": "UNVALIDATED",
+    "dashboard_status": "fixture/example",
+    "truthful_state": "SIMULATED",
+    "model": "example-model-a",
+    "purpose": "architecture-and-review",
+    "cost_class": "SUBSCRIPTION",
+    "capabilities": ["reasoning", "code", "review"],
+    "allowed_projects": ["mellycore-aios"],
+    "last_validated_at": null,
+    "freshness_state": "UNKNOWN",
+    "provenance": {
+      "source_type": "repo_derived",
+      "verification_state": "unverified",
+      "trust_level": "medium"
+    },
+    "sensitivity": "internal",
+    "notes": "Illustrative example only; not a real inventoried asset.",
+    "example_notice": "Illustrative only. Not live data, not evidence of a real asset, not execution authority, not provider-account data. Folded in and adapted (dashboard_status added) from docs/mellycore-operations-data-contract-001's AI_ESTATE.example.json. No AI Estate Inventory backend exists."
+  },
+  "skill_gap_candidate": {
+    "schema_version": "1.0",
+    "candidate_id": "gap-example-001",
+    "observed_pattern": "repeated-local-validation-sequence",
+    "occurrence_count": 4,
+    "evidence_refs": ["example-run-1", "example-run-2", "example-run-3", "example-run-4"],
+    "recommendation_state": "candidate",
+    "operator_decision": null,
+    "dashboard_status": "requires operator approval",
+    "truthful_state": "SIMULATED",
+    "sensitivity": "internal",
+    "allowed_use": "internal_summary_display",
+    "expires_at": "2026-08-15T00:00:00Z",
+    "provenance": {
+      "source_type": "generated",
+      "verification_state": "unverified",
+      "trust_level": "low"
+    },
+    "example_notice": "Illustrative only. Not live data, not evidence of a real candidate, not execution authority, not provider-account data. Folded in and adapted (dashboard_status and schema_version added) from docs/mellycore-operations-data-contract-001's SKILL_GAP_CANDIDATE.example.json. No Skill Gap Detector exists; nothing here creates, modifies, installs, or activates any skill."
+  },
+  "memory_freshness_record": {
+    "schema_version": "1.0",
+    "memory_ref": "mem-example-001",
+    "source_ref": "ctx-example-current-state-fact",
+    "freshness_state": "STALE",
+    "trust_level": "medium",
+    "relevance": "relevant",
+    "authorization_state": "authorized_for_task",
+    "sensitivity_level": "internal",
+    "dashboard_status": "fixture/example",
+    "truthful_state": "SIMULATED",
+    "last_validated_at": "2026-07-01T00:00:00Z",
+    "review_after": "2026-07-15T00:00:00Z",
+    "staleness_policy": "volatile",
+    "provenance": {
+      "source_type": "repo_derived",
+      "verification_state": "unverified"
+    },
+    "example_notice": "Illustrative only. Not live data, not evidence of a real memory record, not execution authority, not provider-account data. Folded in and adapted (dashboard_status and schema_version added) from docs/mellycore-operations-data-contract-001's MEMORY_FRESHNESS.example.json. No Memory Freshness Monitor exists. Deliberately shown STALE to demonstrate it is flagged, not hidden or auto-refreshed."
   }
 }

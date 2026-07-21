@@ -4,14 +4,19 @@ This directory holds the machine-readable companions to
 `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`:
 
 - `OPERATIONS_DATA_CONTRACT_SCHEMA.json` — one JSON Schema (draft-07) document
-  defining the eleven fixture-level entities (`operation_run`, `task_record`,
-  `agent_identity`, `model_provider_usage`, `token_cost_record`,
-  `validation_result`, `artifact_record`,
+  defining fourteen fixture-level entities: eleven authored fresh
+  (`operation_run`, `task_record`, `agent_identity`, `model_provider_usage`,
+  `token_cost_record`, `validation_result`, `artifact_record`,
   `environment_capability_snapshot`, `approval_gate`, `safety_status`,
-  `recommendation_ledger_entry`). Documentation contract only — not runtime
-  config, not live data ingestion, not execution authority.
+  `recommendation_ledger_entry`) plus three (`ai_estate_asset`,
+  `skill_gap_candidate`, `memory_freshness_record`) folded in from reviewed
+  prior art via `MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001`.
+  Documentation contract only — not runtime config, not live data ingestion,
+  not execution authority.
 - `OPERATIONS_DATA_CONTRACT.example.json` — one hand-authored, explicitly
   labeled example fixture per entity, matching the schema above.
+- `TRUTHFUL_STATE_LABELS.md` — a folded-in reference doc mirroring (not
+  replacing) the canonical ten-value glossary; see that file for details.
 
 ## Truthfulness
 
@@ -38,5 +43,11 @@ An earlier, unpushed local branch (`docs/mellycore-operations-data-contract-001`
 2026-07-19) contains a differently-scoped attempt at an operations data
 contract (AI Estate Inventory, Unified Run Ledger, Skill Gap Candidate,
 Memory Freshness, Recommendation Ledger, Approval Record, and a ten-value
-Truthful-State Labels reference). That branch was not merged, rebased, or
-reconciled with this directory — see the spec document, Sections 1.3 and 6.
+Truthful-State Labels reference). That branch itself was never merged,
+rebased, or pushed. Three of its entities (AI Estate, Skill Gap, Memory
+Freshness) and its Truthful-State Labels reference were reviewed and folded
+into this directory, adapted to add `dashboard_status`; the other three
+(Unified Run Ledger, Recommendation Ledger, Approval Record) were judged
+conceptually superseded by this directory's finer decomposition and were not
+folded in. See the spec document, Sections 1.3 and 6, for the full
+comparison and decision record.

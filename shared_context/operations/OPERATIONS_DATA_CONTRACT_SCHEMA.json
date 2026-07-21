@@ -16,7 +16,10 @@
     "environment_capability_snapshot",
     "approval_gate",
     "safety_status",
-    "recommendation_ledger_entry"
+    "recommendation_ledger_entry",
+    "ai_estate_asset",
+    "skill_gap_candidate",
+    "memory_freshness_record"
   ],
   "additionalProperties": true,
   "properties": {
@@ -31,7 +34,10 @@
     "environment_capability_snapshot": { "$ref": "#/$defs/environment_capability_snapshot" },
     "approval_gate": { "$ref": "#/$defs/approval_gate" },
     "safety_status": { "$ref": "#/$defs/safety_status" },
-    "recommendation_ledger_entry": { "$ref": "#/$defs/recommendation_ledger_entry" }
+    "recommendation_ledger_entry": { "$ref": "#/$defs/recommendation_ledger_entry" },
+    "ai_estate_asset": { "$ref": "#/$defs/ai_estate_asset" },
+    "skill_gap_candidate": { "$ref": "#/$defs/skill_gap_candidate" },
+    "memory_freshness_record": { "$ref": "#/$defs/memory_freshness_record" }
   },
   "$defs": {
     "dashboard_status": {
@@ -300,6 +306,118 @@
         "expires_at": { "type": ["string", "null"] },
         "supersedes": { "type": ["string", "null"] },
         "superseded_by": { "type": ["string", "null"] }
+      }
+    },
+    "ai_estate_asset": {
+      "type": "object",
+      "description": "Folded in from docs/mellycore-operations-data-contract-001 (2026-07-19) via MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001, adapted to add dashboard_status.",
+      "required": ["schema_version", "asset_id", "provider", "authentication_mode", "status", "dashboard_status", "truthful_state"],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "asset_id": { "type": "string" },
+        "provider": { "type": "string" },
+        "authentication_mode": {
+          "type": "string",
+          "enum": ["NONE", "ENV_REFERENCE", "OS_CREDENTIAL_STORE", "CLI_SESSION", "MANAGED_IDENTITY", "EXTERNAL_OPERATOR_SESSION", "UNKNOWN"],
+          "description": "Mode/availability only. MUST NEVER contain an API key, access/refresh token, cookie, private key, password, or other secret value, and never a live-session claim."
+        },
+        "status": { "type": "string", "enum": ["AVAILABLE", "DEGRADED", "UNAVAILABLE", "UNVALIDATED", "RETIRED", "UNKNOWN"] },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "model": { "type": ["string", "null"] },
+        "purpose": { "type": ["string", "null"] },
+        "cost_class": { "type": ["string", "null"], "enum": ["FREE", "TRIAL", "METERED", "SUBSCRIPTION", "LOCAL_COMPUTE", "UNKNOWN", null] },
+        "capabilities": { "type": "array", "items": { "type": "string" } },
+        "allowed_projects": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Must honor the MellyTrade boundary -- no estate asset is allowed for trading/broker runtime use."
+        },
+        "last_validated_at": { "type": ["string", "null"] },
+        "freshness_state": { "type": ["string", "null"], "enum": ["FRESH", "EXPIRING", "STALE", "UNKNOWN", null] },
+        "provenance": {
+          "type": ["object", "null"],
+          "properties": {
+            "source_type": { "type": "string", "enum": ["user_provided", "repo_derived", "generated", "externally_sourced"] },
+            "verification_state": { "type": "string", "enum": ["verified", "unverified"] },
+            "trust_level": { "type": "string", "enum": ["high", "medium", "low"] }
+          }
+        },
+        "sensitivity": { "type": ["string", "null"], "enum": ["public", "internal", "private", "secret", "regulated_high_risk", null] },
+        "notes": {
+          "type": ["string", "null"],
+          "description": "MUST NEVER contain secrets, credentials, .env values, or account identifiers."
+        }
+      }
+    },
+    "skill_gap_candidate": {
+      "type": "object",
+      "description": "RECOMMENDATION-ONLY. MUST NOT be read as authorizing skill creation, modification, installation, activation, instruction changes, permission grants, or commit/push. Folded in from docs/mellycore-operations-data-contract-001 (2026-07-19) via MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001, adapted to add dashboard_status and a required schema_version (absent in the source schema).",
+      "required": [
+        "schema_version", "candidate_id", "observed_pattern", "occurrence_count",
+        "evidence_refs", "recommendation_state", "operator_decision", "dashboard_status", "truthful_state"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "candidate_id": { "type": "string" },
+        "observed_pattern": { "type": "string" },
+        "occurrence_count": {
+          "type": "integer",
+          "minimum": 3,
+          "description": "A pattern observed fewer than three times is an observation, not a candidate, and MUST NOT appear under this entity."
+        },
+        "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "recommendation_state": {
+          "type": "string",
+          "enum": ["candidate", "rejected", "expired", "superseded"],
+          "description": "The only permitted lifecycle. No value implies a skill was created, modified, installed, or activated."
+        },
+        "operator_decision": { "type": ["string", "null"], "enum": ["approved_for_future_authoring", "rejected", null] },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "sensitivity": { "type": ["string", "null"], "enum": ["public", "internal", "private", "secret", "regulated_high_risk", null] },
+        "allowed_use": { "type": ["string", "null"] },
+        "expires_at": { "type": ["string", "null"] },
+        "provenance": { "type": ["object", "null"] }
+      }
+    },
+    "memory_freshness_record": {
+      "type": "object",
+      "description": "Read-only. Integrates with, and MUST NOT replace or redefine, the Context Gate provenance/sensitivity model. truthful_state is distinct from freshness_state: truthful_state describes whether this record itself is real/exercised evidence versus a specified/planned/simulated placeholder; freshness_state describes the age/validity of the memory item the record is about. Folded in from docs/mellycore-operations-data-contract-001 (2026-07-19) via MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001, adapted to add dashboard_status and a required schema_version (absent in the source schema).",
+      "required": [
+        "schema_version", "memory_ref", "source_ref", "freshness_state", "trust_level",
+        "relevance", "authorization_state", "sensitivity_level", "dashboard_status", "truthful_state"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "schema_version": { "type": "string" },
+        "memory_ref": { "type": "string" },
+        "source_ref": { "type": "string" },
+        "freshness_state": {
+          "type": "string",
+          "enum": ["FRESH", "EXPIRING", "STALE", "UNKNOWN", "INVALID"],
+          "description": "A STALE item is flagged for human review, never auto-deleted, hidden, or silently refreshed."
+        },
+        "trust_level": {
+          "type": "string",
+          "enum": ["high", "medium", "low"],
+          "description": "MUST NOT be automatically elevated; raising trust_level requires a stated human rationale."
+        },
+        "relevance": { "type": "string", "enum": ["relevant", "not_relevant", "unknown"] },
+        "authorization_state": { "type": "string", "enum": ["authorized_for_task", "not_authorized_for_task", "unknown"] },
+        "sensitivity_level": {
+          "type": "string",
+          "enum": ["public", "internal", "private", "secret", "regulated_high_risk"],
+          "description": "secret and regulated_high_risk items MUST NOT be silently refreshed or re-fetched."
+        },
+        "dashboard_status": { "$ref": "#/$defs/dashboard_status" },
+        "truthful_state": { "$ref": "#/$defs/truthful_state" },
+        "last_validated_at": { "type": ["string", "null"] },
+        "review_after": { "type": ["string", "null"] },
+        "staleness_policy": { "type": ["string", "null"], "enum": ["immutable_historical", "volatile", "periodic_review", null] },
+        "provenance": { "type": ["object", "null"] }
       }
     }
   }
