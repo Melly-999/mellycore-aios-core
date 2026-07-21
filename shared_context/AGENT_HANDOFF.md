@@ -2,6 +2,26 @@
 
 ## Latest Completed Task (this track)
 
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005`
+
+- An independent review of `-P2-REMEDIATION-004` (below) returned
+  `NEEDS_FIXES`: `RUN_QUEUE.md`'s Deferred Work summary for this ADR still
+  named the already-completed
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`
+  as an unqualified "exact next task." `-P2-REMEDIATION-005` (this entry)
+  corrected that single pointer only — no other scope.
+- The Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION` and
+  continues to have no ordering relationship, prerequisite, gate, blocker,
+  dependency, or sequencing-step relationship with this renderer track or
+  with `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` (recorded below).
+- Docs-only. No site/runtime code, dependency file, or Three.js distribution
+  was added or modified; no NASA retirement, provider integration, release,
+  or deployment occurred.
+- Exact next task:
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`
+
+## Prior Completed Task (this track, PR #10 merge, REMEDIATION-002 through -004)
+
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-004`
 
 - PR #9 (this track's documentation-state sync, including
@@ -24,18 +44,15 @@
   ADR Section 31 and `RUN_QUEUE.md`; this file's "Exact next task" pointer
   still named the already-completed PR #9 publication task; and
   `RUN_QUEUE.md` still described its own completed review as "not started."
-  `-P2-REMEDIATION-004` (this entry) fixes all three, restating the
-  no-ordering-relationship semantics unambiguously across the ADR,
-  `RUN_QUEUE.md`, and this file, and correcting both stale pointers.
-- The Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION` and
-  has no ordering relationship, prerequisite, gate, blocker, dependency, or
-  sequencing-step relationship with this renderer track or with
-  `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` throughout.
-- Docs-only across every step above. No site/runtime code, dependency file,
-  or Three.js distribution was added or modified; no NASA retirement,
-  provider integration, release, or deployment occurred.
-- Exact next task:
-  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-004-REVIEW-001`
+  `-P2-REMEDIATION-004` fixed all three, restating the no-ordering-relationship
+  semantics unambiguously across the ADR, `RUN_QUEUE.md`, and this file, and
+  correcting both stale pointers.
+- Docs-only throughout. No site/runtime code, dependency file, or Three.js
+  distribution was added or modified; no NASA retirement, provider
+  integration, release, or deployment occurred.
+- This task's then-exact-next-task pointer (`-P2-REMEDIATION-004-REVIEW-001`)
+  was completed: it found the further stale pointer described above,
+  superseded by `-P2-REMEDIATION-005` (recorded above).
 
 ## Prior Completed Task (this track, PR #9 merge)
 
@@ -278,9 +295,9 @@ implementation is **`NOT_STARTED`**: no Three.js file, renderer code, or
 NASA-retirement change exists anywhere in the repository. The exact next
 task in this parallel track is:
 
-`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-004-REVIEW-001`
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`
 
-That task is an independent review of the P2-REMEDIATION-004 documentation
+That task is an independent review of the P2-REMEDIATION-005 documentation
 fix only — it must not implement the renderer, vendor Three.js, retire
 NASA, touch `site/`, or push/PR/merge. After it passes,
 `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` requires its own

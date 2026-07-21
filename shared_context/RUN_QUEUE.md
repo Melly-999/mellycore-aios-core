@@ -151,12 +151,22 @@ is pending, in progress, or complete.
    publication task; and this file's own item 2m still described its review
    as "not started" after it had, in fact, completed (2n above).
 2r. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-004`
-   — this entry (docs-only): removed the residual ordering wording from this
-   file and ADR Section 31, corrected `AGENT_HANDOFF.md`'s stale task
-   pointer, and corrected this file's stale review-status claim. No
-   renderer, CSS fallback, Three.js, NASA, runtime, release, or deployment
-   change. Exact next task:
-   `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-004-REVIEW-001`
+   — removed the residual ordering wording from this file and ADR Section
+   31, corrected `AGENT_HANDOFF.md`'s stale task pointer, and corrected this
+   file's stale review-status claim. No renderer, CSS fallback, Three.js,
+   NASA, runtime, release, or deployment change. That entry's then-next-task
+   did not remain "not started": it ran to completion, recorded in 2s–2t
+   below.
+2s. Independent review of `-P2-REMEDIATION-004` returned `NEEDS_FIXES`: a
+   further stale, unqualified "exact next task" pointer to the
+   already-completed `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`
+   remained in this file's Deferred Work summary for the renderer ADR
+   (above).
+2t. `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005`
+   — this entry (docs-only): corrected that pointer. No renderer, CSS
+   fallback, Three.js, NASA, runtime, release, or deployment change. Exact
+   next task:
+   `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`
    (independent review of this remediation; not started).
 3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
    API calls and `nasa-*` active runtime handles from the Source Arena surface,
@@ -213,9 +223,12 @@ retire, or release anything; runtime implementation for tasks 3–6 remains
   acceptance remediation 001 → acceptance review 002 `PASS` → pushed and
   opened as PR #8 → PR review `PASS` → marked ready (Sourcery waived as
   unavailable, not passed) → merged. No Three.js implementation, dependency
-  vendoring, NASA runtime retirement, or release/deployment exists; exact next
-  task:
-  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`.
+  vendoring, NASA runtime retirement, or release/deployment exists. That
+  entry's then-next-task,
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`,
+  has since completed (see the Parallel Decision Track above, items 2n–2r);
+  the current exact next task is
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`.
 
 ## Standing Safety Gate
 
