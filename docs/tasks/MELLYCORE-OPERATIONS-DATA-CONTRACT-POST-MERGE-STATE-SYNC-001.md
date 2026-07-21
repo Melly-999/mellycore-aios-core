@@ -120,10 +120,13 @@ separately records canonical-`main` integration — so this is a redundant
 label difference, not a contradiction; touching it was judged unnecessary
 scope for this ODC-focused task and was left alone.
 
-Intentionally unchanged: `README.md` (still contains one stale
-`NOT_PRESENT_PENDING_INTEGRATION` reference to the ODC at lines 40–43 — not
-in this task's authorized file list; flagged below as a remaining risk for a
-follow-up task); all `docs/tasks/*.md` historical reports other than the one
+Intentionally unchanged by this original task: `README.md` (at the time this
+report was first written, it still contained one stale
+`NOT_PRESENT_PENDING_INTEGRATION` reference to the ODC at lines 40–43 because
+it was outside this task's authorized file list; that reference was
+subsequently corrected by follow-up commit `77d7f5e` within the same PR
+branch and is no longer an outstanding risk); all `docs/tasks/*.md`
+historical reports other than the one
 explicitly annotated above (including every Source Arena renderer track
 report, `MELLYCORE-OPERATIONS-DATA-CONTRACT-AI-ESTATE-SKILLGAP-MEMORY-001.md`,
 and `MELLYCORE-OPERATIONS-DATA-CONTRACT-BRANCH-RECONCILIATION-001.md`, whose
