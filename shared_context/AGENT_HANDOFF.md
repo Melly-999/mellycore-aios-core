@@ -2,24 +2,81 @@
 
 ## Latest Completed Task (this track)
 
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005`
+
+- An independent review of `-P2-REMEDIATION-004` (below) returned
+  `NEEDS_FIXES`: `RUN_QUEUE.md`'s Deferred Work summary for this ADR still
+  named the already-completed
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`
+  as an unqualified "exact next task." `-P2-REMEDIATION-005` (this entry)
+  corrected that single pointer only — no other scope.
+- The Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION` and
+  continues to have no ordering relationship, prerequisite, gate, blocker,
+  dependency, or sequencing-step relationship with this renderer track or
+  with `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` (recorded below).
+- Docs-only. No site/runtime code, dependency file, or Three.js distribution
+  was added or modified; no NASA retirement, provider integration, release,
+  or deployment occurred.
+- Exact next task:
+  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`
+
+## Prior Completed Task (this track, PR #10 merge, REMEDIATION-002 through -004)
+
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-004`
+
+- PR #9 (this track's documentation-state sync, including
+  `-P2-REMEDIATION-001`) was reviewed, pushed, and merged into canonical
+  `main` at `c7e24b8207598c600bb168a07959aeec7bebe003` (recorded below).
+- A subsequent independent canonical-state review found
+  `AGENT_HANDOFF.md` self-contradictory on whether Operations Data Contract
+  integration gates `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`.
+  `-P2-REMEDIATION-002` fixed it and opened PR
+  [#10](https://github.com/Melly-999/mellycore-aios-core/pull/10); its
+  pre-merge gate check then surfaced a new Codex P2 finding — residual
+  "does not begin before" wording still readable as an ordering constraint.
+  `-P2-REMEDIATION-003` removed that wording, replacing it with an explicit
+  "no ordering relationship" statement, and PR #10 was merged into canonical
+  `main` via merge commit `b3b4f8b0124b8ee10c8ab6e5334cd35cf059fc88`
+  (parents `c7e24b8207598c600bb168a07959aeec7bebe003` and
+  `416a6f2ef1a69dd53c957e6a77cc5cd9633c1ad4`).
+- A fresh independent canonical-state review of that merged state returned
+  `NEEDS_FIXES`: the same "does not begin before" construction persisted in
+  ADR Section 31 and `RUN_QUEUE.md`; this file's "Exact next task" pointer
+  still named the already-completed PR #9 publication task; and
+  `RUN_QUEUE.md` still described its own completed review as "not started."
+  `-P2-REMEDIATION-004` fixed all three, restating the no-ordering-relationship
+  semantics unambiguously across the ADR, `RUN_QUEUE.md`, and this file, and
+  correcting both stale pointers.
+- Docs-only throughout. No site/runtime code, dependency file, or Three.js
+  distribution was added or modified; no NASA retirement, provider
+  integration, release, or deployment occurred.
+- This task's then-exact-next-task pointer (`-P2-REMEDIATION-004-REVIEW-001`)
+  was completed: it found the further stale pointer described above,
+  superseded by `-P2-REMEDIATION-005` (recorded above).
+
+## Prior Completed Task (this track, PR #9 merge)
+
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-001`
 
 - Synchronized the Hybrid Renderer ADR and shared coordination docs with the
-  now-merged canonical-`main` state from PR #8 (ADR status
+  merged canonical-`main` state from PR #8 (ADR status
   `ACCEPTED_CANONICAL_MAIN`), clarified implementation sequencing, and recorded
   the sync as its own task report — without changing architecture, runtime
   code, dependencies, NASA status, or deployment state.
 - A follow-on P2 remediation
   (`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-001`)
-  then resolved two Codex review findings on PR #9: ADR Section 31 no longer
-  sequences the Operations Data Contract as a prerequisite of the Source Arena
+  then resolved two Codex review findings: ADR Section 31 no longer
+  sequenced the Operations Data Contract as a prerequisite of the Source Arena
   renderer track (preserving track independence per `RUN_QUEUE.md`), and this
-  handoff's latest-completed-task pointer now names the state-sync task. The
-  Operations Data Contract remains `NOT_PRESENT_PENDING_INTEGRATION`.
+  handoff's latest-completed-task pointer named the state-sync task. The
+  Operations Data Contract remained `NOT_PRESENT_PENDING_INTEGRATION`.
 - Docs-only. No site/runtime code, dependency file, or Three.js distribution
   was added or modified; no NASA retirement, release, or deployment occurred.
-- Exact next task:
-  `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-PUBLISH-001`
+- This task's then-exact-next-task pointer
+  (`-P2-REMEDIATION-PUBLISH-001`) was completed: the branch was pushed and
+  PR #9 was opened, reviewed, and merged into canonical `main` at
+  `c7e24b8207598c600bb168a07959aeec7bebe003` (superseded by the entries
+  above).
 
 ## Prior Completed Task (this track, PR #8 merge)
 
@@ -231,18 +288,18 @@ claim that branch is canonical.
 
 ## Next Run (Source Arena Renderer track)
 
-The ADR architecture milestone is **`CLOSED_IN_CANONICAL_MAIN`** — PR #8
-merged into canonical `main` via commit
-`f93be7018a1da3bba50eb66346b1f9e627a46dd2`. Runtime implementation is
-**`NOT_STARTED`**: no Three.js file, renderer code, or NASA-retirement change
-exists anywhere in the repository. The exact next task in this parallel track
-is:
+The ADR architecture milestone is **`CLOSED_IN_CANONICAL_MAIN`** — PR #8,
+PR #9, and PR #10 are all merged into canonical `main`, most recently via
+merge commit `b3b4f8b0124b8ee10c8ab6e5334cd35cf059fc88`. Runtime
+implementation is **`NOT_STARTED`**: no Three.js file, renderer code, or
+NASA-retirement change exists anywhere in the repository. The exact next
+task in this parallel track is:
 
-`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-REVIEW-001`
+`MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-REMEDIATION-005-REVIEW-001`
 
-That task is an independent review of this documentation-state sync only —
-it must not implement the renderer, vendor Three.js, retire NASA, touch
-`site/`, or push/PR/merge. After it passes,
+That task is an independent review of the P2-REMEDIATION-005 documentation
+fix only — it must not implement the renderer, vendor Three.js, retire
+NASA, touch `site/`, or push/PR/merge. After it passes,
 `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` requires its own
 separate operator authorization and review gate. Per ADR Section 31 and
 `RUN_QUEUE.md`'s Parallel Decision Track, the Operations Data Contract
