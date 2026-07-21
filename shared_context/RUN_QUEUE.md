@@ -194,8 +194,17 @@ is pending, in progress, or complete.
    review; not started).
 3. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` — remove active NASA
    API calls and `nasa-*` active runtime handles from the Source Arena surface,
-   preserving historical evidence; may run as the first bounded slice of task 4
-   if the accepting review prefers that grouping. Not started.
+   preserving historical evidence. Status: `IMPLEMENTED_LOCALLY_PENDING_REVIEW`
+   / `DRAFT_PR_OPEN_PENDING_VISUAL_ACCEPTANCE` — implemented on branch
+   `fix/mellycore-source-arena-nasa-runtime-retirement-001` (one commit ahead
+   of canonical `main` at the time of this entry), pushed, and opened as a
+   draft PR. Not merged. Replaces the executable NASA Images fetch/parse/boot
+   path in `site/js/dashboard.js` with a local, deterministic Source Archive
+   dataset (zero external requests, no API key) and renames the `nasa-*`
+   runtime namespace to `source-arena-*` per this ADR's Appendix A mapping.
+   Does not implement task 4 (the 3D scene foundation), vendor Three.js, or
+   touch the CSS-fallback/renderer boundary. Exact next task:
+   `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-VISUAL-ACCEPTANCE-001`.
 4. `MELLYCORE-3D-SCENE-FOUNDATION-001` — implement the shared state, complete
    CSS fallback, vendored/pinned Three.js enhanced renderer, lifecycle,
    context-loss recovery, and mobile-first Source Arena. Not started.
@@ -205,11 +214,13 @@ is pending, in progress, or complete.
 6. `MELLYCORE-3D-SCENE-INTEGRATION-REVIEW-001` — independent final review
    before any merge or release claim. Not started.
 
-None of tasks 3–6 is implemented, active, or authorized by this entry alone.
-Task 1 (the ADR decision) is accepted at the decision/specification level and
-its architecture milestone is now `CLOSED_IN_CANONICAL_MAIN` — merged into
-canonical `main` via PR #8 (2l above). This does not implement, vendor,
-retire, or release anything; runtime implementation for tasks 3–6 remains
+Task 3 (NASA runtime retirement) is `IMPLEMENTED_LOCALLY_PENDING_REVIEW` with
+a draft PR open, not merged (see item 3 above). Tasks 4–6 remain
+`NOT_STARTED` and are not implemented, active, or authorized by this entry
+alone. Task 1 (the ADR decision) is accepted at the decision/specification
+level and its architecture milestone is now `CLOSED_IN_CANONICAL_MAIN` —
+merged into canonical `main` via PR #8 (2l above). This does not implement,
+vendor, or release anything; the 3D scene foundation (task 4) remains
 `NOT_STARTED`.
 
 ## Deferred Work

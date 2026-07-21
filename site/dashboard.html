@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MellyCore AIOS Live Cockpit V2 — a static-first, read-only local command center framed as a social source arena: one real external source (demo provider: NASA Images API) under simulated model lenses.">
+  <meta name="description" content="MellyCore AIOS Live Cockpit V2 — a static-first, read-only local command center framed as a social source arena: a local, deterministic Source Archive under simulated model lenses.">
   <title>MellyCore AIOS — Live Cockpit V2</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="css/tokens.css">
@@ -22,7 +22,7 @@
       <nav class="dash-tabs" role="tablist" aria-label="Cockpit sections">
         <button class="dash-tab-btn" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="false" data-tab="overview">Overview</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-context" aria-controls="tab-context" aria-selected="false" data-tab="context">Context</button>
-        <button class="dash-tab-btn" role="tab" id="tab-btn-nasa" aria-controls="tab-nasa" aria-selected="true" data-tab="nasa">Source Arena</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-source-arena" aria-controls="tab-source-arena" aria-selected="true" data-tab="source-arena">Source Arena</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-compare" aria-controls="tab-compare" aria-selected="false" data-tab="compare">Model Arena</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-loops" aria-controls="tab-loops" aria-selected="false" data-tab="loops">Loops</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-evidence" aria-controls="tab-evidence" aria-selected="false" data-tab="evidence">Evidence</button>
@@ -40,8 +40,8 @@
     <div class="dash-announcement" role="note">
       <span>Static-first cockpit</span>
       <span>Read only</span>
-      <span>Demo provider: NASA Images API</span>
-      <span>No API key</span>
+      <span>Source Archive: local dataset</span>
+      <span>No network required</span>
       <span>No model calls</span>
     </div>
 
@@ -51,7 +51,7 @@
           <p class="dash-kicker">Command overview</p>
           <h1>Operational truth, one screen.</h1>
         </div>
-        <p>Committed project state is rendered locally. External source media comes live from the demo provider (NASA Images API). Simulated output is labeled at the point of use.</p>
+        <p>Committed project state is rendered locally. The Source Arena tab presents a local, deterministic showcase dataset — no external request. Simulated output is labeled at the point of use.</p>
       </div>
       <div class="overview-grid">
         <article class="dash-surface overview-primary">
@@ -132,19 +132,19 @@
       </div>
     </section>
 
-    <section class="dash-panel dash-panel--nasa" id="tab-nasa" role="tabpanel" aria-labelledby="tab-btn-nasa">
+    <section class="dash-panel dash-panel--source-arena" id="tab-source-arena" role="tabpanel" aria-labelledby="tab-btn-source-arena">
       <div class="arena-topbar">
         <div class="arena-head">
           <p class="dash-kicker">External Data Arena</p>
-          <span class="arena-head-note">One real source today (NASA) · next planned provider: GitHub Repository · simulated model lenses throughout</span>
+          <span class="arena-head-note">Local Source Archive today · next planned provider: GitHub Repository · simulated model lenses throughout</span>
         </div>
         <form id="arena-search-form" class="arena-search" role="search" aria-label="Find related sources">
           <span class="arena-search-icon" aria-hidden="true">⌕</span>
-          <input id="arena-search-input" type="search" placeholder="Find related sources — try Apollo 11, aurora, Mars" autocomplete="off" aria-label="Find related sources in the demo provider">
+          <input id="arena-search-input" type="search" placeholder="Find local records — try context, safety, memory" autocomplete="off" aria-label="Find related local Source Archive records">
           <button type="submit" class="arena-search-go">Search</button>
         </form>
-        <div class="provider-rail" aria-label="Source providers — one live demo provider, planned source types">
-          <span class="provider-chip provider-chip--live">Demo provider: NASA Images API · live</span>
+        <div class="provider-rail" aria-label="Source providers — one local archive, planned source types">
+          <span class="provider-chip provider-chip--live">Source Archive · local dataset</span>
           <span class="provider-chip provider-chip--next">GitHub Repository · planned</span>
           <span class="provider-chip">PDFs &amp; docs · planned</span>
           <span class="provider-chip">Websites · planned</span>
@@ -166,7 +166,7 @@
             <span class="provider-preview-caret" aria-hidden="true">▾</span>
           </summary>
           <div class="dash-details-body provider-preview-body">
-            <p class="provider-preview-intro">NASA Images API is the current real, keyless demo provider — proof that the External Data Arena can ingest a live external source today. <strong>GitHub Repository</strong> is the next MellyCore-aligned planned/demo provider: a better fit for architecture intelligence, repo analysis, docs analysis, system design review, and model-lens comparison.</p>
+            <p class="provider-preview-intro">The local Source Archive proves the External Data Arena's interaction shape — filtering, selection, and model-lens comparison — before any external provider is connected. <strong>GitHub Repository</strong> is the next MellyCore-aligned planned/demo provider: a better fit for architecture intelligence, repo analysis, docs analysis, system design review, and model-lens comparison.</p>
 
             <div class="provider-preview-badges">
               <span class="provider-preview-badge provider-preview-badge--planned">Planned provider</span>
@@ -230,7 +230,7 @@
         </details>
       </div>
 
-      <div class="nasa-layout">
+      <div class="source-arena-layout">
         <aside class="mission-rail dash-surface">
           <div class="surface-head"><span>Arena rail</span></div>
           <div class="mission-context-mini">
@@ -238,13 +238,16 @@
             <strong id="mission-context-health">7 valid · 0 findings</strong>
             <span class="mission-health-line"><i></i></span>
           </div>
-          <div class="task-selector" aria-label="Demo preset selector">
-            <span class="rail-label">Demo presets</span>
-            <button type="button" class="task-button" aria-pressed="true" data-task="apollo"><span>01</span>Apollo</button>
-            <button type="button" class="task-button" aria-pressed="false" data-task="asteroid"><span>02</span>Asteroid</button>
-            <button type="button" class="task-button" aria-pressed="false" data-task="solar-flare"><span>03</span>Solar flare</button>
-            <button type="button" class="task-button" aria-pressed="false" data-task="aurora"><span>04</span>Aurora</button>
-            <button type="button" class="task-button" aria-pressed="false" data-task="mars"><span>05</span>Mars</button>
+          <div class="task-selector" aria-label="Source Archive category filter">
+            <span class="rail-label">Archive categories</span>
+            <button type="button" class="task-button" aria-pressed="true" data-category="context"><span>01</span>Context</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="workflow"><span>02</span>Workflow</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="safety"><span>03</span>Safety</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="observability"><span>04</span>Observability</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="model"><span>05</span>Model</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="routing"><span>06</span>Routing</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="memory"><span>07</span>Memory</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="orchestration"><span>08</span>Orchestration</button>
           </div>
           <div class="feed-control">
             <span class="rail-label">Lens feed</span>
@@ -254,64 +257,49 @@
         </aside>
 
         <aside class="search-rail dash-surface">
-          <div class="surface-head"><span>Provider query</span><span class="data-origin data-origin--nasa">Real source</span></div>
-          <p class="rail-provider-note">Demo provider: NASA Images API · public · keyless</p>
-          <form id="nasa-search-form" class="nasa-search-form">
-            <label>q <input id="nasa-q" name="q" type="search" value="Apollo 11" autocomplete="off" required></label>
-            <label>media_type
-              <select id="nasa-media-type" name="media_type">
-                <option value="image" selected>image</option>
-                <option value="video">video</option>
-                <option value="audio">audio</option>
-                <option value="image,video,audio">all media</option>
+          <div class="surface-head"><span>Local query</span><span class="data-origin data-origin--local">Local source fixture</span></div>
+          <p class="rail-provider-note">Source Archive · static dataset · no network</p>
+          <form id="source-arena-search-form" class="source-arena-search-form">
+            <label>query <input id="source-arena-query" name="query" type="search" placeholder="e.g. safety, context, memory" autocomplete="off"></label>
+            <label>category
+              <select id="source-arena-category" name="category">
+                <option value="" selected>All categories</option>
+                <option value="context">context</option>
+                <option value="workflow">workflow</option>
+                <option value="safety">safety</option>
+                <option value="observability">observability</option>
+                <option value="model">model</option>
+                <option value="routing">routing</option>
+                <option value="memory">memory</option>
+                <option value="orchestration">orchestration</option>
               </select>
             </label>
-            <div class="form-pair">
-              <label>year_start <input id="nasa-year-start" name="year_start" type="number" inputmode="numeric" min="1900" max="2100" value="1968"></label>
-              <label>year_end <input id="nasa-year-end" name="year_end" type="number" inputmode="numeric" min="1900" max="2100" value="1972"></label>
-            </div>
-            <div class="form-pair">
-              <label>page <input id="nasa-page" name="page" type="number" inputmode="numeric" min="1" value="1"></label>
-              <label>page_size
-                <select id="nasa-page-size" name="page_size">
-                  <option value="8">8</option>
-                  <option value="12" selected>12</option>
-                  <option value="24">24</option>
-                  <option value="48">48</option>
-                </select>
-              </label>
-            </div>
-            <button class="cockpit-button cockpit-button--primary" type="submit">Search source</button>
+            <button class="cockpit-button cockpit-button--primary" type="submit">Filter records</button>
           </form>
-          <p class="nasa-form-error" id="nasa-form-error" role="alert"></p>
-          <div class="queue-head"><span>Source queue</span><span id="nasa-result-count">Waiting</span></div>
-          <ol class="nasa-queue" id="nasa-queue" aria-label="Demo provider search results"></ol>
-          <div class="queue-pagination">
-            <button type="button" class="queue-page-btn" id="nasa-prev-page" aria-label="Previous results page">Prev</button>
-            <span id="nasa-page-label">Page 1</span>
-            <button type="button" class="queue-page-btn" id="nasa-next-page" aria-label="Next results page">Next</button>
-          </div>
+          <p class="source-arena-form-error" id="source-arena-form-error" role="alert"></p>
+          <div class="queue-head"><span>Source queue</span><span id="source-arena-result-count">Waiting</span></div>
+          <ol class="source-arena-queue" id="source-arena-queue" aria-label="Local source fixture results"></ol>
         </aside>
 
         <section class="media-stage-wrap" aria-live="polite">
-          <div class="media-stage" id="nasa-stage">
+          <div class="media-stage" id="source-arena-stage">
             <div class="media-stage-loading">
               <span class="stage-scan" aria-hidden="true"></span>
               <strong>Opening the External Data Arena…</strong>
-              <span>Demo provider request pending · no API key</span>
+              <span>Local Source Archive · zero network requests</span>
             </div>
           </div>
-          <div class="stage-pagination" id="nasa-stage-dots" aria-label="Select source media"></div>
+          <div class="stage-pagination" id="source-arena-stage-dots" aria-label="Select source record"></div>
           <div class="stage-nav">
-            <button type="button" id="nasa-prev-item" aria-label="Previous source media">↑</button>
+            <button type="button" id="source-arena-prev-item" aria-label="Previous source record">↑</button>
             <span>Swipe or scroll to browse</span>
-            <button type="button" id="nasa-next-item" aria-label="Next source media">↓</button>
+            <button type="button" id="source-arena-next-item" aria-label="Next source record">↓</button>
           </div>
         </section>
 
         <aside class="model-rail dash-surface">
           <div class="surface-head"><span>Model lenses</span><span class="data-origin data-origin--mock">Simulated</span></div>
-          <p class="model-feed-disclaimer">Simulated model lenses over one real source. All lens text below is deterministic mock copy. No provider is connected or called.</p>
+          <p class="model-feed-disclaimer">Simulated model lenses over the local Source Archive. All lens text below is deterministic mock copy. No provider is connected or called.</p>
           <div class="model-feed" id="model-feed"></div>
         </aside>
       </div>
@@ -321,16 +309,16 @@
       <div class="dash-section-head">
         <div>
           <p class="dash-kicker">Model arena</p>
-          <h1>One real source. Four simulated lenses.</h1>
+          <h1>One local archive. Four simulated lenses.</h1>
         </div>
-        <p>Fable 5, Opus, GPT, and GLM panels are interface demonstrations only. Selecting a demo preset changes deterministic local mock copy; it never sends a prompt. The source card below is real demo-provider data.</p>
+        <p>Fable 5, Opus, GPT, and GLM panels are interface demonstrations only. Selecting an archive category changes deterministic local mock copy; it never sends a prompt. The source card below is local static-dataset content.</p>
       </div>
       <div class="compare-command-row">
-        <div class="task-selector task-selector--horizontal" id="compare-task-selector" aria-label="Demo preset selector"></div>
+        <div class="task-selector task-selector--horizontal" id="compare-task-selector" aria-label="Source Archive category filter"></div>
         <button class="cockpit-button cockpit-button--secondary" id="compare-feed-toggle" type="button" aria-pressed="true">Pause simulated feed</button>
       </div>
-      <article class="dash-surface compare-source-card" id="compare-source-card" aria-label="Selected real source">
-        <div class="compare-source-empty">Waiting for a demo-provider result…</div>
+      <article class="dash-surface compare-source-card" id="compare-source-card" aria-label="Selected local source">
+        <div class="compare-source-empty">Waiting for a local source selection…</div>
       </article>
       <div class="compare-grid" id="compare-grid"></div>
     </section>
@@ -368,8 +356,8 @@
       <span class="command-label">Command / status</span>
       <span>Local static</span>
       <span>Read only</span>
-      <span>Demo provider: NASA</span>
-      <span>No API key</span>
+      <span>Source Archive: local</span>
+      <span>No network required</span>
       <span>No model calls</span>
       <strong id="footer-system-state"><i></i> Cockpit ready</strong>
     </div>

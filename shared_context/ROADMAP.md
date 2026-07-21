@@ -26,8 +26,12 @@ Naming a module here does not authorize or claim its implementation.
 - **Holographic Source Arena:** accepted specification only. Its 390×844
   model-lens hero remains the lead visual direction; the 3D treatment is not
   implemented.
-- **NASA Images:** retained only as legacy prototype code and historical release
-  evidence. It is not a current pillar, roadmap module, or core integration.
+- **NASA Images:** executable runtime retired from `site/dashboard.html` /
+  `site/js/dashboard.js` under `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`
+  (branch `fix/mellycore-source-arena-nasa-runtime-retirement-001`, draft PR
+  open, pending review); replaced with a local, deterministic Source Archive.
+  Historical task reports and release evidence remain untouched. It was never
+  a current pillar, roadmap module, or core integration.
 
 Durable completion evidence lives in `docs/tasks/`, release records, and Git
 history rather than being duplicated here.

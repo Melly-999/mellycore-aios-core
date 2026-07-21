@@ -1,5 +1,49 @@
 # Agent Handoff
 
+## In-Progress Task (draft PR open, not merged)
+
+`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`
+
+- Status: `IMPLEMENTED_LOCALLY_PENDING_REVIEW` /
+  `DRAFT_PR_OPEN_PENDING_VISUAL_ACCEPTANCE`. Branch
+  `fix/mellycore-source-arena-nasa-runtime-retirement-001`, created from
+  canonical `main` at `026809fbd6a6c980bcc40325c2a7d3f899997b81` (the PR #14
+  merge commit). One commit, pushed, draft PR opened. Not merged.
+- Removed the executable NASA Images fetch/parse/boot path from
+  `site/js/dashboard.js` (`NASA_API_ROOT`, `searchNasa()`, manifest
+  resolution, boot-time automatic request) and replaced it with a
+  deterministic local `ARCHIVE_RECORDS` dataset (8 records — context,
+  workflow, safety, observability, model, routing, memory, orchestration —
+  each summarizing this repository's own already-documented, verifiable
+  committed state) plus local, synchronous filter/search logic. Zero
+  network requests occur at boot or during filtering; no API key; no
+  remote image URL; procedural CSS swatches (hue derived from category
+  name) replace NASA preview images.
+- Renamed the `nasa-*` runtime namespace to `source-arena-*` in
+  `site/dashboard.html` and `site/css/dashboard.css` per
+  `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` Appendix A's
+  conditional transition map (tab id/button, panel class, stage, stage
+  dots, search form, queue and its children). Removed NASA-specific
+  loading/error/pagination branches and aria-labels
+  (`aria-label="Show NASA result N"` → `"Show source result N"`; "Demo
+  provider: NASA Images API" → "Local source fixture"; "NASA id" →
+  "source id"). `--cockpit-nasa` (a generic danger-red color token
+  reused by unrelated UI, not a NASA-specific label) was intentionally
+  left unrenamed — internal token name only, not user-visible NASA
+  branding, no executable dependency; noted as a known limitation rather
+  than silently left out of the retirement search.
+- `site/index.html` was not touched — confirmed by direct inspection to
+  contain zero NASA references before this task began.
+- Does not implement the future Source Arena hybrid renderer, vendor
+  Three.js, create a WebGL scene, or touch any backend/provider/ODC
+  adapter surface. Renderer: `NOT_IMPLEMENTED`. CSS fallback:
+  `NOT_IMPLEMENTED` (unchanged). Three.js: `NOT_VENDORED`. Deployment and
+  release: `NOT_PERFORMED`.
+- Exact next task:
+  `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-VISUAL-ACCEPTANCE-001`
+  (desktop/mobile visual QA and product-coherence review of the Source
+  Archive replacement before any merge is considered).
+
 ## Latest Completed Task (this track)
 
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-POST-MERGE-STATE-SYNC-P2-CLOSEOUT-001`
