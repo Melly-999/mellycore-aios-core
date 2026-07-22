@@ -658,17 +658,21 @@ button {
 .arena-map {
   position: relative;
   flex: 1;
-  min-height: 300px;
+  /* Tall enough that the full orbit radius (up to 150px) plus a node's own
+     height fits above and below the vertically centered core without any
+     node being clipped by this pane's overflow:hidden. See the orbit-clip
+     fix task report for the exact clearance math. */
+  min-height: 400px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 42%, rgba(124,58,237,.16), transparent 62%),
-    repeating-radial-gradient(circle at 50% 42%, rgba(168,108,255,.05) 0 1px, transparent 1px 34px);
+    radial-gradient(circle at 50% 50%, rgba(124,58,237,.16), transparent 62%),
+    repeating-radial-gradient(circle at 50% 50%, rgba(168,108,255,.05) 0 1px, transparent 1px 34px);
 }
 .arena-map-scene { position: absolute; inset: 0; }
 .arena-orbit {
   position: absolute;
   left: 50%;
-  top: 42%;
+  top: 50%;
   width: calc(var(--arena-radius) * 2);
   height: calc(var(--arena-radius) * 2);
   transform: translate(-50%, -50%);
@@ -689,7 +693,7 @@ button {
 .arena-link {
   position: absolute;
   left: 50%;
-  bottom: 58%;
+  bottom: 50%;
   width: 2px;
   height: var(--arena-radius);
   transform-origin: bottom center;
@@ -700,7 +704,7 @@ button {
 .arena-core {
   position: absolute;
   left: 50%;
-  top: 42%;
+  top: 50%;
   width: 92px;
   height: 92px;
   display: grid;
@@ -716,7 +720,7 @@ button {
 .arena-node {
   position: absolute;
   left: 50%;
-  top: 42%;
+  top: 50%;
   display: grid;
   gap: 4px;
   justify-items: center;
