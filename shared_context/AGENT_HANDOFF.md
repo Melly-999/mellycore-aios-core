@@ -1,5 +1,36 @@
 # Agent Handoff
 
+## In-Progress Task (draft PR open, not merged)
+
+`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001`
+
+- Status: `IMPLEMENTED_ON_BRANCH_DRAFT_PR_OPEN`. Branch
+  `feat/mellycore-source-arena-renderer-static-slice-001`, created from
+  canonical `main` at `9a5d1bb0bac80b567608f115f10cbd211b327aba` (the PR #16
+  merge commit). Not merged.
+- First **static CSS/DOM renderer slice** for the Source Arena stage:
+  replaced the prior single-record media card + vertical ♥/save/share
+  engagement rail + `@handle`/`#hashtags` + swipe/wheel/touch feed navigation
+  (which read as a TikTok-style social feed) with a static **holographic
+  source map** — a central source core, orbital source nodes (one per
+  filtered local record), a connecting line, an orbit ring, and a command
+  inspector panel. On mobile the map flattens to a stacked command-panel
+  list. Selection is by node click, source queue, dot selector, or prev/next
+  stepper — no swipe-to-next-feed.
+- CSS/DOM only. WebGL hybrid renderer and the ADR's CSS-complete fallback
+  spec remain `NOT_IMPLEMENTED`; Three.js `NOT_VENDORED`; no Canvas, external
+  API, dependency, backend, provider, deploy, or release. Source Archive stays
+  local deterministic showcase data (not live/external). Files touched:
+  `site/js/dashboard.js`, `site/css/dashboard.css`, `site/dashboard.html`,
+  plus this handoff, `RUN_QUEUE.md`, and the task report. `site/index.html`
+  untouched.
+- Validators: `node --check` PASS, `python scripts/validate_project_state.py`
+  PASS, `git diff --check` clean. Browser smoke + desktop/mobile visual checks
+  passed (see `docs/tasks/MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001.md`).
+- Exact next task:
+  `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-REVIEW-001` (independent visual
+  and technical review of the draft PR, then draft→ready→merge-gate if clean).
+
 ## Latest Task Update (PR #15 merged into canonical `main`)
 
 `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`

@@ -168,10 +168,6 @@
     feedRunning: true,
     feedTimer: null,
     feedPulseIndex: 0,
-    likedIds: new Set(),
-    savedIds: new Set(),
-    inspectOpen: false,
-    shareState: "",
   };
 
   /* All visible dates/times/numbers are pinned to en-US or ISO-style output. */
@@ -185,13 +181,6 @@
 
   function formatInt(value) {
     return Number(value).toLocaleString("en-US");
-  }
-
-  /* Deterministic demo engagement numbers — clearly labeled, never real. */
-  function demoCount(seed, base, spread) {
-    let hash = 0;
-    for (let i = 0; i < seed.length; i += 1) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-    return base + (hash % spread);
   }
 
   /* Curated hue per category's procedural swatch — local, no image.
@@ -211,10 +200,6 @@
   function hueForCategory(category) {
     const hue = CATEGORY_SWATCH_HUE[category];
     return hue === undefined ? 260 : hue;
-  }
-
-  function shortCount(value) {
-    return value >= 1000 ? `${(value / 1000).toFixed(1)}K` : String(value);
   }
 
   function escapeHTML(value) {
@@ -521,79 +506,61 @@
     const dots = document.getElementById("source-arena-stage-dots");
     if (!dots) return;
     const limit = Math.min(state.archiveItems.length, 8);
-    dots.innerHTML = Array.from({ length: limit }, (_value, index) => `<button type="button" class="stage-dot" data-stage-index="${index}" aria-label="Show source result ${index + 1}" aria-current="${index === state.archiveSelected}"></button>`).join("");
+    dots.innerHTML = Array.from({ length: limit }, (_value, index) => `<button type="button" class="stage-dot" data-stage-index="${index}" aria-label="Show source node ${index + 1}" aria-current="${index === state.archiveSelected}"></button>`).join("");
     dots.querySelectorAll("[data-stage-index]").forEach((button) => button.addEventListener("click", () => selectArchiveItem(Number(button.dataset.stageIndex))));
   }
 
-  function stageMediaMarkup(item) {
-    const hue = hueForCategory(item.category);
-    return `<div class="stage-media stage-media--procedural" style="--swatch-hue:${hue}" role="img" aria-label="${escapeHTML(item.category)} category swatch"><span class="stage-media-glyph">${escapeHTML((item.category || "").slice(0, 2).toUpperCase())}</span></div>`;
+  /* Static holographic source map — a command-stage layout, not a feed.
+     Each filtered local record is a source node orbiting a central core;
+     the active node feeds a fixed inspector panel. Selection is by node,
+     queue, dot, or stepper — never swipe-to-next-feed. All data is the
+     local, deterministic Source Archive; no network, no engagement. */
+  function arenaNodesMarkup(items, selected) {
+    const total = items.length;
+    return items
+      .map((item, index) => {
+        const angle = total > 1 ? Math.round((index / total) * 360) : 0;
+        const isActive = index === selected;
+        const glyph = escapeHTML((item.category || "").slice(0, 2).toUpperCase());
+        return `<button type="button" class="arena-node${isActive ? " is-active" : ""}" data-arena-node="${index}" style="--node-angle:${angle}deg;--swatch-hue:${hueForCategory(item.category)}" aria-pressed="${isActive}" aria-label="Select source node ${index + 1} of ${total}: ${escapeHTML(item.title)}, ${escapeHTML(item.category)}"><span class="arena-node-dot" aria-hidden="true">${glyph}</span><span class="arena-node-tag">${escapeHTML(item.category)}</span></button>`;
+      })
+      .join("");
   }
 
-  function stageActionsMarkup(item) {
-    const liked = state.likedIds.has(item.id);
-    const saved = state.savedIds.has(item.id);
-    const likeCount = demoCount(`${item.id}:like`, 240, 8600) + (liked ? 1 : 0);
-    const saveCount = demoCount(`${item.id}:save`, 30, 940) + (saved ? 1 : 0);
-    const shareLabel = state.shareState === "copied" ? "Copied" : state.shareState === "failed" ? "Link" : "Share";
-    return `<div class="stage-actions" aria-label="Arena actions — demo counts, not real engagement">
-      <div class="stage-action-group"><button type="button" class="stage-action" data-stage-action="like" aria-pressed="${liked}" aria-label="Like (demo count)">♥</button><span>${shortCount(likeCount)}</span></div>
-      <div class="stage-action-group"><button type="button" class="stage-action" data-stage-action="inspect" aria-pressed="${state.inspectOpen}" aria-label="Inspect source metadata">◉</button><span>Inspect</span></div>
-      <div class="stage-action-group"><button type="button" class="stage-action" data-stage-action="save" aria-pressed="${saved}" aria-label="Save locally (demo count)">⬢</button><span>${shortCount(saveCount)}</span></div>
-      <div class="stage-action-group"><button type="button" class="stage-action" data-stage-action="share" aria-pressed="false" aria-label="Copy local source link">➦</button><span>${escapeHTML(shareLabel)}</span></div>
-      <span class="stage-actions-note">Demo counts</span>
+  function arenaInspectorMarkup(item, total) {
+    const tags = (item.tags || []).map((tag) => `<span class="arena-tag">${escapeHTML(tag)}</span>`).join("");
+    const nodeWord = total === 1 ? "node" : "nodes";
+    return `<div class="arena-inspector">
+      <div class="arena-inspector-head">
+        <span class="data-origin data-origin--local">Local source fixture</span>
+        <span class="arena-inspector-map">Static source map · ${total} ${nodeWord} · no network</span>
+      </div>
+      <h2 class="arena-inspector-title">${escapeHTML(item.title)}</h2>
+      <p class="arena-inspector-desc">${escapeHTML(item.description)}</p>
+      <div class="arena-inspector-tags" aria-label="Record tags">${tags}</div>
+      <p class="arena-inspector-fine">${escapeHTML(item.category)} · ${escapeHTML(item.status)} · source id ${escapeHTML(item.id)}</p>
     </div>`;
-  }
-
-  function stageCaptionMarkup(item) {
-    const description = state.inspectOpen
-      ? `<p class="stage-desc"><span class="stage-desc-label">Local record description</span>${escapeHTML(item.description)}</p>`
-      : "";
-    const shareNote = state.shareState === "failed" ? `<p class="stage-share-note">Local reference: #source-arena-${escapeHTML(item.id)}</p>` : "";
-    const tags = (item.tags || []).map((tag) => `#${escapeHTML(tag)}`).join(" ");
-    return `<div class="stage-meta">
-      <div class="stage-meta-labels"><span class="data-origin data-origin--local">Local source fixture</span></div>
-      <strong class="stage-handle">@mellycore-source-archive</strong>
-      <h2>${escapeHTML(item.title)}</h2>
-      <p class="stage-caption">${escapeHTML(item.description)}</p>
-      ${description}${shareNote}
-      <p class="stage-tags">${tags}</p>
-      <p class="stage-fine">${escapeHTML(item.category)} · ${escapeHTML(item.status)} · source id ${escapeHTML(item.id)}</p>
-    </div>`;
-  }
-
-  function handleStageAction(action, item) {
-    if (action === "like") {
-      state.likedIds.has(item.id) ? state.likedIds.delete(item.id) : state.likedIds.add(item.id);
-    } else if (action === "save") {
-      state.savedIds.has(item.id) ? state.savedIds.delete(item.id) : state.savedIds.add(item.id);
-    } else if (action === "inspect") {
-      state.inspectOpen = !state.inspectOpen;
-    } else if (action === "share") {
-      const localRef = `${window.location.origin}${window.location.pathname}#source-arena-${item.id}`;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(localRef).then(
-          () => { state.shareState = "copied"; renderArchiveStage(); },
-          () => { state.shareState = "failed"; renderArchiveStage(); }
-        );
-        return;
-      }
-      state.shareState = "failed";
-    }
-    renderArchiveStage();
   }
 
   function renderArchiveStage() {
-    const item = state.archiveItems[state.archiveSelected];
+    const items = state.archiveItems;
+    const item = items[state.archiveSelected];
     if (!item) return;
     const stage = document.getElementById("source-arena-stage");
     if (!stage) return;
-    stage.innerHTML = `${stageMediaMarkup(item)}${stageActionsMarkup(item)}${stageCaptionMarkup(item)}`;
-    stage.querySelectorAll("[data-stage-action]").forEach((button) => {
-      button.addEventListener("click", (event) => {
-        event.stopPropagation();
-        handleStageAction(button.dataset.stageAction, item);
-      });
+    const total = items.length;
+    const activeAngle = total > 1 ? Math.round((state.archiveSelected / total) * 360) : 0;
+    const coreGlyph = escapeHTML((item.category || "").slice(0, 2).toUpperCase());
+    stage.innerHTML = `<div class="arena-map" role="group" aria-label="Holographic source stage — static local source map">
+      <div class="arena-map-scene">
+        <span class="arena-orbit" aria-hidden="true"></span>
+        <span class="arena-link" style="--node-angle:${activeAngle}deg" aria-hidden="true"></span>
+        <div class="arena-nodes">${arenaNodesMarkup(items, state.archiveSelected)}</div>
+        <div class="arena-core" style="--swatch-hue:${hueForCategory(item.category)}" aria-hidden="true"><span class="arena-core-ring"></span><span class="arena-core-glyph">${coreGlyph}</span></div>
+      </div>
+    </div>${arenaInspectorMarkup(item, total)}`;
+    stage.querySelectorAll("[data-arena-node]").forEach((button) => {
+      button.addEventListener("click", () => selectArchiveItem(Number(button.dataset.arenaNode)));
     });
     renderCompareSource();
     renderModelOutputs();
@@ -618,7 +585,6 @@
   function selectArchiveItem(index, options) {
     if (!state.archiveItems.length) return;
     const normalized = (index + state.archiveItems.length) % state.archiveItems.length;
-    if (normalized !== state.archiveSelected) state.shareState = "";
     state.archiveSelected = normalized;
     if (!(options && options.skipQueueRender)) renderArchiveQueue();
     renderArchiveDots();
@@ -734,33 +700,15 @@
 
     document.querySelectorAll(".mission-rail [data-category]").forEach((button) => button.addEventListener("click", () => setActiveCategory(button.dataset.category, true)));
 
+    // Secondary stepper through source nodes (keyboard/pointer). Node clicks,
+    // the queue, and the dot selector remain the primary selection paths —
+    // there is deliberately no swipe/wheel "next feed" interaction.
     const prevItem = document.getElementById("source-arena-prev-item");
     if (prevItem) prevItem.addEventListener("click", () => selectArchiveItem(state.archiveSelected - 1));
     const nextItem = document.getElementById("source-arena-next-item");
     if (nextItem) nextItem.addEventListener("click", () => selectArchiveItem(state.archiveSelected + 1));
     document.getElementById("feed-toggle").addEventListener("click", () => setFeedRunning(!state.feedRunning));
     document.getElementById("compare-feed-toggle").addEventListener("click", () => setFeedRunning(!state.feedRunning));
-
-    const stage = document.getElementById("source-arena-stage");
-    if (stage) {
-      let wheelLocked = false;
-      stage.addEventListener("wheel", (event) => {
-        if (Math.abs(event.deltaY) < 18 || wheelLocked) return;
-        event.preventDefault();
-        wheelLocked = true;
-        selectArchiveItem(state.archiveSelected + (event.deltaY > 0 ? 1 : -1));
-        window.setTimeout(() => { wheelLocked = false; }, 450);
-      }, { passive: false });
-
-      let touchY = null;
-      stage.addEventListener("touchstart", (event) => { touchY = event.changedTouches[0].clientY; }, { passive: true });
-      stage.addEventListener("touchend", (event) => {
-        if (touchY == null) return;
-        const delta = touchY - event.changedTouches[0].clientY;
-        if (Math.abs(delta) > 44) selectArchiveItem(state.archiveSelected + (delta > 0 ? 1 : -1));
-        touchY = null;
-      }, { passive: true });
-    }
   }
 
   async function loadLocalData() {
