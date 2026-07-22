@@ -1,5 +1,35 @@
 # Agent Handoff
 
+## Latest Task Update (Option B roadmap sync, docs-only)
+
+`MELLYCORE-OPTION-B-OPENROUTER-DEPLOY-ROADMAP-SYNC-001`
+
+- Docs-only. Branch `docs/mellycore-option-b-openrouter-deploy-roadmap-sync-001`,
+  created from canonical `main` at `9a5d1bb0bac80b567608f115f10cbd211b327aba`.
+  No push, PR, merge, runtime edit, OpenRouter implementation, or deploy
+  occurred.
+- Recorded the operator's Option B decision: the first deploy target now
+  bundles the cinematic showcase, the Source Arena static renderer slice, and
+  an OpenRouter Model/Cost Observatory as a **static snapshot only** — no live
+  provider calls, no API keys, no backend, no model execution. Full sequence:
+  `shared_context/ROADMAP.md`'s "Option B Deploy Path" section.
+- PR #17 (branch `feat/mellycore-source-arena-renderer-static-slice-001`,
+  head `08642089f9c062928c72d3968fd23843a5e9995d`) remains open and blocked
+  from merge by a failed Sourcery check flagging a possible XSS/
+  static-analysis finding on `innerHTML` at `site/js/dashboard.js:509` and
+  `:554-561`. The orbit-clipping defect on that branch is already fixed. This
+  task did not touch `site/`, did not triage the finding, and did not merge
+  PR #17.
+- OpenRouter remains **not implemented**; its live catalog and account-usage
+  levels (Level 2/3) remain future-gated behind separate approval. Only
+  Level 1 (static snapshot) is in scope for the first deploy.
+- Exact next task: `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-XSS-FINDING-TRIAGE-001`
+  (triage and resolve the Sourcery XSS finding on PR #17; no merge until
+  clean). Recommended model routing for the sequence ahead: Claude Sonnet for
+  XSS triage and merge-gate review; Fable 5 for the OpenRouter Observatory's
+  visual/product spec and acceptance pass; Claude or Codex for deterministic
+  implementation and final technical review.
+
 ## Latest Task Update (PR #15 merged into canonical `main`)
 
 `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`
@@ -406,6 +436,19 @@ Contract implementation, adapter, backend, or runtime task is authorized by
 this entry.
 
 ## Next Run (Source Arena Renderer track)
+
+**Superseded.** The `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` pointer below is
+historical: that review passed and the static renderer slice
+(`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001`) was subsequently
+authorized, implemented on branch
+`feat/mellycore-source-arena-renderer-static-slice-001` (base
+`clean-origin/main` at the PR #16 merge commit
+`9a5d1bb0bac80b567608f115f10cbd211b327aba`), and opened as PR #17. See the
+"Latest Task Update (Option B roadmap sync, docs-only)" entry at the top of
+this file and `shared_context/ROADMAP.md`'s "Option B Deploy Path" section
+for the current exact next task
+(`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-XSS-FINDING-TRIAGE-001`). The
+paragraph below is preserved as historical record of the prior state.
 
 The ADR architecture milestone is **`CLOSED_IN_CANONICAL_MAIN`** — PR #8,
 PR #9, PR #10, and PR #11 are all merged into canonical `main`, most

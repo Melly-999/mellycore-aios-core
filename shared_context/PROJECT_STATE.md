@@ -70,6 +70,28 @@ canonical `main` via PR #15 (merge commit
 themselves remain unimplemented and require their own separately-authorized
 implementation task.
 
+## Operator Decision — Option B Deploy Path
+
+The operator selected **Option B**: the first deploy target now bundles the
+cinematic showcase, the Source Arena static renderer slice, and an OpenRouter
+Model/Cost Observatory as a **static snapshot only** (local fixture, no API
+key, no backend, no live fetch, no model call). Full sequence and OpenRouter
+Level 1/2/3 gating: `shared_context/ROADMAP.md`'s "Option B Deploy Path"
+section; actionable next step: `shared_context/RUN_QUEUE.md`.
+
+OpenRouter is **not implemented** anywhere in this repository. No OpenRouter
+live catalog fetch, account usage, or API key is authorized; those remain
+future-gated behind their own separate approval (Levels 2 and 3).
+
+PR #17 (branch `feat/mellycore-source-arena-renderer-static-slice-001`, head
+`08642089f9c062928c72d3968fd23843a5e9995d`) implements the Source Arena
+static renderer slice and remains **blocked from merge** by a failed Sourcery
+check flagging a possible XSS/static-analysis finding on `innerHTML` at
+`site/js/dashboard.js:509` and `:554-561`. The Source Arena static slice is
+not canonical on `main` until PR #17 merges clean. No deployment, release, or
+OpenRouter implementation is authorized ahead of that merge and the readiness
+sequence recorded in `ROADMAP.md`.
+
 ## Planned Direction
 
 The Observatory roadmap includes Mission Control, Agent Activity, Context Pulse,
