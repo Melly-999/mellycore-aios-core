@@ -1,6 +1,8 @@
 # MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001
 
-**Status:** `VISUAL_ACCEPTANCE_COMPLETE` / `P2_POLISH_RESOLVED` / `READY_FOR_FINAL_MERGE_GATE`. Not merged.
+**Status:** `MERGED_INTO_CANONICAL_MAIN`. Merged via PR #15, merge commit
+`e0cbc332ff90f8787d981c9d86be717633f22d4d` (2026-07-21T18:25:14Z), reviewed
+head `1478b95c82cb85fd5e0efdf433e928ca92cac69b`.
 
 ## Purpose
 
@@ -230,7 +232,7 @@ MellyTrade-related file was touched.
 
 ## Exact next task
 
-`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-MERGE-GATE-001` —
-recommended model Claude Sonnet, medium effort — final read-only review of
-PR #15, final-head check verification, merge authorization decision, and,
-only if separately authorized, merge plus canonical-main verification.
+`MELLYCORE-SOURCE-ARENA-NASA-RETIREMENT-POST-MERGE-STATE-SYNC-PUBLISH-001` —
+push this docs-sync commit, open a PR, review, and merge if clean. Renderer
+readiness is not recommended until this post-merge sync PR is itself merged
+into canonical `main`.

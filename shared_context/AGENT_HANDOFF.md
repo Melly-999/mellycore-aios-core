@@ -1,15 +1,15 @@
 # Agent Handoff
 
-## In-Progress Task (PR #15 ready for review, not merged)
+## Latest Task Update (PR #15 merged into canonical `main`)
 
 `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`
 
-- Status: `VISUAL_ACCEPTANCE_COMPLETE` / `P2_POLISH_RESOLVED` /
-  `READY_FOR_FINAL_MERGE_GATE`. Branch
+- Status: `MERGED_INTO_CANONICAL_MAIN`. Branch
   `fix/mellycore-source-arena-nasa-runtime-retirement-001`, created from
   canonical `main` at `026809fbd6a6c980bcc40325c2a7d3f899997b81` (the PR #14
-  merge commit). Two commits, pushed, PR #15 marked ready for review. Not
-  merged.
+  merge commit). PR #15 merged via merge commit
+  `e0cbc332ff90f8787d981c9d86be717633f22d4d` on 2026-07-21T18:25:14Z; canonical
+  `main` now contains reviewed head `1478b95c82cb85fd5e0efdf433e928ca92cac69b`.
 - Visual acceptance (`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-FINAL-REVIEW-001`)
   returned `PASS_WITH_NON_BLOCKING_NOTES` — no P0/P1 findings. Two P2
   findings were independently confirmed and resolved in one narrow
@@ -51,9 +51,8 @@
   `NOT_IMPLEMENTED` (unchanged). Three.js: `NOT_VENDORED`. Deployment and
   release: `NOT_PERFORMED`.
 - Exact next task:
-  `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-MERGE-GATE-001`
-  (final read-only review of PR #15, final-head check verification, and
-  merge authorization decision).
+  `MELLYCORE-SOURCE-ARENA-NASA-RETIREMENT-POST-MERGE-STATE-SYNC-PUBLISH-001`
+  (push this docs-sync commit, open a PR, review, and merge if clean).
 
 ## Latest Completed Task (this track)
 
