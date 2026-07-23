@@ -168,21 +168,18 @@ section is the authoritative Option B ordering):
    Merged into canonical `main` via PR #20, merge commit
    `f1e177e38a26cfc80e047c8481d7932ad4419487`.
 7. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` —
-   **implemented on branch
-   `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`
-   (four local commits, not pushed, not merged).** Static snapshot panel from a
-   local fixture only; no live OpenRouter fetch, no API key, no model calls,
-   no backend. All cost/context fields are `null` pending a reviewed price
-   source.
+   **complete.** Static snapshot panel from a local fixture only; no live
+   OpenRouter fetch, no API key, no model calls, no backend. All cost/context
+   fields are `null` pending a reviewed price source.
 7a. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
    — **complete.** Outcome `NEEDS_FIXES_STATIC_SNAPSHOT_SLICE_REVIEW`: a P1
    mobile horizontal-page-scroll defect and a P3 class/id naming collision.
 7b. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
-   — **complete (second local commit on the same branch, not pushed).** Fixed
-   both findings: every direct Observatory card is now pinned to
-   `width:100%; max-width:100%; min-width:0` at the mobile breakpoint, and the
-   matrix wrapper `<div>` was renamed off the `obs-matrix-body` string.
-   Verified zero horizontal page overflow at 320px/375px.
+   — **complete.** Fixed both findings: every direct Observatory card is now
+   pinned to `width:100%; max-width:100%; min-width:0` at the mobile
+   breakpoint, and the matrix wrapper `<div>` was renamed off the
+   `obs-matrix-body` string. Verified zero horizontal page overflow at
+   320px/375px.
 7c. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002`
    — **complete.** Outcome `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`.
 8. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001` — visual/
@@ -190,45 +187,54 @@ section is the authoritative Option B ordering):
    table dump. **Complete:** outcome
    `NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE`.
 8a. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-001` —
-    **complete as the third local commit, not pushed or merged.** Added the
-    CSS/DOM router-core/orbital composition, restored desktop first-viewport
-    decision hierarchy, corrected mobile DOM/visual order, reduced the mobile
-    status bar, and improved secondary mono copy without changing logic/data.
+    **complete.** Added the CSS/DOM router-core/orbital composition, restored
+    desktop first-viewport decision hierarchy, corrected mobile DOM/visual
+    order, reduced the mobile status bar, and improved secondary mono copy
+    without changing logic/data.
 8b. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002` —
     **complete.** Outcome
     `NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002`: the Budget
     Estimator began behind the fixed footer at 1440×900.
 8c. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-002` —
-    **complete as the fourth local commit, not pushed or merged.** A
-    desktop-only spacing adjustment exposes the complete Budget Estimator
-    header above the footer without changing mobile, logic, data, or safety.
+    **complete.** A desktop-only spacing adjustment exposes the complete
+    Budget Estimator header above the footer without changing mobile, logic,
+    data, or safety.
 8d. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003` —
-    **exact next task.** Independent visual/product re-review of the final
-    desktop first-viewport correction.
-9. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001` — final
-   technical review; transition to PR-ready if clean.
-10. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001` — merge if clean;
-   canonical-main verification.
-11. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-POST-MERGE-STATE-SYNC-001` —
-    update living docs after the OpenRouter static panel merges.
-12. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-POST-MERGE-STATE-SYNC-PUBLISH-001`
+    **complete.** Outcome `PASS_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_003`.
+9. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-PUBLISH-001`
+   — **complete.** Pushed the four-commit branch, opened, reviewed, and
+   merged [PR #21](https://github.com/Melly-999/mellycore-aios-core/pull/21)
+   into canonical `main` via merge commit
+   `6897b5f31528c47f1a5186de4f854484dc3d71de` (2026-07-23T16:19:42Z). This
+   superseded the originally planned separate `-FINAL-REVIEW-001`/
+   `-MERGE-GATE-001` tasks, which were not separately invoked — the passed
+   `-REVIEW-002` and `-VISUAL-ACCEPTANCE-003` outcomes served as the
+   equivalent technical/visual gates before this single publish task pushed,
+   opened the PR, and merged it. The OpenRouter Observatory static snapshot
+   is now canonical on `main`, not merely branch/PR-scoped.
+10. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-001`
+    — **exact next task (this entry).** Update living docs after the PR #21
+    merge; local docs commit only, not pushed.
+11. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`
     — push, PR, review, merge that docs sync.
-13. `MELLYCORE-STATIC-DEPLOYMENT-READINESS-001` — decide whether deploy is
+12. `MELLYCORE-STATIC-DEPLOYMENT-READINESS-001` — decide whether deploy is
     allowed; confirm deploy target; confirm no secrets, no provider calls, no
     backend, no false live claims.
-14. `MELLYCORE-STATIC-SHOWCASE-DEPLOYMENT-001` — first static deploy, only if
+13. `MELLYCORE-STATIC-SHOWCASE-DEPLOYMENT-001` — first static deploy, only if
     explicitly authorized; no backend, no provider keys, no runtime API.
-15. `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001` — verify the deployed
+14. `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001` — verify the deployed
     URL; desktop/mobile smoke; no NASA/OpenRouter/provider/model calls unless
     explicitly intended; no console errors; truthful-state copy.
-16. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` — record deployed status and URL;
+15. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` — record deployed status and URL;
     update `README.md` / `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
     `AGENT_HANDOFF.md`.
 
-Tasks 4–8c are complete at the states recorded above; the Observatory remains
-local-only, unpushed, and unmerged. Task 8d is the exact next gate. No later
-review, merge, OpenRouter live-API implementation, renderer expansion, or
-deployment is authorized by this roadmap entry alone.
+Tasks 4–9 are complete at the states recorded above; the OpenRouter
+Observatory static snapshot slice is merged into canonical `main` via PR #21.
+Task 10 (this docs-sync entry) is the exact next step. No OpenRouter
+live-API implementation, renderer expansion, or deployment is authorized by
+this roadmap entry alone — task 10/11 are docs-only, and tasks 12–15 each
+require their own separate gate and explicit authorization.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena
@@ -251,9 +257,10 @@ three levels; only Level 1 is in scope for the first deploy:
   a deployment security review, and explicit approval.
 
 Levels 2 and 3 are excluded from the first deploy unless separately
-authorized. The OpenRouter Observatory is a selected roadmap target only; it
-is not implemented, and no OpenRouter API key, account, or live catalog call
-is authorized by this roadmap entry.
+authorized. Level 1 (static snapshot) is now implemented and merged into
+canonical `main` via PR #21. Levels 2 and 3 remain not implemented; no
+OpenRouter API key, account usage, or live catalog call is authorized by
+this roadmap entry.
 
 ## Safety Gates
 

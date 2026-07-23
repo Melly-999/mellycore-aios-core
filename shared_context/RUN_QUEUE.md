@@ -21,66 +21,60 @@ post-merge living-docs sync is canonical via PR #19, merge commit
 **merged into canonical `main` via PR #20**, merge commit
 `f1e177e38a26cfc80e047c8481d7932ad4419487`.
 
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` is
-**implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, four
-local commits, not pushed, not merged**. It adds the Observatory tab (Model
-Constellation, Cost Radar, Route Advisor, Budget Estimator, Capability
-Matrix, Fallback Chain, Safety Boundary Strip) against a local static fixture
-in `site/js/dashboard.js`/`site/dashboard.html`/`site/css/dashboard.css` only.
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` added the
+Observatory tab (Model Constellation, Cost Radar, Route Advisor, Budget
+Estimator, Capability Matrix, Fallback Chain, Safety Boundary Strip) against
+a local static fixture in
+`site/js/dashboard.js`/`site/dashboard.html`/`site/css/dashboard.css` only.
 All cost/context-window fields are `null` (no reviewed pricing source on
 file) — the estimator correctly shows `INSUFFICIENT PRICING DATA` throughout,
-per spec. No live API, key, backend, or deploy work occurred.
+per spec.
 
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
-returned `NEEDS_FIXES_STATIC_SNAPSHOT_SLICE_REVIEW` (one P1: mobile
-horizontal page-scroll caused by `.obs-main { display: contents }` breaking
-width containment for descendant grids/flex rows/tables; one P3: an
-`obs-matrix-body` class/id naming collision). Both are **remediated on the
-same branch** by
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
-(one additional local commit, not pushed): every direct Observatory card is
-now pinned to `width:100%; max-width:100%; min-width:0` at the mobile
-breakpoint so descendant content scrolls internally instead of resizing the
-card, and the matrix wrapper `<div>` was renamed off the `obs-matrix-body`
-string (the `<tbody id="obs-matrix-body">` is unchanged). Verified: zero
-horizontal page overflow at 320px and 375px; desktop, Source Arena, and all
-interactions unaffected.
+Its full gate chain, all on branch
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`:
+`-REVIEW-001` returned `NEEDS_FIXES` (one P1 mobile horizontal-page-scroll
+defect caused by `.obs-main { display: contents }` breaking width
+containment for descendant grids/flex rows/tables; one P3
+`obs-matrix-body` class/id naming collision) → `-REMEDIATION-001` fixed both
+(every direct Observatory card pinned to `width:100%; max-width:100%;
+min-width:0` at the mobile breakpoint; matrix wrapper renamed) →
+`-REVIEW-002` returned `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002` →
+`-VISUAL-ACCEPTANCE-001` returned
+`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE` (catalogue-like
+constellation, routing decision too low, mobile catalogue before advisor) →
+`-VISUAL-POLISH-001` fixed it with a CSS/DOM router core, orbital model
+lanes, restored first-viewport decision hierarchy, and corrected mobile
+order → `-VISUAL-ACCEPTANCE-002` returned
+`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002` (Budget Estimator
+began behind the fixed footer at 1440×900) → `-VISUAL-POLISH-002` fixed it
+with a desktop-only spacing rule → `-VISUAL-ACCEPTANCE-003` returned
+`PASS_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_003`.
+
+**`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-PUBLISH-001`
+is complete: pushed the four-commit branch, opened, reviewed, and merged
+[PR #21](https://github.com/Melly-999/mellycore-aios-core/pull/21) into
+canonical `main` via merge commit
+`6897b5f31528c47f1a5186de4f854484dc3d71de` (2026-07-23T16:19:42Z).** The
+OpenRouter Observatory static snapshot slice is now canonical, not merely
+branch/PR-scoped. No live API, key, backend, or deploy work occurred at any
+point in this chain.
 
 **Exact next task:**
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003` — independent
-visual/product re-review of the final first-viewport correction; not started.
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-001`
+(this docs-sync entry) — local docs commit only, not pushed.
 
-The technical re-review passed as
-`PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`. Visual acceptance 001 then returned
-`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE`: the constellation
-was catalogue-like, the desktop routing decision sat too low, and mobile
-placed the catalogue before the advisor. Visual polish is now complete in
-the third local commit: a CSS/DOM router core and orbital model lanes replace
-the equal-weight grid presentation; Route Advisor and partial budget state
-are visible in the first 1440×900 viewport; mobile follows the required
-advisor/selected/estimator/fallback/constellation order; and the bottom status
-bar plus secondary mono copy are less intrusive. Static-only safety wording
-and all existing interactions remain unchanged.
+Queued after this docs sync, in order:
 
-Visual acceptance 002 returned
-`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002`: at 1440×900 the
-Budget Estimator began at y=851 behind the fixed footer at y=847. Visual
-polish 002 is complete in the fourth local commit: a desktop-only spacing
-rule moves the estimator to y=780 and leaves its full header visible above
-the footer. Mobile hierarchy, width containment, logic, data, and safety
-labels are unchanged.
+1. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`
+   — push, PR, review, merge this docs sync.
+2. `MELLYCORE-STATIC-DEPLOYMENT-READINESS-001`
+3. `MELLYCORE-STATIC-SHOWCASE-DEPLOYMENT-001` (only if explicitly authorized)
+4. `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`
+5. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001`
 
-Queued after visual acceptance 003, in order:
-
-1. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001`
-2. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001`
-
-The deploy readiness chain continues unchanged after those: static deployment
-readiness decision → first static deploy (only if explicitly authorized) →
-post-deploy verify → deployment state sync. No later gate is started; each
-requires its own pass in order. No WebGL/Three.js or OpenRouter live-API
-implementation is authorized ahead of those gates.
+No later gate is started; each requires its own pass in order. No
+WebGL/Three.js or OpenRouter live-API implementation is authorized ahead of
+those gates.
 
 ## Integration Status (AI Operations Intelligence)
 

@@ -86,61 +86,43 @@ safety labels, and future gates is **merged into canonical `main` via PR #20**
 (merge commit `f1e177e38a26cfc80e047c8481d7932ad4419487`).
 
 A first static-snapshot implementation slice,
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`, is
-**implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (four
-local commits, not pushed, not merged)**. It adds an Observatory tab to
-`site/dashboard.html` with a local static fixture (`site/js/dashboard.js`)
-covering eight representative model entries; all cost and context-window
-fields are `null` pending a reviewed pricing source, so the Budget Estimator
-correctly shows `INSUFFICIENT PRICING DATA` rather than inventing a number.
-No fixture data implies live catalog access. Current status remains:
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`, adds an
+Observatory tab to `site/dashboard.html` with a local static fixture
+(`site/js/dashboard.js`) covering eight representative model entries; all
+cost and context-window fields are `null` pending a reviewed pricing source,
+so the Budget Estimator correctly shows `INSUFFICIENT PRICING DATA` rather
+than inventing a number. No fixture data implies live catalog access.
+
+Its review/remediation/polish chain, all on branch
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`:
+`-REVIEW-001` returned `NEEDS_FIXES` on a P1 mobile horizontal-page-scroll
+defect and a P3 `obs-matrix-body` class/id naming collision;
+`-REMEDIATION-001` fixed both (every direct Observatory card pinned to
+`width:100%; max-width:100%; min-width:0` at the mobile breakpoint, matrix
+wrapper renamed); `-REVIEW-002` returned `PASS`. Visual acceptance then found
+two rounds of polish needed — `-VISUAL-POLISH-001` added a CSS/DOM router
+core with orbital model nodes and reordered mobile content so advice,
+selected model, estimator, and fallback precede the compact model list;
+`-VISUAL-POLISH-002` closed the remaining desktop spacing gap so the Budget
+Estimator's full header is visible above the fixed footer at 1440×900.
+Visual acceptance 003 passed.
+
+**This static snapshot slice is now merged into canonical `main` via
+[PR #21](https://github.com/Melly-999/mellycore-aios-core/pull/21)**, merge
+commit `6897b5f31528c47f1a5186de4f854484dc3d71de`, merged
+2026-07-23T16:19:42Z (four commits: `84faf5b6…`, `1ae5283…`, `bebb032c…`,
+`6076e12…`). The OpenRouter Observatory static snapshot is canonical, not
+merely branch/PR-scoped. Current status remains:
 `LIVE_API_NOT_AUTHORIZED`, `ACCOUNT_USAGE_NOT_AUTHORIZED`, `NO_API_KEYS`,
-`NO_BACKEND`, `NO_MODEL_CALLS`, `NO_DEPLOY`. No push, PR, merge, or deploy
-occurred.
-
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
-returned `NEEDS_FIXES_STATIC_SNAPSHOT_SLICE_REVIEW`: a P1 mobile
-horizontal-page-scroll defect (`.obs-main { display: contents }` at the
-mobile breakpoint let descendant grid/flex/table content inflate each
-card's own rendered width past the viewport) and a P3 `obs-matrix-body`
-class/id naming collision. Both are **fixed on the same branch** by
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
-(second local commit): every direct Observatory card is now pinned to
-`width:100%; max-width:100%; min-width:0` at the mobile breakpoint, and the
-matrix wrapper `<div>` was renamed off the `obs-matrix-body` string. Verified
-zero horizontal page overflow at 320px and 375px, with desktop, Source
-Arena, and all interactions unaffected.
-
-Technical re-review returned `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`.
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001` then returned
-`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE`: the first viewport
-was catalogue-first, the model constellation lacked a router-core/orbital
-metaphor, mobile advice followed the full model list, and the mobile status
-bar plus secondary mono copy needed refinement.
-
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-001` is complete as the
-third local commit on the same branch, not pushed or merged. The Observatory
-now uses a CSS/DOM local router core with orbital model nodes; Route Advisor
-appears in the first 1440×900 viewport; mobile DOM and visual order put
-advice, selected model, estimator, and fallback before the compact model
-list; 320px/375px remain width-contained.
-
-Visual acceptance 002 returned
-`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002`: the Budget
-Estimator began at y=851 while the fixed footer began at y=847, leaving no
-budget state visible in the first desktop viewport.
-
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-002` is complete as the
-fourth local commit, not pushed or merged. A desktop-only spacing adjustment
-moves the grid from y=312 to y=241 and the Budget Estimator from y=851 to
-y=780; its full header ends at y=839 above the footer at y=847. Mobile order,
-width containment, interactions, data, safety wording, and provider boundary
-remain unchanged.
+`NO_BACKEND`, `NO_MODEL_CALLS`, `NO_DEPLOY`. No live OpenRouter call, account
+usage, backend/provider implementation, or deployment has occurred at any
+point in this chain; Level 2 (public catalog) and Level 3 (account usage)
+remain future-gated behind separate approval.
 
 The Source Arena post-merge docs sync prerequisite is canonical via PR #19
-(merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task is
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003`.
+(merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task
+is
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`.
 
 ## Source Arena Static Renderer Slice — Canonical
 
