@@ -23,8 +23,8 @@ post-merge living-docs sync is canonical via PR #19, merge commit
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` is
 **implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, one
-local commit, not pushed, not merged**. It adds the Observatory tab (Model
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, two
+local commits, not pushed, not merged**. It adds the Observatory tab (Model
 Constellation, Cost Radar, Route Advisor, Budget Estimator, Capability
 Matrix, Fallback Chain, Safety Boundary Strip) against a local static fixture
 in `site/js/dashboard.js`/`site/dashboard.html`/`site/css/dashboard.css` only.
@@ -32,10 +32,25 @@ All cost/context-window fields are `null` (no reviewed pricing source on
 file) — the estimator correctly shows `INSUFFICIENT PRICING DATA` throughout,
 per spec. No live API, key, backend, or deploy work occurred.
 
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
+returned `NEEDS_FIXES_STATIC_SNAPSHOT_SLICE_REVIEW` (one P1: mobile
+horizontal page-scroll caused by `.obs-main { display: contents }` breaking
+width containment for descendant grids/flex rows/tables; one P3: an
+`obs-matrix-body` class/id naming collision). Both are **remediated on the
+same branch** by
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
+(one additional local commit, not pushed): every direct Observatory card is
+now pinned to `width:100%; max-width:100%; min-width:0` at the mobile
+breakpoint so descendant content scrolls internally instead of resizing the
+card, and the matrix wrapper `<div>` was renamed off the `obs-matrix-body`
+string (the `<tbody id="obs-matrix-body">` is unchanged). Verified: zero
+horizontal page overflow at 320px and 375px; desktop, Source Arena, and all
+interactions unaffected.
+
 **Exact next task:**
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001` —
-independent review of that branch; not started. Only after it passes may the
-branch be pushed, a PR opened, reviewed, and merged.
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002` —
+independent re-review of the remediated branch; not started. Only after it
+passes may the branch be pushed, a PR opened, reviewed, and merged.
 
 Queued after that review/merge, in order:
 

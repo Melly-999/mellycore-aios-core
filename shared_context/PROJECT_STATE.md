@@ -88,8 +88,8 @@ safety labels, and future gates is **merged into canonical `main` via PR #20**
 A first static-snapshot implementation slice,
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`, is
 **implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (one
-local commit, not pushed, not merged)**. It adds an Observatory tab to
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (two
+local commits, not pushed, not merged)**. It adds an Observatory tab to
 `site/dashboard.html` with a local static fixture (`site/js/dashboard.js`)
 covering eight representative model entries; all cost and context-window
 fields are `null` pending a reviewed pricing source, so the Budget Estimator
@@ -99,11 +99,24 @@ No fixture data implies live catalog access. Current status remains:
 `NO_BACKEND`, `NO_MODEL_CALLS`, `NO_DEPLOY`. No push, PR, merge, or deploy
 occurred.
 
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
+returned `NEEDS_FIXES_STATIC_SNAPSHOT_SLICE_REVIEW`: a P1 mobile
+horizontal-page-scroll defect (`.obs-main { display: contents }` at the
+mobile breakpoint let descendant grid/flex/table content inflate each
+card's own rendered width past the viewport) and a P3 `obs-matrix-body`
+class/id naming collision. Both are **fixed on the same branch** by
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
+(second local commit): every direct Observatory card is now pinned to
+`width:100%; max-width:100%; min-width:0` at the mobile breakpoint, and the
+matrix wrapper `<div>` was renamed off the `obs-matrix-body` string. Verified
+zero horizontal page overflow at 320px and 375px, with desktop, Source
+Arena, and all interactions unaffected.
+
 The Source Arena post-merge docs sync prerequisite is canonical via PR #19
 (merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task
 is
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
-(independent review of the branch above; not started).
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002`
+(independent re-review of the remediated branch; not started).
 
 ## Source Arena Static Renderer Slice — Canonical
 

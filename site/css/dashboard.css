@@ -1338,11 +1338,31 @@ button {
   .obs-radar-card { order: 8; }
   .obs-estimator-form { grid-template-columns: 1fr 1fr; }
   .obs-estimator-form label:nth-child(3) { grid-column: 1 / -1; }
+
+  /* `.obs-main`/`.obs-rail` above use `display: contents` so `order` can
+     reorder cards directly under the flex `.obs-layout`. That removes their
+     own box from the tree, so each card becomes a flex item whose width the
+     browser must derive from content rather than from a definite ancestor
+     box — and any wide descendant (an `auto-fill` grid, a nowrap button row,
+     a nowrap table) can inflate the card's own rendered width past the
+     viewport instead of scrolling within itself. Pin every direct card to
+     the flex container's width explicitly so descendant content can only
+     scroll internally, never resize the card. */
+  .obs-constellation-card,
+  .obs-advisor-card,
+  .obs-selected-card,
+  .obs-estimator-card,
+  .obs-fallback-card,
+  .obs-matrix-card,
+  .obs-radar-card { width: 100%; max-width: 100%; min-width: 0; }
+
+  .obs-model-grid { max-width: 100%; min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 420px) {
   .obs-estimator-form { grid-template-columns: 1fr; }
   .obs-estimator-form label:nth-child(3) { grid-column: auto; }
+  .obs-model-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {

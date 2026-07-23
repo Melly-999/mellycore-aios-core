@@ -1,5 +1,48 @@
 # Agent Handoff
 
+## Latest Update — OpenRouter Observatory mobile-overflow remediation (branch, not merged)
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
+
+- Status: **one additional local commit on branch
+  `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, not
+  pushed, not merged**. Fixes the blocking finding from
+  `-STATIC-SNAPSHOT-SLICE-REVIEW-001` (outcome
+  `NEEDS_FIXES_STATIC_SNAPSHOT_SLICE_REVIEW`).
+- P1 fix: at the mobile breakpoint, `.obs-main { display: contents }` (used
+  so `order` can reorder cards directly under the flex `.obs-layout`) removed
+  each card's containing block, so descendant content with its own intrinsic
+  sizing (the model grid's `auto-fill` columns, the run-type button row, the
+  capability matrix table) inflated the *card's own rendered width* past the
+  viewport instead of scrolling within itself — confirmed via direct DOM
+  measurement (`document.body.scrollWidth` reaching 949–1189px at a
+  320–375px viewport). Fixed by pinning every direct Observatory card
+  (`width: 100%; max-width: 100%; min-width: 0`) at the mobile breakpoint, so
+  descendant overflow can only scroll internally (matrix table, lane/run-type
+  chip rows) and never resizes the card; also gave `.obs-model-grid` an
+  explicit column count instead of `auto-fill` at both the 760px and 420px
+  breakpoints.
+- P3 fix: renamed the matrix wrapper `<div>`'s class from `obs-matrix-body`
+  to `obs-matrix-body-wrap` in `site/dashboard.html`, removing the class/id
+  naming collision with `<tbody id="obs-matrix-body">` (left unchanged; no
+  CSS or JS referenced the old class).
+- Files touched: `site/css/dashboard.css`, `site/dashboard.html` only. No
+  `.env`, key, backend, workflow, dependency, WebGL/Three.js/Canvas, or
+  deploy-config change; no new feature or product-scope expansion.
+- Verified in-browser at 320px and 375px: `document.body.scrollWidth`
+  exactly equals `document.documentElement.clientWidth` (no horizontal page
+  overflow) in both cases; model selection, lane filter, run-type routing,
+  and the estimator all still work at mobile widths. Desktop grid layout is
+  unaffected (still multi-column). Source Arena re-verified with no
+  regression (8 records, stage, 4 simulated model-lens cards). No console
+  errors; network requests remain local-only.
+- Validators: `node --check site/js/dashboard.js` PASS,
+  `py -3.9 scripts/validate_project_state.py` PASS, `git diff --check` clean.
+- Exact next task:
+  `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002`
+  (independent re-review of the remediated branch; not started). No push,
+  PR, or merge is authorized by this entry.
+
 ## Latest Update — OpenRouter Observatory static snapshot slice implemented (branch, not merged)
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`
@@ -127,20 +170,24 @@ canonical `main` via PR #18 (merge commit `033b8773…`).
 
 ## Current Exact Next Task
 
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002`
 
 The Observatory spec is merged into canonical `main` via PR #20 (merge commit
-`f1e177e38a26cfc80e047c8481d7932ad4419487`). The static snapshot slice is now
+`f1e177e38a26cfc80e047c8481d7932ad4419487`). The static snapshot slice is
 implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` as one
-local, unpushed commit. The next task is an independent review of that
-branch; only after it passes may the branch be pushed, a PR opened, reviewed,
-and merged.
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (two
+local, unpushed commits). Its first review
+(`-STATIC-SNAPSHOT-SLICE-REVIEW-001`) returned `NEEDS_FIXES` on a mobile
+horizontal-overflow defect and a minor class/id naming collision; both are
+fixed by `-STATIC-SNAPSHOT-SLICE-REMEDIATION-001` on the same branch. The
+next task is an independent re-review of the remediated branch; only after
+it passes may the branch be pushed, a PR opened, reviewed, and merged.
 
 Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter
 live API/account usage/backend remain **not authorized**; the static snapshot
-slice is implementation-complete on its branch but not yet merged, reviewed,
-or deployed. There is **no WebGL/Three.js foundation yet** — do not begin
+slice is implementation-complete and remediated on its branch but not yet
+merged, reviewed, or deployed. There is **no WebGL/Three.js foundation yet**
+— do not begin
 that track, any OpenRouter live-API work, or any deploy ahead of the review
 and merge gates.
 

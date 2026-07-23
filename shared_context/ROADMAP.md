@@ -170,12 +170,22 @@ section is the authoritative Option B ordering):
 7. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` —
    **implemented on branch
    `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`
-   (one local commit, not pushed, not merged).** Static snapshot panel from a
+   (two local commits, not pushed, not merged).** Static snapshot panel from a
    local fixture only; no live OpenRouter fetch, no API key, no model calls,
    no backend. All cost/context fields are `null` pending a reviewed price
    source.
 7a. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
-   — **exact next task.** Independent review of that branch; not started.
+   — **complete.** Outcome `NEEDS_FIXES_STATIC_SNAPSHOT_SLICE_REVIEW`: a P1
+   mobile horizontal-page-scroll defect and a P3 class/id naming collision.
+7b. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
+   — **complete (second local commit on the same branch, not pushed).** Fixed
+   both findings: every direct Observatory card is now pinned to
+   `width:100%; max-width:100%; min-width:0` at the mobile breakpoint, and the
+   matrix wrapper `<div>` was renamed off the `obs-matrix-body` string.
+   Verified zero horizontal page overflow at 320px/375px.
+7c. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002`
+   — **exact next task.** Independent re-review of the remediated branch;
+   not started.
 8. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001` — visual/
    product review confirming it reads as a Model Router Observatory, not a
    table dump.
@@ -200,10 +210,11 @@ section is the authoritative Option B ordering):
     `AGENT_HANDOFF.md`.
 
 Tasks 4, 5, and 6 are complete at the states recorded above; task 7 is
-implemented on its branch but not pushed or merged. None of tasks 7a–16 is
-authorized by this roadmap entry alone; each requires its own gate to pass in
-order. In particular, no OpenRouter live-API implementation, WebGL/Three.js
-work, or deployment may begin ahead of the static-snapshot-slice review task.
+implemented and remediated (7a, 7b complete) on its branch but not pushed or
+merged. None of tasks 7c–16 is authorized by this roadmap entry alone; each
+requires its own gate to pass in order. In particular, no OpenRouter live-API
+implementation, WebGL/Three.js work, or deployment may begin ahead of the
+static-snapshot-slice re-review task.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena
