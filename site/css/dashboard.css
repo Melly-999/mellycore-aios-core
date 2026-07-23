@@ -1505,6 +1505,15 @@ button {
 .obs-fallback-reason { color: var(--cockpit-muted); font-size: .78rem; }
 .obs-fallback-tradeoff { color: var(--cockpit-amber); font-size: .7rem; }
 
+@media (min-width: 1041px) {
+  .dash-panel--observatory { padding-block: 12px 32px; }
+  .dash-panel--observatory .dash-section-head {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+  .dash-panel--observatory > .obs-safety-strip { margin-bottom: 8px; }
+}
+
 @media (max-width: 1040px) {
   .obs-main {
     grid-template-columns: minmax(0, 1.25fr) minmax(310px, .75fr);

@@ -1,5 +1,29 @@
 # Agent Handoff
 
+## Latest Update — OpenRouter Observatory visual polish 002 (branch, not merged)
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-002`
+
+- Status: **fourth local commit on branch
+  `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, not
+  pushed, not merged**. Visual acceptance 002 returned
+  `NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002` because the
+  Budget Estimator began at y=851 behind the fixed footer at y=847.
+- Fix: one desktop-only CSS rule reduces Observatory panel top padding,
+  section-head spacing, and the gap below the top safety strip. At 1440×900,
+  the grid moves from y=312 to y=241 and Budget Estimator from y=851 to
+  y=780; its full header ends at y=839 above the footer at y=847.
+- Mobile remains unchanged and width-contained: 320px body/client widths are
+  305/305; 375px widths are 360/360; footer remains 45px; required decision
+  order is unchanged. Interactions, Source Arena, Model Arena, console, and
+  localhost-only network checks pass.
+- Safety remains explicit and unchanged: static snapshot, representative
+  pricing only, not live pricing, no account usage, API keys, model calls,
+  backend, provider connection, or deploy.
+- Exact next task:
+  `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003`.
+  No push, PR, merge, or deploy is authorized by this entry.
+
 ## Latest Update — OpenRouter Observatory visual polish (branch, not merged)
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-001`
@@ -200,12 +224,12 @@ canonical `main` via PR #18 (merge commit `033b8773…`).
 
 ## Current Exact Next Task
 
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002`
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003`
 
 The Observatory spec is merged into canonical `main` via PR #20 (merge commit
 `f1e177e38a26cfc80e047c8481d7932ad4419487`). The static snapshot slice is
 implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (three
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (four
 local, unpushed commits). Its first technical review
 (`-STATIC-SNAPSHOT-SLICE-REVIEW-001`) returned `NEEDS_FIXES` on a mobile
 horizontal-overflow defect and a minor class/id naming collision; both are
@@ -214,7 +238,11 @@ re-review passed as `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`. Visual acceptance
 001 returned `NEEDS_POLISH`; visual polish is now complete in the third local
 commit with a router-core/orbital constellation, first-viewport routing
 hierarchy, required mobile content order, and minor footer/type refinements.
-The next task is independent visual/product acceptance 002.
+Visual acceptance 002 found one remaining P2: the Budget Estimator began
+behind the fixed footer at 1440×900. Visual polish 002 now moves the estimator
+to y=780 and leaves its full header visible above the footer without changing
+mobile, data, interactions, or safety. The next task is independent
+visual/product acceptance 003.
 
 Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter
 live API/account usage/backend remain **not authorized**; the static snapshot

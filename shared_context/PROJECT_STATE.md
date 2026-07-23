@@ -88,7 +88,7 @@ safety labels, and future gates is **merged into canonical `main` via PR #20**
 A first static-snapshot implementation slice,
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`, is
 **implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (three
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (four
 local commits, not pushed, not merged)**. It adds an Observatory tab to
 `site/dashboard.html` with a local static fixture (`site/js/dashboard.js`)
 covering eight representative model entries; all cost and context-window
@@ -122,15 +122,25 @@ bar plus secondary mono copy needed refinement.
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-001` is complete as the
 third local commit on the same branch, not pushed or merged. The Observatory
 now uses a CSS/DOM local router core with orbital model nodes; Route Advisor
-and partial Budget Estimator state appear in the first 1440×900 viewport;
-mobile DOM and visual order put advice, selected model, estimator, and
-fallback before the compact model list; 320px/375px remain width-contained.
-No fixture, pricing, JavaScript logic, provider, backend, key, or deployment
-scope changed.
+appears in the first 1440×900 viewport; mobile DOM and visual order put
+advice, selected model, estimator, and fallback before the compact model
+list; 320px/375px remain width-contained.
+
+Visual acceptance 002 returned
+`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002`: the Budget
+Estimator began at y=851 while the fixed footer began at y=847, leaving no
+budget state visible in the first desktop viewport.
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-002` is complete as the
+fourth local commit, not pushed or merged. A desktop-only spacing adjustment
+moves the grid from y=312 to y=241 and the Budget Estimator from y=851 to
+y=780; its full header ends at y=839 above the footer at y=847. Mobile order,
+width containment, interactions, data, safety wording, and provider boundary
+remain unchanged.
 
 The Source Arena post-merge docs sync prerequisite is canonical via PR #19
 (merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task is
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002`.
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003`.
 
 ## Source Arena Static Renderer Slice — Canonical
 

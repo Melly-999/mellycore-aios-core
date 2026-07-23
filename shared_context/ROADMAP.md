@@ -170,7 +170,7 @@ section is the authoritative Option B ordering):
 7. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` —
    **implemented on branch
    `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`
-   (three local commits, not pushed, not merged).** Static snapshot panel from a
+   (four local commits, not pushed, not merged).** Static snapshot panel from a
    local fixture only; no live OpenRouter fetch, no API key, no model calls,
    no backend. All cost/context fields are `null` pending a reviewed price
    source.
@@ -195,8 +195,16 @@ section is the authoritative Option B ordering):
     decision hierarchy, corrected mobile DOM/visual order, reduced the mobile
     status bar, and improved secondary mono copy without changing logic/data.
 8b. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002` —
-    **exact next task.** Independent visual/product re-review of the polished
-    branch.
+    **complete.** Outcome
+    `NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002`: the Budget
+    Estimator began behind the fixed footer at 1440×900.
+8c. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-002` —
+    **complete as the fourth local commit, not pushed or merged.** A
+    desktop-only spacing adjustment exposes the complete Budget Estimator
+    header above the footer without changing mobile, logic, data, or safety.
+8d. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003` —
+    **exact next task.** Independent visual/product re-review of the final
+    desktop first-viewport correction.
 9. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001` — final
    technical review; transition to PR-ready if clean.
 10. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001` — merge if clean;
@@ -217,8 +225,8 @@ section is the authoritative Option B ordering):
     update `README.md` / `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
     `AGENT_HANDOFF.md`.
 
-Tasks 4–8a are complete at the states recorded above; the Observatory remains
-local-only, unpushed, and unmerged. Task 8b is the exact next gate. No later
+Tasks 4–8c are complete at the states recorded above; the Observatory remains
+local-only, unpushed, and unmerged. Task 8d is the exact next gate. No later
 review, merge, OpenRouter live-API implementation, renderer expansion, or
 deployment is authorized by this roadmap entry alone.
 

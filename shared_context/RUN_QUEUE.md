@@ -23,7 +23,7 @@ post-merge living-docs sync is canonical via PR #19, merge commit
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` is
 **implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, three
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, four
 local commits, not pushed, not merged**. It adds the Observatory tab (Model
 Constellation, Cost Radar, Route Advisor, Budget Estimator, Capability
 Matrix, Fallback Chain, Safety Boundary Strip) against a local static fixture
@@ -48,8 +48,8 @@ horizontal page overflow at 320px and 375px; desktop, Source Arena, and all
 interactions unaffected.
 
 **Exact next task:**
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002` — independent
-visual/product re-review of the polished branch; not started.
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003` — independent
+visual/product re-review of the final first-viewport correction; not started.
 
 The technical re-review passed as
 `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`. Visual acceptance 001 then returned
@@ -63,7 +63,15 @@ advisor/selected/estimator/fallback/constellation order; and the bottom status
 bar plus secondary mono copy are less intrusive. Static-only safety wording
 and all existing interactions remain unchanged.
 
-Queued after visual acceptance 002, in order:
+Visual acceptance 002 returned
+`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002`: at 1440×900 the
+Budget Estimator began at y=851 behind the fixed footer at y=847. Visual
+polish 002 is complete in the fourth local commit: a desktop-only spacing
+rule moves the estimator to y=780 and leaves its full header visible above
+the footer. Mobile hierarchy, width containment, logic, data, and safety
+labels are unchanged.
+
+Queued after visual acceptance 003, in order:
 
 1. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001`
 2. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001`
