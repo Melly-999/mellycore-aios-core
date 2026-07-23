@@ -1,5 +1,25 @@
 # Agent Handoff
 
+## Latest Update — OpenRouter Model/Cost Observatory specified
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-001`
+
+- Status: **`SPEC_ONLY` / local docs commit only, not pushed**. The
+  implementation-ready artifact is
+  `docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md`.
+- Canonical base: `clean-origin/main` at
+  `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`, the normal merge commit for
+  PR #19 (Source Arena static-slice post-merge state-sync publication).
+- Defines the premium command-cockpit information architecture, static model
+  schema, nine routing lanes, model policy, local budget estimator,
+  desktop/mobile/accessibility behavior, acceptance criteria, and future
+  public-catalog/account-security gates.
+- Safety state remains: `STATIC_SNAPSHOT_PLANNED`,
+  `LIVE_API_NOT_AUTHORIZED`, `ACCOUNT_USAGE_NOT_AUTHORIZED`, `NO_API_KEYS`,
+  `NO_BACKEND`, `NO_MODEL_CALLS`, `NO_DEPLOY`. No fixture, `site/` edit,
+  provider call, account data, model execution, WebGL/Three.js/Canvas work,
+  deployment, or remote mutation was performed.
+
 ## Latest Update — Source Arena static slice merged into canonical `main` / PR #17
 
 `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001` (PR
@@ -63,27 +83,25 @@ canonical `main` via PR #18 (merge commit `033b8773…`).
   levels (Level 2/3) remain future-gated behind separate approval. Only
   Level 1 (static snapshot) is in scope for the first deploy. No deploy or
   release has been performed.
-- Recommended model routing for the sequence ahead: Claude Sonnet for
-  merge-gate review; Fable 5 for the OpenRouter Observatory's visual/product
-  spec and acceptance pass; Claude or Codex for deterministic implementation
-  and final technical review.
+- The Observatory spec records Fable 5 as unavailable in the current task
+  context, GPT-5.6 Sol as the product-architecture fallback, Opus-class for
+  ambiguous safety/future-live boundaries, Claude Sonnet for docs consistency,
+  and Codex for separately authorized deterministic implementation/validation.
 
 ## Current Exact Next Task
 
-`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001`
 
-PR #17 is merged into canonical `main` (merge commit `537a84c8…`,
-2026-07-23T11:41:42Z), and the post-merge living-docs sync
-(`-POST-MERGE-STATE-SYNC-001`) exists as a **local docs commit only — not
-pushed**. The next task pushes that commit, opens a PR, reviews it, merges it
-if clean, and verifies canonical `main`.
+The Source Arena post-merge living-docs sync is canonical via PR #19 (merge
+commit `b72bcbd…`). The Observatory spec now exists as a local docs commit
+only. The next task pushes that spec commit, opens a docs-only PR, reviews it,
+merges it if clean, and verifies canonical `main`.
 
 Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter is
-still **not implemented**, and its Observatory spec
-(`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-001`) begins only after this docs
-sync is published and merged. There is **no WebGL/Three.js foundation yet** —
-do not begin that track, any OpenRouter implementation, or any deploy ahead of
-the publish task.
+still **not implemented**; the Observatory is specification-only and the
+static snapshot remains planned. There is **no WebGL/Three.js foundation
+yet** — do not begin that track, any OpenRouter implementation, or any deploy
+ahead of the spec publish task.
 
 ## Latest Task Update (PR #15 merged into canonical `main`)
 
@@ -503,7 +521,7 @@ merged into canonical `main` (merge commit `537a84c8…`). See the "Latest
 Update — Source Arena static slice merged into canonical `main` / PR #17" entry
 at the top of this file and `shared_context/ROADMAP.md`'s "Option B Deploy
 Path" section for the current exact next task
-(`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`).
+(`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001`).
 The paragraph below is preserved as historical record of the prior state.
 
 The ADR architecture milestone is **`CLOSED_IN_CANONICAL_MAIN`** — PR #8,
