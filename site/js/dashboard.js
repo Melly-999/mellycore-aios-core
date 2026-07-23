@@ -152,6 +152,275 @@
     },
   };
 
+  /* ------------------------------------------------------------------
+   * OpenRouter Model Observatory — static snapshot slice.
+   * Local fixture only. No fetch, no API key, no model call, no account
+   * usage. Conforms to docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md
+   * §6 (static data schema), §7 (lanes), §8 (routing policy), §9 (estimator).
+   * ------------------------------------------------------------------ */
+
+  const OBS_SAFETY_LABELS = [
+    "STATIC SNAPSHOT",
+    "NO API KEY",
+    "NO MODEL CALLS",
+    "NO ACCOUNT USAGE",
+    "NOT LIVE PRICING",
+    "FUTURE-GATED LIVE CATALOG",
+  ];
+
+  const OBS_LANES = {
+    free_experimental: "Free / Experimental",
+    cheap_worker: "Cheap Worker",
+    balanced_daily: "Balanced Daily",
+    premium_reasoning: "Premium Reasoning",
+    visual_product_judge: "Visual/Product Judge",
+    security_architecture_review: "Security/Architecture Review",
+    long_context: "Long Context",
+    coding_refactor: "Coding / Refactor",
+    fallback_emergency: "Fallback / Emergency",
+  };
+
+  const OBS_RUN_TYPES = {
+    routine: { label: "Routine", lane: "cheap_worker", primaryCapability: "cheap_routine" },
+    drafting: { label: "Drafting", lane: "cheap_worker", primaryCapability: "cheap_routine" },
+    coding_refactor: { label: "Coding / Refactor", lane: "coding_refactor", primaryCapability: "coding" },
+    long_context: { label: "Long Context", lane: "long_context", primaryCapability: "long_context" },
+    visual_product_review: { label: "Visual/Product Review", lane: "visual_product_judge", primaryCapability: "visual_product" },
+    security_architecture_review: { label: "Security/Architecture Review", lane: "security_architecture_review", primaryCapability: "security_review" },
+    fallback_emergency: { label: "Fallback / Emergency", lane: "fallback_emergency", primaryCapability: "cheap_routine" },
+  };
+
+  const OBS_CAPABILITY_FIELDS = [
+    ["coding", "Coding"],
+    ["reasoning", "Reasoning"],
+    ["visual_product", "Visual/Product"],
+    ["security_review", "Security/Review"],
+    ["long_context", "Long Context"],
+    ["cheap_routine", "Cheap/Routine"],
+  ];
+
+  const OBS_COST_CLASS_RANK = { FREE_EXPERIMENTAL: 0, LOW: 1, MEDIUM: 2, HIGH: 3, PREMIUM: 4 };
+
+  const OBS_FIXTURE_NOTICE = "This Observatory fixture is a static snapshot of representative example entries only. It is not live pricing, not account-backed, and not a claim about current OpenRouter catalog availability. Cost and context-window fields are null unless a reviewed source is on file.";
+
+  /* Every model record conforms 1:1 to spec §6. cost/context fields are
+   * null wherever this fixture has no reviewed source — this is the
+   * correct, expected state per §9.2, not a bug. cost_class and lane
+   * fit are carried over from the reviewed routing table already
+   * committed at docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md §8. */
+  const OBS_MODEL_FIXTURE = {
+    schema_version: "1.0",
+    example_notice: OBS_FIXTURE_NOTICE,
+    models: [
+      {
+        model_id: "fable-5",
+        display_name: "Fable 5",
+        provider: "PLANNED_ALIAS — no verified provider binding",
+        routing_lane: "visual_product_judge",
+        cost_class: "UNKNOWN",
+        input_cost_per_million: null,
+        output_cost_per_million: null,
+        cache_read_cost_per_million: null,
+        currency: "USD",
+        context_window: null,
+        capabilities: { coding: 0, reasoning: 2, visual_product: 3, security_review: 1, long_context: 1, cheap_routine: 0 },
+        best_for: ["Final visual/product acceptance review", "Cinematic UX hierarchy judgment"],
+        avoid_for: ["Routine drafting", "Mechanical edits", "Any run assuming availability"],
+        fallbacks: [
+          { model_ref: "gpt-5-6-sol", reason: "Premium reasoning fallback for product architecture", tradeoff: "Loses dedicated visual/product judgment specialization" },
+          { model_ref: "opus-class", reason: "Fallback for safety/architecture ambiguity", tradeoff: "Different specialization, not a visual judge" },
+        ],
+        status: "UNAVAILABLE",
+        snapshot_date: "2026-07-23",
+        source_note: "Representative example entry only — not live pricing. Fable 5 is unavailable in this task context; no provider connection exists.",
+        safety_note: "STATIC SNAPSHOT · NO API KEY · NO MODEL CALLS · NO ACCOUNT USAGE",
+      },
+      {
+        model_id: "opus-class",
+        display_name: "Opus-class",
+        provider: "PLANNED_ALIAS — Opus-class family, no exact reviewed identifier",
+        routing_lane: "security_architecture_review",
+        cost_class: "PREMIUM",
+        input_cost_per_million: null,
+        output_cost_per_million: null,
+        cache_read_cost_per_million: null,
+        currency: "USD",
+        context_window: null,
+        capabilities: { coding: 2, reasoning: 3, visual_product: 0, security_review: 3, long_context: 2, cheap_routine: 0 },
+        best_for: ["Security boundaries", "Architecture and adversarial reasoning", "Future-live gate review"],
+        avoid_for: ["Cheap high-volume work", "Cosmetic-only edits"],
+        fallbacks: [
+          { model_ref: "gpt-5-6-sol", reason: "High-effort reasoning fallback", tradeoff: "Less specialized for adversarial security review" },
+          { model_ref: "claude-sonnet", reason: "Independent review for docs/architecture consistency", tradeoff: "Lower assurance floor for adversarial security review" },
+        ],
+        status: "PLANNED_ALIAS",
+        snapshot_date: "2026-07-23",
+        source_note: "Representative example entry only — not live pricing. No reviewed exact provider identifier is on file for this alias.",
+        safety_note: "STATIC SNAPSHOT · NO API KEY · NO MODEL CALLS · NO ACCOUNT USAGE",
+      },
+      {
+        model_id: "gpt-5-6-sol",
+        display_name: "GPT-5.6 Sol",
+        provider: "PLANNED_ALIAS — no verified provider binding",
+        routing_lane: "premium_reasoning",
+        cost_class: "PREMIUM",
+        input_cost_per_million: null,
+        output_cost_per_million: null,
+        cache_read_cost_per_million: null,
+        currency: "USD",
+        context_window: null,
+        capabilities: { coding: 3, reasoning: 3, visual_product: 1, security_review: 2, long_context: 2, cheap_routine: 0 },
+        best_for: ["High-effort product architecture", "Routing strategy", "Complex implementation/reasoning", "Fable 5 fallback"],
+        avoid_for: ["Low-value bulk drafting where a cheaper lane meets requirements"],
+        fallbacks: [
+          { model_ref: "opus-class", reason: "Ambiguous safety/future-live boundary escalation", tradeoff: "Different reasoning emphasis" },
+          { model_ref: "claude-sonnet", reason: "Documentation consistency fallback", tradeoff: "Lower architecture-reasoning depth" },
+        ],
+        status: "PLANNED_ALIAS",
+        snapshot_date: "2026-07-23",
+        source_note: "Representative example entry only — not live pricing. No reviewed exact provider identifier is on file for this alias.",
+        safety_note: "STATIC SNAPSHOT · NO API KEY · NO MODEL CALLS · NO ACCOUNT USAGE",
+      },
+      {
+        model_id: "gpt-5-5",
+        display_name: "GPT-5.5",
+        provider: "UNKNOWN — no reviewed provider identifier on file",
+        routing_lane: "long_context",
+        cost_class: "MEDIUM",
+        input_cost_per_million: null,
+        output_cost_per_million: null,
+        cache_read_cost_per_million: null,
+        currency: "USD",
+        context_window: null,
+        capabilities: { coding: 2, reasoning: 3, visual_product: 1, security_review: 1, long_context: 2, cheap_routine: 1 },
+        best_for: ["Strong general reasoning", "Synthesis", "Balanced-to-premium daily work"],
+        avoid_for: ["Assuming specialist visual judgment", "The cheapest batch route"],
+        fallbacks: [
+          { model_ref: "claude-sonnet", reason: "Documentation and synthesis fallback", tradeoff: "Slightly different reasoning style" },
+          { model_ref: "tera", reason: "Cost-aware fallback", tradeoff: "Lower assurance and unreviewed alias pricing" },
+        ],
+        status: "UNKNOWN",
+        snapshot_date: "2026-07-23",
+        source_note: "Representative example entry only — not live pricing. No reviewed provider price is on file for this model in this fixture.",
+        safety_note: "STATIC SNAPSHOT · NO API KEY · NO MODEL CALLS · NO ACCOUNT USAGE",
+      },
+      {
+        model_id: "claude-sonnet",
+        display_name: "Claude Sonnet",
+        provider: "UNKNOWN — no reviewed provider identifier on file",
+        routing_lane: "balanced_daily",
+        cost_class: "MEDIUM",
+        input_cost_per_million: null,
+        output_cost_per_million: null,
+        cache_read_cost_per_million: null,
+        currency: "USD",
+        context_window: null,
+        capabilities: { coding: 2, reasoning: 2, visual_product: 1, security_review: 2, long_context: 3, cheap_routine: 2 },
+        best_for: ["Documentation consistency", "Architecture synthesis", "Bounded reviews", "Daily high-quality work"],
+        avoid_for: ["Acting as the only reviewer for an ambiguous security or live-account gate"],
+        fallbacks: [
+          { model_ref: "gpt-5-5", reason: "General reasoning fallback", tradeoff: "Different documentation-consistency emphasis" },
+          { model_ref: "opus-class", reason: "Escalated review fallback", tradeoff: "Higher premium cost class" },
+        ],
+        status: "UNKNOWN",
+        snapshot_date: "2026-07-23",
+        source_note: "Representative example entry only — not live pricing. No reviewed provider price is on file for this model in this fixture.",
+        safety_note: "STATIC SNAPSHOT · NO API KEY · NO MODEL CALLS · NO ACCOUNT USAGE",
+      },
+      {
+        model_id: "tera",
+        display_name: "Tera",
+        provider: "PLANNED_ALIAS — reviewed alias, no confirmed provider identifier",
+        routing_lane: "fallback_emergency",
+        cost_class: "LOW",
+        input_cost_per_million: null,
+        output_cost_per_million: null,
+        cache_read_cost_per_million: null,
+        currency: "USD",
+        context_window: null,
+        capabilities: { coding: 2, reasoning: 1, visual_product: 0, security_review: 0, long_context: 1, cheap_routine: 3 },
+        best_for: ["Cost-aware daily implementation", "Iteration", "Fallback work under an explicit reviewed alias"],
+        avoid_for: ["Final security, account-usage, or ambiguous safety decisions"],
+        fallbacks: [
+          { model_ref: "glm-cheap", reason: "Cheaper routine-work fallback", tradeoff: "Lower reasoning ceiling" },
+          { model_ref: "claude-sonnet", reason: "Higher-assurance fallback", tradeoff: "Higher cost class" },
+        ],
+        status: "PLANNED_ALIAS",
+        snapshot_date: "2026-07-23",
+        source_note: "Representative example entry only — not live pricing. Alias and price are unreviewed for this fixture.",
+        safety_note: "STATIC SNAPSHOT · NO API KEY · NO MODEL CALLS · NO ACCOUNT USAGE",
+      },
+      {
+        model_id: "glm-cheap",
+        display_name: "GLM / cheap model",
+        provider: "PLANNED_ALIAS — generic cheap-tier descriptor, no exact identifier",
+        routing_lane: "cheap_worker",
+        cost_class: "LOW",
+        input_cost_per_million: null,
+        output_cost_per_million: null,
+        cache_read_cost_per_million: null,
+        currency: "USD",
+        context_window: null,
+        capabilities: { coding: 1, reasoning: 1, visual_product: 0, security_review: 0, long_context: 0, cheap_routine: 3 },
+        best_for: ["Drafting", "Formatting", "Extraction", "Exploration", "Secondary implementation ideas"],
+        avoid_for: ["Sole source for architecture, security, visual acceptance, or consequential approval"],
+        fallbacks: [
+          { model_ref: "tera", reason: "Slightly higher-assurance fallback", tradeoff: "Alias/price still unreviewed" },
+          { model_ref: "claude-sonnet", reason: "Higher-assurance escalation", tradeoff: "Higher cost class" },
+        ],
+        status: "PLANNED_ALIAS",
+        snapshot_date: "2026-07-23",
+        source_note: "Representative example entry only — not live pricing. Generic cheap-tier descriptor; do not equate low cost with fit.",
+        safety_note: "STATIC SNAPSHOT · NO API KEY · NO MODEL CALLS · NO ACCOUNT USAGE",
+      },
+      {
+        model_id: "codex",
+        display_name: "Codex",
+        provider: "UNKNOWN — no generic Codex price assumption is authorized",
+        routing_lane: "coding_refactor",
+        cost_class: "UNKNOWN",
+        input_cost_per_million: null,
+        output_cost_per_million: null,
+        cache_read_cost_per_million: null,
+        currency: "USD",
+        context_window: null,
+        capabilities: { coding: 3, reasoning: 2, visual_product: 0, security_review: 1, long_context: 1, cheap_routine: 1 },
+        best_for: ["Scoped coding/refactor work", "Tests", "Validation", "Implementation review", "Deterministic repository changes"],
+        avoid_for: ["Unbounded product strategy", "Treating generated code as already validated"],
+        fallbacks: [
+          { model_ref: "gpt-5-6-sol", reason: "Complex implementation reasoning fallback", tradeoff: "Higher premium cost class" },
+          { model_ref: "claude-sonnet", reason: "Docs/architecture review fallback", tradeoff: "Different coding-specific tuning" },
+        ],
+        status: "UNKNOWN",
+        snapshot_date: "2026-07-23",
+        source_note: "Representative example entry only — not live pricing. The underlying model cost is not represented; no generic Codex price assumption is made.",
+        safety_note: "STATIC SNAPSHOT · NO API KEY · NO MODEL CALLS · NO ACCOUNT USAGE",
+      },
+    ],
+  };
+
+  const OBS_LANE_PRIMARY = {
+    cheap_worker: { primary: "glm-cheap", alt: "tera" },
+    balanced_daily: { primary: "claude-sonnet", alt: "gpt-5-5" },
+    premium_reasoning: { primary: "gpt-5-6-sol", alt: "opus-class" },
+    visual_product_judge: { primary: "fable-5", alt: "gpt-5-6-sol" },
+    security_architecture_review: { primary: "opus-class", alt: "claude-sonnet" },
+    long_context: { primary: "gpt-5-5", alt: "claude-sonnet" },
+    coding_refactor: { primary: "codex", alt: "gpt-5-6-sol" },
+    fallback_emergency: { primary: "tera", alt: "glm-cheap" },
+  };
+
+  function obsFindModel(modelId) {
+    return OBS_MODEL_FIXTURE.models.find((model) => model.model_id === modelId) || null;
+  }
+
+  function obsCapabilityLabel(level) {
+    if (level >= 3) return { label: "Strong", cls: "obs-cap--strong" };
+    if (level === 2) return { label: "Partial", cls: "obs-cap--partial" };
+    if (level === 1) return { label: "Limited", cls: "obs-cap--limited" };
+    return { label: "None", cls: "obs-cap--none" };
+  }
+
   const state = {
     roadmapText: "",
     runQueueText: "",
@@ -168,6 +437,9 @@
     feedRunning: true,
     feedTimer: null,
     feedPulseIndex: 0,
+    obsActiveLane: "",
+    obsSelectedModelId: "glm-cheap",
+    obsRunType: "routine",
   };
 
   /* All visible dates/times/numbers are pinned to en-US or ISO-style output. */
@@ -797,6 +1069,300 @@
     document.getElementById("compare-feed-toggle").addEventListener("click", () => setFeedRunning(!state.feedRunning));
   }
 
+  function obsSafetyStripMarkup() {
+    return OBS_SAFETY_LABELS.map((label) => `<span class="obs-safety-chip">${escapeHTML(label)}</span>`).join("");
+  }
+
+  function renderObsSafetyStrip() {
+    const top = document.getElementById("obs-safety-strip-top");
+    const estimator = document.getElementById("obs-safety-strip-estimator");
+    const markup = obsSafetyStripMarkup();
+    if (top) top.innerHTML = markup;
+    if (estimator) estimator.innerHTML = markup;
+  }
+
+  function renderObsLaneFilter() {
+    const target = document.getElementById("obs-lane-filter");
+    if (!target) return;
+    const lanesInUse = Array.from(new Set(OBS_MODEL_FIXTURE.models.map((model) => model.routing_lane)));
+    const chips = ["", ...lanesInUse].map((laneId, index) => {
+      const label = laneId ? OBS_LANES[laneId] : "All lanes";
+      const pressed = state.obsActiveLane === laneId;
+      return `<button type="button" class="task-button" data-obs-lane="${escapeHTML(laneId)}" aria-pressed="${pressed}"><span>${String(index).padStart(2, "0")}</span>${escapeHTML(label)}</button>`;
+    }).join("");
+    target.innerHTML = chips;
+    target.querySelectorAll("[data-obs-lane]").forEach((button) => {
+      button.addEventListener("click", () => setObsLaneFilter(button.dataset.obsLane));
+    });
+  }
+
+  function setObsLaneFilter(laneId) {
+    state.obsActiveLane = laneId || "";
+    renderObsLaneFilter();
+    renderObsModelGrid();
+  }
+
+  function obsModelCardMarkup(model) {
+    const selected = model.model_id === state.obsSelectedModelId;
+    const statusCls = model.status === "UNAVAILABLE" ? "obs-status--unavailable" : model.status === "PLANNED_ALIAS" ? "obs-status--alias" : "obs-status--unknown";
+    const lane = OBS_LANES[model.routing_lane] || model.routing_lane;
+    const label = `${model.display_name}, ${lane} lane, cost class ${model.cost_class}, status ${model.status}${selected ? ", selected" : ""}`;
+    return `<button type="button" class="obs-model-card${selected ? " is-selected" : ""}" data-obs-model="${escapeHTML(model.model_id)}" aria-pressed="${selected}" aria-label="${escapeHTML(label)}">
+        <span class="obs-model-card-head">
+          <strong>${escapeHTML(model.display_name)}</strong>
+          <span class="obs-cost-chip obs-cost-chip--${escapeHTML(model.cost_class)}">${escapeHTML(model.cost_class)}</span>
+        </span>
+        <span class="obs-model-lane">${escapeHTML(lane)}</span>
+        <span class="obs-status-chip ${statusCls}">${escapeHTML(model.status)}</span>
+      </button>`;
+  }
+
+  function renderObsModelGrid() {
+    const target = document.getElementById("obs-model-grid");
+    if (!target) return;
+    const models = OBS_MODEL_FIXTURE.models.filter((model) => !state.obsActiveLane || model.routing_lane === state.obsActiveLane);
+    target.innerHTML = models.length
+      ? models.map(obsModelCardMarkup).join("")
+      : '<p class="dash-source-note">No fixture model is assigned to this lane yet.</p>';
+    target.querySelectorAll("[data-obs-model]").forEach((button) => {
+      button.addEventListener("click", () => selectObsModel(button.dataset.obsModel));
+    });
+  }
+
+  function selectObsModel(modelId) {
+    if (!obsFindModel(modelId)) return;
+    state.obsSelectedModelId = modelId;
+    renderObsModelGrid();
+    renderObsCostRadar();
+    renderObsSelectedDetail();
+    renderObsFallbackChain();
+    renderObsRouteAdvisor();
+    renderObsEstimatorResult();
+    renderObsMatrix();
+  }
+
+  function obsRateLabel(rate, currency) {
+    return rate == null ? "UNKNOWN" : `${rate.toLocaleString("en-US")} ${escapeHTML(currency || "USD")}/M`;
+  }
+
+  function renderObsCostRadar() {
+    const target = document.getElementById("obs-cost-radar");
+    if (!target) return;
+    const model = obsFindModel(state.obsSelectedModelId);
+    if (!model) { target.innerHTML = ""; return; }
+    target.innerHTML = [
+      metricHTML(model.cost_class, "cost class", model.cost_class === "UNKNOWN" ? "warning" : "accent"),
+      metricHTML(obsRateLabel(model.input_cost_per_million, model.currency), "input rate", "cyan"),
+      metricHTML(obsRateLabel(model.output_cost_per_million, model.currency), "output rate", "cyan"),
+      metricHTML(model.context_window == null ? "UNKNOWN" : formatInt(model.context_window), "context window", "warning"),
+      metricHTML(model.snapshot_date, "snapshot date", "good"),
+    ].join("");
+  }
+
+  function renderObsSelectedDetail() {
+    const target = document.getElementById("obs-selected-detail");
+    if (!target) return;
+    const model = obsFindModel(state.obsSelectedModelId);
+    if (!model) { target.innerHTML = "<p class=\"dash-muted\">No model selected.</p>"; return; }
+    target.innerHTML = `
+      <h3 class="obs-selected-title">${escapeHTML(model.display_name)}</h3>
+      <p class="obs-selected-provider">${escapeHTML(model.provider)}</p>
+      <dl class="context-rule-list obs-selected-facts">
+        <div><dt>Lane</dt><dd>${escapeHTML(OBS_LANES[model.routing_lane] || model.routing_lane)}</dd></div>
+        <div><dt>Status</dt><dd>${escapeHTML(model.status)}</dd></div>
+        <div><dt>Cost class</dt><dd>${escapeHTML(model.cost_class)}</dd></div>
+      </dl>
+      <p class="obs-selected-label">Best for</p>
+      <ul class="dash-line-list">${model.best_for.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
+      <p class="obs-selected-label">Avoid for</p>
+      <ul class="dash-line-list">${model.avoid_for.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
+      <p class="obs-source-note">${escapeHTML(model.source_note)}</p>
+      <p class="obs-safety-note">${escapeHTML(model.safety_note)}</p>`;
+  }
+
+  function renderObsFallbackChain() {
+    const target = document.getElementById("obs-fallback-chain");
+    if (!target) return;
+    const model = obsFindModel(state.obsSelectedModelId);
+    if (!model) { target.innerHTML = ""; return; }
+    const steps = [{ model_ref: model.model_id, reason: "Preferred model for the selected lane.", tradeoff: "None — this is the primary selection." }].concat(model.fallbacks || []);
+    target.innerHTML = steps.map((step, index) => {
+      const stepModel = obsFindModel(step.model_ref);
+      const name = stepModel ? stepModel.display_name : step.model_ref;
+      return `<li class="obs-fallback-step"><span class="obs-fallback-index">${index === 0 ? "Selected" : `Fallback ${index}`}</span><strong>${escapeHTML(name)}</strong><span class="obs-fallback-reason">${escapeHTML(step.reason)}</span>${index > 0 ? `<span class="obs-fallback-tradeoff">Trade-off: ${escapeHTML(step.tradeoff)}</span>` : ""}</li>`;
+    }).join("");
+  }
+
+  function renderObsRunTypeSelector() {
+    const target = document.getElementById("obs-runtype-selector");
+    if (!target) return;
+    target.innerHTML = Object.entries(OBS_RUN_TYPES).map(([id, runType], index) => {
+      const pressed = state.obsRunType === id;
+      return `<button type="button" class="task-button" data-obs-runtype="${id}" aria-pressed="${pressed}"><span>${String(index + 1).padStart(2, "0")}</span>${escapeHTML(runType.label)}</button>`;
+    }).join("");
+    target.querySelectorAll("[data-obs-runtype]").forEach((button) => {
+      button.addEventListener("click", () => setObsRunType(button.dataset.obsRuntype));
+    });
+  }
+
+  function setObsRunType(runType) {
+    if (!OBS_RUN_TYPES[runType]) return;
+    state.obsRunType = runType;
+    renderObsRunTypeSelector();
+    renderObsRouteAdvisor();
+    renderObsEstimatorResult();
+  }
+
+  function obsCostRankOf(model) {
+    return model && Object.prototype.hasOwnProperty.call(OBS_COST_CLASS_RANK, model.cost_class) ? OBS_COST_CLASS_RANK[model.cost_class] : null;
+  }
+
+  function obsFindCheaperAlternative(runType, model) {
+    const rt = OBS_RUN_TYPES[runType];
+    const selfRank = obsCostRankOf(model);
+    if (selfRank == null) return null;
+    const candidates = OBS_MODEL_FIXTURE.models.filter((candidate) => {
+      if (candidate.model_id === model.model_id) return false;
+      if (candidate.status === "UNAVAILABLE") return false;
+      const rank = obsCostRankOf(candidate);
+      if (rank == null || rank >= selfRank) return false;
+      return (candidate.capabilities[rt.primaryCapability] || 0) >= 1;
+    }).sort((left, right) => obsCostRankOf(left) - obsCostRankOf(right));
+    return candidates[0] || null;
+  }
+
+  function obsPremiumSignal(runType, model) {
+    if (!model) return "INSUFFICIENT_DATA";
+    if (["UNKNOWN", "UNAVAILABLE", "PLANNED_ALIAS"].includes(model.status)) return "INSUFFICIENT_DATA";
+    const rt = OBS_RUN_TYPES[runType];
+    const cheaper = obsFindCheaperAlternative(runType, model);
+    if (rt.lane === "visual_product_judge" || rt.lane === "security_architecture_review") {
+      return cheaper ? "OPTIONAL" : "RECOMMENDED";
+    }
+    if (runType === "routine" || runType === "drafting") {
+      return cheaper ? "NOT_JUSTIFIED" : "OPTIONAL";
+    }
+    return "OPTIONAL";
+  }
+
+  function renderObsRouteAdvisor() {
+    const target = document.getElementById("obs-route-result");
+    if (!target) return;
+    const rt = OBS_RUN_TYPES[state.obsRunType];
+    const laneModels = OBS_LANE_PRIMARY[rt.lane];
+    const primary = laneModels ? obsFindModel(laneModels.primary) : null;
+    const alt = laneModels ? obsFindModel(laneModels.alt) : null;
+    if (!primary) {
+      target.innerHTML = `<p class="dash-source-note">No fixture model owns the ${escapeHTML(OBS_LANES[rt.lane])} lane yet. Consult the fallback chain for a currently selected model.</p>`;
+      return;
+    }
+    const caution = primary.status === "UNAVAILABLE"
+      ? `<p class="obs-advisor-caution"><strong>Caution:</strong> ${escapeHTML(primary.display_name)} is currently <code>UNAVAILABLE</code>. Use the fallback chain instead of assuming this model can be called.</p>`
+      : `<p class="obs-advisor-caution">Status: <code>${escapeHTML(primary.status)}</code> — treat as a reviewed fixture entry, not proof of live availability.</p>`;
+    target.innerHTML = `
+      <p class="obs-advisor-lane">Recommended lane: <strong>${escapeHTML(OBS_LANES[rt.lane])}</strong></p>
+      <p class="obs-advisor-model">Recommended model: <strong>${escapeHTML(primary.display_name)}</strong>${alt ? ` · fallback: <strong>${escapeHTML(alt.display_name)}</strong>` : ""}</p>
+      ${caution}
+      <p class="dash-source-note">This is local policy guidance only. It never launches a run, chooses on your behalf, or represents approval.</p>
+      <button type="button" class="cockpit-button cockpit-button--secondary obs-advisor-select" data-obs-model="${escapeHTML(primary.model_id)}">Inspect ${escapeHTML(primary.display_name)} below</button>`;
+    const selectBtn = target.querySelector(".obs-advisor-select");
+    if (selectBtn) selectBtn.addEventListener("click", () => selectObsModel(selectBtn.dataset.obsModel));
+  }
+
+  function readObsEstimatorForm() {
+    const inputEl = document.getElementById("obs-input-tokens");
+    const outputEl = document.getElementById("obs-output-tokens");
+    const cacheEl = document.getElementById("obs-cache-tokens");
+    const toNonNegativeInt = (el) => {
+      const value = Math.trunc(Number(el && el.value));
+      return Number.isFinite(value) && value >= 0 ? value : 0;
+    };
+    return {
+      inputTokens: toNonNegativeInt(inputEl),
+      outputTokens: toNonNegativeInt(outputEl),
+      cacheTokens: toNonNegativeInt(cacheEl),
+    };
+  }
+
+  /* Static approximate estimate only — spec §9.2. Never invents a rate;
+     null input/output rate always yields a null estimate. */
+  function computeObsEstimate(model, tokens) {
+    const cacheTokens = Math.min(tokens.cacheTokens, tokens.inputTokens);
+    const uncachedInput = tokens.inputTokens - cacheTokens;
+    if (model.input_cost_per_million == null || model.output_cost_per_million == null) {
+      return { estimatedCost: null, note: "INSUFFICIENT PRICING DATA" };
+    }
+    let cacheNote = null;
+    let cacheRate = model.cache_read_cost_per_million;
+    if (cacheTokens > 0 && cacheRate == null) {
+      cacheRate = model.input_cost_per_million;
+      cacheNote = "CACHE_RATE_UNKNOWN_ASSUMED_INPUT_RATE";
+    }
+    const inputEstimate = (uncachedInput / 1000000) * model.input_cost_per_million;
+    const cacheEstimate = cacheRate == null ? 0 : (cacheTokens / 1000000) * cacheRate;
+    const outputEstimate = (tokens.outputTokens / 1000000) * model.output_cost_per_million;
+    return { estimatedCost: inputEstimate + cacheEstimate + outputEstimate, note: cacheNote };
+  }
+
+  function renderObsEstimatorResult() {
+    const target = document.getElementById("obs-estimator-result");
+    if (!target) return;
+    const model = obsFindModel(state.obsSelectedModelId);
+    if (!model) { target.innerHTML = ""; return; }
+    const tokens = readObsEstimatorForm();
+    const estimate = computeObsEstimate(model, tokens);
+    const cheaper = obsFindCheaperAlternative(state.obsRunType, model);
+    const signal = obsPremiumSignal(state.obsRunType, model);
+    const costLine = estimate.estimatedCost == null
+      ? `<strong class="obs-estimate-unknown">INSUFFICIENT PRICING DATA</strong>`
+      : `<strong class="obs-estimate-value">${estimate.estimatedCost.toFixed(4)} ${escapeHTML(model.currency || "USD")}</strong>`;
+    target.innerHTML = `
+      <div class="obs-estimate-line">${costLine}${estimate.note ? `<span class="obs-estimate-note">${escapeHTML(estimate.note)}</span>` : ""}</div>
+      <dl class="context-rule-list obs-estimate-facts">
+        <div><dt>Cheaper alternative</dt><dd>${cheaper ? escapeHTML(cheaper.display_name) : "NO REVIEWED CHEAPER ALTERNATIVE"}</dd></div>
+        <div><dt>Worth premium model?</dt><dd><span class="obs-signal-chip obs-signal--${signal}">${escapeHTML(signal)}</span></dd></div>
+        <div><dt>Snapshot date</dt><dd>${escapeHTML(model.snapshot_date)}</dd></div>
+      </dl>
+      <p class="obs-estimate-fine">Static approximate estimate — not account billing. Assumptions: representative per-million-token rates from the local fixture only; no tax, provider fee, retry, tool-call, image, or audio adjustment is modeled.</p>`;
+  }
+
+  function obsMatrixRowMarkup(model) {
+    return `<tr>
+      <th scope="row">${escapeHTML(model.display_name)}</th>
+      ${OBS_CAPABILITY_FIELDS.map(([field]) => {
+        const level = obsCapabilityLabel(model.capabilities[field] || 0);
+        return `<td><span class="obs-cap-chip ${level.cls}">${escapeHTML(level.label)}</span></td>`;
+      }).join("")}
+    </tr>`;
+  }
+
+  function renderObsMatrix() {
+    const target = document.getElementById("obs-matrix-body");
+    if (!target) return;
+    const selected = obsFindModel(state.obsSelectedModelId);
+    const lane = selected ? selected.routing_lane : null;
+    const rows = OBS_MODEL_FIXTURE.models.filter((model) => !lane || model.routing_lane === lane || model.model_id === state.obsSelectedModelId);
+    target.innerHTML = rows.map(obsMatrixRowMarkup).join("");
+  }
+
+  function initObsInteractions() {
+    const form = document.getElementById("obs-estimator-form");
+    if (form) form.addEventListener("input", () => renderObsEstimatorResult());
+  }
+
+  function renderObservatory() {
+    renderObsSafetyStrip();
+    renderObsLaneFilter();
+    renderObsModelGrid();
+    renderObsCostRadar();
+    renderObsSelectedDetail();
+    renderObsRunTypeSelector();
+    renderObsRouteAdvisor();
+    renderObsEstimatorResult();
+    renderObsMatrix();
+    renderObsFallbackChain();
+  }
+
   async function loadLocalData() {
     const [roadmapText, runQueueText, safetyContractText, registry, projectHealthState, snapshot, contextIndex, contextAuditSnapshot] = await Promise.all([
       getText("/shared_context/ROADMAP.md"),
@@ -825,6 +1391,9 @@
     renderCompareCategorySelector();
     renderModelOutputs();
     setFeedRunning(true);
+
+    initObsInteractions();
+    renderObservatory();
 
     initClampToggles("roadmap-milestone");
     initClampToggles("roadmap-queue");

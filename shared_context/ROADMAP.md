@@ -164,12 +164,18 @@ section is the authoritative Option B ordering):
    the Model Router Observatory UX; no API calls, no keys, no backend.
    **Complete as a local docs commit only, not pushed.** Artifact:
    `docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md`.
-6. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001` — **exact next
-   task.** Push the spec commit, open a docs-only PR, review, merge if clean,
-   and verify canonical `main`.
+6. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001` — **complete.**
+   Merged into canonical `main` via PR #20, merge commit
+   `f1e177e38a26cfc80e047c8481d7932ad4419487`.
 7. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` —
-   implement the static snapshot panel from a local fixture only; no live
-   OpenRouter fetch, no API key, no model calls, no backend.
+   **implemented on branch
+   `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`
+   (one local commit, not pushed, not merged).** Static snapshot panel from a
+   local fixture only; no live OpenRouter fetch, no API key, no model calls,
+   no backend. All cost/context fields are `null` pending a reviewed price
+   source.
+7a. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
+   — **exact next task.** Independent review of that branch; not started.
 8. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001` — visual/
    product review confirming it reads as a Model Router Observatory, not a
    table dump.
@@ -193,10 +199,11 @@ section is the authoritative Option B ordering):
     update `README.md` / `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
     `AGENT_HANDOFF.md`.
 
-Tasks 4 and 5 are complete at the states recorded above. None of tasks 6–16
-is authorized by this roadmap entry alone; each requires its own gate to pass
-in order. In particular, no OpenRouter implementation, WebGL/Three.js work, or
-deployment may begin ahead of the spec publish task.
+Tasks 4, 5, and 6 are complete at the states recorded above; task 7 is
+implemented on its branch but not pushed or merged. None of tasks 7a–16 is
+authorized by this roadmap entry alone; each requires its own gate to pass in
+order. In particular, no OpenRouter live-API implementation, WebGL/Three.js
+work, or deployment may begin ahead of the static-snapshot-slice review task.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena

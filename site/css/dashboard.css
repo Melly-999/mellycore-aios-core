@@ -1132,3 +1132,228 @@ button {
   .arena-node-dot,
   .cockpit-button { forced-color-adjust: auto; }
 }
+
+/* ------------------------------------------------------------------
+ * OpenRouter Model Observatory — static snapshot slice.
+ * Reuses .dash-surface, .task-button, .cockpit-button, .metric-strip,
+ * .context-rule-list, .dash-line-list, .dash-details from above; adds
+ * only Observatory-specific layout and chip styling below.
+ * ------------------------------------------------------------------ */
+
+.obs-safety-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.obs-safety-strip--compact { margin-bottom: 12px; }
+
+.obs-safety-chip {
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 195, 77, 0.45);
+  border-radius: var(--radius-chip);
+  background: rgba(255, 195, 77, 0.08);
+  color: var(--cockpit-amber);
+  font-family: var(--font-mono);
+  font-size: var(--text-chip);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.obs-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 16px;
+  align-items: start;
+}
+
+.obs-main { display: grid; gap: 16px; min-width: 0; }
+.obs-rail { display: grid; gap: 16px; position: sticky; top: 90px; }
+
+.obs-lane-filter { margin: 12px 0; }
+
+.obs-model-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 10px;
+}
+
+.obs-model-card {
+  display: grid;
+  gap: 6px;
+  min-height: var(--cockpit-control);
+  padding: 12px;
+  border: 1px solid var(--cockpit-line);
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, .02);
+  color: var(--cockpit-copy);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.obs-model-card:hover { border-color: var(--cockpit-pink); }
+.obs-model-card.is-selected {
+  border-color: var(--cockpit-violet);
+  background: rgba(168, 108, 255, .1);
+  box-shadow: 0 0 0 1px var(--cockpit-violet) inset, 0 0 18px rgba(124, 58, 237, .22);
+}
+
+.obs-model-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.obs-model-card-head strong { font-size: .88rem; }
+.obs-model-lane { color: var(--cockpit-muted); font-size: .68rem; }
+
+.obs-cost-chip,
+.obs-status-chip,
+.obs-signal-chip,
+.obs-cap-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-chip);
+  font-family: var(--font-mono);
+  font-size: var(--text-chip);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.obs-cost-chip { border: 1px solid var(--cockpit-line-strong); color: var(--cockpit-copy); }
+.obs-cost-chip--PREMIUM { border-color: var(--cockpit-pink); color: var(--cockpit-pink); }
+.obs-cost-chip--HIGH { border-color: var(--cockpit-amber); color: var(--cockpit-amber); }
+.obs-cost-chip--MEDIUM { border-color: var(--cockpit-cyan); color: var(--cockpit-cyan); }
+.obs-cost-chip--LOW { border-color: var(--cockpit-green); color: var(--cockpit-green); }
+.obs-cost-chip--UNKNOWN,
+.obs-cost-chip--FREE_EXPERIMENTAL { border-color: var(--cockpit-muted); color: var(--cockpit-muted); }
+
+.obs-status-chip { border: 1px dashed var(--cockpit-line-strong); color: var(--cockpit-muted); justify-self: start; }
+.obs-status--unavailable { border-color: var(--cockpit-nasa); color: var(--cockpit-nasa); }
+.obs-status--alias { border-color: var(--cockpit-amber); color: var(--cockpit-amber); }
+.obs-status--unknown { border-color: var(--cockpit-muted); color: var(--cockpit-muted); }
+
+.obs-advisor-caution {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 195, 77, .4);
+  border-radius: var(--radius-card);
+  background: rgba(255, 195, 77, .06);
+  font-size: .82rem;
+}
+
+.obs-advisor-lane,
+.obs-advisor-model { margin: 4px 0; font-size: .9rem; }
+.obs-advisor-select { margin-top: 10px; }
+
+.obs-estimator-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.obs-estimator-form label {
+  display: grid;
+  gap: 5px;
+  color: var(--cockpit-muted);
+  font-size: .74rem;
+}
+
+.obs-estimator-form input {
+  min-height: var(--cockpit-control);
+  padding: 0 10px;
+  border: 1px solid var(--cockpit-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .03);
+  color: var(--cockpit-copy);
+}
+
+.obs-estimator-form input:focus-visible { outline: 2px solid var(--cockpit-violet); outline-offset: 1px; }
+
+.obs-estimate-line { display: flex; align-items: baseline; gap: 10px; font-size: 1.1rem; }
+.obs-estimate-unknown { color: var(--cockpit-amber); }
+.obs-estimate-value { color: var(--cockpit-green); font-family: var(--font-mono); }
+.obs-estimate-note { color: var(--cockpit-muted); font-size: .68rem; font-family: var(--font-mono); text-transform: uppercase; }
+.obs-estimate-facts { margin-top: 10px; }
+.obs-estimate-fine { margin-top: 10px; color: var(--cockpit-muted); font-size: .72rem; }
+
+.obs-signal-chip { border: 1px solid var(--cockpit-line-strong); }
+.obs-signal--RECOMMENDED { border-color: var(--cockpit-green); color: var(--cockpit-green); }
+.obs-signal--OPTIONAL { border-color: var(--cockpit-cyan); color: var(--cockpit-cyan); }
+.obs-signal--NOT_JUSTIFIED { border-color: var(--cockpit-nasa); color: var(--cockpit-nasa); }
+.obs-signal--INSUFFICIENT_DATA { border-color: var(--cockpit-muted); color: var(--cockpit-muted); }
+
+.obs-matrix-table-wrap { overflow-x: auto; }
+.obs-matrix-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+.obs-matrix-table th,
+.obs-matrix-table td { padding: 8px 10px; border-bottom: 1px solid var(--cockpit-line); text-align: left; white-space: nowrap; }
+.obs-matrix-table th[scope="row"] { color: var(--cockpit-copy); font-weight: 600; }
+
+.obs-cap-chip { border: 1px solid var(--cockpit-line-strong); }
+.obs-cap--strong { border-color: var(--cockpit-green); color: var(--cockpit-green); }
+.obs-cap--partial { border-color: var(--cockpit-cyan); color: var(--cockpit-cyan); }
+.obs-cap--limited { border-color: var(--cockpit-amber); color: var(--cockpit-amber); }
+.obs-cap--none { border-color: var(--cockpit-muted); color: var(--cockpit-muted); }
+
+.obs-selected-title { margin: 0 0 4px; font-size: 1.05rem; }
+.obs-selected-provider { margin: 0 0 10px; color: var(--cockpit-muted); font-size: .74rem; }
+.obs-selected-facts { margin-bottom: 10px; }
+.obs-selected-label { margin: 10px 0 4px; color: var(--cockpit-muted); font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; }
+.obs-source-note,
+.obs-safety-note { margin-top: 10px; color: var(--cockpit-muted); font-size: .68rem; }
+.obs-safety-note { color: var(--cockpit-amber); font-family: var(--font-mono); }
+
+.obs-fallback-chain { display: grid; gap: 10px; }
+.obs-fallback-step {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 1px solid var(--cockpit-line);
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, .02);
+}
+.obs-fallback-index { color: var(--cockpit-violet); font-family: var(--font-mono); font-size: .62rem; text-transform: uppercase; letter-spacing: .05em; }
+.obs-fallback-reason { color: var(--cockpit-muted); font-size: .78rem; }
+.obs-fallback-tradeoff { color: var(--cockpit-amber); font-size: .7rem; }
+
+@media (max-width: 1040px) {
+  .obs-layout { grid-template-columns: 1fr; }
+  .obs-rail { position: static; }
+}
+
+@media (max-width: 760px) {
+  /* Mobile reading order per spec §12: safety strip, lane selector,
+     route advisor, selected model, simplified estimator, fallback
+     chain, matrix. */
+  .obs-layout { display: flex; flex-direction: column; }
+  .obs-main { order: 2; display: contents; }
+  .obs-rail { order: 3; display: contents; }
+  .obs-lane-filter { order: 1; }
+  .obs-constellation-card { order: 2; }
+  .obs-advisor-card { order: 3; }
+  .obs-selected-card { order: 4; }
+  .obs-estimator-card { order: 5; }
+  .obs-fallback-card { order: 6; }
+  .obs-matrix-card { order: 7; }
+  .obs-radar-card { order: 8; }
+  .obs-estimator-form { grid-template-columns: 1fr 1fr; }
+  .obs-estimator-form label:nth-child(3) { grid-column: 1 / -1; }
+}
+
+@media (max-width: 420px) {
+  .obs-estimator-form { grid-template-columns: 1fr; }
+  .obs-estimator-form label:nth-child(3) { grid-column: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .obs-model-card { transition: none; }
+}
+
+@media (forced-colors: active) {
+  .obs-model-card,
+  .obs-safety-chip,
+  .obs-cost-chip,
+  .obs-status-chip,
+  .obs-signal-chip,
+  .obs-cap-chip { forced-color-adjust: auto; }
+}

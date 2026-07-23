@@ -1,5 +1,42 @@
 # Agent Handoff
 
+## Latest Update — OpenRouter Observatory static snapshot slice implemented (branch, not merged)
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`
+
+- Status: **implemented on branch
+  `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, one
+  local commit, not pushed, not merged**. Branch base: `clean-origin/main` at
+  `f1e177e38a26cfc80e047c8481d7932ad4419487` (the PR #20 spec-publish merge
+  commit).
+- Adds a new Observatory tab to `site/dashboard.html` implementing the Model
+  Constellation, Cost Radar, Route Advisor, Budget Estimator, Capability
+  Matrix, Fallback Chain, and Safety Boundary Strip against a local static
+  fixture (`OBS_MODEL_FIXTURE` in `site/js/dashboard.js`) covering Fable 5,
+  Opus-class, GPT-5.6 Sol, GPT-5.5, Claude Sonnet, Tera, GLM / cheap model,
+  and Codex. All cost and context-window fields are `null` — no reviewed
+  2026 pricing source is on file for this fixture, so every estimate
+  correctly renders `INSUFFICIENT PRICING DATA` rather than inventing a
+  number; this is the spec's documented, expected behavior for missing rates,
+  not a defect.
+- Files touched: `site/dashboard.html`, `site/js/dashboard.js`,
+  `site/css/dashboard.css` only. No `.env`, key, backend, proxy, dependency,
+  workflow, WebGL/Three.js/Canvas, or deploy-config change.
+- Live API/account usage/backend/deploy remain **not authorized**; this slice
+  makes zero network requests beyond the pre-existing local
+  `shared_context/**` reads. Source Arena was smoke-tested and shows no
+  regression.
+- Validators: `node --check site/js/dashboard.js` PASS,
+  `py -3.9 scripts/validate_project_state.py` PASS, `git diff --check` clean.
+  Browser smoke confirmed model selection, lane filter, run-type routing,
+  estimator math (cross-checked against spec §9.2 formula), capability
+  matrix, fallback chain, and mobile stacking order all function without
+  console errors or external requests.
+- Exact next task:
+  `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
+  (independent review of this branch; not started). No push, PR, or merge is
+  authorized by this entry.
+
 ## Latest Update — OpenRouter Model/Cost Observatory specified
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-001`
@@ -90,18 +127,22 @@ canonical `main` via PR #18 (merge commit `033b8773…`).
 
 ## Current Exact Next Task
 
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001`
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
 
-The Source Arena post-merge living-docs sync is canonical via PR #19 (merge
-commit `b72bcbd…`). The Observatory spec now exists as a local docs commit
-only. The next task pushes that spec commit, opens a docs-only PR, reviews it,
-merges it if clean, and verifies canonical `main`.
+The Observatory spec is merged into canonical `main` via PR #20 (merge commit
+`f1e177e38a26cfc80e047c8481d7932ad4419487`). The static snapshot slice is now
+implemented on branch
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` as one
+local, unpushed commit. The next task is an independent review of that
+branch; only after it passes may the branch be pushed, a PR opened, reviewed,
+and merged.
 
-Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter is
-still **not implemented**; the Observatory is specification-only and the
-static snapshot remains planned. There is **no WebGL/Three.js foundation
-yet** — do not begin that track, any OpenRouter implementation, or any deploy
-ahead of the spec publish task.
+Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter
+live API/account usage/backend remain **not authorized**; the static snapshot
+slice is implementation-complete on its branch but not yet merged, reviewed,
+or deployed. There is **no WebGL/Three.js foundation yet** — do not begin
+that track, any OpenRouter live-API work, or any deploy ahead of the review
+and merge gates.
 
 ## Latest Task Update (PR #15 merged into canonical `main`)
 

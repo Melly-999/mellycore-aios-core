@@ -17,28 +17,38 @@ via merge commit `537a84c8132bcb5fec568b1776bc4c656af3f0c2`
 (2026-07-23T11:41:42Z). The Sourcery XSS/static-analysis finding was remediated
 before merge, so both the XSS triage and the merge gate are closed. The
 post-merge living-docs sync is canonical via PR #19, merge commit
-`b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`. The OpenRouter Observatory spec
-task is complete as a **local docs commit only — not pushed**; its artifact is
-`docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md`.
+`b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`. The OpenRouter Observatory spec is
+**merged into canonical `main` via PR #20**, merge commit
+`f1e177e38a26cfc80e047c8481d7932ad4419487`.
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` is
+**implemented on branch
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, one
+local commit, not pushed, not merged**. It adds the Observatory tab (Model
+Constellation, Cost Radar, Route Advisor, Budget Estimator, Capability
+Matrix, Fallback Chain, Safety Boundary Strip) against a local static fixture
+in `site/js/dashboard.js`/`site/dashboard.html`/`site/css/dashboard.css` only.
+All cost/context-window fields are `null` (no reviewed pricing source on
+file) — the estimator correctly shows `INSUFFICIENT PRICING DATA` throughout,
+per spec. No live API, key, backend, or deploy work occurred.
 
 **Exact next task:**
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001` — push the spec
-commit, open a docs-only PR, review, merge if clean, and verify canonical
-`main`.
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001` —
+independent review of that branch; not started. Only after it passes may the
+branch be pushed, a PR opened, reviewed, and merged.
 
-Queued after that publish, in order:
+Queued after that review/merge, in order:
 
-1. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`
-2. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001`
-3. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001`
-4. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001`
+1. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001`
+2. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001`
+3. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001`
 
-The deploy readiness chain continues unchanged after those: OpenRouter
-post-merge docs sync (local commit, then publish) → static deployment readiness
-decision → first static deploy (only if explicitly authorized) → post-deploy
-verify → deployment state sync. No step after the publish task is started; each
-requires its own gate to pass in order. No WebGL/Three.js or OpenRouter
-implementation is authorized ahead of the spec publish task.
+The deploy readiness chain continues unchanged after those: static deployment
+readiness decision → first static deploy (only if explicitly authorized) →
+post-deploy verify → deployment state sync. No step after the static-snapshot
+review task is started; each requires its own gate to pass in order. No
+WebGL/Three.js or OpenRouter live-API implementation is authorized ahead of
+that review.
 
 ## Integration Status (AI Operations Intelligence)
 

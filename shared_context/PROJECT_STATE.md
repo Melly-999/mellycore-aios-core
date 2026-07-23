@@ -79,19 +79,31 @@ key, no backend, no live fetch, no model call). Full sequence and OpenRouter
 Level 1/2/3 gating: `shared_context/ROADMAP.md`'s "Option B Deploy Path"
 section; actionable next step: `shared_context/RUN_QUEUE.md`.
 
-The OpenRouter Observatory is **specified, not implemented**:
-`docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md` defines the
+The OpenRouter Observatory spec
+(`docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md`) defining the
 static-snapshot cockpit, local data contract, routing lanes, estimator,
-safety labels, and future gates. No fixture, UI, live catalog fetch, account
-usage, API key, backend, model call, or deployment is implemented or
-authorized. Current status: `SPEC_ONLY`, `STATIC_SNAPSHOT_PLANNED`,
+safety labels, and future gates is **merged into canonical `main` via PR #20**
+(merge commit `f1e177e38a26cfc80e047c8481d7932ad4419487`).
+
+A first static-snapshot implementation slice,
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`, is
+**implemented on branch
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (one
+local commit, not pushed, not merged)**. It adds an Observatory tab to
+`site/dashboard.html` with a local static fixture (`site/js/dashboard.js`)
+covering eight representative model entries; all cost and context-window
+fields are `null` pending a reviewed pricing source, so the Budget Estimator
+correctly shows `INSUFFICIENT PRICING DATA` rather than inventing a number.
+No fixture data implies live catalog access. Current status remains:
 `LIVE_API_NOT_AUTHORIZED`, `ACCOUNT_USAGE_NOT_AUTHORIZED`, `NO_API_KEYS`,
-`NO_BACKEND`, `NO_MODEL_CALLS`, `NO_DEPLOY`.
+`NO_BACKEND`, `NO_MODEL_CALLS`, `NO_DEPLOY`. No push, PR, merge, or deploy
+occurred.
 
 The Source Arena post-merge docs sync prerequisite is canonical via PR #19
 (merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task
-after this spec's local commit is
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001`.
+is
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
+(independent review of the branch above; not started).
 
 ## Source Arena Static Renderer Slice — Canonical
 
