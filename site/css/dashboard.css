@@ -1,9 +1,10 @@
-/* MellyCore AIOS — Live Cockpit V2 (social source arena)
+/* MellyCore AIOS — Live Cockpit V2 (holographic source command arena)
    Static-first command surface: local GETs plus a local, deterministic
-   Source Archive dataset — zero external requests. Local-fixture data and
-   simulated model copy use different, persistent labels. Deep-black canvas,
-   violet identity, magenta interaction highlights, cyan as a secondary
-   accent. */
+   Source Archive dataset — zero external requests. The Source Arena stage
+   is a static holographic source map (orbital source nodes around a central
+   core), not a social feed. Local-fixture data and simulated model copy use
+   different, persistent labels. Deep-black canvas, violet identity, magenta
+   interaction highlights, cyan as a secondary accent. */
 
 :root {
   --cockpit-black: #05030a;
@@ -618,12 +619,8 @@ button {
 }
 .stage-meta-labels { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
 .stage-meta h2 { max-width: 26ch; margin-bottom: 6px; font-size: clamp(1.1rem, 1.6vw, 1.5rem); }
-.stage-handle { display: block; margin-bottom: 4px; color: #fff; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .04em; }
 .stage-caption { max-width: 44ch; color: #d9d4ea; font-size: .73rem; line-height: 1.5; }
 .stage-desc { max-width: 44ch; max-height: 120px; margin-top: 8px; overflow-y: auto; color: #cbc6dd; font-size: .7rem; line-height: 1.5; }
-.stage-desc-label { display: block; margin-bottom: 3px; color: var(--cockpit-nasa); font-family: var(--font-mono); font-size: .56rem; letter-spacing: .07em; text-transform: uppercase; }
-.stage-share-note { margin-top: 6px; color: var(--cockpit-cyan); font-family: var(--font-mono); font-size: .62rem; overflow-wrap: anywhere; }
-.stage-tags { margin-top: 7px; color: var(--cockpit-violet); font-family: var(--font-mono); font-size: .66rem; letter-spacing: .03em; }
 .stage-fine { margin-top: 6px; color: #a89ec2; font-family: var(--font-mono); font-size: .6rem; }
 .stage-media-type { position: absolute; z-index: 4; top: 18px; right: 18px; padding: 4px 8px; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; background: rgba(3,4,7,.74); color: #fff; font-family: var(--font-mono); font-size: .61rem; text-transform: uppercase; }
 .stage-manifest-state { margin-left: 8px; color: var(--cockpit-cyan); }
@@ -643,37 +640,129 @@ button {
 .stage-nav { min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--cockpit-muted); font-family: var(--font-mono); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; }
 .stage-nav button { min-width: 38px; min-height: 32px; border: 1px solid var(--cockpit-line); background: transparent; color: var(--cockpit-violet); }
 
-/* Social action rail — demo counts only, never real engagement */
-.stage-actions {
-  position: absolute;
-  z-index: 5;
-  right: 10px;
-  bottom: 168px;
-  display: grid;
-  gap: 13px;
-  justify-items: center;
+/* Holographic source stage — static command map (replaces the prior
+   single-record media feed). Orbital source nodes around a central core;
+   the active node drives a fixed inspector panel. CSS/DOM only; transform
+   and opacity motion only; reduced motion freezes it to a stable pose.
+   Not a social feed: no engagement rail, no handle, no swipe-to-next. */
+.arena-stage-map {
+  --arena-radius: clamp(88px, 17vw, 150px);
+  aspect-ratio: auto;
+  max-height: none;
+  height: auto;
+  min-height: 460px;
+  display: flex;
+  flex-direction: column;
+  touch-action: auto;
 }
-.stage-action-group { display: grid; gap: 3px; justify-items: center; }
-.stage-action {
-  width: 46px;
-  height: 46px;
+.arena-map {
+  position: relative;
+  flex: 1;
+  /* Tall enough that the full orbit radius (up to 150px) plus a node's own
+     height fits above and below the vertically centered core without any
+     node being clipped by this pane's overflow:hidden. See the orbit-clip
+     fix task report for the exact clearance math. */
+  min-height: 400px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(124,58,237,.16), transparent 62%),
+    repeating-radial-gradient(circle at 50% 50%, rgba(168,108,255,.05) 0 1px, transparent 1px 34px);
+}
+.arena-map-scene { position: absolute; inset: 0; }
+.arena-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--arena-radius) * 2);
+  height: calc(var(--arena-radius) * 2);
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(168,108,255,.34);
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(124,58,237,.22), inset 0 0 30px rgba(53,215,242,.08);
+}
+.arena-orbit::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0 78%, rgba(53,215,242,.5) 90%, transparent 100%);
+  -webkit-mask: radial-gradient(circle, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  mask: radial-gradient(circle, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  animation: arena-orbit-sweep 72s linear infinite;
+}
+.arena-link {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  width: 2px;
+  height: var(--arena-radius);
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(var(--node-angle, 0deg));
+  background: linear-gradient(var(--cockpit-cyan), transparent);
+  opacity: .5;
+}
+.arena-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 92px;
+  height: 92px;
   display: grid;
   place-items: center;
-  padding: 0;
-  border: 1px solid rgba(255,255,255,.24);
+  transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: rgba(12,7,24,.58);
-  color: #fff;
-  font-size: 1.05rem;
-  line-height: 1;
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: radial-gradient(circle at 34% 30%, hsl(var(--swatch-hue, 260) 90% 64%), hsl(var(--swatch-hue, 260) 60% 18%) 74%);
+  box-shadow: 0 0 0 6px rgba(168,108,255,.1), 0 0 40px rgba(124,58,237,.5);
 }
-.stage-action:hover { border-color: var(--cockpit-pink); color: var(--cockpit-pink); }
-.stage-action[aria-pressed="true"] { border-color: var(--cockpit-pink); color: var(--cockpit-pink); background: rgba(255,79,216,.14); box-shadow: 0 0 16px rgba(255,79,216,.4); }
-.stage-action-group > span { color: #e9e4f5; font-family: var(--font-mono); font-size: .55rem; letter-spacing: .04em; text-shadow: 0 1px 4px rgba(0,0,0,.8); }
-.stage-actions-note { padding: 3px 7px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; background: rgba(12,7,24,.6); color: var(--cockpit-muted); font-family: var(--font-mono); font-size: .5rem; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
+.arena-core-ring { position: absolute; inset: -12px; border: 1px solid rgba(168,108,255,.5); border-radius: 50%; animation: arena-core-breath 6s ease-in-out infinite; }
+.arena-core-glyph { color: #fff; font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,.5); }
+.arena-nodes { position: absolute; inset: 0; }
+.arena-node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cockpit-muted);
+  cursor: pointer;
+  transform: translate(-50%, -50%) rotate(var(--node-angle, 0deg)) translateY(calc(-1 * var(--arena-radius))) rotate(calc(-1 * var(--node-angle, 0deg)));
+}
+.arena-node-dot {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid hsl(var(--swatch-hue, 260) 80% 62% / .8);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, hsl(var(--swatch-hue, 260) 85% 55% / .92), hsl(var(--swatch-hue, 260) 55% 16% / .95));
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 700;
+  box-shadow: 0 0 14px hsl(var(--swatch-hue, 260) 80% 55% / .35);
+}
+.arena-node-tag { font-family: var(--font-mono); font-size: .54rem; letter-spacing: .04em; text-transform: uppercase; }
+.arena-node:hover .arena-node-dot,
+.arena-node:focus-visible .arena-node-dot { border-color: var(--cockpit-cyan); box-shadow: 0 0 18px rgba(53,215,242,.5); }
+.arena-node.is-active .arena-node-dot { border-color: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,.18), 0 0 22px hsl(var(--swatch-hue, 260) 85% 60% / .7); transform: scale(1.12); }
+.arena-node.is-active .arena-node-tag { color: var(--cockpit-copy); }
+.arena-node:focus-visible { outline: 2px solid var(--cockpit-cyan); outline-offset: 4px; border-radius: 8px; }
+
+.arena-inspector { padding: 14px 16px; border-top: 1px solid var(--cockpit-line); background: linear-gradient(transparent, rgba(9,6,17,.72)); }
+.arena-inspector-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 8px; }
+.arena-inspector-map { color: var(--cockpit-cyan); font-family: var(--font-mono); font-size: .58rem; letter-spacing: .05em; text-transform: uppercase; }
+.arena-inspector-title { margin-bottom: 6px; font-size: clamp(1rem, 1.5vw, 1.35rem); }
+.arena-inspector-desc { max-width: 60ch; color: #d3cee4; font-size: .74rem; line-height: 1.55; }
+.arena-inspector-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+.arena-tag { padding: 2px 9px; border: 1px solid var(--cockpit-line-strong); border-radius: 999px; color: var(--cockpit-violet); font-family: var(--font-mono); font-size: .6rem; letter-spacing: .02em; }
+.arena-inspector-fine { margin-top: 9px; color: #a89ec2; font-family: var(--font-mono); font-size: .6rem; }
+
+@keyframes arena-orbit-sweep { to { transform: rotate(360deg); } }
+@keyframes arena-core-breath { 0%, 100% { opacity: .5; transform: scale(1); } 50% { opacity: .95; transform: scale(1.05); } }
 
 /* Arena top bar — find related sources + provider framing */
 .arena-topbar { display: grid; gap: 11px; padding: 12px 0 16px; }
@@ -987,10 +1076,21 @@ button {
   .stage-caption { display: -webkit-box; overflow: hidden; font-size: .69rem; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
   .stage-desc { max-height: 88px; }
   .stage-fine { font-size: .55rem; }
-  .stage-actions { right: 8px; bottom: 178px; gap: 11px; }
-  .stage-action { width: 44px; height: 44px; font-size: .95rem; }
-  .stage-pagination { left: 8px; }
   .stage-nav { justify-content: space-between; width: 100%; }
+  /* Source map flattens to a stacked command-panel list — not a swipe feed.
+     The node list is the selector on mobile, so the dot column is hidden. */
+  .stage-pagination { display: none; }
+  .arena-stage-map { min-height: 0; aspect-ratio: auto; }
+  .arena-map { flex: none; min-height: 0; overflow: visible; background: none; padding: 4px 0; }
+  .arena-map-scene { position: static; }
+  .arena-orbit, .arena-link { display: none; }
+  .arena-core { position: relative; transform: none; margin: 0 auto 10px; }
+  .arena-core-ring { display: none; }
+  .arena-nodes { position: static; display: flex; flex-direction: column; gap: 8px; }
+  .arena-node { position: static; transform: none; grid-auto-flow: column; grid-template-columns: auto 1fr; justify-items: start; align-items: center; gap: 10px; width: 100%; min-height: var(--cockpit-control); padding: 8px 10px; border: 1px solid var(--cockpit-line); border-radius: 8px; background: rgba(255,255,255,.02); }
+  .arena-node.is-active { border-color: var(--cockpit-violet); background: rgba(168,108,255,.08); }
+  .arena-node.is-active .arena-node-dot { transform: none; }
+  .arena-node-tag { font-size: .62rem; }
   .task-selector--horizontal { display: flex; width: 100%; }
   .compare-command-row { display: grid; }
   .compare-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
@@ -1020,11 +1120,15 @@ button {
 @media (prefers-reduced-motion: reduce) {
   .stage-scan { animation: none; }
   .model-output-card { transition: none; }
+  /* Freeze the source map to a stable pose — no orbit sweep, no core breath. */
+  .arena-orbit::after { animation: none; }
+  .arena-core-ring { animation: none; opacity: .7; }
 }
 
 @media (forced-colors: active) {
   .dash-surface,
   .media-stage,
   .task-button,
+  .arena-node-dot,
   .cockpit-button { forced-color-adjust: auto; }
 }

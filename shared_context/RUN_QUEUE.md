@@ -249,6 +249,16 @@ merged into canonical `main` via PR #8 (2l above). This does not implement,
 vendor, or release anything; the 3D scene foundation (task 4) remains
 `NOT_STARTED`.
 
+A narrow, separate precursor — `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001`
+— is `IMPLEMENTED_ON_BRANCH_DRAFT_PR_OPEN` (branch
+`feat/mellycore-source-arena-renderer-static-slice-001` off canonical `main`
+`9a5d1bb0bac80b567608f115f10cbd211b327aba`, not merged). It restyles the
+Source Arena stage into a static CSS/DOM holographic source map (orbital
+source nodes around a central core, command inspector), replacing the prior
+social-feed-style media card. It is CSS/DOM only: it does not start task 4,
+vendor Three.js, add WebGL/Canvas, or implement the ADR's CSS-complete
+fallback spec — all of which remain `NOT_IMPLEMENTED`/`NOT_STARTED`.
+
 ## Deferred Work
 
 - Cross-agent context smoke testing remains a separate clean-worktree task.
