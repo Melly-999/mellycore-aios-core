@@ -83,14 +83,43 @@ OpenRouter is **not implemented** anywhere in this repository. No OpenRouter
 live catalog fetch, account usage, or API key is authorized; those remain
 future-gated behind their own separate approval (Levels 2 and 3).
 
-PR #17 (branch `feat/mellycore-source-arena-renderer-static-slice-001`, head
-`08642089f9c062928c72d3968fd23843a5e9995d`) implements the Source Arena
-static renderer slice and remains **blocked from merge** by a failed Sourcery
-check flagging a possible XSS/static-analysis finding on `innerHTML` at
-`site/js/dashboard.js:509` and `:554-561`. The Source Arena static slice is
-not canonical on `main` until PR #17 merges clean. No deployment, release, or
-OpenRouter implementation is authorized ahead of that merge and the readiness
-sequence recorded in `ROADMAP.md`.
+## Source Arena Static Renderer Slice — Canonical
+
+`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001` is **merged into canonical
+`main` via PR #17** (https://github.com/Melly-999/mellycore-aios-core/pull/17,
+branch `feat/mellycore-source-arena-renderer-static-slice-001`, reviewed head
+`4af0402d9ded634ba65d14f2013d7280b46296db`), merge commit
+`537a84c8132bcb5fec568b1776bc4c656af3f0c2`, merged 2026-07-23T11:41:42Z. The
+Source Arena static renderer slice is now canonical on `main`, not merely
+branch/PR-scoped.
+
+Canonical outcomes of that merge:
+
+- The Source Arena stage renders a static **holographic source map** — central
+  source core, orbital source nodes (one per filtered local record), connecting
+  line, orbit ring, and a command inspector panel; it flattens to a stacked
+  command-panel list on mobile.
+- The prior TikTok/Reels-style social-feed primary UX — engagement rail,
+  `@handle`, hashtag row, and swipe/wheel/touch feed navigation — is removed.
+  Selection is by node click, source queue, dot selector, or prev/next stepper.
+- The orbit-clipping defect is fixed (verified in-bounds at 1440×900,
+  1440×800, and 2560×1440).
+- The Sourcery XSS/static-analysis `innerHTML` finding (former
+  `site/js/dashboard.js:509` and `:554-561`) is remediated: both flagged sinks
+  were rebuilt with DOM APIs (`createElement`/`textContent`/`setAttribute`/
+  `replaceChildren`).
+- Option B roadmap content merged by PR #18 is preserved; the pre-merge
+  `shared_context/AGENT_HANDOFF.md` conflict was resolved before merge.
+- No external, provider, backend, or deploy expansion accompanied it.
+
+Boundaries that remain unchanged by this merge: the implementation is
+**CSS/DOM-only**. The full Source Arena renderer is **not complete**; the ADR's
+CSS-complete fallback renderer is **not complete**; WebGL, Three.js, and Canvas
+remain **not implemented** and Three.js remains **not vendored**. NASA runtime
+remains retired and the Source Archive remains local deterministic showcase
+data. OpenRouter remains not implemented. No deployment or release has been
+performed, and none is authorized ahead of the readiness sequence recorded in
+`ROADMAP.md`.
 
 ## Planned Direction
 

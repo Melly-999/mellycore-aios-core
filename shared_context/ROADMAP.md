@@ -23,9 +23,14 @@ Naming a module here does not authorize or claim its implementation.
   read-only dashboard surface exist.
 - **Local presentation:** static homepage and Live Cockpit V2 exist. The current
   dashboard is a legacy prototype, not the complete Observatory.
-- **Holographic Source Arena:** accepted specification only. Its 390×844
-  model-lens hero remains the lead visual direction; the 3D treatment is not
-  implemented.
+- **Holographic Source Arena:** the **static CSS/DOM renderer slice** is
+  canonical on `main` via PR #17 (merge commit `537a84c8`) — a static
+  holographic source map (source core, orbital nodes, orbit ring, command
+  inspector) that replaced the prior social-feed primary UX. The broader
+  holographic specification remains accepted-specification-only: its 390×844
+  model-lens hero remains the lead visual direction, and the 3D/WebGL treatment
+  is **not implemented**. The full renderer and the ADR's CSS-complete fallback
+  renderer are **not complete**.
 - **NASA Images:** executable runtime retired from `site/dashboard.html` /
   `site/js/dashboard.js` under `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`
   and merged into canonical `main` via PR #15 (merge commit
@@ -123,29 +128,37 @@ Observatory as a **static snapshot only**, and truthful safety-state labels.
 No live provider calls, no API keys, no backend, and no model execution are
 authorized by this decision.
 
-**Current blocker.** PR #17
+**Source Arena static slice — merged and canonical.** PR #17
 (https://github.com/Melly-999/mellycore-aios-core/pull/17, branch
-`feat/mellycore-source-arena-renderer-static-slice-001`, head
-`08642089f9c062928c72d3968fd23843a5e9995d`) implements the static holographic
-Source Arena renderer slice and its orbit-clipping fix, but is **blocked from
-merge** by a failed Sourcery check flagging a possible XSS/static-analysis
-finding around `innerHTML` in `site/js/dashboard.js:509` and
-`site/js/dashboard.js:554-561`. The Source Arena static slice is **not
-canonical** until PR #17 merges clean. No merge may occur until that finding
-is triaged and resolved.
+`feat/mellycore-source-arena-renderer-static-slice-001`, reviewed head
+`4af0402d9ded634ba65d14f2013d7280b46296db`) is **merged into canonical `main`**
+via merge commit `537a84c8132bcb5fec568b1776bc4c656af3f0c2`, merged
+2026-07-23T11:41:42Z. It delivered the static holographic Source Arena renderer
+slice, removed the prior social-feed primary UX, fixed the orbit-clipping
+defect, and remediated the Sourcery XSS/static-analysis `innerHTML` finding
+(former `site/js/dashboard.js:509` and `:554-561`) by rebuilding both flagged
+sinks with DOM APIs. The earlier blocker on this PR is closed.
+
+The slice is **CSS/DOM-only**. The full renderer and the ADR's CSS-complete
+fallback renderer remain **not complete**; WebGL, Three.js, and Canvas remain
+**not implemented**. This merge authorized no deploy, release, provider,
+backend, or OpenRouter work.
 
 **Active task sequence** (supersedes any prior "first deploy" framing; this
 section is the authoritative Option B ordering):
 
 1. `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-XSS-FINDING-TRIAGE-001` —
-   resolve the failed Sourcery XSS/static-analysis finding on PR #17. No merge
-   until clean.
-2. `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-MERGE-GATE-001` — merge PR
-   #17 only if clean; verify canonical `main`.
+   **complete.** The Sourcery XSS/static-analysis finding on PR #17 was
+   remediated by rebuilding both flagged `innerHTML` sinks with DOM APIs.
+2. `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-MERGE-GATE-001` —
+   **complete.** PR #17 merged into canonical `main` via merge commit
+   `537a84c8132bcb5fec568b1776bc4c656af3f0c2` (2026-07-23T11:41:42Z).
 3. `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-001` —
-   update living docs after PR #17 merge (local docs commit only).
+   **complete (local docs commit only, not pushed).** Updated living docs after
+   the PR #17 merge; report
+   `docs/tasks/MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-001.md`.
 4. `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`
-   — push, PR, review, merge that docs sync.
+   — **exact next task.** Push, PR, review, merge that docs sync.
 5. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-001` — docs/spec only; define
    the Model Router Observatory UX; no API calls, no keys, no backend.
 6. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` —
@@ -174,8 +187,11 @@ section is the authoritative Option B ordering):
     update `README.md` / `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
     `AGENT_HANDOFF.md`.
 
-None of tasks 2–15 is started, active, or authorized by this roadmap entry
-alone; each requires its own gate to pass in order.
+None of tasks 4–15 is started, active, or authorized by this roadmap entry
+alone; each requires its own gate to pass in order. In particular, the
+OpenRouter Observatory spec (task 5) may begin only after the task 4 docs sync
+is published and merged, and no WebGL/Three.js or OpenRouter implementation may
+begin ahead of it.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena

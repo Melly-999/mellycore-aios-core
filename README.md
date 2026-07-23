@@ -52,9 +52,9 @@ authorized by this merge.
 | Loop Operations Foundation | Implemented, report-only | Nine registered loops; no production-enabled or unattended loop. |
 | Context Gate | Implemented through I4 | Guarded CLI, immutable records, content-free index, read-only audit/dashboard surface. |
 | Project-health evidence | Implemented | Two human-invoked persisted runs; no scheduler. |
-| Live Cockpit V2 / Social Source Arena | Implemented legacy prototype | Local vanilla HTML/CSS/JS surface; not the completed Observatory. NASA runtime retirement (see "NASA Images Disposition" below) is merged into canonical `main` via PR #15. |
+| Live Cockpit V2 / Source Arena | Implemented legacy prototype | Local vanilla HTML/CSS/JS surface; not the completed Observatory. NASA runtime retirement (see "NASA Images Disposition" below) is merged into canonical `main` via PR #15. The Source Arena stage's prior social-feed primary UX was replaced by the static CSS/DOM holographic slice merged via PR #17. |
 | Model comparison copy | Simulated | Deterministic local text, not live model responses. |
-| Holographic Source Arena | Accepted specification | The 390×844 model-lens hero and 3D treatment are not implemented. |
+| Holographic Source Arena | Static CSS/DOM slice canonical; broader spec accepted only | The static holographic source map (source core, orbital nodes, orbit ring, command inspector) is canonical on `main` via PR #17. The 390×844 model-lens hero and the 3D/WebGL treatment are **not implemented**; the full renderer and the ADR's CSS-complete fallback renderer are **not complete**. |
 | Source Arena Hybrid renderer decision | Accepted (decision/specification level only, 2026-07-20) | `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` records an accepted WebGL-enhanced, CSS-complete-fallback renderer decision; no WebGL code or vendored dependency exists in the repository yet — implementation requires its own separately-authorized task. |
 | Observatory modules and real adapters | Planned | Detailed specification and guarded implementation remain future work. |
 
