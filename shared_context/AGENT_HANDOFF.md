@@ -1,19 +1,21 @@
 # Agent Handoff
 
-## Latest Update — Source Arena conflict resolution pending / PR #17
+## Latest Update — Source Arena static slice merged into canonical `main` / PR #17
 
 `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001` (PR
 [#17](https://github.com/Melly-999/mellycore-aios-core/pull/17))
 
-- Status: **open, not draft, not merged**. Branch
+- Status: **`MERGED_INTO_CANONICAL_MAIN`**. Branch
   `feat/mellycore-source-arena-renderer-static-slice-001`, originally created
   from canonical `main` at `9a5d1bb0bac80b567608f115f10cbd211b327aba` (the
-  PR #16 merge commit); current canonical `main` (`033b8773…`, the PR #18
-  Option B roadmap merge) has now been merged into this branch to resolve a
-  `shared_context/AGENT_HANDOFF.md` conflict — see "Current Exact Next Task"
-  below. Reviewed pre-merge head was `08642089…`, then
-  `dbe28def0698837f3794bfff612cf9a23bec38ae` after the XSS remediation commit;
-  this file's conflict-resolution merge commit sits on top of that.
+  PR #16 merge commit). Reviewed pre-merge head was `08642089…`, then
+  `dbe28def0698837f3794bfff612cf9a23bec38ae` after the XSS remediation commit,
+  then `4af0402d9ded634ba65d14f2013d7280b46296db` — the merge of then-current
+  canonical `main` (`033b8773…`, the PR #18 Option B roadmap merge) that
+  resolved the `shared_context/AGENT_HANDOFF.md` conflict. PR #17 merged that
+  reviewed head `4af0402…` into canonical `main` via merge commit
+  `537a84c8132bcb5fec568b1776bc4c656af3f0c2` on 2026-07-23T11:41:42Z. The
+  static slice is now canonical, not branch/PR-scoped.
 - First **static CSS/DOM renderer slice** for the Source Arena stage:
   replaced the prior single-record media card + vertical ♥/save/share
   engagement rail + `@handle`/`#hashtags` + swipe/wheel/touch feed navigation
@@ -23,12 +25,15 @@
   inspector panel. On mobile the map flattens to a stacked command-panel
   list. Selection is by node click, source queue, dot selector, or prev/next
   stepper — no swipe-to-next-feed.
-- Resolved blockers on this branch: (1) the orbit-clipping defect is fixed and
+- Resolved blockers, now canonical: (1) the orbit-clipping defect is fixed and
   verified in-bounds at 1440×900 / 1440×800 / 2560×1440; (2) the Sourcery
   XSS/static-analysis finding on `innerHTML` (former
   `site/js/dashboard.js:509` and `:554-561`) was remediated by rebuilding the
   two flagged sinks with DOM APIs (`createElement`/`textContent`/`setAttribute`/
-  `replaceChildren`) — Sourcery now reports **pass** against head `dbe28def…`.
+  `replaceChildren`) — Sourcery reported **pass** against head `dbe28def…`;
+  (3) the `shared_context/AGENT_HANDOFF.md` conflict with the PR #18 Option B
+  roadmap merge was resolved before merge, and Option B roadmap content is
+  preserved on canonical `main`.
 - CSS/DOM only. WebGL hybrid renderer and the ADR's CSS-complete fallback
   spec remain `NOT_IMPLEMENTED`; Three.js `NOT_VENDORED`; no Canvas, external
   API, dependency, backend, provider, deploy, or release. Source Archive stays
@@ -36,9 +41,11 @@
   `site/js/dashboard.js`, `site/css/dashboard.css`, `site/dashboard.html`,
   plus this handoff, `RUN_QUEUE.md`, and the task report. `site/index.html`
   untouched.
-- Validators (feature branch): `node --check` PASS,
-  `python scripts/validate_project_state.py` PASS, `git diff --check` clean.
-  Browser smoke + desktop/mobile visual checks passed (see
+- Validators: `node --check site/js/dashboard.js` PASS,
+  `python scripts/validate_project_state.py` PASS, `git diff --check` clean —
+  run against the reviewed head `4af0402…`, whose tree is identical to the
+  canonical merge commit `537a84c8…`. Browser smoke + desktop/mobile visual
+  checks passed (see
   `docs/tasks/MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001.md`).
 
 ## Active Roadmap Decision — Option B OpenRouter Deploy Path
@@ -63,14 +70,20 @@ canonical `main` via PR #18 (merge commit `033b8773…`).
 
 ## Current Exact Next Task
 
-`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-MERGE-GATE-001`
+`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`
 
-Re-run the final merge gate for PR #17 at the conflict-resolved head. PR #17
-is not merged; this branch now carries a merge of current canonical `main`
-(`033b8773…`) to clear the `AGENT_HANDOFF.md` conflict, so the merge gate can
-be re-evaluated with a clean mergeability state. Do not begin the WebGL/
-Three.js foundation track or any OpenRouter implementation until PR #17 is
-merged and its post-merge state sync is complete.
+PR #17 is merged into canonical `main` (merge commit `537a84c8…`,
+2026-07-23T11:41:42Z), and the post-merge living-docs sync
+(`-POST-MERGE-STATE-SYNC-001`) exists as a **local docs commit only — not
+pushed**. The next task pushes that commit, opens a PR, reviews it, merges it
+if clean, and verifies canonical `main`.
+
+Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter is
+still **not implemented**, and its Observatory spec
+(`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-001`) begins only after this docs
+sync is published and merged. There is **no WebGL/Three.js foundation yet** —
+do not begin that track, any OpenRouter implementation, or any deploy ahead of
+the publish task.
 
 ## Latest Task Update (PR #15 merged into canonical `main`)
 
@@ -485,12 +498,13 @@ historical: that review passed and the static renderer slice
 authorized, implemented on branch
 `feat/mellycore-source-arena-renderer-static-slice-001` (base
 `clean-origin/main` at the PR #16 merge commit
-`9a5d1bb0bac80b567608f115f10cbd211b327aba`), and opened as PR #17. See the
-"Latest Task Update (Option B roadmap sync, docs-only)" entry at the top of
-this file and `shared_context/ROADMAP.md`'s "Option B Deploy Path" section
-for the current exact next task
-(`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-XSS-FINDING-TRIAGE-001`). The
-paragraph below is preserved as historical record of the prior state.
+`9a5d1bb0bac80b567608f115f10cbd211b327aba`), opened as PR #17, and since
+merged into canonical `main` (merge commit `537a84c8…`). See the "Latest
+Update — Source Arena static slice merged into canonical `main` / PR #17" entry
+at the top of this file and `shared_context/ROADMAP.md`'s "Option B Deploy
+Path" section for the current exact next task
+(`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`).
+The paragraph below is preserved as historical record of the prior state.
 
 The ADR architecture milestone is **`CLOSED_IN_CANONICAL_MAIN`** — PR #8,
 PR #9, PR #10, and PR #11 are all merged into canonical `main`, most

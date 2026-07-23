@@ -10,20 +10,35 @@ renderer slice, an OpenRouter Model/Cost Observatory (static snapshot only,
 no live calls/keys/backend), and safety-state labels. Full sequence and
 gating detail: `shared_context/ROADMAP.md`'s "Option B Deploy Path" section.
 
-**Exact next task:**
-`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-XSS-FINDING-TRIAGE-001` — PR
-#17 (branch `feat/mellycore-source-arena-renderer-static-slice-001`, head
-`08642089f9c062928c72d3968fd23843a5e9995d`) is blocked by a failed Sourcery
-XSS/static-analysis finding on `innerHTML` at `site/js/dashboard.js:509` and
-`:554-561`. No merge until triaged and clean.
+**Closed steps.** PR #17 (branch
+`feat/mellycore-source-arena-renderer-static-slice-001`, reviewed head
+`4af0402d9ded634ba65d14f2013d7280b46296db`) is **merged into canonical `main`**
+via merge commit `537a84c8132bcb5fec568b1776bc4c656af3f0c2`
+(2026-07-23T11:41:42Z). The Sourcery XSS/static-analysis finding was remediated
+before merge, so both the XSS triage and the merge gate are closed. The
+post-merge living-docs sync (`-POST-MERGE-STATE-SYNC-001`) exists as a **local
+docs commit only — not pushed**.
 
-Ordered sequence after triage: merge PR #17 → post-merge docs sync (local
-commit, then publish) → OpenRouter Observatory spec → static snapshot slice
-→ visual acceptance → final review → merge gate → post-merge docs sync
-(local commit, then publish) → static deployment readiness decision → first
-static deploy (only if explicitly authorized) → post-deploy verify →
-deployment state sync. No step in this sequence is started; each requires
-its own gate to pass in order.
+**Exact next task:**
+`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`
+— push the post-merge docs-sync commit, open a PR, review, merge if clean, and
+verify canonical `main`.
+
+Queued after that publish, in order:
+
+1. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-001` — docs/spec only; no API
+   calls, no keys, no backend. Begins only after the docs sync is merged.
+2. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`
+3. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001`
+4. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001`
+5. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001`
+
+The deploy readiness chain continues unchanged after those: OpenRouter
+post-merge docs sync (local commit, then publish) → static deployment readiness
+decision → first static deploy (only if explicitly authorized) → post-deploy
+verify → deployment state sync. No step after the publish task is started; each
+requires its own gate to pass in order. No WebGL/Three.js or OpenRouter
+implementation is authorized ahead of the publish task.
 
 ## Integration Status (AI Operations Intelligence)
 
@@ -250,10 +265,11 @@ vendor, or release anything; the 3D scene foundation (task 4) remains
 `NOT_STARTED`.
 
 A narrow, separate precursor — `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001`
-— is `IMPLEMENTED_ON_BRANCH_DRAFT_PR_OPEN` (branch
-`feat/mellycore-source-arena-renderer-static-slice-001` off canonical `main`
-`9a5d1bb0bac80b567608f115f10cbd211b327aba`, not merged). It restyles the
-Source Arena stage into a static CSS/DOM holographic source map (orbital
+— is `MERGED_INTO_CANONICAL_MAIN` (branch
+`feat/mellycore-source-arena-renderer-static-slice-001`, reviewed head
+`4af0402d9ded634ba65d14f2013d7280b46296db`, merged via PR #17, merge commit
+`537a84c8132bcb5fec568b1776bc4c656af3f0c2`, 2026-07-23T11:41:42Z). It restyles
+the Source Arena stage into a static CSS/DOM holographic source map (orbital
 source nodes around a central core, command inspector), replacing the prior
 social-feed-style media card. It is CSS/DOM only: it does not start task 4,
 vendor Three.js, add WebGL/Canvas, or implement the ADR's CSS-complete
