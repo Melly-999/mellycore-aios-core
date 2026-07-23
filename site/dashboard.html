@@ -24,6 +24,7 @@
         <button class="dash-tab-btn" role="tab" id="tab-btn-context" aria-controls="tab-context" aria-selected="false" data-tab="context">Context</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-source-arena" aria-controls="tab-source-arena" aria-selected="true" data-tab="source-arena">Source Arena</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-compare" aria-controls="tab-compare" aria-selected="false" data-tab="compare">Model Arena</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-observatory" aria-controls="tab-observatory" aria-selected="false" data-tab="observatory">Observatory</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-loops" aria-controls="tab-loops" aria-selected="false" data-tab="loops">Loops</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-evidence" aria-controls="tab-evidence" aria-selected="false" data-tab="evidence">Evidence</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-roadmap" aria-controls="tab-roadmap" aria-selected="false" data-tab="roadmap">Roadmap</button>
@@ -321,6 +322,119 @@
         <div class="compare-source-empty">Waiting for a local source selection…</div>
       </article>
       <div class="compare-grid" id="compare-grid"></div>
+    </section>
+
+    <section class="dash-panel dash-panel--observatory" id="tab-observatory" role="tabpanel" aria-labelledby="tab-btn-observatory" hidden>
+      <div class="dash-section-head">
+        <div>
+          <p class="dash-kicker">OpenRouter Model Observatory</p>
+          <h1>Choose the right lane before any run begins.</h1>
+        </div>
+        <p>A local, static-only planning cockpit for model fit, representative cost, capability trade-offs, and fallback paths. It selects nothing and calls nothing — see <a href="../docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md">the canonical spec</a> for the full contract.</p>
+      </div>
+
+      <div class="obs-safety-strip" id="obs-safety-strip-top" role="note" aria-label="Observatory safety boundary"></div>
+
+      <div class="obs-layout">
+        <div class="obs-main">
+          <article class="dash-surface obs-advisor-card">
+            <div class="surface-head">
+              <span>Route Advisor</span>
+              <span class="data-origin data-origin--local">Deterministic local policy</span>
+            </div>
+            <p class="dash-source-note">Advice is local policy only. Selection is not execution — it never launches a run or acts as approval.</p>
+            <div class="obs-advisor-controls">
+              <div>
+                <span class="obs-control-label">Lane scope</span>
+                <div class="task-selector task-selector--horizontal obs-lane-filter" id="obs-lane-filter" aria-label="Filter by routing lane"></div>
+              </div>
+              <div>
+                <span class="obs-control-label">Run type</span>
+                <div class="task-selector task-selector--horizontal obs-runtype-selector" id="obs-runtype-selector" aria-label="Select a run type"></div>
+              </div>
+            </div>
+            <div class="obs-advisor-result" id="obs-route-result"></div>
+          </article>
+
+          <article class="dash-surface obs-selected-card">
+            <div class="surface-head"><span>Selected model</span></div>
+            <div id="obs-selected-detail"></div>
+          </article>
+
+          <article class="dash-surface obs-estimator-card">
+            <div class="surface-head">
+              <span>Budget Estimator</span>
+              <span class="data-origin data-origin--snapshot">Static approximate · not account billing</span>
+            </div>
+            <div class="obs-safety-strip obs-safety-strip--compact" id="obs-safety-strip-estimator" role="note" aria-label="Observatory safety boundary"></div>
+            <form class="obs-estimator-form" id="obs-estimator-form">
+              <label>Input tokens
+                <input type="number" id="obs-input-tokens" min="0" step="1" inputmode="numeric" value="50000">
+              </label>
+              <label>Output tokens
+                <input type="number" id="obs-output-tokens" min="0" step="1" inputmode="numeric" value="8000">
+              </label>
+              <label>Cache-read tokens <span class="dash-muted">(optional)</span>
+                <input type="number" id="obs-cache-tokens" min="0" step="1" inputmode="numeric" value="0">
+              </label>
+            </form>
+            <div class="obs-estimator-result" id="obs-estimator-result"></div>
+          </article>
+
+          <article class="dash-surface obs-fallback-card">
+            <div class="surface-head"><span>Fallback Chain</span></div>
+            <p class="dash-source-note">Guidance, not automatic failover. Every step discloses a reason and trade-off.</p>
+            <ol class="obs-fallback-chain" id="obs-fallback-chain"></ol>
+          </article>
+
+          <article class="dash-surface obs-constellation-card">
+            <div class="surface-head">
+              <span>Model Constellation</span>
+              <span class="data-origin data-origin--local">Local fixture · representative snapshot</span>
+            </div>
+            <p class="dash-source-note">Static routing nodes orbit a local policy core. This is a visual index, not evidence of connectivity, availability, ranking, or live routing.</p>
+            <div class="obs-constellation-stage">
+              <span class="obs-orbit-ring obs-orbit-ring--outer" aria-hidden="true"></span>
+              <span class="obs-orbit-ring obs-orbit-ring--inner" aria-hidden="true"></span>
+              <span class="obs-orbit-axis" aria-hidden="true"></span>
+              <div class="obs-router-core" aria-hidden="true">
+                <span>Model router</span>
+                <strong>LOCAL</strong>
+                <small>Static policy core</small>
+              </div>
+              <div class="obs-model-grid" id="obs-model-grid" role="group" aria-label="Selectable model nodes"></div>
+            </div>
+          </article>
+
+          <article class="dash-surface obs-matrix-card">
+            <div class="surface-head">
+              <span>Capability Matrix</span>
+              <span class="data-origin data-origin--local">Reviewed fixture fields only</span>
+            </div>
+            <details class="dash-details obs-matrix-details" id="obs-matrix-details" open>
+              <summary><span><strong>Selected lane comparison</strong></span><span class="obs-matrix-caret" aria-hidden="true">▾</span></summary>
+              <div class="dash-details-body obs-matrix-body-wrap">
+                <div class="obs-matrix-table-wrap">
+                  <table class="obs-matrix-table" id="obs-matrix-table">
+                    <thead>
+                      <tr><th scope="col">Model</th><th scope="col">Coding</th><th scope="col">Reasoning</th><th scope="col">Visual/Product</th><th scope="col">Security/Review</th><th scope="col">Long Context</th><th scope="col">Cheap/Routine</th></tr>
+                    </thead>
+                    <tbody id="obs-matrix-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </details>
+          </article>
+
+          <article class="dash-surface obs-radar-card">
+            <div class="surface-head">
+              <span>Cost Radar</span>
+              <span class="data-origin data-origin--snapshot">Representative · not live pricing</span>
+            </div>
+            <div class="metric-strip obs-radar-grid" id="obs-cost-radar"></div>
+          </article>
+        </div>
+      </div>
     </section>
 
     <section class="dash-panel" id="tab-loops" role="tabpanel" aria-labelledby="tab-btn-loops" hidden>

@@ -1,5 +1,139 @@
 # Agent Handoff
 
+## Latest Update — OpenRouter Observatory visual polish 002 (branch, not merged)
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-002`
+
+- Status: **fourth local commit on branch
+  `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, not
+  pushed, not merged**. Visual acceptance 002 returned
+  `NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002` because the
+  Budget Estimator began at y=851 behind the fixed footer at y=847.
+- Fix: one desktop-only CSS rule reduces Observatory panel top padding,
+  section-head spacing, and the gap below the top safety strip. At 1440×900,
+  the grid moves from y=312 to y=241 and Budget Estimator from y=851 to
+  y=780; its full header ends at y=839 above the footer at y=847.
+- Mobile remains unchanged and width-contained: 320px body/client widths are
+  305/305; 375px widths are 360/360; footer remains 45px; required decision
+  order is unchanged. Interactions, Source Arena, Model Arena, console, and
+  localhost-only network checks pass.
+- Safety remains explicit and unchanged: static snapshot, representative
+  pricing only, not live pricing, no account usage, API keys, model calls,
+  backend, provider connection, or deploy.
+- Exact next task:
+  `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003`.
+  No push, PR, merge, or deploy is authorized by this entry.
+
+## Latest Update — OpenRouter Observatory visual polish (branch, not merged)
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-001`
+
+- Status: **third local commit on branch
+  `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, not
+  pushed, not merged**. Technical review passed as
+  `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`; visual acceptance 001 returned
+  `NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE`.
+- P2 fixes: the Model Constellation now presents a visible local router core,
+  orbital rings, and asymmetrical route-lane nodes without Canvas, WebGL, or
+  dependencies; Route Advisor is prominent in the first 1440×900 viewport
+  with the Budget Estimator partially visible; mobile now orders Route
+  Advisor, selected model, estimator, fallback chain, compact constellation,
+  matrix, then cost radar.
+- P3 fixes: the mobile bottom status bar is shorter and less intrusive, and
+  secondary Observatory mono copy has stronger size/contrast.
+- Browser verification: at 320px, body/document widths are 305/305px; at
+  375px, 360/360px. Model selection, lane filtering, run-type routing,
+  estimator state, matrix, and fallback chain work. Source Arena shows eight
+  nodes and four model-lens cards; Model Arena shows four cards. Console is
+  clean and application requests are local-only.
+- Safety remains explicit and unchanged: static snapshot, representative
+  pricing only, not live pricing, no account usage, no model calls, no
+  backend, no deploy.
+- Exact next task:
+  `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002`
+  (independent visual/product re-review; not started). No push, PR, merge, or
+  deploy is authorized by this entry.
+
+## Latest Update — OpenRouter Observatory mobile-overflow remediation (branch, not merged)
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
+
+- Status: **one additional local commit on branch
+  `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, not
+  pushed, not merged**. Fixes the blocking finding from
+  `-STATIC-SNAPSHOT-SLICE-REVIEW-001` (outcome
+  `NEEDS_FIXES_STATIC_SNAPSHOT_SLICE_REVIEW`).
+- P1 fix: at the mobile breakpoint, `.obs-main { display: contents }` (used
+  so `order` can reorder cards directly under the flex `.obs-layout`) removed
+  each card's containing block, so descendant content with its own intrinsic
+  sizing (the model grid's `auto-fill` columns, the run-type button row, the
+  capability matrix table) inflated the *card's own rendered width* past the
+  viewport instead of scrolling within itself — confirmed via direct DOM
+  measurement (`document.body.scrollWidth` reaching 949–1189px at a
+  320–375px viewport). Fixed by pinning every direct Observatory card
+  (`width: 100%; max-width: 100%; min-width: 0`) at the mobile breakpoint, so
+  descendant overflow can only scroll internally (matrix table, lane/run-type
+  chip rows) and never resizes the card; also gave `.obs-model-grid` an
+  explicit column count instead of `auto-fill` at both the 760px and 420px
+  breakpoints.
+- P3 fix: renamed the matrix wrapper `<div>`'s class from `obs-matrix-body`
+  to `obs-matrix-body-wrap` in `site/dashboard.html`, removing the class/id
+  naming collision with `<tbody id="obs-matrix-body">` (left unchanged; no
+  CSS or JS referenced the old class).
+- Files touched: `site/css/dashboard.css`, `site/dashboard.html` only. No
+  `.env`, key, backend, workflow, dependency, WebGL/Three.js/Canvas, or
+  deploy-config change; no new feature or product-scope expansion.
+- Verified in-browser at 320px and 375px: `document.body.scrollWidth`
+  exactly equals `document.documentElement.clientWidth` (no horizontal page
+  overflow) in both cases; model selection, lane filter, run-type routing,
+  and the estimator all still work at mobile widths. Desktop grid layout is
+  unaffected (still multi-column). Source Arena re-verified with no
+  regression (8 records, stage, 4 simulated model-lens cards). No console
+  errors; network requests remain local-only.
+- Validators: `node --check site/js/dashboard.js` PASS,
+  `py -3.9 scripts/validate_project_state.py` PASS, `git diff --check` clean.
+- Exact next task:
+  `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002`
+  (independent re-review of the remediated branch; not started). No push,
+  PR, or merge is authorized by this entry.
+
+## Latest Update — OpenRouter Observatory static snapshot slice implemented (branch, not merged)
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`
+
+- Status: **implemented on branch
+  `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, one
+  local commit, not pushed, not merged**. Branch base: `clean-origin/main` at
+  `f1e177e38a26cfc80e047c8481d7932ad4419487` (the PR #20 spec-publish merge
+  commit).
+- Adds a new Observatory tab to `site/dashboard.html` implementing the Model
+  Constellation, Cost Radar, Route Advisor, Budget Estimator, Capability
+  Matrix, Fallback Chain, and Safety Boundary Strip against a local static
+  fixture (`OBS_MODEL_FIXTURE` in `site/js/dashboard.js`) covering Fable 5,
+  Opus-class, GPT-5.6 Sol, GPT-5.5, Claude Sonnet, Tera, GLM / cheap model,
+  and Codex. All cost and context-window fields are `null` — no reviewed
+  2026 pricing source is on file for this fixture, so every estimate
+  correctly renders `INSUFFICIENT PRICING DATA` rather than inventing a
+  number; this is the spec's documented, expected behavior for missing rates,
+  not a defect.
+- Files touched: `site/dashboard.html`, `site/js/dashboard.js`,
+  `site/css/dashboard.css` only. No `.env`, key, backend, proxy, dependency,
+  workflow, WebGL/Three.js/Canvas, or deploy-config change.
+- Live API/account usage/backend/deploy remain **not authorized**; this slice
+  makes zero network requests beyond the pre-existing local
+  `shared_context/**` reads. Source Arena was smoke-tested and shows no
+  regression.
+- Validators: `node --check site/js/dashboard.js` PASS,
+  `py -3.9 scripts/validate_project_state.py` PASS, `git diff --check` clean.
+  Browser smoke confirmed model selection, lane filter, run-type routing,
+  estimator math (cross-checked against spec §9.2 formula), capability
+  matrix, fallback chain, and mobile stacking order all function without
+  console errors or external requests.
+- Exact next task:
+  `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
+  (independent review of this branch; not started). No push, PR, or merge is
+  authorized by this entry.
+
 ## Latest Update — OpenRouter Model/Cost Observatory specified
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-001`
@@ -90,18 +224,32 @@ canonical `main` via PR #18 (merge commit `033b8773…`).
 
 ## Current Exact Next Task
 
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001`
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003`
 
-The Source Arena post-merge living-docs sync is canonical via PR #19 (merge
-commit `b72bcbd…`). The Observatory spec now exists as a local docs commit
-only. The next task pushes that spec commit, opens a docs-only PR, reviews it,
-merges it if clean, and verifies canonical `main`.
+The Observatory spec is merged into canonical `main` via PR #20 (merge commit
+`f1e177e38a26cfc80e047c8481d7932ad4419487`). The static snapshot slice is
+implemented on branch
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (four
+local, unpushed commits). Its first technical review
+(`-STATIC-SNAPSHOT-SLICE-REVIEW-001`) returned `NEEDS_FIXES` on a mobile
+horizontal-overflow defect and a minor class/id naming collision; both are
+fixed by `-STATIC-SNAPSHOT-SLICE-REMEDIATION-001` on the same branch. Technical
+re-review passed as `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`. Visual acceptance
+001 returned `NEEDS_POLISH`; visual polish is now complete in the third local
+commit with a router-core/orbital constellation, first-viewport routing
+hierarchy, required mobile content order, and minor footer/type refinements.
+Visual acceptance 002 found one remaining P2: the Budget Estimator began
+behind the fixed footer at 1440×900. Visual polish 002 now moves the estimator
+to y=780 and leaves its full header visible above the footer without changing
+mobile, data, interactions, or safety. The next task is independent
+visual/product acceptance 003.
 
-Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter is
-still **not implemented**; the Observatory is specification-only and the
-static snapshot remains planned. There is **no WebGL/Three.js foundation
-yet** — do not begin that track, any OpenRouter implementation, or any deploy
-ahead of the spec publish task.
+Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter
+live API/account usage/backend remain **not authorized**; the static snapshot
+slice is implementation-complete and polished on its branch but not pushed,
+merged, or deployed. There is **no WebGL/Three.js foundation yet** — do not
+begin that track, any OpenRouter live-API work, or any deploy ahead of the
+remaining visual acceptance, final review, and merge gates.
 
 ## Latest Task Update (PR #15 merged into canonical `main`)
 

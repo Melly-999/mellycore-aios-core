@@ -1013,7 +1013,7 @@ button {
 }
 
 @media (max-width: 760px) {
-  .dash-body { padding-bottom: 78px; }
+  .dash-body { padding-bottom: 56px; }
   .cockpit-shell { padding-inline: 12px; }
   .dash-topbar-inner { min-height: 58px; flex-wrap: wrap; gap: 0; padding-top: 8px; }
   .dash-brand { width: calc(100% - 20px); font-size: .93rem; }
@@ -1101,10 +1101,11 @@ button {
   .evidence-grid { grid-template-columns: 1fr; gap: 4px; }
   .dash-details-body dd,
   .evidence-grid dd { margin-bottom: 9px; }
-  .dash-bottombar .cockpit-shell { min-height: 66px; }
-  .dash-bottombar span { padding-inline: 12px; }
-  .dash-bottombar span:nth-of-type(n+4) { display: none; }
-  .dash-bottombar strong { padding-right: 4px; }
+  .dash-bottombar { background: rgba(3,4,7,.9); }
+  .dash-bottombar .cockpit-shell { min-height: 44px; }
+  .dash-bottombar span { padding-inline: 10px; font-size: .58rem; }
+  .dash-bottombar span:nth-of-type(n+3) { display: none; }
+  .dash-bottombar strong { padding-left: 10px; padding-right: 2px; font-size: .59rem; }
 }
 
 @media (max-width: 420px) {
@@ -1131,4 +1132,504 @@ button {
   .task-button,
   .arena-node-dot,
   .cockpit-button { forced-color-adjust: auto; }
+}
+
+/* ------------------------------------------------------------------
+ * OpenRouter Model Observatory — static snapshot slice.
+ * Reuses .dash-surface, .task-button, .cockpit-button, .metric-strip,
+ * .context-rule-list, .dash-line-list, .dash-details from above; adds
+ * only Observatory-specific layout and chip styling below.
+ * ------------------------------------------------------------------ */
+
+.obs-safety-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.obs-safety-strip--compact {
+  flex-wrap: nowrap;
+  margin-bottom: 10px;
+  padding-bottom: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent);
+}
+
+.obs-safety-chip {
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 195, 77, 0.45);
+  border-radius: var(--radius-chip);
+  background: rgba(255, 195, 77, 0.08);
+  color: var(--cockpit-amber);
+  font-family: var(--font-mono);
+  font-size: var(--text-chip);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.obs-layout {
+  min-width: 0;
+}
+
+.obs-main {
+  display: grid;
+  grid-template-columns: minmax(520px, 1.45fr) minmax(340px, .85fr) 270px;
+  grid-template-areas:
+    "constellation advisor selected"
+    "constellation estimator selected"
+    "radar estimator fallback"
+    "matrix matrix fallback";
+  gap: 16px;
+  min-width: 0;
+  align-items: start;
+}
+
+.obs-constellation-card { grid-area: constellation; }
+.obs-advisor-card { grid-area: advisor; }
+.obs-estimator-card { grid-area: estimator; }
+.obs-radar-card { grid-area: radar; }
+.obs-matrix-card { grid-area: matrix; }
+.obs-selected-card { grid-area: selected; }
+.obs-fallback-card { grid-area: fallback; }
+.obs-constellation-card,
+.obs-advisor-card,
+.obs-estimator-card,
+.obs-radar-card,
+.obs-matrix-card,
+.obs-selected-card,
+.obs-fallback-card { min-width: 0; }
+
+.obs-constellation-stage {
+  position: relative;
+  min-height: 410px;
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(168, 108, 255, .22);
+  border-radius: var(--cockpit-radius);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(53, 215, 242, .1), transparent 19%),
+    radial-gradient(circle at 50% 50%, rgba(168, 108, 255, .08), transparent 48%),
+    linear-gradient(rgba(168, 108, 255, .025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 108, 255, .025) 1px, transparent 1px),
+    rgba(5, 3, 10, .54);
+  background-size: auto, auto, 36px 36px, 36px 36px, auto;
+}
+
+.obs-orbit-ring {
+  position: absolute;
+  z-index: 0;
+  border: 1px solid rgba(53, 215, 242, .24);
+  border-radius: 50%;
+  box-shadow: 0 0 22px rgba(53, 215, 242, .05);
+  pointer-events: none;
+}
+
+.obs-orbit-ring--outer { inset: 10% 12%; }
+.obs-orbit-ring--inner { inset: 27% 28%; border-color: rgba(255, 79, 216, .2); }
+
+.obs-orbit-axis {
+  position: absolute;
+  z-index: 0;
+  left: 12%;
+  right: 12%;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(53, 215, 242, .3), transparent);
+  pointer-events: none;
+}
+
+.obs-orbit-axis::after {
+  content: "";
+  position: absolute;
+  top: -155px;
+  bottom: -155px;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(transparent, rgba(168, 108, 255, .28), transparent);
+}
+
+.obs-router-core {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: 144px;
+  height: 144px;
+  display: grid;
+  place-content: center;
+  gap: 4px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(53, 215, 242, .66);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(53, 215, 242, .26), rgba(109, 40, 217, .2) 46%, rgba(5, 3, 10, .96) 72%);
+  box-shadow:
+    0 0 0 10px rgba(168, 108, 255, .05),
+    0 0 0 20px rgba(53, 215, 242, .025),
+    0 0 34px rgba(53, 215, 242, .28);
+  text-align: center;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.obs-router-core span,
+.obs-router-core small {
+  color: #b8afc8;
+  font-size: .6rem;
+  letter-spacing: .08em;
+}
+
+.obs-router-core strong {
+  color: var(--cockpit-cyan);
+  font-size: 1.25rem;
+  letter-spacing: .12em;
+  text-shadow: 0 0 16px rgba(53, 215, 242, .6);
+}
+
+.obs-model-grid {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  min-width: 0;
+}
+
+.obs-model-grid > .dash-source-note {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+}
+
+.obs-model-card {
+  position: absolute;
+  width: clamp(126px, 22%, 158px);
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+  min-height: 78px;
+  padding: 9px 10px;
+  border: 1px solid var(--cockpit-line);
+  border-radius: var(--radius-card);
+  background: rgba(10, 6, 18, .92);
+  color: var(--cockpit-copy);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.obs-model-card:nth-child(1) { top: 5%; left: 50%; transform: translateX(-50%); }
+.obs-model-card:nth-child(2) { top: 14%; right: 4%; }
+.obs-model-card:nth-child(3) { top: 41%; right: 1%; }
+.obs-model-card:nth-child(4) { right: 8%; bottom: 5%; }
+.obs-model-card:nth-child(5) { bottom: 1%; left: 50%; transform: translateX(-50%); }
+.obs-model-card:nth-child(6) { bottom: 5%; left: 8%; }
+.obs-model-card:nth-child(7) { top: 41%; left: 1%; }
+.obs-model-card:nth-child(8) { top: 14%; left: 4%; }
+
+.obs-model-card:hover {
+  border-color: var(--cockpit-pink);
+  box-shadow: 0 0 18px rgba(255, 79, 216, .16);
+}
+.obs-model-card.is-selected {
+  border-color: var(--cockpit-violet);
+  background: rgba(38, 20, 65, .94);
+  box-shadow: 0 0 0 1px var(--cockpit-violet) inset, 0 0 18px rgba(124, 58, 237, .22);
+}
+
+.obs-model-card-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px; }
+.obs-model-card-head strong { min-width: 0; font-size: .78rem; line-height: 1.25; }
+.obs-model-lane { color: #afa6c1; font-size: .64rem; line-height: 1.25; }
+
+.obs-advisor-controls {
+  display: grid;
+  gap: 9px;
+  margin: 11px 0;
+}
+
+.obs-advisor-controls > div { min-width: 0; }
+
+.obs-control-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--cockpit-cyan);
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.obs-lane-filter,
+.obs-runtype-selector {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+  margin: 0;
+  padding: 0 0 3px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent);
+}
+
+.obs-lane-filter .task-button,
+.obs-runtype-selector .task-button {
+  flex: 0 0 auto;
+  min-width: 108px;
+  width: auto;
+  scroll-snap-align: start;
+}
+
+.dash-panel--observatory .dash-source-note {
+  color: #afa6c1;
+  font-size: .79rem;
+}
+
+.dash-panel--observatory .data-origin { font-size: .66rem; }
+
+.obs-cost-chip,
+.obs-status-chip,
+.obs-signal-chip,
+.obs-cap-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-chip);
+  font-family: var(--font-mono);
+  font-size: var(--text-chip);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.obs-cost-chip { border: 1px solid var(--cockpit-line-strong); color: var(--cockpit-copy); }
+.obs-cost-chip--PREMIUM { border-color: var(--cockpit-pink); color: var(--cockpit-pink); }
+.obs-cost-chip--HIGH { border-color: var(--cockpit-amber); color: var(--cockpit-amber); }
+.obs-cost-chip--MEDIUM { border-color: var(--cockpit-cyan); color: var(--cockpit-cyan); }
+.obs-cost-chip--LOW { border-color: var(--cockpit-green); color: var(--cockpit-green); }
+.obs-cost-chip--UNKNOWN,
+.obs-cost-chip--FREE_EXPERIMENTAL { border-color: var(--cockpit-muted); color: var(--cockpit-muted); }
+
+.obs-status-chip { border: 1px dashed var(--cockpit-line-strong); color: var(--cockpit-muted); justify-self: start; }
+.obs-status--unavailable { border-color: var(--cockpit-nasa); color: var(--cockpit-nasa); }
+.obs-status--alias { border-color: var(--cockpit-amber); color: var(--cockpit-amber); }
+.obs-status--unknown { border-color: var(--cockpit-muted); color: var(--cockpit-muted); }
+
+.obs-advisor-caution {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 195, 77, .4);
+  border-radius: var(--radius-card);
+  background: rgba(255, 195, 77, .06);
+  font-size: .82rem;
+}
+
+.obs-advisor-lane,
+.obs-advisor-model { margin: 4px 0; font-size: .9rem; }
+.obs-advisor-select { margin-top: 10px; }
+
+.obs-estimator-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.obs-estimator-form label {
+  display: grid;
+  gap: 5px;
+  color: var(--cockpit-muted);
+  font-size: .74rem;
+}
+
+.obs-estimator-form input {
+  min-height: var(--cockpit-control);
+  padding: 0 10px;
+  border: 1px solid var(--cockpit-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .03);
+  color: var(--cockpit-copy);
+}
+
+.obs-estimator-form input:focus-visible { outline: 2px solid var(--cockpit-violet); outline-offset: 1px; }
+
+.obs-estimate-line { display: flex; align-items: baseline; gap: 10px; font-size: 1.1rem; }
+.obs-estimate-unknown { color: var(--cockpit-amber); }
+.obs-estimate-value { color: var(--cockpit-green); font-family: var(--font-mono); }
+.obs-estimate-note { color: #aaa2bb; font-size: .71rem; font-family: var(--font-mono); text-transform: uppercase; }
+.obs-estimate-facts { margin-top: 10px; }
+.obs-estimate-fine { margin-top: 10px; color: #aaa2bb; font-size: .74rem; line-height: 1.5; }
+
+.obs-signal-chip { border: 1px solid var(--cockpit-line-strong); }
+.obs-signal--RECOMMENDED { border-color: var(--cockpit-green); color: var(--cockpit-green); }
+.obs-signal--OPTIONAL { border-color: var(--cockpit-cyan); color: var(--cockpit-cyan); }
+.obs-signal--NOT_JUSTIFIED { border-color: var(--cockpit-nasa); color: var(--cockpit-nasa); }
+.obs-signal--INSUFFICIENT_DATA { border-color: var(--cockpit-muted); color: var(--cockpit-muted); }
+
+.obs-matrix-table-wrap { overflow-x: auto; }
+.obs-matrix-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+.obs-matrix-table th,
+.obs-matrix-table td { padding: 8px 10px; border-bottom: 1px solid var(--cockpit-line); text-align: left; white-space: nowrap; }
+.obs-matrix-table th[scope="row"] { color: var(--cockpit-copy); font-weight: 600; }
+
+.obs-cap-chip { border: 1px solid var(--cockpit-line-strong); }
+.obs-cap--strong { border-color: var(--cockpit-green); color: var(--cockpit-green); }
+.obs-cap--partial { border-color: var(--cockpit-cyan); color: var(--cockpit-cyan); }
+.obs-cap--limited { border-color: var(--cockpit-amber); color: var(--cockpit-amber); }
+.obs-cap--none { border-color: var(--cockpit-muted); color: var(--cockpit-muted); }
+
+.obs-selected-title { margin: 0 0 4px; font-size: 1.05rem; }
+.obs-selected-provider { margin: 0 0 10px; color: #aaa2bb; font-size: .76rem; }
+.obs-selected-facts { margin-bottom: 10px; }
+.obs-selected-label { margin: 10px 0 4px; color: #aaa2bb; font-size: .71rem; text-transform: uppercase; letter-spacing: .05em; }
+.obs-source-note,
+.obs-safety-note { margin-top: 10px; color: #aaa2bb; font-size: .71rem; line-height: 1.5; }
+.obs-safety-note { color: var(--cockpit-amber); font-family: var(--font-mono); }
+
+.obs-fallback-chain { display: grid; gap: 10px; }
+.obs-fallback-step {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 1px solid var(--cockpit-line);
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, .02);
+}
+.obs-fallback-index { color: var(--cockpit-violet); font-family: var(--font-mono); font-size: .62rem; text-transform: uppercase; letter-spacing: .05em; }
+.obs-fallback-reason { color: var(--cockpit-muted); font-size: .78rem; }
+.obs-fallback-tradeoff { color: var(--cockpit-amber); font-size: .7rem; }
+
+@media (min-width: 1041px) {
+  .dash-panel--observatory { padding-block: 12px 32px; }
+  .dash-panel--observatory .dash-section-head {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+  .dash-panel--observatory > .obs-safety-strip { margin-bottom: 8px; }
+}
+
+@media (max-width: 1040px) {
+  .obs-main {
+    grid-template-columns: minmax(0, 1.25fr) minmax(310px, .75fr);
+    grid-template-areas:
+      "constellation advisor"
+      "constellation estimator"
+      "selected fallback"
+      "radar radar"
+      "matrix matrix";
+  }
+}
+
+@media (max-width: 760px) {
+  /* Mobile reading order: safety strip (outside this layout), lane/run
+     controls and Route Advisor, selected model, estimator, fallback,
+     compact constellation list, matrix, then Cost Radar. */
+  .obs-main { display: flex; flex-direction: column; }
+  .obs-advisor-card { order: 1; }
+  .obs-selected-card { order: 2; }
+  .obs-estimator-card { order: 3; }
+  .obs-fallback-card { order: 4; }
+  .obs-constellation-card { order: 5; }
+  .obs-matrix-card { order: 6; }
+  .obs-radar-card { order: 7; }
+  .obs-estimator-form { grid-template-columns: 1fr 1fr; }
+  .obs-estimator-form label:nth-child(3) { grid-column: 1 / -1; }
+
+  /* Keep every card width-bound to the flex container so internal chip rows
+     and the matrix scroll locally without reintroducing page overflow. */
+  .obs-constellation-card,
+  .obs-advisor-card,
+  .obs-selected-card,
+  .obs-estimator-card,
+  .obs-fallback-card,
+  .obs-matrix-card,
+  .obs-radar-card { width: 100%; max-width: 100%; min-width: 0; }
+
+  .obs-constellation-stage {
+    min-height: 0;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  .obs-orbit-ring,
+  .obs-orbit-axis { display: none; }
+
+  .obs-router-core {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    min-height: 62px;
+    grid-template-columns: auto auto 1fr;
+    place-content: center start;
+    align-items: center;
+    gap: 8px;
+    transform: none;
+    margin-bottom: 9px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, rgba(53, 215, 242, .12), rgba(109, 40, 217, .12), transparent);
+    box-shadow: 0 0 18px rgba(53, 215, 242, .08);
+    text-align: left;
+  }
+
+  .obs-router-core strong { font-size: .92rem; }
+  .obs-router-core small { justify-self: end; }
+
+  .obs-model-grid {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .obs-model-grid > .dash-source-note {
+    position: static;
+    grid-column: 1 / -1;
+    transform: none;
+  }
+
+  .obs-model-card,
+  .obs-model-card:nth-child(n) {
+    position: relative;
+    inset: auto;
+    width: auto;
+    min-width: 0;
+    min-height: 92px;
+    transform: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .obs-estimator-form { grid-template-columns: 1fr; }
+  .obs-estimator-form label:nth-child(3) { grid-column: auto; }
+  .obs-model-card { padding: 8px; }
+  .obs-model-card-head strong { font-size: .74rem; }
+  .obs-model-lane { font-size: .61rem; }
+  .obs-cost-chip,
+  .obs-status-chip { padding-inline: 6px; font-size: .55rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .obs-model-card { transition: none; }
+}
+
+@media (forced-colors: active) {
+  .obs-model-card,
+  .obs-safety-chip,
+  .obs-cost-chip,
+  .obs-status-chip,
+  .obs-signal-chip,
+  .obs-cap-chip { forced-color-adjust: auto; }
 }

@@ -164,15 +164,47 @@ section is the authoritative Option B ordering):
    the Model Router Observatory UX; no API calls, no keys, no backend.
    **Complete as a local docs commit only, not pushed.** Artifact:
    `docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md`.
-6. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001` — **exact next
-   task.** Push the spec commit, open a docs-only PR, review, merge if clean,
-   and verify canonical `main`.
+6. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001` — **complete.**
+   Merged into canonical `main` via PR #20, merge commit
+   `f1e177e38a26cfc80e047c8481d7932ad4419487`.
 7. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` —
-   implement the static snapshot panel from a local fixture only; no live
-   OpenRouter fetch, no API key, no model calls, no backend.
+   **implemented on branch
+   `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`
+   (four local commits, not pushed, not merged).** Static snapshot panel from a
+   local fixture only; no live OpenRouter fetch, no API key, no model calls,
+   no backend. All cost/context fields are `null` pending a reviewed price
+   source.
+7a. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-001`
+   — **complete.** Outcome `NEEDS_FIXES_STATIC_SNAPSHOT_SLICE_REVIEW`: a P1
+   mobile horizontal-page-scroll defect and a P3 class/id naming collision.
+7b. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
+   — **complete (second local commit on the same branch, not pushed).** Fixed
+   both findings: every direct Observatory card is now pinned to
+   `width:100%; max-width:100%; min-width:0` at the mobile breakpoint, and the
+   matrix wrapper `<div>` was renamed off the `obs-matrix-body` string.
+   Verified zero horizontal page overflow at 320px/375px.
+7c. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002`
+   — **complete.** Outcome `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`.
 8. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001` — visual/
    product review confirming it reads as a Model Router Observatory, not a
-   table dump.
+   table dump. **Complete:** outcome
+   `NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE`.
+8a. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-001` —
+    **complete as the third local commit, not pushed or merged.** Added the
+    CSS/DOM router-core/orbital composition, restored desktop first-viewport
+    decision hierarchy, corrected mobile DOM/visual order, reduced the mobile
+    status bar, and improved secondary mono copy without changing logic/data.
+8b. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002` —
+    **complete.** Outcome
+    `NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_002`: the Budget
+    Estimator began behind the fixed footer at 1440×900.
+8c. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-002` —
+    **complete as the fourth local commit, not pushed or merged.** A
+    desktop-only spacing adjustment exposes the complete Budget Estimator
+    header above the footer without changing mobile, logic, data, or safety.
+8d. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003` —
+    **exact next task.** Independent visual/product re-review of the final
+    desktop first-viewport correction.
 9. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001` — final
    technical review; transition to PR-ready if clean.
 10. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001` — merge if clean;
@@ -193,10 +225,10 @@ section is the authoritative Option B ordering):
     update `README.md` / `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
     `AGENT_HANDOFF.md`.
 
-Tasks 4 and 5 are complete at the states recorded above. None of tasks 6–16
-is authorized by this roadmap entry alone; each requires its own gate to pass
-in order. In particular, no OpenRouter implementation, WebGL/Three.js work, or
-deployment may begin ahead of the spec publish task.
+Tasks 4–8c are complete at the states recorded above; the Observatory remains
+local-only, unpushed, and unmerged. Task 8d is the exact next gate. No later
+review, merge, OpenRouter live-API implementation, renderer expansion, or
+deployment is authorized by this roadmap entry alone.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena
