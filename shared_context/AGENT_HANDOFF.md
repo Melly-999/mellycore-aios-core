@@ -1,5 +1,35 @@
 # Agent Handoff
 
+## Latest Update — OpenRouter Observatory visual polish (branch, not merged)
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-001`
+
+- Status: **third local commit on branch
+  `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, not
+  pushed, not merged**. Technical review passed as
+  `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`; visual acceptance 001 returned
+  `NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE`.
+- P2 fixes: the Model Constellation now presents a visible local router core,
+  orbital rings, and asymmetrical route-lane nodes without Canvas, WebGL, or
+  dependencies; Route Advisor is prominent in the first 1440×900 viewport
+  with the Budget Estimator partially visible; mobile now orders Route
+  Advisor, selected model, estimator, fallback chain, compact constellation,
+  matrix, then cost radar.
+- P3 fixes: the mobile bottom status bar is shorter and less intrusive, and
+  secondary Observatory mono copy has stronger size/contrast.
+- Browser verification: at 320px, body/document widths are 305/305px; at
+  375px, 360/360px. Model selection, lane filtering, run-type routing,
+  estimator state, matrix, and fallback chain work. Source Arena shows eight
+  nodes and four model-lens cards; Model Arena shows four cards. Console is
+  clean and application requests are local-only.
+- Safety remains explicit and unchanged: static snapshot, representative
+  pricing only, not live pricing, no account usage, no model calls, no
+  backend, no deploy.
+- Exact next task:
+  `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002`
+  (independent visual/product re-review; not started). No push, PR, merge, or
+  deploy is authorized by this entry.
+
 ## Latest Update — OpenRouter Observatory mobile-overflow remediation (branch, not merged)
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REMEDIATION-001`
@@ -170,26 +200,28 @@ canonical `main` via PR #18 (merge commit `033b8773…`).
 
 ## Current Exact Next Task
 
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002`
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002`
 
 The Observatory spec is merged into canonical `main` via PR #20 (merge commit
 `f1e177e38a26cfc80e047c8481d7932ad4419487`). The static snapshot slice is
 implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (two
-local, unpushed commits). Its first review
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (three
+local, unpushed commits). Its first technical review
 (`-STATIC-SNAPSHOT-SLICE-REVIEW-001`) returned `NEEDS_FIXES` on a mobile
 horizontal-overflow defect and a minor class/id naming collision; both are
-fixed by `-STATIC-SNAPSHOT-SLICE-REMEDIATION-001` on the same branch. The
-next task is an independent re-review of the remediated branch; only after
-it passes may the branch be pushed, a PR opened, reviewed, and merged.
+fixed by `-STATIC-SNAPSHOT-SLICE-REMEDIATION-001` on the same branch. Technical
+re-review passed as `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`. Visual acceptance
+001 returned `NEEDS_POLISH`; visual polish is now complete in the third local
+commit with a router-core/orbital constellation, first-viewport routing
+hierarchy, required mobile content order, and minor footer/type refinements.
+The next task is independent visual/product acceptance 002.
 
 Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter
 live API/account usage/backend remain **not authorized**; the static snapshot
-slice is implementation-complete and remediated on its branch but not yet
-merged, reviewed, or deployed. There is **no WebGL/Three.js foundation yet**
-— do not begin
-that track, any OpenRouter live-API work, or any deploy ahead of the review
-and merge gates.
+slice is implementation-complete and polished on its branch but not pushed,
+merged, or deployed. There is **no WebGL/Three.js foundation yet** — do not
+begin that track, any OpenRouter live-API work, or any deploy ahead of the
+remaining visual acceptance, final review, and merge gates.
 
 ## Latest Task Update (PR #15 merged into canonical `main`)
 

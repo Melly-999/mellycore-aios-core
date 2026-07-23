@@ -23,7 +23,7 @@ post-merge living-docs sync is canonical via PR #19, merge commit
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` is
 **implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, two
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`, three
 local commits, not pushed, not merged**. It adds the Observatory tab (Model
 Constellation, Cost Radar, Route Advisor, Budget Estimator, Capability
 Matrix, Fallback Chain, Safety Boundary Strip) against a local static fixture
@@ -48,22 +48,31 @@ horizontal page overflow at 320px and 375px; desktop, Source Arena, and all
 interactions unaffected.
 
 **Exact next task:**
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002` —
-independent re-review of the remediated branch; not started. Only after it
-passes may the branch be pushed, a PR opened, reviewed, and merged.
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002` — independent
+visual/product re-review of the polished branch; not started.
 
-Queued after that review/merge, in order:
+The technical re-review passed as
+`PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`. Visual acceptance 001 then returned
+`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE`: the constellation
+was catalogue-like, the desktop routing decision sat too low, and mobile
+placed the catalogue before the advisor. Visual polish is now complete in
+the third local commit: a CSS/DOM router core and orbital model lanes replace
+the equal-weight grid presentation; Route Advisor and partial budget state
+are visible in the first 1440×900 viewport; mobile follows the required
+advisor/selected/estimator/fallback/constellation order; and the bottom status
+bar plus secondary mono copy are less intrusive. Static-only safety wording
+and all existing interactions remain unchanged.
 
-1. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001`
-2. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001`
-3. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001`
+Queued after visual acceptance 002, in order:
+
+1. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001`
+2. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001`
 
 The deploy readiness chain continues unchanged after those: static deployment
 readiness decision → first static deploy (only if explicitly authorized) →
-post-deploy verify → deployment state sync. No step after the static-snapshot
-review task is started; each requires its own gate to pass in order. No
-WebGL/Three.js or OpenRouter live-API implementation is authorized ahead of
-that review.
+post-deploy verify → deployment state sync. No later gate is started; each
+requires its own pass in order. No WebGL/Three.js or OpenRouter live-API
+implementation is authorized ahead of those gates.
 
 ## Integration Status (AI Operations Intelligence)
 

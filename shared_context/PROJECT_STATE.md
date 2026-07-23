@@ -88,7 +88,7 @@ safety labels, and future gates is **merged into canonical `main` via PR #20**
 A first static-snapshot implementation slice,
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001`, is
 **implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (two
+`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (three
 local commits, not pushed, not merged)**. It adds an Observatory tab to
 `site/dashboard.html` with a local static fixture (`site/js/dashboard.js`)
 covering eight representative model entries; all cost and context-window
@@ -112,11 +112,25 @@ matrix wrapper `<div>` was renamed off the `obs-matrix-body` string. Verified
 zero horizontal page overflow at 320px and 375px, with desktop, Source
 Arena, and all interactions unaffected.
 
+Technical re-review returned `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`.
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001` then returned
+`NEEDS_POLISH_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE`: the first viewport
+was catalogue-first, the model constellation lacked a router-core/orbital
+metaphor, mobile advice followed the full model list, and the mobile status
+bar plus secondary mono copy needed refinement.
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-001` is complete as the
+third local commit on the same branch, not pushed or merged. The Observatory
+now uses a CSS/DOM local router core with orbital model nodes; Route Advisor
+and partial Budget Estimator state appear in the first 1440×900 viewport;
+mobile DOM and visual order put advice, selected model, estimator, and
+fallback before the compact model list; 320px/375px remain width-contained.
+No fixture, pricing, JavaScript logic, provider, backend, key, or deployment
+scope changed.
+
 The Source Arena post-merge docs sync prerequisite is canonical via PR #19
-(merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task
-is
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-REVIEW-002`
-(independent re-review of the remediated branch; not started).
+(merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task is
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-002`.
 
 ## Source Arena Static Renderer Slice — Canonical
 

@@ -1013,7 +1013,7 @@ button {
 }
 
 @media (max-width: 760px) {
-  .dash-body { padding-bottom: 78px; }
+  .dash-body { padding-bottom: 56px; }
   .cockpit-shell { padding-inline: 12px; }
   .dash-topbar-inner { min-height: 58px; flex-wrap: wrap; gap: 0; padding-top: 8px; }
   .dash-brand { width: calc(100% - 20px); font-size: .93rem; }
@@ -1101,10 +1101,11 @@ button {
   .evidence-grid { grid-template-columns: 1fr; gap: 4px; }
   .dash-details-body dd,
   .evidence-grid dd { margin-bottom: 9px; }
-  .dash-bottombar .cockpit-shell { min-height: 66px; }
-  .dash-bottombar span { padding-inline: 12px; }
-  .dash-bottombar span:nth-of-type(n+4) { display: none; }
-  .dash-bottombar strong { padding-right: 4px; }
+  .dash-bottombar { background: rgba(3,4,7,.9); }
+  .dash-bottombar .cockpit-shell { min-height: 44px; }
+  .dash-bottombar span { padding-inline: 10px; font-size: .58rem; }
+  .dash-bottombar span:nth-of-type(n+3) { display: none; }
+  .dash-bottombar strong { padding-left: 10px; padding-right: 2px; font-size: .59rem; }
 }
 
 @media (max-width: 420px) {
@@ -1147,7 +1148,15 @@ button {
   margin-bottom: 16px;
 }
 
-.obs-safety-strip--compact { margin-bottom: 12px; }
+.obs-safety-strip--compact {
+  flex-wrap: nowrap;
+  margin-bottom: 10px;
+  padding-bottom: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent);
+}
 
 .obs-safety-chip {
   padding: 5px 10px;
@@ -1163,47 +1172,227 @@ button {
 }
 
 .obs-layout {
+  min-width: 0;
+}
+
+.obs-main {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-columns: minmax(520px, 1.45fr) minmax(340px, .85fr) 270px;
+  grid-template-areas:
+    "constellation advisor selected"
+    "constellation estimator selected"
+    "radar estimator fallback"
+    "matrix matrix fallback";
   gap: 16px;
+  min-width: 0;
   align-items: start;
 }
 
-.obs-main { display: grid; gap: 16px; min-width: 0; }
-.obs-rail { display: grid; gap: 16px; position: sticky; top: 90px; }
+.obs-constellation-card { grid-area: constellation; }
+.obs-advisor-card { grid-area: advisor; }
+.obs-estimator-card { grid-area: estimator; }
+.obs-radar-card { grid-area: radar; }
+.obs-matrix-card { grid-area: matrix; }
+.obs-selected-card { grid-area: selected; }
+.obs-fallback-card { grid-area: fallback; }
+.obs-constellation-card,
+.obs-advisor-card,
+.obs-estimator-card,
+.obs-radar-card,
+.obs-matrix-card,
+.obs-selected-card,
+.obs-fallback-card { min-width: 0; }
 
-.obs-lane-filter { margin: 12px 0; }
+.obs-constellation-stage {
+  position: relative;
+  min-height: 410px;
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(168, 108, 255, .22);
+  border-radius: var(--cockpit-radius);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(53, 215, 242, .1), transparent 19%),
+    radial-gradient(circle at 50% 50%, rgba(168, 108, 255, .08), transparent 48%),
+    linear-gradient(rgba(168, 108, 255, .025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 108, 255, .025) 1px, transparent 1px),
+    rgba(5, 3, 10, .54);
+  background-size: auto, auto, 36px 36px, 36px 36px, auto;
+}
+
+.obs-orbit-ring {
+  position: absolute;
+  z-index: 0;
+  border: 1px solid rgba(53, 215, 242, .24);
+  border-radius: 50%;
+  box-shadow: 0 0 22px rgba(53, 215, 242, .05);
+  pointer-events: none;
+}
+
+.obs-orbit-ring--outer { inset: 10% 12%; }
+.obs-orbit-ring--inner { inset: 27% 28%; border-color: rgba(255, 79, 216, .2); }
+
+.obs-orbit-axis {
+  position: absolute;
+  z-index: 0;
+  left: 12%;
+  right: 12%;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(53, 215, 242, .3), transparent);
+  pointer-events: none;
+}
+
+.obs-orbit-axis::after {
+  content: "";
+  position: absolute;
+  top: -155px;
+  bottom: -155px;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(transparent, rgba(168, 108, 255, .28), transparent);
+}
+
+.obs-router-core {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: 144px;
+  height: 144px;
+  display: grid;
+  place-content: center;
+  gap: 4px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(53, 215, 242, .66);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(53, 215, 242, .26), rgba(109, 40, 217, .2) 46%, rgba(5, 3, 10, .96) 72%);
+  box-shadow:
+    0 0 0 10px rgba(168, 108, 255, .05),
+    0 0 0 20px rgba(53, 215, 242, .025),
+    0 0 34px rgba(53, 215, 242, .28);
+  text-align: center;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.obs-router-core span,
+.obs-router-core small {
+  color: #b8afc8;
+  font-size: .6rem;
+  letter-spacing: .08em;
+}
+
+.obs-router-core strong {
+  color: var(--cockpit-cyan);
+  font-size: 1.25rem;
+  letter-spacing: .12em;
+  text-shadow: 0 0 16px rgba(53, 215, 242, .6);
+}
 
 .obs-model-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
-  gap: 10px;
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  min-width: 0;
+}
+
+.obs-model-grid > .dash-source-note {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
 }
 
 .obs-model-card {
+  position: absolute;
+  width: clamp(126px, 22%, 158px);
+  min-width: 0;
   display: grid;
-  gap: 6px;
-  min-height: var(--cockpit-control);
-  padding: 12px;
+  gap: 3px;
+  min-height: 78px;
+  padding: 9px 10px;
   border: 1px solid var(--cockpit-line);
   border-radius: var(--radius-card);
-  background: rgba(255, 255, 255, .02);
+  background: rgba(10, 6, 18, .92);
   color: var(--cockpit-copy);
   text-align: left;
   cursor: pointer;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 
-.obs-model-card:hover { border-color: var(--cockpit-pink); }
+.obs-model-card:nth-child(1) { top: 5%; left: 50%; transform: translateX(-50%); }
+.obs-model-card:nth-child(2) { top: 14%; right: 4%; }
+.obs-model-card:nth-child(3) { top: 41%; right: 1%; }
+.obs-model-card:nth-child(4) { right: 8%; bottom: 5%; }
+.obs-model-card:nth-child(5) { bottom: 1%; left: 50%; transform: translateX(-50%); }
+.obs-model-card:nth-child(6) { bottom: 5%; left: 8%; }
+.obs-model-card:nth-child(7) { top: 41%; left: 1%; }
+.obs-model-card:nth-child(8) { top: 14%; left: 4%; }
+
+.obs-model-card:hover {
+  border-color: var(--cockpit-pink);
+  box-shadow: 0 0 18px rgba(255, 79, 216, .16);
+}
 .obs-model-card.is-selected {
   border-color: var(--cockpit-violet);
-  background: rgba(168, 108, 255, .1);
+  background: rgba(38, 20, 65, .94);
   box-shadow: 0 0 0 1px var(--cockpit-violet) inset, 0 0 18px rgba(124, 58, 237, .22);
 }
 
-.obs-model-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.obs-model-card-head strong { font-size: .88rem; }
-.obs-model-lane { color: var(--cockpit-muted); font-size: .68rem; }
+.obs-model-card-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px; }
+.obs-model-card-head strong { min-width: 0; font-size: .78rem; line-height: 1.25; }
+.obs-model-lane { color: #afa6c1; font-size: .64rem; line-height: 1.25; }
+
+.obs-advisor-controls {
+  display: grid;
+  gap: 9px;
+  margin: 11px 0;
+}
+
+.obs-advisor-controls > div { min-width: 0; }
+
+.obs-control-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--cockpit-cyan);
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.obs-lane-filter,
+.obs-runtype-selector {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+  margin: 0;
+  padding: 0 0 3px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent);
+}
+
+.obs-lane-filter .task-button,
+.obs-runtype-selector .task-button {
+  flex: 0 0 auto;
+  min-width: 108px;
+  width: auto;
+  scroll-snap-align: start;
+}
+
+.dash-panel--observatory .dash-source-note {
+  color: #afa6c1;
+  font-size: .79rem;
+}
+
+.dash-panel--observatory .data-origin { font-size: .66rem; }
 
 .obs-cost-chip,
 .obs-status-chip,
@@ -1273,9 +1462,9 @@ button {
 .obs-estimate-line { display: flex; align-items: baseline; gap: 10px; font-size: 1.1rem; }
 .obs-estimate-unknown { color: var(--cockpit-amber); }
 .obs-estimate-value { color: var(--cockpit-green); font-family: var(--font-mono); }
-.obs-estimate-note { color: var(--cockpit-muted); font-size: .68rem; font-family: var(--font-mono); text-transform: uppercase; }
+.obs-estimate-note { color: #aaa2bb; font-size: .71rem; font-family: var(--font-mono); text-transform: uppercase; }
 .obs-estimate-facts { margin-top: 10px; }
-.obs-estimate-fine { margin-top: 10px; color: var(--cockpit-muted); font-size: .72rem; }
+.obs-estimate-fine { margin-top: 10px; color: #aaa2bb; font-size: .74rem; line-height: 1.5; }
 
 .obs-signal-chip { border: 1px solid var(--cockpit-line-strong); }
 .obs-signal--RECOMMENDED { border-color: var(--cockpit-green); color: var(--cockpit-green); }
@@ -1296,11 +1485,11 @@ button {
 .obs-cap--none { border-color: var(--cockpit-muted); color: var(--cockpit-muted); }
 
 .obs-selected-title { margin: 0 0 4px; font-size: 1.05rem; }
-.obs-selected-provider { margin: 0 0 10px; color: var(--cockpit-muted); font-size: .74rem; }
+.obs-selected-provider { margin: 0 0 10px; color: #aaa2bb; font-size: .76rem; }
 .obs-selected-facts { margin-bottom: 10px; }
-.obs-selected-label { margin: 10px 0 4px; color: var(--cockpit-muted); font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; }
+.obs-selected-label { margin: 10px 0 4px; color: #aaa2bb; font-size: .71rem; text-transform: uppercase; letter-spacing: .05em; }
 .obs-source-note,
-.obs-safety-note { margin-top: 10px; color: var(--cockpit-muted); font-size: .68rem; }
+.obs-safety-note { margin-top: 10px; color: #aaa2bb; font-size: .71rem; line-height: 1.5; }
 .obs-safety-note { color: var(--cockpit-amber); font-family: var(--font-mono); }
 
 .obs-fallback-chain { display: grid; gap: 10px; }
@@ -1317,37 +1506,34 @@ button {
 .obs-fallback-tradeoff { color: var(--cockpit-amber); font-size: .7rem; }
 
 @media (max-width: 1040px) {
-  .obs-layout { grid-template-columns: 1fr; }
-  .obs-rail { position: static; }
+  .obs-main {
+    grid-template-columns: minmax(0, 1.25fr) minmax(310px, .75fr);
+    grid-template-areas:
+      "constellation advisor"
+      "constellation estimator"
+      "selected fallback"
+      "radar radar"
+      "matrix matrix";
+  }
 }
 
 @media (max-width: 760px) {
-  /* Mobile reading order per spec §12: safety strip, lane selector,
-     route advisor, selected model, simplified estimator, fallback
-     chain, matrix. */
-  .obs-layout { display: flex; flex-direction: column; }
-  .obs-main { order: 2; display: contents; }
-  .obs-rail { order: 3; display: contents; }
-  .obs-lane-filter { order: 1; }
-  .obs-constellation-card { order: 2; }
-  .obs-advisor-card { order: 3; }
-  .obs-selected-card { order: 4; }
-  .obs-estimator-card { order: 5; }
-  .obs-fallback-card { order: 6; }
-  .obs-matrix-card { order: 7; }
-  .obs-radar-card { order: 8; }
+  /* Mobile reading order: safety strip (outside this layout), lane/run
+     controls and Route Advisor, selected model, estimator, fallback,
+     compact constellation list, matrix, then Cost Radar. */
+  .obs-main { display: flex; flex-direction: column; }
+  .obs-advisor-card { order: 1; }
+  .obs-selected-card { order: 2; }
+  .obs-estimator-card { order: 3; }
+  .obs-fallback-card { order: 4; }
+  .obs-constellation-card { order: 5; }
+  .obs-matrix-card { order: 6; }
+  .obs-radar-card { order: 7; }
   .obs-estimator-form { grid-template-columns: 1fr 1fr; }
   .obs-estimator-form label:nth-child(3) { grid-column: 1 / -1; }
 
-  /* `.obs-main`/`.obs-rail` above use `display: contents` so `order` can
-     reorder cards directly under the flex `.obs-layout`. That removes their
-     own box from the tree, so each card becomes a flex item whose width the
-     browser must derive from content rather than from a definite ancestor
-     box — and any wide descendant (an `auto-fill` grid, a nowrap button row,
-     a nowrap table) can inflate the card's own rendered width past the
-     viewport instead of scrolling within itself. Pin every direct card to
-     the flex container's width explicitly so descendant content can only
-     scroll internally, never resize the card. */
+  /* Keep every card width-bound to the flex container so internal chip rows
+     and the matrix scroll locally without reintroducing page overflow. */
   .obs-constellation-card,
   .obs-advisor-card,
   .obs-selected-card,
@@ -1356,13 +1542,74 @@ button {
   .obs-matrix-card,
   .obs-radar-card { width: 100%; max-width: 100%; min-width: 0; }
 
-  .obs-model-grid { max-width: 100%; min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .obs-constellation-stage {
+    min-height: 0;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  .obs-orbit-ring,
+  .obs-orbit-axis { display: none; }
+
+  .obs-router-core {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    min-height: 62px;
+    grid-template-columns: auto auto 1fr;
+    place-content: center start;
+    align-items: center;
+    gap: 8px;
+    transform: none;
+    margin-bottom: 9px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, rgba(53, 215, 242, .12), rgba(109, 40, 217, .12), transparent);
+    box-shadow: 0 0 18px rgba(53, 215, 242, .08);
+    text-align: left;
+  }
+
+  .obs-router-core strong { font-size: .92rem; }
+  .obs-router-core small { justify-self: end; }
+
+  .obs-model-grid {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .obs-model-grid > .dash-source-note {
+    position: static;
+    grid-column: 1 / -1;
+    transform: none;
+  }
+
+  .obs-model-card,
+  .obs-model-card:nth-child(n) {
+    position: relative;
+    inset: auto;
+    width: auto;
+    min-width: 0;
+    min-height: 92px;
+    transform: none;
+  }
 }
 
 @media (max-width: 420px) {
   .obs-estimator-form { grid-template-columns: 1fr; }
   .obs-estimator-form label:nth-child(3) { grid-column: auto; }
-  .obs-model-grid { grid-template-columns: minmax(0, 1fr); }
+  .obs-model-card { padding: 8px; }
+  .obs-model-card-head strong { font-size: .74rem; }
+  .obs-model-lane { font-size: .61rem; }
+  .obs-cost-chip,
+  .obs-status-chip { padding-inline: 6px; font-size: .55rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
