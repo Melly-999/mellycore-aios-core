@@ -79,9 +79,19 @@ key, no backend, no live fetch, no model call). Full sequence and OpenRouter
 Level 1/2/3 gating: `shared_context/ROADMAP.md`'s "Option B Deploy Path"
 section; actionable next step: `shared_context/RUN_QUEUE.md`.
 
-OpenRouter is **not implemented** anywhere in this repository. No OpenRouter
-live catalog fetch, account usage, or API key is authorized; those remain
-future-gated behind their own separate approval (Levels 2 and 3).
+The OpenRouter Observatory is **specified, not implemented**:
+`docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md` defines the
+static-snapshot cockpit, local data contract, routing lanes, estimator,
+safety labels, and future gates. No fixture, UI, live catalog fetch, account
+usage, API key, backend, model call, or deployment is implemented or
+authorized. Current status: `SPEC_ONLY`, `STATIC_SNAPSHOT_PLANNED`,
+`LIVE_API_NOT_AUTHORIZED`, `ACCOUNT_USAGE_NOT_AUTHORIZED`, `NO_API_KEYS`,
+`NO_BACKEND`, `NO_MODEL_CALLS`, `NO_DEPLOY`.
+
+The Source Arena post-merge docs sync prerequisite is canonical via PR #19
+(merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task
+after this spec's local commit is
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001`.
 
 ## Source Arena Static Renderer Slice — Canonical
 

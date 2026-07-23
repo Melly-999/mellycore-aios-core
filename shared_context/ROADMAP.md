@@ -158,40 +158,45 @@ section is the authoritative Option B ordering):
    the PR #17 merge; report
    `docs/tasks/MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-001.md`.
 4. `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`
-   — **exact next task.** Push, PR, review, merge that docs sync.
+   — **complete.** Published and merged via PR #19, merge commit
+   `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`.
 5. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-001` — docs/spec only; define
    the Model Router Observatory UX; no API calls, no keys, no backend.
-6. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` —
+   **Complete as a local docs commit only, not pushed.** Artifact:
+   `docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md`.
+6. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001` — **exact next
+   task.** Push the spec commit, open a docs-only PR, review, merge if clean,
+   and verify canonical `main`.
+7. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-001` —
    implement the static snapshot panel from a local fixture only; no live
    OpenRouter fetch, no API key, no model calls, no backend.
-7. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001` — visual/
+8. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-001` — visual/
    product review confirming it reads as a Model Router Observatory, not a
    table dump.
-8. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001` — final
+9. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-FINAL-REVIEW-001` — final
    technical review; transition to PR-ready if clean.
-9. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001` — merge if clean;
+10. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-MERGE-GATE-001` — merge if clean;
    canonical-main verification.
-10. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-POST-MERGE-STATE-SYNC-001` —
+11. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-POST-MERGE-STATE-SYNC-001` —
     update living docs after the OpenRouter static panel merges.
-11. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-POST-MERGE-STATE-SYNC-PUBLISH-001`
+12. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-POST-MERGE-STATE-SYNC-PUBLISH-001`
     — push, PR, review, merge that docs sync.
-12. `MELLYCORE-STATIC-DEPLOYMENT-READINESS-001` — decide whether deploy is
+13. `MELLYCORE-STATIC-DEPLOYMENT-READINESS-001` — decide whether deploy is
     allowed; confirm deploy target; confirm no secrets, no provider calls, no
     backend, no false live claims.
-13. `MELLYCORE-STATIC-SHOWCASE-DEPLOYMENT-001` — first static deploy, only if
+14. `MELLYCORE-STATIC-SHOWCASE-DEPLOYMENT-001` — first static deploy, only if
     explicitly authorized; no backend, no provider keys, no runtime API.
-14. `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001` — verify the deployed
+15. `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001` — verify the deployed
     URL; desktop/mobile smoke; no NASA/OpenRouter/provider/model calls unless
     explicitly intended; no console errors; truthful-state copy.
-15. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` — record deployed status and URL;
+16. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` — record deployed status and URL;
     update `README.md` / `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
     `AGENT_HANDOFF.md`.
 
-None of tasks 4–15 is started, active, or authorized by this roadmap entry
-alone; each requires its own gate to pass in order. In particular, the
-OpenRouter Observatory spec (task 5) may begin only after the task 4 docs sync
-is published and merged, and no WebGL/Three.js or OpenRouter implementation may
-begin ahead of it.
+Tasks 4 and 5 are complete at the states recorded above. None of tasks 6–16
+is authorized by this roadmap entry alone; each requires its own gate to pass
+in order. In particular, no OpenRouter implementation, WebGL/Three.js work, or
+deployment may begin ahead of the spec publish task.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena
