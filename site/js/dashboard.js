@@ -506,40 +506,100 @@
     const dots = document.getElementById("source-arena-stage-dots");
     if (!dots) return;
     const limit = Math.min(state.archiveItems.length, 8);
-    dots.innerHTML = Array.from({ length: limit }, (_value, index) => `<button type="button" class="stage-dot" data-stage-index="${index}" aria-label="Show source node ${index + 1}" aria-current="${index === state.archiveSelected}"></button>`).join("");
-    dots.querySelectorAll("[data-stage-index]").forEach((button) => button.addEventListener("click", () => selectArchiveItem(Number(button.dataset.stageIndex))));
+    const buttons = Array.from({ length: limit }, (_value, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "stage-dot";
+      button.dataset.stageIndex = String(index);
+      button.setAttribute("aria-label", `Show source node ${index + 1}`);
+      button.setAttribute("aria-current", String(index === state.archiveSelected));
+      button.addEventListener("click", () => selectArchiveItem(index));
+      return button;
+    });
+    dots.replaceChildren(...buttons);
   }
 
   /* Static holographic source map — a command-stage layout, not a feed.
      Each filtered local record is a source node orbiting a central core;
      the active node feeds a fixed inspector panel. Selection is by node,
      queue, dot, or stepper — never swipe-to-next-feed. All data is the
-     local, deterministic Source Archive; no network, no engagement. */
-  function arenaNodesMarkup(items, selected) {
+     local, deterministic Source Archive; no network, no engagement.
+     Built via DOM APIs (not innerHTML): setAttribute/textContent never
+     parse their input as markup, so record fields need no HTML-escaping
+     here. */
+  function buildArenaNodes(items, selected) {
     const total = items.length;
-    return items
-      .map((item, index) => {
-        const angle = total > 1 ? Math.round((index / total) * 360) : 0;
-        const isActive = index === selected;
-        const glyph = escapeHTML((item.category || "").slice(0, 2).toUpperCase());
-        return `<button type="button" class="arena-node${isActive ? " is-active" : ""}" data-arena-node="${index}" style="--node-angle:${angle}deg;--swatch-hue:${hueForCategory(item.category)}" aria-pressed="${isActive}" aria-label="Select source node ${index + 1} of ${total}: ${escapeHTML(item.title)}, ${escapeHTML(item.category)}"><span class="arena-node-dot" aria-hidden="true">${glyph}</span><span class="arena-node-tag">${escapeHTML(item.category)}</span></button>`;
-      })
-      .join("");
+    const fragment = document.createDocumentFragment();
+    items.forEach((item, index) => {
+      const angle = total > 1 ? Math.round((index / total) * 360) : 0;
+      const isActive = index === selected;
+      const glyph = (item.category || "").slice(0, 2).toUpperCase();
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = isActive ? "arena-node is-active" : "arena-node";
+      button.dataset.arenaNode = String(index);
+      button.style.setProperty("--node-angle", `${angle}deg`);
+      button.style.setProperty("--swatch-hue", String(hueForCategory(item.category)));
+      button.setAttribute("aria-pressed", String(isActive));
+      button.setAttribute("aria-label", `Select source node ${index + 1} of ${total}: ${item.title}, ${item.category}`);
+      button.addEventListener("click", () => selectArchiveItem(index));
+
+      const dot = document.createElement("span");
+      dot.className = "arena-node-dot";
+      dot.setAttribute("aria-hidden", "true");
+      dot.textContent = glyph;
+
+      const tag = document.createElement("span");
+      tag.className = "arena-node-tag";
+      tag.textContent = item.category;
+
+      button.append(dot, tag);
+      fragment.append(button);
+    });
+    return fragment;
   }
 
-  function arenaInspectorMarkup(item, total) {
-    const tags = (item.tags || []).map((tag) => `<span class="arena-tag">${escapeHTML(tag)}</span>`).join("");
+  function buildArenaInspector(item, total) {
     const nodeWord = total === 1 ? "node" : "nodes";
-    return `<div class="arena-inspector">
-      <div class="arena-inspector-head">
-        <span class="data-origin data-origin--local">Local source fixture</span>
-        <span class="arena-inspector-map">Static source map · ${total} ${nodeWord} · no network</span>
-      </div>
-      <h2 class="arena-inspector-title">${escapeHTML(item.title)}</h2>
-      <p class="arena-inspector-desc">${escapeHTML(item.description)}</p>
-      <div class="arena-inspector-tags" aria-label="Record tags">${tags}</div>
-      <p class="arena-inspector-fine">${escapeHTML(item.category)} · ${escapeHTML(item.status)} · source id ${escapeHTML(item.id)}</p>
-    </div>`;
+
+    const root = document.createElement("div");
+    root.className = "arena-inspector";
+
+    const head = document.createElement("div");
+    head.className = "arena-inspector-head";
+    const origin = document.createElement("span");
+    origin.className = "data-origin data-origin--local";
+    origin.textContent = "Local source fixture";
+    const mapLabel = document.createElement("span");
+    mapLabel.className = "arena-inspector-map";
+    mapLabel.textContent = `Static source map · ${total} ${nodeWord} · no network`;
+    head.append(origin, mapLabel);
+
+    const title = document.createElement("h2");
+    title.className = "arena-inspector-title";
+    title.textContent = item.title;
+
+    const desc = document.createElement("p");
+    desc.className = "arena-inspector-desc";
+    desc.textContent = item.description;
+
+    const tagsWrap = document.createElement("div");
+    tagsWrap.className = "arena-inspector-tags";
+    tagsWrap.setAttribute("aria-label", "Record tags");
+    (item.tags || []).forEach((tag) => {
+      const tagEl = document.createElement("span");
+      tagEl.className = "arena-tag";
+      tagEl.textContent = tag;
+      tagsWrap.append(tagEl);
+    });
+
+    const fine = document.createElement("p");
+    fine.className = "arena-inspector-fine";
+    fine.textContent = `${item.category} · ${item.status} · source id ${item.id}`;
+
+    root.append(head, title, desc, tagsWrap, fine);
+    return root;
   }
 
   function renderArchiveStage() {
@@ -550,18 +610,44 @@
     if (!stage) return;
     const total = items.length;
     const activeAngle = total > 1 ? Math.round((state.archiveSelected / total) * 360) : 0;
-    const coreGlyph = escapeHTML((item.category || "").slice(0, 2).toUpperCase());
-    stage.innerHTML = `<div class="arena-map" role="group" aria-label="Holographic source stage — static local source map">
-      <div class="arena-map-scene">
-        <span class="arena-orbit" aria-hidden="true"></span>
-        <span class="arena-link" style="--node-angle:${activeAngle}deg" aria-hidden="true"></span>
-        <div class="arena-nodes">${arenaNodesMarkup(items, state.archiveSelected)}</div>
-        <div class="arena-core" style="--swatch-hue:${hueForCategory(item.category)}" aria-hidden="true"><span class="arena-core-ring"></span><span class="arena-core-glyph">${coreGlyph}</span></div>
-      </div>
-    </div>${arenaInspectorMarkup(item, total)}`;
-    stage.querySelectorAll("[data-arena-node]").forEach((button) => {
-      button.addEventListener("click", () => selectArchiveItem(Number(button.dataset.arenaNode)));
-    });
+    const coreGlyph = (item.category || "").slice(0, 2).toUpperCase();
+
+    const map = document.createElement("div");
+    map.className = "arena-map";
+    map.setAttribute("role", "group");
+    map.setAttribute("aria-label", "Holographic source stage — static local source map");
+
+    const scene = document.createElement("div");
+    scene.className = "arena-map-scene";
+
+    const orbit = document.createElement("span");
+    orbit.className = "arena-orbit";
+    orbit.setAttribute("aria-hidden", "true");
+
+    const link = document.createElement("span");
+    link.className = "arena-link";
+    link.style.setProperty("--node-angle", `${activeAngle}deg`);
+    link.setAttribute("aria-hidden", "true");
+
+    const nodes = document.createElement("div");
+    nodes.className = "arena-nodes";
+    nodes.append(buildArenaNodes(items, state.archiveSelected));
+
+    const core = document.createElement("div");
+    core.className = "arena-core";
+    core.style.setProperty("--swatch-hue", String(hueForCategory(item.category)));
+    core.setAttribute("aria-hidden", "true");
+    const coreRing = document.createElement("span");
+    coreRing.className = "arena-core-ring";
+    const coreGlyphEl = document.createElement("span");
+    coreGlyphEl.className = "arena-core-glyph";
+    coreGlyphEl.textContent = coreGlyph;
+    core.append(coreRing, coreGlyphEl);
+
+    scene.append(orbit, link, nodes, core);
+    map.append(scene);
+
+    stage.replaceChildren(map, buildArenaInspector(item, total));
     renderCompareSource();
     renderModelOutputs();
   }
