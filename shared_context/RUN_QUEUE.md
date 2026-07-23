@@ -3,6 +3,28 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
+## Immediate Next Task — Option B Deploy Path
+
+The operator selected Option B: first deploy bundles the Source Arena static
+renderer slice, an OpenRouter Model/Cost Observatory (static snapshot only,
+no live calls/keys/backend), and safety-state labels. Full sequence and
+gating detail: `shared_context/ROADMAP.md`'s "Option B Deploy Path" section.
+
+**Exact next task:**
+`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-XSS-FINDING-TRIAGE-001` — PR
+#17 (branch `feat/mellycore-source-arena-renderer-static-slice-001`, head
+`08642089f9c062928c72d3968fd23843a5e9995d`) is blocked by a failed Sourcery
+XSS/static-analysis finding on `innerHTML` at `site/js/dashboard.js:509` and
+`:554-561`. No merge until triaged and clean.
+
+Ordered sequence after triage: merge PR #17 → post-merge docs sync (local
+commit, then publish) → OpenRouter Observatory spec → static snapshot slice
+→ visual acceptance → final review → merge gate → post-merge docs sync
+(local commit, then publish) → static deployment readiness decision → first
+static deploy (only if explicitly authorized) → post-deploy verify →
+deployment state sync. No step in this sequence is started; each requires
+its own gate to pass in order.
+
 ## Integration Status (AI Operations Intelligence)
 
 `MELLYCORE-AI-OPERATIONS-INTELLIGENCE-001` is **integrated into canonical

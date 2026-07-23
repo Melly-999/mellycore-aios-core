@@ -1,13 +1,19 @@
 # Agent Handoff
 
-## In-Progress Task (draft PR open, not merged)
+## Latest Update — Source Arena conflict resolution pending / PR #17
 
-`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001`
+`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001` (PR
+[#17](https://github.com/Melly-999/mellycore-aios-core/pull/17))
 
-- Status: `IMPLEMENTED_ON_BRANCH_DRAFT_PR_OPEN`. Branch
-  `feat/mellycore-source-arena-renderer-static-slice-001`, created from
-  canonical `main` at `9a5d1bb0bac80b567608f115f10cbd211b327aba` (the PR #16
-  merge commit). Not merged.
+- Status: **open, not draft, not merged**. Branch
+  `feat/mellycore-source-arena-renderer-static-slice-001`, originally created
+  from canonical `main` at `9a5d1bb0bac80b567608f115f10cbd211b327aba` (the
+  PR #16 merge commit); current canonical `main` (`033b8773…`, the PR #18
+  Option B roadmap merge) has now been merged into this branch to resolve a
+  `shared_context/AGENT_HANDOFF.md` conflict — see "Current Exact Next Task"
+  below. Reviewed pre-merge head was `08642089…`, then
+  `dbe28def0698837f3794bfff612cf9a23bec38ae` after the XSS remediation commit;
+  this file's conflict-resolution merge commit sits on top of that.
 - First **static CSS/DOM renderer slice** for the Source Arena stage:
   replaced the prior single-record media card + vertical ♥/save/share
   engagement rail + `@handle`/`#hashtags` + swipe/wheel/touch feed navigation
@@ -17,6 +23,12 @@
   inspector panel. On mobile the map flattens to a stacked command-panel
   list. Selection is by node click, source queue, dot selector, or prev/next
   stepper — no swipe-to-next-feed.
+- Resolved blockers on this branch: (1) the orbit-clipping defect is fixed and
+  verified in-bounds at 1440×900 / 1440×800 / 2560×1440; (2) the Sourcery
+  XSS/static-analysis finding on `innerHTML` (former
+  `site/js/dashboard.js:509` and `:554-561`) was remediated by rebuilding the
+  two flagged sinks with DOM APIs (`createElement`/`textContent`/`setAttribute`/
+  `replaceChildren`) — Sourcery now reports **pass** against head `dbe28def…`.
 - CSS/DOM only. WebGL hybrid renderer and the ADR's CSS-complete fallback
   spec remain `NOT_IMPLEMENTED`; Three.js `NOT_VENDORED`; no Canvas, external
   API, dependency, backend, provider, deploy, or release. Source Archive stays
@@ -24,12 +36,41 @@
   `site/js/dashboard.js`, `site/css/dashboard.css`, `site/dashboard.html`,
   plus this handoff, `RUN_QUEUE.md`, and the task report. `site/index.html`
   untouched.
-- Validators: `node --check` PASS, `python scripts/validate_project_state.py`
-  PASS, `git diff --check` clean. Browser smoke + desktop/mobile visual checks
-  passed (see `docs/tasks/MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001.md`).
-- Exact next task:
-  `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-REVIEW-001` (independent visual
-  and technical review of the draft PR, then draft→ready→merge-gate if clean).
+- Validators (feature branch): `node --check` PASS,
+  `python scripts/validate_project_state.py` PASS, `git diff --check` clean.
+  Browser smoke + desktop/mobile visual checks passed (see
+  `docs/tasks/MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001.md`).
+
+## Active Roadmap Decision — Option B OpenRouter Deploy Path
+
+`MELLYCORE-OPTION-B-OPENROUTER-DEPLOY-ROADMAP-SYNC-001` — merged into
+canonical `main` via PR #18 (merge commit `033b8773…`).
+
+- Operator decision `OPTION_B_SELECTED`: the first deploy target bundles the
+  cinematic showcase, the Source Arena static renderer slice, and an OpenRouter
+  Model/Cost Observatory as a **static snapshot only** — no live provider
+  calls, no API keys, no backend, no model execution. Full sequence and
+  OpenRouter Level 1/2/3 gating: `shared_context/ROADMAP.md`'s "Option B
+  Deploy Path" section; actionable ordering: `shared_context/RUN_QUEUE.md`.
+- OpenRouter remains **not implemented**; its live catalog and account-usage
+  levels (Level 2/3) remain future-gated behind separate approval. Only
+  Level 1 (static snapshot) is in scope for the first deploy. No deploy or
+  release has been performed.
+- Recommended model routing for the sequence ahead: Claude Sonnet for
+  merge-gate review; Fable 5 for the OpenRouter Observatory's visual/product
+  spec and acceptance pass; Claude or Codex for deterministic implementation
+  and final technical review.
+
+## Current Exact Next Task
+
+`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-MERGE-GATE-001`
+
+Re-run the final merge gate for PR #17 at the conflict-resolved head. PR #17
+is not merged; this branch now carries a merge of current canonical `main`
+(`033b8773…`) to clear the `AGENT_HANDOFF.md` conflict, so the merge gate can
+be re-evaluated with a clean mergeability state. Do not begin the WebGL/
+Three.js foundation track or any OpenRouter implementation until PR #17 is
+merged and its post-merge state sync is complete.
 
 ## Latest Task Update (PR #15 merged into canonical `main`)
 
@@ -437,6 +478,19 @@ Contract implementation, adapter, backend, or runtime task is authorized by
 this entry.
 
 ## Next Run (Source Arena Renderer track)
+
+**Superseded.** The `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` pointer below is
+historical: that review passed and the static renderer slice
+(`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001`) was subsequently
+authorized, implemented on branch
+`feat/mellycore-source-arena-renderer-static-slice-001` (base
+`clean-origin/main` at the PR #16 merge commit
+`9a5d1bb0bac80b567608f115f10cbd211b327aba`), and opened as PR #17. See the
+"Latest Task Update (Option B roadmap sync, docs-only)" entry at the top of
+this file and `shared_context/ROADMAP.md`'s "Option B Deploy Path" section
+for the current exact next task
+(`MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-XSS-FINDING-TRIAGE-001`). The
+paragraph below is preserved as historical record of the prior state.
 
 The ADR architecture milestone is **`CLOSED_IN_CANONICAL_MAIN`** — PR #8,
 PR #9, PR #10, and PR #11 are all merged into canonical `main`, most
