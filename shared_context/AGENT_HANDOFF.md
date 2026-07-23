@@ -1,5 +1,46 @@
 # Agent Handoff
 
+## Latest Update — OpenRouter Observatory static snapshot slice merged into canonical `main` / PR #21
+
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-PUBLISH-001`
+(PR [#21](https://github.com/Melly-999/mellycore-aios-core/pull/21))
+
+- Status: **`MERGED_INTO_CANONICAL_MAIN`**. Branch
+  `feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001`
+  (base `clean-origin/main` at `f1e177e38a26cfc80e047c8481d7932ad4419487`,
+  the PR #20 spec-publish merge commit) was pushed as four commits —
+  `84faf5b6…` (implementation), `1ae5283…` (mobile-overflow remediation),
+  `bebb032c…` (visual polish 001), `6076e12…` (visual polish 002) — and
+  merged into canonical `main` via merge commit
+  `6897b5f31528c47f1a5186de4f854484dc3d71de` on 2026-07-23T16:19:42Z. All
+  four commits are confirmed ancestors of `main`; merged file scope matches
+  the expected 11 files exactly (3 app files, 4 task reports, 4
+  `shared_context` docs) — no workflow, dependency, or deploy-config file.
+- Prerequisite gates, all passed before this merge: technical review
+  `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002` (after `-REVIEW-001`'s
+  `NEEDS_FIXES` was remediated) and visual acceptance
+  `PASS_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_003` (after two rounds of
+  visual polish). PR #21's own gate was clean: mergeable, no
+  `CHANGES_REQUESTED`, no substantive unresolved comment (Sourcery's only
+  review was a rate-limit notice, not a finding).
+- The OpenRouter Observatory static snapshot slice — Model Constellation,
+  Cost Radar, Route Advisor, Budget Estimator, Capability Matrix, Fallback
+  Chain, Safety Boundary Strip — is now canonical on `main`, not merely
+  branch/PR-scoped. `py -3.9 scripts/validate_project_state.py` and
+  `node --check site/js/dashboard.js` both pass on canonical `main` (verified
+  in a detached worktree).
+- Safety state unchanged and still true on canonical `main`: static
+  snapshot only, representative/not-live pricing, `LIVE_API_NOT_AUTHORIZED`,
+  `ACCOUNT_USAGE_NOT_AUTHORIZED`, `NO_API_KEYS`, `NO_BACKEND`,
+  `NO_MODEL_CALLS`, `NO_DEPLOY`. OpenRouter Level 2 (public catalog) and
+  Level 3 (account usage) remain future-gated behind separate approval and
+  are not authorized by this merge. Source Arena and Model Arena were
+  regression-checked with no defect at every gate in this chain.
+- Exact next task:
+  `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-001`
+  (this docs-sync entry; local commit only, not pushed). No push, PR, merge,
+  or deploy is authorized beyond that docs-sync publish step.
+
 ## Latest Update — OpenRouter Observatory visual polish 002 (branch, not merged)
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-POLISH-002`
@@ -224,32 +265,28 @@ canonical `main` via PR #18 (merge commit `033b8773…`).
 
 ## Current Exact Next Task
 
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-VISUAL-ACCEPTANCE-003`
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-001`
 
 The Observatory spec is merged into canonical `main` via PR #20 (merge commit
-`f1e177e38a26cfc80e047c8481d7932ad4419487`). The static snapshot slice is
-implemented on branch
-`feat/mellycore-openrouter-model-observatory-static-snapshot-slice-001` (four
-local, unpushed commits). Its first technical review
-(`-STATIC-SNAPSHOT-SLICE-REVIEW-001`) returned `NEEDS_FIXES` on a mobile
-horizontal-overflow defect and a minor class/id naming collision; both are
-fixed by `-STATIC-SNAPSHOT-SLICE-REMEDIATION-001` on the same branch. Technical
-re-review passed as `PASS_STATIC_SNAPSHOT_SLICE_REVIEW_002`. Visual acceptance
-001 returned `NEEDS_POLISH`; visual polish is now complete in the third local
-commit with a router-core/orbital constellation, first-viewport routing
-hierarchy, required mobile content order, and minor footer/type refinements.
-Visual acceptance 002 found one remaining P2: the Budget Estimator began
-behind the fixed footer at 1440×900. Visual polish 002 now moves the estimator
-to y=780 and leaves its full header visible above the footer without changing
-mobile, data, interactions, or safety. The next task is independent
-visual/product acceptance 003.
+`f1e177e38a26cfc80e047c8481d7932ad4419487`). The static snapshot slice went
+through technical review (`-REVIEW-001` `NEEDS_FIXES` on a mobile
+horizontal-overflow defect and a minor class/id naming collision, both fixed
+by `-REMEDIATION-001`, then `-REVIEW-002` `PASS`) and visual acceptance (two
+rounds of polish — a router-core/orbital constellation, first-viewport
+routing hierarchy, required mobile content order, footer/type refinements,
+and a desktop spacing fix for the Budget Estimator — culminating in
+`PASS_OPENROUTER_OBSERVATORY_VISUAL_ACCEPTANCE_003`). It is now **merged into
+canonical `main` via PR #21**, merge commit
+`6897b5f31528c47f1a5186de4f854484dc3d71de`. This entry is the docs-only
+post-merge state sync; its own next step is to publish this sync (push,
+open a PR, review, merge).
 
 Option B remains the selected deploy path (`OPTION_B_SELECTED`). OpenRouter
-live API/account usage/backend remain **not authorized**; the static snapshot
-slice is implementation-complete and polished on its branch but not pushed,
-merged, or deployed. There is **no WebGL/Three.js foundation yet** — do not
-begin that track, any OpenRouter live-API work, or any deploy ahead of the
-remaining visual acceptance, final review, and merge gates.
+live API/account usage/backend remain **not authorized**; the static
+snapshot slice is now canonical, but no deploy has occurred. There is **no
+WebGL/Three.js foundation yet** — do not begin that track, any OpenRouter
+live-API work, or any deploy ahead of the static-deployment-readiness
+decision and its own separate authorization.
 
 ## Latest Task Update (PR #15 merged into canonical `main`)
 
