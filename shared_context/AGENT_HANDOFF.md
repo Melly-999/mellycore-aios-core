@@ -1,5 +1,34 @@
 # Agent Handoff
 
+## Latest Update — Deployment state synced after PR #24 merge
+
+`MELLYCORE-DEPLOYMENT-STATE-SYNC-001`
+
+- Status: **local docs commit, not pushed**, on
+  `docs/mellycore-deployment-state-sync-001`, based on canonical `main` at
+  `be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`.
+- Vercel (`https://mellycore-aios-core.vercel.app`) is confirmed as the
+  accepted production static showcase host. GitHub Pages remains
+  containment/maintenance only.
+- The post-deploy verification record
+  (`MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`) is merged into
+  canonical `main` via
+  [PR #24](https://github.com/Melly-999/mellycore-aios-core/pull/24), merge
+  commit `be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`.
+- `PROJECT_STATE.md`, `ROADMAP.md`, and `RUN_QUEUE.md` were updated to
+  reference PR #24 and the merge commit, and to close out roadmap items
+  4–15 as complete.
+- Safety unchanged: Source Arena, Model Arena, and OpenRouter Observatory
+  remain static UI modules using static representative data only; no live
+  provider routing, model execution, backend integration, account-usage
+  tracking, or trading/broker execution is claimed; GitHub Pages is not
+  claimed as a product host; no `site/` edits, Vercel config changes,
+  workflow/dependency changes, push, PR, or merge in this task.
+- Exact next task:
+  `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` (specification
+  work only). Queued after that, not yet started or authorized:
+  `MELLYCORE-3D-SCENE-FOUNDATION-001`.
+
 ## Latest Update — Static showcase post-deploy verification recorded
 
 `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`

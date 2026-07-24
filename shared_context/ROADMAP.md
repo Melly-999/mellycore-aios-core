@@ -225,27 +225,34 @@ section is the authoritative Option B ordering):
 14. `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001` — verify the deployed
     URL; desktop/mobile smoke; no NASA/OpenRouter/provider/model calls unless
     explicitly intended; no console errors; truthful-state copy.
-15. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` — record deployed status and URL;
-    update `README.md` / `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
-    `AGENT_HANDOFF.md`.
+15. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` — **complete.** This entry
+    synchronized `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
+    `AGENT_HANDOFF.md` to the accepted Vercel deployment and PR #24 merge
+    state (local docs commit only; publish is a separate task).
 
-**Vercel static-root remediation, published and verified (2026-07-24).** The
-static-root fetch defect at `https://mellycore-aios-core.vercel.app` (task 14
-below) is fixed by `MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-001`,
-reviewed `PASS`, and merged into canonical `main` via PR #23 (merge commit
-`177128cfc6513090b45491d16e9f0c594451636d`). Production redeploy smoke passed
-(`MELLYCORE-VERCEL-STATIC-SHOWCASE-REDEPLOY-SMOKE-001`) and post-deploy
-verification, including a screenshot artifact, is recorded by
-`MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`. Vercel is the accepted
-production static showcase host; GitHub Pages remains containment/maintenance
-only.
+**Vercel static-root remediation, published, verified, and state-synced
+(2026-07-24).** The static-root fetch defect at
+`https://mellycore-aios-core.vercel.app` (task 14 above) is fixed by
+`MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-001`, reviewed
+`PASS`, and merged into canonical `main` via PR #23 (merge commit
+`177128cfc6513090b45491d16e9f0c594451636d`). Production redeploy smoke
+passed (`MELLYCORE-VERCEL-STATIC-SHOWCASE-REDEPLOY-SMOKE-001`) and
+post-deploy verification, including a screenshot artifact, is recorded by
+`MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`, merged into canonical
+`main` via PR #24 (merge commit `be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`).
+Vercel is the accepted production static showcase host; GitHub Pages
+remains containment/maintenance only.
 
-Tasks 4–9 are complete at the states recorded above; the OpenRouter
-Observatory static snapshot slice is merged into canonical `main` via PR #21.
-Task 10 (this docs-sync entry) is the exact next step. No OpenRouter
-live-API implementation, renderer expansion, or deployment is authorized by
-this roadmap entry alone — task 10/11 are docs-only, and tasks 12–15 each
-require their own separate gate and explicit authorization.
+Tasks 4–15 are complete at the states recorded above; the OpenRouter
+Observatory static snapshot slice, Vercel static-root remediation, and
+post-deploy verification are all canonical on `main`. The exact next task
+is `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` (specification
+work only — no implementation, backend, provider integration, or deployment
+is authorized by this roadmap entry). Queued after that spec, not yet
+started or authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001` (see the
+Parallel Decision Track's item 4 below for its existing scope). No
+OpenRouter live-API implementation, renderer expansion, or deployment is
+authorized by this roadmap entry alone.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena

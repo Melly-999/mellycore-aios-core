@@ -3,18 +3,25 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
-## Vercel Static Root — Accepted, Verified, Post-Deploy Recorded
+## Vercel Static Root — Accepted, Verified, Published, State-Synced
 
 `https://mellycore-aios-core.vercel.app` is the accepted production static
 showcase host. The static-root fetch defect is fixed, reviewed `PASS`, and
 merged into canonical `main` via PR #23 (merge commit
 `177128cfc6513090b45491d16e9f0c594451636d`). Production redeploy smoke
 passed and post-deploy verification (including a screenshot artifact) is
-recorded in `docs/tasks/MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001.md`.
-GitHub Pages remains containment/maintenance only, not a product host.
+recorded in `docs/tasks/MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001.md`,
+merged into canonical `main` via PR #24 (merge commit
+`be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`). This deployment/verification
+chain is complete and state-synced (`MELLYCORE-DEPLOYMENT-STATE-SYNC-001`,
+this entry). GitHub Pages remains containment/maintenance only, not a
+product host.
 
 **Exact next task:**
-`MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-PUBLISH-001`
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` — specification work
+only; no implementation, backend, provider integration, or deployment is
+authorized by this entry. Queued after that spec, not yet started or
+authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001`.
 
 ## Immediate Next Task — Option B Deploy Path
 
