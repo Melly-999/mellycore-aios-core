@@ -1,5 +1,34 @@
 # Agent Handoff
 
+## Latest Update — Deployment-state-sync review findings remediated (local)
+
+`MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-001`
+
+- Status: **local docs commit, not pushed**, on
+  `docs/mellycore-deployment-state-sync-001`, above commit
+  `2ee50b7ae3a256d830598a6bf384483f09538f5e`.
+- `MELLYCORE-DEPLOYMENT-STATE-SYNC-PUBLISH-001` pushed that commit and
+  opened [PR #25](https://github.com/Melly-999/mellycore-aios-core/pull/25)
+  against canonical `main`. PR #25 is **OPEN and not merged.**
+  `MELLYCORE-DEPLOYMENT-STATE-SYNC-MERGE-001` attempted to merge it and
+  stopped: `chatgpt-codex-connector` posted two substantive P2 findings —
+  this file's "exact next task" pointer contradicted the task report's own
+  next-task pointer, and `ROADMAP.md`'s "tasks 4–15 are complete" summary
+  contradicted its own itemized list (item 10 still read "exact next task",
+  items 11–14 had no individual status).
+- This task corrects both findings **locally only**: the historical entry
+  below now matches its task report, and `ROADMAP.md`'s item 10–15
+  statuses and summary are now explicit and internally consistent — item
+  15 (this deployment-state sync) is recorded as implemented locally and
+  published in PR #25, **not** as merged.
+- No push, PR update, or merge occurs in this remediation task.
+- Safety unchanged: no live provider routing, model execution, backend
+  integration, account-usage tracking, or trading/broker execution
+  claimed; GitHub Pages not claimed as a product host; no `site/`,
+  screenshot, workflow, dependency, or Vercel config changes.
+- Exact next task:
+  `MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-PUBLISH-001`.
+
 ## Latest Update — Deployment state synced after PR #24 merge
 
 `MELLYCORE-DEPLOYMENT-STATE-SYNC-001`
@@ -24,10 +53,10 @@
   tracking, or trading/broker execution is claimed; GitHub Pages is not
   claimed as a product host; no `site/` edits, Vercel config changes,
   workflow/dependency changes, push, PR, or merge in this task.
-- Exact next task:
-  `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` (specification
-  work only). Queued after that, not yet started or authorized:
-  `MELLYCORE-3D-SCENE-FOUNDATION-001`.
+- Exact next task (historical, at the time this local commit was made):
+  `MELLYCORE-DEPLOYMENT-STATE-SYNC-PUBLISH-001`, matching
+  `docs/tasks/MELLYCORE-DEPLOYMENT-STATE-SYNC-001.md`'s own recorded next
+  task.
 
 ## Latest Update — Static showcase post-deploy verification recorded
 
