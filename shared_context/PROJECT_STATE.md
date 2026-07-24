@@ -59,10 +59,15 @@ calls); mobile 320px/375px show no overflow.
 
 Post-deploy verification record, including a screenshot artifact
 (`docs/screenshots/mellycore-vercel-static-showcase-post-deploy-20260724.png`),
-is captured in `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`. No live
-provider routing, live model execution, live OpenRouter data, backend
-integration, account-usage tracking, or trading/broker execution is claimed
-by any of this chain.
+is captured in `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001` and merged
+into canonical `main` via
+[PR #24](https://github.com/Melly-999/mellycore-aios-core/pull/24), merge
+commit `be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`.
+`MELLYCORE-DEPLOYMENT-STATE-SYNC-001` synchronized this file, `ROADMAP.md`,
+`RUN_QUEUE.md`, and `AGENT_HANDOFF.md` to that accepted state. No live
+provider routing, live
+model execution, live OpenRouter data, backend integration, account-usage
+tracking, or trading/broker execution is claimed by any of this chain.
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under
