@@ -3,21 +3,18 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
-## Current Remediation Gate — Vercel Static Root
+## Vercel Static Root — Accepted, Verified, Post-Deploy Recorded
 
-The first Vercel production deployment exists at
-`https://mellycore-aios-core.vercel.app`, configured with `site/` as its static
-root, but post-deploy acceptance is **blocked**. Repository-only
-`/shared_context/*` reads returned 404 and the dashboard logged a console error.
-
-`MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-001` is the current
-local branch task. It keeps the published `site/data` snapshots required,
-treats repository-only reads as optional, and renders explicit static fallback
-copy when those internal files are absent. No redeploy is authorized by this
-task.
+`https://mellycore-aios-core.vercel.app` is the accepted production static
+showcase host. The static-root fetch defect is fixed, reviewed `PASS`, and
+merged into canonical `main` via PR #23 (merge commit
+`177128cfc6513090b45491d16e9f0c594451636d`). Production redeploy smoke
+passed and post-deploy verification (including a screenshot artifact) is
+recorded in `docs/tasks/MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001.md`.
+GitHub Pages remains containment/maintenance only, not a product host.
 
 **Exact next task:**
-`MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-REVIEW-001`
+`MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-PUBLISH-001`
 
 ## Immediate Next Task — Option B Deploy Path
 

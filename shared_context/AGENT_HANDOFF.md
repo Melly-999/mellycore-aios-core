@@ -1,5 +1,32 @@
 # Agent Handoff
 
+## Latest Update — Static showcase post-deploy verification recorded
+
+`MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`
+
+- Status: **local docs commit, not pushed**, on
+  `docs/mellycore-static-showcase-post-deploy-verify-001`, based on canonical
+  `main` at `177128cfc6513090b45491d16e9f0c594451636d`.
+- Vercel (`https://mellycore-aios-core.vercel.app`) is recorded as the
+  accepted production static showcase host. GitHub Pages remains
+  containment/maintenance only.
+- Live re-verification: homepage and dashboard load, zero console errors,
+  Source Arena/Model Arena/OpenRouter Observatory visible and populated,
+  safety labels present, no external provider/API traffic, mobile 320/375
+  clean.
+- Screenshot artifact
+  (`docs/screenshots/mellycore-vercel-static-showcase-post-deploy-20260724.png`)
+  provided directly by the operator after the automated toolchain could not
+  produce a safely scoped screenshot without risking exposure of unrelated
+  desktop content; verified as a real PNG showing only the dashboard before
+  use.
+- Safety unchanged: no live provider routing, model execution, backend,
+  account usage, or trading/broker execution claimed; no `site/` edits,
+  Vercel config changes, workflow/dependency changes, push, PR, or merge in
+  this task.
+- Exact next task:
+  `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-PUBLISH-001`.
+
 ## Latest Update — Vercel static-root remediation
 
 `MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-001`
