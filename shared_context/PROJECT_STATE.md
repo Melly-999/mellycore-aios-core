@@ -27,20 +27,42 @@ store provider secrets.
 - Current audit baseline: 0 findings, index current, 0 writes.
 - Standard-library validation baseline: 245 tests.
 
-## Vercel Static Showcase — Remediation Pending Review
+## Vercel Static Showcase — Accepted Production Deployment
 
-The first Vercel production deployment exists at
-`https://mellycore-aios-core.vercel.app` with `site/` as its static root.
-Post-deploy acceptance remains blocked because repository-only
-`/shared_context/*` requests returned 404 and produced a dashboard console
-error.
+`https://mellycore-aios-core.vercel.app` is the **accepted production static
+showcase host** for MellyCore AIOS. GitHub Pages
+(`https://melly-999.github.io/mellycore-aios-core/`) remains
+containment/maintenance-only, per `MELLYCORE-GITHUB-PAGES-CONTAINMENT-001`,
+and is not a product host.
 
-Branch `fix/mellycore-vercel-static-root-path-remediation-001`, based on
-canonical `main` at `59b1408d5966a57ebd8e8636fd815198b7227f8f`, makes those
-repository-only reads optional, keeps the two public frozen snapshots under
-`site/data/` required, and renders honest degraded copy when internal context
-is unavailable. This is a local remediation pending independent review; it
-does not claim a successful redeploy.
+The static-root fetch defect (repository-only `/shared_context/*` requests
+returning 404 and logging a dashboard console error under `site/` as
+Vercel's root) was fixed by
+`MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-001`: repository-only
+reads are optional on 404, the two public frozen snapshots under `site/data/`
+remain required, and affected panels render honest degraded copy
+("not published with this static deployment") rather than implying internal
+context is public. Reviewed `PASS`
+(`MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-REVIEW-001`) and
+merged into canonical `main` via
+[PR #23](https://github.com/Melly-999/mellycore-aios-core/pull/23), merge
+commit `177128cfc6513090b45491d16e9f0c594451636d`.
+
+Production redeploy smoke passed
+(`MELLYCORE-VERCEL-STATIC-SHOWCASE-REDEPLOY-SMOKE-001`): the GitHub
+deployments API confirms the live Production deployment's SHA matches the
+merge commit exactly; homepage and dashboard load with zero console errors;
+Source Arena, Model Arena, and OpenRouter Observatory are all visible and
+populated; safety labels are present; all 18 observed network requests stay
+on the app's own origin (no external OpenRouter/NASA/provider/model/broker
+calls); mobile 320px/375px show no overflow.
+
+Post-deploy verification record, including a screenshot artifact
+(`docs/screenshots/mellycore-vercel-static-showcase-post-deploy-20260724.png`),
+is captured in `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`. No live
+provider routing, live model execution, live OpenRouter data, backend
+integration, account-usage tracking, or trading/broker execution is claimed
+by any of this chain.
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under
