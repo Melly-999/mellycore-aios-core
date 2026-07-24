@@ -1,0 +1,67 @@
+{
+  "_label": "FROZEN SAFE SNAPSHOT — captured from py -3.9 -m scripts.context_gate audit --json for Live Cockpit V2. The dashboard renders aggregate audit fields only and never opens canonical record bodies or the refusal log.",
+  "captured_at": "2026-07-17",
+  "source_command": "py -3.9 -m scripts.context_gate audit --json",
+  "audit": {
+    "as_of": "2026-07-17",
+    "audit_version": "MELLYCORE_CONTEXT_PROVENANCE_AUDIT_001",
+    "blocked_or_parked_count": 0,
+    "counts": {
+      "by_decision": {
+        "admitted": 6,
+        "deferred": 0,
+        "pending": 0,
+        "rejected": 1
+      },
+      "by_freshness": {
+        "expiring": 1,
+        "fresh": 1,
+        "immutable": 5,
+        "stale": 0,
+        "superseded": 0
+      },
+      "by_sensitivity": {
+        "internal": 7,
+        "private": 0,
+        "public": 0,
+        "regulated_high_risk": 0,
+        "secret": 0
+      },
+      "by_source_type": {
+        "externally_sourced": 0,
+        "generated": 1,
+        "repo_derived": 5,
+        "user_provided": 1
+      },
+      "by_trust": {
+        "high": 6,
+        "low": 0,
+        "medium": 1
+      },
+      "by_validation_outcome": {
+        "ACCEPT": 6,
+        "ACCEPT_WITH_WARNINGS": 1,
+        "CONTRADICTION_FOUND": 0,
+        "NEEDS_HUMAN_REVIEW": 0,
+        "REFUSE": 0
+      },
+      "record_files": 7,
+      "valid_records": 7
+    },
+    "expiring_window_days": 30,
+    "finding_count": 0,
+    "findings": [],
+    "index_status": "current",
+    "latest_gate_audit": {
+      "mode": "mixed",
+      "validated_at": "2026-07-17"
+    },
+    "refusal_counts": {
+      "trust_cap_violation": 1
+    },
+    "refusal_entries": 1,
+    "stale_implicated_count": 0,
+    "superseded_chains": [],
+    "writes_performed": 0
+  }
+}

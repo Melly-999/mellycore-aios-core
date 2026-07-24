@@ -1,0 +1,74 @@
+/* MellyCore AIOS — design tokens
+   Maps 1:1 to docs/design/MELLYCORE_DESIGN_SYSTEM_001.md §6–§8
+   and docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md §6. */
+
+:root {
+  /* Color language (design system §6) */
+  --color-void-black: #050508;
+  --color-deep-space: #0a0b14;
+  --color-orbital-violet: #7c3aed;
+  --color-plasma-blue: #3b82f6;
+  --color-signal-cyan: #06b6d4;
+  --color-cold-white: #e2e8f0;
+  --color-muted-lavender: #c4b5fd;
+  --color-warning-amber: #f59e0b;
+  --color-safe-green: #10b981;
+  --color-dormant-gray: #6b7280;
+  --color-dormant-text: #9ca3af; /* dormant-gray range lifted for AA text on void black */
+  --color-active-route: #2563eb;
+  --color-blocked-red: #ef4444; /* dashboard preview: reserved for BLOCKED state only, never decorative */
+  --color-teal-active: #14b8a6; /* dashboard preview: knowledge/active-system accent alongside signal-cyan */
+
+  --gradient-nebula: radial-gradient(
+    ellipse at center,
+    rgba(76, 29, 149, 0.35) 0%,
+    rgba(124, 58, 237, 0.12) 45%,
+    transparent 75%
+  );
+
+  --surface-glass: rgba(255, 255, 255, 0.08);
+  --surface-glass-solid: rgba(16, 17, 28, 0.92); /* mobile fallback, no blur */
+  --border-command: rgba(196, 181, 253, 0.18);
+  --border-command-soft: rgba(196, 181, 253, 0.12);
+  --glow-violet: 0 0 32px rgba(124, 58, 237, 0.18);
+  --shadow-panel: 0 8px 32px rgba(76, 29, 149, 0.12);
+
+  /* Typography (design system §7) */
+  --font-body: "Inter", "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", "Cascadia Mono", "Consolas",
+    monospace;
+
+  --text-hero: clamp(2.5rem, 6vw, 4.5rem);
+  --text-h2: clamp(1.5rem, 3vw, 2.25rem);
+  --text-h3: 1.125rem;
+  --text-body: 1.0625rem; /* 17px */
+  --text-small: 0.875rem;
+  --text-caption: 0.8125rem;
+  --text-hud: 0.75rem; /* 12px, floor is 11px */
+  --text-chip: 0.6875rem; /* 11px minimum */
+
+  --leading-body: 1.7;
+  --tracking-hud: 0.08em;
+
+  /* Spacing rhythm — 8px base (design system §8) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+  --space-10: 80px;
+  --space-12: 96px;
+  --space-15: 120px;
+  --space-20: 160px;
+
+  /* Layout */
+  --max-content-width: 1280px;
+  --radius-panel: 16px;
+  --radius-card: 12px;
+  --radius-chip: 999px;
+
+  /* Motion — hover/focus transitions only, no animations */
+  --transition-fast: 180ms ease;
+  --transition-medium: 280ms ease;
+}

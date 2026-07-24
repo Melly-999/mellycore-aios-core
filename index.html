@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MellyCore AIOS — static architectural preview of the shared command center for supervised multi-agent AI coordination. No live data, no provider connections.">
+  <title>MellyCore AIOS — Static Prototype Command Center</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="command-bar">
+    <div class="container">
+      <span class="brand">MellyCore AIOS</span>
+      <span class="hud-label hud-label--caution">Static prototype</span>
+      <nav aria-label="Page sections">
+        <ul>
+          <li><a href="#agent-constellation">Constellation</a></li>
+          <li><a href="#model-router-panel">Router</a></li>
+          <li><a href="#shared-context-memory">Context</a></li>
+          <li><a href="#living-context-graph">Graph</a></li>
+          <li><a href="#roadmap-orbit-map">Roadmap</a></li>
+          <li><a href="#safety-control-layer">Safety</a></li>
+          <li><a href="#tooling-layer">Tooling</a></li>
+          <li><a href="dashboard.html">Live dashboard (local)</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ── Section 1: Hero (HeroShell) ─────────────────────── -->
+    <section id="hero-command-center" class="hero page-section" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="hud-label hud-label--caution">Static prototype — docs &amp; spec phase</span>
+          <h1 id="hero-title">MellyCore AIOS</h1>
+          <p class="hero-subtitle">The shared command center for supervised multi-agent AI coordination.</p>
+          <p class="hero-oneliner">One shared context layer. Many supervised agents. OmniRouter at the center.</p>
+          <p class="hero-desc">MellyCore AIOS coordinates ChatGPT, Claude, Codex, GLM, Grok, and developer tools through a shared context layer, a model routing constellation, and a safety-first architecture. Currently in documentation and static-scaffold phase. No live provider connections.</p>
+          <p class="static-preview-notice"><strong>Static preview.</strong> This page is an architectural blueprint. No live data, no provider connections, no execution capability.</p>
+          <div class="hero-badges">
+            <span class="safety-badge"><span class="badge-glyph" aria-hidden="true">[#]</span> No secrets loaded</span>
+            <span class="safety-badge"><span class="badge-glyph" aria-hidden="true">[=]</span> Static preview</span>
+            <span class="safety-badge"><span class="badge-glyph" aria-hidden="true">[+]</span> Supervised only</span>
+          </div>
+          <div class="cta-group">
+            <a class="cta-anchor" href="#roadmap-orbit-map">View roadmap</a>
+            <a class="cta-anchor" href="#shared-context-memory">Review context packet</a>
+            <a class="cta-anchor" href="#safety-control-layer">Read safety contract</a>
+          </div>
+        </div>
+        <div class="cube-stage" aria-hidden="true">
+          <div class="cube-orbit"></div>
+          <div class="orbital-cube"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 2: Agent Constellation (AgentRosterPanel) ── -->
+    <section id="agent-constellation" class="page-section" aria-labelledby="constellation-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="hud-row">
+            <span class="hud-label hud-label--muted">Static system map</span>
+          </div>
+          <h2 id="constellation-title">Agent Constellation</h2>
+          <p class="section-subtitle">Supervised AI agents and tools coordinated through OmniRouter. Static diagram — no runtime state.</p>
+        </header>
+        <div class="constellation-stage">
+          <div class="constellation-spokes" aria-hidden="true"></div>
+          <ul class="constellation-list">
+            <li class="is-hub">
+              <div class="constellation-node constellation-node--hub">
+                <span class="node-glyph node-glyph--hub" aria-hidden="true">OR</span>
+                <div class="node-body">
+                  <span class="node-name">OmniRouter</span>
+                  <span class="node-role">Central routing hub</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+            <li class="sat-1">
+              <div class="constellation-node">
+                <span class="node-glyph" aria-hidden="true">CG</span>
+                <div class="node-body">
+                  <span class="node-name">ChatGPT</span>
+                  <span class="node-role">Strategy &amp; planning</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+            <li class="sat-2">
+              <div class="constellation-node">
+                <span class="node-glyph" aria-hidden="true">CL</span>
+                <div class="node-body">
+                  <span class="node-name">Claude / Claude Code</span>
+                  <span class="node-role">Architecture &amp; docs</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+            <li class="sat-3">
+              <div class="constellation-node">
+                <span class="node-glyph" aria-hidden="true">CX</span>
+                <div class="node-body">
+                  <span class="node-name">Codex</span>
+                  <span class="node-role">Implementation</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+            <li class="sat-4">
+              <div class="constellation-node">
+                <span class="node-glyph" aria-hidden="true">GL</span>
+                <div class="node-body">
+                  <span class="node-name">GLM 5.2 / Z.ai</span>
+                  <span class="node-role">Drafting &amp; iteration</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+            <li class="sat-5">
+              <div class="constellation-node">
+                <span class="node-glyph" aria-hidden="true">GK</span>
+                <div class="node-body">
+                  <span class="node-name">Grok / xAI</span>
+                  <span class="node-role">Critique &amp; review</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+            <li class="sat-6">
+              <div class="constellation-node">
+                <span class="node-glyph" aria-hidden="true">WP</span>
+                <div class="node-body">
+                  <span class="node-name">Warp</span>
+                  <span class="node-role">Terminal workflows</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+            <li class="sat-7">
+              <div class="constellation-node">
+                <span class="node-glyph" aria-hidden="true">ZD</span>
+                <div class="node-body">
+                  <span class="node-name">Zed</span>
+                  <span class="node-role">Editor-agent workspace</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+            <li class="sat-8">
+              <div class="constellation-node">
+                <span class="node-glyph" aria-hidden="true">VS</span>
+                <div class="node-body">
+                  <span class="node-name">VS Code</span>
+                  <span class="node-role">Editor workspace</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+            <li class="sat-9">
+              <div class="constellation-node">
+                <span class="node-glyph" aria-hidden="true">GH</span>
+                <div class="node-body">
+                  <span class="node-name">GitHub</span>
+                  <span class="node-role">Source control &amp; review trail</span>
+                  <span class="status-chip status-chip--supervised">Supervised</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 3: Model Router (CommandSurfacePreview) ──── -->
+    <section id="model-router-panel" class="page-section" aria-labelledby="router-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="hud-row">
+            <span class="hud-label hud-label--caution">Architecture preview — no live routing</span>
+          </div>
+          <h2 id="router-title">Model Router</h2>
+          <p class="section-subtitle">OmniRouter coordinates model and provider routing at the architecture level. Nothing on this page is connected.</p>
+        </header>
+        <div class="glass-panel router-layout">
+          <div class="constellation-node constellation-node--hub">
+            <span class="node-glyph node-glyph--hub" aria-hidden="true">OR</span>
+            <div class="node-body">
+              <span class="node-name">OmniRouter</span>
+              <span class="node-role">Preferred routing gateway when available</span>
+              <span class="status-chip status-chip--supervised">Supervised</span>
+            </div>
+          </div>
+          <p class="router-hub-note">OmniRouter serves as the preferred gateway when available. Provider API keys stay outside this repository. All routing targets below are architectural placeholders — no providers are connected in this preview.</p>
+          <ul class="router-providers">
+            <li>
+              <div class="constellation-node provider-card">
+                <span class="node-glyph" aria-hidden="true">CG</span>
+                <div class="node-body">
+                  <span class="node-name">ChatGPT</span>
+                  <span class="node-role">Strategy routing target</span>
+                  <span class="status-chip status-chip--dormant">Placeholder</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="constellation-node provider-card">
+                <span class="node-glyph" aria-hidden="true">CL</span>
+                <div class="node-body">
+                  <span class="node-name">Claude</span>
+                  <span class="node-role">Architecture routing target</span>
+                  <span class="status-chip status-chip--dormant">Placeholder</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="constellation-node provider-card">
+                <span class="node-glyph" aria-hidden="true">CX</span>
+                <div class="node-body">
+                  <span class="node-name">Codex</span>
+                  <span class="node-role">Implementation routing target</span>
+                  <span class="status-chip status-chip--dormant">Placeholder</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="constellation-node provider-card">
+                <span class="node-glyph" aria-hidden="true">GL</span>
+                <div class="node-body">
+                  <span class="node-name">GLM 5.2</span>
+                  <span class="node-role">Drafting routing target</span>
+                  <span class="status-chip status-chip--dormant">Placeholder</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="constellation-node provider-card">
+                <span class="node-glyph" aria-hidden="true">GK</span>
+                <div class="node-body">
+                  <span class="node-name">Grok</span>
+                  <span class="node-role">Critique routing target</span>
+                  <span class="status-chip status-chip--dormant">Placeholder</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 4: Shared Context / Memory Layer ──────────── -->
+    <section id="shared-context-memory" class="page-section" aria-labelledby="context-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="hud-row">
+            <span class="hud-label hud-label--muted">Static file list — no runtime access</span>
+          </div>
+          <h2 id="context-title">Shared Context / Memory Layer</h2>
+          <p class="section-subtitle">Unified coordination memory that every agent reads from. Metadata only — file contents are never shown here.</p>
+        </header>
+        <ul class="card-grid card-grid--3">
+          <li class="memory-card">
+            <span class="card-name">shared_context/</span>
+            <p class="card-desc">The root coordination memory directory.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">Directory</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-name">AGENT_HANDOFF.md</span>
+            <p class="card-desc">Cross-agent handoff protocol and state transfer.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">Handoff</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-name">RUN_QUEUE.md</span>
+            <p class="card-desc">Prioritized task queue for all agents.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">Queue</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-name">SAFETY_CONTRACT.md</span>
+            <p class="card-desc">Safety rules: no secrets, no keys, no unsupervised runs.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">Contract</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-name">ROADMAP.md</span>
+            <p class="card-desc">Project phases: 7-day, 30-day, 90-day, 180-day.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">Roadmap</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-name">MODEL_ROUTING.md</span>
+            <p class="card-desc">Agent roles and OmniRouter routing matrix.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">Routing</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-name">DESIGN_SYSTEM.md</span>
+            <p class="card-desc">Visual direction and design constraints.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">Design</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-name">PROJECT_STATE.md</span>
+            <p class="card-desc">Current project status and next tasks.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">State</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-name">VALIDATION.md</span>
+            <p class="card-desc">Baseline validation commands and checks.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">Validation</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-name">TOOLING.md</span>
+            <p class="card-desc">Tool and workspace definitions.</p>
+            <span class="card-meta"><span class="hud-label hud-label--muted">Tooling</span></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 4.5: Living Context Graph static preview -->
+    <section id="living-context-graph" class="page-section knowledge-graph-section" aria-labelledby="knowledge-graph-title">
+      <div class="container">
+        <header class="section-header knowledge-graph-header">
+          <div class="hud-row">
+            <span class="hud-label hud-label--muted">Living Context Graph</span>
+            <span class="hud-label hud-label--caution">No live ingestion</span>
+          </div>
+          <h2 id="knowledge-graph-title">Living Context Graph</h2>
+          <p class="section-subtitle">A static, reviewable map of MellyCore context, safety rules, decisions, and future modules.</p>
+          <div class="knowledge-graph-badges" aria-label="Fixture summary">
+            <span class="status-chip status-chip--planned">Static fixture</span>
+            <span class="status-chip status-chip--active">8 clusters</span>
+            <span class="status-chip status-chip--active">45 nodes</span>
+            <span class="status-chip status-chip--active">66 edges</span>
+            <span class="status-chip status-chip--blocked">No live ingestion</span>
+          </div>
+        </header>
+
+        <div class="knowledge-graph-layout">
+          <aside class="glass-panel knowledge-cluster-rail" aria-labelledby="cluster-rail-title">
+            <h3 id="cluster-rail-title">Cluster rail</h3>
+            <p>Eight reviewed fixture clusters, shown as static labels and not generated from runtime data.</p>
+            <ol class="cluster-list">
+              <li><span class="cluster-swatch cluster-swatch--violet" aria-hidden="true"></span><span>product-foundation</span></li>
+              <li><span class="cluster-swatch cluster-swatch--blue" aria-hidden="true"></span><span>static-showcase</span></li>
+              <li><span class="cluster-swatch cluster-swatch--cyan" aria-hidden="true"></span><span>shared-context</span></li>
+              <li><span class="cluster-swatch cluster-swatch--green" aria-hidden="true"></span><span>safety-governance</span></li>
+              <li><span class="cluster-swatch cluster-swatch--violet" aria-hidden="true"></span><span>knowledge-graph</span></li>
+              <li><span class="cluster-swatch cluster-swatch--lavender" aria-hidden="true"></span><span>repository-governance</span></li>
+              <li><span class="cluster-swatch cluster-swatch--dormant" aria-hidden="true"></span><span>future-modules</span></li>
+              <li><span class="cluster-swatch cluster-swatch--dashed" aria-hidden="true"></span><span>external-inspiration</span></li>
+            </ol>
+          </aside>
+
+          <div class="glass-panel knowledge-graph-canvas" aria-labelledby="graph-canvas-title">
+            <div class="canvas-header">
+              <div>
+                <h3 id="graph-canvas-title">Static graph canvas mock</h3>
+                <p>CSS-only cluster shells, node pills, and relation lines. No canvas, script, API call, database, or graph ingestion.</p>
+              </div>
+              <span class="static-preview-notice"><strong>Reviewed snapshot.</strong> Fixture 001 is authored in repository files.</span>
+            </div>
+            <div class="graph-map" aria-hidden="true">
+              <div class="graph-line graph-line--one"></div>
+              <div class="graph-line graph-line--two"></div>
+              <div class="graph-line graph-line--three"></div>
+              <div class="graph-line graph-line--four"></div>
+              <div class="graph-line graph-line--five"></div>
+              <div class="graph-cluster graph-cluster--foundation">
+                <span class="graph-cluster-title">Foundation</span>
+                <span class="graph-node graph-node--large">MellyCore AIOS</span>
+                <span class="graph-node">Design system</span>
+                <span class="graph-node">Homepage spec</span>
+              </div>
+              <div class="graph-cluster graph-cluster--context">
+                <span class="graph-cluster-title">Shared context</span>
+                <span class="graph-node graph-node--large">AGENT_HANDOFF</span>
+                <span class="graph-node">RUN_QUEUE</span>
+                <span class="graph-node">Safety contract</span>
+              </div>
+              <div class="graph-cluster graph-cluster--knowledge">
+                <span class="graph-cluster-title">Knowledge graph</span>
+                <span class="graph-node graph-node--large">Living Context Graph</span>
+                <span class="graph-node">Fixture 001</span>
+                <span class="graph-node">Schema</span>
+              </div>
+              <div class="graph-cluster graph-cluster--safety">
+                <span class="graph-cluster-title">Safety governance</span>
+                <span class="graph-node graph-node--large">No secrets</span>
+                <span class="graph-node">No deploy</span>
+                <span class="graph-node">No trading UX</span>
+              </div>
+              <div class="graph-cluster graph-cluster--repo">
+                <span class="graph-cluster-title">Repository governance</span>
+                <span class="graph-node graph-node--large">clean-origin</span>
+                <span class="graph-node">Old origin risk</span>
+                <span class="graph-node">Review trail</span>
+              </div>
+            </div>
+            <div class="graph-text-fallback" aria-label="Graph text summary">
+              <p>The graph preview represents product foundation, static showcase, shared context, safety governance, knowledge graph, repository governance, future modules, and external inspiration as the eight static clusters from Fixture 001.</p>
+            </div>
+          </div>
+
+          <aside class="glass-panel knowledge-node-panel" aria-labelledby="node-panel-title">
+            <h3 id="node-panel-title">Representative node</h3>
+            <div class="node-detail-card">
+              <span class="card-name">living-context-graph</span>
+              <p class="card-desc">Future static-first graph view over MellyCore docs and shared context.</p>
+              <dl class="node-meta-list">
+                <div><dt>Type</dt><dd>module</dd></div>
+                <div><dt>Status</dt><dd>draft-spec</dd></div>
+                <div><dt>Confidence</dt><dd>high</dd></div>
+                <div><dt>Importance</dt><dd>high</dd></div>
+              </dl>
+              <div class="source-chip-list" aria-label="Node source references">
+                <span>docs/product/knowledge_graph_console_spec.md</span>
+                <span>docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-SPEC-001.md</span>
+              </div>
+              <span class="safety-badge"><span class="badge-glyph" aria-hidden="true">[+]</span> Safe metadata only</span>
+            </div>
+          </aside>
+        </div>
+
+        <div class="knowledge-graph-lower">
+          <div class="glass-panel relation-legend" aria-labelledby="relation-legend-title">
+            <h3 id="relation-legend-title">Relation legend</h3>
+            <ul class="relation-list">
+              <li><span class="relation-swatch relation-swatch--solid" aria-hidden="true"></span><span>depends_on</span></li>
+              <li><span class="relation-swatch relation-swatch--solid" aria-hidden="true"></span><span>defines</span></li>
+              <li><span class="relation-swatch relation-swatch--dashed" aria-hidden="true"></span><span>references</span></li>
+              <li><span class="relation-swatch relation-swatch--double" aria-hidden="true"></span><span>contradicts</span></li>
+              <li><span class="relation-swatch relation-swatch--tick" aria-hidden="true"></span><span>supersedes</span></li>
+              <li><span class="relation-swatch relation-swatch--dotted" aria-hidden="true"></span><span>produced_by</span></li>
+              <li><span class="relation-swatch relation-swatch--check" aria-hidden="true"></span><span>validated_by</span></li>
+              <li><span class="relation-swatch relation-swatch--blocked" aria-hidden="true"></span><span>blocked_by</span></li>
+              <li><span class="relation-swatch relation-swatch--faint" aria-hidden="true"></span><span>belongs_to</span></li>
+            </ul>
+          </div>
+
+          <div class="glass-panel graph-risk-panel" aria-labelledby="graph-risk-title">
+            <h3 id="graph-risk-title">Safety and risk panel</h3>
+            <ul class="risk-badge-list">
+              <li>no-secrets</li>
+              <li>no-provider-keys</li>
+              <li>no-runtime-backend</li>
+              <li>no-deploy</li>
+              <li>no-workflow-yaml</li>
+              <li>no-live-trading-ux</li>
+              <li>fake-live-claim-risk</li>
+              <li>old-origin-main-unrelated-risk</li>
+            </ul>
+            <p>This preview makes the risks visible as static text. It does not validate them live or connect to any runtime system.</p>
+          </div>
+
+          <div class="glass-panel graph-source-strip" aria-labelledby="graph-source-title">
+            <h3 id="graph-source-title">Source evidence</h3>
+            <ul class="source-chip-list">
+              <li>shared_context/context_graph_fixture_001.json</li>
+              <li>shared_context/CONTEXT_GRAPH_FIXTURE_001.md</li>
+              <li>docs/specs/MELLYCORE_KNOWLEDGE_GRAPH_STATIC_UI_SPEC_001.md</li>
+              <li>docs/tasks/MELLYCORE-KNOWLEDGE-GRAPH-STATIC-UI-SPEC-REVIEW-001.md</li>
+            </ul>
+            <p class="static-claim-copy">Static only: no live graph generation, no runtime ingestion, no backend/API/database, no Obsidian/MCP integration, no deploy, and no live website claim.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 5: Roadmap Orbit Map (RoadmapOrbitMap) ───── -->
+    <section id="roadmap-orbit-map" class="page-section" aria-labelledby="roadmap-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="hud-row">
+            <span class="hud-label hud-label--muted">Static roadmap — updated manually</span>
+          </div>
+          <h2 id="roadmap-title">Roadmap Orbit Map</h2>
+          <p class="section-subtitle">Project phases as orbital progression. Inner orbits are complete; outer orbits come later. Honest state — nothing implied beyond it.</p>
+        </header>
+        <div class="roadmap-layout">
+          <div class="orbit-stage">
+            <div class="orbit-rings ring-1" aria-hidden="true"></div>
+            <div class="orbit-rings ring-2" aria-hidden="true"></div>
+            <div class="orbit-rings ring-3" aria-hidden="true"></div>
+            <div class="orbit-rings ring-4" aria-hidden="true"></div>
+            <div class="orbit-core" aria-hidden="true">Melly<br>Core</div>
+            <div class="orbit-node orbit-node--complete pos-1">
+              <span class="phase-name">Bootstrap</span>
+              <span class="status-chip status-chip--complete">Complete</span>
+              <p class="phase-detail">Repo scaffold, shared context files, safety contract.</p>
+            </div>
+            <div class="orbit-node orbit-node--planned pos-2">
+              <span class="phase-name">Cross-agent smoke</span>
+              <span class="status-chip status-chip--pending">Pending</span>
+              <p class="phase-detail">Verify shared context across all agents and tools. Not yet run.</p>
+            </div>
+            <div class="orbit-node orbit-node--complete pos-3">
+              <span class="phase-name">Design &amp; spec docs</span>
+              <span class="status-chip status-chip--complete">Complete</span>
+              <p class="phase-detail">Design system, homepage spec, frontend scaffold plan.</p>
+            </div>
+            <div class="orbit-node orbit-node--active pos-4">
+              <span class="phase-name">Static website</span>
+              <span class="status-chip status-chip--active">Active</span>
+              <p class="phase-detail">First HTML/CSS scaffold slice — this page. Visual QA next.</p>
+            </div>
+            <div class="orbit-node orbit-node--planned pos-5">
+              <span class="phase-name">MVP demo</span>
+              <span class="status-chip status-chip--planned">Planned</span>
+              <p class="phase-detail">Static prototype with richer navigation and visual polish.</p>
+            </div>
+            <div class="orbit-node orbit-node--blocked pos-6">
+              <span class="phase-name">Runtime / provider integrations</span>
+              <span class="status-chip status-chip--blocked">Later — approval gated</span>
+              <p class="phase-detail">Requires explicit approval before activation. Not started.</p>
+            </div>
+          </div>
+          <ol class="roadmap-list">
+            <li class="is-complete orbit-node orbit-node--complete">
+              <span class="phase-name">Bootstrap</span>
+              <span class="status-chip status-chip--complete">Complete</span>
+              <p class="phase-detail">Repo scaffold, shared context files, safety contract.</p>
+            </li>
+            <li class="is-pending orbit-node orbit-node--planned">
+              <span class="phase-name">Cross-agent smoke</span>
+              <span class="status-chip status-chip--pending">Pending</span>
+              <p class="phase-detail">Verify shared context across all agents and tools. Not yet run.</p>
+            </li>
+            <li class="is-complete orbit-node orbit-node--complete">
+              <span class="phase-name">Design &amp; spec docs</span>
+              <span class="status-chip status-chip--complete">Complete</span>
+              <p class="phase-detail">Design system, homepage spec, frontend scaffold plan.</p>
+            </li>
+            <li class="is-active orbit-node orbit-node--active">
+              <span class="phase-name">Static website</span>
+              <span class="status-chip status-chip--active">Active</span>
+              <p class="phase-detail">First HTML/CSS scaffold slice — this page. Visual QA next.</p>
+            </li>
+            <li class="is-planned orbit-node orbit-node--planned">
+              <span class="phase-name">MVP demo</span>
+              <span class="status-chip status-chip--planned">Planned</span>
+              <p class="phase-detail">Static prototype with richer navigation and visual polish.</p>
+            </li>
+            <li class="is-blocked orbit-node orbit-node--blocked">
+              <span class="phase-name">Runtime / provider integrations</span>
+              <span class="status-chip status-chip--blocked">Later — approval gated</span>
+              <p class="phase-detail">Requires explicit approval before activation. Not started.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 6: Safety / Control Layer ─────────────────── -->
+    <section id="safety-control-layer" class="page-section" aria-labelledby="safety-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="hud-row">
+            <span class="hud-label">Safety contract active</span>
+          </div>
+          <h2 id="safety-title">Safety / Control Layer</h2>
+          <p class="section-subtitle">Explicit safety constraints, visible at every layer. Safety is architectural, not decorative.</p>
+        </header>
+        <div class="glass-panel glass-panel--accent">
+          <div class="safety-badge-row">
+            <span class="safety-badge"><span class="badge-glyph" aria-hidden="true">[#]</span> No secrets</span>
+            <span class="safety-badge"><span class="badge-glyph" aria-hidden="true">[#]</span> No keys</span>
+            <span class="safety-badge"><span class="badge-glyph" aria-hidden="true">[=]</span> No unsupervised runs</span>
+            <span class="safety-badge"><span class="badge-glyph" aria-hidden="true">[+]</span> No copied workspace</span>
+          </div>
+          <div class="safety-columns">
+            <ul class="safety-list">
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No secrets in the repository.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No real API keys committed.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No provider tokens in tracked files.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No environment secret values in version control.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No destructive git operations without explicit approval.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No publishing or hosting without explicit approval.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No MellyTrade mutation from MellyCore AIOS.</li>
+            </ul>
+            <ul class="safety-list">
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No wholesale import of the GLM workspace — reference only.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No .git import from reference workspaces.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No database files committed.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> No local runtime state committed.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> Static-first before any runtime integration.</li>
+              <li><span class="check-glyph" aria-hidden="true">[x]</span> Honest validation — no fake status indicators.</li>
+            </ul>
+          </div>
+          <p class="glm-note">The GLM/Z.ai workspace is reference only. No GLM files have been copied into this repository. Visual inspiration is acknowledged; wholesale import is forbidden.</p>
+          <p class="mellytrade-note">MellyCore AIOS is standalone and separate from MellyTrade. This project contains no trading runtime, no broker connectivity, and no execution surfaces of any kind.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 7: Tooling Layer ──────────────────────────── -->
+    <section id="tooling-layer" class="page-section" aria-labelledby="tooling-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="hud-row">
+            <span class="hud-label hud-label--muted">Controlled surfaces — no autonomous runs</span>
+          </div>
+          <h2 id="tooling-title">Tooling Layer</h2>
+          <p class="section-subtitle">Controlled workflow surfaces for the multi-agent architecture. No tool is launched or linked from this page.</p>
+        </header>
+        <ul class="card-grid card-grid--4">
+          <li class="memory-card">
+            <span class="card-meta"><span class="node-glyph" aria-hidden="true">WP</span></span>
+            <span class="card-name">Warp</span>
+            <p class="card-desc">Safe terminal workflows, operator prompts, repeatable runbooks.</p>
+            <span class="card-meta"><span class="status-chip status-chip--supervised">Controlled</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-meta"><span class="node-glyph" aria-hidden="true">ZD</span></span>
+            <span class="card-name">Zed</span>
+            <p class="card-desc">Editor-agent workspace, fast code navigation, local editing ergonomics.</p>
+            <span class="card-meta"><span class="status-chip status-chip--supervised">Controlled</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-meta"><span class="node-glyph" aria-hidden="true">VS</span></span>
+            <span class="card-name">VS Code</span>
+            <p class="card-desc">Broadly compatible editor workspace with extension-compatible docs.</p>
+            <span class="card-meta"><span class="status-chip status-chip--supervised">Controlled</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-meta"><span class="node-glyph" aria-hidden="true">GH</span></span>
+            <span class="card-name">GitHub</span>
+            <p class="card-desc">Remote source control, issues, PRs, review trail, collaboration history.</p>
+            <span class="card-meta"><span class="status-chip status-chip--supervised">Controlled</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-meta"><span class="node-glyph" aria-hidden="true">CL</span></span>
+            <span class="card-name">Claude Code</span>
+            <p class="card-desc">Architecture, reasoning, documentation, review workflows.</p>
+            <span class="card-meta"><span class="status-chip status-chip--supervised">Controlled</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-meta"><span class="node-glyph" aria-hidden="true">CX</span></span>
+            <span class="card-name">Codex</span>
+            <p class="card-desc">Implementation, validation, local git hygiene, PR preparation.</p>
+            <span class="card-meta"><span class="status-chip status-chip--supervised">Controlled</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-meta"><span class="node-glyph" aria-hidden="true">GL</span></span>
+            <span class="card-name">GLM 5.2</span>
+            <p class="card-desc">Drafting, iteration, exploration, reference implementation ideas.</p>
+            <span class="card-meta"><span class="status-chip status-chip--supervised">Controlled</span></span>
+          </li>
+          <li class="memory-card">
+            <span class="card-meta"><span class="node-glyph" aria-hidden="true">CG</span></span>
+            <span class="card-name">ChatGPT</span>
+            <p class="card-desc">Strategy, context synthesis, prompt generation, planning, memory.</p>
+            <span class="card-meta"><span class="status-chip status-chip--supervised">Controlled</span></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── Section 8: Next Actions ───────────────────────────── -->
+    <section id="next-actions" class="page-section" aria-labelledby="actions-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="actions-title">Next Actions</h2>
+          <p class="section-subtitle">Explore the MellyCore AIOS architecture — everything stays within this static preview and the project documentation.</p>
+        </header>
+        <div class="cta-group">
+          <a class="cta-anchor" href="#roadmap-orbit-map">View roadmap</a>
+          <a class="cta-anchor" href="#shared-context-memory">Review context packet</a>
+          <a class="cta-anchor" href="#living-context-graph">Review graph preview</a>
+          <a class="cta-anchor" href="#agent-constellation">Explore static system map</a>
+          <a class="cta-anchor" href="#safety-control-layer">Read safety contract</a>
+          <a class="cta-anchor" href="../docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md">View scaffold plan</a>
+          <a class="cta-anchor" href="dashboard.html">Open live dashboard preview (local)</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Section 9: Footer / Project Status (FooterSafetyNote) ── -->
+  <footer id="footer-status" class="footer-status" aria-labelledby="footer-title">
+    <div class="container footer-grid">
+      <div>
+        <h2 id="footer-title" class="footer-heading">Project status</h2>
+        <p><strong>MellyCore AIOS</strong> <span class="status-chip status-chip--pending">Static prototype</span></p>
+        <ul class="safety-list footer-checklist">
+          <li><span class="check-glyph" aria-hidden="true">[x]</span> No live provider connections.</li>
+          <li><span class="check-glyph" aria-hidden="true">[x]</span> No secrets or API keys loaded.</li>
+          <li><span class="check-glyph" aria-hidden="true">[x]</span> No runtime application code — static markup only.</li>
+          <li><span class="check-glyph" aria-hidden="true">[x]</span> GLM reference workspace not copied.</li>
+          <li><span class="check-glyph" aria-hidden="true">[x]</span> Local static preview only — not published, no hosting configured.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer-heading">Documentation</h2>
+        <ul class="footer-links">
+          <li><a href="../docs/design/MELLYCORE_DESIGN_SYSTEM_001.md">Design system</a></li>
+          <li><a href="../docs/specs/MELLYCORE_HOMEPAGE_SPEC_001.md">Homepage specification</a></li>
+          <li><a href="../docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md">Frontend scaffold plan</a></li>
+          <li><a href="../shared_context/SAFETY_CONTRACT.md">Safety contract</a></li>
+        </ul>
+        <p class="footer-attribution">MellyCore AIOS — MellyGenix AI Coordination Layer. Architectural preview; supervised multi-agent coordination is a design goal, not a running system.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

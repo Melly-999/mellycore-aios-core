@@ -1,0 +1,660 @@
+/* MellyCore AIOS — section-specific layout.
+   Mobile-first single column; tablet at 768px; full command center at 1280px. */
+
+/* Command bar (header) */
+.command-bar {
+  border-bottom: 1px solid var(--border-command-soft);
+  padding-block: var(--space-2);
+}
+
+.command-bar .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  justify-content: space-between;
+}
+
+.command-bar .brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--text-body);
+  color: var(--color-cold-white);
+}
+
+.command-bar nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.command-bar nav a {
+  font-size: var(--text-small);
+  text-decoration: none;
+}
+
+/* ── HeroShell ─────────────────────────────────────────────── */
+.hero {
+  padding-block: var(--space-10) var(--space-8);
+}
+
+.hero-grid {
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.hero-copy {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}
+
+.hero-copy h1 {
+  color: var(--color-cold-white);
+  text-shadow: 0 0 48px rgba(124, 58, 237, 0.35);
+}
+
+.hero-subtitle {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  color: var(--color-cold-white);
+}
+
+.hero-oneliner {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-signal-cyan);
+}
+
+.hero-desc {
+  color: var(--color-muted-lavender);
+}
+
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+/* Orbital cube — static CSS illustration, decorative only */
+.cube-stage {
+  display: none;
+  position: relative;
+  min-height: 320px;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbital-cube {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  transform: rotate(45deg);
+  border: 1px solid rgba(124, 58, 237, 0.55);
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.14),
+    rgba(59, 130, 246, 0.06)
+  );
+  box-shadow: 0 0 48px rgba(124, 58, 237, 0.25);
+}
+
+.orbital-cube::before,
+.orbital-cube::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(196, 181, 253, 0.28);
+}
+
+.orbital-cube::before {
+  inset: 26px;
+}
+
+.orbital-cube::after {
+  inset: 52px;
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+.cube-orbit {
+  position: absolute;
+  width: 340px;
+  height: 130px;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 50%;
+  transform: rotate(-16deg);
+}
+
+@media (min-width: 768px) {
+  .cube-stage {
+    display: flex;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+}
+
+/* ── AgentRosterPanel (constellation) ──────────────────────── */
+.constellation-list {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .constellation-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .constellation-list .is-hub {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Desktop: radial constellation with OmniRouter hub at center.
+   Node cards are compact; static route spokes are decorative only. */
+@media (min-width: 1280px) {
+  .constellation-stage {
+    position: relative;
+    max-width: 880px;
+    margin-inline: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  .constellation-spokes {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 560px;
+    height: 560px;
+    max-height: 100%;
+    background: repeating-conic-gradient(
+      from 10deg,
+      transparent 0deg 19.6deg,
+      rgba(59, 130, 246, 0.25) 19.8deg 20.2deg,
+      transparent 20.4deg 40deg
+    );
+    border-radius: 50%;
+    -webkit-mask-image: radial-gradient(circle, transparent 12%, #000 13%, #000 52%, transparent 56%);
+    mask-image: radial-gradient(circle, transparent 12%, #000 13%, #000 52%, transparent 56%);
+  }
+
+  .constellation-list {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  .constellation-list > li {
+    position: absolute;
+    width: 200px;
+    transform: translate(-50%, -50%);
+  }
+
+  .constellation-list .is-hub {
+    left: 50%;
+    top: 50%;
+    width: 250px;
+    z-index: 1;
+  }
+
+  /* Nine satellites on an ellipse around the hub */
+  .constellation-list .sat-1 { left: 50%; top: 14%; }
+  .constellation-list .sat-2 { left: 74%; top: 20%; }
+  .constellation-list .sat-3 { left: 88%; top: 46%; }
+  .constellation-list .sat-4 { left: 85%; top: 69%; }
+  .constellation-list .sat-5 { left: 62%; top: 86%; }
+  .constellation-list .sat-6 { left: 38%; top: 86%; }
+  .constellation-list .sat-7 { left: 15%; top: 69%; }
+  .constellation-list .sat-8 { left: 12%; top: 46%; }
+  .constellation-list .sat-9 { left: 26%; top: 20%; }
+}
+
+/* ── CommandSurfacePreview (model router) ──────────────────── */
+.router-layout {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.router-hub-note {
+  font-size: var(--text-caption);
+  color: var(--color-muted-lavender);
+}
+
+.router-providers {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .router-providers {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .router-providers {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+.router-providers .constellation-node {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ── Living Context Graph ──────────────────────────────────── */
+.knowledge-graph-section {
+  position: relative;
+}
+
+.knowledge-graph-header {
+  max-width: 920px;
+}
+
+.knowledge-graph-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.knowledge-graph-layout,
+.knowledge-graph-lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.knowledge-graph-lower {
+  margin-top: var(--space-3);
+}
+
+.knowledge-cluster-rail,
+.knowledge-node-panel,
+.relation-legend,
+.graph-risk-panel,
+.graph-source-strip {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.knowledge-cluster-rail h3,
+.knowledge-node-panel h3,
+.knowledge-graph-canvas h3,
+.relation-legend h3,
+.graph-risk-panel h3,
+.graph-source-strip h3 {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-hud);
+  text-transform: uppercase;
+  color: var(--color-cold-white);
+}
+
+.knowledge-cluster-rail p,
+.knowledge-graph-canvas p,
+.graph-risk-panel p,
+.graph-source-strip p,
+.graph-text-fallback p {
+  font-size: var(--text-caption);
+  color: var(--color-muted-lavender);
+}
+
+.canvas-header {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.graph-map {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  min-height: 540px;
+  margin-top: var(--space-3);
+  padding: var(--space-2);
+  border: 1px solid rgba(196, 181, 253, 0.12);
+  border-radius: var(--radius-panel);
+  background:
+    radial-gradient(circle at 24% 18%, rgba(124, 58, 237, 0.16), transparent 28%),
+    radial-gradient(circle at 76% 72%, rgba(6, 182, 212, 0.1), transparent 32%),
+    rgba(5, 5, 8, 0.42);
+  overflow: hidden;
+}
+
+.graph-cluster {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+  min-height: 118px;
+  border: 1px solid rgba(196, 181, 253, 0.16);
+  border-radius: var(--radius-panel);
+  padding: var(--space-2);
+  background: rgba(10, 11, 20, 0.76);
+}
+
+.graph-cluster-title {
+  font-family: var(--font-mono);
+  font-size: var(--text-chip);
+  letter-spacing: var(--tracking-hud);
+  text-transform: uppercase;
+  color: var(--color-dormant-text);
+}
+
+.graph-cluster--foundation { border-color: rgba(124, 58, 237, 0.38); }
+.graph-cluster--context { border-color: rgba(6, 182, 212, 0.34); }
+.graph-cluster--knowledge { border-color: rgba(124, 58, 237, 0.52); box-shadow: var(--glow-violet); }
+.graph-cluster--safety { border-color: rgba(16, 185, 129, 0.36); }
+.graph-cluster--repo { border-color: rgba(245, 158, 11, 0.3); }
+
+.graph-line {
+  display: none;
+}
+
+.graph-text-fallback {
+  margin-top: var(--space-2);
+}
+
+.static-claim-copy {
+  border-top: 1px solid var(--border-command-soft);
+  padding-top: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .knowledge-graph-layout {
+    grid-template-columns: minmax(190px, 0.7fr) minmax(0, 1.6fr);
+  }
+
+  .knowledge-node-panel {
+    grid-column: 1 / -1;
+  }
+
+  .knowledge-graph-lower {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .graph-source-strip {
+    grid-column: 1 / -1;
+  }
+
+  .graph-map {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .graph-cluster--knowledge {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1280px) {
+  .knowledge-graph-layout {
+    grid-template-columns: 240px minmax(0, 1fr) 280px;
+    align-items: stretch;
+  }
+
+  .knowledge-node-panel {
+    grid-column: auto;
+  }
+
+  .knowledge-graph-lower {
+    grid-template-columns: 1fr 1.15fr 1.35fr;
+  }
+
+  .graph-source-strip {
+    grid-column: auto;
+  }
+
+  .canvas-header {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr);
+    align-items: start;
+  }
+
+  .graph-map {
+    display: block;
+    min-height: 520px;
+  }
+
+  .graph-cluster {
+    position: absolute;
+    width: 220px;
+  }
+
+  .graph-cluster--foundation { left: 4%; top: 8%; }
+  .graph-cluster--context { left: 7%; bottom: 10%; }
+  .graph-cluster--knowledge {
+    left: 50%;
+    top: 50%;
+    width: 250px;
+    transform: translate(-50%, -50%);
+  }
+  .graph-cluster--safety { right: 5%; top: 10%; }
+  .graph-cluster--repo { right: 8%; bottom: 10%; }
+
+  .graph-line {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    height: 2px;
+    transform-origin: left center;
+    background: rgba(59, 130, 246, 0.36);
+  }
+
+  .graph-line--one {
+    left: 25%;
+    top: 28%;
+    width: 280px;
+    transform: rotate(20deg);
+  }
+
+  .graph-line--two {
+    left: 25%;
+    bottom: 31%;
+    width: 270px;
+    transform: rotate(-20deg);
+    background: repeating-linear-gradient(
+      to right,
+      rgba(6, 182, 212, 0.42) 0 8px,
+      transparent 8px 14px
+    );
+  }
+
+  .graph-line--three {
+    right: 25%;
+    top: 30%;
+    width: 260px;
+    transform: rotate(156deg);
+    background: rgba(16, 185, 129, 0.32);
+  }
+
+  .graph-line--four {
+    right: 26%;
+    bottom: 31%;
+    width: 250px;
+    transform: rotate(-156deg);
+    background: rgba(245, 158, 11, 0.32);
+  }
+
+  .graph-line--five {
+    left: 50%;
+    top: 19%;
+    width: 210px;
+    transform: rotate(90deg);
+    background: rgba(196, 181, 253, 0.24);
+  }
+}
+
+/* ── RoadmapOrbitMap ───────────────────────────────────────── */
+.roadmap-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+/* Mobile/tablet: vertical timeline list */
+.roadmap-list {
+  display: grid;
+  gap: var(--space-2);
+  border-left: 1px solid var(--border-command);
+  padding-left: var(--space-3);
+}
+
+.roadmap-list > li {
+  position: relative;
+}
+
+.roadmap-list > li::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-3) - 5px);
+  top: 18px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-muted-lavender);
+}
+
+.roadmap-list > li.is-complete::before { background: var(--color-safe-green); }
+.roadmap-list > li.is-active::before { background: var(--color-plasma-blue); }
+.roadmap-list > li.is-pending::before { background: var(--color-warning-amber); }
+.roadmap-list > li.is-blocked::before { background: var(--color-dormant-gray); }
+
+/* Desktop: concentric orbital rings with positioned phase markers */
+.orbit-stage {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .orbit-stage {
+    display: block;
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    aspect-ratio: 16 / 11;
+    margin-inline: auto;
+  }
+
+  .orbit-rings,
+  .orbit-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+  }
+
+  .orbit-rings {
+    border: 1px solid rgba(196, 181, 253, 0.14);
+  }
+
+  .orbit-rings.ring-1 { width: 24%; aspect-ratio: 1; border-color: rgba(16, 185, 129, 0.3); }
+  .orbit-rings.ring-2 { width: 46%; aspect-ratio: 1; border-color: rgba(59, 130, 246, 0.28); }
+  .orbit-rings.ring-3 { width: 68%; aspect-ratio: 1; border-color: rgba(196, 181, 253, 0.2); }
+  .orbit-rings.ring-4 { width: 90%; aspect-ratio: 1; border-color: rgba(107, 114, 128, 0.28); border-style: dashed; }
+
+  .orbit-core {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: var(--text-chip);
+    text-align: center;
+    color: var(--color-cold-white);
+    border: 1px solid rgba(124, 58, 237, 0.55);
+    background: rgba(124, 58, 237, 0.14);
+    box-shadow: var(--glow-violet);
+  }
+
+  .orbit-stage .orbit-node {
+    position: absolute;
+    width: 230px;
+    transform: translate(-50%, -50%);
+  }
+
+  .orbit-stage .pos-1 { left: 50%; top: 30%; }   /* inner — bootstrap */
+  .orbit-stage .pos-2 { left: 74%; top: 38%; }   /* mid — cross-agent smoke */
+  .orbit-stage .pos-3 { left: 27%; top: 62%; }   /* mid — design & spec docs */
+  .orbit-stage .pos-4 { left: 76%; top: 78%; }   /* outer — static website */
+  .orbit-stage .pos-5 { left: 20%; top: 20%; }   /* outer — mvp demo */
+  .orbit-stage .pos-6 { left: 50%; top: 87%; }   /* outermost — runtime, gated */
+
+  .roadmap-layout .roadmap-list {
+    display: none;
+  }
+}
+
+/* ── Safety / Control Layer ────────────────────────────────── */
+.safety-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.safety-columns {
+  display: grid;
+  gap: var(--space-3);
+}
+
+@media (min-width: 1280px) {
+  .safety-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.glm-note,
+.mellytrade-note {
+  font-size: var(--text-small);
+  color: var(--color-muted-lavender);
+  border-top: 1px solid var(--border-command-soft);
+  padding-top: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+/* ── Footer ────────────────────────────────────────────────── */
+.footer-status {
+  border-top: 1px solid var(--border-command-soft);
+  padding-block: var(--space-6);
+}
+
+.footer-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 1280px) {
+  .footer-grid {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.footer-heading {
+  font-size: var(--text-small);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-hud);
+  color: var(--color-muted-lavender);
+  margin-bottom: var(--space-1);
+}
+
+.footer-links {
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--text-small);
+}
+
+.footer-checklist {
+  margin-top: var(--space-2);
+}
+
+.footer-attribution {
+  margin-top: var(--space-4);
+  font-size: var(--text-caption);
+  color: var(--color-dormant-text);
+}

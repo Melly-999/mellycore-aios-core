@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MellyCore AIOS Live Cockpit V2 — a static-first, read-only local command center framed as a social source arena: a local, deterministic Source Archive under simulated model lenses.">
+  <title>MellyCore AIOS — Live Cockpit V2</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="dash-body">
+  <a class="skip-link" href="#dash-main">Skip to cockpit</a>
+
+  <header class="dash-topbar">
+    <div class="cockpit-shell dash-topbar-inner">
+      <a class="dash-brand" href="index.html" aria-label="MellyCore AIOS homepage">
+        <span>MellyCore AIOS</span><span class="dash-version">Live Cockpit V2</span>
+      </a>
+      <nav class="dash-tabs" role="tablist" aria-label="Cockpit sections">
+        <button class="dash-tab-btn" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="false" data-tab="overview">Overview</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-context" aria-controls="tab-context" aria-selected="false" data-tab="context">Context</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-source-arena" aria-controls="tab-source-arena" aria-selected="true" data-tab="source-arena">Source Arena</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-compare" aria-controls="tab-compare" aria-selected="false" data-tab="compare">Model Arena</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-observatory" aria-controls="tab-observatory" aria-selected="false" data-tab="observatory">Observatory</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-loops" aria-controls="tab-loops" aria-selected="false" data-tab="loops">Loops</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-evidence" aria-controls="tab-evidence" aria-selected="false" data-tab="evidence">Evidence</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-roadmap" aria-controls="tab-roadmap" aria-selected="false" data-tab="roadmap">Roadmap</button>
+      </nav>
+      <div class="dash-session" aria-label="Session status">
+        <span class="dash-session-dot" aria-hidden="true"></span>
+        <span>Local session</span>
+        <time class="dash-clock" id="dash-clock">--:--:--</time>
+      </div>
+    </div>
+  </header>
+
+  <main id="dash-main" class="cockpit-shell">
+    <div class="dash-announcement" role="note">
+      <span>Static-first cockpit</span>
+      <span>Read only</span>
+      <span>Source Archive: local dataset</span>
+      <span>No network required</span>
+      <span>No model calls</span>
+    </div>
+
+    <section class="dash-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview" hidden>
+      <div class="dash-section-head">
+        <div>
+          <p class="dash-kicker">Command overview</p>
+          <h1>Operational truth, one screen.</h1>
+        </div>
+        <p>Committed project state is rendered locally. The Source Arena tab presents a local, deterministic showcase dataset — no external request. Simulated output is labeled at the point of use.</p>
+      </div>
+      <div class="overview-grid">
+        <article class="dash-surface overview-primary">
+          <div class="surface-head"><span>Current milestone</span><span class="data-origin data-origin--local">Committed local data</span></div>
+          <h2 id="ov-milestone">Loading project state…</h2>
+          <p id="ov-next-task" class="dash-muted">Loading next task…</p>
+          <p class="dash-source-note">Source: shared_context/ROADMAP.md + RUN_QUEUE.md</p>
+        </article>
+        <article class="dash-surface">
+          <div class="surface-head"><span>Context health</span><span class="data-origin data-origin--snapshot">Audit snapshot</span></div>
+          <div class="metric-strip metric-strip--compact" id="ov-context-metrics"></div>
+          <p class="dash-source-note">Safe aggregates only. No claims, notes, private paths, or refused content.</p>
+        </article>
+        <article class="dash-surface">
+          <div class="surface-head"><span>Loop readiness</span><span class="data-origin data-origin--snapshot">Validated snapshot</span></div>
+          <div class="overview-orbit" id="ov-systemmap-nodes"></div>
+          <p id="ov-test-status" class="dash-source-note">Loading validation snapshot…</p>
+        </article>
+        <article class="dash-surface">
+          <div class="surface-head"><span>Safety contract</span><span class="data-origin data-origin--local">Committed local data</span></div>
+          <ul class="dash-line-list" id="ov-safety-list"></ul>
+        </article>
+        <article class="dash-surface overview-wide">
+          <div class="surface-head"><span>Latest evidence</span><span class="data-origin data-origin--local">Immutable ledger</span></div>
+          <p id="ov-evidence" class="dash-muted">Loading evidence…</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="dash-panel" id="tab-context" role="tabpanel" aria-labelledby="tab-btn-context" hidden>
+      <div class="dash-section-head">
+        <div>
+          <p class="dash-kicker">Context provenance</p>
+          <h1>What the cockpit is allowed to know.</h1>
+        </div>
+        <p>Content-free index metadata and aggregate audit output only. Records marked internal reasoning only are counted, never opened or rendered.</p>
+      </div>
+
+      <div class="context-command-row">
+        <span class="data-origin data-origin--local">INDEX.json · live local read</span>
+        <span class="data-origin data-origin--snapshot" id="context-audit-captured">Audit snapshot · loading</span>
+        <span class="context-index-state" id="context-index-state">Checking index…</span>
+      </div>
+
+      <div class="metric-strip" id="context-metrics" aria-label="Context audit aggregate metrics"></div>
+
+      <div class="context-layout">
+        <article class="dash-surface context-register">
+          <div class="surface-head">
+            <span>Display-safe provenance register</span>
+            <span id="context-visible-count">0 visible</span>
+          </div>
+          <div class="context-table-wrap">
+            <table class="context-table">
+              <thead>
+                <tr><th>Source ID</th><th>Type</th><th>Trust</th><th>Freshness</th><th>Decision</th></tr>
+              </thead>
+              <tbody id="context-records"></tbody>
+            </table>
+          </div>
+          <p class="dash-source-note">Only admitted records with <code>public_display</code> or <code>internal_summary_display</code> appear. Claims and notes are never requested.</p>
+        </article>
+        <aside class="context-rail">
+          <article class="dash-surface">
+            <div class="surface-head"><span>Allowed-use boundary</span></div>
+            <dl class="context-rule-list" id="context-use-counts"></dl>
+          </article>
+          <article class="dash-surface">
+            <div class="surface-head"><span>Aggregate-safe refusals</span></div>
+            <ul class="dash-line-list" id="context-refusals"></ul>
+            <p class="dash-source-note">Reason-code counts only. Refused content is never loaded.</p>
+          </article>
+          <article class="dash-surface context-safety-note">
+            <span class="context-lock" aria-hidden="true">◎</span>
+            <div><strong>Read boundary enforced in UI</strong><p>No canonical record body, notes field, private path, or refusal log line is fetched by this tab.</p></div>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <section class="dash-panel dash-panel--source-arena" id="tab-source-arena" role="tabpanel" aria-labelledby="tab-btn-source-arena">
+      <div class="arena-topbar">
+        <div class="arena-head">
+          <p class="dash-kicker">External Data Arena</p>
+          <span class="arena-head-note">Local Source Archive today · next planned provider: GitHub Repository · simulated model lenses throughout</span>
+        </div>
+        <form id="arena-search-form" class="arena-search" role="search" aria-label="Find related sources">
+          <span class="arena-search-icon" aria-hidden="true">⌕</span>
+          <input id="arena-search-input" type="search" placeholder="Find local records — try context, safety, memory" autocomplete="off" aria-label="Find related local Source Archive records">
+          <button type="submit" class="arena-search-go">Search</button>
+        </form>
+        <div class="provider-rail" aria-label="Source providers — one local archive, planned source types">
+          <span class="provider-chip provider-chip--live">Source Archive · local dataset</span>
+          <span class="provider-chip provider-chip--next">GitHub Repository · planned</span>
+          <span class="provider-chip">PDFs &amp; docs · planned</span>
+          <span class="provider-chip">Websites · planned</span>
+          <span class="provider-chip">Changelogs · planned</span>
+          <span class="provider-chip">Issues · planned</span>
+          <span class="provider-chip">CVs &amp; job offers · planned</span>
+          <span class="provider-chip">Research sources · planned</span>
+          <span class="provider-chip">Marketplace / e-commerce data · planned</span>
+          <span class="provider-chip">Local project files · planned</span>
+        </div>
+
+        <details class="dash-details provider-preview" id="provider-preview-github">
+          <summary>
+            <span class="provider-preview-summary">
+              <span class="provider-preview-badge provider-preview-badge--planned">Planned provider</span>
+              <strong>GitHub Repository</strong>
+              <span class="provider-preview-hint">Next external data source · preview</span>
+            </span>
+            <span class="provider-preview-caret" aria-hidden="true">▾</span>
+          </summary>
+          <div class="dash-details-body provider-preview-body">
+            <p class="provider-preview-intro">The local Source Archive proves the External Data Arena's interaction shape — filtering, selection, and model-lens comparison — before any external provider is connected. <strong>GitHub Repository</strong> is the next MellyCore-aligned planned/demo provider: a better fit for architecture intelligence, repo analysis, docs analysis, system design review, and model-lens comparison.</p>
+
+            <div class="provider-preview-badges">
+              <span class="provider-preview-badge provider-preview-badge--planned">Planned provider</span>
+              <span class="provider-preview-badge">External repository</span>
+              <span class="provider-preview-badge">Public source</span>
+              <span class="provider-preview-badge">Provenance required</span>
+              <span class="provider-preview-badge provider-preview-badge--not-live">Not live ingestion</span>
+            </div>
+
+            <dl class="context-rule-list provider-preview-facts">
+              <div><dt>Provider</dt><dd>GitHub Repository</dd></div>
+              <div><dt>Example source</dt><dd><a href="https://github.com/liquidslr/system-design-notes" target="_blank" rel="noopener noreferrer">liquidslr/system-design-notes</a></dd></div>
+              <div><dt>Source type</dt><dd>Public GitHub repository</dd></div>
+              <div><dt>Purpose</dt><dd>System design knowledge benchmark</dd></div>
+              <div><dt>Status</dt><dd>Planned / demo provider</dd></div>
+              <div><dt>Real ingestion</dt><dd>Not live — no frontend fetch is implemented</dd></div>
+            </dl>
+
+            <p class="provider-preview-subhead">Safe topic coverage — titles only, no chapter content reproduced</p>
+            <ul class="provider-topic-list">
+              <li>Scaling from zero to millions</li>
+              <li>Back-of-the-envelope estimation</li>
+              <li>System design framework</li>
+              <li>Rate limiter</li>
+              <li>Consistent hashing</li>
+              <li>Key-value store</li>
+              <li>Unique ID generator</li>
+              <li>URL shortener</li>
+              <li>Web crawler</li>
+              <li>Notification system</li>
+              <li>News feed</li>
+              <li>Chat system</li>
+              <li>Search autocomplete</li>
+              <li>YouTube-like video system</li>
+              <li>Google Drive-like storage</li>
+              <li>Proximity service</li>
+              <li>Distributed message queue</li>
+              <li>Metrics monitoring and alerting</li>
+              <li>Ad click aggregation</li>
+              <li>Hotel reservation</li>
+              <li>Distributed email</li>
+              <li>S3-like object storage</li>
+              <li>Real-time gaming leaderboard</li>
+              <li>Payment system</li>
+              <li>Digital wallet</li>
+              <li>Stock exchange</li>
+            </ul>
+
+            <p class="provider-preview-subhead">Planned model-lens use cases</p>
+            <ul class="dash-line-list provider-lens-list">
+              <li>Architecture summary</li>
+              <li>Bottleneck detection</li>
+              <li>Tradeoff extraction</li>
+              <li>Scaling risk review</li>
+              <li>Implementation task generation</li>
+              <li>Provenance-aware source comparison</li>
+            </ul>
+
+            <p class="provider-preview-footnote">Product-positioning preview only, not live ingestion. External Data Arena's other future providers — PDFs/docs, websites, changelogs, issues, CVs/job offers, research sources, marketplace/e-commerce data, and local project files — remain planned, none implemented.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="source-arena-layout">
+        <aside class="mission-rail dash-surface">
+          <div class="surface-head"><span>Arena rail</span></div>
+          <div class="mission-context-mini">
+            <span>Context health</span>
+            <strong id="mission-context-health">7 valid · 0 findings</strong>
+            <span class="mission-health-line"><i></i></span>
+          </div>
+          <div class="task-selector" aria-label="Source Archive category filter">
+            <span class="rail-label">Archive categories</span>
+            <button type="button" class="task-button" aria-pressed="true" data-category="context"><span>01</span>Context</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="workflow"><span>02</span>Workflow</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="safety"><span>03</span>Safety</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="observability"><span>04</span>Observability</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="model"><span>05</span>Model</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="routing"><span>06</span>Routing</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="memory"><span>07</span>Memory</button>
+            <button type="button" class="task-button" aria-pressed="false" data-category="orchestration"><span>08</span>Orchestration</button>
+          </div>
+          <div class="feed-control">
+            <span class="rail-label">Lens feed</span>
+            <span class="feed-state"><i></i><span id="feed-state-label">Simulated feed active</span></span>
+            <button class="cockpit-button cockpit-button--secondary" id="feed-toggle" type="button" aria-pressed="true">Pause feed</button>
+          </div>
+        </aside>
+
+        <aside class="search-rail dash-surface">
+          <div class="surface-head"><span>Local query</span><span class="data-origin data-origin--local">Local source fixture</span></div>
+          <p class="rail-provider-note">Source Archive · static dataset · no network</p>
+          <form id="source-arena-search-form" class="source-arena-search-form">
+            <label>query <input id="source-arena-query" name="query" type="search" placeholder="e.g. safety, context, memory" autocomplete="off"></label>
+            <label>category
+              <select id="source-arena-category" name="category">
+                <option value="" selected>All categories</option>
+                <option value="context">context</option>
+                <option value="workflow">workflow</option>
+                <option value="safety">safety</option>
+                <option value="observability">observability</option>
+                <option value="model">model</option>
+                <option value="routing">routing</option>
+                <option value="memory">memory</option>
+                <option value="orchestration">orchestration</option>
+              </select>
+            </label>
+            <button class="cockpit-button cockpit-button--primary" type="submit">Filter records</button>
+          </form>
+          <p class="source-arena-form-error" id="source-arena-form-error" role="alert"></p>
+          <div class="queue-head"><span>Source queue</span><span id="source-arena-result-count">Waiting</span></div>
+          <ol class="source-arena-queue" id="source-arena-queue" aria-label="Local source fixture results"></ol>
+        </aside>
+
+        <section class="media-stage-wrap" aria-live="polite">
+          <div class="media-stage arena-stage-map" id="source-arena-stage">
+            <div class="media-stage-loading">
+              <span class="stage-scan" aria-hidden="true"></span>
+              <strong>Initializing holographic source stage…</strong>
+              <span>Local Source Archive · static map · zero network requests</span>
+            </div>
+          </div>
+          <div class="stage-pagination" id="source-arena-stage-dots" aria-label="Select source node"></div>
+          <div class="stage-nav">
+            <button type="button" id="source-arena-prev-item" aria-label="Previous source node">↑</button>
+            <span>Select a source node</span>
+            <button type="button" id="source-arena-next-item" aria-label="Next source node">↓</button>
+          </div>
+        </section>
+
+        <aside class="model-rail dash-surface">
+          <div class="surface-head"><span>Model lenses</span><span class="data-origin data-origin--mock">Simulated</span></div>
+          <p class="model-feed-disclaimer">Simulated model lenses over the local Source Archive. All lens text below is deterministic mock copy. No provider is connected or called.</p>
+          <div class="model-feed" id="model-feed"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="dash-panel" id="tab-compare" role="tabpanel" aria-labelledby="tab-btn-compare" hidden>
+      <div class="dash-section-head">
+        <div>
+          <p class="dash-kicker">Model arena</p>
+          <h1>One local archive. Four simulated lenses.</h1>
+        </div>
+        <p>Fable 5, Opus, GPT, and GLM panels are interface demonstrations only. Selecting an archive category changes deterministic local mock copy; it never sends a prompt. The source card below is local static-dataset content.</p>
+      </div>
+      <div class="compare-command-row">
+        <div class="task-selector task-selector--horizontal" id="compare-task-selector" aria-label="Source Archive category filter"></div>
+        <button class="cockpit-button cockpit-button--secondary" id="compare-feed-toggle" type="button" aria-pressed="true">Pause simulated feed</button>
+      </div>
+      <article class="dash-surface compare-source-card" id="compare-source-card" aria-label="Selected local source">
+        <div class="compare-source-empty">Waiting for a local source selection…</div>
+      </article>
+      <div class="compare-grid" id="compare-grid"></div>
+    </section>
+
+    <section class="dash-panel dash-panel--observatory" id="tab-observatory" role="tabpanel" aria-labelledby="tab-btn-observatory" hidden>
+      <div class="dash-section-head">
+        <div>
+          <p class="dash-kicker">OpenRouter Model Observatory</p>
+          <h1>Choose the right lane before any run begins.</h1>
+        </div>
+        <p>A local, static-only planning cockpit for model fit, representative cost, capability trade-offs, and fallback paths. It selects nothing and calls nothing — see <a href="../docs/specs/MELLYCORE_OPENROUTER_MODEL_OBSERVATORY_SPEC.md">the canonical spec</a> for the full contract.</p>
+      </div>
+
+      <div class="obs-safety-strip" id="obs-safety-strip-top" role="note" aria-label="Observatory safety boundary"></div>
+
+      <div class="obs-layout">
+        <div class="obs-main">
+          <article class="dash-surface obs-advisor-card">
+            <div class="surface-head">
+              <span>Route Advisor</span>
+              <span class="data-origin data-origin--local">Deterministic local policy</span>
+            </div>
+            <p class="dash-source-note">Advice is local policy only. Selection is not execution — it never launches a run or acts as approval.</p>
+            <div class="obs-advisor-controls">
+              <div>
+                <span class="obs-control-label">Lane scope</span>
+                <div class="task-selector task-selector--horizontal obs-lane-filter" id="obs-lane-filter" aria-label="Filter by routing lane"></div>
+              </div>
+              <div>
+                <span class="obs-control-label">Run type</span>
+                <div class="task-selector task-selector--horizontal obs-runtype-selector" id="obs-runtype-selector" aria-label="Select a run type"></div>
+              </div>
+            </div>
+            <div class="obs-advisor-result" id="obs-route-result"></div>
+          </article>
+
+          <article class="dash-surface obs-selected-card">
+            <div class="surface-head"><span>Selected model</span></div>
+            <div id="obs-selected-detail"></div>
+          </article>
+
+          <article class="dash-surface obs-estimator-card">
+            <div class="surface-head">
+              <span>Budget Estimator</span>
+              <span class="data-origin data-origin--snapshot">Static approximate · not account billing</span>
+            </div>
+            <div class="obs-safety-strip obs-safety-strip--compact" id="obs-safety-strip-estimator" role="note" aria-label="Observatory safety boundary"></div>
+            <form class="obs-estimator-form" id="obs-estimator-form">
+              <label>Input tokens
+                <input type="number" id="obs-input-tokens" min="0" step="1" inputmode="numeric" value="50000">
+              </label>
+              <label>Output tokens
+                <input type="number" id="obs-output-tokens" min="0" step="1" inputmode="numeric" value="8000">
+              </label>
+              <label>Cache-read tokens <span class="dash-muted">(optional)</span>
+                <input type="number" id="obs-cache-tokens" min="0" step="1" inputmode="numeric" value="0">
+              </label>
+            </form>
+            <div class="obs-estimator-result" id="obs-estimator-result"></div>
+          </article>
+
+          <article class="dash-surface obs-fallback-card">
+            <div class="surface-head"><span>Fallback Chain</span></div>
+            <p class="dash-source-note">Guidance, not automatic failover. Every step discloses a reason and trade-off.</p>
+            <ol class="obs-fallback-chain" id="obs-fallback-chain"></ol>
+          </article>
+
+          <article class="dash-surface obs-constellation-card">
+            <div class="surface-head">
+              <span>Model Constellation</span>
+              <span class="data-origin data-origin--local">Local fixture · representative snapshot</span>
+            </div>
+            <p class="dash-source-note">Static routing nodes orbit a local policy core. This is a visual index, not evidence of connectivity, availability, ranking, or live routing.</p>
+            <div class="obs-constellation-stage">
+              <span class="obs-orbit-ring obs-orbit-ring--outer" aria-hidden="true"></span>
+              <span class="obs-orbit-ring obs-orbit-ring--inner" aria-hidden="true"></span>
+              <span class="obs-orbit-axis" aria-hidden="true"></span>
+              <div class="obs-router-core" aria-hidden="true">
+                <span>Model router</span>
+                <strong>LOCAL</strong>
+                <small>Static policy core</small>
+              </div>
+              <div class="obs-model-grid" id="obs-model-grid" role="group" aria-label="Selectable model nodes"></div>
+            </div>
+          </article>
+
+          <article class="dash-surface obs-matrix-card">
+            <div class="surface-head">
+              <span>Capability Matrix</span>
+              <span class="data-origin data-origin--local">Reviewed fixture fields only</span>
+            </div>
+            <details class="dash-details obs-matrix-details" id="obs-matrix-details" open>
+              <summary><span><strong>Selected lane comparison</strong></span><span class="obs-matrix-caret" aria-hidden="true">▾</span></summary>
+              <div class="dash-details-body obs-matrix-body-wrap">
+                <div class="obs-matrix-table-wrap">
+                  <table class="obs-matrix-table" id="obs-matrix-table">
+                    <thead>
+                      <tr><th scope="col">Model</th><th scope="col">Coding</th><th scope="col">Reasoning</th><th scope="col">Visual/Product</th><th scope="col">Security/Review</th><th scope="col">Long Context</th><th scope="col">Cheap/Routine</th></tr>
+                    </thead>
+                    <tbody id="obs-matrix-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </details>
+          </article>
+
+          <article class="dash-surface obs-radar-card">
+            <div class="surface-head">
+              <span>Cost Radar</span>
+              <span class="data-origin data-origin--snapshot">Representative · not live pricing</span>
+            </div>
+            <div class="metric-strip obs-radar-grid" id="obs-cost-radar"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="dash-panel" id="tab-loops" role="tabpanel" aria-labelledby="tab-btn-loops" hidden>
+      <div class="dash-section-head">
+        <div><p class="dash-kicker">Loop operations</p><h1>Report-only by contract.</h1></div>
+        <p>All nine registered loops. Tier labels combine committed registry data with the frozen validation snapshot.</p>
+      </div>
+      <div class="dash-surface loops-register" id="loops-list"></div>
+    </section>
+
+    <section class="dash-panel" id="tab-evidence" role="tabpanel" aria-labelledby="tab-btn-evidence" hidden>
+      <div class="dash-section-head">
+        <div><p class="dash-kicker">Immutable evidence</p><h1>Runs that actually happened.</h1></div>
+        <p>The latest persisted <code>project-health</code> ledger is discovered from the local runs directory. Unmeasured remains null—never a fake zero.</p>
+      </div>
+      <article class="dash-surface evidence-body" id="evidence-body">Loading persisted run evidence…</article>
+    </section>
+
+    <section class="dash-panel" id="tab-roadmap" role="tabpanel" aria-labelledby="tab-btn-roadmap" hidden>
+      <div class="dash-section-head">
+        <div><p class="dash-kicker">Roadmap orbit</p><h1>Completed work and next signals.</h1></div>
+        <p>Rendered from the committed roadmap and run queue. Long entries are clamped—expand to read the full committed text.</p>
+      </div>
+      <div class="roadmap-layout">
+        <article class="dash-surface"><div class="surface-head"><span>Milestone B</span><span class="data-origin data-origin--local">ROADMAP.md</span></div><ol class="dash-line-list" id="roadmap-milestone"></ol></article>
+        <article class="dash-surface"><div class="surface-head"><span>Recent run queue</span><span class="data-origin data-origin--local">RUN_QUEUE.md</span></div><ol class="dash-line-list" id="roadmap-queue"></ol></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dash-bottombar">
+    <div class="cockpit-shell">
+      <span class="command-label">Command / status</span>
+      <span>Local static</span>
+      <span>Read only</span>
+      <span>Source Archive: local</span>
+      <span>No network required</span>
+      <span>No model calls</span>
+      <strong id="footer-system-state"><i></i> Cockpit ready</strong>
+    </div>
+  </footer>
+
+  <script src="js/dashboard.js" defer></script>
+</body>
+</html>
