@@ -3,6 +3,22 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
+## Current Remediation Gate — Vercel Static Root
+
+The first Vercel production deployment exists at
+`https://mellycore-aios-core.vercel.app`, configured with `site/` as its static
+root, but post-deploy acceptance is **blocked**. Repository-only
+`/shared_context/*` reads returned 404 and the dashboard logged a console error.
+
+`MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-001` is the current
+local branch task. It keeps the published `site/data` snapshots required,
+treats repository-only reads as optional, and renders explicit static fallback
+copy when those internal files are absent. No redeploy is authorized by this
+task.
+
+**Exact next task:**
+`MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-REVIEW-001`
+
 ## Immediate Next Task — Option B Deploy Path
 
 The operator selected Option B: first deploy bundles the Source Arena static

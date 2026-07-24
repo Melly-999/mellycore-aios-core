@@ -229,6 +229,16 @@ section is the authoritative Option B ordering):
     update `README.md` / `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
     `AGENT_HANDOFF.md`.
 
+**Vercel remediation checkpoint (2026-07-24).** The first production deployment
+exists at `https://mellycore-aios-core.vercel.app`, but its post-deploy smoke
+failed because repository-only `/shared_context/*` files are outside the
+configured `site/` root and the dashboard logged the resulting 404 as an
+error. `MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-001` provides a
+local static fallback without publishing internal context or adding deployment
+configuration. Its next gate is
+`MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-REVIEW-001`; no
+redeploy occurs before that review.
+
 Tasks 4–9 are complete at the states recorded above; the OpenRouter
 Observatory static snapshot slice is merged into canonical `main` via PR #21.
 Task 10 (this docs-sync entry) is the exact next step. No OpenRouter

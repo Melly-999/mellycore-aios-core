@@ -431,6 +431,7 @@
     snapshot: null,
     contextIndex: null,
     contextAuditSnapshot: null,
+    repositoryContextAvailable: false,
     archiveItems: [],
     archiveSelected: 0,
     activeCategory: "context",
@@ -483,12 +484,6 @@
       .replace(/'/g, "&#039;");
   }
 
-  async function getText(path, options) {
-    const response = await fetch(path, options);
-    if (!response.ok) throw new Error(`GET ${path} → ${response.status}`);
-    return response.text();
-  }
-
   async function getJSON(path, options) {
     const response = await fetch(path, options);
     if (!response.ok) {
@@ -504,9 +499,33 @@
     return response.json();
   }
 
+  async function getOptionalText(path, options) {
+    const response = await fetch(path, options);
+    if (response.status === 404) return "";
+    if (!response.ok) throw new Error(`GET ${path} → ${response.status}`);
+    return response.text();
+  }
+
+  async function getOptionalJSON(path, options) {
+    const response = await fetch(path, options);
+    if (response.status === 404) return null;
+    if (!response.ok) {
+      let detail = "";
+      try {
+        const payload = await response.json();
+        detail = payload.reason ? `: ${payload.reason}` : "";
+      } catch (_error) {
+        detail = "";
+      }
+      throw new Error(`GET ${path} → ${response.status}${detail}`);
+    }
+    return response.json();
+  }
+
   async function findLatestEvidenceFile(loopId) {
     const directory = `/shared_context/loops/runs/${encodeURIComponent(loopId)}/`;
-    const listing = await getText(directory);
+    const listing = await getOptionalText(directory);
+    if (!listing) return null;
     const files = Array.from(listing.matchAll(/href="([^"]+\.json)"/g)).map((match) => decodeURIComponent(match[1]));
     files.sort();
     return files.length ? directory + files[files.length - 1] : null;
@@ -735,6 +754,61 @@
     const milestone = parseMilestone(state.roadmapText, "Milestone B — One Brain");
     document.getElementById("roadmap-milestone").innerHTML = milestone.map((item) => clampListItem(item.replace(/\*\*/g, ""))).join("");
     document.getElementById("roadmap-queue").innerHTML = parseRunQueueTail(state.runQueueText, 8).map((item) => clampListItem(item)).join("");
+  }
+
+  function replaceListWithStaticCopy(id, items) {
+    const target = document.getElementById(id);
+    const nodes = items.map((item) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = item;
+      return listItem;
+    });
+    target.replaceChildren(...nodes);
+  }
+
+  function renderStaticRootFallback() {
+    const audit = contextAudit();
+    const tests = state.snapshot && state.snapshot.commands ? state.snapshot.commands.tests : null;
+
+    document.getElementById("ov-milestone").textContent = "Static showcase snapshot";
+    document.getElementById("ov-next-task").textContent = "Repository roadmap and run queue are not published with this static deployment.";
+    document.getElementById("ov-context-metrics").innerHTML = contextMetricMarkup(audit);
+    if (audit) {
+      document.getElementById("mission-context-health").textContent = `${audit.counts.valid_records} valid · ${audit.finding_count} findings`;
+    }
+    document.getElementById("ov-systemmap-nodes").textContent = "Loop registry unavailable in the public static deployment.";
+    document.getElementById("ov-test-status").textContent = tests
+      ? `${tests.passed} loop tests passed · frozen snapshot ${state.snapshot.captured_at}`
+      : "Validation snapshot unavailable.";
+    replaceListWithStaticCopy("ov-safety-list", [
+      "Static showcase only.",
+      "Read-only interface.",
+      "No provider connection or model execution.",
+      "Repository safety contract is not published with this deployment.",
+    ]);
+    document.getElementById("ov-evidence").textContent = "Repository run evidence is not published with this static deployment.";
+
+    document.getElementById("context-metrics").innerHTML = contextMetricMarkup(audit);
+    document.getElementById("context-index-state").textContent = "Detailed context index not published";
+    const captured = state.contextAuditSnapshot.captured_at || (audit && audit.as_of) || "unknown";
+    document.getElementById("context-audit-captured").textContent = `Frozen audit snapshot · ${captured}`;
+    document.getElementById("context-visible-count").textContent = "0 published";
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 5;
+    cell.textContent = "Context records are intentionally excluded from the public static deployment.";
+    row.appendChild(cell);
+    document.getElementById("context-records").replaceChildren(row);
+    document.getElementById("context-use-counts").textContent = "Detailed allowed-use counts require the repository-local index.";
+    const refusalEntries = audit ? Object.entries(audit.refusal_counts || {}) : [];
+    replaceListWithStaticCopy("context-refusals", refusalEntries.length
+      ? refusalEntries.map(([reason, count]) => `${reason}: ${count}`)
+      : ["No aggregate refusal data available."]);
+
+    document.getElementById("loops-list").textContent = "Loop registry details remain repository-local and are not published with this static deployment.";
+    document.getElementById("evidence-body").textContent = "Project-health evidence remains repository-local and is not published with this static deployment.";
+    replaceListWithStaticCopy("roadmap-milestone", ["Repository roadmap unavailable in the public static deployment."]);
+    replaceListWithStaticCopy("roadmap-queue", ["Repository run queue unavailable in the public static deployment."]);
   }
 
   function readArchiveForm() {
@@ -1365,22 +1439,25 @@
 
   async function loadLocalData() {
     const [roadmapText, runQueueText, safetyContractText, registry, projectHealthState, snapshot, contextIndex, contextAuditSnapshot] = await Promise.all([
-      getText("/shared_context/ROADMAP.md"),
-      getText("/shared_context/RUN_QUEUE.md"),
-      getText("/shared_context/SAFETY_CONTRACT.md"),
-      getJSON("/shared_context/loops/LOOP_REGISTRY.json"),
-      getJSON("/shared_context/loops/states/project-health.state.json"),
-      getJSON("/site/data/dashboard_snapshot.json"),
-      getJSON("/shared_context/context_provenance/INDEX.json"),
-      getJSON("/site/data/context_audit_snapshot.json"),
+      getOptionalText("/shared_context/ROADMAP.md"),
+      getOptionalText("/shared_context/RUN_QUEUE.md"),
+      getOptionalText("/shared_context/SAFETY_CONTRACT.md"),
+      getOptionalJSON("/shared_context/loops/LOOP_REGISTRY.json"),
+      getOptionalJSON("/shared_context/loops/states/project-health.state.json"),
+      getJSON("data/dashboard_snapshot.json"),
+      getOptionalJSON("/shared_context/context_provenance/INDEX.json"),
+      getJSON("data/context_audit_snapshot.json"),
     ]);
-    Object.assign(state, { roadmapText, runQueueText, safetyContractText, registry, projectHealthState, snapshot, contextIndex, contextAuditSnapshot });
-    try {
+    const repositoryContextAvailable = Boolean(
+      roadmapText && runQueueText && safetyContractText && registry && projectHealthState && contextIndex
+    );
+    Object.assign(state, {
+      roadmapText, runQueueText, safetyContractText, registry, projectHealthState,
+      snapshot, contextIndex, contextAuditSnapshot, repositoryContextAvailable,
+    });
+    if (repositoryContextAvailable) {
       const evidencePath = await findLatestEvidenceFile("project-health");
-      state.evidence = evidencePath ? await getJSON(evidencePath) : null;
-    } catch (error) {
-      console.warn("Evidence read unavailable:", error);
-      state.evidence = null;
+      state.evidence = evidencePath ? await getOptionalJSON(evidencePath) : null;
     }
   }
 
@@ -1400,14 +1477,18 @@
 
     try {
       await loadLocalData();
-      renderOverview();
-      renderContext();
-      renderLoops();
-      renderEvidence();
-      renderRoadmap();
+      if (state.repositoryContextAvailable) {
+        renderOverview();
+        renderContext();
+        renderLoops();
+        renderEvidence();
+        renderRoadmap();
+      } else {
+        renderStaticRootFallback();
+      }
     } catch (error) {
       console.error(error);
-      document.getElementById("dash-main").insertAdjacentHTML("afterbegin", `<p class="dash-error-note">Local cockpit data failed to load: ${escapeHTML(error.message)}. Serve this page from the repository root at 127.0.0.1.</p>`);
+      document.getElementById("dash-main").insertAdjacentHTML("afterbegin", `<p class="dash-error-note">Static cockpit snapshots failed to load: ${escapeHTML(error.message)}.</p>`);
     }
 
     renderArchiveResults({ preserveCategory: true });
