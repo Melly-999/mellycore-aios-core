@@ -28,7 +28,7 @@ only; no implementation, backend, provider integration, or deployment is
 authorized by this entry. Queued after that spec, not yet started or
 authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001`.
 
-## Immediate Next Task — Option B Deploy Path
+## Historical Option B Deploy Path — Completed
 
 The operator selected Option B: first deploy bundles the Source Arena static
 renderer slice, an OpenRouter Model/Cost Observatory (static snapshot only,
@@ -84,11 +84,14 @@ OpenRouter Observatory static snapshot slice is now canonical, not merely
 branch/PR-scoped. No live API, key, backend, or deploy work occurred at any
 point in this chain.
 
-**Exact next task:**
+Historical next task at that point:
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-001`
-(this docs-sync entry) — local docs commit only, not pushed.
+(that docs-sync entry, since completed). This pointer is retained only as
+historical sequencing evidence and is **not** the current repository-wide
+next task — see the "Vercel Static Root" section above for the current
+pointer.
 
-Queued after this docs sync, in order:
+Historical sequence, in order (all subsequently completed):
 
 1. `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`
    — push, PR, review, merge this docs sync.
