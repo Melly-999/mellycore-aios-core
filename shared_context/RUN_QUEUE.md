@@ -100,9 +100,10 @@ Historical sequence, in order (all subsequently completed):
 4. `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`
 5. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001`
 
-No later gate is started; each requires its own pass in order. No
-WebGL/Three.js or OpenRouter live-API implementation is authorized ahead of
-those gates.
+At the time this sequence was queued, no later gate had started and each
+still required its own pass in order. This is historical sequencing context;
+the sequence has since closed as recorded above. No WebGL/Three.js or
+OpenRouter live-API implementation was authorized ahead of those gates.
 
 ## Integration Status (AI Operations Intelligence)
 

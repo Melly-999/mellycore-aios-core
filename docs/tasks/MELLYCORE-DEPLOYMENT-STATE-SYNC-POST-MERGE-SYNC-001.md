@@ -100,12 +100,12 @@ carried no merge evidence for PR #25). Section heading updated from
 
 ## Distinction: Task-Local Publication vs. Product Next Task
 
-This task's own publication follow-up,
-`MELLYCORE-DEPLOYMENT-STATE-SYNC-POST-MERGE-SYNC-PUBLISH-001`, is recorded
-only in `AGENT_HANDOFF.md` as an operational step for publishing *this*
-specific commit. It is explicitly not placed in `RUN_QUEUE.md`'s product
-queue and not described as the canonical product next task anywhere. The
-canonical product next task in all four files is uniformly
+At task completion, this task's publication follow-up was
+`MELLYCORE-DEPLOYMENT-STATE-SYNC-POST-MERGE-SYNC-PUBLISH-001`. That
+historical task-local step was later completed by placing the commit in PR
+#26; it was never placed in `RUN_QUEUE.md`'s product queue and does not
+define current product state. The canonical product next task in all four
+files is uniformly
 `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`, not started, gated
 ahead of `MELLYCORE-3D-SCENE-FOUNDATION-001`.
 
@@ -119,13 +119,12 @@ Plane/3D Scene references remain "not started"/"gated"/"queued").
 ## Recursive-Sync Prevention
 
 Every live "PR #25 is open/not merged" claim in `AGENT_HANDOFF.md` and
-`ROADMAP.md` has been replaced or re-framed as historical. No file states
-that this post-merge-sync commit itself is pushed or merged — its status
-is stated plainly as "local docs commit only." Because this commit's own
-publish/merge is not asserted as complete anywhere, there is no false
-claim for a future task to have to correct, and the product roadmap
-pointer (Control Plane spec) does not depend on this commit's own
-publication state — breaking the loop.
+`ROADMAP.md` has been replaced or re-framed as historical. Current canonical
+product state does not use the corrective PR's open, published, or merged
+status as a roadmap condition: the roadmap points directly to the Control
+Plane specification, and no future correction is required merely to record
+the corrective PR number or merge SHA. Another synchronization is warranted
+only if a merge makes a specific live canonical statement false.
 
 ## Validation
 
@@ -143,12 +142,13 @@ negative/safety-declarative statements or task-name references (e.g.
 `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` is a task-name
 string, not executable content).
 
-## Local-Commit-Only Status
+## Historical Task-Completion Status
 
-This is a local docs commit on
-`docs/mellycore-deployment-state-sync-post-merge-sync-001`, not pushed, not
-part of a PR. Commit SHA is reported in the operator-facing final report
-after the commit is created (not invented in advance).
+At the moment this original task ended, its commit existed locally on
+`docs/mellycore-deployment-state-sync-post-merge-sync-001` and had not yet
+been pushed or included in a PR. Those facts describe the repository only at
+that historical task-completion point. Later publication does not invalidate
+the task result and does not change the canonical product roadmap.
 
 ## Safety Confirmation
 
@@ -159,11 +159,12 @@ trading/broker/execution functionality. Vercel preserved as accepted
 production host; GitHub Pages preserved as containment/maintenance-only;
 Source Arena, Model Arena, and Observatory preserved as static UI/static-
 data modules. No claim that the Control Plane specification has started.
-No claim that this commit is pushed or merged.
+No claim that PR #26 is merged.
 
-## Exact Next Steps
+## Historical Next Steps at Task Completion
 
-- Task-local publication next step:
-  `MELLYCORE-DEPLOYMENT-STATE-SYNC-POST-MERGE-SYNC-PUBLISH-001`
+- The task-local publication step was
+  `MELLYCORE-DEPLOYMENT-STATE-SYNC-POST-MERGE-SYNC-PUBLISH-001`; it was
+  subsequently completed by placing the commit in PR #26.
 - Canonical product next task:
   `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`

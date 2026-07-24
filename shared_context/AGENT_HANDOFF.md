@@ -23,11 +23,11 @@
   representative data only — no live provider routing, model execution,
   backend integration, account-usage tracking, or trading/broker
   execution.
-- No product implementation has started. This entry is a **local docs
-  commit only** (not pushed). Its own task-local publication follow-up is
-  `MELLYCORE-DEPLOYMENT-STATE-SYNC-POST-MERGE-SYNC-PUBLISH-001` — an
-  operational step for publishing *this* commit, distinct from the
-  canonical product roadmap below.
+- No product implementation has started. At task completion, this entry
+  existed as a local docs commit and had not yet been published. That
+  historical task-local publication step was later completed by placing the
+  commit in PR #26; this lifecycle detail does not define the current product
+  roadmap and requires no update when the PR lifecycle changes.
 - **Canonical product next task:**
   `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` (specification
   work only — docs/spec-only, safety-first, no runtime/backend/provider

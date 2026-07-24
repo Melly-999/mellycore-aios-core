@@ -171,9 +171,12 @@ point in this chain; Level 2 (public catalog) and Level 3 (account usage)
 remain future-gated behind separate approval.
 
 The Source Arena post-merge docs sync prerequisite is canonical via PR #19
-(merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task
-is
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`.
+(merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). At that historical
+point, the next step was
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`;
+that pointer is completed and superseded, not the current product task. The
+current product phase remains the Control Plane specification gate stated
+above.
 
 ## Source Arena Static Renderer Slice — Canonical
 
