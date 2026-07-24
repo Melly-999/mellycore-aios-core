@@ -240,46 +240,47 @@ section is the authoritative Option B ordering):
     merged.** Verified the deployed URL with zero console errors and a
     screenshot artifact; merged into canonical `main` via PR #24 (merge
     commit `be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`).
-15. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` — **implemented locally and
-    published; not yet merged.** This entry synchronized `PROJECT_STATE.md`
-    / `ROADMAP.md` / `RUN_QUEUE.md` / `AGENT_HANDOFF.md` to the accepted
-    Vercel deployment and PR #24 merge state as a local docs commit
-    (`2ee50b7ae3a256d830598a6bf384483f09538f5e`), then published as
-    [PR #25](https://github.com/Melly-999/mellycore-aios-core/pull/25)
-    against canonical `main`. **PR #25 is open, not merged** — a merge
-    attempt (`MELLYCORE-DEPLOYMENT-STATE-SYNC-MERGE-001`) stopped on two
-    substantive documentation-consistency findings, which
-    `MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-001` (this local commit)
-    corrects. Merge is retried by a separate, later task.
+15. `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` — **complete and merged.** This
+    entry synchronized `PROJECT_STATE.md` / `ROADMAP.md` / `RUN_QUEUE.md` /
+    `AGENT_HANDOFF.md` to the accepted Vercel deployment and PR #24 merge
+    state as a local docs commit
+    (`2ee50b7ae3a256d830598a6bf384483f09538f5e`), was published as
+    [PR #25](https://github.com/Melly-999/mellycore-aios-core/pull/25), had
+    two documentation-consistency findings independently verified and
+    corrected (`MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-001`, commit
+    `4a6d200d6581d048dc4a7917bf3a470f84a3b4d3`), and merged into canonical
+    `main` via PR #25 (merge commit
+    `ca1f762a0cdd43b80282b885bfd7885d2740288a`, 2026-07-24T13:51:58Z).
 
-**Vercel static-root remediation, published and verified (2026-07-24).**
-The static-root fetch defect at `https://mellycore-aios-core.vercel.app`
-(item 13 above) is fixed by
+**Vercel static-root remediation, published, verified, and state-synced
+(2026-07-24).** The static-root fetch defect at
+`https://mellycore-aios-core.vercel.app` (item 13 above) is fixed by
 `MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-001`, reviewed
 `PASS`, and merged into canonical `main` via PR #23 (merge commit
 `177128cfc6513090b45491d16e9f0c594451636d`). Production redeploy smoke
 passed and post-deploy verification, including a screenshot artifact, is
 recorded by `MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001`, merged into
 canonical `main` via PR #24 (merge commit
-`be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`). Vercel is the accepted
+`be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`). The deployment-state
+synchronization itself is recorded and merged via PR #25 (merge commit
+`ca1f762a0cdd43b80282b885bfd7885d2740288a`). Vercel is the accepted
 production static showcase host; GitHub Pages remains
 containment/maintenance only.
 
-Tasks 4–9 and item 14 are complete and merged into canonical `main`; items
+Tasks 4–9, 14, and 15 are complete and merged into canonical `main`; items
 10–12 were not separately invoked as discrete task reports and are
 considered superseded by the deployment chain that followed; item 13 is
-superseded by the accepted production deployment described above; item 15
-(this deployment-state synchronization) is implemented locally and
-published as open PR #25, **not yet merged**. The exact next task is
-`MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-PUBLISH-001`
-(push this local remediation commit and update PR #25). The
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` specification is
-queued **after** PR #25 is successfully remediated and merged — it is not
-authorized to start before that. Queued after the Control Plane spec, not
-yet started or authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001` (see the
-Parallel Decision Track's item 4 below for its existing scope). No
-OpenRouter live-API implementation, renderer expansion, or deployment is
-authorized by this roadmap entry alone.
+superseded by the accepted production deployment described above. No
+deployment-state remediation or merge-retry task remains pending. **The
+exact next product task is
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`** (specification
+work only — docs/spec-only, safety-first, no
+runtime/backend/provider integration, no keys or secrets, no
+implementation scaffold, no deployment). It has not started. Queued after
+it, not yet started or authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001`
+(see the Parallel Decision Track's item 4 below for its existing scope).
+No OpenRouter live-API implementation, renderer expansion, or deployment
+is authorized by this roadmap entry alone.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena

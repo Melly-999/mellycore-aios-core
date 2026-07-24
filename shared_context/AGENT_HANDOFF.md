@@ -1,15 +1,51 @@
 # Agent Handoff
 
+## Latest Update — PR #25 merged; deployment-state sync chain complete
+
+`MELLYCORE-DEPLOYMENT-STATE-SYNC-POST-MERGE-SYNC-001`
+
+- **PR #25 is merged.** Merge commit
+  `ca1f762a0cdd43b80282b885bfd7885d2740288a`, merged
+  2026-07-24T13:51:58Z, parents `be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`
+  (previous canonical `main`) and
+  `4a6d200d6581d048dc4a7917bf3a470f84a3b4d3` (PR head). Canonical `main` is
+  now `ca1f762a0cdd43b80282b885bfd7885d2740288a`.
+- Both P2 findings from `chatgpt-codex-connector` (handoff sequencing,
+  roadmap completion contradiction — see the entry below) were
+  independently re-verified as resolved on the remediation commit before
+  `MELLYCORE-DEPLOYMENT-STATE-SYNC-MERGE-RETRY-001` merged. The
+  deployment-state synchronization and remediation chain is complete; no
+  remediation or merge-retry task remains pending.
+- Vercel (`https://mellycore-aios-core.vercel.app`) remains the accepted
+  production static showcase host. GitHub Pages remains
+  containment/maintenance-only, not a product host. Source Arena, Model
+  Arena, and OpenRouter Observatory remain static UI modules using static
+  representative data only — no live provider routing, model execution,
+  backend integration, account-usage tracking, or trading/broker
+  execution.
+- No product implementation has started. This entry is a **local docs
+  commit only** (not pushed). Its own task-local publication follow-up is
+  `MELLYCORE-DEPLOYMENT-STATE-SYNC-POST-MERGE-SYNC-PUBLISH-001` — an
+  operational step for publishing *this* commit, distinct from the
+  canonical product roadmap below.
+- **Canonical product next task:**
+  `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` (specification
+  work only — docs/spec-only, safety-first, no runtime/backend/provider
+  integration, no keys or secrets, no implementation scaffold, no
+  deployment). Not started. Gated after it, not yet started or
+  authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001`.
+
 ## Latest Update — Deployment-state-sync review findings remediated (local)
 
 `MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-001`
 
-- Status: **local docs commit, not pushed**, on
-  `docs/mellycore-deployment-state-sync-001`, above commit
+- Status at the time of this task (historical): **local docs commit, not
+  pushed**, on `docs/mellycore-deployment-state-sync-001`, above commit
   `2ee50b7ae3a256d830598a6bf384483f09538f5e`.
 - `MELLYCORE-DEPLOYMENT-STATE-SYNC-PUBLISH-001` pushed that commit and
   opened [PR #25](https://github.com/Melly-999/mellycore-aios-core/pull/25)
-  against canonical `main`. PR #25 is **OPEN and not merged.**
+  against canonical `main`. PR #25 **was OPEN and not yet merged** at the
+  time of this task — it has since merged; see the entry above.
   `MELLYCORE-DEPLOYMENT-STATE-SYNC-MERGE-001` attempted to merge it and
   stopped: `chatgpt-codex-connector` posted two substantive P2 findings —
   this file's "exact next task" pointer contradicted the task report's own
@@ -19,15 +55,16 @@
 - This task corrects both findings **locally only**: the historical entry
   below now matches its task report, and `ROADMAP.md`'s item 10–15
   statuses and summary are now explicit and internally consistent — item
-  15 (this deployment-state sync) is recorded as implemented locally and
-  published in PR #25, **not** as merged.
-- No push, PR update, or merge occurs in this remediation task.
+  15 (this deployment-state sync) was recorded at the time as implemented
+  locally and published in PR #25, not as merged (now merged; see above).
+- No push, PR update, or merge occurred in this remediation task.
 - Safety unchanged: no live provider routing, model execution, backend
   integration, account-usage tracking, or trading/broker execution
   claimed; GitHub Pages not claimed as a product host; no `site/`,
   screenshot, workflow, dependency, or Vercel config changes.
-- Exact next task:
-  `MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-PUBLISH-001`.
+- Exact next task (historical, at the time this local commit was made):
+  `MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-PUBLISH-001` — completed;
+  see the entry above for the merged outcome.
 
 ## Latest Update — Deployment state synced after PR #24 merge
 

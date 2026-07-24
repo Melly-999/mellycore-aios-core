@@ -64,10 +64,19 @@ into canonical `main` via
 [PR #24](https://github.com/Melly-999/mellycore-aios-core/pull/24), merge
 commit `be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`.
 `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` synchronized this file, `ROADMAP.md`,
-`RUN_QUEUE.md`, and `AGENT_HANDOFF.md` to that accepted state. No live
-provider routing, live
-model execution, live OpenRouter data, backend integration, account-usage
-tracking, or trading/broker execution is claimed by any of this chain.
+`RUN_QUEUE.md`, and `AGENT_HANDOFF.md` to that accepted state, then was
+published and, after a documentation-consistency remediation
+(`MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-001`), **merged into
+canonical `main`** via
+[PR #25](https://github.com/Melly-999/mellycore-aios-core/pull/25), merge
+commit `ca1f762a0cdd43b80282b885bfd7885d2740288a` (2026-07-24T13:51:58Z).
+The deployment-state synchronization and remediation chain is complete; no
+deployment-state remediation or merge-retry task remains pending. No live
+provider routing, live model execution, live OpenRouter data, backend
+integration, account-usage tracking, or trading/broker execution is claimed
+by any of this chain. The current product phase transitions to the
+OmniRouter-inspired Control Plane specification gate
+(`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`, not started).
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under

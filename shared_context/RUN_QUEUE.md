@@ -3,7 +3,7 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
-## Vercel Static Root — Accepted, Verified, Published, State-Synced
+## Vercel Static Root — Accepted, Verified, Published, State-Synced, Merged
 
 `https://mellycore-aios-core.vercel.app` is the accepted production static
 showcase host. The static-root fetch defect is fixed, reviewed `PASS`, and
@@ -12,10 +12,15 @@ merged into canonical `main` via PR #23 (merge commit
 passed and post-deploy verification (including a screenshot artifact) is
 recorded in `docs/tasks/MELLYCORE-STATIC-SHOWCASE-POST-DEPLOY-VERIFY-001.md`,
 merged into canonical `main` via PR #24 (merge commit
-`be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`). This deployment/verification
-chain is complete and state-synced (`MELLYCORE-DEPLOYMENT-STATE-SYNC-001`,
-this entry). GitHub Pages remains containment/maintenance only, not a
-product host.
+`be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`). The deployment-state
+synchronization itself (`MELLYCORE-DEPLOYMENT-STATE-SYNC-001`), after a
+documentation-consistency remediation
+(`MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-001`), merged into canonical
+`main` via PR #25 (merge commit
+`ca1f762a0cdd43b80282b885bfd7885d2740288a`, 2026-07-24T13:51:58Z). This
+deployment/verification/state-sync chain is complete; no deployment-state
+remediation or merge-retry task remains pending. GitHub Pages remains
+containment/maintenance only, not a product host.
 
 **Exact next task:**
 `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` — specification work
