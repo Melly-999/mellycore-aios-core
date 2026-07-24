@@ -27,6 +27,21 @@ store provider secrets.
 - Current audit baseline: 0 findings, index current, 0 writes.
 - Standard-library validation baseline: 245 tests.
 
+## Vercel Static Showcase — Remediation Pending Review
+
+The first Vercel production deployment exists at
+`https://mellycore-aios-core.vercel.app` with `site/` as its static root.
+Post-deploy acceptance remains blocked because repository-only
+`/shared_context/*` requests returned 404 and produced a dashboard console
+error.
+
+Branch `fix/mellycore-vercel-static-root-path-remediation-001`, based on
+canonical `main` at `59b1408d5966a57ebd8e8636fd815198b7227f8f`, makes those
+repository-only reads optional, keeps the two public frozen snapshots under
+`site/data/` required, and renders honest degraded copy when internal context
+is unavailable. This is a local remediation pending independent review; it
+does not claim a successful redeploy.
+
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under
 `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`, implemented on branch

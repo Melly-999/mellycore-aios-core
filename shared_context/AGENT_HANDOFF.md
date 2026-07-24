@@ -1,5 +1,31 @@
 # Agent Handoff
 
+## Latest Update — Vercel static-root remediation
+
+`MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-001`
+
+- Status: **local remediation commit, not pushed** on
+  `fix/mellycore-vercel-static-root-path-remediation-001`, based on canonical
+  `main` at `59b1408d5966a57ebd8e8636fd815198b7227f8f`.
+- The first production deployment exists at
+  `https://mellycore-aios-core.vercel.app`, but acceptance remains blocked:
+  with `site/` as the Vercel root, repository-only `/shared_context/*` reads
+  returned 404 and the dashboard logged a console error.
+- Fix: the two public frozen snapshots in `site/data/` remain required;
+  repository-only Markdown, registry, provenance index, loop state, and
+  evidence reads are optional. When absent, the affected panels render
+  explicit static/degraded copy rather than implying that internal context is
+  published.
+- Local smoke with `site/` as root has no console errors or warnings, no
+  external requests, and preserves Source Arena, Model Arena, Observatory,
+  safety labels, and 320/375px width containment. Repository-root smoke also
+  remains clean and uses the full local context.
+- Safety unchanged: static snapshot only, representative/not-live pricing, no
+  account usage, API keys, backend, provider connection, model calls, NASA
+  requests, dependency/workflow/Vercel-config change, push, or redeploy.
+- Exact next task:
+  `MELLYCORE-VERCEL-STATIC-SHOWCASE-ROOT-PATH-REMEDIATION-REVIEW-001`.
+
 ## Latest Update — OpenRouter Observatory static snapshot slice merged into canonical `main` / PR #21
 
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-PUBLISH-001`
