@@ -64,10 +64,19 @@ into canonical `main` via
 [PR #24](https://github.com/Melly-999/mellycore-aios-core/pull/24), merge
 commit `be3ead9b1b27a80bb6029acb7acba0c98c6ba4c6`.
 `MELLYCORE-DEPLOYMENT-STATE-SYNC-001` synchronized this file, `ROADMAP.md`,
-`RUN_QUEUE.md`, and `AGENT_HANDOFF.md` to that accepted state. No live
-provider routing, live
-model execution, live OpenRouter data, backend integration, account-usage
-tracking, or trading/broker execution is claimed by any of this chain.
+`RUN_QUEUE.md`, and `AGENT_HANDOFF.md` to that accepted state, then was
+published and, after a documentation-consistency remediation
+(`MELLYCORE-DEPLOYMENT-STATE-SYNC-REMEDIATION-001`), **merged into
+canonical `main`** via
+[PR #25](https://github.com/Melly-999/mellycore-aios-core/pull/25), merge
+commit `ca1f762a0cdd43b80282b885bfd7885d2740288a` (2026-07-24T13:51:58Z).
+The deployment-state synchronization and remediation chain is complete; no
+deployment-state remediation or merge-retry task remains pending. No live
+provider routing, live model execution, live OpenRouter data, backend
+integration, account-usage tracking, or trading/broker execution is claimed
+by any of this chain. The current product phase transitions to the
+OmniRouter-inspired Control Plane specification gate
+(`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`, not started).
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under
@@ -162,9 +171,12 @@ point in this chain; Level 2 (public catalog) and Level 3 (account usage)
 remain future-gated behind separate approval.
 
 The Source Arena post-merge docs sync prerequisite is canonical via PR #19
-(merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). The exact next task
-is
-`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`.
+(merge commit `b72bcbdacb61435f7cbc150fffc50ff87d1f3db9`). At that historical
+point, the next step was
+`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`;
+that pointer is completed and superseded, not the current product task. The
+current product phase remains the Control Plane specification gate stated
+above.
 
 ## Source Arena Static Renderer Slice — Canonical
 
