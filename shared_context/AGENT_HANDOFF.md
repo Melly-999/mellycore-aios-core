@@ -1,14 +1,28 @@
 # Agent Handoff
 
-## Latest Update — OmniRouter-inspired Control Plane specified locally
+## Latest Update — OmniRouter-inspired Control Plane reviewed and merge-ready
 
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`
 
-- Status: **specification complete as one local docs-only commit, not pushed**
-  on branch `docs/mellycore-omnirouter-inspired-control-plane-spec-001`,
-  based directly on canonical `clean-origin/main` at
-  `3f8fd51c3ed688e24f5588699201b51b57f28bc8`.
-- Canonical artifact:
+- At completion of the original specification task, commit `cbe30e9…`
+  existed locally and had not yet been published. That historical publication
+  step was subsequently completed through
+  `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-PUBLISH-001`, which
+  published branch `docs/mellycore-omnirouter-inspired-control-plane-spec-001`
+  and opened [PR #27](https://github.com/Melly-999/mellycore-aios-core/pull/27).
+- Independent review found the typed Approval-target and status-dimension
+  blockers. `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-REMEDIATION-001`
+  corrected both plus the six-dimension count, and
+  `-REMEDIATION-PUBLISH-001` published commit `ea662ab…` to PR #27.
+  `-REMEDIATION-REVIEW-001` then returned
+  `PASS_WITH_NOTES_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC_REMEDIATION_REVIEW`;
+  all required checks passed.
+- At the time of this update, PR #27 was open, reviewed, remediation-complete,
+  and merge-ready, but not yet merged; the specification was therefore not
+  yet canonical on `main`. The remaining task-local operation at that time
+  was
+  `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`.
+- Specification artifact:
   `docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md`.
   It defines the operator-facing Control Plane, a strict future Data Plane
   boundary, five-group navigation, ten detailed modules, intelligence
@@ -22,11 +36,14 @@
 - No implementation: no `site/`, frontend, backend, runtime, provider/model
   call, integration, authentication, database, secret, dependency, workflow,
   Vercel, deployment, or 3D Scene Foundation change.
-- Exact task-local next task:
-  `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-PUBLISH-001`.
-  Product next task after specification acceptance:
+- Non-blocking review notes remain future implementation-review inputs:
+  qualify status labels with dimensions, avoid duplicate unprefixed
+  `Expired` chips, and confirm Security lifecycle coverage.
+- The durable product successor after successful specification acceptance is
   `MELLYCORE-3D-SCENE-FOUNDATION-001`, still separately gated and not
-  authorized by this entry.
+  authorized by this entry. Merging the reviewed specification does not by
+  itself require another state-sync task; a later sync is justified only by a
+  concrete false live canonical statement.
 
 ## Previous Update — PR #25 merged; deployment-state sync chain complete
 
@@ -58,9 +75,10 @@
   roadmap and requires no update when the PR lifecycle changes.
 - **At that task's completion, the canonical product next task was**
   `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`. It has since
-  completed locally as described in the entry above. Its task-local publish
-  gate is now next; `MELLYCORE-3D-SCENE-FOUNDATION-001` remains separately
-  gated and unauthorized.
+  completed its authoring, publication, review, and targeted remediation chain
+  as described in the entry above. `MELLYCORE-3D-SCENE-FOUNDATION-001`
+  remains the separately gated product successor after specification
+  acceptance and is still unauthorized.
 
 ## Latest Update — Deployment-state-sync review findings remediated (local)
 
