@@ -1,5 +1,43 @@
 # Agent Handoff
 
+## Latest Update — 3D Scene Foundation implemented locally
+
+`MELLYCORE-3D-SCENE-FOUNDATION-001`
+
+- Branch `feat/mellycore-3d-scene-foundation-001` is based directly on
+  canonical `main` at
+  `e7c8ce5f116e93a11a591ee539272f223af110d1`.
+- The Source Arena now has an optional, lazily loaded Three.js enhancement:
+  a deterministic star field, compact orbital routing core, bounded
+  demonstration nodes and routes, responsive quality profiles, visibility
+  lifecycle, and WebGL context-loss recovery.
+- The existing DOM source map remains keyboard-operable and authoritative.
+  A structured Control Plane routing summary, explicit `Static demonstration`
+  and `No live provider connection` language, a no-JavaScript CSS
+  composition, reduced-motion behavior, and mobile/low-power fallback keep
+  scene meaning available without WebGL.
+- Three.js r164 is vendored as a pinned, self-contained ESM file with its MIT
+  license and provenance record. No package manager, CDN, build system,
+  backend, provider, model, runtime, workflow, Vercel, deployment, secret,
+  authentication, database, agent-execution, or trading integration was
+  introduced.
+- Browser review covered 2560×1440, 1920×1080, 1366×768, tablet, 390×844
+  mobile, reduced motion, forced CSS fallback, and JavaScript-disabled
+  rendering. The final cinematic profile measured one canvas, 9 draw calls,
+  2,120 triangles, and 363 points; the console had zero warnings/errors.
+- Validation passed with `py -3.9 scripts/validate_project_state.py`,
+  `git diff --check`, and Node syntax checks for every changed/new JavaScript
+  file. The unqualified `python` command was unavailable in this environment
+  and is recorded as unavailable rather than passed.
+- This task creates exactly one local commit with subject
+  `feat: add MellyCore 3D scene foundation`; it is not pushed, published,
+  merged, or deployed.
+- Exact task-local next task:
+  `MELLYCORE-3D-SCENE-FOUNDATION-REVIEW-001`.
+- Product sequencing: the foundation must pass independent visual,
+  accessibility, performance, and regression review before broader Control
+  Plane frontend implementation proceeds.
+
 ## Latest Update — OmniRouter-inspired Control Plane reviewed and merge-ready
 
 `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`

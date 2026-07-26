@@ -88,9 +88,9 @@
       id: "source-arena-renderer",
       title: "Source Arena Hybrid Renderer",
       category: "orchestration",
-      description: "Accepted decision for a WebGL-enhanced renderer with a mandatory CSS/DOM fallback. Decision level only; not yet implemented.",
-      tags: ["orchestration", "renderer", "planned"],
-      status: "Accepted (spec only)",
+      description: "Optional locally vendored WebGL enhancement over the mandatory CSS/DOM source map. Static demonstration only; no live route or provider connection.",
+      tags: ["orchestration", "renderer", "static-demo"],
+      status: "Foundation implemented locally",
     },
   ];
 
@@ -571,6 +571,7 @@
       panel.hidden = panel.id !== `tab-${tabName}`;
     });
     window.history.replaceState(null, "", `#${tabName}`);
+    document.dispatchEvent(new CustomEvent("mellycore:tabchange", { detail: { tabName } }));
   }
 
   function initTabs() {
@@ -838,6 +839,7 @@
     if (queue) queue.innerHTML = "";
     const dots = document.getElementById("source-arena-stage-dots");
     if (dots) dots.innerHTML = "";
+    document.dispatchEvent(new CustomEvent("mellycore:scenehost", { detail: { host: null } }));
     renderCompareSource();
   }
 
@@ -964,7 +966,12 @@
     map.setAttribute("aria-label", "Holographic source stage — static local source map");
 
     const scene = document.createElement("div");
-    scene.className = "arena-map-scene";
+    scene.className = "arena-map-scene mellycore-scene-host";
+    scene.dataset.sceneFixture = "control-plane-routing-preview";
+
+    const atmosphere = document.createElement("span");
+    atmosphere.className = "scene-css-atmosphere";
+    atmosphere.setAttribute("aria-hidden", "true");
 
     const orbit = document.createElement("span");
     orbit.className = "arena-orbit";
@@ -990,10 +997,11 @@
     coreGlyphEl.textContent = coreGlyph;
     core.append(coreRing, coreGlyphEl);
 
-    scene.append(orbit, link, nodes, core);
+    scene.append(atmosphere, orbit, link, nodes, core);
     map.append(scene);
 
     stage.replaceChildren(map, buildArenaInspector(item, total));
+    document.dispatchEvent(new CustomEvent("mellycore:scenehost", { detail: { host: scene } }));
     renderCompareSource();
     renderModelOutputs();
   }
