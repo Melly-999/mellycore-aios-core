@@ -27,6 +27,22 @@ store provider secrets.
 - Current audit baseline: 0 findings, index current, 0 writes.
 - Standard-library validation baseline: 245 tests.
 
+## 3D Scene Foundation — PR #28 Acceptance State
+
+[PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) contains
+the implemented Source Arena 3D Scene Foundation and locally vendored
+Three.js r164 module. Independent foundation review returned
+`PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`, and the desktop accessibility /
+performance Gate A completed successfully. At the time of this update, PR
+#28 remained open and unmerged, the foundation was not yet canonical on
+`main`, and physical-device Gate B remained unavailable.
+
+The durable remaining acceptance gate is named physical-device QA under
+`MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001` before merge. Broader
+Control Plane frontend implementation remains gated. The foundation is a
+static, simulated progressive enhancement only: it adds no live provider,
+model, routing, backend, deployment, agent-execution, or trading capability.
+
 ## Vercel Static Showcase — Accepted Production Deployment
 
 `https://mellycore-aios-core.vercel.app` is the **accepted production static
@@ -88,14 +104,13 @@ Independent review identified two specification blockers; the targeted
 remediation was published as commit `ea662ab…`, and its targeted review
 returned
 `PASS_WITH_NOTES_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC_REMEDIATION_REVIEW`
-with all required checks passing. At the time of this update, PR #27 was
-reviewed and merge-ready but not yet merged, so the specification was not yet
-canonical on `main`. The remaining task-local operation at that time was
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`. After
-successful specification acceptance, `MELLYCORE-3D-SCENE-FOUNDATION-001`
-remains the separately gated, not-yet-started product successor. No automatic
-post-merge synchronization is required unless a concrete live canonical
-statement becomes false.
+with all required checks passing. At the time of that update, PR #27 was
+reviewed and merge-ready but not yet merged. It subsequently merged into
+canonical `main` as `e7c8ce5f116e93a11a591ee539272f223af110d1`. Its
+separately gated product successor, `MELLYCORE-3D-SCENE-FOUNDATION-001`, is
+now implemented in PR #28 with the acceptance state recorded above. No
+automatic post-merge synchronization is required unless a concrete live
+canonical statement becomes false.
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under
@@ -133,12 +148,15 @@ An accepted Source Arena Hybrid renderer decision
 **ACCEPTED**, 2026-07-20, decision/specification level only) narrowly permits
 a WebGL-enhanced renderer — one pinned, vendored Three.js ESM module, paired
 with a mandatory complete CSS/DOM fallback — for Source Arena's central stage
-only. Neither renderer is implemented; no dependency has been vendored. NASA
-runtime retirement (accepted by this ADR as a prerequisite) is merged into
-canonical `main` via PR #15 (merge commit
-`e0cbc332ff90f8787d981c9d86be717633f22d4d`); the renderer and vendoring
-themselves remain unimplemented and require their own separately-authorized
-implementation task.
+only. PR #28 contains that separately authorized foundation implementation:
+the optional WebGL enhancement, complete CSS/DOM fallback, lifecycle and
+context-loss handling, and locally vendored Three.js r164. NASA runtime
+retirement (accepted by this ADR as a prerequisite) is merged into canonical
+`main` via PR #15 (merge commit
+`e0cbc332ff90f8787d981c9d86be717633f22d4d`). The broader complete
+holographic experience remains unimplemented, and the PR #28 implementation
+remains non-canonical until its remaining acceptance gate passes and the PR
+is merged.
 
 ## Operator Decision — Option B Deploy Path
 
@@ -194,8 +212,8 @@ The Source Arena post-merge docs sync prerequisite is canonical via PR #19
 point, the next step was
 `MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-STATIC-SNAPSHOT-SLICE-POST-MERGE-STATE-SYNC-PUBLISH-001`;
 that pointer is completed and superseded, not the current product task. The
-current product phase remains the Control Plane specification gate stated
-above.
+current product phase is the PR #28 3D Scene Foundation acceptance gate
+stated above.
 
 ## Source Arena Static Renderer Slice — Canonical
 
@@ -226,14 +244,14 @@ Canonical outcomes of that merge:
   `shared_context/AGENT_HANDOFF.md` conflict was resolved before merge.
 - No external, provider, backend, or deploy expansion accompanied it.
 
-Boundaries that remain unchanged by this merge: the implementation is
-**CSS/DOM-only**. The full Source Arena renderer is **not complete**; the ADR's
-CSS-complete fallback renderer is **not complete**; WebGL, Three.js, and Canvas
-remain **not implemented** and Three.js remains **not vendored**. NASA runtime
-remains retired and the Source Archive remains local deterministic showcase
-data. OpenRouter remains not implemented. No deployment or release has been
-performed, and none is authorized ahead of the readiness sequence recorded in
-`ROADMAP.md`.
+At the time of that PR #17 merge, its implementation boundary was
+**CSS/DOM-only** and the later WebGL foundation and vendoring had not begun.
+PR #28 now contains the separately authorized Source Arena 3D Scene
+Foundation, Canvas/WebGL progressive enhancement, complete CSS fallback, and
+locally vendored Three.js r164. The full Source Arena experience remains
+**not complete**. NASA runtime remains retired, the Source Archive remains
+local deterministic showcase data, and live OpenRouter integration remains
+not implemented. No deployment or release accompanies PR #28.
 
 ## Planned Direction
 

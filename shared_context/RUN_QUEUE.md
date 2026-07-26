@@ -34,20 +34,42 @@ re-review are complete. The targeted re-review outcome was
 `PASS_WITH_NOTES_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC_REMEDIATION_REVIEW`,
 with no blocking finding and all required checks passing.
 
-At the time of this update, PR #27 was open, reviewed, remediation-complete,
-and merge-ready, but not yet merged or canonical on `main`.
+At the time of that update, PR #27 was open and merge-ready. It subsequently
+merged into canonical `main` as
+`e7c8ce5f116e93a11a591ee539272f223af110d1`.
 
-**Current task-local operation (at the time of this update):**
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001` — perform final
-acceptance gates and, only if they pass, merge PR #27 normally. The durable
-product successor after successful specification acceptance is
-`MELLYCORE-3D-SCENE-FOUNDATION-001`, still not started or authorized.
+## 3D Scene Foundation — PR #28 Remediation and Acceptance Gate
 
-The Control Plane specification and this lifecycle correction define no
-frontend, backend, provider integration, runtime, secrets flow, deployment,
-or 3D implementation. A successful merge does not automatically require a
-post-merge synchronization task; another sync is warranted only if a concrete
-live canonical statement becomes false.
+[PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) contains
+the implemented `MELLYCORE-3D-SCENE-FOUNDATION-001` and locally vendored
+Three.js r164. Independent foundation review returned
+`PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`, and desktop Gate A completed
+successfully. At the time of this update, PR #28 remained open and unmerged,
+the implementation was not yet canonical on `main`, and physical-device Gate
+B remained unavailable.
+
+The local remediation fixes routine Source Arena selection so it preserves
+one scene host, canvas, renderer, context, and animation lifecycle while
+updating only selection-specific semantic DOM. It also synchronizes the
+current state documents without claiming merge or physical-device
+acceptance.
+
+**Current task-local operation:**
+`MELLYCORE-3D-SCENE-FOUNDATION-REMEDIATION-PUBLISH-001`.
+
+Durable sequence:
+
+1. Create the local remediation commit.
+2. Publish that remediation to PR #28.
+3. Perform targeted remediation review.
+4. Resume `MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001` on a named
+   physical mobile device.
+5. Merge only after every required gate passes.
+
+The product acceptance gate remains
+`MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001`. Broader Control Plane
+frontend implementation remains gated. No backend, provider integration,
+runtime routing, secrets flow, deployment, or live execution is authorized.
 
 ## Historical Option B Deploy Path — Completed
 
@@ -334,21 +356,25 @@ is pending, in progress, or complete.
    (push this docs-sync commit, open a PR, review, and merge if clean).
 4. `MELLYCORE-3D-SCENE-FOUNDATION-001` — implement the shared state, complete
    CSS fallback, vendored/pinned Three.js enhanced renderer, lifecycle,
-   context-loss recovery, and mobile-first Source Arena. Not started.
+   context-loss recovery, and mobile-first Source Arena. Implemented in PR
+   #28; the stable-host remediation is local and awaits publication.
 5. `MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001` — keyboard/screen-reader
    parity, reduced-motion, forced-fallback, context-loss, memory/RAF cleanup,
-   mobile and desktop performance. Not started.
+   mobile and desktop performance. Desktop Gate A passed; physical-device
+   Gate B remains unavailable and is the durable open acceptance gate.
 6. `MELLYCORE-3D-SCENE-INTEGRATION-REVIEW-001` — independent final review
-   before any merge or release claim. Not started.
+   before any merge or release claim. The foundation review returned
+   `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`; the remediation still
+   requires targeted review before physical-device QA resumes.
 
 Task 3 (NASA runtime retirement) is `MERGED_INTO_CANONICAL_MAIN` via PR #15,
-merge commit `e0cbc332ff90f8787d981c9d86be717633f22d4d` (see item 3 above). Tasks 4–6 remain
-`NOT_STARTED` and are not implemented, active, or authorized by this entry
-alone. Task 1 (the ADR decision) is accepted at the decision/specification
-level and its architecture milestone is now `CLOSED_IN_CANONICAL_MAIN` —
-merged into canonical `main` via PR #8 (2l above). This does not implement,
-vendor, or release anything; the 3D scene foundation (task 4) remains
-`NOT_STARTED`.
+merge commit `e0cbc332ff90f8787d981c9d86be717633f22d4d` (see item 3 above).
+Task 4 is implemented in PR #28, task 5 remains open only on physical-device
+Gate B after desktop Gate A passed, and task 6 requires targeted remediation
+review before the remaining QA and merge gate proceed. Task 1 (the ADR
+decision) is accepted at the decision/specification level and its architecture
+milestone is `CLOSED_IN_CANONICAL_MAIN` — merged into canonical `main` via PR
+#8 (2l above). None of these entries claims PR #28 is merged or deployed.
 
 A narrow, separate precursor — `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001`
 — is `MERGED_INTO_CANONICAL_MAIN` (branch
@@ -359,7 +385,8 @@ the Source Arena stage into a static CSS/DOM holographic source map (orbital
 source nodes around a central core, command inspector), replacing the prior
 social-feed-style media card. It is CSS/DOM only: it does not start task 4,
 vendor Three.js, add WebGL/Canvas, or implement the ADR's CSS-complete
-fallback spec — all of which remain `NOT_IMPLEMENTED`/`NOT_STARTED`.
+fallback spec. That was the truthful boundary of the PR #17 slice; PR #28
+later added the separately authorized foundation and vendored Three.js r164.
 
 ## Deferred Work
 
@@ -404,7 +431,8 @@ fallback spec — all of which remain `NOT_IMPLEMENTED`/`NOT_STARTED`.
   (items 2s–2u): PR #11 merged into canonical `main` via merge commit
   `cad4e07f73f80c5794f9af2897fc10d922637ab3`. No Three.js implementation,
   dependency vendoring, NASA runtime retirement, or release/deployment
-  exists at any point in this chain. The current exact next task is
+  exists at any point in this chain. The exact next task at that historical
+  point was
   `MELLYCORE-DOCS-INTEGRATION-REVIEW-001`.
 
 ## Standing Safety Gate

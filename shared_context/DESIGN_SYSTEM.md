@@ -18,8 +18,13 @@ renderer (one pinned, vendored Three.js module) or by the CSS-only
 description below, selected automatically by capability detection, with the
 CSS path always complete and mandatory as fallback. The feed/content layer,
 honesty labels, and layer ordering are identical under either renderer and
-are not affected by this decision. No WebGL renderer exists in the repository
-yet; implementation requires its own separately-authorized task.
+are not affected by this decision. PR #28 contains the separately authorized
+3D Scene Foundation, its optional WebGL enhancement, complete CSS/DOM
+fallback, and locally vendored Three.js r164. Independent review returned
+`PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`; desktop Gate A passed. At the
+time of this update, PR #28 remained open and unmerged, the foundation was
+not yet canonical on `main`, and physical-device Gate B remained unavailable
+before merge.
 
 ## Visual Hierarchy
 
