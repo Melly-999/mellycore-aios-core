@@ -74,9 +74,19 @@ The deployment-state synchronization and remediation chain is complete; no
 deployment-state remediation or merge-retry task remains pending. No live
 provider routing, live model execution, live OpenRouter data, backend
 integration, account-usage tracking, or trading/broker execution is claimed
-by any of this chain. The current product phase transitions to the
-OmniRouter-inspired Control Plane specification gate
-(`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`, not started).
+by any of this chain. The OmniRouter-inspired Control Plane specification gate
+is now complete as a local docs-only commit on branch
+`docs/mellycore-omnirouter-inspired-control-plane-spec-001`:
+`docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md` defines the
+operator-facing coordination/governance layer, its strict separation from a
+future Data Plane, ten module contracts, entity/status/workflow contracts,
+desktop/mobile behavior, provenance, approvals, security metadata, static
+fixtures, accessibility, and performance budgets. It implements no frontend,
+backend, provider connection, runtime, secrets path, deployment, or 3D work.
+The task-local next step is
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-PUBLISH-001`; after
+specification acceptance, `MELLYCORE-3D-SCENE-FOUNDATION-001` remains the
+separately gated product task.
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under

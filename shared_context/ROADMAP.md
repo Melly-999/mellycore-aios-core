@@ -271,16 +271,22 @@ Tasks 4–9, 14, and 15 are complete and merged into canonical `main`; items
 10–12 were not separately invoked as discrete task reports and are
 considered superseded by the deployment chain that followed; item 13 is
 superseded by the accepted production deployment described above. No
-deployment-state remediation or merge-retry task remains pending. **The
-exact next product task is
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`** (specification
-work only — docs/spec-only, safety-first, no
-runtime/backend/provider integration, no keys or secrets, no
-implementation scaffold, no deployment). It has not started. Queued after
-it, not yet started or authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001`
-(see the Parallel Decision Track's item 4 below for its existing scope).
-No OpenRouter live-API implementation, renderer expansion, or deployment
-is authorized by this roadmap entry alone.
+deployment-state remediation or merge-retry task remains pending.
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` is now complete as a
+local docs-only commit on branch
+`docs/mellycore-omnirouter-inspired-control-plane-spec-001`. Its canonical
+artifact,
+`docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md`, specifies
+the Control Plane as an operator-facing coordination/governance surface and
+keeps provider calls, runtime execution, persistence, authentication, and
+network communication in a separately gated future Data Plane. **The exact
+next task is
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-PUBLISH-001`.** After
+specification acceptance, `MELLYCORE-3D-SCENE-FOUNDATION-001` is the next
+product task, still not started or authorized (see the Parallel Decision
+Track's item 4 below for its existing scope). No OpenRouter live-API
+implementation, Control Plane implementation, renderer expansion, or
+deployment is authorized by this roadmap entry alone.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena

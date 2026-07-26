@@ -22,11 +22,18 @@ deployment/verification/state-sync chain is complete; no deployment-state
 remediation or merge-retry task remains pending. GitHub Pages remains
 containment/maintenance only, not a product host.
 
+The Control Plane specification task,
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`, is complete as one
+local docs-only commit on
+`docs/mellycore-omnirouter-inspired-control-plane-spec-001`. It defines no
+frontend, backend, provider integration, runtime, secrets flow, deployment,
+or 3D implementation.
+
 **Exact next task:**
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` — specification work
-only; no implementation, backend, provider integration, or deployment is
-authorized by this entry. Queued after that spec, not yet started or
-authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001`.
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-PUBLISH-001` — publish and
+review the single docs commit under a separate authorization. After
+specification acceptance, `MELLYCORE-3D-SCENE-FOUNDATION-001` is the next
+product task, still not started or authorized.
 
 ## Historical Option B Deploy Path — Completed
 
