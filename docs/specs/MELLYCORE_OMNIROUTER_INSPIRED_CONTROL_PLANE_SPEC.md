@@ -108,7 +108,7 @@ for comparison, cost uncertainty, route explanation, and safety labels.
 | Context and memory | Source inspection, packet manifest, compression preview, approval | Retrieval, assembly, persistence, cache, refresh |
 | Runs and traffic | Historical evidence and future event-contract inspection | Message transport, streaming, tool calls, retries |
 | Queues and artifacts | Plans, manifests, dependencies, review states | Scheduling, dispatch, generation, storage |
-| Approvals | Exact scope, digest, expiry, decision, audit contract | Guard enforcement around a separately authorized action |
+| Approvals | Exact typed target, ID, version, digest, scope, expiry, decision, audit contract | Guard enforcement around a separately authorized action |
 | Cost | Estimates, confirmed records when available, unknown states | Meter collection, account reconciliation, billing |
 | Security | Metadata, least-privilege policy, redaction and audit requirements | Secret store, credential lifecycle, authentication enforcement |
 
@@ -123,10 +123,10 @@ task, and validation gates are accepted.
 ### 3.3 Trust boundary
 
 The Control Plane is never an authority merely because it displays a record.
-Authority comes from an exact operator approval whose target digest, scope,
-allowed actions, constraints, expiry, and revocation state all validate. A
-future runtime MUST refuse missing, expired, revoked, replayed, or digest-mismatched
-approval.
+Authority comes from an exact operator approval whose target type, ID, version,
+digest, scope, allowed actions, constraints, expiry, and revocation state all
+validate. A future runtime MUST refuse missing, expired, revoked, replayed, or
+target-binding-mismatched approval.
 
 ## 4. Design Principles
 
@@ -225,6 +225,9 @@ steward; `created_at`; `updated_at`; provenance; evidence references; a
 truthful-state label; and a source-mode label. IDs MUST NOT encode mutable state.
 Unknown timestamps are `null`, never fabricated. Static fixtures use reserved
 `fixture:` IDs and cannot collide with future runtime IDs.
+Applicable status fields use only the six canonical field names in Section 8;
+domain fields such as outcome, verdict, trust, basis, and configuration state
+remain typed entity data and are not additional status dimensions.
 
 Provenance minimally includes `source`, `source_type`, `captured_at`,
 `validated_at`, `freshness`, `confidence`, `verification_state`,
@@ -232,30 +235,30 @@ Provenance minimally includes `source`, `source_type`, `captured_at`,
 
 ### 7.2 Entity catalogue
 
-| Entity | Purpose and stable ID | Minimum entity-specific fields | Status dimension | Relationships and representation |
+| Entity | Purpose and stable ID | Minimum entity-specific fields | Applicable status fields | Relationships and representation |
 | --- | --- | --- | --- | --- |
-| `Project` | Scope boundary; `project_id` | name, description, safety_policy_ids, budget_policy, allowed_asset_ids | lifecycle | Owns all scoped entities; fixture is one explicit demo project; future runtime enforces isolation |
-| `Provider` | Provider metadata; `provider_id` | name, access_class, authentication_mode, purpose, capabilities, modalities, status, last_validation | availability | Has Models; fixture never implies connection; runtime may expose health evidence |
-| `Model` | Model/alias metadata; `model_id` | provider_id, display_name, exact_or_alias, capabilities, context_window, tool_support, cost_class, status, snapshot_date | availability | Belongs to Provider; candidate in RoutingPolicy; fixture values are reviewed snapshots |
-| `Agent` | Inspectable agent contract; `agent_id` | name, role, owner, version, autonomy_class, model_policy_id, skills, tools, context_access, safety_contract, last_validation | lifecycle/availability | Uses policies/assets; fixture is inspection-only; runtime may emit runs |
-| `Skill` | Governed capability; `skill_id` | name, version, purpose, owner, allowed_projects, risk_class, validation_state | lifecycle/availability | Assigned to Agents; recommendations never create it automatically |
-| `Tool` | Governed callable capability metadata; `tool_id` | name, category, allowed_actions, read_write_class, risk_class, approval_requirement, status | availability | Assigned to Agents and Integrations; no invocation in static phase |
-| `Integration` | External-system metadata; `integration_id` | name, category, access_mode, allowed_actions, read_write_class, risk_class, project_scope, status, last_validation | availability | May expose Tools; fixture includes no credentials or connection flow |
-| `RoutingPolicy` | Versioned selection intent; `routing_policy_id` | name, version, mode, criteria, constraints, fallback_chain, precedence, approval_requirement, status | lifecycle | Evaluates Models for Task manifests; simulation only now |
-| `ContextSource` | Provenance-bearing input metadata; `context_source_id` | source_identity, source_type, verification_state, trust_level, sensitivity, freshness, allowed_use, conflict_state | freshness/trust | Feeds ContextPackets and MemoryRecords; protected contents may remain undisclosed |
-| `ContextPacket` | Approved context manifest; `context_packet_id` | version, source_refs, compression_strategy, token_estimate, redactions, confidence, scope, approval_ref, digest, status | lifecycle | Used by planned Task/Run; current representation is a manifest preview |
-| `MemoryRecord` | Memory metadata and lineage; `memory_record_id` | layer, source_ref, summary_ref, freshness, retention, trust, relevance, authorization, supersession | freshness | May feed ContextPackets; immutable history is retained |
-| `Task` | Planned unit of work; `task_id` | title, purpose, owner_agent_id, dependencies, policy_id, context_packet_id, expected_artifacts, stop_conditions, status | lifecycle | Parent of Runs/QueueItems; current phase prepares plans only |
-| `Run` | Normalized historical execution evidence; `run_id` | task_id, agent_id, model_id, provider_id, timestamps, duration, token fields, costs, outcome, commit_sha, approval_ref, policy_id, context_packet_id | lifecycle/outcome | Has RunEvents, artifacts, validators, costs; fixtures never claim execution |
-| `RunEvent` | Ordered event evidence; `run_event_id` | run_id, sequence, event_type, occurred_at, actor, correlation_id, redaction_state, payload_summary_ref, outcome | lifecycle | Builds traffic timeline/graph; static events are explicitly illustrative |
-| `QueueItem` | Planned batch/artifact work; `queue_item_id` | task_id, priority, dependencies, approval_state, estimated_cost, assigned_agents, policy_id, context_packet_id, validators, retry_policy, stop_conditions, status | lifecycle | May reference expected Artifacts; no dispatch in current phase |
-| `Artifact` | Output or planned-output metadata; `artifact_id` | run_id, path_or_uri, artifact_class, digest, change_kind, created_at, status, sensitivity | lifecycle | Traceable to Run, ContextPacket, Validators; content display follows sensitivity |
-| `ValidatorResult` | One actual or planned check; `validator_result_id` | target_ref, validator_identity, verdict, ran_at, evidence_ref, notes | verdict | Belongs to Run/Artifact; `NOT_RUN` never renders as pass |
-| `Recommendation` | Proposed change with evidence; `recommendation_id` | source, reason, evidence_refs, expected_impact, risk, cost, decision, implementation_task, validator_outcome, final_outcome | controlled-loop | May create Approval; never self-implements |
-| `Approval` | Exact operator authorization; `approval_id` | recommendation_id, operator_id, decision, target_digest, scope, constraints, authorized_actions, prohibited_actions, issued_at, expires_at, revoked_at | approval | Gates one exact future action set; no blanket or inferred authority |
-| `Operator` | Human authority metadata; `operator_id` | display_name, role, project_scopes, approval_class, status | lifecycle | Owns approvals; fixture identity is a generic placeholder, no account ID |
-| `SafetyPolicy` | Immutable/versioned safety rules; `safety_policy_id` | name, version, rules, precedence, owner, effective_at, supersedes, status | lifecycle | Applies to Project, Policy, Agent, Task, Approval; system cannot modify it |
-| `CostRecord` | Measured or estimated cost; `cost_record_id` | run_id, amount, currency, basis, calculation_method, pricing_source, pricing_timestamp, confirmed_at | evidence/basis | Aggregates into budgets; unknown is null; estimate never equals confirmed |
+| `Project` | Scope boundary; `project_id` | name, description, safety_policy_ids, budget_policy, allowed_asset_ids | `lifecycle_status`, `evidence_state` | Owns all scoped entities; fixture is one explicit demo project; future runtime enforces isolation |
+| `Provider` | Provider metadata; `provider_id` | name, access_class, authentication_mode, purpose, capabilities, modalities, status, last_validation | `availability_status`, `evidence_state`, `freshness_state` | Has Models; fixture never implies connection; runtime may expose health evidence |
+| `Model` | Model/alias metadata; `model_id` | provider_id, display_name, exact_or_alias, capabilities, context_window, tool_support, cost_class, status, snapshot_date | `availability_status`, `evidence_state`, `freshness_state`, `selection_state` | Belongs to Provider; candidate in RoutingPolicy; fixture values are reviewed snapshots |
+| `Agent` | Inspectable agent contract; `agent_id` | name, role, owner, version, autonomy_class, model_policy_id, skills, tools, context_access, safety_contract, last_validation | `lifecycle_status`, `availability_status`, `evidence_state`, `freshness_state` | Uses policies/assets; fixture is inspection-only; runtime may emit runs |
+| `Skill` | Governed capability; `skill_id` | name, version, purpose, owner, allowed_projects, risk_class, validation_state | `lifecycle_status`, `availability_status`, `evidence_state`, `freshness_state` | Assigned to Agents; recommendations never create it automatically |
+| `Tool` | Governed callable capability metadata; `tool_id` | name, category, allowed_actions, read_write_class, risk_class, approval_requirement, status | `availability_status`, `evidence_state`, `freshness_state` | Assigned to Agents and Integrations; no invocation in static phase |
+| `Integration` | External-system metadata; `integration_id` | name, category, access_mode, allowed_actions, read_write_class, risk_class, project_scope, status, last_validation | `availability_status`, `evidence_state`, `freshness_state`, `approval_state` | May expose Tools; fixture includes no credentials or connection flow |
+| `RoutingPolicy` | Versioned selection intent; `routing_policy_id` | name, version, mode, criteria, constraints, fallback_chain, precedence, approval_requirement, status | `lifecycle_status`, `approval_state`, `selection_state`, `evidence_state` | Evaluates Models for Task manifests; simulation only now |
+| `ContextSource` | Provenance-bearing input metadata; `context_source_id` | source_identity, source_type, verification_state, trust_level, sensitivity, freshness, allowed_use, conflict_state | `availability_status`, `evidence_state`, `freshness_state` | Feeds ContextPackets and MemoryRecords; protected contents may remain undisclosed |
+| `ContextPacket` | Approved context manifest; `context_packet_id` | version, source_refs, compression_strategy, token_estimate, redactions, confidence, scope, approval_ref, digest, status | `lifecycle_status`, `freshness_state`, `approval_state`, `evidence_state` | Used by planned Task/Run; current representation is a manifest preview |
+| `MemoryRecord` | Memory metadata and lineage; `memory_record_id` | layer, source_ref, summary_ref, freshness, retention, trust, relevance, authorization, supersession | `lifecycle_status`, `freshness_state`, `evidence_state` | May feed ContextPackets; immutable history is retained |
+| `Task` | Planned unit of work; `task_id` | title, purpose, owner_agent_id, dependencies, policy_id, context_packet_id, expected_artifacts, stop_conditions, status | `lifecycle_status`, `approval_state`, `evidence_state` | Parent of Runs/QueueItems; current phase prepares plans only |
+| `Run` | Normalized historical execution evidence; `run_id` | task_id, agent_id, model_id, provider_id, timestamps, duration, token fields, costs, outcome, commit_sha, approval_ref, policy_id, context_packet_id | `lifecycle_status`, `evidence_state`, `freshness_state` | Has RunEvents, artifacts, validators, costs; outcome remains entity data; fixtures never claim execution |
+| `RunEvent` | Ordered event evidence; `run_event_id` | run_id, sequence, event_type, occurred_at, actor, correlation_id, redaction_state, payload_summary_ref, outcome | `lifecycle_status`, `evidence_state`, `freshness_state` | Builds traffic timeline/graph; outcome remains entity data; static events are explicitly illustrative |
+| `QueueItem` | Planned batch/artifact work; `queue_item_id` | task_id, priority, dependencies, approval_state, estimated_cost, assigned_agents, policy_id, context_packet_id, validators, retry_policy, stop_conditions, status | `lifecycle_status`, `approval_state`, `evidence_state` | May reference expected Artifacts; no dispatch in current phase |
+| `Artifact` | Output or planned-output metadata; `artifact_id` | run_id, path_or_uri, artifact_class, digest, change_kind, created_at, status, sensitivity | `lifecycle_status`, `evidence_state`, `freshness_state` | Traceable to Run, ContextPacket, Validators; content display follows sensitivity |
+| `ValidatorResult` | One actual or planned check; `validator_result_id` | target_ref, validator_identity, verdict, ran_at, evidence_ref, notes | `evidence_state`, `freshness_state` | Belongs to Run/Artifact; verdict remains entity data; `NOT_RUN` never renders as pass |
+| `Recommendation` | Proposed change with evidence; `recommendation_id` | source, reason, evidence_refs, expected_impact, risk, cost, decision, implementation_task, validator_outcome, final_outcome | `lifecycle_status`, `approval_state`, `evidence_state`, `freshness_state` | May create Approval; controlled-loop decision/outcomes remain entity data; never self-implements |
+| `Approval` | Exact operator authorization; `approval_id` | target_type, target_id, target_version, target_digest, approval_subject, requester_id, operator_id, scope, decision, constraints, authorized_actions, prohibited_actions, requested_at, issued_at, expires_at, revoked_at, evidence_refs, provenance_refs, decision_note, audit_event_id, recommendation_id (optional source reference) | `approval_state`, `evidence_state`, `freshness_state` | Gates one exact typed and versioned future action set; Recommendation is not a universal target wrapper; no blanket, inferred, or cross-entity authority |
+| `Operator` | Human authority metadata; `operator_id` | display_name, role, project_scopes, approval_class, status | `lifecycle_status`, `evidence_state` | Owns approvals; fixture identity is a generic placeholder, no account ID |
+| `SafetyPolicy` | Immutable/versioned safety rules; `safety_policy_id` | name, version, rules, precedence, owner, effective_at, supersedes, status | `lifecycle_status`, `approval_state`, `evidence_state`, `freshness_state` | Applies to Project, Policy, Agent, Task, Approval; system cannot modify it |
+| `CostRecord` | Measured or estimated cost; `cost_record_id` | run_id, amount, currency, basis, calculation_method, pricing_source, pricing_timestamp, confirmed_at | `evidence_state`, `freshness_state` | Aggregates into budgets; basis remains entity data; unknown is null; estimate never equals confirmed |
 
 ### 7.3 Relationship rules
 
@@ -265,52 +268,61 @@ Provenance minimally includes `source`, `source_type`, `captured_at`,
   `historical` or `superseded`.
 - A Run can reference at most one effective RoutingPolicy and ContextPacket
   version, but may record evaluated alternatives.
+- `Approval.target_type + Approval.target_id + Approval.target_version +
+  Approval.target_digest` form one immutable target binding. `recommendation_id`
+  MAY identify the proposal that led to an approval, but it is optional and
+  MUST NOT substitute for the typed target binding.
 - Approval, ValidatorResult, and CostRecord remain independent evidence objects.
 - The model is conceptual and frontend-facing; it is not a production database
   schema.
 
 ## 8. Status Taxonomy
 
-### 8.1 Unified vocabulary
+### 8.1 Canonical per-dimension enum contract
 
-| Status | Meaning | Typical entities |
-| --- | --- | --- |
-| `draft` | Editable proposal, no approval | policy, packet, queue item, recommendation |
-| `planned` | Accepted future intent, not ready | task, queue item, integration |
-| `queued` | Ordered for future consideration, not executing | queue item, task |
-| `awaiting_approval` | Exact operator decision required | policy, packet, queue item, recommendation |
-| `approved` | Exact configuration/digest approved; not executed | approval target |
-| `blocked` | Cannot proceed; reason required | task, queue item, run, route |
-| `ready` | All planning gates met; still not executing | queue item, packet |
-| `active` | Reserved for currently effective policy/configuration only | routing policy, safety policy |
-| `degraded` | Partially available or incomplete | provider, model, integration, evidence source |
-| `unavailable` | Expected source/capability cannot be used | provider, model, integration |
-| `completed` | Lifecycle finished with evidence | task, run, queue item |
-| `failed` | Attempt ended unsuccessfully with evidence | run, validation, queue item |
-| `cancelled` | Operator-ended before completion | task, queue item, recommendation |
-| `superseded` | Replaced by a newer version; history retained | policy, packet, memory, recommendation |
-| `historical` | Retained evidence not current | run, artifact, task report |
-| `unknown` | State cannot be determined | any evidence-backed entity |
-| `static_demo` | Illustrative/static representation, not runtime | any fixture-backed surface |
+Status is represented by six orthogonal fields. The machine identity of an enum
+member is the dimension-qualified pair, for example
+`{dimension: "availability_status", value: "degraded"}`. An unqualified raw
+value is not a valid status contract. This permits honest human labels such as
+`Unknown`, `Expired`, or `Rejected` in more than one domain without making their
+machine meaning ambiguous.
 
-`active` MUST NOT describe connectivity, a running agent, selected UI state, or
-general availability. Use `available`, `running` (future runtime events only),
-`selected` (UI state only), or `effective` (policy) as the appropriate separate
-dimension.
+| Owning dimension / field | Purpose | Legal values | Applicability and display | Unknown behavior |
+| --- | --- | --- | --- | --- |
+| Lifecycle / `lifecycle_status` | Progression and retained history only | `draft`, `planned`, `queued`, `ready`, `active`, `blocked`, `completed`, `failed`, `cancelled`, `superseded`, `historical` | Versioned plans, policies, packets, tasks, runs, queue items, artifacts, and recommendations; display as `Lifecycle: <label>` | No lifecycle `unknown` member; omit the field when inapplicable and expose missing lifecycle evidence separately |
+| Availability / `availability_status` | Operational reachability or usable capacity | `available`, `degraded`, `unavailable`, `disconnected`, `unknown` | Providers, models, agents, tools, integrations, and sources; display as `Availability: <label>` | `unknown` means availability cannot be established, never available or disconnected |
+| Evidence / `evidence_state` | Truth/source mode and evidence completeness | `canonical`, `static_demo`, `simulated`, `future_live`, `partial`, `unknown` | Every rendered evidence-bearing record or surface; display persistently as `Evidence: <label>` | `unknown` means source mode or evidence coverage is not established |
+| Freshness / `freshness_state` | Age against a declared review/expiry boundary | `fresh`, `aging`, `stale`, `expired`, `unknown` | Time-sensitive sources, packets, memory, runs, cost, and validation evidence; display timestamp/boundary with `Freshness: <label>` | `unknown` means no defensible freshness conclusion; never coerce to fresh |
+| Approval / `approval_state` | Operator decision state for one exact target binding | `not_required`, `awaiting_approval`, `approved`, `rejected`, `expired`, `revoked` | Approval records and approval-gated targets; display as `Approval: <label>` | No approval `unknown` member; missing or unresolved approval evidence authorizes nothing |
+| Selection / `selection_state` | UI or routing-candidate selection result | `eligible`, `preferred`, `selected`, `rejected`, `fallback`, `excluded` | Frontend-local selection and deterministic simulation candidates; display as `Selection: <label>` | No selection `unknown` member; absence means no selection decision is represented |
 
-### 8.2 Orthogonal state dimensions
+`static_demo` is the sole evidence enum for fixture-backed demonstration data.
+It corresponds to the human-facing `STATIC FIXTURE` record badge and the
+`STATIC DEMONSTRATION — NOT LIVE` bundle notice; `fixture` is not a second,
+equivalent enum value. `configured` / `not_configured` remain security or access
+metadata, not availability states.
 
-- `lifecycle_status`: the table above.
-- `availability_status`: `configured`, `available`, `degraded`, `unavailable`,
-  `unknown`, `static_demo`.
-- `evidence_state`: `canonical_repository_evidence`, `static_fixture`,
-  `simulated_result`, `runtime_data_unavailable`, `future_placeholder`.
-- `freshness_state`: `fresh`, `expiring`, `stale`, `unknown`, `invalid`.
-- `approval_state`: `not_required`, `awaiting_approval`, `approved`, `rejected`,
-  `expired`, `revoked`.
-- `selection_state`: `unselected`, `selected`; frontend-local only.
+### 8.2 Orthogonality, ownership, and rendering rules
 
-No badge may merge these dimensions into an ambiguous "green/active" state.
+- One entity MAY hold one value from each applicable dimension at the same time.
+  For example, a ContextPacket may be lifecycle `ready`, freshness `aging`,
+  approval `approved`, and evidence `static_demo`.
+- Every legal enum member belongs to exactly the field in Section 8.1. The full
+  machine value is always the field/value pair, so `freshness_state:expired`
+  cannot be interpreted as `approval_state:expired`, and
+  `approval_state:rejected` cannot be interpreted as
+  `selection_state:rejected`.
+- `active` is lifecycle-only and means an effective policy/configuration. It
+  MUST NOT describe connectivity, a running agent, selected UI state, or general
+  availability.
+- A `StatusChip`, badge, filter, sort, query parameter, fixture, or integration
+  seam MUST carry the dimension field with the value. Visible and screen-reader
+  labels MUST include or programmatically expose the dimension.
+- Filters MUST NOT collapse dimensions. Module summaries MAY show multiple chips
+  and MUST NOT synthesize a universal "healthy", "active", or green state.
+- A module `Statuses` row is a cross-dimensional state contract only when it
+  groups every value under its owning dimension. Flat untyped status lists are
+  prohibited.
 
 ## 9. Module Specifications
 
@@ -324,7 +336,7 @@ future-live-placeholder states explicitly.
 | --- | --- |
 | Purpose/users | Operator and reviewer inspect provider/model inventory, access class, fit, status, and evidence |
 | Key entities/fields | Provider and Model; plan/access class, authentication mode metadata, purpose, cost class, capabilities, modalities, context window, tool support, allowed projects, last validation, availability, provenance, notes |
-| Statuses | `configured`, `available`, `degraded`, `unavailable`, `unknown`, `static_demo`; configured never implies available |
+| Statuses | Availability: `available`, `degraded`, `unavailable`, `unknown`. Evidence: `static_demo`, `future_live`. `configured` is access metadata and never implies availability |
 | Primary views | Provider table, model constellation/list, model detail inspector, capability matrix, evidence drawer |
 | Interactions | Inspect, filter, compare, trace validation, copy IDs; no connect or credential action |
 | Empty/unknown/degraded | Empty explains no reviewed inventory; unknown fields show `— / Unknown`; degradation lists missing evidence and affected routes |
@@ -338,7 +350,7 @@ future-live-placeholder states explicitly.
 | --- | --- |
 | Purpose/users | Operator defines and reviewer inspects deterministic/adaptive routing intent without executing a route |
 | Key entities/fields | RoutingPolicy; criteria, quality floor, cost ceiling, latency preference, privacy/capability constraints, project allowlist, approval rules, fallback chain, precedence, override policy, version, digest |
-| Statuses | `draft`, `awaiting_approval`, `approved`, `active` (effective only), `blocked`, `superseded`, `static_demo` |
+| Statuses | Lifecycle: `draft`, `ready`, `active` (effective only), `blocked`, `superseded`. Approval: `awaiting_approval`, `approved`, `rejected`, `expired`, `revoked`. Selection: `eligible`, `preferred`, `selected`, `rejected`, `fallback`, `excluded`. Evidence: `static_demo`, `simulated`, `future_live` |
 | Primary views | Policy list, rule builder, precedence stack, conflict panel, simulation form, route explanation |
 | Interactions | Prepare policy, reorder explicit precedence, detect conflicts, Simulate, Compare, Approve configuration, Export manifest |
 | Explanation output | Selected candidate, rejected alternatives with reasons, applied rules, estimated cost/basis, confidence/basis, fallback route/tradeoffs, override status |
@@ -359,11 +371,11 @@ propose a policy revision but cannot mutate precedence or activate themselves.
 | Purpose/users | Operator assembles a minimal, provenance-aware context manifest and inspects memory health |
 | Key entities/fields | ContextSource, ContextPacket, MemoryRecord; layer, source, strategy, summary ref, confidence, freshness, retention, project scope, agent visibility, token estimate, redaction, approval, digest |
 | Memory layers | Immutable evidence, working memory, task memory, project memory, long-term knowledge |
-| Statuses | `draft`, `awaiting_approval`, `approved`, `ready`, `blocked`, `stale`, `superseded`, `unknown`, `static_demo` |
+| Statuses | Lifecycle: `draft`, `ready`, `blocked`, `superseded`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown`. Approval: `awaiting_approval`, `approved`, `rejected`, `expired`, `revoked`. Evidence: `canonical`, `static_demo`, `simulated`, `future_live`, `partial`, `unknown` |
 | Primary views | Source table, packet builder, assembly preview, token budget, conflict view, Memory Freshness panel |
 | Interactions | Filter sources, preview inclusion/exclusion, choose reviewed compression strategy, mark redaction requirement, Prepare manifest, Approve configuration, Export manifest |
-| Empty/unknown/degraded | No sources explains admission requirement; stale/expiring remain visible; conflicts show both sources and block silent resolution |
-| Static/future behavior | Current packet is an unexecuted manifest; future runtime may assemble only the exact approved digest |
+| Empty/unknown/degraded | No sources explains admission requirement; `freshness_state:stale` / `freshness_state:expired` remain visible; conflicts show both sources and block silent resolution |
+| Static/future behavior | Current packet is an unexecuted manifest; future runtime may assemble only the exact typed, versioned, digest-bound approved packet |
 | Responsive/accessibility | Mobile shows packet summary then source cards; no dense graph; conflicts and redactions use text/icons, not color alone |
 | Safety/provenance | Secret/high-risk contents remain undisclosed; redaction is explicit; trust, freshness, relevance, and authorization remain separate |
 
@@ -378,7 +390,7 @@ provenance/confidence. A stale context packet cannot silently become `ready`.
 | --- | --- |
 | Purpose/users | Inspect agent identity, ownership, capabilities, constraints, and safety contract |
 | Key entities/fields | Agent; ID/name, role, owner, model/provider policy, skills, tools, context access, allowed projects, autonomy class, approvals, status, version, safety contract, last validation |
-| Statuses | `draft`, `ready`, `degraded`, `unavailable`, `superseded`, `unknown`, `static_demo` |
+| Statuses | Lifecycle: `draft`, `ready`, `superseded`. Availability: `available`, `degraded`, `unavailable`, `unknown`. Evidence: `canonical`, `static_demo`, `future_live`, `partial`, `unknown` |
 | Primary views | Directory, comparison, agent detail inspector, permission matrix, evidence drawer |
 | Interactions | Inspect, Compare, Trace, View evidence, Copy identifier; no Launch agent |
 | Empty/unknown/degraded | Empty says no agents registered; degradation enumerates invalid/missing policy, skill, tool, or validation refs |
@@ -392,7 +404,7 @@ provenance/confidence. A stale context packet cannot silently become `ready`.
 | --- | --- |
 | Purpose/users | Reviewer traces future/historical agent messages, hops, context, tool requests, approvals, blocks, retries, errors, tokens, costs, artifacts |
 | Key entities/fields | Run, RunEvent, Approval, ContextPacket, Artifact; correlation ID, run ID, task ID, sequence, timestamps, actors, redaction, outcome |
-| Statuses | `planned`, `blocked`, `completed`, `failed`, `cancelled`, `historical`, `unknown`, `static_demo` |
+| Statuses | Lifecycle: `planned`, `blocked`, `completed`, `failed`, `cancelled`, `historical`. Availability: `available`, `degraded`, `unavailable`, `unknown`. Evidence: `canonical`, `static_demo`, `future_live`, `partial`, `unknown`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown` |
 | Primary views | Timeline, traffic graph, event inspector, filters, trace search |
 | Interactions | Filter, Trace, Explain route, open linked evidence/artifact; no replay/retry action |
 | Empty/unknown/degraded | No events is not "quiet"; it means unavailable/not captured; partial sequence shows gaps and last confirmed event |
@@ -406,7 +418,7 @@ provenance/confidence. A stale context packet cannot silently become `ready`.
 | --- | --- |
 | Purpose/users | Inspect a metadata-only catalog for GitHub, Drive, Gmail, Calendar, Slack, Notion, Figma, Vercel, Supabase, AI providers, and local tools |
 | Key entities/fields | Integration; ID, name, category, access mode, required approval, allowed actions, read/write class, risk class, project scope, status, last validation, data-handling notes |
-| Statuses | `configured`, `available`, `degraded`, `unavailable`, `unknown`, `static_demo` |
+| Statuses | Availability: `available`, `degraded`, `unavailable`, `disconnected`, `unknown`. Evidence: `static_demo`, `future_live`, `partial`, `unknown`. `configured` is access metadata, not a status |
 | Primary views | Catalog, risk/access matrix, integration inspector, validation evidence |
 | Interactions | Inspect, Compare, Filter, View evidence; no Connect, OAuth, authorize, or credential-entry flow |
 | Empty/unknown/degraded | Empty says no reviewed metadata; unknown does not imply disconnected; degraded states show affected actions |
@@ -420,7 +432,7 @@ provenance/confidence. A stale context packet cannot silently become `ready`.
 | --- | --- |
 | Purpose/users | Operator audits run outcomes, evidence, validators, model/provider use, and cost |
 | Key entities/fields | Run, CostRecord, ValidatorResult, Artifact; run/task/agent/model/provider IDs, timestamps/duration, input/output/cache tokens, estimated/confirmed cost, currency, files, validators, artifacts, outcome, commit SHA, approval, errors, retries, packet/policy IDs |
-| Statuses | `planned`, `blocked`, `completed`, `failed`, `cancelled`, `historical`, `unknown`, `static_demo` |
+| Statuses | Lifecycle: `planned`, `blocked`, `completed`, `failed`, `cancelled`, `historical`. Evidence: `canonical`, `static_demo`, `future_live`, `partial`, `unknown`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown` |
 | Primary views | Timeline, ledger table, cost breakdown, model/project comparison, anomaly and budget panels, missing-data view |
 | Interactions | Inspect, Compare, filter time/project/model/outcome, Trace artifact, Export manifest/ledger view |
 | Empty/unknown/degraded | Unmeasured tokens/cost show `—`; estimate and confirmed values never merge; incomplete capture shows partial coverage |
@@ -438,7 +450,7 @@ signal, not an automatic budget or routing action.
 | --- | --- |
 | Purpose/users | Plan and review grouped work, dependencies, artifacts, validators, cost, and stop conditions |
 | Key entities/fields | QueueItem, Task, Artifact; priority, dependencies, approval, estimated cost, agents, policy, packet, expected artifacts, validators, stop conditions, retry policy, status |
-| Statuses | `draft`, `planned`, `queued`, `awaiting_approval`, `approved`, `blocked`, `ready`, `completed`, `failed`, `cancelled`, `static_demo` |
+| Statuses | Lifecycle: `draft`, `planned`, `queued`, `ready`, `blocked`, `completed`, `failed`, `cancelled`. Approval: `awaiting_approval`, `approved`, `rejected`, `expired`, `revoked`. Evidence: `static_demo`, `future_live` |
 | Primary views | Queue board, dependency list, batch review, manifest preview, artifact browser |
 | Interactions | Prepare plan, Review batch, Approve configuration, Export manifest, Inspect dependencies |
 | Empty/unknown/degraded | Empty says no planned items; unresolved dependency or unknown cost is explicit; blocked reason and owner required |
@@ -452,7 +464,7 @@ signal, not an automatic budget or routing action.
 | --- | --- |
 | Purpose/users | Operator inspects least-privilege, secret-health, grant, redaction, audit, revocation, and rotation metadata |
 | Key entities/fields | SafetyPolicy, Integration, Provider, Approval; configured/not configured, scope, owner, validation status, rotation due, health, access class, risk, audit refs |
-| Statuses | `configured`, `degraded`, `unavailable`, `unknown`, `awaiting_approval`, `superseded`, `static_demo` |
+| Statuses | Lifecycle: `superseded`. Availability: `available`, `degraded`, `unavailable`, `unknown`. Approval: `awaiting_approval`, `approved`, `rejected`, `expired`, `revoked`. Evidence: `static_demo`, `future_live`, `partial`, `unknown`. `configured` / `not_configured` are metadata, not statuses |
 | Primary views | Boundary map, permission matrix, metadata inventory, audit timeline, redaction policy inspector |
 | Interactions | Inspect, Review, Trace, View evidence; no reveal/copy secret, key entry, OAuth, rotate, or revoke control in current phase |
 | Empty/unknown/degraded | Unknown health stays unknown; absent metadata does not mean no secret exists; overdue rotation is warning metadata |
@@ -466,7 +478,7 @@ signal, not an automatic budget or routing action.
 | --- | --- |
 | Purpose/users | Primary operator obtains situational awareness and reaches evidence, policy, approvals, and safe navigation |
 | Key entities/fields | Project, SafetyPolicy, RoutingPolicy, ContextPacket, Approval, QueueItem, Run, CostRecord, Provider, Artifact, Recommendation |
-| Statuses | Aggregates all dimensions without inventing a single overall "healthy" state |
+| Statuses | Explicitly cross-dimensional summary. Lifecycle: `planned`, `ready`, `active`, `blocked`, `completed`, `failed`, `historical`. Availability: `available`, `degraded`, `unavailable`, `disconnected`, `unknown`. Evidence: `canonical`, `static_demo`, `simulated`, `future_live`, `partial`, `unknown`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown`. Approval: `not_required`, `awaiting_approval`, `approved`, `rejected`, `expired`, `revoked`. Selection: `eligible`, `preferred`, `selected`, `rejected`, `fallback`, `excluded`. Each summary chip retains its dimension; no overall "healthy" state |
 | Primary views | System status, current project, effective policy, selected packet, approvals, blocked work, recent runs, costs, provider health, alerts, artifacts, notices |
 | Interactions | Inspect, Review, Compare, Preview, Trace, open destination; no execution shortcut |
 | Empty/unknown/degraded | Each card has independent coverage/freshness; unavailable cards remain visible with cause and evidence link |
@@ -526,8 +538,9 @@ Each workflow is non-executing and ends in inspection, approval of a
 configuration/manifest, or export.
 
 1. **Inspect provider/model availability:** open Estate → filter project and
-   capability → distinguish configured/available/static/unknown → inspect last
-   validation and provenance → trace degradation → copy IDs or compare.
+   capability → distinguish configuration metadata from
+   `availability_status` and `evidence_state` → inspect last validation and
+   provenance → trace degradation → copy IDs or compare.
 2. **Simulate routing:** open Work/ Routing → select task profile and policy
    version → enter constraints and token assumptions → Simulate → inspect selected
    and rejected candidates, rules, cost basis, confidence, fallback, overrides →
@@ -535,7 +548,8 @@ configuration/manifest, or export.
 3. **Assemble/approve context manifest:** open Context → select sources → inspect
    sensitivity/freshness/conflicts → choose reviewed compression strategy →
    preview token/redaction effects → resolve or explicitly block conflicts →
-   review digest/scope → Approve configuration or export draft manifest.
+   review target type/ID/version/digest/scope → Approve configuration or export
+   draft manifest.
 4. **Inspect an agent:** open Estate/Agents → select agent → review role, owner,
    policies, skills/tools, context/project access, autonomy class, approvals,
    safety contract, validation → trace evidence. No launch control exists.
@@ -629,8 +643,8 @@ recent runs, provider degradation, context freshness, and artifact review.
 - Convert tables to labeled key/value cards with sort/filter sheets.
 - Default traffic to timeline, not graph.
 - Default routing to explanation and candidates, not constellation.
-- Show the complete approval scope/digest/expiry before decision controls in a
-  future approval-capable task.
+- Show the complete approval target type/ID/version/digest, scope, and expiry
+  before decision controls in a future approval-capable task.
 - Use 44×44px minimum touch targets and 8px separation.
 - Gestures are limited to standard scroll, sheet dismissal, and optional
   non-exclusive swipe between peer tabs.
@@ -646,24 +660,24 @@ explicit `?`, not zero.
 
 ## 15. Interaction States
 
-| State | Visual/content requirement |
+| Interaction or typed state | Visual/content requirement |
 | --- | --- |
 | default | Neutral surface plus source mode and last-known freshness |
 | hover | Optional emphasis only; no exclusive content |
 | focus | High-contrast visible outline, not clipped by glow/transform |
-| selected | Text/icon/aria state; distinct from `active` policy |
+| `selection_state:selected` | Text/icon/aria state; distinct from lifecycle `active` policy |
 | loading | Skeleton or progress label with retained context; never fake data |
 | empty | Explains whether no records, no matches, or no source exists |
-| stale | Visible timestamp/review boundary and affected dependents |
-| unknown | `Unknown` text and reason; never gray blank/zero |
-| degraded | Available subset, missing subset, impact, and evidence |
-| blocked | Blocking reason, owner, dependency, and safe next review action |
-| awaiting approval | Exact target, scope, digest, expiry, and risk summary |
+| `freshness_state:stale` | Visible timestamp/review boundary and affected dependents |
+| dimension-qualified `unknown` | `Unknown` text, owning dimension, and reason; never gray blank/zero |
+| `availability_status:degraded` | Available subset, missing subset, impact, and evidence |
+| `lifecycle_status:blocked` | Blocking reason, owner, dependency, and safe next review action |
+| `approval_state:awaiting_approval` | Exact target type, ID, version, digest, scope, expiry, and risk summary; rendered as `Approval: awaiting approval` |
 | error | Error class/signature, last good evidence if permitted, no success badge |
-| disconnected | Future source connection unavailable; static UI remains usable |
-| static fixture | Persistent `STATIC FIXTURE` badge and example notice |
-| simulated | Persistent `SIMULATED RESULT` badge and policy/version |
-| future live | `FUTURE RUNTIME — NOT AVAILABLE` placeholder, never a green/live signal |
+| `availability_status:disconnected` | Future source connection unavailable; static UI remains usable |
+| `evidence_state:static_demo` | Persistent `STATIC FIXTURE` badge and example notice |
+| `evidence_state:simulated` | Persistent `SIMULATED RESULT` badge and policy/version |
+| `evidence_state:future_live` | `FUTURE RUNTIME — NOT AVAILABLE` placeholder, never a green/live signal |
 
 ## 16. Safety and Approval Model
 
@@ -672,7 +686,7 @@ explicit `?`, not zero.
 Every future mutating action requires:
 
 - explicit operator intent and human-readable scope preview;
-- exact targets and target digest;
+- exact `target_type`, `target_id`, `target_version`, and `target_digest`;
 - authorized and prohibited actions;
 - constraints, risk class, stop conditions, and expiry;
 - operator identity and decision;
@@ -685,6 +699,22 @@ Approval to prepare or approve a configuration does not authorize its execution.
 Approval scope remains separated for commit, push, PR creation, ready state,
 merge, deployment, external write, provider call, and tool action. A higher
 safety policy can refuse an otherwise well-formed approval.
+
+The four target fields form an immutable approval binding. `target_digest` MUST
+be computed for the exact entity identified by `target_type`, `target_id`, and
+`target_version`; an approval is valid only when all four fields match. Any
+target mutation or version change invalidates or supersedes the approval and
+requires a new decision. An approval MUST NOT be reused across entity classes,
+IDs, or versions. Direct approvals of RoutingPolicy, QueueItem, ContextPacket,
+Integration configuration, Security configuration, or a future approved
+configuration manifest use their own typed target; `recommendation_id`, when
+present, remains an optional source reference.
+
+The Approval Inbox MUST resolve and display the complete bound identity before
+decision: target type, human label, target ID, version, digest, scope, risk,
+expiry, and provenance. A future execution layer MUST verify the complete
+binding before honoring an approval. The current static UI only displays and
+simulates this contract; it performs no authorization or execution.
 
 ### 16.2 Hard prohibitions
 
@@ -720,6 +750,9 @@ Threat requirements include prompt-injection isolation, poisoned-provenance
 flags, digest mismatch refusal, confused-deputy prevention, least privilege,
 redaction before rendering, content-free refusal logs, and independent
 validation. Security metadata with unknown coverage must not render "secure."
+Confused-deputy prevention MUST compare the complete Approval target binding;
+matching a digest, recommendation, display label, or scope without matching
+target type, ID, and version authorizes nothing.
 
 ## 18. Provenance and Trust
 
@@ -745,19 +778,19 @@ chooses a winner.
 
 | Condition | Required presentation/behavior |
 | --- | --- |
-| Missing provider validation | `unknown` or `unavailable`; no inferred availability |
-| Partial provider/model data | `degraded`; list missing fields and affected routes |
+| Missing provider validation | `availability_status:unknown` or `availability_status:unavailable`; no inferred availability |
+| Partial provider/model data | `availability_status:degraded` plus `evidence_state:partial`; list missing fields and affected routes |
 | Missing price/token measurement | Cost `null`/`—`; budget `unenforceable` |
-| Policy conflict | Show conflicting rules and precedence; block `ready` if unresolved |
-| No eligible model | `NO ELIGIBLE ROUTE`; show rejected alternatives and reasons |
-| Stale/invalid context | Flag packet and dependent simulations; no silent refresh |
+| Policy conflict | Show conflicting rules and precedence; prevent lifecycle `ready` if unresolved |
+| No eligible model | `NO ELIGIBLE ROUTE`; show `selection_state:rejected` or `selection_state:excluded` alternatives and reasons |
+| Stale/invalid context | Set `freshness_state:stale` or `freshness_state:expired`; flag packet and dependent simulations; no silent refresh |
 | Context conflict | Show both sources; require operator resolution or exclude packet |
-| Missing traffic sequence | Mark gap/partial capture; no fabricated event |
+| Missing traffic sequence | Set `evidence_state:partial`; mark gap/partial capture; no fabricated event |
 | Failed/absent validator | `REJECT` or `NOT_RUN`; never pass |
-| Expired/revoked approval | Authorizes nothing; future action refused |
+| Expired/revoked approval | `approval_state:expired` or `approval_state:revoked`; authorizes nothing; future action refused |
 | Secret/private content | Redact/refuse content; retain content-free category/evidence |
-| Fixture parse failure | Error state with fixture identity; do not fall back to "live" |
-| Future runtime unavailable | Keep static shell usable; display explicit unavailable state |
+| Fixture parse failure | Error state with `evidence_state:static_demo` identity; do not fall back to "live" |
+| Future runtime unavailable | Keep static shell usable; display `evidence_state:future_live` with `availability_status:unavailable` |
 
 Recovery actions in this phase are Inspect, Review evidence, adjust a draft,
 re-run a local simulation, or export a corrected manifest. There is no
@@ -767,13 +800,15 @@ auto-fix, live retry, or hidden fallback.
 
 ### 20.1 Required source modes
 
-Every rendered record carries one visible mode:
+Every rendered record carries one visible evidence mode:
 
-- `CANONICAL REPOSITORY EVIDENCE`
-- `STATIC FIXTURE`
-- `SIMULATED RESULT`
-- `RUNTIME DATA UNAVAILABLE`
-- `FUTURE INTEGRATION`
+- `evidence_state:canonical` → `CANONICAL REPOSITORY EVIDENCE`
+- `evidence_state:static_demo` → `STATIC FIXTURE`
+- `evidence_state:simulated` → `SIMULATED RESULT`
+- `evidence_state:future_live` → `RUNTIME DATA UNAVAILABLE` or
+  `FUTURE INTEGRATION`, according to applicability
+- `evidence_state:partial` → `PARTIAL EVIDENCE`
+- `evidence_state:unknown` → `EVIDENCE UNKNOWN`
 
 Fixtures are deterministic, versioned, locally stored in a future authorized
 slice, and contain `schema_version`, `fixture_id`, `example_notice`,
@@ -803,6 +838,7 @@ artifacts, approvals, recommendations, and security metadata. The bundle MUST:
   the entity supports that state;
 - use fixed timestamps, IDs, digests, policy versions, and provenance so repeat
   renders and simulations are deterministic;
+- give every Approval fixture a resolvable target type, ID, version, and digest;
 - include desktop-scale and mobile-scale record volumes without changing
   semantics;
 - contain no keys, credentials, account IDs, private content, or live-access
@@ -884,7 +920,7 @@ render data. Outputs are selection/navigation/configuration-draft events only.
 | `RoutingSimulationPanel` | task/policy/packet assumptions → explanation request | loading/insufficient/conflict/result; stacked mobile form | Deterministic local simulation only |
 | `RoutingExplanation` | selected/rejected candidates, rules, basis → evidence navigation | graph plus ordered text/mobile text first; keyboard-selectable candidates | Explanation is not route execution or approval |
 | `ContextSourceTable` | sources/filters → selection | table/cards; redaction labels | Protected content not rendered |
-| `ContextPacketBuilder` | selected refs/strategy → manifest preview | draft/conflict/blocked/ready | Approval binds exact digest |
+| `ContextPacketBuilder` | selected refs/strategy → manifest preview | dimension-qualified draft/conflict/blocked/ready presentation | Approval binds exact packet type, ID, version, and digest |
 | `MemoryFreshnessPanel` | memory metadata → review navigation | status list/mobile cards | No auto-refresh or deletion |
 | `AgentDirectory` | agents/filters → agent selection | grid/table/mobile list | No launch control |
 | `AgentDetailInspector` | agent contract/evidence → trace links | side inspector/detail sheet | Authority not inferred from autonomy class |
@@ -895,12 +931,12 @@ render data. Outputs are selection/navigation/configuration-draft events only.
 | `ArtifactBrowser` | artifact metadata → trace/open permitted artifact | tree/table/cards | Sensitivity and digest enforced |
 | `IntegrationCatalog` | integrations/filters → inspector | category grid/cards | No connect/credential flow |
 | `SecurityBoundaryPanel` | policy/access metadata → evidence trace | matrix/list/mobile alerts | No secret value in DOM |
-| `ApprovalInbox` | approval targets → decision draft | split view/mobile detail-first | Full scope before decision; exact digest |
+| `ApprovalInbox` | approvals with target type/ID/version/digest → bound-target resolution and decision draft | split view/mobile detail-first; target identity precedes controls | Full typed target, scope, risk, expiry, and provenance before decision; never resolves by digest or Recommendation alone |
 | `RecommendationLedger` | recommendations → review decision | lifecycle/table/timeline | No automatic implementation |
 | `OperatorConsole` | aggregate evidence → safe navigation | rails/core/timeline/mobile cards | Per-card coverage; no false global health |
 | `ProvenanceBadge` | source/freshness/trust → evidence drawer | text-first tooltip/detail | Unknown stays unknown |
 | `StaticDemoBadge` | source mode → no data mutation | persistent at all breakpoints | Cannot be hidden by compact mode |
-| `StatusChip` | state/dimension → filter | text/icon/color; accessible name | Never merges orthogonal states |
+| `StatusChip` | dimension, value, label, and applicable provenance/evidence context → dimension-preserving filter | text/icon/color; visible or programmatic dimension; accessible name such as `Availability: degraded` | Rejects unqualified values; never merges orthogonal states |
 | `EvidenceDrawer` | evidence refs → trace navigation | bottom/right sheet | Read-only and redaction-aware |
 | `CommandPalette` | safe commands → navigation/filter | keyboard/mobile search | Allowlist excludes execution verbs |
 
@@ -912,9 +948,9 @@ render data. Outputs are selection/navigation/configuration-draft events only.
 | Control Plane and Data Plane are separate | Prevents UI specification from implying runtime | One full-stack "orchestrator" surface | Frontend uses explicit seams/placeholders | No execution authority from display state |
 | Source Arena remains product hero | Preserves accepted design identity | Replace it with orbital router branding | Orbital core stays functional Overview content | Avoids overstating a live router |
 | Static-first with explicit source modes | Current repo is static and evidence-driven | Fake live telemetry | Every record carries mode/coverage | Fixtures cannot masquerade as runtime |
-| Five orthogonal status dimensions | Eliminates ambiguous "active/green" | One universal status enum | Components accept typed status dimensions | Availability never implies authority |
+| Six orthogonal status dimensions | Eliminates ambiguous "active/green" | One universal status enum | Components accept lifecycle, availability, evidence, freshness, approval, and selection as typed dimension/value pairs | Availability, evidence, freshness, approval, and selection never imply one another |
 | Deterministic routing simulation | Reviewable and reproducible | Adaptive black-box routing in current phase | Explanations include rules/rejections/basis | No live call or self-changing policy |
-| Exact digest-bound approvals | Matches established approval contract | General toggle or blanket consent | Approval detail is scope-first | Prevents replay and permission widening |
+| Exact typed, versioned, digest-bound approvals | Matches established approval contract | General toggle, digest-only lookup, or blanket consent | Approval detail resolves and displays target type, ID, version, digest, and scope | Prevents replay, confused-deputy reuse, and permission widening |
 | Metadata-only security surface | Useful visibility without exposure | Credential entry/reveal in Control Plane | Generic store/health labels only | Secret values never enter frontend |
 | Mobile as operator companion | Dense desktop graphs do not translate safely | Shrink desktop dashboard | Status/approval/evidence first; graphs optional | Reduces accidental decisions and hidden scope |
 | Complete non-3D fallback | Clarity and resilience outrank spectacle | 3D-only orbital interaction | Same semantic model renders as lists/maps | Accessibility and degraded-state parity |
@@ -975,6 +1011,10 @@ A future static frontend task may begin only when it:
 - implements all ten modules only to the authorized slice depth;
 - preserves navigation, entity fields, state dimensions, workflows, and safe
   vocabulary without inventing execution;
+- treats Approval target type, ID, version, and digest as one indivisible
+  binding and renders that identity without Recommendation inference;
+- carries the owning dimension through every status chip, badge, filter, table,
+  card, inspector, and mobile summary;
 - provides desktop/mobile/non-3D/reduced-motion/table alternatives;
 - includes loading, empty, unknown, stale, degraded, blocked, error, and
   unavailable-runtime states;
@@ -998,6 +1038,8 @@ authorize the frontend task.
       relationships, status, static representation, and future representation.
 - [ ] Orthogonal lifecycle, availability, evidence, freshness, approval, and UI
       selection states are not collapsed.
+- [ ] Every status enum member has one dimension owner, and every module status
+      row is dimension-qualified or explicitly cross-dimensional.
 - [ ] All ten operator workflows terminate without live execution.
 - [ ] Overview orbital core explains policy, candidates, context, assignment,
       blocks, fallbacks, cost, and latency in text and visual form.
@@ -1011,6 +1053,9 @@ authorize the frontend task.
       do not appear as controls.
 - [ ] Every future mutation is intent-, digest-, scope-, approval-, audit-, stop-,
       cancellation-, and validation-gated.
+- [ ] Every Approval binds one exact target type, ID, version, and digest;
+      mutation requires reapproval and the Approval Inbox renders the bound
+      identity without inference.
 - [ ] No secret value or account identifier can enter a rendered/exported path.
 - [ ] Source Arena remains the leading product metaphor; Overview orbit is
       functional and supporting.
