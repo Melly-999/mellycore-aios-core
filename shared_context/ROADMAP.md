@@ -271,16 +271,29 @@ Tasks 4–9, 14, and 15 are complete and merged into canonical `main`; items
 10–12 were not separately invoked as discrete task reports and are
 considered superseded by the deployment chain that followed; item 13 is
 superseded by the accepted production deployment described above. No
-deployment-state remediation or merge-retry task remains pending. **The
-exact next product task is
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`** (specification
-work only — docs/spec-only, safety-first, no
-runtime/backend/provider integration, no keys or secrets, no
-implementation scaffold, no deployment). It has not started. Queued after
-it, not yet started or authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001`
-(see the Parallel Decision Track's item 4 below for its existing scope).
-No OpenRouter live-API implementation, renderer expansion, or deployment
-is authorized by this roadmap entry alone.
+deployment-state remediation or merge-retry task remains pending.
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` completed authoring and
+was published on branch
+`docs/mellycore-omnirouter-inspired-control-plane-spec-001` in
+[PR #27](https://github.com/Melly-999/mellycore-aios-core/pull/27). Its
+specification artifact,
+`docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md`, specifies
+the Control Plane as an operator-facing coordination/governance surface and
+keeps provider calls, runtime execution, persistence, authentication, and
+network communication in a separately gated future Data Plane. Initial review,
+targeted remediation, remediation publication, and targeted re-review are
+complete; the re-review outcome was
+`PASS_WITH_NOTES_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC_REMEDIATION_REVIEW`.
+At the time of this update, PR #27 was merge-ready but not yet merged or
+canonical. The remaining task-local gate at that time was
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`. The durable
+product successor after successful specification acceptance is
+`MELLYCORE-3D-SCENE-FOUNDATION-001`, still not started or authorized (see the
+Parallel Decision Track's item 4 below for its existing scope). No automatic
+post-merge state sync, OpenRouter live-API implementation, Control Plane
+implementation, renderer expansion, or deployment is authorized by this
+roadmap entry alone; another sync is warranted only if a concrete live
+canonical statement becomes false.
 
 **Deploy target.** MellyCore Static AIOS Showcase + Source Arena + OpenRouter
 Model Observatory: cinematic AI command-center identity, the Source Arena

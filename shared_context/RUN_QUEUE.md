@@ -22,11 +22,32 @@ deployment/verification/state-sync chain is complete; no deployment-state
 remediation or merge-retry task remains pending. GitHub Pages remains
 containment/maintenance only, not a product host.
 
-**Exact next task:**
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001` — specification work
-only; no implementation, backend, provider integration, or deployment is
-authorized by this entry. Queued after that spec, not yet started or
-authorized: `MELLYCORE-3D-SCENE-FOUNDATION-001`.
+The Control Plane specification task,
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`, completed authoring
+and publication on branch
+`docs/mellycore-omnirouter-inspired-control-plane-spec-001` in
+[PR #27](https://github.com/Melly-999/mellycore-aios-core/pull/27). Its initial
+review identified two specification blockers; targeted remediation commit
+`ea662ab…` resolved them and corrected the status-dimension count. Publication,
+initial review, targeted remediation, remediation publication, and targeted
+re-review are complete. The targeted re-review outcome was
+`PASS_WITH_NOTES_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC_REMEDIATION_REVIEW`,
+with no blocking finding and all required checks passing.
+
+At the time of this update, PR #27 was open, reviewed, remediation-complete,
+and merge-ready, but not yet merged or canonical on `main`.
+
+**Current task-local operation (at the time of this update):**
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001` — perform final
+acceptance gates and, only if they pass, merge PR #27 normally. The durable
+product successor after successful specification acceptance is
+`MELLYCORE-3D-SCENE-FOUNDATION-001`, still not started or authorized.
+
+The Control Plane specification and this lifecycle correction define no
+frontend, backend, provider integration, runtime, secrets flow, deployment,
+or 3D implementation. A successful merge does not automatically require a
+post-merge synchronization task; another sync is warranted only if a concrete
+live canonical statement becomes false.
 
 ## Historical Option B Deploy Path — Completed
 

@@ -74,9 +74,28 @@ The deployment-state synchronization and remediation chain is complete; no
 deployment-state remediation or merge-retry task remains pending. No live
 provider routing, live model execution, live OpenRouter data, backend
 integration, account-usage tracking, or trading/broker execution is claimed
-by any of this chain. The current product phase transitions to the
-OmniRouter-inspired Control Plane specification gate
-(`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-001`, not started).
+by any of this chain. The OmniRouter-inspired Control Plane specification was
+authored and published on branch
+`docs/mellycore-omnirouter-inspired-control-plane-spec-001` in
+[PR #27](https://github.com/Melly-999/mellycore-aios-core/pull/27):
+`docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md` defines the
+operator-facing coordination/governance layer, its strict separation from a
+future Data Plane, ten module contracts, entity/status/workflow contracts,
+desktop/mobile behavior, provenance, approvals, security metadata, static
+fixtures, accessibility, and performance budgets. It implements no frontend,
+backend, provider connection, runtime, secrets path, deployment, or 3D work.
+Independent review identified two specification blockers; the targeted
+remediation was published as commit `ea662ab…`, and its targeted review
+returned
+`PASS_WITH_NOTES_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC_REMEDIATION_REVIEW`
+with all required checks passing. At the time of this update, PR #27 was
+reviewed and merge-ready but not yet merged, so the specification was not yet
+canonical on `main`. The remaining task-local operation at that time was
+`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`. After
+successful specification acceptance, `MELLYCORE-3D-SCENE-FOUNDATION-001`
+remains the separately gated, not-yet-started product successor. No automatic
+post-merge synchronization is required unless a concrete live canonical
+statement becomes false.
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under
