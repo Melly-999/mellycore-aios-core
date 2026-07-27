@@ -1,6 +1,62 @@
 # Agent Handoff
 
-## Latest Update — 3D Scene Foundation PR #28 paused (physical QA gate unavailable)
+## Latest Update — Production deployment authorization contract corrected (documentation-only)
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REMEDIATION-001`
+
+- `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001`
+  independently confirmed, via read-only Git/GitHub API evidence, that
+  merging into canonical `main` currently causes the Vercel Git integration
+  to create a public Production deployment automatically: five consecutive
+  recent `main` merges (`e7c8ce5f…`, `3f8fd51c…`, `ca1f762a…`, `be3ead9b…`,
+  `177128cf…`) were each followed by a successful Production deployment
+  within 8–14 seconds, all created by `vercel[bot]`; feature branches
+  (including PR #28's `57bb841e…`) deploy to `Preview` only.
+- Verified enforcement state: `main` has no branch protection (`404
+  "Branch not protected"`), the repository has no rulesets (`[]`), and the
+  Production GitHub environment has no protection rules. No workflow YAML,
+  `vercel.json`, `.vercel`, or `package.json` exists on canonical `main`.
+  **Merge authorization is procedural only; deployment authorization is not
+  separately technically enforced.**
+- This task corrected the resulting documentation overclaim across
+  `shared_context/SAFETY_CONTRACT.md`, `shared_context/PROJECT_STATE.md`,
+  `shared_context/ROADMAP.md`, `shared_context/RUN_QUEUE.md`, and
+  `AGENTS.md`: none of these documents may now be read as claiming
+  Production deployment currently waits for a second, separately enforced
+  approval. The explicit-operator-control requirement for production
+  publication itself was **preserved**, not removed.
+- This is recorded as a confirmed, **unresolved** operational control
+  mismatch — **not** an accepted permanent policy. Merge approval does
+  **not** thereby permanently constitute deployment approval. An interim
+  operating rule was added: treat every proposed merge into `main` as an
+  immediate public-publication request; do not recommend or perform a merge
+  unless immediate public publication is acceptable.
+- Two authorization models were recorded as unresolved operator-governance
+  options, with neither selected by this task: Model A (combined
+  static-site authorization — merge approval also authorizes the automatic
+  Production publication that follows) and Model B (separate merge and
+  deployment authorization, requiring current-capability research and
+  separately authorized Vercel/GitHub control changes).
+- PR #28 is unaffected: it remains open, non-draft, unmerged, mergeable,
+  intentionally paused, and not authorized to merge. Physical Android
+  Chromium Gate B remains `OPEN / NOT EXECUTED`
+  (`BLOCKED_3D_SCENE_QA_REFERENCE_DEVICE_UNAVAILABLE`); no waiver, risk
+  acceptance, merge, deployment, or GitHub/Vercel configuration change was
+  made or authorized by this task.
+- This task creates exactly one new local documentation-only commit on
+  branch `docs/mellycore-production-deployment-contract-remediation-001`,
+  stacked directly on the paused-state commit
+  `22517faaa566d684c0f23acb770830278e1ee854` (itself based on canonical
+  `main` at `e7c8ce5f116e93a11a591ee539272f223af110d1`). It does not push,
+  mutate PR #28, merge, deploy, or change any GitHub/Vercel setting,
+  workflow, implementation, or vendor file.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001` — a
+  read-only operator-governance decision selecting Model A or Model B. Not
+  configuration work, not deployment work, not merge authorization, and
+  independent of PR #28's physical Gate B.
+
+## Previous Update — 3D Scene Foundation PR #28 paused (physical QA gate unavailable)
 
 `MELLYCORE-3D-SCENE-FOUNDATION-PAUSED-STATE-SYNC-001`
 

@@ -147,11 +147,65 @@ authorized for PR #28. PR #28 is intentionally paused rather than actively
 queued for repeated execution.
 
 Independent of this pause, a separate governance review —
-`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001` — is the
-next executable task: a read-only review of whether the current Vercel
-setup's automatic publish-on-merge-to-`main` behavior is truly separate from
-merge authorization, as ADR wording describes. It does not unblock, waive, or
-otherwise affect PR #28's merge status.
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001` — has
+completed with outcome
+`REMEDIATION_REQUIRED_PRODUCTION_DEPLOYMENT_AUTHORIZATION_CONTRACT_REVIEW`.
+See "Production Deployment Authorization — Confirmed Mismatch" below. It does
+not unblock, waive, or otherwise affect PR #28's merge status; the exact next
+task is
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001`.
+
+## Production Deployment Authorization — Confirmed Mismatch
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001`
+(2026-07-27) independently confirmed, via read-only Git/GitHub API evidence,
+that merging a pull request into canonical `main` currently causes the
+Vercel Git integration to create a public Production deployment
+automatically — five consecutive recent `main` merges were each followed by
+a successful Production deployment within 8–14 seconds, all created by
+`vercel[bot]`. Feature branches deploy to `Preview` only. **There is no
+separate human deployment-approval step after merge.**
+
+Verified enforcement state: `main` has no branch protection (`gh api
+branches/main/protection` → `"Branch not protected"`), the repository has no
+rulesets (`gh api rulesets` → `[]`), and the Production GitHub environment
+has no protection rules. No repository workflow YAML, `vercel.json`,
+`.vercel`, or `package.json` exists; the deployment trigger is external
+(`VERCEL_GIT_INTEGRATION`). **Merge authorization is procedural only;
+deployment authorization is not separately technically enforced.**
+
+This is a confirmed **operational control mismatch**, a **technical
+enforcement gap**, and a prior **truthful-state overclaim** in this
+repository's own documentation (this file's Safety Boundaries below,
+`ROADMAP.md`'s Safety Gates, and `shared_context/SAFETY_CONTRACT.md`
+previously stated or implied that deployment is separately authorized from
+merge, without qualification). It is **not** an accepted permanent policy —
+merge approval does **not** thereby permanently constitute deployment
+approval — and the explicit-operator-control requirement for production
+publication remains in force.
+
+Interim operating rule, effective until resolved: every proposed merge into
+`main` must be treated as an immediate public-publication request; no agent
+may recommend or perform a merge unless immediate public publication is
+acceptable, and no agent may describe merge and Production deployment as
+independently gated.
+
+Two authorization models remain unresolved and unselected by this record:
+
+- **Model A — combined static-site authorization:** the operator may later
+  decide that, for the current static-showcase phase, explicit approval to
+  merge into `main` also constitutes explicit approval for the automatic
+  Production publication that follows.
+- **Model B — separate merge and deployment authorization:** the operator
+  may later decide that merge and Production publication must remain
+  separate decisions, requiring current-capability research and separately
+  authorized Vercel/GitHub control changes.
+
+Neither model is selected here. Exact next task:
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001` — a
+read-only, operator-governance decision task, independent of PR #28's
+physical Gate B, that selects Model A or Model B. It is not configuration
+work, not deployment work, and not merge authorization.
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under
@@ -345,7 +399,14 @@ milestones remain preserved in their task reports and repository history.
 - MellyCore AIOS is separate from MellyTrade; no trading or broker operations.
 - No provider keys, credentials, `.env` values, account identifiers, or private
   runtime state in the repository.
-- No autonomous merge, deployment, safety-rule mutation, or uncontrolled tool use.
+- No autonomous merge, safety-rule mutation, or uncontrolled tool use by an
+  agent or operator without explicit approval. **Note:** merge approval is
+  the sole current human gate for publication — see "Production Deployment
+  Authorization — Confirmed Mismatch" above; Production deployment itself is
+  not separately technically enforced pending an operator decision.
 - No production backend or recommendation execution is claimed.
-- Remote mutation, implementation, deployment, and release work require separate
-  explicit authorization.
+- Remote mutation, implementation, and release work require separate
+  explicit authorization. Deployment currently follows merge automatically
+  via the Vercel Git integration, with no additional gate — this document no
+  longer claims deployment is a separately enforced authorization step;
+  see "Production Deployment Authorization — Confirmed Mismatch" above.

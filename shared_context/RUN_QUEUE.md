@@ -73,10 +73,21 @@ acceptance, merge, or deployment is authorized; Gate B remains a strict
 pre-merge blocker with no repository-defined waiver process
 (`RECOMMEND_KEEP_PREMERGE_BLOCKER_3D_SCENE_PHYSICAL_QA`).
 
-Exact next task: `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001`
-— a read-only, independent review of whether Vercel's automatic
-publish-on-merge behavior is truly separate from merge authorization. It does
-not unblock, waive, or otherwise affect PR #28.
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001` has
+completed: outcome
+`REMEDIATION_REQUIRED_PRODUCTION_DEPLOYMENT_AUTHORIZATION_CONTRACT_REVIEW`.
+Confirmed: merge into canonical `main` currently causes automatic public
+Production publication via the Vercel Git integration (5/5 recent merges →
+Production within 8–14s), with no separate technically-enforced
+deployment-approval step (`main` has no branch protection, no rulesets, no
+Production environment protection rules). This is an unresolved operational
+control mismatch, not accepted policy — see `PROJECT_STATE.md`'s "Production
+Deployment Authorization — Confirmed Mismatch". Interim rule: treat every
+approved `main` merge as an immediate public-publication event. Exact next
+task: `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001` — a
+read-only operator-governance decision between Model A (combined
+static-site authorization) and Model B (separate merge/deployment
+authorization). It does not unblock, waive, or otherwise affect PR #28.
 
 ## Historical Option B Deploy Path — Completed
 

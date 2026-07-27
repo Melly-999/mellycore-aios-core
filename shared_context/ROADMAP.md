@@ -324,11 +324,23 @@ this roadmap entry.
 ## Safety Gates
 
 - Human approval is mandatory for consequential actions.
-- No autonomous safety-rule changes, merge, deployment, or uncontrolled tool use.
+- No autonomous safety-rule changes, merge, or uncontrolled tool use by an
+  agent or operator without explicit approval.
 - No provider keys, tokens, credentials, or private runtime state in the repository.
 - No trading, broker, order, or MellyTrade runtime direction.
 - No runtime adapter or execution milestone without specification, review,
   explicit authorization, validation, and durable evidence.
+- **Production deployment note (confirmed 2026-07-27,
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001`):**
+  merging into canonical `main` currently causes automatic public Production
+  publication via the Vercel Git integration, with no separate,
+  technically-enforced deployment-approval step. This is a confirmed,
+  unresolved operational control mismatch, not accepted policy — see
+  `shared_context/PROJECT_STATE.md`'s "Production Deployment Authorization —
+  Confirmed Mismatch". Until
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001`
+  resolves the target model, treat every approved `main` merge as an
+  immediate public-publication event.
 
 ## Operator Command
 
