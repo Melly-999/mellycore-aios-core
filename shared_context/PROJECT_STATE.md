@@ -154,8 +154,10 @@ combined merge/deployment authorization). See "Production Deployment
 Authorization — Model A Contract (Temporary, Static-Phase Only)" below. This
 selection does not unblock, waive, or otherwise affect PR #28's merge
 status — PR #28's physical Gate B is an independent gate, unaffected by the
-deployment-authorization model. The exact next task is
-`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001`.
+deployment-authorization model. At the time of this record, the next task
+was `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001`; that task
+has since completed. Current executable task sequencing is maintained in
+`shared_context/RUN_QUEUE.md` and echoed in `shared_context/AGENT_HANDOFF.md`.
 
 ## Production Deployment Authorization — Confirmed Mismatch
 
@@ -289,11 +291,13 @@ created by this decision. Any eventual PR #28 merge request must
 independently satisfy every one of its own gates (including Gate B) and must
 separately include the Model A Production-impact warning above.
 
-Exact next task:
+At the time of this record, the next task was
 `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001` — an
-independent, read-only review verifying this contract's implementation. It
-is not a publication task, not a merge task, not deployment work, and not
-related to closing PR #28's physical Gate B.
+independent, read-only review verifying this contract's implementation, not
+a publication, merge, or deployment task, and not related to closing PR
+#28's physical Gate B. That task has since completed. Current executable
+task sequencing is maintained in `shared_context/RUN_QUEUE.md` and echoed
+in `shared_context/AGENT_HANDOFF.md`.
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under

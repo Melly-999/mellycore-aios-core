@@ -100,16 +100,49 @@ separate deployment authorization is still required) and one bundled
 non-blocking note (N-01: a stale "effective until resolved" framing in
 `PROJECT_STATE.md`); both are corrected by this remediation commit on PR
 #29's branch. N-02 (validator evidence not embedded in task reports)
-remains separately non-blocking and untouched. Exact next task:
+remains separately non-blocking and untouched. At the time of that
+remediation, the next task was
 `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-REVIEW-001`
 — a fresh-session, independent, read-only review of the updated PR #29
 head, responsible for deciding whether B-01 and N-01 are resolved and for
-reassessing all current-head reviews and comments. Not authorized to merge,
+reassessing all current-head reviews and comments; not authorized to merge,
 resolve comments, or deploy, and unrelated to closing PR #28's Gate B. The
 following historical description of the original review task is retained
 below: an
 independent, read-only review of this contract's implementation. Not a
 publication, merge, deployment, or configuration task, and not related to
+closing PR #28's Gate B.
+
+That review completed with outcome
+`PASS_WITH_NOTES_MODEL_A_CONTRACT_PR_REMEDIATION_REVIEW`, confirming both
+B-01 and N-01 resolved, no blocking current-head review finding, all checks
+passing, a successful Preview, no Production deployment for the head, and
+245 tests passing; it also identified one new non-blocking note, N-03: two
+statements in `PROJECT_STATE.md` still named the already-completed
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001` as the exact
+next task. The subsequent merge-readiness assessment
+(`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-MERGE-READINESS-001`)
+returned `REMEDIATION_REQUIRED_MODEL_A_CONTRACT_PR_29_MERGE_READINESS`,
+judging N-03 as requiring correction before merge given that any merge
+under Model A immediately triggers public Production publication. This
+task (`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002`)
+corrects N-03 by reframing both `PROJECT_STATE.md` statements as historical
+records rather than replacing them with another live pointer — this file,
+`shared_context/RUN_QUEUE.md`, remains the canonical live task-sequencing
+source, echoed in `shared_context/AGENT_HANDOFF.md`. No Model A policy, no
+migration trigger, no PR #28 wording, and no Gate B wording was changed.
+Known note N-04 (the PR #29 body's stale reference to the already-resolved
+N-01 wording) is GitHub metadata, was intentionally left unmodified by this
+task, and remains for the next review to assess. This task creates exactly
+one new documentation-only commit, pushed normally (no force, no rewrite)
+to `clean-origin/docs/mellycore-production-deployment-model-a-contract-001`;
+it does not merge PR #29, does not enable auto-merge, and does not
+authorize Production publication. Exact next task:
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002-REVIEW-001`
+— a fresh-session, independent, read-only review of the updated PR #29
+head, verifying N-03 is resolved without re-adjudicating unrelated settled
+policy, and reassessing current-head reviews, checks, Preview, and N-04.
+Not authorized to merge, resolve comments, or deploy, and unrelated to
 closing PR #28's Gate B.
 
 ## Historical Option B Deploy Path — Completed

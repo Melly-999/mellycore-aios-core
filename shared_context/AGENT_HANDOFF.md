@@ -1,6 +1,57 @@
 # Agent Handoff
 
-## Latest Update — PR #29 Model A wording remediation (B-01 fixed, N-01 fixed)
+## Latest Update — PR #29 task-history pointer stabilization (N-03 fixed)
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002`
+
+- An independent PR remediation review
+  (`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-REVIEW-001`,
+  outcome `PASS_WITH_NOTES_MODEL_A_CONTRACT_PR_REMEDIATION_REVIEW`) confirmed
+  B-01 and N-01 resolved on PR #29's then-head
+  (`59e2068abbd86b3c87df1d0dc845bd2d20011a10`), found no blocking
+  current-head review finding, all checks passing, a successful Preview, no
+  Production deployment for the head, and 245 tests passing. It also
+  reported one new non-blocking note, N-03: two statements in
+  `PROJECT_STATE.md` (near "the exact next task is…" and the "Exact next
+  task:" block preceding the "3D Scene Foundation" section) still named the
+  already-completed `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001`
+  as the live next task, while `RUN_QUEUE.md` and `AGENT_HANDOFF.md` had
+  already moved on.
+- The subsequent merge-readiness assessment
+  (`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-MERGE-READINESS-001`)
+  returned `REMEDIATION_REQUIRED_MODEL_A_CONTRACT_PR_29_MERGE_READINESS`,
+  judging N-03 as requiring correction before merge: under Model A any
+  merge immediately triggers public Production publication, so a false
+  present-tense statement in the canonical state file should not ship live
+  and then be corrected afterward.
+- This task fixes N-03 by reframing both `PROJECT_STATE.md` statements as
+  historical records — preserving the former task name, marking it
+  completed, and directing live task sequencing to `RUN_QUEUE.md` (echoed
+  in this file) — rather than inserting another live pointer into
+  `PROJECT_STATE.md` that would go stale on the next cycle.
+- **No Model A policy, no migration trigger, no PR #28 wording, and no Gate
+  B wording was changed.** Known note N-04 (the PR #29 body's stale
+  reference to the already-resolved N-01 wording) is GitHub metadata and
+  was **intentionally left unmodified** by this task, for the next review
+  to assess.
+- This task creates exactly one new local documentation-only commit, parent
+  `59e2068abbd86b3c87df1d0dc845bd2d20011a10`, subject `docs: stabilize
+  Model A task history pointers`, pushed normally (no force, no history
+  rewrite) to update the existing PR #29
+  (https://github.com/Melly-999/mellycore-aios-core/pull/29). No merge, no
+  auto-merge, no Production publication, no PR-body edit, and no review or
+  thread action was performed.
+- PR #28 and physical Android Chromium Gate B are unaffected: PR #28
+  remains open, non-draft, unmerged, mergeable, intentionally paused; Gate
+  B remains `OPEN / NOT EXECUTED`.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002-REVIEW-001`
+  — a fresh-session, independent, read-only review of the updated PR #29
+  head, verifying N-03 is resolved without re-adjudicating unrelated
+  settled policy, and reassessing current-head reviews, checks, Preview,
+  and N-04. Not authorized to merge, resolve comments, or deploy.
+
+## Previous Update — PR #29 Model A wording remediation (B-01 fixed, N-01 fixed)
 
 `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-001`
 
