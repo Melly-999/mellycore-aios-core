@@ -89,8 +89,25 @@ must warn of immediate public-publication impact, and nine canonical,
 blocking migration triggers require Model B reconsideration before any
 affected implementation or merge proceeds. This selection does not unblock,
 waive, or otherwise affect PR #28 — its physical Gate B is an independent
-gate. Exact next task:
-`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001` — an
+gate. `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001`
+completed with outcome `PASS_WITH_NOTES_MODEL_A_DEPLOYMENT_CONTRACT_REVIEW`.
+The contract was then published as PR #29
+(https://github.com/Melly-999/mellycore-aios-core/pull/29,
+head `ec5182b8…`). An independent PR review
+(`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REVIEW-001`) found one
+blocking finding (B-01: `SAFETY_CONTRACT.md` self-contradicted on whether
+separate deployment authorization is still required) and one bundled
+non-blocking note (N-01: a stale "effective until resolved" framing in
+`PROJECT_STATE.md`); both are corrected by this remediation commit on PR
+#29's branch. N-02 (validator evidence not embedded in task reports)
+remains separately non-blocking and untouched. Exact next task:
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-REVIEW-001`
+— a fresh-session, independent, read-only review of the updated PR #29
+head, responsible for deciding whether B-01 and N-01 are resolved and for
+reassessing all current-head reviews and comments. Not authorized to merge,
+resolve comments, or deploy, and unrelated to closing PR #28's Gate B. The
+following historical description of the original review task is retained
+below: an
 independent, read-only review of this contract's implementation. Not a
 publication, merge, deployment, or configuration task, and not related to
 closing PR #28's Gate B.

@@ -1,6 +1,53 @@
 # Agent Handoff
 
-## Latest Update — Model A production deployment authorization adopted (Operator decision, temporary, static-phase-only)
+## Latest Update — PR #29 Model A wording remediation (B-01 fixed, N-01 fixed)
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-001`
+
+- An independent PR review
+  (`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REVIEW-001`,
+  outcome `REMEDIATION_REQUIRED_MODEL_A_DEPLOYMENT_CONTRACT_PR_REVIEW`)
+  found one blocking finding against PR #29's head
+  (`ec5182b811de35313a57072a8d068e3986b1fa50`): a `chatgpt-codex-connector`
+  inline comment on `shared_context/SAFETY_CONTRACT.md:35` correctly
+  identified that the document self-contradicted on whether merge and
+  Production publication currently require separate authorization, versus
+  the Model A section immediately below it stating combined per-merge
+  authorization.
+- This task fixes that contradiction (B-01) by rewording the affected
+  clause in `SAFETY_CONTRACT.md` to place the former separate-authorization
+  requirement explicitly in the past ("Before the Operator selected
+  temporary Model A on 2026-07-27, this document required them to be
+  treated as separately authorized"), while stating the current Model A
+  rule accurately immediately after.
+- Bundled the related non-blocking note N-01: `PROJECT_STATE.md`'s
+  "Interim operating rule, effective until resolved" lead-in is now
+  "Pre-decision interim operating rule — superseded on 2026-07-27 by the
+  temporary Model A contract below and retained here as historical
+  context" — the substantive warning text that follows is unchanged, only
+  its framing is corrected from present-active to historical.
+- **N-02 was not touched** (out of scope, remains separately non-blocking).
+  Model A's substantive per-merge authorization boundary, the Operator's
+  verbatim decision in `DECISIONS.md`, and all nine blocking migration
+  triggers are **unchanged** — this task is wording-only.
+- This task creates exactly one new local documentation-only commit, parent
+  `ec5182b811de35313a57072a8d068e3986b1fa50`, subject `docs: resolve Model A
+  authorization wording`, pushed normally (no force, no history rewrite) to
+  update the existing PR #29
+  (https://github.com/Melly-999/mellycore-aios-core/pull/29). The Codex
+  inline comment was **not** resolved or replied to — that determination is
+  left to the next independent review.
+- PR #28 and physical Android Chromium Gate B are unaffected: PR #28
+  remains open, non-draft, unmerged, mergeable, intentionally paused; Gate
+  B remains `OPEN / NOT EXECUTED`.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-REVIEW-001`
+  — a fresh-session, independent, read-only review of the updated PR #29
+  head, deciding whether B-01 and N-01 are resolved and reassessing all
+  current-head reviews and comments. Not authorized to merge, resolve
+  comments, or deploy.
+
+## Previous Update — Model A production deployment authorization adopted (Operator decision, temporary, static-phase-only)
 
 `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-IMPLEMENTATION-001`
 

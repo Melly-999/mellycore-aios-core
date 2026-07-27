@@ -186,11 +186,12 @@ merge approval does **not** thereby permanently constitute deployment
 approval — and the explicit-operator-control requirement for production
 publication remains in force.
 
-Interim operating rule, effective until resolved: every proposed merge into
-`main` must be treated as an immediate public-publication request; no agent
-may recommend or perform a merge unless immediate public publication is
-acceptable, and no agent may describe merge and Production deployment as
-independently gated.
+Pre-decision interim operating rule — superseded on 2026-07-27 by the
+temporary Model A contract below and retained here as historical context:
+every proposed merge into `main` must be treated as an immediate
+public-publication request; no agent may recommend or perform a merge
+unless immediate public publication is acceptable, and no agent may
+describe merge and Production deployment as independently gated.
 
 Two authorization models were presented by
 `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001` as

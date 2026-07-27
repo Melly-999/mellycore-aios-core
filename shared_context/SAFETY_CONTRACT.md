@@ -30,9 +30,11 @@ has no branch protection, the repository has no rulesets, and the Production
 GitHub environment has no protection rules (all independently verified
 read-only). The only human decision point in the current path is the
 decision to approve the merge itself — merge approval and Production
-publication are **not** currently independent, separately gated actions,
-even though this document requires that they be treated as requiring
-separate explicit authorization.
+publication are **not** currently independent, separately gated actions.
+Before the Operator selected temporary Model A on 2026-07-27, this document
+required them to be treated as separately authorized. Under the current
+Model A contract below, explicit approval of one specific merge also
+authorizes only the automatic Production publication caused by that merge.
 
 **Update (2026-07-27): the Operator has selected Model A** — a temporary,
 static-phase-only policy, recorded verbatim in `shared_context/DECISIONS.md`
