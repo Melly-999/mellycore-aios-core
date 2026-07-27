@@ -1,6 +1,53 @@
 # Agent Handoff
 
-## Latest Update — OmniRouter-inspired Control Plane reviewed and merge-ready
+## Latest Update — 3D Scene Foundation PR #28 paused (physical QA gate unavailable)
+
+`MELLYCORE-3D-SCENE-FOUNDATION-PAUSED-STATE-SYNC-001`
+
+- `MELLYCORE-3D-SCENE-FOUNDATION-001` is implemented on branch
+  `feat/mellycore-3d-scene-foundation-001` and published as
+  [PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) (head
+  `57bb841e67e9a5d557f88bf096537eba78df1cd8`, base `main`, two commits, twelve
+  changed files, locally vendored Three.js r164). PR #28 remains open,
+  non-draft, unmerged, and mergeable. It is **intentionally paused** and
+  **not authorized to merge**.
+- Repository-verified evidence: `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`
+  (independent foundation review) and desktop accessibility/performance Gate A
+  (passed: ~30 seconds, ~59.93 FPS average, minimum one-second bucket 59 FPS,
+  zero frames above 33.3 ms or 50 ms, nine draw calls, 2,120 triangles, one
+  canvas, one animation loop, zero scene-originated errors).
+- Recorded as **operator-confirmed external/session evidence, dated
+  2026-07-27, not independently repository-verified** — no corresponding PR
+  review, commit, or `docs/tasks/` report exists in this repository for
+  either outcome, and this task creates the **first canonical repository
+  record** of them: `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REMEDIATION_REVIEW`
+  and `PASS_WITH_NOTES_3D_SCENE_INTEGRATION_REVIEW`.
+- Physical Android Chromium Gate B remains `OPEN / NOT EXECUTED`
+  (`BLOCKED_3D_SCENE_QA_REFERENCE_DEVICE_UNAVAILABLE`): the operator has no
+  named physical Android Chromium reference device available, and repeated
+  attempts have produced no new evidence. This is an environmental/process
+  blocker — not an application defect, not evidence of correctness, and not
+  risk acceptance. Emulated/desktop evidence remains provisional only and
+  must not be presented as physical-device evidence.
+- Resume condition: do not rerun Gate B until a named physical Android phone
+  with Chrome/Chromium is confirmed available for ~15–20 minutes of testing.
+- Governance: per `RECOMMEND_KEEP_PREMERGE_BLOCKER_3D_SCENE_PHYSICAL_QA`, no
+  repository-defined waiver process exists; Gate B remains a strict pre-merge
+  blocker; no waiver, deferment, risk acceptance, merge, or deployment is
+  authorized for PR #28.
+- This task creates exactly one local documentation-only commit on branch
+  `docs/mellycore-3d-scene-paused-state-sync-001`, based directly on
+  canonical `main` at `e7c8ce5f116e93a11a591ee539272f223af110d1`. It does not
+  push, mutate PR #28, merge, deploy, or touch any implementation, vendor, or
+  workflow file.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001` — a
+  read-only, independent review of whether Vercel's automatic
+  publish-on-merge behavior is truly separate from merge authorization, as
+  ADR wording describes. It does not unblock, waive, or otherwise affect PR
+  #28's merge status.
+
+## Previous Update — OmniRouter-inspired Control Plane reviewed and merge-ready
 
 `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`
 

@@ -88,14 +88,70 @@ Independent review identified two specification blockers; the targeted
 remediation was published as commit `ea662ab…`, and its targeted review
 returned
 `PASS_WITH_NOTES_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC_REMEDIATION_REVIEW`
-with all required checks passing. At the time of this update, PR #27 was
-reviewed and merge-ready but not yet merged, so the specification was not yet
-canonical on `main`. The remaining task-local operation at that time was
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`. After
-successful specification acceptance, `MELLYCORE-3D-SCENE-FOUNDATION-001`
-remains the separately gated, not-yet-started product successor. No automatic
-post-merge synchronization is required unless a concrete live canonical
-statement becomes false.
+with all required checks passing. At the time of that update, PR #27 was
+reviewed and merge-ready but not yet merged. It subsequently merged into
+canonical `main` as `e7c8ce5f116e93a11a591ee539272f223af110d1`. Its separately
+gated product successor, `MELLYCORE-3D-SCENE-FOUNDATION-001`, is implemented
+in [PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28); see
+"3D Scene Foundation — PR #28 Paused State" below for its current, paused
+acceptance state. No automatic post-merge synchronization is required unless a
+concrete live canonical statement becomes false.
+
+## 3D Scene Foundation — PR #28 Paused State
+
+`MELLYCORE-3D-SCENE-FOUNDATION-001` is implemented on branch
+`feat/mellycore-3d-scene-foundation-001` and published as
+[PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) (head
+`57bb841e67e9a5d557f88bf096537eba78df1cd8`, base `main`, two commits, twelve
+changed files, locally vendored Three.js r164). PR #28 remains **open,
+non-draft, unmerged, and mergeable**; it is **intentionally paused**, not
+merged, and **not authorized to merge**.
+
+Accepted evidence:
+
+- `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW` — independent foundation
+  review outcome. Repository-verified (recorded in this file and
+  `RUN_QUEUE.md` prior to this sync).
+- Desktop accessibility/performance Gate A — passed (~30 seconds, ~59.93 FPS
+  average, minimum one-second bucket 59 FPS, zero frames above 33.3 ms or
+  50 ms, nine draw calls, 2,120 triangles, one canvas, one animation loop,
+  zero scene-originated errors). Repository-verified.
+- `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REMEDIATION_REVIEW` — recorded as
+  **operator-confirmed external/session evidence, dated 2026-07-27**. The
+  operator communicated this outcome directly in this operating session; no
+  corresponding PR review, commit, or `docs/tasks/` report exists in this
+  repository evidencing it independently, and this paused-state sync is the
+  **first canonical repository record** of that outcome.
+- `PASS_WITH_NOTES_3D_SCENE_INTEGRATION_REVIEW` — recorded on the same basis:
+  **operator-confirmed external/session evidence, dated 2026-07-27**, not
+  independently repository-verified, first recorded here.
+
+Open gate: physical Android Chromium **Gate B remains `OPEN / NOT EXECUTED`**.
+Current outcome: `BLOCKED_3D_SCENE_QA_REFERENCE_DEVICE_UNAVAILABLE` — the
+operator does not currently own or have access to a named physical Android
+Chromium reference device. Repeated attempts have produced no new evidence.
+This is an **environmental/process blocker**, not an application defect, not
+evidence of correctness, and not risk acceptance. Emulated or desktop-browser
+evidence remains provisional only and must not be presented as physical-device
+evidence.
+
+Resume condition: Gate B execution must not resume until a named physical
+Android phone with Chrome/Chromium is confirmed available for approximately
+15–20 minutes of testing. Until then: do not rerun Gate B, do not start QA
+servers for it, and do not repeatedly request an unavailable device.
+
+Governance: per `RECOMMEND_KEEP_PREMERGE_BLOCKER_3D_SCENE_PHYSICAL_QA`, no
+repository-defined waiver process exists, Gate B remains a strict pre-merge
+blocker, and no waiver, deferment, risk acceptance, merge, or deployment is
+authorized for PR #28. PR #28 is intentionally paused rather than actively
+queued for repeated execution.
+
+Independent of this pause, a separate governance review —
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001` — is the
+next executable task: a read-only review of whether the current Vercel
+setup's automatic publish-on-merge-to-`main` behavior is truly separate from
+merge authorization, as ADR wording describes. It does not unblock, waive, or
+otherwise affect PR #28's merge status.
 
 The local dashboard's former NASA Images browser GETs have been retired from
 `site/dashboard.html` / `site/js/dashboard.js` under
