@@ -1,5 +1,103 @@
 # Agent Handoff
 
+## Latest Update — 3D Scene Foundation remediation implemented locally
+
+`MELLYCORE-3D-SCENE-FOUNDATION-REMEDIATION-001`
+
+- Repository identity gate passed on branch
+  `feat/mellycore-3d-scene-foundation-001` at initial head
+  `3daa4e7767bf3119af1e21f8fb1b380a00be404c`, based directly on canonical
+  `main` at `e7c8ce5f116e93a11a591ee539272f223af110d1`. At the time of this
+  update, PR #28 remained open, non-draft, mergeable, unmerged, and unchanged
+  at that remote head.
+- QA-01 was independently reproduced before editing. Routine source
+  selection replaced the host and canvas, reached zero canvases, promoted
+  the CSS composition to opacity 1, and created a new WebGL context. At 6×
+  CPU throttling, the first fallback sample occurred after about 141 ms, the
+  canvas was absent for about 80 ms, and the host remained not-ready for
+  about 92 ms.
+- `site/js/dashboard.js` now creates the Source Arena map and scene host only
+  when no valid host exists. Routine selection updates only the active link,
+  node controls, core glyph/color, inspector, and dependent semantic panels.
+  Twenty normal selections and ten selections at 6× CPU throttling preserved
+  the same host and canvas, never dropped below one canvas, created no new
+  WebGL context, made no additional Three.js request, never promoted the CSS
+  fallback, and kept a maximum of one scene animation callback.
+- Lifecycle and fallback regression passed for inactive-panel suspension,
+  twenty panel cycles, fully offscreen suspension/restoration, first context
+  loss/restoration on the same canvas, repeated-context-loss permanent
+  fallback, 1366×768 standard, 1024×900 tablet, 390×844 mobile, reduced
+  motion, forced colors, forced CSS, and JavaScript-disabled rendering.
+  Browser automation could not expose a true hidden `document.visibilityState`;
+  a lifecycle freeze showed no sustained frame growth, and the unchanged
+  visibility handler remains present. This limitation is recorded as
+  unavailable, not passed.
+- Fresh desktop Gate A passed on Chromium 150 / Windows through ANGLE D3D11
+  on NVIDIA RTX 4060 at 1920×1080, DPR 1, cinematic profile: 30.008 seconds,
+  1,799 frames, 59.95 FPS average, 16.70 ms median, 16.80 ms p95, 16.90 ms
+  worst, minimum 59 FPS one-second bucket, zero frames over 33.3 or 50 ms,
+  stable 9 draw calls / 2,120 triangles / 363 points / 150 lines, one canvas,
+  one scene loop, decreasing observed heap, and zero warnings/errors.
+- QA-02 is synchronized in `PROJECT_STATE.md`, `DESIGN_SYSTEM.md`, and
+  `RUN_QUEUE.md`: PR #28 contains the foundation and locally vendored
+  Three.js r164; independent review returned
+  `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`; desktop Gate A passed;
+  physical-device Gate B remains unavailable; PR #28 remains unmerged and
+  non-canonical; broader Control Plane implementation remains gated.
+- Validation passed with `py -3.9 scripts/validate_project_state.py`, all
+  four required Node syntax checks, `git diff --check`, and 245/245
+  standard-library tests. The unqualified `python` command was unavailable
+  and is not reported as passing.
+- This task creates exactly one local commit with subject
+  `fix: preserve 3D scene and align project state`. It does not push, mutate
+  PR #28, merge, deploy, install dependencies, modify vendor files, or expand
+  visual/product scope.
+- Exact task-local next task:
+  `MELLYCORE-3D-SCENE-FOUNDATION-REMEDIATION-PUBLISH-001`.
+- Remaining product acceptance gate:
+  `MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001` on a named physical
+  mobile device.
+
+## Previous Update — 3D Scene Foundation implemented locally
+
+`MELLYCORE-3D-SCENE-FOUNDATION-001`
+
+- Branch `feat/mellycore-3d-scene-foundation-001` is based directly on
+  canonical `main` at
+  `e7c8ce5f116e93a11a591ee539272f223af110d1`.
+- The Source Arena now has an optional, lazily loaded Three.js enhancement:
+  a deterministic star field, compact orbital routing core, bounded
+  demonstration nodes and routes, responsive quality profiles, visibility
+  lifecycle, and WebGL context-loss recovery.
+- The existing DOM source map remains keyboard-operable and authoritative.
+  A structured Control Plane routing summary, explicit `Static demonstration`
+  and `No live provider connection` language, a no-JavaScript CSS
+  composition, reduced-motion behavior, and mobile/low-power fallback keep
+  scene meaning available without WebGL.
+- Three.js r164 is vendored as a pinned, self-contained ESM file with its MIT
+  license and provenance record. No package manager, CDN, build system,
+  backend, provider, model, runtime, workflow, Vercel, deployment, secret,
+  authentication, database, agent-execution, or trading integration was
+  introduced.
+- Browser review covered 2560×1440, 1920×1080, 1366×768, tablet, 390×844
+  mobile, reduced motion, forced CSS fallback, and JavaScript-disabled
+  rendering. The final cinematic profile measured one canvas, 9 draw calls,
+  2,120 triangles, and 363 points; the console had zero warnings/errors.
+- Validation passed with `py -3.9 scripts/validate_project_state.py`,
+  `git diff --check`, and Node syntax checks for every changed/new JavaScript
+  file. The unqualified `python` command was unavailable in this environment
+  and is recorded as unavailable rather than passed.
+- At that task's completion, it created exactly one local commit with subject
+  `feat: add MellyCore 3D scene foundation` and had not yet been pushed,
+  published, merged, or deployed. The commit was subsequently published in
+  PR #28; at the time of this update, that PR remained open and unmerged.
+- The task-local next task at that historical point was
+  `MELLYCORE-3D-SCENE-FOUNDATION-REVIEW-001`; it subsequently completed with
+  `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`.
+- Product sequencing: the foundation must pass independent visual,
+  accessibility, performance, and regression review before broader Control
+  Plane frontend implementation proceeds.
+
 ## Latest Update — OmniRouter-inspired Control Plane reviewed and merge-ready
 
 `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`
@@ -900,8 +998,8 @@ authorized, implemented on branch
 `9a5d1bb0bac80b567608f115f10cbd211b327aba`), opened as PR #17, and since
 merged into canonical `main` (merge commit `537a84c8…`). See the "Latest
 Update — Source Arena static slice merged into canonical `main` / PR #17" entry
-at the top of this file and `shared_context/ROADMAP.md`'s "Option B Deploy
-Path" section for the current exact next task
+at the top of this file and `shared_context/ROADMAP.md`'s historical "Option B
+Deploy Path" section for the then-current exact next task
 (`MELLYCORE-OPENROUTER-MODEL-OBSERVATORY-SPEC-PUBLISH-001`).
 The paragraph below is preserved as historical record of the prior state.
 

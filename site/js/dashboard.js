@@ -88,9 +88,9 @@
       id: "source-arena-renderer",
       title: "Source Arena Hybrid Renderer",
       category: "orchestration",
-      description: "Accepted decision for a WebGL-enhanced renderer with a mandatory CSS/DOM fallback. Decision level only; not yet implemented.",
-      tags: ["orchestration", "renderer", "planned"],
-      status: "Accepted (spec only)",
+      description: "Optional locally vendored WebGL enhancement over the mandatory CSS/DOM source map. Static demonstration only; no live route or provider connection.",
+      tags: ["orchestration", "renderer", "static-demo"],
+      status: "Foundation implemented locally",
     },
   ];
 
@@ -571,6 +571,7 @@
       panel.hidden = panel.id !== `tab-${tabName}`;
     });
     window.history.replaceState(null, "", `#${tabName}`);
+    document.dispatchEvent(new CustomEvent("mellycore:tabchange", { detail: { tabName } }));
   }
 
   function initTabs() {
@@ -838,6 +839,7 @@
     if (queue) queue.innerHTML = "";
     const dots = document.getElementById("source-arena-stage-dots");
     if (dots) dots.innerHTML = "";
+    document.dispatchEvent(new CustomEvent("mellycore:scenehost", { detail: { host: null } }));
     renderCompareSource();
   }
 
@@ -958,42 +960,66 @@
     const activeAngle = total > 1 ? Math.round((state.archiveSelected / total) * 360) : 0;
     const coreGlyph = (item.category || "").slice(0, 2).toUpperCase();
 
-    const map = document.createElement("div");
-    map.className = "arena-map";
-    map.setAttribute("role", "group");
-    map.setAttribute("aria-label", "Holographic source stage — static local source map");
+    let map = stage.querySelector(":scope > .arena-map");
+    let scene = map?.querySelector(":scope > .arena-map-scene.mellycore-scene-host");
+    const sceneCreated = !(map && scene);
 
-    const scene = document.createElement("div");
-    scene.className = "arena-map-scene";
+    if (sceneCreated) {
+      map = document.createElement("div");
+      map.className = "arena-map";
+      map.setAttribute("role", "group");
+      map.setAttribute("aria-label", "Holographic source stage — static local source map");
 
-    const orbit = document.createElement("span");
-    orbit.className = "arena-orbit";
-    orbit.setAttribute("aria-hidden", "true");
+      scene = document.createElement("div");
+      scene.className = "arena-map-scene mellycore-scene-host";
+      scene.dataset.sceneFixture = "control-plane-routing-preview";
 
-    const link = document.createElement("span");
-    link.className = "arena-link";
-    link.style.setProperty("--node-angle", `${activeAngle}deg`);
-    link.setAttribute("aria-hidden", "true");
+      const atmosphere = document.createElement("span");
+      atmosphere.className = "scene-css-atmosphere";
+      atmosphere.setAttribute("aria-hidden", "true");
 
-    const nodes = document.createElement("div");
-    nodes.className = "arena-nodes";
-    nodes.append(buildArenaNodes(items, state.archiveSelected));
+      const orbit = document.createElement("span");
+      orbit.className = "arena-orbit";
+      orbit.setAttribute("aria-hidden", "true");
 
-    const core = document.createElement("div");
-    core.className = "arena-core";
-    core.style.setProperty("--swatch-hue", String(hueForCategory(item.category)));
-    core.setAttribute("aria-hidden", "true");
-    const coreRing = document.createElement("span");
-    coreRing.className = "arena-core-ring";
-    const coreGlyphEl = document.createElement("span");
-    coreGlyphEl.className = "arena-core-glyph";
-    coreGlyphEl.textContent = coreGlyph;
-    core.append(coreRing, coreGlyphEl);
+      const link = document.createElement("span");
+      link.className = "arena-link";
+      link.setAttribute("aria-hidden", "true");
 
-    scene.append(orbit, link, nodes, core);
-    map.append(scene);
+      const nodes = document.createElement("div");
+      nodes.className = "arena-nodes";
 
-    stage.replaceChildren(map, buildArenaInspector(item, total));
+      const core = document.createElement("div");
+      core.className = "arena-core";
+      core.setAttribute("aria-hidden", "true");
+      const coreRing = document.createElement("span");
+      coreRing.className = "arena-core-ring";
+      const coreGlyphEl = document.createElement("span");
+      coreGlyphEl.className = "arena-core-glyph";
+      core.append(coreRing, coreGlyphEl);
+
+      scene.append(atmosphere, orbit, link, nodes, core);
+      map.append(scene);
+      stage.replaceChildren(map);
+    }
+
+    const link = scene.querySelector(":scope > .arena-link");
+    const nodes = scene.querySelector(":scope > .arena-nodes");
+    const core = scene.querySelector(":scope > .arena-core");
+    const coreGlyphEl = core?.querySelector(":scope > .arena-core-glyph");
+    link?.style.setProperty("--node-angle", `${activeAngle}deg`);
+    nodes?.replaceChildren(buildArenaNodes(items, state.archiveSelected));
+    core?.style.setProperty("--swatch-hue", String(hueForCategory(item.category)));
+    if (coreGlyphEl) coreGlyphEl.textContent = coreGlyph;
+
+    const inspector = buildArenaInspector(item, total);
+    const currentInspector = stage.querySelector(":scope > .arena-inspector");
+    if (currentInspector) currentInspector.replaceWith(inspector);
+    else stage.append(inspector);
+
+    if (sceneCreated) {
+      document.dispatchEvent(new CustomEvent("mellycore:scenehost", { detail: { host: scene } }));
+    }
     renderCompareSource();
     renderModelOutputs();
   }

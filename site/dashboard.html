@@ -284,10 +284,23 @@
 
         <section class="media-stage-wrap" aria-live="polite">
           <div class="media-stage arena-stage-map" id="source-arena-stage">
-            <div class="media-stage-loading">
-              <span class="stage-scan" aria-hidden="true"></span>
-              <strong>Initializing holographic source stage…</strong>
-              <span>Local Source Archive · static map · zero network requests</span>
+            <div class="scene-static-fallback mellycore-scene-host" data-scene-mode="css-fallback" aria-hidden="true">
+              <span class="scene-css-atmosphere"></span>
+              <span class="scene-fallback-orbit scene-fallback-orbit--outer"></span>
+              <span class="scene-fallback-orbit scene-fallback-orbit--inner"></span>
+              <span class="scene-fallback-route scene-fallback-route--inbound"></span>
+              <span class="scene-fallback-route scene-fallback-route--outbound"></span>
+              <span class="scene-fallback-core"><i></i><b>MC</b></span>
+              <span class="scene-fallback-node scene-fallback-node--provider">Provider</span>
+              <span class="scene-fallback-node scene-fallback-node--model">Model</span>
+              <span class="scene-fallback-node scene-fallback-node--agent">Agent</span>
+              <span class="scene-fallback-node scene-fallback-node--context">Context</span>
+              <span class="scene-fallback-node scene-fallback-node--policy">Policy</span>
+              <span class="scene-fallback-node scene-fallback-node--artifact">Artifact</span>
+            </div>
+            <div class="media-stage-loading scene-static-message">
+              <strong>Architecture preview · static demonstration</strong>
+              <span>CSS fallback · simulated route · no live provider connection</span>
             </div>
           </div>
           <div class="stage-pagination" id="source-arena-stage-dots" aria-label="Select source node"></div>
@@ -296,6 +309,20 @@
             <span>Select a source node</span>
             <button type="button" id="source-arena-next-item" aria-label="Next source node">↓</button>
           </div>
+          <section class="scene-foundation-summary dash-surface" aria-labelledby="scene-foundation-title">
+            <div class="surface-head">
+              <span id="scene-foundation-title">Control Plane routing preview</span>
+              <span class="data-origin data-origin--mock">Static demonstration</span>
+            </div>
+            <p class="scene-foundation-purpose">An optional cinematic map of policy-guided coordination. The structured summary remains authoritative when WebGL, JavaScript, motion, or device capability is limited.</p>
+            <dl class="scene-foundation-facts">
+              <div><dt>Routing core</dt><dd>Central policy and context coordination concept; no autonomous intelligence.</dd></div>
+              <div><dt>Visible categories</dt><dd>Provider, model, agent, context, policy, and artifact.</dd></div>
+              <div><dt>Emphasized path</dt><dd>Simulated route: provider/model candidate → context and policy gate → proposed agent assignment.</dd></div>
+              <div><dt>Data notice</dt><dd>Architecture preview only. No live provider connection, traffic, execution, or model call.</dd></div>
+            </dl>
+          </section>
+          <noscript><p class="scene-noscript-note">The CSS scene and this semantic summary are the complete fallback. JavaScript and WebGL are optional enhancements.</p></noscript>
         </section>
 
         <aside class="model-rail dash-surface">
@@ -477,6 +504,7 @@
     </div>
   </footer>
 
+  <script type="module" src="js/mellycore-scene.js"></script>
   <script src="js/dashboard.js" defer></script>
 </body>
 </html>
