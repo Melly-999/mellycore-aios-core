@@ -34,10 +34,18 @@ publication are **not** currently independent, separately gated actions,
 even though this document requires that they be treated as requiring
 separate explicit authorization.
 
-This is a recorded, unresolved **operational control mismatch**, not an
-accepted permanent policy. Until an operator decision resolves it (see
-`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001`), every
-proposed merge into `main` must be treated as an immediate public-publication
-request, and no agent may describe merge and Production deployment as
-independently gated.
+**Update (2026-07-27): the Operator has selected Model A** — a temporary,
+static-phase-only policy, recorded verbatim in `shared_context/DECISIONS.md`
+and detailed in full in `shared_context/PROJECT_STATE.md`'s "Production
+Deployment Authorization — Model A Contract (Temporary, Static-Phase Only)".
+Under Model A: each individually approved pull-request merge into `main`
+also authorizes only the automatic Production publication that specific
+merge causes — this is **not** blanket, standing, batch, or future
+authorization; every merge-authorization request must explicitly warn that
+merging into `main` immediately updates the public Production host; no
+agent may merge on its own initiative; and nine canonical, blocking
+migration triggers require Model B reconsideration before any affected
+implementation or merge proceeds. Model A creates no branch protection,
+ruleset, environment protection, or other technical deployment gate —
+enforcement remains procedural, resting on per-merge Operator approval.
 

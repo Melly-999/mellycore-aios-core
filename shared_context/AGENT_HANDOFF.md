@@ -1,6 +1,65 @@
 # Agent Handoff
 
-## Latest Update — Production deployment authorization contract corrected (documentation-only)
+## Latest Update — Model A production deployment authorization adopted (Operator decision, temporary, static-phase-only)
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-IMPLEMENTATION-001`
+
+- The Operator has explicitly selected **Model A** — combined static-site
+  authorization — as the temporary Production deployment authorization
+  model for the current static-showcase phase, following
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001`'s
+  non-binding recommendation. The exact Operator statement is recorded
+  verbatim in `shared_context/DECISIONS.md` (2026-07-27).
+- Under Model A: every individual PR merge into `main` still requires its
+  own separate, explicit Operator approval — **never** blanket, standing,
+  batch, inferred, or future authorization. Approval for one specific merge
+  authorizes only the automatic Vercel Production publication that specific
+  merge causes. Every merge-authorization request must explicitly warn that
+  merging into `main` immediately updates the public Production host. No
+  agent may merge on its own initiative.
+- Full canonical contract (per-merge rule, Production-impact warning,
+  post-merge verification requirement, rollback boundary, branch-protection
+  boundary, PR #28 boundary) recorded in `shared_context/PROJECT_STATE.md`'s
+  "Production Deployment Authorization — Model A Contract (Temporary,
+  Static-Phase Only)"; shorter pointers added to `shared_context/SAFETY_CONTRACT.md`,
+  `shared_context/ROADMAP.md`, `shared_context/RUN_QUEUE.md`, and `AGENTS.md`.
+- Nine canonical, **blocking** migration triggers were recorded: first
+  backend endpoint, first authentication flow, first stored user data,
+  first runtime secret, first live provider connection, first
+  execution-capable agent, first external write-capable integration, first
+  financial or trading action, and delegated merge authority or multiple
+  active maintainers. While any trigger applies, no affected implementation
+  task may proceed to merge, Model A must not silently continue, and a
+  separate governance decision plus capability-research task is required
+  before proceeding — these triggers are explicit and grep-able, not
+  advisory or optional polish.
+- Model A creates **no** branch protection, ruleset, environment protection,
+  CI enforcement, or other technical deployment gate (independently
+  reverified unchanged: `main` branch protection `404`, rulesets `[]`,
+  `Production`/`Preview` environment `protection_rules: []`). Merge
+  authorization remains procedural only; the lack of branch protection is
+  accepted only as a temporary sole-Operator condition.
+- PR #28 is unaffected: it remains open, non-draft, unmerged, mergeable,
+  intentionally paused, and not authorized to merge. Physical Android
+  Chromium Gate B remains `OPEN / NOT EXECUTED`. Model A selection does not
+  waive, replace, satisfy, defer, or weaken Gate B in any way; no
+  physical-QA waiver or risk acceptance was created. Any eventual PR #28
+  merge request must independently satisfy every one of its own gates and
+  separately include the Model A Production-impact warning.
+- This task creates exactly one new local documentation-only commit on
+  branch `docs/mellycore-production-deployment-model-a-contract-001`,
+  stacked directly on `19eada06a8ba25b5cd980d4ec5226c3c288c8f6c` (itself
+  stacked on `22517faaa566d684c0f23acb770830278e1ee854`, based on canonical
+  `main` at `e7c8ce5f116e93a11a591ee539272f223af110d1`). It does not push,
+  mutate PR #28, merge, deploy, or change any GitHub/Vercel setting,
+  workflow, implementation, or vendor file.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001` — an
+  independent, read-only review of this contract's implementation. Not a
+  publication task, not a merge task, not deployment work, and not related
+  to closing PR #28's physical Gate B.
+
+## Previous Update — Production deployment authorization contract corrected (documentation-only)
 
 `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REMEDIATION-001`
 

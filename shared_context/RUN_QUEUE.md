@@ -73,21 +73,27 @@ acceptance, merge, or deployment is authorized; Gate B remains a strict
 pre-merge blocker with no repository-defined waiver process
 (`RECOMMEND_KEEP_PREMERGE_BLOCKER_3D_SCENE_PHYSICAL_QA`).
 
-`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001` has
-completed: outcome
-`REMEDIATION_REQUIRED_PRODUCTION_DEPLOYMENT_AUTHORIZATION_CONTRACT_REVIEW`.
-Confirmed: merge into canonical `main` currently causes automatic public
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001`
+confirmed merge into canonical `main` currently causes automatic public
 Production publication via the Vercel Git integration (5/5 recent merges →
 Production within 8–14s), with no separate technically-enforced
-deployment-approval step (`main` has no branch protection, no rulesets, no
-Production environment protection rules). This is an unresolved operational
-control mismatch, not accepted policy — see `PROJECT_STATE.md`'s "Production
-Deployment Authorization — Confirmed Mismatch". Interim rule: treat every
-approved `main` merge as an immediate public-publication event. Exact next
-task: `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001` — a
-read-only operator-governance decision between Model A (combined
-static-site authorization) and Model B (separate merge/deployment
-authorization). It does not unblock, waive, or otherwise affect PR #28.
+deployment-approval step. `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001`
+then presented Model A and Model B as options; **the Operator has selected
+Model A** (temporary, static-phase-only combined merge/deployment
+authorization), recorded verbatim in `shared_context/DECISIONS.md` and
+detailed in full in `PROJECT_STATE.md`'s "Production Deployment
+Authorization — Model A Contract (Temporary, Static-Phase Only)". Each
+individual merge approval authorizes only the Production publication that
+specific merge causes — not blanket authorization — every merge request
+must warn of immediate public-publication impact, and nine canonical,
+blocking migration triggers require Model B reconsideration before any
+affected implementation or merge proceeds. This selection does not unblock,
+waive, or otherwise affect PR #28 — its physical Gate B is an independent
+gate. Exact next task:
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001` — an
+independent, read-only review of this contract's implementation. Not a
+publication, merge, deployment, or configuration task, and not related to
+closing PR #28's Gate B.
 
 ## Historical Option B Deploy Path — Completed
 
