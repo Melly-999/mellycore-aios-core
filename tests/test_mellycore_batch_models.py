@@ -11,6 +11,8 @@ from scripts.mellycore_batch.models import (
     BatchLedgerSummary,
     BatchManifest,
     BatchRequest,
+    BatchRequestResult,
+    BatchResultSet,
     LiveConnectionPolicy,
     MIGRATION_TRIGGER_5_LABEL,
 )
@@ -90,6 +92,90 @@ class BatchLedgerSummaryTests(unittest.TestCase):
         self.assertFalse(data["live_connection_authorized"])
         self.assertEqual(["m1"], data["models"])
         self.assertEqual([], data["provider_request_ids"])
+
+
+def _result(custom_id: str, usage) -> BatchRequestResult:
+    return BatchRequestResult(
+        custom_id=custom_id,
+        batch_request_id="req_{}".format(custom_id),
+        status_code=200,
+        request_id="r-{}".format(custom_id),
+        response_body={},
+        usage=usage,
+    )
+
+
+class TotalTokensByKindTests(unittest.TestCase):
+    def test_fully_populated_usage_summed(self) -> None:
+        result_set = BatchResultSet(
+            results=(
+                _result(
+                    "a",
+                    {"input_tokens": 10, "cached_input_tokens": 2, "output_tokens": 5, "total_tokens": 15},
+                ),
+            ),
+            errors=(),
+            duplicate_custom_ids=(),
+            missing_custom_ids=(),
+            malformed_lines=(),
+        )
+        totals = result_set.total_tokens_by_kind()
+        self.assertEqual(
+            {"input_tokens": 10, "cached_input_tokens": 2, "output_tokens": 5, "total_tokens": 15}, totals
+        )
+
+    def test_partial_usage_leaves_unreported_fields_absent(self) -> None:
+        result_set = BatchResultSet(
+            results=(_result("a", {"input_tokens": 10}),),
+            errors=(),
+            duplicate_custom_ids=(),
+            missing_custom_ids=(),
+            malformed_lines=(),
+        )
+        totals = result_set.total_tokens_by_kind()
+        self.assertEqual({"input_tokens": 10}, totals)
+        self.assertNotIn("output_tokens", totals)
+        self.assertNotIn("cached_input_tokens", totals)
+        self.assertNotIn("total_tokens", totals)
+
+    def test_explicit_zero_is_preserved_as_reported(self) -> None:
+        result_set = BatchResultSet(
+            results=(_result("a", {"input_tokens": 10, "cached_input_tokens": 0}),),
+            errors=(),
+            duplicate_custom_ids=(),
+            missing_custom_ids=(),
+            malformed_lines=(),
+        )
+        totals = result_set.total_tokens_by_kind()
+        self.assertIn("cached_input_tokens", totals)
+        self.assertEqual(0, totals["cached_input_tokens"])
+
+    def test_absent_usage_across_all_results_returns_empty(self) -> None:
+        result_set = BatchResultSet(
+            results=(_result("a", None), _result("b", {})),
+            errors=(),
+            duplicate_custom_ids=(),
+            missing_custom_ids=(),
+            malformed_lines=(),
+        )
+        self.assertEqual({}, result_set.total_tokens_by_kind())
+
+    def test_mixed_results_partial_and_full_usage_not_fabricated(self) -> None:
+        result_set = BatchResultSet(
+            results=(
+                _result("a", {"input_tokens": 10}),
+                _result("b", {"input_tokens": 5, "output_tokens": 3}),
+            ),
+            errors=(),
+            duplicate_custom_ids=(),
+            missing_custom_ids=(),
+            malformed_lines=(),
+        )
+        totals = result_set.total_tokens_by_kind()
+        self.assertEqual(15, totals["input_tokens"])
+        self.assertEqual(3, totals["output_tokens"])
+        self.assertNotIn("cached_input_tokens", totals)
+        self.assertNotIn("total_tokens", totals)
 
 
 class FixtureSanityTests(unittest.TestCase):

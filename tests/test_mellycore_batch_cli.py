@@ -69,6 +69,29 @@ class LocalCommandTests(unittest.TestCase):
         self.assertEqual(EXIT_INVALID, code)
         self.assertFalse(json.loads(out)["valid"])
 
+    def test_validate_jsonl_rejects_unsafe_body(self) -> None:
+        fake_value = "TEST-CREDENTIAL-NOT-REAL-VALUE"
+        unsafe = self.root / "unsafe.jsonl"
+        unsafe.write_text(
+            json.dumps(
+                {
+                    "custom_id": "a",
+                    "method": "POST",
+                    "url": "/v1/responses",
+                    "body": {"model": "m", "input": "x", "stream": True, "api_key": fake_value},
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        with no_network():
+            code, out = _run(["validate", "--jsonl", str(unsafe), "--json"])
+        self.assertEqual(EXIT_INVALID, code)
+        payload = json.loads(out)
+        self.assertFalse(payload["valid"])
+        self.assertTrue(payload["findings"])
+        self.assertNotIn(fake_value, out)
+
     def test_inspect_reports_hash_and_size(self) -> None:
         with no_network():
             _run(["build", "--manifest", str(self.manifest_path), "--json"])

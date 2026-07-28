@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Any, Dict, Iterator, Optional, Sequence, Set
 
@@ -22,7 +23,15 @@ from .models import (
     BatchRequest,
     InvalidInputError,
 )
-from .validation import validate_requests
+from .validation import validate_request, validate_requests
+
+#: A derived output path is built as ``<output_dir>/<task_id>.jsonl``.
+#: ``task_id`` comes from a manifest -- untrusted input -- so it must never be
+#: trusted as a raw path component. This charset excludes path separators,
+#: drive letters, ``.``/``..``, NUL, and control characters outright rather
+#: than trying to sanitize an unsafe value into a different, possibly
+#: colliding, one.
+_SAFE_TASK_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,199}$")
 
 
 def repo_root() -> Path:
@@ -68,6 +77,20 @@ def build_jsonl(manifest: BatchManifest, output_path: Optional[Path] = None) -> 
     request fails validation. Refuses to overwrite an existing file unless
     ``manifest.overwrite`` is true.
     """
+    # Local import: manifest.py imports from this module at module load time,
+    # so importing manifest.py back at *this* module's top level would create
+    # an import cycle. By the time build_jsonl() actually runs, both modules
+    # are already fully loaded, so a function-scoped import is safe.
+    from .manifest import validate_manifest
+
+    # The single authoritative manifest contract check -- this is what closes
+    # the gap where `build` previously accepted manifests with an unsupported
+    # completion_window that `validate --manifest` and `plan-live` would both
+    # reject. The checks below are kept as an additional, redundant layer
+    # (and to preserve their independently-monkeypatchable module-level
+    # constants for existing tests) rather than removed.
+    validate_manifest(manifest)
+
     if manifest.endpoint not in SUPPORTED_ENDPOINTS:
         raise InvalidInputError(
             "unsupported manifest endpoint {!r}; supported endpoints: {}".format(
@@ -100,8 +123,9 @@ def build_jsonl(manifest: BatchManifest, output_path: Optional[Path] = None) -> 
         )
 
     if output_path is None:
-        output_path = Path(manifest.output_dir) / "{}.jsonl".format(manifest.task_id)
-    output_path = Path(output_path)
+        output_path = _safe_default_output_path(manifest.output_dir, manifest.task_id)
+    else:
+        output_path = Path(output_path)
 
     if output_path.exists() and not manifest.overwrite:
         raise InvalidInputError(
@@ -124,6 +148,35 @@ def build_jsonl(manifest: BatchManifest, output_path: Optional[Path] = None) -> 
         completion_window=manifest.completion_window,
         models=manifest.models,
     )
+
+
+def _safe_default_output_path(output_dir: str, task_id: str) -> Path:
+    """Build the default ``<output_dir>/<task_id>.jsonl`` path.
+
+    Only used when no explicit ``output_path`` is given to :func:`build_jsonl`.
+    An explicit, caller-supplied ``output_path`` is never routed through this
+    function and its behavior is unchanged.
+    """
+    if not _SAFE_TASK_ID_RE.match(task_id):
+        raise InvalidInputError(
+            "task_id {!r} is not a safe filesystem identifier for a derived output path "
+            "(only letters, digits, '-', and '_' are allowed, and it must start with a "
+            "letter or digit); pass an explicit output path if you need another value".format(
+                task_id
+            )
+        )
+
+    base_dir = Path(output_dir).resolve()
+    candidate = (base_dir / "{}.jsonl".format(task_id)).resolve()
+    if candidate.parent != base_dir:
+        # Defense in depth: should be unreachable given the charset check
+        # above, but path containment is never trusted to a single layer.
+        raise InvalidInputError(
+            "derived output path {} would not be located directly inside output_dir {}".format(
+                candidate, base_dir
+            )
+        )
+    return candidate
 
 
 def sha256_of_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
@@ -164,15 +217,19 @@ def iter_validate_jsonl_file(path: Path) -> Iterator[Dict[str, Any]]:
                 yield {"line": line_number, "code": "not_an_object", "message": "line is not a JSON object"}
                 continue
 
+            line_ok = True
+
             custom_id = obj.get("custom_id")
             if not isinstance(custom_id, str) or not custom_id.strip():
                 yield {"line": line_number, "code": "missing_custom_id", "message": "custom_id missing or empty"}
+                line_ok = False
             elif custom_id in seen_ids:
                 yield {
                     "line": line_number,
                     "code": "duplicate_custom_id",
                     "message": "duplicate custom_id {!r}".format(custom_id),
                 }
+                line_ok = False
             else:
                 seen_ids.add(custom_id)
 
@@ -182,12 +239,32 @@ def iter_validate_jsonl_file(path: Path) -> Iterator[Dict[str, Any]]:
                     "code": "unsupported_method",
                     "message": "unsupported method {!r}".format(obj.get("method")),
                 }
+                line_ok = False
             if obj.get("url") not in SUPPORTED_ENDPOINTS:
                 yield {
                     "line": line_number,
                     "code": "unsupported_endpoint",
                     "message": "unsupported url {!r}".format(obj.get("url")),
                 }
+                line_ok = False
+
+            # Only reachable once custom_id/method/url have each already
+            # passed their own check above. Reuses the same authoritative
+            # per-request validator the build/manifest path relies on, so a
+            # raw JSONL file cannot be reported "valid" while carrying a
+            # missing model/input, `stream: true`, an external URL, or a
+            # credential-shaped field anywhere in its body.
+            if line_ok:
+                request = BatchRequest(
+                    custom_id=custom_id,
+                    method=obj.get("method"),
+                    url=obj.get("url"),
+                    body=obj.get("body"),
+                )
+                try:
+                    validate_request(request)
+                except InvalidInputError as exc:
+                    yield {"line": line_number, "code": "invalid_body", "message": str(exc)}
 
     if request_count > MAX_REQUESTS_PER_BATCH:
         yield {

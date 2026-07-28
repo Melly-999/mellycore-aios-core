@@ -70,7 +70,16 @@ def parse_manifest_dict(data: Dict[str, Any]) -> BatchManifest:
     elif not isinstance(output_dir, str):
         raise InvalidInputError("manifest 'output_dir' must be a string")
 
-    overwrite = bool(data.get("overwrite", False))
+    overwrite_raw = data.get("overwrite", False)
+    if not isinstance(overwrite_raw, bool):
+        # Deliberately not `bool(overwrite_raw)`: Python truthiness would
+        # coerce a JSON string `"false"` (or any other non-empty string, or
+        # `1`) to `True`, silently enabling overwrite for a manifest that
+        # visibly says it should not. Ambiguous input is rejected outright.
+        raise InvalidInputError(
+            "manifest 'overwrite' must be a JSON boolean (true/false), got {!r}".format(overwrite_raw)
+        )
+    overwrite = overwrite_raw
 
     completion_window = data.get("completion_window", COMPLETION_WINDOW)
     if not isinstance(completion_window, str):

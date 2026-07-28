@@ -172,6 +172,182 @@ class StreamingValidationTests(unittest.TestCase):
         codes = {f["code"] for f in findings}
         self.assertIn("unsupported_method", codes)
 
+    def test_safe_request_has_no_findings(self) -> None:
+        path = self._write(
+            "safe.jsonl",
+            [
+                '{"custom_id": "a", "method": "POST", "url": "/v1/responses", '
+                '"body": {"model": "m", "input": "hello"}}'
+            ],
+        )
+        self.assertEqual([], list(iter_validate_jsonl_file(path)))
+
+    def test_stream_true_rejected_in_raw_body(self) -> None:
+        path = self._write(
+            "stream.jsonl",
+            [
+                '{"custom_id": "a", "method": "POST", "url": "/v1/responses", '
+                '"body": {"model": "m", "input": "x", "stream": true}}'
+            ],
+        )
+        findings = list(iter_validate_jsonl_file(path))
+        self.assertEqual([1], [f["line"] for f in findings])
+        self.assertEqual("invalid_body", findings[0]["code"])
+
+    def test_api_key_field_rejected_in_raw_body(self) -> None:
+        fake_value = "TEST-CREDENTIAL-NOT-REAL-VALUE"
+        path = self._write(
+            "cred.jsonl",
+            [
+                '{{"custom_id": "a", "method": "POST", "url": "/v1/responses", '
+                '"body": {{"model": "m", "input": "x", "api_key": "{}"}}}}'.format(fake_value)
+            ],
+        )
+        findings = list(iter_validate_jsonl_file(path))
+        self.assertEqual(1, len(findings))
+        self.assertEqual("invalid_body", findings[0]["code"])
+        self.assertNotIn(fake_value, findings[0]["message"])
+
+    def test_nested_credential_field_rejected_in_raw_body(self) -> None:
+        path = self._write(
+            "nested-cred.jsonl",
+            [
+                '{"custom_id": "a", "method": "POST", "url": "/v1/responses", '
+                '"body": {"model": "m", "input": "x", '
+                '"metadata": {"headers": [{"authorization": "x"}]}}}'
+            ],
+        )
+        findings = list(iter_validate_jsonl_file(path))
+        self.assertEqual(["invalid_body"], [f["code"] for f in findings])
+
+    def test_missing_model_rejected_in_raw_body(self) -> None:
+        path = self._write(
+            "no-model.jsonl",
+            ['{"custom_id": "a", "method": "POST", "url": "/v1/responses", "body": {"input": "x"}}'],
+        )
+        findings = list(iter_validate_jsonl_file(path))
+        self.assertEqual(["invalid_body"], [f["code"] for f in findings])
+
+    def test_missing_input_rejected_in_raw_body(self) -> None:
+        path = self._write(
+            "no-input.jsonl",
+            ['{"custom_id": "a", "method": "POST", "url": "/v1/responses", "body": {"model": "m"}}'],
+        )
+        findings = list(iter_validate_jsonl_file(path))
+        self.assertEqual(["invalid_body"], [f["code"] for f in findings])
+
+    def test_external_url_rejected_in_raw_body(self) -> None:
+        path = self._write(
+            "url.jsonl",
+            [
+                '{"custom_id": "a", "method": "POST", "url": "/v1/responses", '
+                '"body": {"model": "m", "input": "see https://evil.example.com/callback"}}'
+            ],
+        )
+        findings = list(iter_validate_jsonl_file(path))
+        self.assertEqual(["invalid_body"], [f["code"] for f in findings])
+
+    def test_body_not_checked_when_custom_id_already_invalid(self) -> None:
+        # A structurally broken line reports only its structural finding;
+        # it must not also be double-reported for body issues.
+        path = self._write(
+            "missing-id.jsonl",
+            ['{"method": "POST", "url": "/v1/responses", "body": {"stream": true}}'],
+        )
+        findings = list(iter_validate_jsonl_file(path))
+        self.assertEqual(["missing_custom_id"], [f["code"] for f in findings])
+
+    def test_line_numbers_correct_for_body_findings(self) -> None:
+        path = self._write(
+            "lines.jsonl",
+            [
+                '{"custom_id": "a", "method": "POST", "url": "/v1/responses", '
+                '"body": {"model": "m", "input": "ok"}}',
+                '{"custom_id": "b", "method": "POST", "url": "/v1/responses", '
+                '"body": {"model": "m", "input": "x", "stream": true}}',
+            ],
+        )
+        findings = list(iter_validate_jsonl_file(path))
+        self.assertEqual([2], [f["line"] for f in findings])
+
+
+class BuildJsonlPathSafetyTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.root = Path(self._tmp.name)
+
+    def test_safe_task_id_stays_under_output_dir(self) -> None:
+        manifest = parse_manifest_dict(make_manifest_dict(task_id="safe-task_1", output_dir=str(self.root)))
+        summary = build_jsonl(manifest)
+        resolved_root = self.root.resolve()
+        self.assertEqual(resolved_root, Path(summary.path).resolve().parent)
+
+    def test_posix_style_traversal_task_id_rejected(self) -> None:
+        manifest = parse_manifest_dict(make_manifest_dict(task_id="../escape", output_dir=str(self.root)))
+        with self.assertRaises(InvalidInputError):
+            build_jsonl(manifest)
+
+    def test_windows_style_traversal_task_id_rejected(self) -> None:
+        manifest = parse_manifest_dict(make_manifest_dict(task_id="..\\escape", output_dir=str(self.root)))
+        with self.assertRaises(InvalidInputError):
+            build_jsonl(manifest)
+
+    def test_posix_absolute_task_id_rejected(self) -> None:
+        manifest = parse_manifest_dict(make_manifest_dict(task_id="/absolute/path", output_dir=str(self.root)))
+        with self.assertRaises(InvalidInputError):
+            build_jsonl(manifest)
+
+    def test_windows_drive_task_id_rejected(self) -> None:
+        manifest = parse_manifest_dict(
+            make_manifest_dict(task_id="C:\\absolute\\path", output_dir=str(self.root))
+        )
+        with self.assertRaises(InvalidInputError):
+            build_jsonl(manifest)
+
+    def test_separator_containing_task_id_rejected(self) -> None:
+        manifest = parse_manifest_dict(make_manifest_dict(task_id="has/slash", output_dir=str(self.root)))
+        with self.assertRaises(InvalidInputError):
+            build_jsonl(manifest)
+
+    def test_dot_task_id_rejected(self) -> None:
+        manifest = parse_manifest_dict(make_manifest_dict(task_id=".", output_dir=str(self.root)))
+        with self.assertRaises(InvalidInputError):
+            build_jsonl(manifest)
+
+    def test_dotdot_task_id_rejected(self) -> None:
+        manifest = parse_manifest_dict(make_manifest_dict(task_id="..", output_dir=str(self.root)))
+        with self.assertRaises(InvalidInputError):
+            build_jsonl(manifest)
+
+    def test_explicit_output_path_bypasses_task_id_charset_rule(self) -> None:
+        # An explicit output_path is caller-controlled and pre-existing
+        # behavior for it is unchanged -- only the *derived default* path is
+        # subject to the task_id safety rule.
+        manifest = parse_manifest_dict(make_manifest_dict(task_id="batch-task-1", output_dir=str(self.root)))
+        summary = build_jsonl(manifest, output_path=self.root / "custom-name.jsonl")
+        self.assertTrue(Path(summary.path).exists())
+
+
+class BuildJsonlCompletionWindowTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.root = Path(self._tmp.name)
+
+    def test_supported_completion_window_accepted(self) -> None:
+        manifest = parse_manifest_dict(
+            make_manifest_dict(output_dir=str(self.root), completion_window="24h")
+        )
+        build_jsonl(manifest)  # must not raise
+
+    def test_unsupported_completion_window_rejected_by_build(self) -> None:
+        manifest = parse_manifest_dict(
+            make_manifest_dict(output_dir=str(self.root), completion_window="1h")
+        )
+        with self.assertRaises(InvalidInputError):
+            build_jsonl(manifest)
+
 
 if __name__ == "__main__":
     unittest.main()

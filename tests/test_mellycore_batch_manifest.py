@@ -40,6 +40,68 @@ class ParseManifestTests(unittest.TestCase):
             parse_manifest_dict(data)
 
 
+class OverwriteParsingTests(unittest.TestCase):
+    def test_boolean_true_accepted(self) -> None:
+        data = make_manifest_dict()
+        data["overwrite"] = True
+        manifest = parse_manifest_dict(data)
+        self.assertIs(True, manifest.overwrite)
+
+    def test_boolean_false_accepted(self) -> None:
+        data = make_manifest_dict()
+        data["overwrite"] = False
+        manifest = parse_manifest_dict(data)
+        self.assertIs(False, manifest.overwrite)
+
+    def test_missing_value_defaults_false(self) -> None:
+        data = make_manifest_dict()
+        del data["overwrite"]
+        manifest = parse_manifest_dict(data)
+        self.assertIs(False, manifest.overwrite)
+
+    def test_string_false_rejected(self) -> None:
+        data = make_manifest_dict()
+        data["overwrite"] = "false"
+        with self.assertRaises(InvalidInputError):
+            parse_manifest_dict(data)
+
+    def test_string_true_rejected(self) -> None:
+        data = make_manifest_dict()
+        data["overwrite"] = "true"
+        with self.assertRaises(InvalidInputError):
+            parse_manifest_dict(data)
+
+    def test_integer_one_rejected(self) -> None:
+        data = make_manifest_dict()
+        data["overwrite"] = 1
+        with self.assertRaises(InvalidInputError):
+            parse_manifest_dict(data)
+
+    def test_integer_zero_rejected(self) -> None:
+        data = make_manifest_dict()
+        data["overwrite"] = 0
+        with self.assertRaises(InvalidInputError):
+            parse_manifest_dict(data)
+
+    def test_null_rejected(self) -> None:
+        data = make_manifest_dict()
+        data["overwrite"] = None
+        with self.assertRaises(InvalidInputError):
+            parse_manifest_dict(data)
+
+    def test_list_rejected(self) -> None:
+        data = make_manifest_dict()
+        data["overwrite"] = []
+        with self.assertRaises(InvalidInputError):
+            parse_manifest_dict(data)
+
+    def test_dict_rejected(self) -> None:
+        data = make_manifest_dict()
+        data["overwrite"] = {}
+        with self.assertRaises(InvalidInputError):
+            parse_manifest_dict(data)
+
+
 class ValidateManifestTests(unittest.TestCase):
     def test_valid_manifest_passes(self) -> None:
         manifest = parse_manifest_dict(make_manifest_dict())

@@ -273,24 +273,27 @@ class BatchResultSet:
         return len(self.errors)
 
     def total_tokens_by_kind(self) -> Dict[str, int]:
-        """Sum token-usage fields present on successful results.
+        """Sum token-usage fields actually reported across successful results.
 
-        Missing usage data is simply not counted -- never assumed to be zero
-        versus "not reported"; callers distinguish the two via
-        :class:`BatchLedgerSummary`'s ``None`` fields.
+        A key is present in the returned dict only if at least one result
+        reported it (even if the reported value happened to be zero); a key
+        no result ever reported is absent entirely, never fabricated as 0.
+        This preserves the "unknown versus zero" distinction through to
+        :class:`BatchLedgerSummary`, whose fields use ``dict.get`` against
+        this return value -- an absent key naturally becomes ``None`` there,
+        even when a *different* metric on the same or another result was
+        genuinely measured.
         """
-        totals = {"input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
-        any_usage = False
+        totals: Dict[str, int] = {}
         for result in self.results:
             usage = result.usage or {}
             if not usage:
                 continue
-            any_usage = True
-            for key in totals:
+            for key in ("input_tokens", "cached_input_tokens", "output_tokens", "total_tokens"):
                 value = usage.get(key)
                 if isinstance(value, int):
-                    totals[key] += value
-        return totals if any_usage else {}
+                    totals[key] = totals.get(key, 0) + value
+        return totals
 
 
 @dataclass(frozen=True)
