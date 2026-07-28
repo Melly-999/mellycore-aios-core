@@ -16,4 +16,5 @@ __pycache__/
 03_Assets/
 incoming/
 glm_workspace_reference/
+.runtime/batch/
 
