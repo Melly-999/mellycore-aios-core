@@ -57,7 +57,10 @@ class EnforceTests(unittest.TestCase):
     def test_enforce_raises_even_with_fake_credentials_and_flags(self) -> None:
         with mock.patch.dict(
             os.environ,
-            {"OPENAI_API_KEY": "TEST-CREDENTIAL-NOT-REAL-VALUE", "MELLYCORE_ALLOW_LIVE_BATCH": "1"},
+            {
+                "OPENAI_API_KEY": "TEST-CREDENTIAL-NOT-REAL-VALUE",
+                "MELLYCORE_ALLOW_LIVE_BATCH": "1",
+            },
             clear=False,
         ):
             with self.assertRaises(LiveConnectionBlockedError) as ctx:
@@ -70,6 +73,40 @@ class EnforceTests(unittest.TestCase):
             with self.assertRaises(LiveConnectionBlockedError) as ctx:
                 enforce_live_connection_allowed("submit")
             self.assertNotIn(fake_key, str(ctx.exception))
+
+
+class StageBKillSwitchCombinedBypassTests(unittest.TestCase):
+    """Proves Stage B's activation-control layer cannot, alone or combined with
+    every other input, flip the trigger-#5 policy or the Stage C kill switch.
+    """
+
+    def test_stage_c_kill_switch_false_even_with_every_input_present(self) -> None:
+        from scripts.mellycore_batch.activation import stage_b_kill_switch_state
+
+        with mock.patch.dict(
+            os.environ,
+            {
+                "OPENAI_API_KEY": "TEST-CREDENTIAL-NOT-REAL-VALUE",
+                "MELLYCORE_ALLOW_LIVE_BATCH": "1",
+                "MELLYCORE_FORCE_LIVE": "true",
+            },
+            clear=False,
+        ):
+            # A valid manifest, a valid authorization artifact, --execute,
+            # fake credentials, and env-var bypass attempts are each proven
+            # individually powerless elsewhere (test_mellycore_batch_activation.py,
+            # test_mellycore_batch_cli.py). This asserts the *combination* of
+            # every one of those inputs still cannot move the hardcoded
+            # kill switch off False -- the function takes no arguments at all.
+            state = stage_b_kill_switch_state()
+            self.assertFalse(state.stage_c_live_execution_authorized)
+            self.assertFalse(get_active_policy().allowed)
+
+    def test_kill_switch_and_policy_agree_execution_is_never_authorized(self) -> None:
+        from scripts.mellycore_batch.activation import stage_b_kill_switch_state
+
+        self.assertFalse(stage_b_kill_switch_state().stage_c_live_execution_authorized)
+        self.assertFalse(get_active_policy().allowed)
 
 
 class CredentialDetectionTests(unittest.TestCase):
@@ -85,7 +122,9 @@ class CredentialDetectionTests(unittest.TestCase):
             self.assertFalse(credential_material_present())
 
     def test_detection_never_influences_policy(self) -> None:
-        with mock.patch.dict(os.environ, {"OPENAI_API_KEY": "TEST-CREDENTIAL-SHORT"}, clear=False):
+        with mock.patch.dict(
+            os.environ, {"OPENAI_API_KEY": "TEST-CREDENTIAL-SHORT"}, clear=False
+        ):
             self.assertTrue(credential_material_present())
             self.assertFalse(get_active_policy().allowed)
 

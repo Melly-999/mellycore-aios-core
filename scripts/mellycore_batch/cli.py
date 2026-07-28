@@ -6,6 +6,10 @@ Commands:
     inspect     Report facts about an existing JSONL file (count, size, sha256).
     summarize   Parse downloaded result/error files into a Run Ledger-compatible summary.
     plan-live   Show what a future submission would do, without doing it.
+    activation-preflight
+                Stage B local activation preflight (pricing evidence, exact-model/
+                envelope/cost checks, optional authorization-artifact validation).
+                Always reports execution_authorized=false. See activation.py.
     submit      BLOCKED while migration trigger #5 is active. See policy.py.
     status      BLOCKED while migration trigger #5 is active. See policy.py.
     list        BLOCKED while migration trigger #5 is active. See policy.py.
@@ -18,22 +22,41 @@ Exit codes:
     78  a command required a live provider connection, refused because
         migration trigger #5 is blocking (EXIT_LIVE_BLOCKED)
 
-``build``, ``validate``, ``inspect``, ``summarize``, and ``plan-live`` are the
-only commands that do anything; none of them constructs a provider client or
-reaches the network. ``submit``, ``status``, ``list``, ``download``, and
-``cancel`` always fail with exit code 78 right now -- see
+``build``, ``validate``, ``inspect``, ``summarize``, ``plan-live``, and
+``activation-preflight`` are the only commands that do anything; none of them
+constructs a provider client, imports the OpenAI SDK, or reaches the
+network. ``submit``, ``status``, ``list``, ``download``, and ``cancel``
+always fail with exit code 78 right now -- see
 :mod:`scripts.mellycore_batch.policy`.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from .jsonl import build_jsonl, iter_validate_jsonl_file, sha256_of_file
+from .activation import (
+    DEFAULT_PRICING_MANIFEST_PATH,
+    build_preflight_record,
+    enforce_cost_cap,
+    enforce_request_envelope,
+    estimate_cost,
+    load_authorization_artifact,
+    load_pricing_manifest,
+    validate_authorization_artifact,
+    validate_pricing_evidence,
+)
+from .jsonl import (
+    build_jsonl,
+    iter_validate_jsonl_file,
+    render_jsonl_bytes,
+    sha256_of_file,
+)
 from .manifest import load_manifest_file, validate_manifest
 from .models import (
     COMPLETION_WINDOW,
@@ -45,7 +68,11 @@ from .models import (
     InvalidInputError,
     LiveConnectionBlockedError,
 )
-from .policy import credential_material_present, enforce_live_connection_allowed, get_active_policy
+from .policy import (
+    credential_material_present,
+    enforce_live_connection_allowed,
+    get_active_policy,
+)
 from .results import parse_result_files
 from .summary import build_ledger_summary
 
@@ -132,7 +159,11 @@ def cmd_validate(args: argparse.Namespace) -> int:
             print("  PASS no findings")
             return EXIT_OK
         for finding in findings:
-            print("  line {}: {} - {}".format(finding["line"], finding["code"], finding["message"]))
+            print(
+                "  line {}: {} - {}".format(
+                    finding["line"], finding["code"], finding["message"]
+                )
+            )
         print("  FAIL {} finding(s)".format(len(findings)))
         return EXIT_INVALID
 
@@ -219,7 +250,11 @@ def cmd_summarize(args: argparse.Namespace) -> int:
 
 
 def _read_lines(path: Path) -> List[str]:
-    return [line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    return [
+        line.strip()
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
 
 
 # --- plan-live ------------------------------------------------------------------
@@ -267,9 +302,155 @@ def cmd_plan_live(args: argparse.Namespace) -> int:
     print("  input_file_size:       {}".format(plan["input_file_size"]))
     print("  input_file_sha256:     {}".format(plan["input_file_sha256"]))
     print("  expected_upload_purpose: {}".format(plan["expected_upload_purpose"]))
-    print("  credentials_detected:  {} (value never shown)".format(plan["credentials_detected"]))
+    print(
+        "  credentials_detected:  {} (value never shown)".format(
+            plan["credentials_detected"]
+        )
+    )
     print("  blocking_trigger:      {}".format(policy.blocking_trigger))
     print("  execution_allowed:     {}".format(plan["execution_allowed"]))
+    return EXIT_OK
+
+
+# --- activation-preflight (Stage B, local only, no network) -------------------
+
+
+def _parse_now_arg(raw: Optional[str]) -> datetime:
+    if not raw:
+        return datetime.now(timezone.utc)
+    normalized = raw[:-1] + "+00:00" if raw.endswith("Z") else raw
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError as exc:
+        raise InvalidInputError(
+            "--now {!r} is not a valid ISO-8601 timestamp: {}".format(raw, exc)
+        ) from exc
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+
+def cmd_activation_preflight(args: argparse.Namespace) -> int:
+    """Stage B activation preflight: local validation only, never a live connection.
+
+    Imports no provider client and no OpenAI SDK. Loads and cross-checks the
+    pricing-evidence manifest, enforces the exact-model/request/input/output
+    envelope, computes a Decimal cost estimate against the hard cap, and (if
+    an authorization artifact path is given) validates -- but never consumes
+    -- it. ``execution_authorized`` and ``migration_trigger_5_crossed`` are
+    always ``False`` in the emitted record; this command cannot report
+    otherwise regardless of any flag or file it is given.
+    """
+    manifest = load_manifest_file(Path(args.manifest))
+    validate_manifest(manifest)
+
+    payload_bytes = render_jsonl_bytes(manifest.requests)
+    input_byte_count = len(payload_bytes)
+    input_jsonl_sha256 = hashlib.sha256(payload_bytes).hexdigest()
+
+    now = _parse_now_arg(args.now)
+
+    pricing_manifest_path = (
+        Path(args.pricing_manifest)
+        if args.pricing_manifest
+        else DEFAULT_PRICING_MANIFEST_PATH
+    )
+    pricing_manifest = load_pricing_manifest(pricing_manifest_path)
+    validate_pricing_evidence(pricing_manifest, now)
+
+    envelope = enforce_request_envelope(manifest.requests, input_byte_count)
+    cost_estimate = estimate_cost(
+        envelope.input_byte_count, envelope.total_max_output_tokens
+    )
+    enforce_cost_cap(cost_estimate)
+
+    canonical_commit_sha = args.canonical_commit_sha or "unknown"
+    activation_commit_sha = args.activation_commit_sha or "unknown"
+
+    authorization_id: Optional[str] = None
+    if args.authorization:
+        if not args.canonical_commit_sha or not args.activation_commit_sha:
+            raise InvalidInputError(
+                "--authorization requires both --canonical-commit-sha and --activation-commit-sha"
+            )
+        artifact = load_authorization_artifact(Path(args.authorization))
+        validate_authorization_artifact(
+            artifact,
+            now=now,
+            expected_canonical_base_sha=canonical_commit_sha,
+            expected_activation_commit_sha=activation_commit_sha,
+            expected_task_id=manifest.task_id,
+        )
+        # Preflight validates only -- it never calls
+        # scripts.mellycore_batch.activation.consume_authorization. Only a
+        # hypothetical, separately authorized Stage C execution attempt would
+        # ever consume an authorization artifact, and that code path does not
+        # exist in this package.
+        authorization_id = artifact.authorization_id
+
+    record = build_preflight_record(
+        task_id=manifest.task_id,
+        authorization_id=authorization_id,
+        canonical_commit_sha=canonical_commit_sha,
+        activation_commit_sha=activation_commit_sha,
+        endpoint=manifest.endpoint,
+        completion_window=manifest.completion_window,
+        envelope=envelope,
+        pricing_manifest=pricing_manifest,
+        cost_estimate=cost_estimate,
+        input_jsonl_sha256=input_jsonl_sha256,
+        credential_present=credential_material_present(),
+    )
+    payload = record.to_dict()
+
+    if args.json:
+        _emit_json({"command": "activation-preflight", **payload})
+        return EXIT_OK
+
+    print(
+        "MellyCore Batch activation-preflight -- Stage B PLANNING ONLY, no network, nothing submitted"
+    )
+    print("  task_id:                          {}".format(payload["task_id"]))
+    print("  authorization_id:                 {}".format(payload["authorization_id"]))
+    print(
+        "  provider / endpoint / model:       {} / {} / {}".format(
+            payload["provider"], payload["endpoint"], payload["model"]
+        )
+    )
+    print("  request_count:                    {}".format(payload["request_count"]))
+    print(
+        "  input_jsonl_size / sha256:         {} / {}".format(
+            payload["input_jsonl_size"], payload["input_jsonl_sha256"]
+        )
+    )
+    print(
+        "  maximum_total_output_tokens:       {}".format(
+            payload["maximum_total_output_tokens"]
+        )
+    )
+    print(
+        "  pricing_verified_at / valid_until: {} / {}".format(
+            payload["pricing_verified_at"], payload["pricing_valid_until"]
+        )
+    )
+    print(
+        "  estimated_maximum_cost / cap:      {} / {}".format(
+            payload["estimated_maximum_cost"], payload["authorized_hard_cost_cap"]
+        )
+    )
+    print(
+        "  credential_present:                {} (value never shown)".format(
+            payload["credential_present"]
+        )
+    )
+    print(
+        "  execution_authorized:              {}".format(
+            payload["execution_authorized"]
+        )
+    )
+    print(
+        "  migration_trigger_5_crossed:       {}".format(
+            payload["migration_trigger_5_crossed"]
+        )
+    )
     return EXIT_OK
 
 
@@ -282,18 +463,24 @@ def cmd_plan_live(args: argparse.Namespace) -> int:
 #: trigger #5 is active, so nothing after it in any of these functions can
 #: currently execute. The actual provider-calling logic is deliberately not
 #: written yet: it belongs to the separately authorized
-#: ``MELLYCORE-OPENAI-BATCH-API-LIVE-SMOKE-001`` task, after Model B
-#: reconsideration, not to this foundation task.
+#: ``MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`` task (Stage C),
+#: after its own separate authorization -- Stage B (this module's
+#: ``activation-preflight`` command and :mod:`scripts.mellycore_batch.activation`)
+#: only plans and validates; it does not authorize or implement Stage C.
 
 
 def cmd_submit(args: argparse.Namespace) -> int:
     enforce_live_connection_allowed("submit")
-    raise NotImplementedError("live submission is out of scope for this foundation task")
+    raise NotImplementedError(
+        "live submission is out of scope for this foundation task"
+    )
 
 
 def cmd_status(args: argparse.Namespace) -> int:
     enforce_live_connection_allowed("status")
-    raise NotImplementedError("live status polling is out of scope for this foundation task")
+    raise NotImplementedError(
+        "live status polling is out of scope for this foundation task"
+    )
 
 
 def cmd_list(args: argparse.Namespace) -> int:
@@ -308,7 +495,9 @@ def cmd_download(args: argparse.Namespace) -> int:
 
 def cmd_cancel(args: argparse.Namespace) -> int:
     enforce_live_connection_allowed("cancel")
-    raise NotImplementedError("live cancellation is out of scope for this foundation task")
+    raise NotImplementedError(
+        "live cancellation is out of scope for this foundation task"
+    )
 
 
 # --- parser ---------------------------------------------------------------------
@@ -326,35 +515,74 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sub = parser.add_subparsers(dest="command")
 
-    p_build = sub.add_parser("build", help="Validate a manifest and write its deterministic JSONL file")
-    p_build.add_argument("--manifest", required=True, help="Path to a Batch manifest JSON file")
-    p_build.add_argument("--output", default=None, help="Output JSONL path (default: derived from task_id)")
-    p_build.add_argument("--overwrite", action="store_true", help="Allow overwriting an existing output file")
+    p_build = sub.add_parser(
+        "build", help="Validate a manifest and write its deterministic JSONL file"
+    )
+    p_build.add_argument(
+        "--manifest", required=True, help="Path to a Batch manifest JSON file"
+    )
+    p_build.add_argument(
+        "--output",
+        default=None,
+        help="Output JSONL path (default: derived from task_id)",
+    )
+    p_build.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Allow overwriting an existing output file",
+    )
     p_build.add_argument("--json", action="store_true", help="Emit JSON")
     p_build.set_defaults(func=cmd_build)
 
-    p_validate = sub.add_parser("validate", help="Validate a manifest or an existing JSONL file")
-    p_validate.add_argument("--manifest", default=None, help="Path to a Batch manifest JSON file")
-    p_validate.add_argument("--jsonl", default=None, help="Path to an existing JSONL file to stream-validate")
+    p_validate = sub.add_parser(
+        "validate", help="Validate a manifest or an existing JSONL file"
+    )
+    p_validate.add_argument(
+        "--manifest", default=None, help="Path to a Batch manifest JSON file"
+    )
+    p_validate.add_argument(
+        "--jsonl",
+        default=None,
+        help="Path to an existing JSONL file to stream-validate",
+    )
     p_validate.add_argument("--json", action="store_true", help="Emit JSON")
     p_validate.set_defaults(func=cmd_validate)
 
-    p_inspect = sub.add_parser("inspect", help="Report facts about an existing JSONL file")
-    p_inspect.add_argument("--jsonl", required=True, help="Path to an existing JSONL file")
+    p_inspect = sub.add_parser(
+        "inspect", help="Report facts about an existing JSONL file"
+    )
+    p_inspect.add_argument(
+        "--jsonl", required=True, help="Path to an existing JSONL file"
+    )
     p_inspect.add_argument("--json", action="store_true", help="Emit JSON")
     p_inspect.set_defaults(func=cmd_inspect)
 
     p_summarize = sub.add_parser(
-        "summarize", help="Parse local result/error JSONL files into a Run Ledger-compatible summary"
+        "summarize",
+        help="Parse local result/error JSONL files into a Run Ledger-compatible summary",
     )
     p_summarize.add_argument("--task-id", required=True, help="Local task identifier")
-    p_summarize.add_argument("--endpoint", default="/v1/responses", help="Batch endpoint used")
-    p_summarize.add_argument("--completion-window", default=COMPLETION_WINDOW, help="Completion window used")
-    p_summarize.add_argument("--model", action="append", default=None, help="A model ID used (repeatable)")
-    p_summarize.add_argument("--status", default="unknown", help="Local status label for this summary")
-    p_summarize.add_argument("--batch-id", default=None, help="Provider batch ID, if known")
-    p_summarize.add_argument("--output-file", default=None, help="Path to a downloaded output JSONL file")
-    p_summarize.add_argument("--error-file", default=None, help="Path to a downloaded error JSONL file")
+    p_summarize.add_argument(
+        "--endpoint", default="/v1/responses", help="Batch endpoint used"
+    )
+    p_summarize.add_argument(
+        "--completion-window", default=COMPLETION_WINDOW, help="Completion window used"
+    )
+    p_summarize.add_argument(
+        "--model", action="append", default=None, help="A model ID used (repeatable)"
+    )
+    p_summarize.add_argument(
+        "--status", default="unknown", help="Local status label for this summary"
+    )
+    p_summarize.add_argument(
+        "--batch-id", default=None, help="Provider batch ID, if known"
+    )
+    p_summarize.add_argument(
+        "--output-file", default=None, help="Path to a downloaded output JSONL file"
+    )
+    p_summarize.add_argument(
+        "--error-file", default=None, help="Path to a downloaded error JSONL file"
+    )
     p_summarize.add_argument(
         "--expected-custom-ids",
         default=None,
@@ -363,11 +591,55 @@ def build_parser() -> argparse.ArgumentParser:
     p_summarize.add_argument("--json", action="store_true", help="Emit JSON")
     p_summarize.set_defaults(func=cmd_summarize)
 
-    p_plan = sub.add_parser("plan-live", help="Show what a future submission would do, without doing it")
-    p_plan.add_argument("--manifest", required=True, help="Path to a Batch manifest JSON file")
-    p_plan.add_argument("--jsonl", default=None, help="Path to an already-built JSONL file, if any")
+    p_plan = sub.add_parser(
+        "plan-live", help="Show what a future submission would do, without doing it"
+    )
+    p_plan.add_argument(
+        "--manifest", required=True, help="Path to a Batch manifest JSON file"
+    )
+    p_plan.add_argument(
+        "--jsonl", default=None, help="Path to an already-built JSONL file, if any"
+    )
     p_plan.add_argument("--json", action="store_true", help="Emit JSON")
     p_plan.set_defaults(func=cmd_plan_live)
+
+    p_preflight = sub.add_parser(
+        "activation-preflight",
+        help=(
+            "Stage B local activation preflight: pricing evidence, exact-model/envelope/cost checks, "
+            "optional authorization-artifact validation. Local only, no network, never authorizes execution."
+        ),
+    )
+    p_preflight.add_argument(
+        "--manifest", required=True, help="Path to a Batch manifest JSON file"
+    )
+    p_preflight.add_argument(
+        "--pricing-manifest",
+        default=None,
+        help="Path to the pricing-evidence manifest (default: the package's openai_batch_pricing.json)",
+    )
+    p_preflight.add_argument(
+        "--authorization",
+        default=None,
+        help="Path to a one-time authorization-artifact JSON file to validate (never consumed by this command)",
+    )
+    p_preflight.add_argument(
+        "--canonical-commit-sha",
+        default=None,
+        help="Expected canonical base commit SHA an authorization artifact must bind to",
+    )
+    p_preflight.add_argument(
+        "--activation-commit-sha",
+        default=None,
+        help="Expected activation commit SHA an authorization artifact must bind to",
+    )
+    p_preflight.add_argument(
+        "--now",
+        default=None,
+        help="ISO-8601 timestamp to evaluate freshness/expiry against (default: current UTC time)",
+    )
+    p_preflight.add_argument("--json", action="store_true", help="Emit JSON")
+    p_preflight.set_defaults(func=cmd_activation_preflight)
 
     for name, func, help_text in (
         ("submit", cmd_submit, "BLOCKED while migration trigger #5 is active"),
@@ -377,7 +649,11 @@ def build_parser() -> argparse.ArgumentParser:
         ("cancel", cmd_cancel, "BLOCKED while migration trigger #5 is active"),
     ):
         p = sub.add_parser(name, help=help_text)
-        p.add_argument("--execute", action="store_true", help="Ignored: cannot bypass migration trigger #5")
+        p.add_argument(
+            "--execute",
+            action="store_true",
+            help="Ignored: cannot bypass migration trigger #5",
+        )
         p.add_argument("--json", action="store_true", help="Emit JSON")
         p.set_defaults(func=func)
 
@@ -404,11 +680,16 @@ def main(argv: Optional[List[str]] = None) -> int:
         if getattr(args, "json", False):
             _emit_json(payload)
         else:
-            print("BLOCKED [{}]: {}".format(LiveConnectionBlockedError.code, exc), file=sys.stderr)
+            print(
+                "BLOCKED [{}]: {}".format(LiveConnectionBlockedError.code, exc),
+                file=sys.stderr,
+            )
         return EXIT_LIVE_BLOCKED
     except InvalidInputError as exc:
         if getattr(args, "json", False):
-            _emit_json({"command": args.command, "error": "invalid_input", "message": str(exc)})
+            _emit_json(
+                {"command": args.command, "error": "invalid_input", "message": str(exc)}
+            )
         else:
             print("ERROR invalid input: {}".format(exc), file=sys.stderr)
         return EXIT_INVALID

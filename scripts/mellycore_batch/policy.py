@@ -15,7 +15,12 @@ file this module reads to decide that answer -- :func:`get_active_policy`
 takes no arguments and consults nothing external. The only way to change the
 outcome is to edit the hardcoded policy below in a future, separately
 authorized task, after Model B reconsideration
-(``MELLYCORE-MODEL-B-LIVE-PROVIDER-TRIGGER-5-DECISION-001``). CLI flags and
+(``MELLYCORE-MODEL-B-LIVE-PROVIDER-TRIGGER-5-DECISION-002``, outcome
+``APPROVE_CONSTRAINED_MODEL_B_TRIGGER_5_TRANSITION_002`` --
+``STAGE_B_IMPLEMENTATION_AUTHORIZED`` only; ``STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED``
+and ``MIGRATION_TRIGGER_5_NOT_YET_CROSSED`` both remain true). See
+``scripts/mellycore_batch/activation.py`` for the Stage B activation-control
+layer this decision authorized; it does not itself flip this policy. CLI flags and
 environment variables such as ``--execute``, ``OPENAI_API_KEY``, and
 ``MELLYCORE_ALLOW_LIVE_BATCH`` are never read by this module and cannot
 influence its answer.
@@ -70,8 +75,11 @@ def enforce_live_connection_allowed(command: str) -> None:
         raise LiveConnectionBlockedError(
             "{} ({}): command {!r} requires a live provider connection, which is not "
             "authorized while {} is blocking. See "
-            "MELLYCORE-MODEL-B-LIVE-PROVIDER-TRIGGER-5-DECISION-001.".format(
-                LiveConnectionBlockedError.code, policy.reason, command, policy.blocking_trigger
+            "MELLYCORE-MODEL-B-LIVE-PROVIDER-TRIGGER-5-DECISION-002.".format(
+                LiveConnectionBlockedError.code,
+                policy.reason,
+                command,
+                policy.blocking_trigger,
             )
         )
 

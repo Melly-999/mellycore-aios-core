@@ -51,3 +51,33 @@ implementation or merge proceeds. Model A creates no branch protection,
 ruleset, environment protection, or other technical deployment gate —
 enforcement remains procedural, resting on per-merge Operator approval.
 
+## OpenAI Batch API — Stage B Activation Controls (No Provider Secrets, Trigger #5 Uncrossed)
+
+`scripts/mellycore_batch/activation.py` (Stage B, branch
+`feat/mellycore-openai-batch-controlled-activation-001`) is a local-only
+planning/validation layer, not a live provider integration. It never reads
+or prints a credential *value* (only a boolean "present/absent" check,
+delegated to `scripts/mellycore_batch/policy.py`'s existing
+`credential_material_present()`), never imports the `openai` SDK on any
+reachable path, and never opens a socket. Full details, including the
+governing capability-research and pricing-evidence outcomes and the
+Model B decision that authorized Stage B implementation only, are recorded
+in `shared_context/PROJECT_STATE.md`'s "OpenAI Batch API — Stage B
+Controlled Activation" section.
+
+Consistent with the rest of this contract: GitHub Actions secrets and
+Vercel environment variables carrying an OpenAI credential are prohibited
+for this repository, and no backend or serverless route capable of making a
+provider call exists or is authorized by Stage B. Live provider connections
+remain hard-blocked by `scripts/mellycore_batch/policy.py`
+(`live_provider_connections_allowed = false`,
+`LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5`, exit code `78`);
+Stage B adds a second, independent, local activation-control layer on top of
+that block, it does not replace or weaken it. This dormant Stage B merge
+does **not** cross migration trigger #5 ("first live provider connection")
+— that trigger is crossed only by an actual, successful, credentialed
+connection to the OpenAI API, which no Stage B code path performs. A
+separate, explicit authorization is required before any live Batch
+execution (Stage C, `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`)
+may proceed.
+
