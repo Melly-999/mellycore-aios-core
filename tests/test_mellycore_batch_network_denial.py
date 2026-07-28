@@ -1,0 +1,71 @@
+"""Explicit network-denial coverage for the Batch foundation.
+
+Two things are proven here: first, that the ``no_network`` fixture itself
+actually fails a test the instant a socket connection is attempted (so it is
+not a fixture that silently does nothing); second, that a full local
+CLI workflow -- including a deliberately blocked live command -- completes
+entirely without tripping it.
+"""
+
+from __future__ import annotations
+
+import json
+import socket
+import tempfile
+import unittest
+from io import StringIO
+from pathlib import Path
+from unittest import mock
+
+from scripts.mellycore_batch.cli import main
+from scripts.mellycore_batch.models import EXIT_LIVE_BLOCKED, EXIT_OK
+from tests.mellycore_batch_fixtures import make_manifest_dict, no_network
+
+
+def _run(argv):
+    stdout = StringIO()
+    with mock.patch("sys.stdout", stdout):
+        code = main(argv)
+    return code, stdout.getvalue()
+
+
+class NoNetworkFixtureSelfTest(unittest.TestCase):
+    def test_fixture_raises_on_real_connect_attempt(self) -> None:
+        with no_network():
+            with self.assertRaises(AssertionError):
+                socket.create_connection(("example.invalid", 80), timeout=1)
+
+    def test_fixture_raises_on_raw_socket_connect(self) -> None:
+        with no_network():
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+                with self.assertRaises(AssertionError):
+                    sock.connect(("example.invalid", 80))
+
+
+class FullLocalWorkflowUnderNetworkDenialTests(unittest.TestCase):
+    def test_build_validate_inspect_summarize_plan_and_blocked_submit(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest_path = root / "manifest.json"
+            manifest_path.write_text(json.dumps(make_manifest_dict(output_dir=str(root))), encoding="utf-8")
+
+            with no_network():
+                code, out = _run(["build", "--manifest", str(manifest_path), "--json"])
+                self.assertEqual(EXIT_OK, code)
+                jsonl_path = json.loads(out)["path"]
+
+                code, _ = _run(["validate", "--jsonl", jsonl_path, "--json"])
+                self.assertEqual(EXIT_OK, code)
+
+                code, _ = _run(["inspect", "--jsonl", jsonl_path, "--json"])
+                self.assertEqual(EXIT_OK, code)
+
+                code, _ = _run(["plan-live", "--manifest", str(manifest_path), "--jsonl", jsonl_path, "--json"])
+                self.assertEqual(EXIT_OK, code)
+
+                code, _ = _run(["submit", "--execute", "--json"])
+                self.assertEqual(EXIT_LIVE_BLOCKED, code)
+
+
+if __name__ == "__main__":
+    unittest.main()
