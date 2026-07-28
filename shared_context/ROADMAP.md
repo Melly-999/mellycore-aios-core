@@ -324,11 +324,29 @@ this roadmap entry.
 ## Safety Gates
 
 - Human approval is mandatory for consequential actions.
-- No autonomous safety-rule changes, merge, deployment, or uncontrolled tool use.
+- No autonomous safety-rule changes, merge, or uncontrolled tool use by an
+  agent or operator without explicit approval.
 - No provider keys, tokens, credentials, or private runtime state in the repository.
 - No trading, broker, order, or MellyTrade runtime direction.
 - No runtime adapter or execution milestone without specification, review,
   explicit authorization, validation, and durable evidence.
+- **Production deployment note — Model A selected (Operator decision,
+  2026-07-27):** merging into canonical `main` causes automatic public
+  Production publication via the Vercel Git integration, with no separate,
+  technically-enforced deployment-approval step. The Operator has selected
+  **Model A** — temporary, static-phase-only combined merge/deployment
+  authorization — as recorded verbatim in `shared_context/DECISIONS.md` and
+  detailed in full in `shared_context/PROJECT_STATE.md`'s "Production
+  Deployment Authorization — Model A Contract (Temporary, Static-Phase
+  Only)". Each individual merge approval authorizes only the Production
+  publication that specific merge causes — never blanket authorization —
+  and every merge-authorization request must warn that it immediately
+  affects the public Production host. Nine canonical, blocking migration
+  triggers (first backend endpoint, authentication flow, stored user data,
+  runtime secret, live provider connection, execution-capable agent,
+  external write-capable integration, financial/trading action, or
+  delegated merge authority/multiple maintainers) require Model B
+  reconsideration before any affected implementation or merge proceeds.
 
 ## Operator Command
 

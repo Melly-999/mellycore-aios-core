@@ -1,6 +1,266 @@
 # Agent Handoff
 
-## Latest Update — OmniRouter-inspired Control Plane reviewed and merge-ready
+## Latest Update — PR #29 task-history pointer stabilization (N-03 fixed)
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002`
+
+- An independent PR remediation review
+  (`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-REVIEW-001`,
+  outcome `PASS_WITH_NOTES_MODEL_A_CONTRACT_PR_REMEDIATION_REVIEW`) confirmed
+  B-01 and N-01 resolved on PR #29's then-head
+  (`59e2068abbd86b3c87df1d0dc845bd2d20011a10`), found no blocking
+  current-head review finding, all checks passing, a successful Preview, no
+  Production deployment for the head, and 245 tests passing. It also
+  reported one new non-blocking note, N-03: two statements in
+  `PROJECT_STATE.md` (near "the exact next task is…" and the "Exact next
+  task:" block preceding the "3D Scene Foundation" section) still named the
+  already-completed `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001`
+  as the live next task, while `RUN_QUEUE.md` and `AGENT_HANDOFF.md` had
+  already moved on.
+- The subsequent merge-readiness assessment
+  (`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-MERGE-READINESS-001`)
+  returned `REMEDIATION_REQUIRED_MODEL_A_CONTRACT_PR_29_MERGE_READINESS`,
+  judging N-03 as requiring correction before merge: under Model A any
+  merge immediately triggers public Production publication, so a false
+  present-tense statement in the canonical state file should not ship live
+  and then be corrected afterward.
+- This task fixes N-03 by reframing both `PROJECT_STATE.md` statements as
+  historical records — preserving the former task name, marking it
+  completed, and directing live task sequencing to `RUN_QUEUE.md` (echoed
+  in this file) — rather than inserting another live pointer into
+  `PROJECT_STATE.md` that would go stale on the next cycle.
+- **No Model A policy, no migration trigger, no PR #28 wording, and no Gate
+  B wording was changed.** Known note N-04 (the PR #29 body's stale
+  reference to the already-resolved N-01 wording) is GitHub metadata and
+  was **intentionally left unmodified** by this task, for the next review
+  to assess.
+- This task creates exactly one new local documentation-only commit, parent
+  `59e2068abbd86b3c87df1d0dc845bd2d20011a10`, subject `docs: stabilize
+  Model A task history pointers`, pushed normally (no force, no history
+  rewrite) to update the existing PR #29
+  (https://github.com/Melly-999/mellycore-aios-core/pull/29). No merge, no
+  auto-merge, no Production publication, no PR-body edit, and no review or
+  thread action was performed.
+- PR #28 and physical Android Chromium Gate B are unaffected: PR #28
+  remains open, non-draft, unmerged, mergeable, intentionally paused; Gate
+  B remains `OPEN / NOT EXECUTED`.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002-REVIEW-001`
+  — a fresh-session, independent, read-only review of the updated PR #29
+  head, verifying N-03 is resolved without re-adjudicating unrelated
+  settled policy, and reassessing current-head reviews, checks, Preview,
+  and N-04. Not authorized to merge, resolve comments, or deploy.
+
+## Previous Update — PR #29 Model A wording remediation (B-01 fixed, N-01 fixed)
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-001`
+
+- An independent PR review
+  (`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REVIEW-001`,
+  outcome `REMEDIATION_REQUIRED_MODEL_A_DEPLOYMENT_CONTRACT_PR_REVIEW`)
+  found one blocking finding against PR #29's head
+  (`ec5182b811de35313a57072a8d068e3986b1fa50`): a `chatgpt-codex-connector`
+  inline comment on `shared_context/SAFETY_CONTRACT.md:35` correctly
+  identified that the document self-contradicted on whether merge and
+  Production publication currently require separate authorization, versus
+  the Model A section immediately below it stating combined per-merge
+  authorization.
+- This task fixes that contradiction (B-01) by rewording the affected
+  clause in `SAFETY_CONTRACT.md` to place the former separate-authorization
+  requirement explicitly in the past ("Before the Operator selected
+  temporary Model A on 2026-07-27, this document required them to be
+  treated as separately authorized"), while stating the current Model A
+  rule accurately immediately after.
+- Bundled the related non-blocking note N-01: `PROJECT_STATE.md`'s
+  "Interim operating rule, effective until resolved" lead-in is now
+  "Pre-decision interim operating rule — superseded on 2026-07-27 by the
+  temporary Model A contract below and retained here as historical
+  context" — the substantive warning text that follows is unchanged, only
+  its framing is corrected from present-active to historical.
+- **N-02 was not touched** (out of scope, remains separately non-blocking).
+  Model A's substantive per-merge authorization boundary, the Operator's
+  verbatim decision in `DECISIONS.md`, and all nine blocking migration
+  triggers are **unchanged** — this task is wording-only.
+- This task creates exactly one new local documentation-only commit, parent
+  `ec5182b811de35313a57072a8d068e3986b1fa50`, subject `docs: resolve Model A
+  authorization wording`, pushed normally (no force, no history rewrite) to
+  update the existing PR #29
+  (https://github.com/Melly-999/mellycore-aios-core/pull/29). The Codex
+  inline comment was **not** resolved or replied to — that determination is
+  left to the next independent review.
+- PR #28 and physical Android Chromium Gate B are unaffected: PR #28
+  remains open, non-draft, unmerged, mergeable, intentionally paused; Gate
+  B remains `OPEN / NOT EXECUTED`.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-REVIEW-001`
+  — a fresh-session, independent, read-only review of the updated PR #29
+  head, deciding whether B-01 and N-01 are resolved and reassessing all
+  current-head reviews and comments. Not authorized to merge, resolve
+  comments, or deploy.
+
+## Previous Update — Model A production deployment authorization adopted (Operator decision, temporary, static-phase-only)
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-IMPLEMENTATION-001`
+
+- The Operator has explicitly selected **Model A** — combined static-site
+  authorization — as the temporary Production deployment authorization
+  model for the current static-showcase phase, following
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001`'s
+  non-binding recommendation. The exact Operator statement is recorded
+  verbatim in `shared_context/DECISIONS.md` (2026-07-27).
+- Under Model A: every individual PR merge into `main` still requires its
+  own separate, explicit Operator approval — **never** blanket, standing,
+  batch, inferred, or future authorization. Approval for one specific merge
+  authorizes only the automatic Vercel Production publication that specific
+  merge causes. Every merge-authorization request must explicitly warn that
+  merging into `main` immediately updates the public Production host. No
+  agent may merge on its own initiative.
+- Full canonical contract (per-merge rule, Production-impact warning,
+  post-merge verification requirement, rollback boundary, branch-protection
+  boundary, PR #28 boundary) recorded in `shared_context/PROJECT_STATE.md`'s
+  "Production Deployment Authorization — Model A Contract (Temporary,
+  Static-Phase Only)"; shorter pointers added to `shared_context/SAFETY_CONTRACT.md`,
+  `shared_context/ROADMAP.md`, `shared_context/RUN_QUEUE.md`, and `AGENTS.md`.
+- Nine canonical, **blocking** migration triggers were recorded: first
+  backend endpoint, first authentication flow, first stored user data,
+  first runtime secret, first live provider connection, first
+  execution-capable agent, first external write-capable integration, first
+  financial or trading action, and delegated merge authority or multiple
+  active maintainers. While any trigger applies, no affected implementation
+  task may proceed to merge, Model A must not silently continue, and a
+  separate governance decision plus capability-research task is required
+  before proceeding — these triggers are explicit and grep-able, not
+  advisory or optional polish.
+- Model A creates **no** branch protection, ruleset, environment protection,
+  CI enforcement, or other technical deployment gate (independently
+  reverified unchanged: `main` branch protection `404`, rulesets `[]`,
+  `Production`/`Preview` environment `protection_rules: []`). Merge
+  authorization remains procedural only; the lack of branch protection is
+  accepted only as a temporary sole-Operator condition.
+- PR #28 is unaffected: it remains open, non-draft, unmerged, mergeable,
+  intentionally paused, and not authorized to merge. Physical Android
+  Chromium Gate B remains `OPEN / NOT EXECUTED`. Model A selection does not
+  waive, replace, satisfy, defer, or weaken Gate B in any way; no
+  physical-QA waiver or risk acceptance was created. Any eventual PR #28
+  merge request must independently satisfy every one of its own gates and
+  separately include the Model A Production-impact warning.
+- This task creates exactly one new local documentation-only commit on
+  branch `docs/mellycore-production-deployment-model-a-contract-001`,
+  stacked directly on `19eada06a8ba25b5cd980d4ec5226c3c288c8f6c` (itself
+  stacked on `22517faaa566d684c0f23acb770830278e1ee854`, based on canonical
+  `main` at `e7c8ce5f116e93a11a591ee539272f223af110d1`). It does not push,
+  mutate PR #28, merge, deploy, or change any GitHub/Vercel setting,
+  workflow, implementation, or vendor file.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001` — an
+  independent, read-only review of this contract's implementation. Not a
+  publication task, not a merge task, not deployment work, and not related
+  to closing PR #28's physical Gate B.
+
+## Previous Update — Production deployment authorization contract corrected (documentation-only)
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REMEDIATION-001`
+
+- `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001`
+  independently confirmed, via read-only Git/GitHub API evidence, that
+  merging into canonical `main` currently causes the Vercel Git integration
+  to create a public Production deployment automatically: five consecutive
+  recent `main` merges (`e7c8ce5f…`, `3f8fd51c…`, `ca1f762a…`, `be3ead9b…`,
+  `177128cf…`) were each followed by a successful Production deployment
+  within 8–14 seconds, all created by `vercel[bot]`; feature branches
+  (including PR #28's `57bb841e…`) deploy to `Preview` only.
+- Verified enforcement state: `main` has no branch protection (`404
+  "Branch not protected"`), the repository has no rulesets (`[]`), and the
+  Production GitHub environment has no protection rules. No workflow YAML,
+  `vercel.json`, `.vercel`, or `package.json` exists on canonical `main`.
+  **Merge authorization is procedural only; deployment authorization is not
+  separately technically enforced.**
+- This task corrected the resulting documentation overclaim across
+  `shared_context/SAFETY_CONTRACT.md`, `shared_context/PROJECT_STATE.md`,
+  `shared_context/ROADMAP.md`, `shared_context/RUN_QUEUE.md`, and
+  `AGENTS.md`: none of these documents may now be read as claiming
+  Production deployment currently waits for a second, separately enforced
+  approval. The explicit-operator-control requirement for production
+  publication itself was **preserved**, not removed.
+- This is recorded as a confirmed, **unresolved** operational control
+  mismatch — **not** an accepted permanent policy. Merge approval does
+  **not** thereby permanently constitute deployment approval. An interim
+  operating rule was added: treat every proposed merge into `main` as an
+  immediate public-publication request; do not recommend or perform a merge
+  unless immediate public publication is acceptable.
+- Two authorization models were recorded as unresolved operator-governance
+  options, with neither selected by this task: Model A (combined
+  static-site authorization — merge approval also authorizes the automatic
+  Production publication that follows) and Model B (separate merge and
+  deployment authorization, requiring current-capability research and
+  separately authorized Vercel/GitHub control changes).
+- PR #28 is unaffected: it remains open, non-draft, unmerged, mergeable,
+  intentionally paused, and not authorized to merge. Physical Android
+  Chromium Gate B remains `OPEN / NOT EXECUTED`
+  (`BLOCKED_3D_SCENE_QA_REFERENCE_DEVICE_UNAVAILABLE`); no waiver, risk
+  acceptance, merge, deployment, or GitHub/Vercel configuration change was
+  made or authorized by this task.
+- This task creates exactly one new local documentation-only commit on
+  branch `docs/mellycore-production-deployment-contract-remediation-001`,
+  stacked directly on the paused-state commit
+  `22517faaa566d684c0f23acb770830278e1ee854` (itself based on canonical
+  `main` at `e7c8ce5f116e93a11a591ee539272f223af110d1`). It does not push,
+  mutate PR #28, merge, deploy, or change any GitHub/Vercel setting,
+  workflow, implementation, or vendor file.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001` — a
+  read-only operator-governance decision selecting Model A or Model B. Not
+  configuration work, not deployment work, not merge authorization, and
+  independent of PR #28's physical Gate B.
+
+## Previous Update — 3D Scene Foundation PR #28 paused (physical QA gate unavailable)
+
+`MELLYCORE-3D-SCENE-FOUNDATION-PAUSED-STATE-SYNC-001`
+
+- `MELLYCORE-3D-SCENE-FOUNDATION-001` is implemented on branch
+  `feat/mellycore-3d-scene-foundation-001` and published as
+  [PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) (head
+  `57bb841e67e9a5d557f88bf096537eba78df1cd8`, base `main`, two commits, twelve
+  changed files, locally vendored Three.js r164). PR #28 remains open,
+  non-draft, unmerged, and mergeable. It is **intentionally paused** and
+  **not authorized to merge**.
+- Repository-verified evidence: `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`
+  (independent foundation review) and desktop accessibility/performance Gate A
+  (passed: ~30 seconds, ~59.93 FPS average, minimum one-second bucket 59 FPS,
+  zero frames above 33.3 ms or 50 ms, nine draw calls, 2,120 triangles, one
+  canvas, one animation loop, zero scene-originated errors).
+- Recorded as **operator-confirmed external/session evidence, dated
+  2026-07-27, not independently repository-verified** — no corresponding PR
+  review, commit, or `docs/tasks/` report exists in this repository for
+  either outcome, and this task creates the **first canonical repository
+  record** of them: `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REMEDIATION_REVIEW`
+  and `PASS_WITH_NOTES_3D_SCENE_INTEGRATION_REVIEW`.
+- Physical Android Chromium Gate B remains `OPEN / NOT EXECUTED`
+  (`BLOCKED_3D_SCENE_QA_REFERENCE_DEVICE_UNAVAILABLE`): the operator has no
+  named physical Android Chromium reference device available, and repeated
+  attempts have produced no new evidence. This is an environmental/process
+  blocker — not an application defect, not evidence of correctness, and not
+  risk acceptance. Emulated/desktop evidence remains provisional only and
+  must not be presented as physical-device evidence.
+- Resume condition: do not rerun Gate B until a named physical Android phone
+  with Chrome/Chromium is confirmed available for ~15–20 minutes of testing.
+- Governance: per `RECOMMEND_KEEP_PREMERGE_BLOCKER_3D_SCENE_PHYSICAL_QA`, no
+  repository-defined waiver process exists; Gate B remains a strict pre-merge
+  blocker; no waiver, deferment, risk acceptance, merge, or deployment is
+  authorized for PR #28.
+- This task creates exactly one local documentation-only commit on branch
+  `docs/mellycore-3d-scene-paused-state-sync-001`, based directly on
+  canonical `main` at `e7c8ce5f116e93a11a591ee539272f223af110d1`. It does not
+  push, mutate PR #28, merge, deploy, or touch any implementation, vendor, or
+  workflow file.
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001` — a
+  read-only, independent review of whether Vercel's automatic
+  publish-on-merge behavior is truly separate from merge authorization, as
+  ADR wording describes. It does not unblock, waive, or otherwise affect PR
+  #28's merge status.
+
+## Previous Update — OmniRouter-inspired Control Plane reviewed and merge-ready
 
 `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`
 

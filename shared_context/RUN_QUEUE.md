@@ -34,20 +34,116 @@ re-review are complete. The targeted re-review outcome was
 `PASS_WITH_NOTES_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC_REMEDIATION_REVIEW`,
 with no blocking finding and all required checks passing.
 
-At the time of this update, PR #27 was open, reviewed, remediation-complete,
-and merge-ready, but not yet merged or canonical on `main`.
-
-**Current task-local operation (at the time of this update):**
-`MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001` — perform final
-acceptance gates and, only if they pass, merge PR #27 normally. The durable
-product successor after successful specification acceptance is
-`MELLYCORE-3D-SCENE-FOUNDATION-001`, still not started or authorized.
+At the time of that update, PR #27 was open, reviewed, remediation-complete,
+and merge-ready, but not yet merged. It subsequently merged into canonical
+`main` as `e7c8ce5f116e93a11a591ee539272f223af110d1`.
 
 The Control Plane specification and this lifecycle correction define no
 frontend, backend, provider integration, runtime, secrets flow, deployment,
 or 3D implementation. A successful merge does not automatically require a
 post-merge synchronization task; another sync is warranted only if a concrete
 live canonical statement becomes false.
+
+## 3D Scene Foundation — PR #28 Paused State
+
+The durable product successor after Control Plane specification acceptance,
+`MELLYCORE-3D-SCENE-FOUNDATION-001`, is implemented on branch
+`feat/mellycore-3d-scene-foundation-001` and published as
+[PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) (head
+`57bb841e67e9a5d557f88bf096537eba78df1cd8`, two commits, twelve changed
+files). PR #28 remains **open, unmerged, mergeable, and intentionally
+paused** — it is **not authorized to merge**.
+
+Repository-verified evidence: independent foundation review returned
+`PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`; desktop accessibility/
+performance Gate A passed. Recorded as **operator-confirmed external/session
+evidence, dated 2026-07-27, not independently repository-verified** (no
+corresponding PR review, commit, or `docs/tasks/` report exists for either in
+this repository — this sync is the first canonical repository record of
+them): `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REMEDIATION_REVIEW` and
+`PASS_WITH_NOTES_3D_SCENE_INTEGRATION_REVIEW`.
+
+Physical Android Chromium **Gate B remains `OPEN / NOT EXECUTED`**
+(`BLOCKED_3D_SCENE_QA_REFERENCE_DEVICE_UNAVAILABLE`): the operator has no
+named physical Android Chromium reference device available. This is an
+environmental/process blocker, not an application defect and not evidence of
+correctness. **Do not rerun Gate B** until a named physical device is
+confirmed available for ~15–20 minutes of testing. No waiver, deferment, risk
+acceptance, merge, or deployment is authorized; Gate B remains a strict
+pre-merge blocker with no repository-defined waiver process
+(`RECOMMEND_KEEP_PREMERGE_BLOCKER_3D_SCENE_PHYSICAL_QA`).
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-CONTRACT-REVIEW-001`
+confirmed merge into canonical `main` currently causes automatic public
+Production publication via the Vercel Git integration (5/5 recent merges →
+Production within 8–14s), with no separate technically-enforced
+deployment-approval step. `MELLYCORE-PRODUCTION-DEPLOYMENT-AUTHORIZATION-MODEL-DECISION-001`
+then presented Model A and Model B as options; **the Operator has selected
+Model A** (temporary, static-phase-only combined merge/deployment
+authorization), recorded verbatim in `shared_context/DECISIONS.md` and
+detailed in full in `PROJECT_STATE.md`'s "Production Deployment
+Authorization — Model A Contract (Temporary, Static-Phase Only)". Each
+individual merge approval authorizes only the Production publication that
+specific merge causes — not blanket authorization — every merge request
+must warn of immediate public-publication impact, and nine canonical,
+blocking migration triggers require Model B reconsideration before any
+affected implementation or merge proceeds. This selection does not unblock,
+waive, or otherwise affect PR #28 — its physical Gate B is an independent
+gate. `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001`
+completed with outcome `PASS_WITH_NOTES_MODEL_A_DEPLOYMENT_CONTRACT_REVIEW`.
+The contract was then published as PR #29
+(https://github.com/Melly-999/mellycore-aios-core/pull/29,
+head `ec5182b8…`). An independent PR review
+(`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REVIEW-001`) found one
+blocking finding (B-01: `SAFETY_CONTRACT.md` self-contradicted on whether
+separate deployment authorization is still required) and one bundled
+non-blocking note (N-01: a stale "effective until resolved" framing in
+`PROJECT_STATE.md`); both are corrected by this remediation commit on PR
+#29's branch. N-02 (validator evidence not embedded in task reports)
+remains separately non-blocking and untouched. At the time of that
+remediation, the next task was
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-REVIEW-001`
+— a fresh-session, independent, read-only review of the updated PR #29
+head, responsible for deciding whether B-01 and N-01 are resolved and for
+reassessing all current-head reviews and comments; not authorized to merge,
+resolve comments, or deploy, and unrelated to closing PR #28's Gate B. The
+following historical description of the original review task is retained
+below: an
+independent, read-only review of this contract's implementation. Not a
+publication, merge, deployment, or configuration task, and not related to
+closing PR #28's Gate B.
+
+That review completed with outcome
+`PASS_WITH_NOTES_MODEL_A_CONTRACT_PR_REMEDIATION_REVIEW`, confirming both
+B-01 and N-01 resolved, no blocking current-head review finding, all checks
+passing, a successful Preview, no Production deployment for the head, and
+245 tests passing; it also identified one new non-blocking note, N-03: two
+statements in `PROJECT_STATE.md` still named the already-completed
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-REVIEW-001` as the exact
+next task. The subsequent merge-readiness assessment
+(`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-MERGE-READINESS-001`)
+returned `REMEDIATION_REQUIRED_MODEL_A_CONTRACT_PR_29_MERGE_READINESS`,
+judging N-03 as requiring correction before merge given that any merge
+under Model A immediately triggers public Production publication. This
+task (`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002`)
+corrects N-03 by reframing both `PROJECT_STATE.md` statements as historical
+records rather than replacing them with another live pointer — this file,
+`shared_context/RUN_QUEUE.md`, remains the canonical live task-sequencing
+source, echoed in `shared_context/AGENT_HANDOFF.md`. No Model A policy, no
+migration trigger, no PR #28 wording, and no Gate B wording was changed.
+Known note N-04 (the PR #29 body's stale reference to the already-resolved
+N-01 wording) is GitHub metadata, was intentionally left unmodified by this
+task, and remains for the next review to assess. This task creates exactly
+one new documentation-only commit, pushed normally (no force, no rewrite)
+to `clean-origin/docs/mellycore-production-deployment-model-a-contract-001`;
+it does not merge PR #29, does not enable auto-merge, and does not
+authorize Production publication. Exact next task:
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002-REVIEW-001`
+— a fresh-session, independent, read-only review of the updated PR #29
+head, verifying N-03 is resolved without re-adjudicating unrelated settled
+policy, and reassessing current-head reviews, checks, Preview, and N-04.
+Not authorized to merge, resolve comments, or deploy, and unrelated to
+closing PR #28's Gate B.
 
 ## Historical Option B Deploy Path — Completed
 
@@ -334,21 +430,32 @@ is pending, in progress, or complete.
    (push this docs-sync commit, open a PR, review, and merge if clean).
 4. `MELLYCORE-3D-SCENE-FOUNDATION-001` — implement the shared state, complete
    CSS fallback, vendored/pinned Three.js enhanced renderer, lifecycle,
-   context-loss recovery, and mobile-first Source Arena. Not started.
+   context-loss recovery, and mobile-first Source Arena. Implemented in
+   [PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28), open
+   and **intentionally paused** — see "3D Scene Foundation — PR #28 Paused
+   State" above.
 5. `MELLYCORE-3D-SCENE-ACCESSIBILITY-PERFORMANCE-QA-001` — keyboard/screen-reader
    parity, reduced-motion, forced-fallback, context-loss, memory/RAF cleanup,
-   mobile and desktop performance. Not started.
+   mobile and desktop performance. Desktop Gate A passed (repository-verified).
+   Physical Android Chromium Gate B remains `OPEN / NOT EXECUTED`
+   (`BLOCKED_3D_SCENE_QA_REFERENCE_DEVICE_UNAVAILABLE`) — the durable open
+   acceptance gate; do not rerun until a named physical device is available.
 6. `MELLYCORE-3D-SCENE-INTEGRATION-REVIEW-001` — independent final review
-   before any merge or release claim. Not started.
+   before any merge or release claim. Outcome
+   `PASS_WITH_NOTES_3D_SCENE_INTEGRATION_REVIEW` recorded as
+   operator-confirmed external/session evidence, dated 2026-07-27 — not
+   independently repository-verified prior to this sync.
 
 Task 3 (NASA runtime retirement) is `MERGED_INTO_CANONICAL_MAIN` via PR #15,
-merge commit `e0cbc332ff90f8787d981c9d86be717633f22d4d` (see item 3 above). Tasks 4–6 remain
-`NOT_STARTED` and are not implemented, active, or authorized by this entry
-alone. Task 1 (the ADR decision) is accepted at the decision/specification
-level and its architecture milestone is now `CLOSED_IN_CANONICAL_MAIN` —
-merged into canonical `main` via PR #8 (2l above). This does not implement,
-vendor, or release anything; the 3D scene foundation (task 4) remains
-`NOT_STARTED`.
+merge commit `e0cbc332ff90f8787d981c9d86be717633f22d4d` (see item 3 above).
+Task 4 is implemented in PR #28 (open, paused, unmerged); task 5 remains open
+only on physical-device Gate B after desktop Gate A passed; task 6's outcome
+is recorded as operator-confirmed session evidence, not yet independently
+repository-verified. None of these entries authorizes merge, waiver, or
+deployment of PR #28. Task 1 (the ADR decision) is accepted at the
+decision/specification level and its architecture milestone is now
+`CLOSED_IN_CANONICAL_MAIN` — merged into canonical `main` via PR #8 (2l
+above).
 
 A narrow, separate precursor — `MELLYCORE-SOURCE-ARENA-RENDERER-STATIC-SLICE-001`
 — is `MERGED_INTO_CANONICAL_MAIN` (branch
