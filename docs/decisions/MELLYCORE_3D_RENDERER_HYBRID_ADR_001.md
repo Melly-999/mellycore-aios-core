@@ -170,7 +170,7 @@ Every honesty label; the 390×844 mobile-first primacy and its exact acceptance 
 
 ## 9. WebGL enhanced-renderer boundary
 
-Owns: procedural deep-space background, the central Source Arena model-lens core, bounded orbital/model-lens nodes — mounted only inside the future renamed Source Arena stage element's bounds (current identifier `#nasa-stage`, to be renamed off the `nasa-*` namespace per Section 15). Does not own: text, labels, badges, navigation, tab state, or any state not mirrored in the DOM.
+Owns: procedural deep-space background, the central Source Arena model-lens core, bounded orbital/model-lens nodes — mounted only inside the Source Arena stage element's bounds (current canonical identifier `#source-arena-stage`; the provider-neutral rename off the former `nasa-*` namespace, described in Section 15 and Appendix A, is already complete and canonical on `main` via `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`/PR #15). This completed DOM identifier migration is independent of PR #28: it does not merge, accept, or canonicalize PR #28's WebGL renderer, which remains open, unmerged, non-canonical, and blocked by physical Android Chromium Gate B (`OPEN / NOT EXECUTED`). Does not own: text, labels, badges, navigation, tab state, or any state not mirrored in the DOM.
 
 ## 10. CSS/DOM fallback boundary
 
@@ -462,49 +462,59 @@ This document is now **ACCEPTED** (2026-07-20; see the acceptance record above a
 
 ---
 
-## Appendix A: NASA transition supersession map (conditional, not yet operative)
+## Appendix A: NASA transition supersession map (rename complete and canonical; historical mapping)
 
-This appendix is the complete, exact conditional map required to close
-independent-review finding HR-01, extended by
+This appendix originally recorded the complete, exact conditional map
+required to close independent-review finding HR-01, extended by
 `MELLYCORE-SOURCE-ARENA-HYBRID-RENDERER-ADR-REMEDIATION-002` to also close
-residual finding RF-02 (the §A.1 README truthfulness-table row below).
-**None of this table is executed yet.** This ADR is now accepted (2026-07-20),
-satisfying the first of the two gates every row requires. Every row's "Future
-disposition" and "Provider-neutral replacement" still additionally require
-the separately-authorized NASA runtime-retirement task
-(`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`) to itself be
-authorized, implemented, and reviewed before it takes effect. Until then,
-every current identifier below remains exactly as verified in the repository
-(read-only inspection of `site/dashboard.html`, `site/js/dashboard.js`,
-`site/css/dashboard.css`), unrenamed and fully functional.
+residual finding RF-02 (the §A.1 README truthfulness-table row below). Both
+gates every row required have since been met: gate (a), explicit operator
+acceptance of this ADR, was satisfied 2026-07-20; gate (b), the
+separately-authorized NASA runtime-retirement task
+(`MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001`), has since been
+authorized, implemented, and reviewed, merging into canonical `main` via
+PR #15 (merge commit `e0cbc332ff90f8787d981c9d86be717633f22d4d`). As a
+result, the identifier and behavior migration below is **complete and
+canonical on `main`**, independently re-verified for this remediation by
+direct inspection of `site/dashboard.html`, `site/js/dashboard.js`, and
+`site/css/dashboard.css`: the former `nasa-*` identifiers are absent, and
+the provider-neutral `source-arena-*` identifiers and local-fixture
+behavior are live. This table is now a **historical former→current
+mapping**, not a pending plan; not every row's exact replacement wording
+matches this table's original 1:1 prediction, and that is noted per row
+below. This completed migration is entirely separate from, and does not
+affect, PR #28's WebGL renderer, which remains open, unmerged,
+non-canonical, and blocked by physical Android Chromium Gate B
+(`OPEN / NOT EXECUTED`); nothing in this appendix authorizes or implies
+PR #28's merge or acceptance.
 
 ### A.1 Identifier map
 
-| Category | Current identifier (verified in-repo) | Future disposition | Provider-neutral replacement |
+| Category | Former identifier (pre-retirement, historical) | Disposition (verified for this remediation) | Current canonical identifier/behavior |
 |---|---|---|---|
-| Active nav tab button | `#tab-btn-nasa`, `data-tab="nasa"` | Conditionally renamed | `#tab-btn-source-arena`, `data-tab="source-arena"` |
-| Tab panel id | `#tab-nasa` (`aria-controls` target of the tab button) | Conditionally renamed | `#tab-source-arena` |
-| Panel identifier (class) | `.dash-panel--nasa` | Conditionally renamed | `.dash-panel--source-arena` |
-| Central-stage identifier | `#nasa-stage` (`.media-stage`) | Conditionally renamed | `#source-arena-stage` |
-| Pagination-dot container | `#nasa-stage-dots` (`.stage-pagination`) | Conditionally renamed | `#source-arena-stage-dots` |
-| Pagination-dot buttons | `.stage-dot` (class already provider-neutral) | Preserved unchanged | `.stage-dot` (no rename; see the `aria-label` row below for the text each dot carries) |
-| Search-form identifiers | `#nasa-search-form` / `.nasa-search-form` (and its `input`/`select` children) | Conditionally renamed | `#source-arena-search-form` / `.source-arena-search-form` |
-| Query-control / results-queue identifiers | `#nasa-queue` / `.nasa-queue`, `.nasa-queue-item`, `.nasa-queue-button`, `.nasa-queue-thumb`, `.nasa-queue-copy` | Conditionally renamed | `#source-arena-queue` / `.source-arena-queue`, `.source-arena-queue-item`, `.source-arena-queue-button`, `.source-arena-queue-thumb`, `.source-arena-queue-copy` |
-| NASA API root / boot-time fetch behavior | `NASA_API_ROOT = "https://images-api.nasa.gov"` (`site/js/dashboard.js`); `searchNasa()` is invoked automatically from `boot()` on `DOMContentLoaded`, performing a live `fetch()` to that root before the user takes any action | Retired | No provider API root constant of any kind in the foundation slice; `searchNasa()`'s network call is replaced by a local-fixture loader (e.g. `loadSourceArenaFixture()`) that performs **zero** network requests; `boot()` calls the loader directly, not an async remote fetch |
-| Loading-state copy naming NASA | `"NASA Images API · public request · no API key"` (loading string in `dashboard.js`) | Retired | Loader string names the local fixture, not any external provider |
-| Result-count `aria-label` | `aria-label="Demo provider search results"` on `.nasa-queue` | Conditionally renamed | `aria-label="Local source fixture results"` |
-| Per-dot `aria-label` | `aria-label="Show NASA result ${index + 1}"` | Conditionally renamed | `aria-label="Show source result ${index + 1}"` |
-| Must-visible label: `Demo provider: NASA Images API` (Holographic UI Spec §3.1) | Spec text | Retired | Replaced by `Local source fixture`, from this ADR's truthful-label set (A.2 below) |
-| `Real source` badge on a NASA-sourced item (Holographic UI Spec §3.1, §3.1a) | Spec text — currently accurate, since the source is genuinely live NASA data | Conditionally re-scoped | `Real source` remains usable post-retirement **only** where an actual bundled fixture record has verifiable, recorded provenance; otherwise the item must carry `Local source fixture` or `Planned`, never `Real source` by default |
-| "NASA id" field in the pinned-source header (Holographic UI Spec §3.1a) | Spec text | Conditionally renamed | Generic fixture record id (e.g. `source id`), no provider-specific field name |
-| No-JS fallback copy (Holographic UI Spec §4.10: "a static glass panel stating that live search requires JavaScript and linking the NASA API docs") | Spec text; **not yet implemented in `site/` today** | Conditionally renamed | Provider-neutral no-JS fallback copy stating the Source Arena fixture requires JavaScript to render, with no NASA-specific wording and no NASA API doc link |
+| Active nav tab button | `#tab-btn-nasa`, `data-tab="nasa"` | **Completed** | `#tab-btn-source-arena`, `data-tab="source-arena"` (verified in `site/dashboard.html`) |
+| Tab panel id | `#tab-nasa` (`aria-controls` target of the tab button) | **Completed** | `#tab-source-arena` (verified) |
+| Panel identifier (class) | `.dash-panel--nasa` | **Completed** | `.dash-panel--source-arena` (verified) |
+| Central-stage identifier | `#nasa-stage` (`.media-stage`) | **Completed** | `#source-arena-stage` (verified) |
+| Pagination-dot container | `#nasa-stage-dots` (`.stage-pagination`) | **Completed** | `#source-arena-stage-dots` (verified) |
+| Pagination-dot buttons | `.stage-dot` (class already provider-neutral) | Preserved unchanged | `.stage-dot` (no rename was needed; see the `aria-label` row below for the text each dot carries) |
+| Search-form identifiers | `#nasa-search-form` / `.nasa-search-form` (and its `input`/`select` children) | **Completed** | `#source-arena-search-form` / `.source-arena-search-form` (verified) |
+| Query-control / results-queue identifiers | `#nasa-queue` / `.nasa-queue`, `.nasa-queue-item`, `.nasa-queue-button`, `.nasa-queue-thumb`, `.nasa-queue-copy` | **Completed** | `#source-arena-queue` / `.source-arena-queue`, `.source-arena-queue-item`, `.source-arena-queue-button`, `.source-arena-queue-thumb`, `.source-arena-queue-copy` (verified) |
+| NASA API root / boot-time fetch behavior | `NASA_API_ROOT = "https://images-api.nasa.gov"` (`site/js/dashboard.js`); `searchNasa()` invoked automatically from `boot()` on `DOMContentLoaded`, performing a live `fetch()` before any user action | **Completed (retired)** | No `NASA_API_ROOT` or `searchNasa()` remain in `site/js/dashboard.js` (verified absent). `boot()` renders a local, deterministic Source Archive fixture with **zero** network requests |
+| Loading-state copy naming NASA | `"NASA Images API · public request · no API key"` (loading string in `dashboard.js`) | **Completed (retired)**, exact wording differs from this row's original prediction | Provider-neutral static-snapshot copy (e.g. `"STATIC SNAPSHOT · NO API KEY · NO MODEL CALLS · NO ACCOUNT USAGE"`); no NASA-specific wording remains (verified) |
+| Result-count `aria-label` | `aria-label="Demo provider search results"` on `.nasa-queue` | **Completed**, exact match | `aria-label="Local source fixture results"` (verified) |
+| Per-dot `aria-label` | `aria-label="Show NASA result ${index + 1}"` | **Completed**, exact wording differs from this row's original prediction | `aria-label="Show source node ${index + 1}"` / `"Select source node ${index + 1} of ${total}: ..."` (verified in `site/js/dashboard.js`) |
+| Must-visible label: `Demo provider: NASA Images API` (Holographic UI Spec §3.1) | Spec text | **Completed** | `Local source fixture` is the live default label throughout `site/dashboard.html`/`site/js/dashboard.js` (verified) |
+| `Real source` badge on a NASA-sourced item (Holographic UI Spec §3.1, §3.1a) | Spec text — was accurate while the source was genuinely live NASA data | Re-scoped; no live trigger observed | No literal `Real source` badge string is currently present in `site/`; `Local source fixture` is the live default. Per this ADR's rule, `Real source` would only be shown where a bundled record has verifiable, recorded provenance — no such trigger was found in this remediation's inspection |
+| "NASA id" field in the pinned-source header (Holographic UI Spec §3.1a) | Spec text | **Completed** | `source id ${item.id}` — a generic, provider-neutral field (verified in `site/js/dashboard.js`) |
+| No-JS fallback copy (Holographic UI Spec §4.10: "a static glass panel stating that live search requires JavaScript and linking the NASA API docs") | Spec text | **Still absent** — re-verified for this remediation, no change from the original finding | No such fallback copy exists in `site/` today (verified absent); this remains accurate and unimplemented, unrelated to the identifier migration above |
 | Mobile/desktop composition (Holographic UI Spec §3.1/§3.2) referencing "NASA media"/"NASA source" as example content | Spec text | Preserved structurally; content genericized | Layout, proportions, and composition rules (Sections 8–10 above) are unchanged; "NASA media" as an example content type is replaced by "bundled Source Arena fixture media" |
 | QA selector: "NASA search still works end-to-end" (Holographic UI Spec §5.7) | Spec text | Retired, replaced | Future QA criterion: "Source Arena fixture renders end-to-end (image/video/audio fixture types) with zero network requests in the request log" |
 | Screenshot requirement content (Holographic UI Spec §6.3) referencing NASA imagery as the pictured content | Spec text | Preserved structurally; content genericized | Exact screenshot composition, order, and required-labels rules (Section 7's "Screenshot order" row) are unchanged; "NASA imagery" as pictured content is replaced by "bundled Source Arena fixture imagery" |
-| README "what is real vs. simulated" truthfulness-table row (Holographic UI Spec §6.2.4: the first of four planned rows reads `NASA Images API (real, live, keyless)`; this table is a planned README section and **does not exist in `README.md` today**) | Spec text describing an unimplemented future README section; currently fully binding as written, exactly like every other unimplemented clause of this spec | Conditionally replaced | This one row becomes `Local source fixture` — bundled locally, zero external runtime request, no backend/provider key/database/scheduler — labeled `Local source fixture` by default; `Real source` is used in its place only where the bundled record has verifiable, recorded provenance (see the `Real source` row above). §6.2.4's other three planned rows (`provenance index + audit`, `model lenses`, `GitHub provider`) do not describe NASA and are unaffected by this replacement. Like every row in this appendix: gate (a) — explicit operator acceptance of this ADR — was satisfied on 2026-07-20 at reviewed baseline `b95a741231d18ef712379837c7167aa22b37d42f`; §6.2.4 as currently written stays binding and the current NASA runtime remains present and unretired until gate (b) is also met. This replacement is not implemented yet and becomes operative only once the separately-authorized NASA runtime-retirement task is itself later implemented and reviewed. No historical README, task, or evidence statement describing why the NASA prototype exists is altered by this row |
-| No-rename clause (Holographic UI Spec §5.3: "no removal or renaming of existing ids, classes, tab roles, or aria wiring") | Spec text, currently fully binding | Narrowly and conditionally excepted | This appendix is the ADR's sole, narrow, conditional exception to that clause, limited exactly to the `nasa-*` identifiers enumerated above, and only takes effect if/when both this ADR and the future NASA-retirement task are separately authorized and implemented |
+| README "what is real vs. simulated" truthfulness-table row (Holographic UI Spec §6.2.4: the first of four planned rows reads `NASA Images API (real, live, keyless)`; this table is a planned README section and **still does not exist in `README.md` today**, re-verified for this remediation) | Spec text describing an unimplemented future README section | Still a planned, unimplemented README section; the identifier/runtime migration itself is complete | This one row would become `Local source fixture` if the planned table is ever added — bundled locally, zero external runtime request, no backend/provider key/database/scheduler; `Real source` would be used in its place only where a bundled record has verifiable, recorded provenance (see the `Real source` row above). §6.2.4's other three planned rows (`provenance index + audit`, `model lenses`, `GitHub provider`) do not describe NASA and are unaffected. Gates (a) and (b) are both now met (see appendix preamble above); the current NASA runtime is retired and canonical on `main` via PR #15 — this planned README row's *content*, unlike the underlying runtime, has simply not been added to `README.md` yet. No historical README, task, or evidence statement describing why the NASA prototype existed is altered by this row |
+| No-rename clause (Holographic UI Spec §5.3: "no removal or renaming of existing ids, classes, tab roles, or aria wiring") | Spec text, historically fully binding | Narrowly and conditionally excepted; the exception has been exercised | This appendix was the ADR's sole, narrow, conditional exception to that clause, limited exactly to the `nasa-*` identifiers enumerated above. Both conditions for that exception (this ADR's acceptance and the NASA-retirement task's authorization/implementation/review) are now met, and the renames above are complete and canonical on `main` |
 | "NASA search must work" requirement (Holographic UI Spec §3.1 "Real:" row, §5.7) | Spec text | Retired | Superseded by: local-fixture search/filter must work identically over bundled deterministic data, with zero external requests |
-| Historical evidence: `v0.2.0` release notes and NASA-referencing completed task reports under `docs/tasks/` | Existing files | **Untouched** | Not modified by this ADR or by any future task in this sequence; remains the historical record of why the NASA prototype exists |
+| Historical evidence: `v0.2.0` release notes and NASA-referencing completed task reports under `docs/tasks/` | Existing files | **Untouched** | Not modified by this ADR or by any task in this sequence; remains the historical record of why the NASA prototype existed |
 
 ### A.2 Future data contract (conditional; establishes no current behavior)
 
