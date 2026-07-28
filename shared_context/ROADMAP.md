@@ -288,8 +288,11 @@ At the time of this update, PR #27 was merge-ready but not yet merged or
 canonical. The remaining task-local gate at that time was
 `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`. The durable
 product successor after successful specification acceptance is
-`MELLYCORE-3D-SCENE-FOUNDATION-001`, still not started or authorized (see the
-Parallel Decision Track's item 4 below for its existing scope). No automatic
+`MELLYCORE-3D-SCENE-FOUNDATION-001` — implemented in paused, open, unmerged
+PR #28, not merged, not accepted, and blocked by physical Android Chromium
+Gate B (`OPEN / NOT EXECUTED`); canonical `main` has no accepted
+implementation (see the Parallel Decision Track's item 4 below for its
+existing scope). No automatic
 post-merge state sync, OpenRouter live-API implementation, Control Plane
 implementation, renderer expansion, or deployment is authorized by this
 roadmap entry alone; another sync is warranted only if a concrete live

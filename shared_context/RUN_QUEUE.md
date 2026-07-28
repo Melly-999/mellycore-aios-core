@@ -137,13 +137,34 @@ task, and remains for the next review to assess. This task creates exactly
 one new documentation-only commit, pushed normally (no force, no rewrite)
 to `clean-origin/docs/mellycore-production-deployment-model-a-contract-001`;
 it does not merge PR #29, does not enable auto-merge, and does not
-authorize Production publication. Exact next task:
+authorize Production publication. That task's then-exact-next-task,
 `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002-REVIEW-001`
 — a fresh-session, independent, read-only review of the updated PR #29
 head, verifying N-03 is resolved without re-adjudicating unrelated settled
-policy, and reassessing current-head reviews, checks, Preview, and N-04.
-Not authorized to merge, resolve comments, or deploy, and unrelated to
-closing PR #28's Gate B.
+policy, and reassessing current-head reviews, checks, Preview, and N-04—
+has since completed, and **PR #29 has since merged into canonical `main`**
+(merge commit `4d8f29e91783179be145241df723d797d99da63a`). Post-merge
+verification found that canonical `main`'s repository-wide WebGL/Three.js
+absence statements (in this file and eight other documentation files)
+contradicted the fact that paused, open, unmerged PR #28 already implements
+that renderer foundation. Two prior remediation attempts stopped short
+(`BLOCKED_MODEL_A_CONTRACT_POST_MERGE_STATE_SYNC_SCOPE_CONFLICT`,
+`BLOCKED_MODEL_A_POST_MERGE_STATE_SYNC_ADDITIONAL_SCOPE_DISCOVERED`); a
+read-only scope-lock audit then identified exactly nine files requiring
+correction
+(`PASS_MODEL_A_POST_MERGE_STATE_SYNC_SCOPE_LOCK_COMPLETE`). This task,
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-POST-MERGE-STATE-SYNC-003`,
+applies that nine-file, documentation-only correction (this file among
+them) on a dedicated local branch, with one local commit and no push. It
+does not merge, deploy, waive Gate B, or authorize Model B. **Exact next
+task:** `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-POST-MERGE-STATE-SYNC-REVIEW-003`
+— independent review of this commit, required before it may be pushed,
+reviewed as a PR, and merged. Model B
+(`MELLYCORE-MODEL-B-DEPLOYMENT-SEPARATION-DECISION-001`) remains **blocked,
+not started**, and is not immediately executable: it requires this review
+to pass, a separately authorized push, PR review, merge, and post-merge
+truthful-state verification first. Not authorized to merge, resolve
+comments, or deploy, and unrelated to closing PR #28's Gate B.
 
 ## Historical Option B Deploy Path — Completed
 

@@ -7,7 +7,7 @@
 The command below exposes the static files under `site/` — no `package.json`, no build step, and no package installation for either page described below. This is the fastest existing runnable application surface in the repository. The two pages served from this root differ in what they do once loaded:
 
 - `site/index.html` — the entrypoint — is pure HTML/CSS with **zero JavaScript**: no `<script>` tag, no `fetch()` call, no external request of any kind.
-- `site/dashboard.html` — the current legacy Live Cockpit V2 / Social Source Arena dashboard, also served from this same root — loads `site/js/dashboard.js`, which performs external, keyless GET requests to the NASA Images API automatically on load and on every search. It is not zero-network.
+- `site/dashboard.html` — the current legacy Live Cockpit V2 / Social Source Arena dashboard, also served from this same root — loads `site/js/dashboard.js`, which renders a small, deterministic local Source Archive with zero external network requests. `MELLYCORE-SOURCE-ARENA-NASA-RUNTIME-RETIREMENT-001` (merged into canonical `main` via PR #15) removed the prior live NASA Images API calls this page used to make.
 
 See "Current network behavior, by page" below for the exact, verified per-page detail (constants, call sites, and what remains true once the accepted Hybrid renderer ADR is eventually implemented).
 
@@ -35,44 +35,37 @@ http://127.0.0.1:4173/
 
 Loads `site/index.html`. CSS assets (`tokens.css`, `base.css`, `components.css`, `sections.css`) are served alongside it; no `/api/` calls and no external network requests occur. **This guarantee covers `site/index.html` only** — see "Current network behavior, by page" below before opening `site/dashboard.html` from the same server.
 
-## Current network behavior, by page (exact, verified 2026-07-20)
+## Current network behavior, by page (updated after NASA runtime retirement, PR #15)
 
-This section corrects a prior overstatement: the zero-external-network
-guarantee above was previously implied to cover the whole local preview. It
-does not. Verified by read-only inspection of `site/index.html`,
-`site/dashboard.html`, and `site/js/dashboard.js`:
+Both pages served from this root are zero-external-network on canonical
+`main` as of this note. Verified by read-only inspection of
+`site/index.html`, `site/dashboard.html`, and `site/js/dashboard.js`:
 
 - **`site/index.html` (the static landing/scaffold page):** contains no
   `<script>` tag, no `fetch()` call, and no external URL. Serving and loading
-  it makes **zero** external network requests. This guarantee is accurate
-  today, as originally stated.
+  it makes **zero** external network requests.
 - **`site/dashboard.html` (the current legacy Live Cockpit V2 / Social Source
-  Arena dashboard):** loads `site/js/dashboard.js`, which defines
-  `NASA_API_ROOT = "https://images-api.nasa.gov"` and calls it automatically —
-  `document.addEventListener("DOMContentLoaded", boot)` runs `boot()`, which
-  itself calls `await searchNasa({ preserveTask: true })` before any user
-  interaction. **Opening `site/dashboard.html` today makes a live, automatic,
-  keyless GET request to `https://images-api.nasa.gov`, and further requests
-  to the same host on every subsequent search.** This is existing, verified
-  behavior, not a regression introduced by this note — it is documented here
-  because the guarantee above previously did not distinguish it from
-  `index.html`.
-- **The future, post-retirement Source Arena** (planned; see
+  Arena dashboard):** loads `site/js/dashboard.js`, which renders a small,
+  deterministic local Source Archive — no `NASA_API_ROOT`, no `searchNasa()`,
+  no external request of any kind, no API key. `MELLYCORE-SOURCE-ARENA-NASA-
+  RUNTIME-RETIREMENT-001` (merged into canonical `main` via PR #15, merge
+  commit `e0cbc332ff90f8787d981c9d86be717633f22d4d`) removed the prior live
+  `https://images-api.nasa.gov` calls this page used to make on load and on
+  every search; that prior behavior is historical evidence only, not current.
+- **The paused, non-canonical WebGL Source Arena renderer** (see
   `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status
-  **ACCEPTED** (2026-07-20, decision/specification level only, not
-  implemented), and its Section 24 / Appendix A): would make **zero** external
-  runtime network requests, using a locally bundled fixture in place of the
-  live NASA call above. This is a future planned guarantee, not a description
-  of any behavior that exists today.
-- **The future vendored Three.js module** (planned; ADR Section 20, not yet
-  vendored, no such file exists in the repository): if and when it is ever
-  vendored under `site/vendor/` per a separately authorized implementation
-  task, it would be served as a static asset from this same `--directory site`
-  root — not fetched from a CDN — so it would not change the zero-external-
-  network status of whichever page loads it.
+  **ACCEPTED** at the decision/specification level only): implementation
+  exists solely on paused, open, unmerged PR #28 (`feat: add MellyCore 3D
+  scene foundation`), blocked by physical Android Chromium Gate B
+  (`OPEN / NOT EXECUTED`). Canonical `main` has no accepted implementation of
+  this renderer today, and this quickstart's command does not serve it.
+- **The vendored Three.js module** (`site/vendor/three-r164.module.js`):
+  exists only on paused, open, unmerged PR #28. It is absent from canonical
+  `main` and is not served by the command in this runbook today.
 
 Do not read the "no external network requests" line under "Expected URL" above
-as covering `dashboard.html`; it covers `index.html` only.
+as covering `index.html` only — both pages served by this command are now
+zero-network on canonical `main`.
 
 ## How to stop the server
 
@@ -133,19 +126,21 @@ This server binds only to `127.0.0.1` (loopback) via `--bind 127.0.0.1`. It is n
 **ACCEPTED** (2026-07-20, decision/specification level only) — it decides that
 a WebGL-enhanced Source Arena renderer using exactly one pinned, vendored
 Three.js ESM module served from `site/vendor/` is permitted, subject to its
-own separately-authorized implementation task. Once that implementation task
-(including the separately-authorized NASA runtime-retirement task recorded in
-the ADR's Section 24 and Appendix A) is itself carried out, this quickstart's
-guarantees are designed to remain unchanged for the resulting Source Arena
-page: no `package.json`, no build step, and no external runtime network
-request — the vendored Three.js file would be served as a static asset from
-this same `--directory site` root, not fetched from a CDN, and the live NASA
-call documented above under "Current network behavior, by page" would be
-retired in favor of a local fixture. As of this note, no such file exists in
-the repository, no renaming or retirement has occurred, and this command
-continues to serve only the current static scaffold and legacy dashboard
-described above; the ADR's acceptance authorizes none of that implementation
-by itself.
+own separately-authorized implementation task. The NASA runtime-retirement
+task recorded in the ADR's Section 24 is complete and canonical on `main`
+(merged via PR #15; see "Current network behavior, by page" above). The
+renderer and vendored Three.js module (`site/vendor/three-r164.module.js`)
+are implemented, but only on paused, open, unmerged PR #28 — not on canonical
+`main`, and blocked by physical Android Chromium Gate B
+(`OPEN / NOT EXECUTED`). This quickstart's command serves canonical `main`
+only: as of this note it does not serve the renderer or the vendored Three.js
+file, and continues to serve only the current static scaffold and legacy
+dashboard described above. Once PR #28 is reviewed, accepted, and merged, this
+quickstart's guarantees are designed to remain unchanged for the resulting
+Source Arena page: no `package.json`, no build step, and no external runtime
+network request — the vendored Three.js file would be served as a static
+asset from this same `--directory site` root, not fetched from a CDN. The
+ADR's acceptance authorizes none of that merge or implementation by itself.
 
 ## Related documents
 

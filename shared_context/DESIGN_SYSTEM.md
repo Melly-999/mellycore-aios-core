@@ -18,8 +18,12 @@ renderer (one pinned, vendored Three.js module) or by the CSS-only
 description below, selected automatically by capability detection, with the
 CSS path always complete and mandatory as fallback. The feed/content layer,
 honesty labels, and layer ordering are identical under either renderer and
-are not affected by this decision. No WebGL renderer exists in the repository
-yet; implementation requires its own separately-authorized task.
+are not affected by this decision. Canonical `main` contains no accepted
+WebGL renderer. Paused, open, unmerged PR #28 implements one
+(`site/js/mellycore-scene.js`, `THREE.WebGLRenderer`, vendored
+`site/vendor/three-r164.module.js`), but it remains non-canonical, unmerged,
+and blocked by physical Android Chromium Gate B (`OPEN / NOT EXECUTED`); the
+design system does not treat it as accepted.
 
 ## Visual Hierarchy
 

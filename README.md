@@ -55,7 +55,7 @@ authorized by this merge.
 | Live Cockpit V2 / Source Arena | Implemented legacy prototype | Local vanilla HTML/CSS/JS surface; not the completed Observatory. NASA runtime retirement (see "NASA Images Disposition" below) is merged into canonical `main` via PR #15. The Source Arena stage's prior social-feed primary UX was replaced by the static CSS/DOM holographic slice merged via PR #17. |
 | Model comparison copy | Simulated | Deterministic local text, not live model responses. |
 | Holographic Source Arena | Static CSS/DOM slice canonical; broader spec accepted only | The static holographic source map (source core, orbital nodes, orbit ring, command inspector) is canonical on `main` via PR #17. The 390×844 model-lens hero and the 3D/WebGL treatment are **not implemented**; the full renderer and the ADR's CSS-complete fallback renderer are **not complete**. |
-| Source Arena Hybrid renderer decision | Accepted (decision/specification level only, 2026-07-20) | `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` records an accepted WebGL-enhanced, CSS-complete-fallback renderer decision; no WebGL code or vendored dependency exists in the repository yet — implementation requires its own separately-authorized task. |
+| Source Arena Hybrid renderer decision | Accepted (decision/specification level only, 2026-07-20) | `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md` records an accepted WebGL-enhanced, CSS-complete-fallback renderer decision; canonical `main` contains no accepted WebGL code or vendored dependency. Paused, open, unmerged PR #28 (`feat: add MellyCore 3D scene foundation`) implements `site/js/mellycore-scene.js` (constructs `THREE.WebGLRenderer`) and vendors `site/vendor/three-r164.module.js`, but remains non-canonical, unmerged, and blocked by physical Android Chromium Gate B (`OPEN / NOT EXECUTED`). |
 | Observatory modules and real adapters | Planned | Detailed specification and guarded implementation remain future work. |
 
 The repository also contains a hand-authored Living Context Graph fixture with
@@ -82,8 +82,11 @@ narrowly permits a WebGL-enhanced renderer for Source Arena's central stage,
 backed by one pinned, vendored Three.js module, always paired with a complete
 CSS/DOM fallback. Zero build step and zero external runtime network requests
 remain preserved under this decision. No WebGL code, no vendored dependency,
-and no such renderer exist in this repository as of this note — implementing
-any of it requires its own separately-authorized task.
+and no such renderer exist on canonical `main` as of this note. Paused, open,
+unmerged PR #28 implements this renderer foundation (`site/js/mellycore-scene.js`,
+`THREE.WebGLRenderer`, vendored `site/vendor/three-r164.module.js`) but remains
+non-canonical, unmerged, and blocked by physical Android Chromium Gate B
+(`OPEN / NOT EXECUTED`).
 
 ## NASA Images Disposition
 

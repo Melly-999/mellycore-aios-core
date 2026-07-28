@@ -1,6 +1,47 @@
 # Agent Handoff
 
-## Latest Update — PR #29 task-history pointer stabilization (N-03 fixed)
+## Latest Update — Model A contract post-merge documentation state sync (nine-file scope lock applied)
+
+`MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-POST-MERGE-STATE-SYNC-003`
+
+- PR #29 (Model A deployment authorization contract) has **merged into
+  canonical `main`** (merge commit `4d8f29e91783179be145241df723d797d99da63a`).
+- Post-merge verification found that canonical `main`'s repository-wide
+  WebGL/Three.js absence statements contradicted the fact that paused, open,
+  unmerged PR #28 (`feat: add MellyCore 3D scene foundation`) already
+  implements that renderer foundation.
+- A first attempt at documentation remediation stopped with
+  `BLOCKED_MODEL_A_CONTRACT_POST_MERGE_STATE_SYNC_SCOPE_CONFLICT` (three-file
+  scope was insufficient). A second attempt stopped with
+  `BLOCKED_MODEL_A_POST_MERGE_STATE_SYNC_ADDITIONAL_SCOPE_DISCOVERED` (four
+  files were insufficient; more contradictions were found).
+- A read-only scope-lock audit then examined the repository and returned
+  `PASS_MODEL_A_POST_MERGE_STATE_SYNC_SCOPE_LOCK_COMPLETE`, identifying
+  exactly nine files requiring correction: `README.md`, `docs/3d/README.md`,
+  `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`,
+  `docs/runbooks/MELLYCORE_LOCALHOST_QUICKSTART.md`,
+  `shared_context/AGENT_HANDOFF.md` (this file), `shared_context/DESIGN_SYSTEM.md`,
+  `shared_context/PROJECT_STATE.md`, `shared_context/ROADMAP.md`, and
+  `shared_context/RUN_QUEUE.md`.
+- This task independently re-verified that scope live (canonical `main` SHA,
+  PR #29 merged status, PR #28 open/unmerged status and head, and the
+  contradictions themselves) before applying exactly those nine
+  documentation-only corrections on a dedicated local branch
+  (`docs/mellycore-model-a-post-merge-state-sync-003`), with exactly one
+  local commit and **no push**.
+- **Model A (temporary, static-phase-only combined merge/deployment
+  authorization) is unchanged. All nine canonical, blocking migration
+  triggers are unchanged.** PR #28 remains open, non-draft, unmerged,
+  mergeable, intentionally paused, and non-canonical. Physical Android
+  Chromium **Gate B remains `OPEN / NOT EXECUTED`**. **Model B remains
+  blocked, not started.**
+- Exact next task:
+  `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-POST-MERGE-STATE-SYNC-REVIEW-003`
+  — independent review of this commit. Model B cannot begin until that
+  review passes and this remediation is separately authorized for push, PR
+  review, merge, and post-merge truthful-state verification.
+
+## Previous Update — PR #29 task-history pointer stabilization (N-03 fixed)
 
 `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-PR-REMEDIATION-002`
 

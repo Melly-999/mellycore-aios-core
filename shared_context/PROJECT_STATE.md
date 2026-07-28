@@ -335,12 +335,14 @@ An accepted Source Arena Hybrid renderer decision
 **ACCEPTED**, 2026-07-20, decision/specification level only) narrowly permits
 a WebGL-enhanced renderer — one pinned, vendored Three.js ESM module, paired
 with a mandatory complete CSS/DOM fallback — for Source Arena's central stage
-only. Neither renderer is implemented; no dependency has been vendored. NASA
-runtime retirement (accepted by this ADR as a prerequisite) is merged into
-canonical `main` via PR #15 (merge commit
-`e0cbc332ff90f8787d981c9d86be717633f22d4d`); the renderer and vendoring
-themselves remain unimplemented and require their own separately-authorized
-implementation task.
+only. Canonical `main` has no accepted renderer implementation and no
+canonical vendored dependency. NASA runtime retirement (accepted by this ADR
+as a prerequisite) is merged into canonical `main` via PR #15 (merge commit
+`e0cbc332ff90f8787d981c9d86be717633f22d4d`); the renderer and vendored
+Three.js module are implemented on paused, open, unmerged PR #28 (see "3D
+Scene Foundation — PR #28 Paused State" above) but remain non-canonical,
+unmerged, and blocked by physical Android Chromium Gate B
+(`OPEN / NOT EXECUTED`).
 
 ## Operator Decision — Option B Deploy Path
 
@@ -429,13 +431,17 @@ Canonical outcomes of that merge:
 - No external, provider, backend, or deploy expansion accompanied it.
 
 Boundaries that remain unchanged by this merge: the implementation is
-**CSS/DOM-only**. The full Source Arena renderer is **not complete**; the ADR's
-CSS-complete fallback renderer is **not complete**; WebGL, Three.js, and Canvas
-remain **not implemented** and Three.js remains **not vendored**. NASA runtime
-remains retired and the Source Archive remains local deterministic showcase
-data. OpenRouter remains not implemented. No deployment or release has been
-performed, and none is authorized ahead of the readiness sequence recorded in
-`ROADMAP.md`.
+**CSS/DOM-only**. The full Source Arena renderer is **not complete on
+canonical `main`**; the ADR's CSS-complete fallback renderer is **not
+complete on canonical `main`**; WebGL, Three.js, and Canvas remain **not
+accepted on canonical `main`**, which has no vendored Three.js dependency.
+The renderer and vendored Three.js module are implemented on paused, open,
+unmerged PR #28 (see "3D Scene Foundation — PR #28 Paused State" above), but
+remain non-canonical, unmerged, and blocked by physical Android Chromium
+Gate B (`OPEN / NOT EXECUTED`). NASA runtime remains retired and the Source
+Archive remains local deterministic showcase data. OpenRouter remains not
+implemented. No deployment or release has been performed, and none is
+authorized ahead of the readiness sequence recorded in `ROADMAP.md`.
 
 ## Planned Direction
 
