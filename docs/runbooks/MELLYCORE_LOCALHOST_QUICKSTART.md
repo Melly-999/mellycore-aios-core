@@ -52,6 +52,14 @@ Both pages served from this root are zero-external-network on canonical
   commit `e0cbc332ff90f8787d981c9d86be717633f22d4d`) removed the prior live
   `https://images-api.nasa.gov` calls this page used to make on load and on
   every search; that prior behavior is historical evidence only, not current.
+  `boot()` still performs several same-origin `fetch()`-backed requests to
+  locally served repository resources (`/shared_context/ROADMAP.md`,
+  `/shared_context/RUN_QUEUE.md`, `/shared_context/SAFETY_CONTRACT.md`,
+  loop-registry JSON files, `data/*.json` snapshots, and the
+  context-provenance index) — these are same-origin, not external, but they
+  are real network requests served by this same `--directory site` command.
+  **"Zero external network" is accurate for this page; "zero network" is
+  not.**
 - **The paused, non-canonical WebGL Source Arena renderer** (see
   `docs/decisions/MELLYCORE_3D_RENDERER_HYBRID_ADR_001.md`, status
   **ACCEPTED** at the decision/specification level only): implementation
@@ -64,8 +72,11 @@ Both pages served from this root are zero-external-network on canonical
   `main` and is not served by the command in this runbook today.
 
 Do not read the "no external network requests" line under "Expected URL" above
-as covering `index.html` only — both pages served by this command are now
-zero-network on canonical `main`.
+as covering `index.html` only — both pages served by this command make
+**zero external** network requests on canonical `main`. `dashboard.html` is
+not literally zero-network: it still performs same-origin requests to
+locally served repository data, as described above. The static server
+(`--directory site`) remains required for those same-origin resources.
 
 ## How to stop the server
 
