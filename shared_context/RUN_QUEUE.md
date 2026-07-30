@@ -44,6 +44,38 @@ or 3D implementation. A successful merge does not automatically require a
 post-merge synchronization task; another sync is warranted only if a concrete
 live canonical statement becomes false.
 
+## Current — OpenAI Batch PR #32 Post-Merge Documentation Gate
+
+Completed:
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-MERGE-001`. PR #32 merged
+by GitHub merge commit at `2026-07-30T22:19:15Z`; canonical `main` is
+`5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`. Its automatic Vercel Production
+deployment succeeded (`5683195625` /
+`dpl_Bvijm1GRww7nVaLG4TwnUWBkZmuw`, `READY`, accepted host HTTP 200), while
+the static `site` tree remained unchanged at
+`5df8bb686eb5b13bcf1fe2ad2ef6bc796bfc5d`.
+
+Current local documentation task:
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-001`.
+It creates one local documentation commit only and is not yet reviewed,
+pushed, merged, or canonical.
+
+**Exact immediate next task after local commit:**
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-REVIEW-001`.
+Only after that review passes and this state sync is separately authorized
+for publication may the conditional operational decision task
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered.
+
+This queue entry does not authorize Stage C or enqueue live execution.
+`STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
+`USD_0_01_SPEND_NOT_AUTHORIZED`, and
+`MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding. Provider policy remains
+`LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5` (exit code `78`).
+F1 and N1–N7 remain deferred non-blocking observations; the prior PyPI lookup
+policy violation remains disclosed. PR #28 remains directly untouched, open,
+unmerged, intentionally paused, and `CONFLICTING / DIRTY`; Gate B remains
+`OPEN / NOT EXECUTED`.
+
 ## 3D Scene Foundation — PR #28 Paused State
 
 The durable product successor after Control Plane specification acceptance,
@@ -51,8 +83,8 @@ The durable product successor after Control Plane specification acceptance,
 `feat/mellycore-3d-scene-foundation-001` and published as
 [PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) (head
 `57bb841e67e9a5d557f88bf096537eba78df1cd8`, two commits, twelve changed
-files). PR #28 remains **open, unmerged, mergeable, and intentionally
-paused** — it is **not authorized to merge**.
+files). PR #28 remains **open, unmerged, and intentionally paused**; GitHub
+reports **`CONFLICTING / DIRTY`**. It is **not authorized to merge**.
 
 Repository-verified evidence: independent foundation review returned
 `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`; desktop accessibility/
@@ -532,8 +564,9 @@ fallback spec — all of which remain `NOT_IMPLEMENTED`/`NOT_STARTED`.
   (items 2s–2u): PR #11 merged into canonical `main` via merge commit
   `cad4e07f73f80c5794f9af2897fc10d922637ab3`. No Three.js implementation,
   dependency vendoring, NASA runtime retirement, or release/deployment
-  exists at any point in this chain. The current exact next task is
-  `MELLYCORE-DOCS-INTEGRATION-REVIEW-001`.
+  exists at any point in this chain. Its then-current exact next task was
+  `MELLYCORE-DOCS-INTEGRATION-REVIEW-001`; the live current pointer is the
+  OpenAI Batch post-merge documentation gate above.
 
 ## Standing Safety Gate
 

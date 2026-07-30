@@ -1,6 +1,66 @@
 # Agent Handoff
 
-## Latest Update — Batch PR publication workflow requires verified body reconciliation
+## Latest Update — PR #32 merged; Batch post-merge state sync is local-only
+
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-001`
+
+### Canonical merge and Production state
+
+- PR #32 merged at `2026-07-30T22:19:15Z` using GitHub's merge-commit
+  method. Reviewed head
+  `2b08a2c18f85e07cb1b6ade3ba79f01b2424395b` is the second parent of merge
+  commit `5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`; first parent is
+  `81b1baf9da5363ef088fe236de93d6cd3713b659`. The merge and reviewed-head
+  trees are identical, canonical `main` points to the merge commit, and the
+  seven reviewed PR commits are canonical.
+- PR #32 retained exactly its authorized 13-file scope and changed no
+  `site/**` file. The static `site` tree remained
+  `5df8bb686eb5b13bcf1fe2ad2ef6bc796bfc5d`.
+- The automatic Vercel Git deployment succeeded in Production: GitHub
+  deployment `5683195625`, Vercel deployment
+  `dpl_Bvijm1GRww7nVaLG4TwnUWBkZmuw`, exact deployment SHA
+  `5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`, GitHub `success`, Vercel
+  `READY`. The accepted public host
+  `https://mellycore-aios-core.vercel.app` returned HTTP 200. No manual
+  promotion, redeployment, cancellation, or page-level visual acceptance was
+  performed or claimed.
+
+### Safety and adjacent gates
+
+- Stage B controlled activation is merged:
+  `STAGE_B_OPENAI_BATCH_CONTROLLED_ACTIVATION_MERGED_STATE_SYNCED_LOCALLY_NOT_REVIEWED`.
+  Stage C remains `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`; the hard
+  `USD 0.01` boundary remains `USD_0_01_SPEND_NOT_AUTHORIZED`; migration
+  trigger #5 remains `MIGRATION_TRIGGER_5_NOT_YET_CROSSED`.
+- Provider policy remains fail-closed at
+  `LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5`, exit code `78`.
+  No provider connection, credential access, upload, Batch operation, paid
+  action, or SDK installation occurred. The OpenAI SDK remains absent from
+  the reviewed environment.
+- Pricing evidence is finite: verified `2026-07-28T22:00:34Z`, expires
+  `2026-08-27T22:00:34Z`, and must be revalidated when required.
+- PR #28 remains open, non-draft, unmerged, intentionally paused, and
+  `CONFLICTING / DIRTY` at `57bb841e67e9a5d557f88bf096537eba78df1cd8`;
+  it is directly untouched. Physical Android Chromium Gate B remains
+  `OPEN / NOT EXECUTED`.
+- F1 and N1–N7 remain deferred non-blocking observations. The prior PyPI
+  lookup policy violation remains disclosed and its output remains
+  non-authoritative.
+
+### State-sync publication boundary and next tasks
+
+- This documentation state sync is local-only. At commit creation it is not
+  reviewed, pushed, merged, or canonical, and it creates no authorization to
+  connect to a provider, run a live Batch smoke, or spend money.
+- Immediate next task:
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-REVIEW-001`.
+- Conditional later task, only after this state sync is independently
+  reviewed and separately authorized for publication:
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`. That task is a
+  separate decision gate; it is not active execution work and is not
+  authorized by this handoff.
+
+## Previous Historical Update — Batch PR publication workflow required verified body reconciliation
 
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-002`
 

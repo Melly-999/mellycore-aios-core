@@ -289,8 +289,9 @@ canonical. The remaining task-local gate at that time was
 `MELLYCORE-OMNIROUTER-INSPIRED-CONTROL-PLANE-SPEC-MERGE-001`. The durable
 product successor after successful specification acceptance is
 `MELLYCORE-3D-SCENE-FOUNDATION-001` — implemented in paused, open, unmerged
-PR #28, not merged, not accepted, and blocked by physical Android Chromium
-Gate B (`OPEN / NOT EXECUTED`); canonical `main` has no accepted
+PR #28, currently `CONFLICTING / DIRTY`, not merged, not accepted, and
+blocked by physical Android Chromium Gate B (`OPEN / NOT EXECUTED`);
+canonical `main` has no accepted
 implementation (see the Parallel Decision Track's item 4 below for its
 existing scope). No automatic
 post-merge state sync, OpenRouter live-API implementation, Control Plane
@@ -323,6 +324,28 @@ authorized. Level 1 (static snapshot) is now implemented and merged into
 canonical `main` via PR #21. Levels 2 and 3 remain not implemented; no
 OpenRouter API key, account usage, or live catalog call is authorized by
 this roadmap entry.
+
+## OpenAI Batch Controlled Activation — Post-Merge State
+
+- **Completed:** `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-MERGE-001`.
+  PR #32 merged via GitHub merge commit
+  `5e7628a72a22fc10ecd0f9a25515ab61eb7223b9` at
+  `2026-07-30T22:19:15Z`. Canonical `main` contains the exact reviewed tree
+  and all seven reviewed commits.
+- **Current documentation task:**
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-001`.
+  It is local-only and not reviewed, pushed, merged, or canonical.
+- **Immediate next gate after the local commit:**
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-REVIEW-001`.
+- **Conditional later decision, only after reviewed and published state
+  sync:** `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+
+This roadmap state does not authorize Stage C or place live Batch execution
+into an active queue. Live smoke remains a separate Operator decision; the
+hard `USD 0.01` boundary remains unavailable until separately authorized;
+migration trigger #5 remains uncrossed; provider policy remains fail-closed.
+The PR #32 merge changed no `site/**` file, and its automatic Production
+deployment published the unchanged static tree only.
 
 ## Safety Gates
 

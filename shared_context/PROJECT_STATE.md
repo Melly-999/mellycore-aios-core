@@ -104,8 +104,8 @@ concrete live canonical statement becomes false.
 [PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) (head
 `57bb841e67e9a5d557f88bf096537eba78df1cd8`, base `main`, two commits, twelve
 changed files, locally vendored Three.js r164). PR #28 remains **open,
-non-draft, unmerged, and mergeable**; it is **intentionally paused**, not
-merged, and **not authorized to merge**.
+non-draft, and unmerged**; GitHub reports **`CONFLICTING / DIRTY`**. It is
+**intentionally paused** and **not authorized to merge**.
 
 Accepted evidence:
 
@@ -513,16 +513,46 @@ milestones remain preserved in their task reports and repository history.
   Authorization — Model A Contract" above for the full contract and
   migration triggers.
 
-## OpenAI Batch API — Stage B Controlled Activation (Dormant, Trigger #5 Uncrossed)
+## OpenAI Batch API — Stage B Merged, Stage C Unauthorized
 
-Branch `feat/mellycore-openai-batch-controlled-activation-001` (base
-`81b1baf9da5363ef088fe236de93d6cd3713b659`) adds
-`scripts/mellycore_batch/activation.py`: a local-only, fail-closed
+[PR #32](https://github.com/Melly-999/mellycore-aios-core/pull/32) merged the
+Stage B controlled-activation foundation into canonical `main` at
+`2026-07-30T22:19:15Z` using GitHub's merge-commit method. Canonical `main`
+now points to merge commit
+`5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`, whose parents are, in order,
+`81b1baf9da5363ef088fe236de93d6cd3713b659` and
+`2b08a2c18f85e07cb1b6ade3ba79f01b2424395b`. The merge tree is identical to
+the reviewed-head tree. All seven reviewed PR commits, from `8bd40b4…`
+through `2b08a2c…`, are therefore part of canonical `main`.
+
+PR #32 changed exactly 13 authorized files: five files under
+`scripts/mellycore_batch/`, five Batch test files, and the three governance
+documents `shared_context/AGENT_HANDOFF.md`, `shared_context/PROJECT_STATE.md`,
+and `shared_context/SAFETY_CONTRACT.md`. It changed no `site/**` file.
+The `site` tree remained exactly
+`5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d` across the merge.
+
+The merge triggered an automatic Vercel Git deployment to Production:
+GitHub deployment `5683195625`, Vercel deployment
+`dpl_Bvijm1GRww7nVaLG4TwnUWBkZmuw`, deployment SHA
+`5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`. GitHub reported `success`;
+Vercel reported `READY`; the accepted public host
+`https://mellycore-aios-core.vercel.app` returned HTTP 200. No manual
+promotion, redeployment, cancellation, or other deployment mutation occurred.
+No page-level visual acceptance was performed or claimed. Because the static
+tree was unchanged, this deployment added no provider-secret dependency,
+backend route, serverless function, or Batch execution surface.
+
+`scripts/mellycore_batch/activation.py` is a local-only, fail-closed
 activation-control layer on top of the already-merged Batch foundation
 (`feat/mellycore-openai-batch-api-foundation-001`, head
-`d19dd2417d1a1008e976608c5560d858b5fb9574`). This is planning and validation
-only — it does not connect to OpenAI, does not import the `openai` SDK in
-any reachable path, and does not cross migration trigger #5.
+`d19dd2417d1a1008e976608c5560d858b5fb9574`). Stage B is now merged, but it
+remains planning and validation only: it does not connect to OpenAI, does not
+import the `openai` SDK in any reachable path, and does not cross migration
+trigger #5. No provider connection, credentialed request, upload, Batch
+operation, or paid action occurred during implementation review, merge, or
+this local documentation state sync. The OpenAI SDK remained absent from the
+reviewed environment.
 
 **Governance chain:**
 
@@ -547,7 +577,7 @@ any reachable path, and does not cross migration trigger #5.
   `STAGE_B_IMPLEMENTATION_AUTHORIZED`. That decision explicitly did **not**
   authorize Stage C: `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
   `MIGRATION_TRIGGER_5_NOT_YET_CROSSED`, and
-  `USD_0_01_SPEND_NOT_AUTHORIZED_BY_THIS_DECISION` all remain true after this
+  `USD_0_01_SPEND_NOT_AUTHORIZED_BY_THIS_DECISION` all remain true after the
   Stage B merge.
 
 **What Stage B is:** exact-model enforcement (`gpt-5.4-nano-2026-03-17`
@@ -586,24 +616,21 @@ provider-backed CLI command (`submit`, `status`, `list`, `download`,
 local-planning command, not a replacement for that gate.
 
 **Trigger #5 status:** migration trigger #5 ("first live provider
-connection") is **not** crossed by this merge and is only ever crossed by an
+connection") is **not** crossed by the merge and is only ever crossed by an
 actual, successful, credentialed connection to the OpenAI API — something
 this Stage B layer is explicitly designed never to perform. Stage C (an
 actual live Batch smoke test) remains a separate, not-yet-authorized future
-task: `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+decision task: `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+The hard `USD 0.01` spend boundary is likewise unavailable until separately
+authorized.
 
-**Production separation:** this change touches only files under
-`scripts/mellycore_batch/`, `tests/`, and this minimal `shared_context/`
-delta. Nothing under `site/**`, `vercel.json`, or `.github/**` changed, so
-the existing static Production boundary (Vercel Root Directory `site`,
-static-only, no provider SDK/credential/backend route/serverless
-function/Batch execution capability) is unaffected by construction. Per the
-existing Model A contract above, an eventual merge of this branch would
-still trigger an automatic Vercel Production deployment of the unchanged
-`site/` static artifact; this session did not independently re-verify that
-deployment's identity against a live Vercel API call (out of scope: no
-network access was authorized for this task) — confirming that remains a
-follow-up for whichever session actually merges this branch.
+**Production separation:** the reviewed Stage B change touched only files
+under `scripts/mellycore_batch/`, `tests/`, and the minimal
+`shared_context/` delta described above. Nothing under `site/**`,
+`vercel.json`, or `.github/**` changed, so the existing static Production
+boundary (Vercel Root Directory `site`, static-only, no provider
+SDK/credential/backend route/serverless function/Batch execution capability)
+remains intact.
 
 **Requirements-live.txt SDK version:** the Operator supplied the exact,
 local-only declaration `openai==2.48.0`. It is recorded as the sole line in
@@ -612,3 +639,29 @@ imports it. A previous worker performed a prohibited read-only
 `pip index versions openai` lookup. That policy violation is disclosed in
 the task completion report, and its output is not treated as authority for
 this pin. The pin's authority is the Operator's direct instruction.
+
+**Finite pricing authority:** pricing evidence was verified at
+`2026-07-28T22:00:34Z` and expires at `2026-08-27T22:00:34Z`. It remains
+authoritative only within that stated validity window and must be revalidated
+when the policy requires it, including at or after expiry and before any
+separately authorized live-smoke decision that depends on current pricing.
+
+**Independent adjacent state:** PR #28 remains open, non-draft, unmerged,
+intentionally paused, and currently `CONFLICTING / DIRTY` at
+`57bb841e67e9a5d557f88bf096537eba78df1cd8`; auto-merge remains absent.
+Physical Android Chromium Gate B remains `OPEN / NOT EXECUTED`. PR #32 and
+this state-sync task did not modify PR #28 or execute Gate B.
+
+**Review observations and incident:** F1 and N1–N7 remain deferred
+non-blocking observations. The prior prohibited PyPI lookup remains
+disclosed; its output is not authority for the dependency pin. Neither the
+merge nor this state sync closes, suppresses, or upgrades those observations.
+
+**Current workflow:** this post-merge state sync is local-only and is not yet
+reviewed, pushed, merged, or canonical. Its immediate next task is
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-REVIEW-001`.
+Only after independent review and separately authorized publication of this
+state sync may
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
+separate operational decision. This state sync creates no live-smoke,
+provider-connection, Stage C, or spend authorization.
