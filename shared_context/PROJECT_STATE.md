@@ -512,3 +512,103 @@ milestones remain preserved in their task reports and repository history.
   policy for the static-showcase phase only — see "Production Deployment
   Authorization — Model A Contract" above for the full contract and
   migration triggers.
+
+## OpenAI Batch API — Stage B Controlled Activation (Dormant, Trigger #5 Uncrossed)
+
+Branch `feat/mellycore-openai-batch-controlled-activation-001` (base
+`81b1baf9da5363ef088fe236de93d6cd3713b659`) adds
+`scripts/mellycore_batch/activation.py`: a local-only, fail-closed
+activation-control layer on top of the already-merged Batch foundation
+(`feat/mellycore-openai-batch-api-foundation-001`, head
+`d19dd2417d1a1008e976608c5560d858b5fb9574`). This is planning and validation
+only — it does not connect to OpenAI, does not import the `openai` SDK in
+any reachable path, and does not cross migration trigger #5.
+
+**Governance chain:**
+
+- Capability research: `MELLYCORE-PRODUCTION-DEPLOYMENT-SEPARATION-CAPABILITY-RESEARCH-001`
+  returned `PASS_WITH_REQUIRED_CONTROLS_DEPLOYMENT_SEPARATION_CAPABILITY_RESEARCH_001` and
+  selected **LOCAL OPERATOR-ONLY EXECUTION** as the deployment-separation
+  architecture for any future live Batch activity: a human operator runs the
+  CLI locally, with credentials in their own local environment only, never
+  in Vercel, GitHub Actions, or any other hosted execution surface.
+- Pricing evidence: `MELLYCORE-OPENAI-BATCH-PRICING-EVIDENCE-001` returned
+  `PASS_WITH_CONSERVATIVE_LIMITS_MELLYCORE_OPENAI_BATCH_PRICING_EVIDENCE_001`,
+  `verified_at: 2026-07-28T22:00:34Z`, `valid_until: 2026-08-27T22:00:34Z`.
+  `scripts/mellycore_batch/openai_batch_pricing.json` records this evidence
+  with a SHA-256 integrity digest over its own content. The digest detects
+  content changes that have not been deliberately re-digested; independent
+  Python constants additionally dual-lock every reviewed pricing,
+  provenance, validity-window, capability, and envelope field so recomputing
+  the digest cannot make substituted evidence authoritative. `activation.py`
+  refuses to plan at or after `valid_until`.
+- Model B reconsideration: `MELLYCORE-MODEL-B-LIVE-PROVIDER-TRIGGER-5-DECISION-002`
+  returned `APPROVE_CONSTRAINED_MODEL_B_TRIGGER_5_TRANSITION_002` with status
+  `STAGE_B_IMPLEMENTATION_AUTHORIZED`. That decision explicitly did **not**
+  authorize Stage C: `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
+  `MIGRATION_TRIGGER_5_NOT_YET_CROSSED`, and
+  `USD_0_01_SPEND_NOT_AUTHORIZED_BY_THIS_DECISION` all remain true after this
+  Stage B merge.
+
+**What Stage B is:** exact-model enforcement (`gpt-5.4-nano-2026-03-17`
+only); a hard request/input/output envelope (max 3 requests, max 65,536
+input bytes, max 512 output tokens per request, max 1,536 total output
+tokens); Decimal-only cost estimation against a hard `USD 0.01` cap (the
+worst-case envelope estimates to `USD 0.0075136`, about 75% of the cap);
+rejection of tools, web/file search, code interpreter, image/file/audio
+input, external URLs, and any request-body field outside an explicit
+allowlist; a one-time, non-secret local authorization-artifact schema and a
+fixed production consumption ledger derived with the Windows Local AppData
+Known Folder API at
+`<LocalAppData>\MellyCore\batch\authorizations`. Callers, CLI arguments,
+environment variables, configuration, and authorization artifacts cannot
+select or override that root. Repository paths, repository ancestors,
+children, `.git`, and worktree administrative paths are explicitly excluded
+with case-insensitive component comparisons. The only root-taking helper is
+private and retained for isolated filesystem tests; production calls resolve
+the fixed root internally. Before marker access, the implementation opens and
+validates a non-reparse local directory boundary; marker creation is relative
+to that directory handle and exclusive (create-once; reuse rejected), so
+symlinks, junctions, and other Windows reparse points are refused rather than
+followed. A hardcoded Stage C kill switch
+(`stage_c_live_execution_authorized = False`) that no manifest,
+authorization artifact, CLI flag, or environment variable this package reads
+can set to `True`.
+
+**What Stage B is not:** it does not construct an OpenAI client, does not
+upload a file, does not create/poll/cancel a Batch, and does not spend any
+money. `scripts/mellycore_batch/policy.py`'s hardcoded
+`live_provider_connections_allowed = false` and the
+`LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5` block (exit code
+`78`) are unchanged and remain the sole, independent gate in front of every
+provider-backed CLI command (`submit`, `status`, `list`, `download`,
+`cancel`); Stage B's `activation-preflight` command is a separate, additive
+local-planning command, not a replacement for that gate.
+
+**Trigger #5 status:** migration trigger #5 ("first live provider
+connection") is **not** crossed by this merge and is only ever crossed by an
+actual, successful, credentialed connection to the OpenAI API — something
+this Stage B layer is explicitly designed never to perform. Stage C (an
+actual live Batch smoke test) remains a separate, not-yet-authorized future
+task: `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+
+**Production separation:** this change touches only files under
+`scripts/mellycore_batch/`, `tests/`, and this minimal `shared_context/`
+delta. Nothing under `site/**`, `vercel.json`, or `.github/**` changed, so
+the existing static Production boundary (Vercel Root Directory `site`,
+static-only, no provider SDK/credential/backend route/serverless
+function/Batch execution capability) is unaffected by construction. Per the
+existing Model A contract above, an eventual merge of this branch would
+still trigger an automatic Vercel Production deployment of the unchanged
+`site/` static artifact; this session did not independently re-verify that
+deployment's identity against a live Vercel API call (out of scope: no
+network access was authorized for this task) — confirming that remains a
+follow-up for whichever session actually merges this branch.
+
+**Requirements-live.txt SDK version:** the Operator supplied the exact,
+local-only declaration `openai==2.48.0`. It is recorded as the sole line in
+`scripts/mellycore_batch/requirements-live.txt`; Stage B neither installs nor
+imports it. A previous worker performed a prohibited read-only
+`pip index versions openai` lookup. That policy violation is disclosed in
+the task completion report, and its output is not treated as authority for
+this pin. The pin's authority is the Operator's direct instruction.

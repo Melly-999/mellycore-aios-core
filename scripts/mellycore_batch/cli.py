@@ -6,6 +6,10 @@ Commands:
     inspect     Report facts about an existing JSONL file (count, size, sha256).
     summarize   Parse downloaded result/error files into a Run Ledger-compatible summary.
     plan-live   Show what a future submission would do, without doing it.
+    activation-preflight
+                Stage B local activation preflight (pricing evidence, exact-model/
+                envelope/cost checks, optional authorization-artifact validation).
+                Always reports execution_authorized=false. See activation.py.
     submit      BLOCKED while migration trigger #5 is active. See policy.py.
     status      BLOCKED while migration trigger #5 is active. See policy.py.
     list        BLOCKED while migration trigger #5 is active. See policy.py.
@@ -18,22 +22,45 @@ Exit codes:
     78  a command required a live provider connection, refused because
         migration trigger #5 is blocking (EXIT_LIVE_BLOCKED)
 
-``build``, ``validate``, ``inspect``, ``summarize``, and ``plan-live`` are the
-only commands that do anything; none of them constructs a provider client or
-reaches the network. ``submit``, ``status``, ``list``, ``download``, and
-``cancel`` always fail with exit code 78 right now -- see
+``build``, ``validate``, ``inspect``, ``summarize``, ``plan-live``, and
+``activation-preflight`` are the only commands that do anything; none of them
+constructs a provider client, imports the OpenAI SDK, or reaches the
+network. ``submit``, ``status``, ``list``, ``download``, and ``cancel``
+always fail with exit code 78 right now -- see
 :mod:`scripts.mellycore_batch.policy`.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
+import re
+import subprocess
 import sys
+from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from .jsonl import build_jsonl, iter_validate_jsonl_file, sha256_of_file
+from .activation import (
+    DEFAULT_PRICING_MANIFEST_PATH,
+    build_preflight_record,
+    enforce_cost_cap,
+    enforce_request_envelope,
+    estimate_cost,
+    load_authorization_artifact,
+    load_pricing_manifest,
+    validate_authorization_artifact,
+    validate_pricing_evidence,
+)
+from .jsonl import (
+    build_jsonl,
+    iter_validate_jsonl_file,
+    render_jsonl_bytes,
+    sha256_of_file,
+)
 from .manifest import load_manifest_file, validate_manifest
 from .models import (
     COMPLETION_WINDOW,
@@ -45,7 +72,11 @@ from .models import (
     InvalidInputError,
     LiveConnectionBlockedError,
 )
-from .policy import credential_material_present, enforce_live_connection_allowed, get_active_policy
+from .policy import (
+    credential_material_present,
+    enforce_live_connection_allowed,
+    get_active_policy,
+)
 from .results import parse_result_files
 from .summary import build_ledger_summary
 
@@ -132,7 +163,11 @@ def cmd_validate(args: argparse.Namespace) -> int:
             print("  PASS no findings")
             return EXIT_OK
         for finding in findings:
-            print("  line {}: {} - {}".format(finding["line"], finding["code"], finding["message"]))
+            print(
+                "  line {}: {} - {}".format(
+                    finding["line"], finding["code"], finding["message"]
+                )
+            )
         print("  FAIL {} finding(s)".format(len(findings)))
         return EXIT_INVALID
 
@@ -219,7 +254,11 @@ def cmd_summarize(args: argparse.Namespace) -> int:
 
 
 def _read_lines(path: Path) -> List[str]:
-    return [line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    return [
+        line.strip()
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
 
 
 # --- plan-live ------------------------------------------------------------------
@@ -267,9 +306,317 @@ def cmd_plan_live(args: argparse.Namespace) -> int:
     print("  input_file_size:       {}".format(plan["input_file_size"]))
     print("  input_file_sha256:     {}".format(plan["input_file_sha256"]))
     print("  expected_upload_purpose: {}".format(plan["expected_upload_purpose"]))
-    print("  credentials_detected:  {} (value never shown)".format(plan["credentials_detected"]))
+    print(
+        "  credentials_detected:  {} (value never shown)".format(
+            plan["credentials_detected"]
+        )
+    )
     print("  blocking_trigger:      {}".format(policy.blocking_trigger))
     print("  execution_allowed:     {}".format(plan["execution_allowed"]))
+    return EXIT_OK
+
+
+# --- activation-preflight (Stage B, local only, no network) -------------------
+
+
+_CANONICAL_REMOTE_NAME = "clean-origin"
+_CANONICAL_REMOTE_URL = "https://github.com/Melly-999/mellycore-aios-core.git"
+_CANONICAL_REMOTE_MAIN_REF = "refs/remotes/clean-origin/main"
+_FULL_LOWER_SHA_RE = re.compile(r"[0-9a-f]{40}")
+_GIT_TIMEOUT_SECONDS = 5
+_NETWORK_GIT_SUBCOMMANDS = frozenset(
+    {"clone", "fetch", "ls-remote", "pull", "push", "remote-fd"}
+)
+
+
+@dataclass(frozen=True)
+class RepositoryIdentity:
+    """Local Git provenance used to bind a Stage B preflight.
+
+    This is checked-out repository identity, not GitHub or remote attestation.
+    Resolution uses only local Git objects and configuration and never performs
+    a network operation.
+    """
+
+    repository_root: Path
+    canonical_base_sha: str
+    activation_commit_sha: str
+    canonical_remote_url: str
+
+
+def _trusted_utc_now() -> datetime:
+    """Sample the operator system clock once as a timezone-aware UTC instant."""
+    return datetime.now(timezone.utc)
+
+
+def _repository_root_from_source() -> Path:
+    """Derive the repository root from this module, never from the caller CWD."""
+    try:
+        root = Path(__file__).resolve(strict=True).parents[2]
+        return root.resolve(strict=True)
+    except (IndexError, OSError) as exc:
+        raise InvalidInputError(
+            "cannot derive the Batch repository root from the installed source"
+        ) from exc
+
+
+def _sanitized_git_environment() -> Dict[str, str]:
+    """Remove Git control variables that could redirect local identity checks."""
+    return {
+        key: value
+        for key, value in os.environ.items()
+        if not key.upper().startswith("GIT_")
+    }
+
+
+def _run_trusted_git(
+    repository_root: Path,
+    arguments: List[str],
+    *,
+    expect_output: bool = True,
+) -> str:
+    """Run one bounded, local-only Git identity query without exposing stderr."""
+    if not arguments or arguments[0] in _NETWORK_GIT_SUBCOMMANDS:
+        raise InvalidInputError("a non-local Git identity operation was refused")
+
+    command = [
+        "git",
+        "-c",
+        "safe.directory={}".format(repository_root),
+        "-C",
+        str(repository_root),
+        *arguments,
+    ]
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=str(repository_root),
+            env=_sanitized_git_environment(),
+            capture_output=True,
+            text=True,
+            timeout=_GIT_TIMEOUT_SECONDS,
+            check=False,
+            shell=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise InvalidInputError("local Git repository identity check timed out") from exc
+    except (OSError, UnicodeError) as exc:
+        raise InvalidInputError(
+            "local Git repository identity could not be determined"
+        ) from exc
+
+    if completed.returncode != 0:
+        raise InvalidInputError(
+            "local Git repository identity check failed for {!r}".format(arguments[0])
+        )
+    output = completed.stdout.strip()
+    if expect_output and not output:
+        raise InvalidInputError(
+            "local Git repository identity check returned no result"
+        )
+    return output
+
+
+def _require_full_lower_sha(value: str, *, field_name: str) -> str:
+    if _FULL_LOWER_SHA_RE.fullmatch(value) is None:
+        raise InvalidInputError(
+            "{} must resolve to a full lowercase 40-character Git SHA".format(
+                field_name
+            )
+        )
+    return value
+
+
+def _same_local_path(left: Path, right: Path) -> bool:
+    return os.path.normcase(str(left.resolve(strict=True))) == os.path.normcase(
+        str(right.resolve(strict=True))
+    )
+
+
+def _resolve_repository_identity() -> RepositoryIdentity:
+    """Derive trusted commit bindings from the checked-out local repository."""
+    repository_root = _repository_root_from_source()
+
+    top_level_raw = _run_trusted_git(
+        repository_root, ["rev-parse", "--show-toplevel"]
+    )
+    try:
+        git_top_level = Path(top_level_raw)
+        source_matches_git = _same_local_path(repository_root, git_top_level)
+    except OSError as exc:
+        raise InvalidInputError(
+            "Git top-level path cannot be verified against the Batch source root"
+        ) from exc
+    if not source_matches_git:
+        raise InvalidInputError(
+            "Git top-level does not match the Batch source-derived repository root"
+        )
+
+    canonical_remote_url = _run_trusted_git(
+        repository_root, ["remote", "get-url", _CANONICAL_REMOTE_NAME]
+    )
+    if canonical_remote_url != _CANONICAL_REMOTE_URL:
+        raise InvalidInputError(
+            "clean-origin does not identify the canonical MellyCore repository"
+        )
+
+    activation_commit_sha = _require_full_lower_sha(
+        _run_trusted_git(
+            repository_root, ["rev-parse", "--verify", "HEAD^{commit}"]
+        ),
+        field_name="activation commit",
+    )
+    _require_full_lower_sha(
+        _run_trusted_git(
+            repository_root,
+            ["show-ref", "--verify", "--hash", _CANONICAL_REMOTE_MAIN_REF],
+        ),
+        field_name="clean-origin/main",
+    )
+    canonical_base_sha = _require_full_lower_sha(
+        _run_trusted_git(
+            repository_root,
+            ["merge-base", "HEAD", _CANONICAL_REMOTE_MAIN_REF],
+        ),
+        field_name="canonical base",
+    )
+    _run_trusted_git(
+        repository_root,
+        ["merge-base", "--is-ancestor", canonical_base_sha, "HEAD"],
+        expect_output=False,
+    )
+
+    return RepositoryIdentity(
+        repository_root=repository_root,
+        canonical_base_sha=canonical_base_sha,
+        activation_commit_sha=activation_commit_sha,
+        canonical_remote_url=canonical_remote_url,
+    )
+
+
+def cmd_activation_preflight(args: argparse.Namespace) -> int:
+    """Stage B activation preflight: local validation only, never a live connection.
+
+    Imports no provider client and no OpenAI SDK. Loads and cross-checks the
+    pricing-evidence manifest, enforces the exact-model/request/input/output
+    envelope, computes a Decimal cost estimate against the hard cap, and (if
+    an authorization artifact path is given) validates -- but never consumes
+    -- it. ``execution_authorized`` and ``migration_trigger_5_crossed`` are
+    always ``False`` in the emitted record; this command cannot report
+    otherwise regardless of any flag or file it is given.
+    """
+    manifest = load_manifest_file(Path(args.manifest))
+    validate_manifest(manifest)
+
+    payload_bytes = render_jsonl_bytes(manifest.requests)
+    input_byte_count = len(payload_bytes)
+    input_jsonl_sha256 = hashlib.sha256(payload_bytes).hexdigest()
+
+    now = _trusted_utc_now()
+    identity = _resolve_repository_identity()
+
+    pricing_manifest_path = (
+        Path(args.pricing_manifest)
+        if args.pricing_manifest
+        else DEFAULT_PRICING_MANIFEST_PATH
+    )
+    pricing_manifest = load_pricing_manifest(pricing_manifest_path)
+    validate_pricing_evidence(pricing_manifest, now)
+
+    envelope = enforce_request_envelope(manifest.requests, input_byte_count)
+    cost_estimate = estimate_cost(
+        envelope.input_byte_count, envelope.total_max_output_tokens
+    )
+    enforce_cost_cap(cost_estimate)
+
+    authorization_id: Optional[str] = None
+    if args.authorization:
+        artifact = load_authorization_artifact(Path(args.authorization))
+        validate_authorization_artifact(
+            artifact,
+            now=now,
+            expected_canonical_base_sha=identity.canonical_base_sha,
+            expected_activation_commit_sha=identity.activation_commit_sha,
+            expected_task_id=manifest.task_id,
+        )
+        # Preflight validates only -- it never calls
+        # scripts.mellycore_batch.activation.consume_authorization. Only a
+        # hypothetical, separately authorized Stage C execution attempt would
+        # ever consume an authorization artifact, and that code path does not
+        # exist in this package.
+        authorization_id = artifact.authorization_id
+
+    record = build_preflight_record(
+        task_id=manifest.task_id,
+        authorization_id=authorization_id,
+        canonical_commit_sha=identity.canonical_base_sha,
+        activation_commit_sha=identity.activation_commit_sha,
+        endpoint=manifest.endpoint,
+        completion_window=manifest.completion_window,
+        envelope=envelope,
+        pricing_manifest=pricing_manifest,
+        cost_estimate=cost_estimate,
+        input_jsonl_sha256=input_jsonl_sha256,
+        credential_present=credential_material_present(),
+    )
+    payload = record.to_dict()
+    payload["commit_identity_source"] = "local_git_repository"
+
+    if args.json:
+        _emit_json({"command": "activation-preflight", **payload})
+        return EXIT_OK
+
+    print(
+        "MellyCore Batch activation-preflight -- Stage B PLANNING ONLY, no network, nothing submitted"
+    )
+    print("  task_id:                          {}".format(payload["task_id"]))
+    print("  authorization_id:                 {}".format(payload["authorization_id"]))
+    print(
+        "  provider / endpoint / model:       {} / {} / {}".format(
+            payload["provider"], payload["endpoint"], payload["model"]
+        )
+    )
+    print("  request_count:                    {}".format(payload["request_count"]))
+    print(
+        "  input_jsonl_size / sha256:         {} / {}".format(
+            payload["input_jsonl_size"], payload["input_jsonl_sha256"]
+        )
+    )
+    print(
+        "  maximum_total_output_tokens:       {}".format(
+            payload["maximum_total_output_tokens"]
+        )
+    )
+    print(
+        "  pricing_verified_at / valid_until: {} / {}".format(
+            payload["pricing_verified_at"], payload["pricing_valid_until"]
+        )
+    )
+    print(
+        "  estimated_maximum_cost / cap:      {} / {}".format(
+            payload["estimated_maximum_cost"], payload["authorized_hard_cost_cap"]
+        )
+    )
+    print(
+        "  credential_present:                {} (value never shown)".format(
+            payload["credential_present"]
+        )
+    )
+    print(
+        "  execution_authorized:              {}".format(
+            payload["execution_authorized"]
+        )
+    )
+    print(
+        "  migration_trigger_5_crossed:       {}".format(
+            payload["migration_trigger_5_crossed"]
+        )
+    )
+    print(
+        "  commit_identity_source:            {}".format(
+            payload["commit_identity_source"]
+        )
+    )
     return EXIT_OK
 
 
@@ -282,18 +629,24 @@ def cmd_plan_live(args: argparse.Namespace) -> int:
 #: trigger #5 is active, so nothing after it in any of these functions can
 #: currently execute. The actual provider-calling logic is deliberately not
 #: written yet: it belongs to the separately authorized
-#: ``MELLYCORE-OPENAI-BATCH-API-LIVE-SMOKE-001`` task, after Model B
-#: reconsideration, not to this foundation task.
+#: ``MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`` task (Stage C),
+#: after its own separate authorization -- Stage B (this module's
+#: ``activation-preflight`` command and :mod:`scripts.mellycore_batch.activation`)
+#: only plans and validates; it does not authorize or implement Stage C.
 
 
 def cmd_submit(args: argparse.Namespace) -> int:
     enforce_live_connection_allowed("submit")
-    raise NotImplementedError("live submission is out of scope for this foundation task")
+    raise NotImplementedError(
+        "live submission is out of scope for this foundation task"
+    )
 
 
 def cmd_status(args: argparse.Namespace) -> int:
     enforce_live_connection_allowed("status")
-    raise NotImplementedError("live status polling is out of scope for this foundation task")
+    raise NotImplementedError(
+        "live status polling is out of scope for this foundation task"
+    )
 
 
 def cmd_list(args: argparse.Namespace) -> int:
@@ -308,7 +661,9 @@ def cmd_download(args: argparse.Namespace) -> int:
 
 def cmd_cancel(args: argparse.Namespace) -> int:
     enforce_live_connection_allowed("cancel")
-    raise NotImplementedError("live cancellation is out of scope for this foundation task")
+    raise NotImplementedError(
+        "live cancellation is out of scope for this foundation task"
+    )
 
 
 # --- parser ---------------------------------------------------------------------
@@ -326,35 +681,74 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sub = parser.add_subparsers(dest="command")
 
-    p_build = sub.add_parser("build", help="Validate a manifest and write its deterministic JSONL file")
-    p_build.add_argument("--manifest", required=True, help="Path to a Batch manifest JSON file")
-    p_build.add_argument("--output", default=None, help="Output JSONL path (default: derived from task_id)")
-    p_build.add_argument("--overwrite", action="store_true", help="Allow overwriting an existing output file")
+    p_build = sub.add_parser(
+        "build", help="Validate a manifest and write its deterministic JSONL file"
+    )
+    p_build.add_argument(
+        "--manifest", required=True, help="Path to a Batch manifest JSON file"
+    )
+    p_build.add_argument(
+        "--output",
+        default=None,
+        help="Output JSONL path (default: derived from task_id)",
+    )
+    p_build.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Allow overwriting an existing output file",
+    )
     p_build.add_argument("--json", action="store_true", help="Emit JSON")
     p_build.set_defaults(func=cmd_build)
 
-    p_validate = sub.add_parser("validate", help="Validate a manifest or an existing JSONL file")
-    p_validate.add_argument("--manifest", default=None, help="Path to a Batch manifest JSON file")
-    p_validate.add_argument("--jsonl", default=None, help="Path to an existing JSONL file to stream-validate")
+    p_validate = sub.add_parser(
+        "validate", help="Validate a manifest or an existing JSONL file"
+    )
+    p_validate.add_argument(
+        "--manifest", default=None, help="Path to a Batch manifest JSON file"
+    )
+    p_validate.add_argument(
+        "--jsonl",
+        default=None,
+        help="Path to an existing JSONL file to stream-validate",
+    )
     p_validate.add_argument("--json", action="store_true", help="Emit JSON")
     p_validate.set_defaults(func=cmd_validate)
 
-    p_inspect = sub.add_parser("inspect", help="Report facts about an existing JSONL file")
-    p_inspect.add_argument("--jsonl", required=True, help="Path to an existing JSONL file")
+    p_inspect = sub.add_parser(
+        "inspect", help="Report facts about an existing JSONL file"
+    )
+    p_inspect.add_argument(
+        "--jsonl", required=True, help="Path to an existing JSONL file"
+    )
     p_inspect.add_argument("--json", action="store_true", help="Emit JSON")
     p_inspect.set_defaults(func=cmd_inspect)
 
     p_summarize = sub.add_parser(
-        "summarize", help="Parse local result/error JSONL files into a Run Ledger-compatible summary"
+        "summarize",
+        help="Parse local result/error JSONL files into a Run Ledger-compatible summary",
     )
     p_summarize.add_argument("--task-id", required=True, help="Local task identifier")
-    p_summarize.add_argument("--endpoint", default="/v1/responses", help="Batch endpoint used")
-    p_summarize.add_argument("--completion-window", default=COMPLETION_WINDOW, help="Completion window used")
-    p_summarize.add_argument("--model", action="append", default=None, help="A model ID used (repeatable)")
-    p_summarize.add_argument("--status", default="unknown", help="Local status label for this summary")
-    p_summarize.add_argument("--batch-id", default=None, help="Provider batch ID, if known")
-    p_summarize.add_argument("--output-file", default=None, help="Path to a downloaded output JSONL file")
-    p_summarize.add_argument("--error-file", default=None, help="Path to a downloaded error JSONL file")
+    p_summarize.add_argument(
+        "--endpoint", default="/v1/responses", help="Batch endpoint used"
+    )
+    p_summarize.add_argument(
+        "--completion-window", default=COMPLETION_WINDOW, help="Completion window used"
+    )
+    p_summarize.add_argument(
+        "--model", action="append", default=None, help="A model ID used (repeatable)"
+    )
+    p_summarize.add_argument(
+        "--status", default="unknown", help="Local status label for this summary"
+    )
+    p_summarize.add_argument(
+        "--batch-id", default=None, help="Provider batch ID, if known"
+    )
+    p_summarize.add_argument(
+        "--output-file", default=None, help="Path to a downloaded output JSONL file"
+    )
+    p_summarize.add_argument(
+        "--error-file", default=None, help="Path to a downloaded error JSONL file"
+    )
     p_summarize.add_argument(
         "--expected-custom-ids",
         default=None,
@@ -363,11 +757,40 @@ def build_parser() -> argparse.ArgumentParser:
     p_summarize.add_argument("--json", action="store_true", help="Emit JSON")
     p_summarize.set_defaults(func=cmd_summarize)
 
-    p_plan = sub.add_parser("plan-live", help="Show what a future submission would do, without doing it")
-    p_plan.add_argument("--manifest", required=True, help="Path to a Batch manifest JSON file")
-    p_plan.add_argument("--jsonl", default=None, help="Path to an already-built JSONL file, if any")
+    p_plan = sub.add_parser(
+        "plan-live", help="Show what a future submission would do, without doing it"
+    )
+    p_plan.add_argument(
+        "--manifest", required=True, help="Path to a Batch manifest JSON file"
+    )
+    p_plan.add_argument(
+        "--jsonl", default=None, help="Path to an already-built JSONL file, if any"
+    )
     p_plan.add_argument("--json", action="store_true", help="Emit JSON")
     p_plan.set_defaults(func=cmd_plan_live)
+
+    p_preflight = sub.add_parser(
+        "activation-preflight",
+        help=(
+            "Stage B local activation preflight: pricing evidence, exact-model/envelope/cost checks, "
+            "optional authorization-artifact validation. Local only, no network, never authorizes execution."
+        ),
+    )
+    p_preflight.add_argument(
+        "--manifest", required=True, help="Path to a Batch manifest JSON file"
+    )
+    p_preflight.add_argument(
+        "--pricing-manifest",
+        default=None,
+        help="Path to the pricing-evidence manifest (default: the package's openai_batch_pricing.json)",
+    )
+    p_preflight.add_argument(
+        "--authorization",
+        default=None,
+        help="Path to a one-time authorization-artifact JSON file to validate (never consumed by this command)",
+    )
+    p_preflight.add_argument("--json", action="store_true", help="Emit JSON")
+    p_preflight.set_defaults(func=cmd_activation_preflight)
 
     for name, func, help_text in (
         ("submit", cmd_submit, "BLOCKED while migration trigger #5 is active"),
@@ -377,7 +800,11 @@ def build_parser() -> argparse.ArgumentParser:
         ("cancel", cmd_cancel, "BLOCKED while migration trigger #5 is active"),
     ):
         p = sub.add_parser(name, help=help_text)
-        p.add_argument("--execute", action="store_true", help="Ignored: cannot bypass migration trigger #5")
+        p.add_argument(
+            "--execute",
+            action="store_true",
+            help="Ignored: cannot bypass migration trigger #5",
+        )
         p.add_argument("--json", action="store_true", help="Emit JSON")
         p.set_defaults(func=func)
 
@@ -404,11 +831,16 @@ def main(argv: Optional[List[str]] = None) -> int:
         if getattr(args, "json", False):
             _emit_json(payload)
         else:
-            print("BLOCKED [{}]: {}".format(LiveConnectionBlockedError.code, exc), file=sys.stderr)
+            print(
+                "BLOCKED [{}]: {}".format(LiveConnectionBlockedError.code, exc),
+                file=sys.stderr,
+            )
         return EXIT_LIVE_BLOCKED
     except InvalidInputError as exc:
         if getattr(args, "json", False):
-            _emit_json({"command": args.command, "error": "invalid_input", "message": str(exc)})
+            _emit_json(
+                {"command": args.command, "error": "invalid_input", "message": str(exc)}
+            )
         else:
             print("ERROR invalid input: {}".format(exc), file=sys.stderr)
         return EXIT_INVALID

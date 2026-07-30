@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "provider": "openai",
+  "endpoint": "/v1/responses",
+  "model": "gpt-5.4-nano-2026-03-17",
+  "processing_region": "standard",
+  "currency": "USD",
+  "pricing_unit_tokens": 1000000,
+  "synchronous": {
+    "input": "0.20",
+    "cached_input": "0.02",
+    "output": "1.25"
+  },
+  "batch": {
+    "input": "0.10",
+    "cached_input": "0.01",
+    "output": "0.625"
+  },
+  "batch_discount_percent": "50",
+  "cached_input_assumed": false,
+  "verified_at": "2026-07-28T22:00:34Z",
+  "valid_until": "2026-08-27T22:00:34Z",
+  "maximum_requests": 3,
+  "maximum_input_bytes": 65536,
+  "maximum_output_tokens_per_request": 512,
+  "maximum_total_output_tokens": 1536,
+  "hard_cost_cap_usd": "0.01",
+  "automatic_retries": 0,
+  "automatic_resubmission": false,
+  "tools_allowed": false,
+  "files_allowed": false,
+  "images_allowed": false,
+  "external_retrieval_allowed": false,
+  "source_urls": [
+    "https://developers.openai.com/api/docs/models/gpt-5.4-nano",
+    "https://developers.openai.com/api/docs/pricing",
+    "https://developers.openai.com/api/docs/guides/batch",
+    "https://help.openai.com/en/articles/9197833-batch-api-faq"
+  ],
+  "evidence_digest": "0f121afec580a5bfe979f723911d69dc0b6dddfc0a6d5d3f5db1711c2216b18c"
+}
