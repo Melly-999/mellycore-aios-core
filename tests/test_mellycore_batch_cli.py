@@ -298,6 +298,26 @@ class ActivationPreflightCommandTests(unittest.TestCase):
             )
         self.assertEqual(EXIT_INVALID, code)
 
+    def test_noncanonical_now_timestamp_rejected(self) -> None:
+        for raw_now in (
+            "2026-07-29T00:00:00",
+            "2026-07-29T01:00:00+01:00",
+            "2026-07-29T00:00:00.000Z",
+        ):
+            with self.subTest(raw_now=raw_now):
+                with no_network():
+                    code, _ = _run(
+                        [
+                            "activation-preflight",
+                            "--manifest",
+                            str(self.manifest_path),
+                            "--now",
+                            raw_now,
+                            "--json",
+                        ]
+                    )
+                self.assertEqual(EXIT_INVALID, code)
+
     def test_never_prints_credential_value(self) -> None:
         fake_key = "TEST-CREDENTIAL-SHOULD-NEVER-APPEAR-IN-PREFLIGHT-OUTPUT"
         with mock.patch.dict(os.environ, {"OPENAI_API_KEY": fake_key}, clear=False):
@@ -327,7 +347,7 @@ class ActivationPreflightCommandTests(unittest.TestCase):
                     "authorization_id": "auth-cli-001",
                     "task_id": "stageb-task-1",
                     "issued_at": "2026-07-29T00:00:00Z",
-                    "expires_at": "2026-08-05T00:00:00Z",
+                    "expires_at": "2026-07-29T00:10:00Z",
                     "canonical_base_sha": "81b1baf9da5363ef088fe236de93d6cd3713b659",
                     "activation_commit_sha": "1" * 40,
                     "provider": "openai",

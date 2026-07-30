@@ -48,6 +48,7 @@ from .activation import (
     estimate_cost,
     load_authorization_artifact,
     load_pricing_manifest,
+    parse_canonical_utc_timestamp,
     validate_authorization_artifact,
     validate_pricing_evidence,
 )
@@ -318,14 +319,12 @@ def cmd_plan_live(args: argparse.Namespace) -> int:
 def _parse_now_arg(raw: Optional[str]) -> datetime:
     if not raw:
         return datetime.now(timezone.utc)
-    normalized = raw[:-1] + "+00:00" if raw.endswith("Z") else raw
     try:
-        parsed = datetime.fromisoformat(normalized)
-    except ValueError as exc:
+        return parse_canonical_utc_timestamp(raw, field_name="--now")
+    except BatchOpsError as exc:
         raise InvalidInputError(
-            "--now {!r} is not a valid ISO-8601 timestamp: {}".format(raw, exc)
+            "--now must use canonical UTC format YYYY-MM-DDTHH:MM:SSZ"
         ) from exc
-    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
 
 
 def cmd_activation_preflight(args: argparse.Namespace) -> int:

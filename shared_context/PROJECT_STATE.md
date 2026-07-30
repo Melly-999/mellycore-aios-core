@@ -536,10 +536,12 @@ any reachable path, and does not cross migration trigger #5.
   `PASS_WITH_CONSERVATIVE_LIMITS_MELLYCORE_OPENAI_BATCH_PRICING_EVIDENCE_001`,
   `verified_at: 2026-07-28T22:00:34Z`, `valid_until: 2026-08-27T22:00:34Z`.
   `scripts/mellycore_batch/openai_batch_pricing.json` records this evidence
-  with a SHA-256 integrity digest over its own content; `activation.py`
-  refuses to plan against it once `valid_until` has passed, and refuses to
-  plan at all if the manifest's content has been altered since the digest
-  was computed.
+  with a SHA-256 integrity digest over its own content. The digest detects
+  content changes that have not been deliberately re-digested; independent
+  Python constants additionally dual-lock every reviewed pricing,
+  provenance, validity-window, capability, and envelope field so recomputing
+  the digest cannot make substituted evidence authoritative. `activation.py`
+  refuses to plan at or after `valid_until`.
 - Model B reconsideration: `MELLYCORE-MODEL-B-LIVE-PROVIDER-TRIGGER-5-DECISION-002`
   returned `APPROVE_CONSTRAINED_MODEL_B_TRIGGER_5_TRANSITION_002` with status
   `STAGE_B_IMPLEMENTATION_AUTHORIZED`. That decision explicitly did **not**
@@ -556,8 +558,12 @@ worst-case envelope estimates to `USD 0.0075136`, about 75% of the cap);
 rejection of tools, web/file search, code interpreter, image/file/audio
 input, external URLs, and any request-body field outside an explicit
 allowlist; a one-time, non-secret local authorization-artifact schema and an
-atomic, untracked local consumption ledger under `.runtime/batch/authorizations/`
-(create-once; reuse rejected); and a hardcoded Stage C kill switch
+untracked local consumption ledger whose default is
+`.runtime/batch/authorizations/`. Before marker access, the implementation
+opens and validates a non-reparse local directory boundary; marker creation
+is relative to that directory handle and exclusive (create-once; reuse
+rejected), so symlinks, junctions, and other Windows reparse points are
+refused rather than followed. A hardcoded Stage C kill switch
 (`stage_c_live_execution_authorized = False`) that no manifest,
 authorization artifact, CLI flag, or environment variable this package reads
 can set to `True`.

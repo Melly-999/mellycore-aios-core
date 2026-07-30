@@ -43,9 +43,24 @@ import hashlib
 import json
 import os
 import re
+import stat
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from decimal import Decimal
+from datetime import datetime, timedelta, timezone
+from decimal import (
+    ROUND_HALF_EVEN,
+    Clamped,
+    Context,
+    Decimal,
+    DecimalException,
+    DivisionByZero,
+    Inexact,
+    InvalidOperation,
+    Overflow,
+    Rounded,
+    Subnormal,
+    Underflow,
+    localcontext,
+)
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
@@ -83,6 +98,39 @@ STAGE_B_PRICE_CACHED_INPUT_PER_MILLION = Decimal("0.01")
 STAGE_B_PRICE_OUTPUT_PER_MILLION = Decimal("0.625")
 STAGE_B_PRICING_UNIT_TOKENS_INT = 1_000_000
 STAGE_B_PRICING_UNIT_TOKENS = Decimal(STAGE_B_PRICING_UNIT_TOKENS_INT)
+STAGE_B_SYNCHRONOUS_PRICE_INPUT = "0.20"
+STAGE_B_SYNCHRONOUS_PRICE_CACHED_INPUT = "0.02"
+STAGE_B_SYNCHRONOUS_PRICE_OUTPUT = "1.25"
+STAGE_B_BATCH_PRICE_INPUT = "0.10"
+STAGE_B_BATCH_PRICE_CACHED_INPUT = "0.01"
+STAGE_B_BATCH_PRICE_OUTPUT = "0.625"
+STAGE_B_BATCH_DISCOUNT_PERCENT = "50"
+STAGE_B_HARD_COST_CAP_USD_TEXT = "0.01"
+STAGE_B_PRICING_VERIFIED_AT = "2026-07-28T22:00:34Z"
+STAGE_B_PRICING_VALID_UNTIL = "2026-08-27T22:00:34Z"
+STAGE_B_SOURCE_URLS = (
+    "https://developers.openai.com/api/docs/models/gpt-5.4-nano",
+    "https://developers.openai.com/api/docs/pricing",
+    "https://developers.openai.com/api/docs/guides/batch",
+    "https://help.openai.com/en/articles/9197833-batch-api-faq",
+)
+STAGE_B_MAX_AUTHORIZATION_LIFETIME = timedelta(minutes=15)
+
+_SECURITY_DECIMAL_CONTEXT = Context(
+    prec=50,
+    rounding=ROUND_HALF_EVEN,
+)
+for _decimal_signal in (
+    InvalidOperation,
+    DivisionByZero,
+    Overflow,
+    Underflow,
+    Subnormal,
+    Clamped,
+    Inexact,
+    Rounded,
+):
+    _SECURITY_DECIMAL_CONTEXT.traps[_decimal_signal] = True
 
 #: Only these top-level request-body keys are ever accepted. Anything else --
 #: tools, tool_choice, service_tier, region overrides, or any other
@@ -136,9 +184,18 @@ _PROHIBITED_NESTED_KEYS = frozenset(
         "resubmission",
     }
 )
-_AUTHORIZATION_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,199}$")
+_AUTHORIZATION_ID_RE = re.compile(r"^[a-z0-9][a-z0-9_-]{0,63}$", re.ASCII)
 _TASK_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,199}$")
 _COMMIT_SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+_CANONICAL_DECIMAL_RE = re.compile(r"^(?:0|[1-9][0-9]*)(?:\.[0-9]+)?$", re.ASCII)
+_CANONICAL_UTC_TIMESTAMP_RE = re.compile(
+    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", re.ASCII
+)
+_WINDOWS_RESERVED_NAMES = frozenset(
+    {"con", "prn", "aux", "nul"}
+    | {"com{}".format(index) for index in range(1, 10)}
+    | {"lpt{}".format(index) for index in range(1, 10)}
+)
 
 #: Default location of the pricing-evidence manifest shipped with this package.
 DEFAULT_PRICING_MANIFEST_PATH = (
@@ -195,6 +252,10 @@ _REQUIRED_AUTHORIZATION_FIELDS: Dict[str, type] = {
 
 
 # --- Exceptions ----------------------------------------------------------------
+
+
+class _DuplicateJSONKeyError(ValueError):
+    """Internal sentinel used to reject duplicate JSON keys without echoing input."""
 
 
 class ActivationError(BatchOpsError):
@@ -261,6 +322,10 @@ class AuthorizationArtifactExpiredError(AuthorizationArtifactError):
 
 class AuthorizationAlreadyConsumedError(AuthorizationArtifactError):
     """The authorization artifact has already been consumed once."""
+
+
+class AuthorizationLedgerSafetyError(AuthorizationArtifactError):
+    """The local consumption ledger cannot meet the required filesystem boundary."""
 
 
 # --- Dataclasses -----------------------------------------------------------------
@@ -459,6 +524,37 @@ class PreflightRecord:
 # --- Pricing-evidence manifest: loading, schema, digest, freshness -------------
 
 
+def _reject_duplicate_object_pairs(
+    pairs: Sequence[Tuple[str, Any]]
+) -> Dict[str, Any]:
+    result: Dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise _DuplicateJSONKeyError("duplicate JSON object key detected")
+        result[key] = value
+    return result
+
+
+def _reject_nonfinite_json_constant(_value: str) -> None:
+    raise ValueError("non-finite JSON number is not permitted")
+
+
+def _strict_json_loads(text: str, *, document_label: str) -> Any:
+    """Parse security-sensitive JSON without duplicate or non-finite values."""
+    try:
+        return json.loads(
+            text,
+            object_pairs_hook=_reject_duplicate_object_pairs,
+            parse_constant=_reject_nonfinite_json_constant,
+        )
+    except _DuplicateJSONKeyError as exc:
+        raise ValueError(
+            "{} contains a duplicate JSON object key".format(document_label)
+        ) from exc
+    except (json.JSONDecodeError, ValueError) as exc:
+        raise ValueError("{} is not strict JSON".format(document_label)) from exc
+
+
 def load_pricing_manifest(path: Optional[Path] = None) -> Dict[str, Any]:
     """Load and schema-validate the pricing-evidence manifest. Read-only, no network."""
     manifest_path = Path(path) if path is not None else DEFAULT_PRICING_MANIFEST_PATH
@@ -469,10 +565,10 @@ def load_pricing_manifest(path: Optional[Path] = None) -> Dict[str, Any]:
             "cannot read pricing manifest {}: {}".format(manifest_path, exc)
         ) from exc
     try:
-        data = json.loads(text)
-    except json.JSONDecodeError as exc:
+        data = _strict_json_loads(text, document_label="pricing manifest")
+    except ValueError as exc:
         raise PricingManifestSchemaError(
-            "pricing manifest {} is not valid JSON: {}".format(manifest_path, exc)
+            "pricing manifest {} is invalid: {}".format(manifest_path, exc)
         ) from exc
     if not isinstance(data, dict):
         raise PricingManifestSchemaError(
@@ -537,6 +633,50 @@ def validate_pricing_manifest_schema(manifest: Dict[str, Any]) -> None:
                         pricing_block_name, sub_key
                     )
                 )
+            if (
+                _parse_canonical_decimal(
+                    block[sub_key],
+                    field_name="{}.{}".format(pricing_block_name, sub_key),
+                )
+                <= 0
+            ):
+                raise PricingManifestSchemaError(
+                    "pricing manifest {!r}.{} must be greater than zero".format(
+                        pricing_block_name, sub_key
+                    )
+                )
+    if (
+        _parse_canonical_decimal(
+            manifest["batch_discount_percent"],
+            field_name="batch_discount_percent",
+        )
+        <= 0
+    ):
+        raise PricingManifestSchemaError(
+            "pricing manifest 'batch_discount_percent' must be greater than zero"
+        )
+    if (
+        _parse_canonical_decimal(
+            manifest["hard_cost_cap_usd"], field_name="hard_cost_cap_usd"
+        )
+        <= 0
+    ):
+        raise PricingManifestSchemaError(
+            "pricing manifest 'hard_cost_cap_usd' must be greater than zero"
+        )
+    source_urls = manifest["source_urls"]
+    if any(not isinstance(url, str) or not url for url in source_urls):
+        raise PricingManifestSchemaError(
+            "pricing manifest 'source_urls' must contain non-empty strings only"
+        )
+    if len(source_urls) != len(set(source_urls)):
+        raise PricingManifestSchemaError(
+            "pricing manifest 'source_urls' must not contain duplicates"
+        )
+    if not re.fullmatch(r"[0-9a-f]{64}", manifest["evidence_digest"], re.ASCII):
+        raise PricingManifestSchemaError(
+            "pricing manifest 'evidence_digest' must be 64 lowercase hexadecimal characters"
+        )
 
 
 def compute_pricing_evidence_digest(manifest: Dict[str, Any]) -> str:
@@ -592,9 +732,9 @@ def enforce_pricing_freshness(manifest: Dict[str, Any], now: datetime) -> None:
                 manifest["verified_at"], now.isoformat()
             )
         )
-    if now > valid_until:
+    if now >= valid_until:
         raise PricingEvidenceExpiredError(
-            "pricing evidence expired: 'valid_until' ({}) is before now ({})".format(
+            "pricing evidence expired: 'valid_until' ({}) is not after now ({})".format(
                 manifest["valid_until"], now.isoformat()
             )
         )
@@ -619,13 +759,17 @@ def enforce_manifest_matches_constants(manifest: Dict[str, Any]) -> None:
                 "{}: manifest={!r} constant={!r}".format(field_name, actual, expected)
             )
 
+    _check("schema_version", 1)
     _check("provider", STAGE_B_PROVIDER)
     _check("endpoint", STAGE_B_ENDPOINT)
     _check("model", STAGE_B_MODEL)
     _check("processing_region", STAGE_B_PROCESSING_REGION)
     _check("currency", "USD")
     _check("pricing_unit_tokens", STAGE_B_PRICING_UNIT_TOKENS_INT)
+    _check("batch_discount_percent", STAGE_B_BATCH_DISCOUNT_PERCENT)
     _check("cached_input_assumed", False)
+    _check("verified_at", STAGE_B_PRICING_VERIFIED_AT)
+    _check("valid_until", STAGE_B_PRICING_VALID_UNTIL)
     _check("maximum_requests", STAGE_B_MAX_REQUESTS)
     _check("maximum_input_bytes", STAGE_B_MAX_INPUT_BYTES)
     _check("maximum_output_tokens_per_request", STAGE_B_MAX_OUTPUT_TOKENS_PER_REQUEST)
@@ -636,29 +780,49 @@ def enforce_manifest_matches_constants(manifest: Dict[str, Any]) -> None:
     _check("files_allowed", False)
     _check("images_allowed", False)
     _check("external_retrieval_allowed", False)
-
-    if _to_decimal(manifest.get("hard_cost_cap_usd")) != STAGE_B_HARD_COST_CAP_USD:
+    _check("hard_cost_cap_usd", STAGE_B_HARD_COST_CAP_USD_TEXT)
+    if manifest.get("source_urls") != list(STAGE_B_SOURCE_URLS):
         mismatches.append(
-            "hard_cost_cap_usd: manifest={!r} constant={!r}".format(
-                manifest.get("hard_cost_cap_usd"), str(STAGE_B_HARD_COST_CAP_USD)
+            "source_urls: manifest={!r} constant={!r}".format(
+                manifest.get("source_urls"), list(STAGE_B_SOURCE_URLS)
             )
         )
 
+    synchronous_prices = manifest.get("synchronous") or {}
     batch_prices = manifest.get("batch") or {}
     price_checks = (
-        ("batch.input", batch_prices.get("input"), STAGE_B_PRICE_INPUT_PER_MILLION),
+        (
+            "synchronous.input",
+            synchronous_prices.get("input"),
+            STAGE_B_SYNCHRONOUS_PRICE_INPUT,
+        ),
+        (
+            "synchronous.cached_input",
+            synchronous_prices.get("cached_input"),
+            STAGE_B_SYNCHRONOUS_PRICE_CACHED_INPUT,
+        ),
+        (
+            "synchronous.output",
+            synchronous_prices.get("output"),
+            STAGE_B_SYNCHRONOUS_PRICE_OUTPUT,
+        ),
+        ("batch.input", batch_prices.get("input"), STAGE_B_BATCH_PRICE_INPUT),
         (
             "batch.cached_input",
             batch_prices.get("cached_input"),
-            STAGE_B_PRICE_CACHED_INPUT_PER_MILLION,
+            STAGE_B_BATCH_PRICE_CACHED_INPUT,
         ),
-        ("batch.output", batch_prices.get("output"), STAGE_B_PRICE_OUTPUT_PER_MILLION),
+        (
+            "batch.output",
+            batch_prices.get("output"),
+            STAGE_B_BATCH_PRICE_OUTPUT,
+        ),
     )
-    for label, raw_value, expected_decimal in price_checks:
-        if _to_decimal(raw_value) != expected_decimal:
+    for label, raw_value, expected_text in price_checks:
+        if raw_value != expected_text:
             mismatches.append(
                 "{}: manifest={!r} constant={!r}".format(
-                    label, raw_value, str(expected_decimal)
+                    label, raw_value, expected_text
                 )
             )
 
@@ -849,17 +1013,23 @@ def estimate_cost(input_byte_count: int, total_max_output_tokens: int) -> CostEs
             raise ActivationError(
                 "{} must be a non-negative integer; got {!r}".format(field_name, value)
             )
-    input_cost = (
-        Decimal(input_byte_count)
-        * STAGE_B_PRICE_INPUT_PER_MILLION
-        / STAGE_B_PRICING_UNIT_TOKENS
-    )
-    output_cost = (
-        Decimal(total_max_output_tokens)
-        * STAGE_B_PRICE_OUTPUT_PER_MILLION
-        / STAGE_B_PRICING_UNIT_TOKENS
-    )
-    estimated_maximum_cost = input_cost + output_cost
+    try:
+        with localcontext(_SECURITY_DECIMAL_CONTEXT):
+            input_cost = (
+                Decimal(input_byte_count)
+                * STAGE_B_PRICE_INPUT_PER_MILLION
+                / STAGE_B_PRICING_UNIT_TOKENS
+            )
+            output_cost = (
+                Decimal(total_max_output_tokens)
+                * STAGE_B_PRICE_OUTPUT_PER_MILLION
+                / STAGE_B_PRICING_UNIT_TOKENS
+            )
+            estimated_maximum_cost = input_cost + output_cost
+    except DecimalException as exc:
+        raise ActivationError(
+            "cost calculation was inexact, rounded, or outside the approved Decimal range"
+        ) from exc
     return CostEstimate(
         input_byte_count=input_byte_count,
         total_max_output_tokens=total_max_output_tokens,
@@ -872,10 +1042,27 @@ def estimate_cost(input_byte_count: int, total_max_output_tokens: int) -> CostEs
 
 def enforce_cost_cap(estimate: CostEstimate) -> None:
     """Fail closed unless ``estimate.estimated_maximum_cost`` is within the hard cap."""
-    if estimate.estimated_maximum_cost > estimate.hard_cost_cap_usd:
+    monetary_values = (
+        estimate.input_cost,
+        estimate.output_cost,
+        estimate.estimated_maximum_cost,
+        estimate.hard_cost_cap_usd,
+    )
+    if any(
+        not isinstance(value, Decimal) or not value.is_finite() or value < 0
+        for value in monetary_values
+    ):
+        raise CostCapExceededError(
+            "cost estimate contains an invalid, non-finite, or negative monetary value"
+        )
+    if estimate.hard_cost_cap_usd != STAGE_B_HARD_COST_CAP_USD:
+        raise CostCapExceededError(
+            "cost estimate hard cap does not match the Stage B authority"
+        )
+    if estimate.estimated_maximum_cost > STAGE_B_HARD_COST_CAP_USD:
         raise CostCapExceededError(
             "estimated maximum cost {} exceeds the authorized hard cost cap {}".format(
-                estimate.estimated_maximum_cost, estimate.hard_cost_cap_usd
+                estimate.estimated_maximum_cost, STAGE_B_HARD_COST_CAP_USD
             )
         )
 
@@ -935,7 +1122,7 @@ def parse_authorization_artifact(data: Dict[str, Any]) -> AuthorizationArtifact:
         raise AuthorizationArtifactSchemaError(
             "authorization artifact 'schema_version' must be exactly 1"
         )
-    if not _AUTHORIZATION_ID_RE.fullmatch(data["authorization_id"]):
+    if not _is_safe_authorization_id(data["authorization_id"]):
         raise AuthorizationArtifactSchemaError(
             "authorization artifact 'authorization_id' is malformed"
         )
@@ -981,10 +1168,10 @@ def load_authorization_artifact(path: Path) -> AuthorizationArtifact:
             "cannot read authorization artifact {}: {}".format(path, exc)
         ) from exc
     try:
-        data = json.loads(text)
-    except json.JSONDecodeError as exc:
+        data = _strict_json_loads(text, document_label="authorization artifact")
+    except ValueError as exc:
         raise AuthorizationArtifactSchemaError(
-            "authorization artifact {} is not valid JSON: {}".format(path, exc)
+            "authorization artifact {} is invalid: {}".format(path, exc)
         ) from exc
     return parse_authorization_artifact(data)
 
@@ -1018,14 +1205,17 @@ def validate_authorization_artifact(
             )
         )
 
-    now = _ensure_aware_utc(now)
+    try:
+        now = _ensure_aware_utc(now)
+    except PricingManifestSchemaError as exc:
+        raise AuthorizationArtifactInvalidError(str(exc)) from exc
     issued_at = _parse_authorization_timestamp(
         artifact.issued_at, field_name="issued_at"
     )
     expires_at = _parse_authorization_timestamp(
         artifact.expires_at, field_name="expires_at"
     )
-    if now > expires_at:
+    if now >= expires_at:
         raise AuthorizationArtifactExpiredError(
             "authorization artifact {!r} expired at {} (now: {})".format(
                 artifact.authorization_id, artifact.expires_at, now.isoformat()
@@ -1034,6 +1224,12 @@ def validate_authorization_artifact(
     if expires_at <= issued_at:
         raise AuthorizationArtifactInvalidError(
             "authorization artifact {!r} expires_at must be after issued_at".format(
+                artifact.authorization_id
+            )
+        )
+    if expires_at - issued_at > STAGE_B_MAX_AUTHORIZATION_LIFETIME:
+        raise AuthorizationArtifactInvalidError(
+            "authorization artifact {!r} lifetime exceeds the 15-minute maximum".format(
                 artifact.authorization_id
             )
         )
@@ -1079,10 +1275,15 @@ def validate_authorization_artifact(
             "model: artifact={!r} expected={!r}".format(artifact.model, expected_model)
         )
     try:
-        artifact_maximum_cost = _to_decimal(artifact.maximum_cost)
+        artifact_maximum_cost = _parse_canonical_decimal(
+            artifact.maximum_cost, field_name="maximum_cost"
+        )
     except PricingManifestSchemaError as exc:
         raise AuthorizationArtifactInvalidError(str(exc)) from exc
-    if artifact_maximum_cost != expected_max_cost:
+    if (
+        artifact_maximum_cost != expected_max_cost
+        or artifact.maximum_cost != str(expected_max_cost)
+    ):
         mismatches.append(
             "maximum_cost: artifact={!r} expected={!r}".format(
                 artifact.maximum_cost, str(expected_max_cost)
@@ -1139,14 +1340,17 @@ def default_authorization_ledger_dir() -> Path:
 def is_authorization_consumed(
     authorization_id: str, ledger_dir: Optional[Path] = None
 ) -> bool:
-    """Read-only check: has ``authorization_id`` already been consumed?"""
-    ledger_dir = (
+    """Read-only, no-follow check: has ``authorization_id`` been consumed?"""
+    ledger_path = _normalized_ledger_path(
         Path(ledger_dir)
         if ledger_dir is not None
         else default_authorization_ledger_dir()
     )
     safe_id = _safe_ledger_filename(authorization_id)
-    return (ledger_dir / "{}.consumed".format(safe_id)).exists()
+    marker_name = "{}.consumed".format(safe_id)
+    if os.name == "nt":
+        return _windows_marker_exists(ledger_path, marker_name)
+    return _posix_marker_exists(ledger_path, marker_name)
 
 
 def consume_authorization(
@@ -1154,11 +1358,10 @@ def consume_authorization(
 ) -> Path:
     """Atomically, irreversibly mark ``authorization_id`` as consumed.
 
-    Uses an exclusive file create (``O_CREAT | O_EXCL``) so two concurrent
-    callers can never both succeed for the same ``authorization_id`` -- the
-    second raises :class:`AuthorizationAlreadyConsumedError`. The marker file
-    lives entirely under the ignored ``.runtime/batch/`` tree, never a
-    tracked repository path.
+    Uses a validated directory handle plus exclusive, relative creation. On
+    Windows each directory component and marker is opened with no-reparse
+    semantics; on POSIX ``dir_fd`` and ``O_NOFOLLOW`` provide the equivalent
+    boundary. Two concurrent callers can never both succeed.
 
     This function is never called from any Stage B CLI command -- Stage B
     preflight only *validates* an authorization artifact, it never consumes
@@ -1168,50 +1371,519 @@ def consume_authorization(
     and that code path does not exist in this package.
     """
     safe_id = _safe_ledger_filename(authorization_id)
-    ledger_dir = (
+    ledger_path = _normalized_ledger_path(
         Path(ledger_dir)
         if ledger_dir is not None
         else default_authorization_ledger_dir()
     )
-    ledger_dir.mkdir(parents=True, exist_ok=True)
-    marker = ledger_dir / "{}.consumed".format(safe_id)
+    marker_name = "{}.consumed".format(safe_id)
+    marker_payload = json.dumps(
+        {
+            "authorization_id": authorization_id,
+            "consumed_at": datetime.now(timezone.utc).isoformat(),
+        },
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    if os.name == "nt":
+        return _windows_create_marker(
+            ledger_path, marker_name, marker_payload, authorization_id
+        )
+    return _posix_create_marker(
+        ledger_path, marker_name, marker_payload, authorization_id
+    )
+
+
+def _normalized_ledger_path(ledger_dir: Path) -> Path:
+    raw = os.fspath(ledger_dir)
+    if not raw or "\x00" in raw:
+        raise AuthorizationLedgerSafetyError("ledger directory path is invalid")
+    absolute = Path(os.path.abspath(raw))
+    if not absolute.is_absolute() or absolute == Path(absolute.anchor):
+        raise AuthorizationLedgerSafetyError(
+            "ledger directory must be an absolute non-root path"
+        )
+    if os.name == "nt":
+        drive, _tail = os.path.splitdrive(str(absolute))
+        if not drive or drive.startswith("\\\\"):
+            raise AuthorizationLedgerSafetyError(
+                "ledger directory must be on a local Windows drive"
+            )
+    return absolute
+
+
+def _posix_open_ledger_directory(ledger_path: Path, *, create: bool) -> Optional[int]:
+    flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0) | getattr(os, "O_NOFOLLOW", 0)
+    current_fd = os.open(ledger_path.anchor, flags)
     try:
-        fd = os.open(str(marker), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-    except FileExistsError as exc:
+        for component in ledger_path.parts[1:]:
+            try:
+                next_fd = os.open(component, flags, dir_fd=current_fd)
+            except FileNotFoundError:
+                if not create:
+                    return None
+                try:
+                    os.mkdir(component, mode=0o700, dir_fd=current_fd)
+                except FileExistsError:
+                    pass
+                next_fd = os.open(component, flags, dir_fd=current_fd)
+            details = os.fstat(next_fd)
+            if not stat.S_ISDIR(details.st_mode):
+                os.close(next_fd)
+                raise AuthorizationLedgerSafetyError(
+                    "ledger path contains a non-directory component"
+                )
+            os.close(current_fd)
+            current_fd = next_fd
+        return current_fd
+    except Exception:
+        os.close(current_fd)
+        raise
+
+
+def _posix_marker_exists(ledger_path: Path, marker_name: str) -> bool:
+    directory_fd = _posix_open_ledger_directory(ledger_path, create=False)
+    if directory_fd is None:
+        return False
+    try:
+        try:
+            details = os.stat(marker_name, dir_fd=directory_fd, follow_symlinks=False)
+        except FileNotFoundError:
+            return False
+        if stat.S_ISLNK(details.st_mode) or not stat.S_ISREG(details.st_mode):
+            raise AuthorizationLedgerSafetyError(
+                "authorization marker is a symlink or non-regular filesystem object"
+            )
+        return True
+    finally:
+        os.close(directory_fd)
+
+
+def _posix_create_marker(
+    ledger_path: Path,
+    marker_name: str,
+    payload: bytes,
+    authorization_id: str,
+) -> Path:
+    directory_fd = _posix_open_ledger_directory(ledger_path, create=True)
+    if directory_fd is None:  # pragma: no cover - create=True guarantees a handle
+        raise AuthorizationLedgerSafetyError("could not create the ledger directory")
+    flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        try:
+            marker_fd = os.open(marker_name, flags, 0o600, dir_fd=directory_fd)
+        except FileExistsError as exc:
+            if _posix_marker_exists(ledger_path, marker_name):
+                raise AuthorizationAlreadyConsumedError(
+                    "authorization {!r} has already been consumed".format(
+                        authorization_id
+                    )
+                ) from exc
+            raise
+        try:
+            os.write(marker_fd, payload)
+            os.fsync(marker_fd)
+        finally:
+            os.close(marker_fd)
+    finally:
+        os.close(directory_fd)
+    return ledger_path / marker_name
+
+
+def _windows_api() -> Tuple[Any, Any, Any, Any, Any]:
+    import ctypes
+    from ctypes import wintypes
+
+    class UnicodeString(ctypes.Structure):
+        _fields_ = [
+            ("Length", wintypes.USHORT),
+            ("MaximumLength", wintypes.USHORT),
+            ("Buffer", wintypes.LPWSTR),
+        ]
+
+    class ObjectAttributes(ctypes.Structure):
+        _fields_ = [
+            ("Length", wintypes.ULONG),
+            ("RootDirectory", wintypes.HANDLE),
+            ("ObjectName", ctypes.POINTER(UnicodeString)),
+            ("Attributes", wintypes.ULONG),
+            ("SecurityDescriptor", wintypes.LPVOID),
+            ("SecurityQualityOfService", wintypes.LPVOID),
+        ]
+
+    class IoStatusBlock(ctypes.Structure):
+        _fields_ = [("Status", ctypes.c_void_p), ("Information", ctypes.c_size_t)]
+
+    class FileAttributeTagInfo(ctypes.Structure):
+        _fields_ = [
+            ("FileAttributes", wintypes.DWORD),
+            ("ReparseTag", wintypes.DWORD),
+        ]
+
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    ntdll = ctypes.WinDLL("ntdll")
+    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel32.CloseHandle.restype = wintypes.BOOL
+    kernel32.GetFileInformationByHandleEx.argtypes = [
+        wintypes.HANDLE,
+        ctypes.c_int,
+        wintypes.LPVOID,
+        wintypes.DWORD,
+    ]
+    kernel32.GetFileInformationByHandleEx.restype = wintypes.BOOL
+    kernel32.GetFinalPathNameByHandleW.argtypes = [
+        wintypes.HANDLE,
+        wintypes.LPWSTR,
+        wintypes.DWORD,
+        wintypes.DWORD,
+    ]
+    kernel32.GetFinalPathNameByHandleW.restype = wintypes.DWORD
+    kernel32.WriteFile.argtypes = [
+        wintypes.HANDLE,
+        wintypes.LPCVOID,
+        wintypes.DWORD,
+        ctypes.POINTER(wintypes.DWORD),
+        wintypes.LPVOID,
+    ]
+    kernel32.WriteFile.restype = wintypes.BOOL
+    kernel32.FlushFileBuffers.argtypes = [wintypes.HANDLE]
+    kernel32.FlushFileBuffers.restype = wintypes.BOOL
+    ntdll.NtCreateFile.argtypes = [
+        ctypes.POINTER(wintypes.HANDLE),
+        wintypes.ULONG,
+        ctypes.POINTER(ObjectAttributes),
+        ctypes.POINTER(IoStatusBlock),
+        ctypes.c_void_p,
+        wintypes.ULONG,
+        wintypes.ULONG,
+        wintypes.ULONG,
+        wintypes.ULONG,
+        ctypes.c_void_p,
+        wintypes.ULONG,
+    ]
+    ntdll.NtCreateFile.restype = ctypes.c_long
+    return (
+        ctypes,
+        wintypes,
+        kernel32,
+        ntdll,
+        (UnicodeString, ObjectAttributes, IoStatusBlock, FileAttributeTagInfo),
+    )
+
+
+def _windows_close_handle(handle: Any) -> None:
+    _ctypes, _wintypes, kernel32, _ntdll, _types = _windows_api()
+    if handle:
+        kernel32.CloseHandle(handle)
+
+
+def _windows_nt_open_relative(
+    parent_handle: Any,
+    name: str,
+    *,
+    directory: bool,
+    create_if_missing: bool,
+    exclusive_create: bool = False,
+) -> Optional[Any]:
+    ctypes, wintypes, _kernel32, ntdll, types = _windows_api()
+    UnicodeString, ObjectAttributes, IoStatusBlock, _tag_type = types
+    encoded_length = len(name.encode("utf-16-le"))
+    name_buffer = ctypes.create_unicode_buffer(name)
+    unicode_name = UnicodeString(
+        encoded_length,
+        encoded_length,
+        ctypes.cast(name_buffer, wintypes.LPWSTR),
+    )
+    attributes = ObjectAttributes(
+        ctypes.sizeof(ObjectAttributes),
+        parent_handle,
+        ctypes.pointer(unicode_name),
+        0x00000040 | 0x00001000,  # OBJ_CASE_INSENSITIVE | OBJ_DONT_REPARSE
+        None,
+        None,
+    )
+    io_status = IoStatusBlock()
+    child_handle = wintypes.HANDLE()
+    desired_access = 0x00100000 | 0x00000080  # SYNCHRONIZE | FILE_READ_ATTRIBUTES
+    if directory:
+        desired_access |= 0x00000020  # FILE_TRAVERSE
+    elif exclusive_create:
+        desired_access |= 0x00000002  # FILE_WRITE_DATA
+    if exclusive_create:
+        disposition = 2  # FILE_CREATE
+        share_access = 0
+    elif create_if_missing:
+        disposition = 3  # FILE_OPEN_IF
+        share_access = 0x00000001 | 0x00000002 | 0x00000004
+    else:
+        disposition = 1  # FILE_OPEN
+        share_access = 0x00000001 | 0x00000002 | 0x00000004
+    create_options = (
+        (0x00000001 if directory else 0x00000040)
+        | 0x00000020
+        | 0x00200000
+    )
+    file_attributes = 0x00000010 if directory else 0x00000080
+    status = ntdll.NtCreateFile(
+        ctypes.byref(child_handle),
+        desired_access,
+        ctypes.byref(attributes),
+        ctypes.byref(io_status),
+        None,
+        file_attributes,
+        share_access,
+        disposition,
+        create_options,
+        None,
+        0,
+    )
+    status_code = ctypes.c_ulong(status).value
+    if status_code == 0:
+        return child_handle
+    if status_code in {0xC0000034, 0xC000003A}:
+        return None
+    if status_code == 0xC0000035:
+        raise FileExistsError(name)
+    raise AuthorizationLedgerSafetyError(
+        "Windows rejected a ledger filesystem object (NTSTATUS 0x{:08x})".format(
+            status_code
+        )
+    )
+
+
+def _windows_handle_is_reparse(handle: Any) -> bool:
+    ctypes, _wintypes, kernel32, _ntdll, types = _windows_api()
+    _unicode, _attributes, _io_status, FileAttributeTagInfo = types
+    info = FileAttributeTagInfo()
+    if not kernel32.GetFileInformationByHandleEx(
+        handle, 9, ctypes.byref(info), ctypes.sizeof(info)
+    ):
+        raise AuthorizationLedgerSafetyError(
+            "Windows could not inspect ledger reparse-point attributes"
+        )
+    return bool(info.FileAttributes & 0x00000400)
+
+
+def _windows_final_path(handle: Any) -> Path:
+    ctypes, wintypes, kernel32, _ntdll, _types = _windows_api()
+    required = kernel32.GetFinalPathNameByHandleW(handle, None, 0, 0)
+    if not required:
+        raise AuthorizationLedgerSafetyError(
+            "Windows could not resolve the opened ledger directory handle"
+        )
+    buffer = ctypes.create_unicode_buffer(required + 1)
+    if not kernel32.GetFinalPathNameByHandleW(handle, buffer, len(buffer), 0):
+        raise AuthorizationLedgerSafetyError(
+            "Windows could not resolve the opened ledger directory handle"
+        )
+    value = buffer.value
+    if value.startswith("\\\\?\\UNC\\"):
+        value = "\\\\" + value[8:]
+    elif value.startswith("\\\\?\\"):
+        value = value[4:]
+    return Path(value)
+
+
+def _windows_open_ledger_directory(
+    ledger_path: Path, *, create: bool
+) -> Optional[Tuple[Any, Path]]:
+    ctypes, wintypes, kernel32, _ntdll, _types = _windows_api()
+    kernel32.CreateFileW.argtypes = [
+        wintypes.LPCWSTR,
+        wintypes.DWORD,
+        wintypes.DWORD,
+        wintypes.LPVOID,
+        wintypes.DWORD,
+        wintypes.DWORD,
+        wintypes.HANDLE,
+    ]
+    kernel32.CreateFileW.restype = wintypes.HANDLE
+    kernel32.GetFileAttributesW.argtypes = [wintypes.LPCWSTR]
+    kernel32.GetFileAttributesW.restype = wintypes.DWORD
+    missing_components: List[str] = []
+    existing_path = ledger_path
+    while True:
+        attributes = kernel32.GetFileAttributesW(str(existing_path))
+        if attributes != 0xFFFFFFFF:
+            if attributes & 0x00000400:
+                raise AuthorizationLedgerSafetyError(
+                    "ledger path contains a Windows reparse point"
+                )
+            if not attributes & 0x00000010:
+                raise AuthorizationLedgerSafetyError(
+                    "ledger path contains a non-directory component"
+                )
+            break
+        error = ctypes.get_last_error()
+        if error not in {2, 3}:
+            raise AuthorizationLedgerSafetyError(
+                "Windows could not inspect the ledger directory path"
+            )
+        if existing_path == Path(existing_path.anchor):
+            raise AuthorizationLedgerSafetyError(
+                "Windows could not find a trusted existing ledger ancestor"
+            )
+        missing_components.append(existing_path.name)
+        existing_path = existing_path.parent
+
+    current_handle = kernel32.CreateFileW(
+        str(existing_path),
+        0x00000020 | 0x00000080 | 0x00100000,
+        0x00000001 | 0x00000002 | 0x00000004,
+        None,
+        3,
+        0x02000000 | 0x00200000,
+        None,
+    )
+    if current_handle == ctypes.c_void_p(-1).value:
+        raise AuthorizationLedgerSafetyError(
+            "Windows could not open the trusted existing ledger ancestor"
+        )
+    try:
+        if _windows_handle_is_reparse(current_handle):
+            raise AuthorizationLedgerSafetyError(
+                "ledger path contains a Windows reparse point"
+            )
+        opened_existing_path = _windows_final_path(current_handle)
+        if os.path.normcase(
+            os.path.normpath(str(opened_existing_path))
+        ) != os.path.normcase(os.path.normpath(str(existing_path))):
+            raise AuthorizationLedgerSafetyError(
+                "opened ledger ancestor does not match the intended local path"
+            )
+        for component in reversed(missing_components):
+            next_handle = _windows_nt_open_relative(
+                current_handle,
+                component,
+                directory=True,
+                create_if_missing=create,
+            )
+            if next_handle is None:
+                return None
+            if _windows_handle_is_reparse(next_handle):
+                _windows_close_handle(next_handle)
+                raise AuthorizationLedgerSafetyError(
+                    "ledger path contains a Windows reparse point"
+                )
+            _windows_close_handle(current_handle)
+            current_handle = next_handle
+        final_path = _windows_final_path(current_handle)
+        if os.path.normcase(os.path.normpath(str(final_path))) != os.path.normcase(
+            os.path.normpath(str(ledger_path))
+        ):
+            raise AuthorizationLedgerSafetyError(
+                "opened ledger directory does not match the intended local path"
+            )
+        return current_handle, final_path
+    except Exception:
+        _windows_close_handle(current_handle)
+        raise
+
+
+def _windows_marker_exists(ledger_path: Path, marker_name: str) -> bool:
+    opened = _windows_open_ledger_directory(ledger_path, create=False)
+    if opened is None:
+        return False
+    directory_handle, _final_path = opened
+    try:
+        marker_handle = _windows_nt_open_relative(
+            directory_handle,
+            marker_name,
+            directory=False,
+            create_if_missing=False,
+        )
+        if marker_handle is None:
+            return False
+        try:
+            if _windows_handle_is_reparse(marker_handle):
+                raise AuthorizationLedgerSafetyError(
+                    "authorization marker is a Windows reparse point"
+                )
+            return True
+        finally:
+            _windows_close_handle(marker_handle)
+    finally:
+        _windows_close_handle(directory_handle)
+
+
+def _windows_create_marker(
+    ledger_path: Path,
+    marker_name: str,
+    payload: bytes,
+    authorization_id: str,
+) -> Path:
+    if _windows_marker_exists(ledger_path, marker_name):
         raise AuthorizationAlreadyConsumedError(
             "authorization {!r} has already been consumed".format(authorization_id)
-        ) from exc
+        )
+    opened = _windows_open_ledger_directory(ledger_path, create=True)
+    if opened is None:  # pragma: no cover - create=True guarantees a handle
+        raise AuthorizationLedgerSafetyError("could not create the ledger directory")
+    directory_handle, final_path = opened
     try:
-        with os.fdopen(fd, "w", encoding="utf-8") as handle:
-            handle.write(
-                json.dumps(
-                    {
-                        "authorization_id": authorization_id,
-                        "consumed_at": datetime.now(timezone.utc).isoformat(),
-                    }
-                )
-            )
-    except Exception:
-        # Best-effort cleanup if writing the marker body fails after creation;
-        # the exclusive-create above is what actually guarantees one-time use.
         try:
-            marker.unlink()
-        except OSError:
-            pass
-        raise
-    return marker
+            marker_handle = _windows_nt_open_relative(
+                directory_handle,
+                marker_name,
+                directory=False,
+                create_if_missing=False,
+                exclusive_create=True,
+            )
+        except FileExistsError as exc:
+            raise AuthorizationAlreadyConsumedError(
+                "authorization {!r} has already been consumed".format(
+                    authorization_id
+                )
+            ) from exc
+        if marker_handle is None:  # pragma: no cover - FILE_CREATE never returns None
+            raise AuthorizationLedgerSafetyError(
+                "Windows did not create the authorization marker"
+            )
+        try:
+            if _windows_handle_is_reparse(marker_handle):
+                raise AuthorizationLedgerSafetyError(
+                    "authorization marker is a Windows reparse point"
+                )
+            ctypes, wintypes, kernel32, _ntdll, _types = _windows_api()
+            written = wintypes.DWORD()
+            buffer = ctypes.create_string_buffer(payload)
+            if not kernel32.WriteFile(
+                marker_handle,
+                buffer,
+                len(payload),
+                ctypes.byref(written),
+                None,
+            ) or written.value != len(payload):
+                raise AuthorizationLedgerSafetyError(
+                    "Windows could not completely write the authorization marker"
+                )
+            if not kernel32.FlushFileBuffers(marker_handle):
+                raise AuthorizationLedgerSafetyError(
+                    "Windows could not durably flush the authorization marker"
+                )
+        finally:
+            _windows_close_handle(marker_handle)
+    finally:
+        _windows_close_handle(directory_handle)
+    return final_path / marker_name
 
 
 def _safe_ledger_filename(authorization_id: str) -> str:
-    if not isinstance(authorization_id, str) or not _AUTHORIZATION_ID_RE.fullmatch(
-        authorization_id
-    ):
+    if not _is_safe_authorization_id(authorization_id):
         raise AuthorizationArtifactInvalidError(
-            "authorization_id {!r} is not a safe ledger filename (letters, digits, '-', '_' only)".format(
+            "authorization_id {!r} is not a canonical safe ledger filename".format(
                 authorization_id
             )
         )
     return authorization_id
+
+
+def _is_safe_authorization_id(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and _AUTHORIZATION_ID_RE.fullmatch(value) is not None
+        and value.casefold() not in _WINDOWS_RESERVED_NAMES
+    )
 
 
 # --- Preflight record construction ------------------------------------------------
@@ -1271,43 +1943,68 @@ def build_preflight_record(
 # --- Small internal helpers -------------------------------------------------------
 
 
+def parse_canonical_utc_timestamp(value: str, *, field_name: str) -> datetime:
+    """Parse exactly ``YYYY-MM-DDTHH:MM:SSZ`` without timezone coercion."""
+    return _parse_iso8601(value, field_name=field_name)
+
+
 def _ensure_aware_utc(value: datetime) -> datetime:
-    if value.tzinfo is None:
-        return value.replace(tzinfo=timezone.utc)
+    if not isinstance(value, datetime) or value.tzinfo is None:
+        raise PricingManifestSchemaError(
+            "comparison time must be an explicit timezone-aware UTC datetime"
+        )
+    if value.utcoffset() != timedelta(0):
+        raise PricingManifestSchemaError(
+            "comparison time must use UTC, not a non-zero timezone offset"
+        )
     return value.astimezone(timezone.utc)
 
 
 def _parse_iso8601(value: str, *, field_name: str) -> datetime:
-    if not isinstance(value, str) or not value:
+    if (
+        not isinstance(value, str)
+        or not _CANONICAL_UTC_TIMESTAMP_RE.fullmatch(value)
+    ):
         raise PricingManifestSchemaError(
-            "field {!r} must be a non-empty ISO-8601 string".format(field_name)
+            "field {!r} must use canonical UTC format YYYY-MM-DDTHH:MM:SSZ".format(
+                field_name
+            )
         )
-    normalized = value.replace("Z", "+00:00") if value.endswith("Z") else value
     try:
-        parsed = datetime.fromisoformat(normalized)
+        parsed = datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
     except ValueError as exc:
         raise PricingManifestSchemaError(
-            "field {!r} value {!r} is not a valid ISO-8601 timestamp: {}".format(
-                field_name, value, exc
+            "field {!r} is not a valid canonical UTC timestamp".format(
+                field_name
             )
         ) from exc
-    return _ensure_aware_utc(parsed)
+    return parsed.replace(tzinfo=timezone.utc)
 
 
-def _to_decimal(value: Any) -> Decimal:
-    try:
-        parsed = Decimal(str(value))
-    except (
-        Exception
-    ) as exc:  # noqa: BLE001 - re-raised as a typed activation error below
+def _parse_canonical_decimal(value: Any, *, field_name: str) -> Decimal:
+    if not isinstance(value, str) or not _CANONICAL_DECIMAL_RE.fullmatch(value):
         raise PricingManifestSchemaError(
-            "value {!r} is not a valid decimal amount".format(value)
+            "field {!r} must be a canonical non-negative decimal string without exponent notation".format(
+                field_name
+            )
+        )
+    try:
+        with localcontext(_SECURITY_DECIMAL_CONTEXT):
+            parsed = Decimal(value)
+    except DecimalException as exc:
+        raise PricingManifestSchemaError(
+            "field {!r} is not an exact decimal amount".format(field_name)
         ) from exc
     if not parsed.is_finite():
         raise PricingManifestSchemaError(
-            "value {!r} must be a finite decimal amount".format(value)
+            "field {!r} must be a finite decimal amount".format(field_name)
         )
     return parsed
+
+
+def _to_decimal(value: Any) -> Decimal:
+    """Backward-compatible internal wrapper for canonical decimal parsing."""
+    return _parse_canonical_decimal(value, field_name="decimal value")
 
 
 def _parse_authorization_timestamp(value: str, *, field_name: str) -> datetime:

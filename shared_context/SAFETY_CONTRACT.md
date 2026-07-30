@@ -81,3 +81,12 @@ separate, explicit authorization is required before any live Batch
 execution (Stage C, `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`)
 may proceed.
 
+Pricing evidence is accepted only when both its SHA-256 integrity digest and
+the complete hardcoded Python dual lock agree on every reviewed price,
+source URL, timestamp, capability flag, and envelope field; the digest alone
+is not an authority source. Any future one-time authorization consumption is
+confined to a validated local directory handle: symlinks, junctions, marker
+links, and other Windows reparse points are rejected, and the marker is
+created exclusively relative to the validated handle. Stage B preflight
+never creates or consumes such a marker.
+

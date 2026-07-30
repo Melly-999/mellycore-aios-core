@@ -12,10 +12,19 @@ from __future__ import annotations
 
 import copy
 import json
+import os
 import tempfile
+import threading
 import unittest
 from datetime import datetime, timezone
-from decimal import Decimal
+from decimal import (
+    ROUND_DOWN,
+    ROUND_FLOOR,
+    ROUND_HALF_EVEN,
+    ROUND_UP,
+    Decimal,
+    localcontext,
+)
 from pathlib import Path
 
 from scripts.mellycore_batch import activation as act
@@ -43,7 +52,7 @@ def _make_authorization_dict(**overrides):
         "authorization_id": "auth-001",
         "task_id": "MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-001",
         "issued_at": "2026-07-29T00:00:00Z",
-        "expires_at": "2026-08-05T00:00:00Z",
+        "expires_at": "2026-07-29T00:10:00Z",
         "canonical_base_sha": "81b1baf9da5363ef088fe236de93d6cd3713b659",
         "activation_commit_sha": "1111111111111111111111111111111111111111",
         "provider": act.STAGE_B_PROVIDER,
@@ -92,6 +101,87 @@ class PricingManifestSchemaTests(unittest.TestCase):
             act.validate_pricing_manifest_schema(tampered)
 
 
+class StrictSecurityJSONTests(unittest.TestCase):
+    def _assert_pricing_duplicate_rejected(self, original, replacement) -> None:
+        manifest = act.load_pricing_manifest()
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "pricing.json"
+            path.write_text(
+                json.dumps(manifest, indent=2).replace(original, replacement, 1),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                act.PricingManifestSchemaError, "duplicate JSON object key"
+            ) as raised:
+                act.load_pricing_manifest(path)
+        self.assertNotIn("duplicate-secret-value", str(raised.exception))
+
+    def _assert_authorization_duplicate_rejected(self, original, replacement) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "authorization.json"
+            path.write_text(
+                json.dumps(_make_authorization_dict(), indent=2).replace(
+                    original, replacement, 1
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                act.AuthorizationArtifactSchemaError, "duplicate JSON object key"
+            ) as raised:
+                act.load_authorization_artifact(path)
+        self.assertNotIn("duplicate-secret-value", str(raised.exception))
+
+    def test_duplicate_top_level_pricing_key_rejected(self) -> None:
+        self._assert_pricing_duplicate_rejected(
+            '  "maximum_requests": 3,',
+            '  "maximum_requests": 99,\n  "maximum_requests": 3,',
+        )
+
+    def test_duplicate_nested_pricing_key_rejected(self) -> None:
+        self._assert_pricing_duplicate_rejected(
+            '    "input": "0.20",',
+            '    "input": "duplicate-secret-value",\n    "input": "0.20",',
+        )
+
+    def test_duplicate_pricing_model_rejected(self) -> None:
+        self._assert_pricing_duplicate_rejected(
+            '  "model": "gpt-5.4-nano-2026-03-17",',
+            '  "model": "other",\n  "model": "gpt-5.4-nano-2026-03-17",',
+        )
+
+    def test_duplicate_pricing_hard_cap_rejected(self) -> None:
+        self._assert_pricing_duplicate_rejected(
+            '  "hard_cost_cap_usd": "0.01",',
+            '  "hard_cost_cap_usd": "9",\n  "hard_cost_cap_usd": "0.01",',
+        )
+
+    def test_duplicate_pricing_timestamp_rejected(self) -> None:
+        self._assert_pricing_duplicate_rejected(
+            '  "valid_until": "2026-08-27T22:00:34Z",',
+            '  "valid_until": "2126-08-27T22:00:34Z",\n'
+            '  "valid_until": "2026-08-27T22:00:34Z",',
+        )
+
+    def test_duplicate_authorization_field_rejected(self) -> None:
+        self._assert_authorization_duplicate_rejected(
+            '  "maximum_requests": 3,',
+            '  "maximum_requests": 99,\n  "maximum_requests": 3,',
+        )
+
+    def test_duplicate_authorization_model_rejected(self) -> None:
+        self._assert_authorization_duplicate_rejected(
+            '  "model": "gpt-5.4-nano-2026-03-17",',
+            '  "model": "other",\n  "model": "gpt-5.4-nano-2026-03-17",',
+        )
+
+    def test_duplicate_authorization_timestamp_rejected(self) -> None:
+        self._assert_authorization_duplicate_rejected(
+            '  "expires_at": "2026-07-29T00:10:00Z",',
+            '  "expires_at": "2126-07-29T00:00:00Z",\n'
+            '  "expires_at": "2026-07-29T00:10:00Z",',
+        )
+
+
 class PricingManifestDigestTests(unittest.TestCase):
     def setUp(self) -> None:
         self.manifest = act.load_pricing_manifest()
@@ -135,9 +225,16 @@ class PricingFreshnessTests(unittest.TestCase):
     def test_within_window_passes(self) -> None:
         act.enforce_pricing_freshness(self.manifest, _NOW)
 
-    def test_exactly_at_expiry_passes(self) -> None:
+    def test_one_second_before_expiry_passes(self) -> None:
+        act.enforce_pricing_freshness(
+            self.manifest,
+            datetime(2026, 8, 27, 22, 0, 33, tzinfo=timezone.utc),
+        )
+
+    def test_exactly_at_expiry_fails_closed(self) -> None:
         valid_until = datetime(2026, 8, 27, 22, 0, 34, tzinfo=timezone.utc)
-        act.enforce_pricing_freshness(self.manifest, valid_until)
+        with self.assertRaises(act.PricingEvidenceExpiredError):
+            act.enforce_pricing_freshness(self.manifest, valid_until)
 
     def test_one_second_past_expiry_fails(self) -> None:
         past_expiry = datetime(2026, 8, 27, 22, 0, 35, tzinfo=timezone.utc)
@@ -149,14 +246,40 @@ class PricingFreshnessTests(unittest.TestCase):
         with self.assertRaises(act.PricingEvidenceExpiredError):
             act.enforce_pricing_freshness(self.manifest, too_early)
 
-    def test_naive_datetime_treated_as_utc(self) -> None:
+    def test_naive_datetime_rejected(self) -> None:
         naive_now = datetime(2026, 7, 29, 0, 0, 0)
-        act.enforce_pricing_freshness(self.manifest, naive_now)
+        with self.assertRaises(act.PricingManifestSchemaError):
+            act.enforce_pricing_freshness(self.manifest, naive_now)
+
+    def test_noncanonical_pricing_timestamp_strings_rejected(self) -> None:
+        for raw_timestamp in (
+            "2026-07-28T22:00:34",
+            "2026-07-28T23:00:34+01:00",
+            "2026-07-28T22:00:34.000Z",
+            "2026-06-30T23:59:60Z",
+        ):
+            with self.subTest(raw_timestamp=raw_timestamp):
+                tampered = copy.deepcopy(self.manifest)
+                tampered["verified_at"] = raw_timestamp
+                with self.assertRaises(act.PricingManifestSchemaError):
+                    act.enforce_pricing_freshness(tampered, _NOW)
 
 
 class DualLockConstantAgreementTests(unittest.TestCase):
     def setUp(self) -> None:
         self.manifest = act.load_pricing_manifest()
+
+    def _assert_recomputed_digest_mutation_rejected(self, mutate) -> None:
+        tampered = copy.deepcopy(self.manifest)
+        mutate(tampered)
+        tampered["evidence_digest"] = act.compute_pricing_evidence_digest(tampered)
+        with self.assertRaises(
+            (
+                act.PricingManifestConstantMismatchError,
+                act.PricingManifestSchemaError,
+            )
+        ):
+            act.validate_pricing_evidence(tampered, _NOW)
 
     def test_shipped_manifest_agrees_with_constants(self) -> None:
         act.enforce_manifest_matches_constants(self.manifest)
@@ -216,6 +339,168 @@ class DualLockConstantAgreementTests(unittest.TestCase):
         tampered["automatic_resubmission"] = True
         with self.assertRaises(act.PricingManifestConstantMismatchError):
             act.enforce_manifest_matches_constants(tampered)
+
+    def test_recomputed_digest_cannot_change_synchronous_input(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest["synchronous"].__setitem__("input", "0.19")
+        )
+
+    def test_recomputed_digest_cannot_change_synchronous_cached_input(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest["synchronous"].__setitem__(
+                "cached_input", "0.01"
+            )
+        )
+
+    def test_recomputed_digest_cannot_change_synchronous_output(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest["synchronous"].__setitem__("output", "1.24")
+        )
+
+    def test_recomputed_digest_cannot_change_batch_discount(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest.__setitem__("batch_discount_percent", "49")
+        )
+
+    def test_recomputed_digest_cannot_replace_source_url(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest["source_urls"].__setitem__(
+                0, "https://unreviewed.invalid/"
+            )
+        )
+
+    def test_recomputed_digest_cannot_add_source_url(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest["source_urls"].append(
+                "https://unreviewed.invalid/"
+            )
+        )
+
+    def test_recomputed_digest_cannot_remove_source_url(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest["source_urls"].pop()
+        )
+
+    def test_recomputed_digest_cannot_change_verified_timestamp(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest.__setitem__(
+                "verified_at", "2026-07-28T22:00:33Z"
+            )
+        )
+
+    def test_recomputed_digest_cannot_extend_expiry(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest.__setitem__(
+                "valid_until", "2026-08-27T22:00:35Z"
+            )
+        )
+
+    def test_recomputed_digest_cannot_change_prohibited_flag(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest.__setitem__("external_retrieval_allowed", True)
+        )
+
+    def test_exponent_form_price_rejected(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest["batch"].__setitem__("input", "1E-1")
+        )
+
+    def test_alternate_cost_cap_representation_rejected(self) -> None:
+        self._assert_recomputed_digest_mutation_rejected(
+            lambda manifest: manifest.__setitem__("hard_cost_cap_usd", "0.010")
+        )
+
+    def test_every_reviewed_authority_category_is_dual_locked(self) -> None:
+        mutations = (
+            ("schema_version", lambda m: m.__setitem__("schema_version", 2)),
+            ("provider", lambda m: m.__setitem__("provider", "other")),
+            ("endpoint", lambda m: m.__setitem__("endpoint", "/v1/other")),
+            ("model", lambda m: m.__setitem__("model", "other")),
+            (
+                "processing_region",
+                lambda m: m.__setitem__("processing_region", "regional"),
+            ),
+            ("currency", lambda m: m.__setitem__("currency", "EUR")),
+            (
+                "pricing_unit_tokens",
+                lambda m: m.__setitem__("pricing_unit_tokens", 1000),
+            ),
+            (
+                "synchronous_input",
+                lambda m: m["synchronous"].__setitem__("input", "0.19"),
+            ),
+            (
+                "synchronous_cached_input",
+                lambda m: m["synchronous"].__setitem__("cached_input", "0.01"),
+            ),
+            (
+                "synchronous_output",
+                lambda m: m["synchronous"].__setitem__("output", "1.24"),
+            ),
+            ("batch_input", lambda m: m["batch"].__setitem__("input", "0.09")),
+            (
+                "batch_cached_input",
+                lambda m: m["batch"].__setitem__("cached_input", "0.009"),
+            ),
+            ("batch_output", lambda m: m["batch"].__setitem__("output", "0.624")),
+            (
+                "batch_discount_percent",
+                lambda m: m.__setitem__("batch_discount_percent", "49"),
+            ),
+            (
+                "cached_input_assumed",
+                lambda m: m.__setitem__("cached_input_assumed", True),
+            ),
+            (
+                "verified_at",
+                lambda m: m.__setitem__("verified_at", "2026-07-28T22:00:33Z"),
+            ),
+            (
+                "valid_until",
+                lambda m: m.__setitem__("valid_until", "2026-08-27T22:00:35Z"),
+            ),
+            ("maximum_requests", lambda m: m.__setitem__("maximum_requests", 4)),
+            (
+                "maximum_input_bytes",
+                lambda m: m.__setitem__("maximum_input_bytes", 65537),
+            ),
+            (
+                "maximum_output_tokens_per_request",
+                lambda m: m.__setitem__("maximum_output_tokens_per_request", 513),
+            ),
+            (
+                "maximum_total_output_tokens",
+                lambda m: m.__setitem__("maximum_total_output_tokens", 1537),
+            ),
+            (
+                "hard_cost_cap_usd",
+                lambda m: m.__setitem__("hard_cost_cap_usd", "0.02"),
+            ),
+            (
+                "automatic_retries",
+                lambda m: m.__setitem__("automatic_retries", 1),
+            ),
+            (
+                "automatic_resubmission",
+                lambda m: m.__setitem__("automatic_resubmission", True),
+            ),
+            ("tools_allowed", lambda m: m.__setitem__("tools_allowed", True)),
+            ("files_allowed", lambda m: m.__setitem__("files_allowed", True)),
+            ("images_allowed", lambda m: m.__setitem__("images_allowed", True)),
+            (
+                "external_retrieval_allowed",
+                lambda m: m.__setitem__("external_retrieval_allowed", True),
+            ),
+            (
+                "source_urls",
+                lambda m: m["source_urls"].__setitem__(
+                    0, "https://unreviewed.invalid/"
+                ),
+            ),
+        )
+        for label, mutate in mutations:
+            with self.subTest(label=label):
+                self._assert_recomputed_digest_mutation_rejected(mutate)
 
 
 class ExactModelEnforcementTests(unittest.TestCase):
@@ -511,6 +796,46 @@ class CostCalculationTests(unittest.TestCase):
         with self.assertRaises(act.CostCapExceededError):
             act.enforce_cost_cap(estimate)
 
+    def test_hostile_ambient_context_never_changes_authorization(self) -> None:
+        for precision in (1, 2):
+            for rounding in (
+                ROUND_DOWN,
+                ROUND_FLOOR,
+                ROUND_HALF_EVEN,
+                ROUND_UP,
+            ):
+                with self.subTest(precision=precision, rounding=rounding):
+                    with localcontext() as hostile:
+                        hostile.prec = precision
+                        hostile.rounding = rounding
+                        approved = act.estimate_cost(
+                            act.STAGE_B_MAX_INPUT_BYTES,
+                            act.STAGE_B_MAX_TOTAL_OUTPUT_TOKENS,
+                        )
+                        self.assertEqual(
+                            Decimal("0.0075136"),
+                            approved.estimated_maximum_cost,
+                        )
+                        act.enforce_cost_cap(approved)
+                        exact_cap = act.estimate_cost(100_000, 0)
+                        self.assertEqual(
+                            Decimal("0.01"), exact_cap.estimated_maximum_cost
+                        )
+                        act.enforce_cost_cap(exact_cap)
+                        over_cap = act.estimate_cost(100_001, 0)
+                        self.assertEqual(
+                            Decimal("0.0100001"),
+                            over_cap.estimated_maximum_cost,
+                        )
+                        with self.assertRaises(act.CostCapExceededError):
+                            act.enforce_cost_cap(over_cap)
+
+    def test_unexpected_fractional_and_boolean_counts_rejected(self) -> None:
+        for value in (True, Decimal("1.5"), 1.5):
+            with self.subTest(value=value):
+                with self.assertRaises(act.ActivationError):
+                    act.estimate_cost(value, 0)
+
 
 class AuthorizationArtifactSchemaTests(unittest.TestCase):
     def test_valid_artifact_parses(self) -> None:
@@ -565,6 +890,42 @@ class AuthorizationArtifactSchemaTests(unittest.TestCase):
             act.parse_authorization_artifact(
                 _make_authorization_dict(authorization_id="../../unsafe")
             )
+
+    def test_noncanonical_authorization_identifiers_rejected(self) -> None:
+        invalid_ids = (
+            "Auth-001",
+            "auth.001",
+            " auth-001",
+            "auth/001",
+            "auth\\001",
+            "auth:001",
+            "-auth",
+            "_auth",
+            "ąuth",
+            "a" * 65,
+            "",
+        )
+        for authorization_id in invalid_ids:
+            with self.subTest(authorization_id=authorization_id):
+                with self.assertRaises(act.AuthorizationArtifactSchemaError):
+                    act.parse_authorization_artifact(
+                        _make_authorization_dict(
+                            authorization_id=authorization_id
+                        )
+                    )
+
+    def test_windows_reserved_authorization_identifiers_rejected(self) -> None:
+        reserved = ("con", "prn", "aux", "nul") + tuple(
+            "com{}".format(index) for index in range(1, 10)
+        ) + tuple("lpt{}".format(index) for index in range(1, 10))
+        for authorization_id in reserved:
+            with self.subTest(authorization_id=authorization_id):
+                with self.assertRaises(act.AuthorizationArtifactSchemaError):
+                    act.parse_authorization_artifact(
+                        _make_authorization_dict(
+                            authorization_id=authorization_id
+                        )
+                    )
 
     def test_malformed_commit_sha_rejected(self) -> None:
         with self.assertRaises(act.AuthorizationArtifactSchemaError):
@@ -638,6 +999,80 @@ class AuthorizationArtifactValidationTests(unittest.TestCase):
 
     def test_issued_in_future_rejected(self) -> None:
         artifact = self._artifact(issued_at="2026-07-30T00:00:00Z")
+        with self.assertRaises(act.AuthorizationArtifactInvalidError):
+            act.validate_authorization_artifact(
+                artifact,
+                now=_NOW,
+                expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
+                expected_activation_commit_sha="1111111111111111111111111111111111111111",
+            )
+
+    def test_exact_expiry_rejected(self) -> None:
+        artifact = self._artifact()
+        with self.assertRaises(act.AuthorizationArtifactExpiredError):
+            act.validate_authorization_artifact(
+                artifact,
+                now=datetime(2026, 7, 29, 0, 10, 0, tzinfo=timezone.utc),
+                expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
+                expected_activation_commit_sha="1111111111111111111111111111111111111111",
+            )
+
+    def test_one_second_before_expiry_accepted(self) -> None:
+        artifact = self._artifact()
+        act.validate_authorization_artifact(
+            artifact,
+            now=datetime(2026, 7, 29, 0, 9, 59, tzinfo=timezone.utc),
+            expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
+            expected_activation_commit_sha="1111111111111111111111111111111111111111",
+        )
+
+    def test_exactly_fifteen_minute_lifetime_accepted(self) -> None:
+        artifact = self._artifact(expires_at="2026-07-29T00:15:00Z")
+        act.validate_authorization_artifact(
+            artifact,
+            now=_NOW,
+            expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
+            expected_activation_commit_sha="1111111111111111111111111111111111111111",
+        )
+
+    def test_fifteen_minutes_plus_one_second_rejected(self) -> None:
+        artifact = self._artifact(expires_at="2026-07-29T00:15:01Z")
+        with self.assertRaises(act.AuthorizationArtifactInvalidError):
+            act.validate_authorization_artifact(
+                artifact,
+                now=_NOW,
+                expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
+                expected_activation_commit_sha="1111111111111111111111111111111111111111",
+            )
+
+    def test_century_long_lifetime_rejected(self) -> None:
+        artifact = self._artifact(expires_at="2126-07-29T00:00:00Z")
+        with self.assertRaises(act.AuthorizationArtifactInvalidError):
+            act.validate_authorization_artifact(
+                artifact,
+                now=_NOW,
+                expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
+                expected_activation_commit_sha="1111111111111111111111111111111111111111",
+            )
+
+    def test_naive_and_offset_authorization_timestamps_rejected(self) -> None:
+        for issued_at in (
+            "2026-07-29T00:00:00",
+            "2026-07-29T01:00:00+01:00",
+            "2026-07-29T00:00:00.000Z",
+        ):
+            with self.subTest(issued_at=issued_at):
+                artifact = self._artifact(issued_at=issued_at)
+                with self.assertRaises(act.AuthorizationArtifactInvalidError):
+                    act.validate_authorization_artifact(
+                        artifact,
+                        now=_NOW,
+                        expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
+                        expected_activation_commit_sha="1111111111111111111111111111111111111111",
+                    )
+
+    def test_exponent_form_maximum_cost_rejected(self) -> None:
+        artifact = self._artifact(maximum_cost="1E-2")
         with self.assertRaises(act.AuthorizationArtifactInvalidError):
             act.validate_authorization_artifact(
                 artifact,
@@ -728,6 +1163,60 @@ class AuthorizationConsumptionTests(unittest.TestCase):
         act.consume_authorization("auth-002", self.ledger_dir)  # must not raise
         self.assertTrue(act.is_authorization_consumed("auth-001", self.ledger_dir))
         self.assertTrue(act.is_authorization_consumed("auth-002", self.ledger_dir))
+
+    def test_two_concurrent_consumers_have_exactly_one_success(self) -> None:
+        barrier = threading.Barrier(2)
+        outcomes = []
+
+        def consume() -> None:
+            barrier.wait()
+            try:
+                act.consume_authorization("auth-race", self.ledger_dir)
+                outcomes.append("success")
+            except act.AuthorizationAlreadyConsumedError:
+                outcomes.append("already-consumed")
+
+        threads = [threading.Thread(target=consume) for _ in range(2)]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+        self.assertEqual(["already-consumed", "success"], sorted(outcomes))
+
+    def test_symlinked_ledger_root_rejected_without_redirect(self) -> None:
+        target = Path(self._tmp.name) / "redirect-target"
+        target.mkdir()
+        symlink = Path(self._tmp.name) / "ledger-symlink"
+        os.symlink(str(target), str(symlink), target_is_directory=True)
+        with self.assertRaises(act.AuthorizationLedgerSafetyError):
+            act.consume_authorization("auth-symlink", symlink)
+        self.assertEqual([], list(target.iterdir()))
+
+    def test_symlinked_parent_component_rejected_without_redirect(self) -> None:
+        target = Path(self._tmp.name) / "parent-target"
+        target.mkdir()
+        symlink = Path(self._tmp.name) / "parent-symlink"
+        os.symlink(str(target), str(symlink), target_is_directory=True)
+        with self.assertRaises(act.AuthorizationLedgerSafetyError):
+            act.consume_authorization("auth-parent", symlink / "authorizations")
+        self.assertEqual([], list(target.iterdir()))
+
+    def test_symlinked_marker_rejected(self) -> None:
+        act.consume_authorization("auth-bootstrap", self.ledger_dir)
+        target = Path(self._tmp.name) / "marker-target"
+        target.write_text("target", encoding="utf-8")
+        marker = self.ledger_dir / "auth-marker.consumed"
+        os.symlink(str(target), str(marker), target_is_directory=False)
+        with self.assertRaises(act.AuthorizationLedgerSafetyError):
+            act.is_authorization_consumed("auth-marker", self.ledger_dir)
+        with self.assertRaises(act.AuthorizationLedgerSafetyError):
+            act.consume_authorization("auth-marker", self.ledger_dir)
+        self.assertEqual("target", target.read_text(encoding="utf-8"))
+
+    def test_uppercase_case_variant_is_rejected(self) -> None:
+        act.consume_authorization("auth-case", self.ledger_dir)
+        with self.assertRaises(act.AuthorizationArtifactInvalidError):
+            act.consume_authorization("AUTH-CASE", self.ledger_dir)
 
     def test_unsafe_authorization_id_rejected(self) -> None:
         with self.assertRaises(act.AuthorizationArtifactInvalidError):
