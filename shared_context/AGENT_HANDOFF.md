@@ -1,6 +1,34 @@
 # Agent Handoff
 
-## Latest Update — PR #32 Batch preflight trust-input remediation (local, not pushed)
+## Latest Update — Batch PR post-push code review and metadata reconciliation
+
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-POST-PUSH-REVIEW-001` /
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-METADATA-AND-THREAD-REMEDIATION-001`
+
+- PR #32's implementation head is
+  `b27f2d9ad9c51b35226fc89f4eda3e7eff8ec33e` (`fix: harden Batch preflight
+  trust inputs`). An independent, read-only post-push review of that exact
+  head returned
+  `PASS_CODE_REMEDIATION_COMPLETE_PR_METADATA_REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_PR_POST_PUSH_REVIEW_001`:
+  code and tests are merge-quality, but the PR body and three review threads
+  still needed reconciliation before merge.
+- S1 (caller-controlled clock), S2 (missing `AGENT_HANDOFF.md`
+  synchronization), and S3 (caller-controlled expected commit SHAs) are all
+  resolved in repository state as of `b27f2d9ad9c51b35226fc89f4eda3e7eff8ec33e`.
+- This entry is carried by a documentation-only commit that changes exactly
+  `shared_context/AGENT_HANDOFF.md` and no Batch implementation or test
+  file. Per task instruction, this entry does not embed a guessed SHA for
+  that commit; its exact SHA is recorded in that task's final report rather
+  than in this file.
+- PR #32 must remain open and unmerged until a separate final
+  merge-readiness review passes. This entry does not itself authorize merge.
+- `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`, `USD_0_01_SPEND_NOT_AUTHORIZED`,
+  and `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding. PR #28 is
+  untouched, and Gate B remains `OPEN / NOT EXECUTED`.
+- Exact next task:
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-FINAL-MERGE-READINESS-REVIEW-001`.
+
+## Previous Update — PR #32 Batch preflight trust-input remediation (commit created locally, since reviewed)
 
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-REMEDIATION-001`
 
