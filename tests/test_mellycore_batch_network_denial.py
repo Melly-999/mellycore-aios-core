@@ -13,6 +13,7 @@ import json
 import socket
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from io import StringIO
 from pathlib import Path
 from unittest import mock
@@ -98,17 +99,19 @@ class ActivationPreflightUnderNetworkDenialTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            with no_network():
-                code, out = _run(
-                    [
-                        "activation-preflight",
-                        "--manifest",
-                        str(manifest_path),
-                        "--now",
-                        "2026-07-29T00:00:00Z",
-                        "--json",
-                    ]
-                )
+            with mock.patch(
+                "scripts.mellycore_batch.cli._trusted_utc_now",
+                return_value=datetime(2026, 7, 29, tzinfo=timezone.utc),
+            ):
+                with no_network():
+                    code, out = _run(
+                        [
+                            "activation-preflight",
+                            "--manifest",
+                            str(manifest_path),
+                            "--json",
+                        ]
+                    )
             self.assertEqual(EXIT_OK, code)
             payload = json.loads(out)
             self.assertFalse(payload["execution_authorized"])

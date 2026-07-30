@@ -35,7 +35,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import re
+import subprocess
 import sys
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -48,7 +52,6 @@ from .activation import (
     estimate_cost,
     load_authorization_artifact,
     load_pricing_manifest,
-    parse_canonical_utc_timestamp,
     validate_authorization_artifact,
     validate_pricing_evidence,
 )
@@ -316,15 +319,179 @@ def cmd_plan_live(args: argparse.Namespace) -> int:
 # --- activation-preflight (Stage B, local only, no network) -------------------
 
 
-def _parse_now_arg(raw: Optional[str]) -> datetime:
-    if not raw:
-        return datetime.now(timezone.utc)
+_CANONICAL_REMOTE_NAME = "clean-origin"
+_CANONICAL_REMOTE_URL = "https://github.com/Melly-999/mellycore-aios-core.git"
+_CANONICAL_REMOTE_MAIN_REF = "refs/remotes/clean-origin/main"
+_FULL_LOWER_SHA_RE = re.compile(r"[0-9a-f]{40}")
+_GIT_TIMEOUT_SECONDS = 5
+_NETWORK_GIT_SUBCOMMANDS = frozenset(
+    {"clone", "fetch", "ls-remote", "pull", "push", "remote-fd"}
+)
+
+
+@dataclass(frozen=True)
+class RepositoryIdentity:
+    """Local Git provenance used to bind a Stage B preflight.
+
+    This is checked-out repository identity, not GitHub or remote attestation.
+    Resolution uses only local Git objects and configuration and never performs
+    a network operation.
+    """
+
+    repository_root: Path
+    canonical_base_sha: str
+    activation_commit_sha: str
+    canonical_remote_url: str
+
+
+def _trusted_utc_now() -> datetime:
+    """Sample the operator system clock once as a timezone-aware UTC instant."""
+    return datetime.now(timezone.utc)
+
+
+def _repository_root_from_source() -> Path:
+    """Derive the repository root from this module, never from the caller CWD."""
     try:
-        return parse_canonical_utc_timestamp(raw, field_name="--now")
-    except BatchOpsError as exc:
+        root = Path(__file__).resolve(strict=True).parents[2]
+        return root.resolve(strict=True)
+    except (IndexError, OSError) as exc:
         raise InvalidInputError(
-            "--now must use canonical UTC format YYYY-MM-DDTHH:MM:SSZ"
+            "cannot derive the Batch repository root from the installed source"
         ) from exc
+
+
+def _sanitized_git_environment() -> Dict[str, str]:
+    """Remove Git control variables that could redirect local identity checks."""
+    return {
+        key: value
+        for key, value in os.environ.items()
+        if not key.upper().startswith("GIT_")
+    }
+
+
+def _run_trusted_git(
+    repository_root: Path,
+    arguments: List[str],
+    *,
+    expect_output: bool = True,
+) -> str:
+    """Run one bounded, local-only Git identity query without exposing stderr."""
+    if not arguments or arguments[0] in _NETWORK_GIT_SUBCOMMANDS:
+        raise InvalidInputError("a non-local Git identity operation was refused")
+
+    command = [
+        "git",
+        "-c",
+        "safe.directory={}".format(repository_root),
+        "-C",
+        str(repository_root),
+        *arguments,
+    ]
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=str(repository_root),
+            env=_sanitized_git_environment(),
+            capture_output=True,
+            text=True,
+            timeout=_GIT_TIMEOUT_SECONDS,
+            check=False,
+            shell=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise InvalidInputError("local Git repository identity check timed out") from exc
+    except (OSError, UnicodeError) as exc:
+        raise InvalidInputError(
+            "local Git repository identity could not be determined"
+        ) from exc
+
+    if completed.returncode != 0:
+        raise InvalidInputError(
+            "local Git repository identity check failed for {!r}".format(arguments[0])
+        )
+    output = completed.stdout.strip()
+    if expect_output and not output:
+        raise InvalidInputError(
+            "local Git repository identity check returned no result"
+        )
+    return output
+
+
+def _require_full_lower_sha(value: str, *, field_name: str) -> str:
+    if _FULL_LOWER_SHA_RE.fullmatch(value) is None:
+        raise InvalidInputError(
+            "{} must resolve to a full lowercase 40-character Git SHA".format(
+                field_name
+            )
+        )
+    return value
+
+
+def _same_local_path(left: Path, right: Path) -> bool:
+    return os.path.normcase(str(left.resolve(strict=True))) == os.path.normcase(
+        str(right.resolve(strict=True))
+    )
+
+
+def _resolve_repository_identity() -> RepositoryIdentity:
+    """Derive trusted commit bindings from the checked-out local repository."""
+    repository_root = _repository_root_from_source()
+
+    top_level_raw = _run_trusted_git(
+        repository_root, ["rev-parse", "--show-toplevel"]
+    )
+    try:
+        git_top_level = Path(top_level_raw)
+        source_matches_git = _same_local_path(repository_root, git_top_level)
+    except OSError as exc:
+        raise InvalidInputError(
+            "Git top-level path cannot be verified against the Batch source root"
+        ) from exc
+    if not source_matches_git:
+        raise InvalidInputError(
+            "Git top-level does not match the Batch source-derived repository root"
+        )
+
+    canonical_remote_url = _run_trusted_git(
+        repository_root, ["remote", "get-url", _CANONICAL_REMOTE_NAME]
+    )
+    if canonical_remote_url != _CANONICAL_REMOTE_URL:
+        raise InvalidInputError(
+            "clean-origin does not identify the canonical MellyCore repository"
+        )
+
+    activation_commit_sha = _require_full_lower_sha(
+        _run_trusted_git(
+            repository_root, ["rev-parse", "--verify", "HEAD^{commit}"]
+        ),
+        field_name="activation commit",
+    )
+    _require_full_lower_sha(
+        _run_trusted_git(
+            repository_root,
+            ["show-ref", "--verify", "--hash", _CANONICAL_REMOTE_MAIN_REF],
+        ),
+        field_name="clean-origin/main",
+    )
+    canonical_base_sha = _require_full_lower_sha(
+        _run_trusted_git(
+            repository_root,
+            ["merge-base", "HEAD", _CANONICAL_REMOTE_MAIN_REF],
+        ),
+        field_name="canonical base",
+    )
+    _run_trusted_git(
+        repository_root,
+        ["merge-base", "--is-ancestor", canonical_base_sha, "HEAD"],
+        expect_output=False,
+    )
+
+    return RepositoryIdentity(
+        repository_root=repository_root,
+        canonical_base_sha=canonical_base_sha,
+        activation_commit_sha=activation_commit_sha,
+        canonical_remote_url=canonical_remote_url,
+    )
 
 
 def cmd_activation_preflight(args: argparse.Namespace) -> int:
@@ -345,7 +512,8 @@ def cmd_activation_preflight(args: argparse.Namespace) -> int:
     input_byte_count = len(payload_bytes)
     input_jsonl_sha256 = hashlib.sha256(payload_bytes).hexdigest()
 
-    now = _parse_now_arg(args.now)
+    now = _trusted_utc_now()
+    identity = _resolve_repository_identity()
 
     pricing_manifest_path = (
         Path(args.pricing_manifest)
@@ -361,21 +529,14 @@ def cmd_activation_preflight(args: argparse.Namespace) -> int:
     )
     enforce_cost_cap(cost_estimate)
 
-    canonical_commit_sha = args.canonical_commit_sha or "unknown"
-    activation_commit_sha = args.activation_commit_sha or "unknown"
-
     authorization_id: Optional[str] = None
     if args.authorization:
-        if not args.canonical_commit_sha or not args.activation_commit_sha:
-            raise InvalidInputError(
-                "--authorization requires both --canonical-commit-sha and --activation-commit-sha"
-            )
         artifact = load_authorization_artifact(Path(args.authorization))
         validate_authorization_artifact(
             artifact,
             now=now,
-            expected_canonical_base_sha=canonical_commit_sha,
-            expected_activation_commit_sha=activation_commit_sha,
+            expected_canonical_base_sha=identity.canonical_base_sha,
+            expected_activation_commit_sha=identity.activation_commit_sha,
             expected_task_id=manifest.task_id,
         )
         # Preflight validates only -- it never calls
@@ -388,8 +549,8 @@ def cmd_activation_preflight(args: argparse.Namespace) -> int:
     record = build_preflight_record(
         task_id=manifest.task_id,
         authorization_id=authorization_id,
-        canonical_commit_sha=canonical_commit_sha,
-        activation_commit_sha=activation_commit_sha,
+        canonical_commit_sha=identity.canonical_base_sha,
+        activation_commit_sha=identity.activation_commit_sha,
         endpoint=manifest.endpoint,
         completion_window=manifest.completion_window,
         envelope=envelope,
@@ -399,6 +560,7 @@ def cmd_activation_preflight(args: argparse.Namespace) -> int:
         credential_present=credential_material_present(),
     )
     payload = record.to_dict()
+    payload["commit_identity_source"] = "local_git_repository"
 
     if args.json:
         _emit_json({"command": "activation-preflight", **payload})
@@ -448,6 +610,11 @@ def cmd_activation_preflight(args: argparse.Namespace) -> int:
     print(
         "  migration_trigger_5_crossed:       {}".format(
             payload["migration_trigger_5_crossed"]
+        )
+    )
+    print(
+        "  commit_identity_source:            {}".format(
+            payload["commit_identity_source"]
         )
     )
     return EXIT_OK
@@ -621,21 +788,6 @@ def build_parser() -> argparse.ArgumentParser:
         "--authorization",
         default=None,
         help="Path to a one-time authorization-artifact JSON file to validate (never consumed by this command)",
-    )
-    p_preflight.add_argument(
-        "--canonical-commit-sha",
-        default=None,
-        help="Expected canonical base commit SHA an authorization artifact must bind to",
-    )
-    p_preflight.add_argument(
-        "--activation-commit-sha",
-        default=None,
-        help="Expected activation commit SHA an authorization artifact must bind to",
-    )
-    p_preflight.add_argument(
-        "--now",
-        default=None,
-        help="ISO-8601 timestamp to evaluate freshness/expiry against (default: current UTC time)",
     )
     p_preflight.add_argument("--json", action="store_true", help="Emit JSON")
     p_preflight.set_defaults(func=cmd_activation_preflight)

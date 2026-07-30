@@ -1,6 +1,48 @@
 # Agent Handoff
 
-## Latest Update — Model A contract post-merge documentation state sync (nine-file scope lock applied)
+## Latest Update — PR #32 Batch preflight trust-input remediation (local, not pushed)
+
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-REMEDIATION-001`
+
+- PR #32 remains open, non-draft, unmerged, and unchanged at remote head
+  `7f447010f0d435ddae1104a7d75663422b66261b`. This remediation is local
+  only and is not pushed. Its one required commit has parent
+  `7f447010f0d435ddae1104a7d75663422b66261b` and subject
+  `fix: harden Batch preflight trust inputs`; the commit does not invent or
+  self-record its own SHA.
+- S1 is remediated by removing the production `activation-preflight`
+  `--now` option. Each preflight samples the operator system clock exactly
+  once as timezone-aware UTC and uses that same instant for pricing and
+  authorization validation. CLI, environment, pricing, authorization, and
+  configuration inputs cannot override it. The local operating-system clock
+  is the trust anchor; this is not trusted network time or remote time
+  attestation.
+- S3 is remediated by removing the production
+  `--canonical-commit-sha` and `--activation-commit-sha` options. Expected
+  authorization bindings now come only from the checked-out repository
+  containing the Batch CLI: source-derived root verified against Git
+  top-level, exact local `clean-origin` URL verification, `HEAD` for the
+  activation SHA, and the local
+  `merge-base HEAD refs/remotes/clean-origin/main` for the canonical base.
+  Git control environment variables are removed from bounded subprocesses,
+  and preflight performs no fetch, pull, `ls-remote`, or other Git network
+  operation. This is local Git provenance, not GitHub or remote attestation.
+- S2 is remediated by this narrow handoff entry.
+  `shared_context/AGENT_HANDOFF.md` is the sole newly authorized thirteenth
+  file in the complete PR scope; this does not authorize broader
+  documentation changes.
+- Stage B remediation is complete locally but not independently reviewed:
+  `STAGE_B_PR_REMEDIATION_COMPLETE_NOT_REVIEWED`.
+  `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
+  `USD_0_01_SPEND_NOT_AUTHORIZED`, and
+  `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding. PR #28 is untouched,
+  and physical Android Chromium Gate B remains `OPEN / NOT EXECUTED`.
+- Exact next task:
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-REMEDIATION-REVIEW-001`
+  — independent review of this local commit. No push, PR edit, review-thread
+  reply/resolution, merge, provider operation, or spend is authorized.
+
+## Previous Update — Model A contract post-merge documentation state sync (nine-file scope lock applied)
 
 `MELLYCORE-PRODUCTION-DEPLOYMENT-MODEL-A-CONTRACT-POST-MERGE-STATE-SYNC-003`
 
