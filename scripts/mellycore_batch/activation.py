@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import ntpath
 import os
 import re
 import stat
@@ -61,10 +62,9 @@ from decimal import (
     Underflow,
     localcontext,
 )
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
-from .jsonl import repo_root
 from .models import BatchOpsError, BatchRequest
 
 # --- Stage B dual-lock constants ---------------------------------------------
@@ -1191,7 +1191,6 @@ def validate_authorization_artifact(
     expected_max_input_bytes: int = STAGE_B_MAX_INPUT_BYTES,
     expected_max_output_tokens_per_request: int = STAGE_B_MAX_OUTPUT_TOKENS_PER_REQUEST,
     expected_max_total_output_tokens: int = STAGE_B_MAX_TOTAL_OUTPUT_TOKENS,
-    ledger_dir: Optional[Path] = None,
 ) -> None:
     """Fail closed unless ``artifact`` binds exactly to the expected activation context.
 
@@ -1324,7 +1323,7 @@ def validate_authorization_artifact(
                 artifact.authorization_id, "; ".join(mismatches)
             )
         )
-    if is_authorization_consumed(artifact.authorization_id, ledger_dir):
+    if is_authorization_consumed(artifact.authorization_id):
         raise AuthorizationAlreadyConsumedError(
             "authorization {!r} has already been consumed".format(
                 artifact.authorization_id
@@ -1333,19 +1332,28 @@ def validate_authorization_artifact(
 
 
 def default_authorization_ledger_dir() -> Path:
-    """The ignored, untracked local directory one-time authorization consumption is recorded in."""
-    return repo_root() / ".runtime" / "batch" / "authorizations"
+    """Return the fixed production ledger root selected by Windows itself."""
+    return _authorization_ledger_root()
 
 
-def is_authorization_consumed(
-    authorization_id: str, ledger_dir: Optional[Path] = None
-) -> bool:
+def is_authorization_consumed(authorization_id: str) -> bool:
     """Read-only, no-follow check: has ``authorization_id`` been consumed?"""
-    ledger_path = _normalized_ledger_path(
-        Path(ledger_dir)
-        if ledger_dir is not None
-        else default_authorization_ledger_dir()
+    return _is_authorization_consumed_at_validated_root(
+        authorization_id, _authorization_ledger_root()
     )
+
+
+def _is_authorization_consumed_at_validated_root(
+    authorization_id: str, ledger_dir: Path
+) -> bool:
+    """Check a marker below a root already authorized by the production resolver.
+
+    This root-taking helper is private so isolated filesystem tests can retain
+    coverage of the no-follow implementation. Production callers must use
+    :func:`is_authorization_consumed`, which supplies the fixed Known Folder
+    root and exposes no path parameter.
+    """
+    ledger_path = _normalized_ledger_path(Path(ledger_dir))
     safe_id = _safe_ledger_filename(authorization_id)
     marker_name = "{}.consumed".format(safe_id)
     if os.name == "nt":
@@ -1353,15 +1361,19 @@ def is_authorization_consumed(
     return _posix_marker_exists(ledger_path, marker_name)
 
 
-def consume_authorization(
-    authorization_id: str, ledger_dir: Optional[Path] = None
-) -> Path:
+def consume_authorization(authorization_id: str) -> Path:
     """Atomically, irreversibly mark ``authorization_id`` as consumed.
 
-    Uses a validated directory handle plus exclusive, relative creation. On
-    Windows each directory component and marker is opened with no-reparse
-    semantics; on POSIX ``dir_fd`` and ``O_NOFOLLOW`` provide the equivalent
-    boundary. Two concurrent callers can never both succeed.
+    The storage root is not caller-selectable. It is derived internally from
+    the Windows Local AppData Known Folder and is rejected if it overlaps the
+    source repository or a Git administrative path.
+
+    Uses a validated directory handle plus exclusive, relative creation.
+    Windows production paths open each directory component and marker with
+    no-reparse semantics. The private test helper retains its POSIX
+    ``dir_fd``/``O_NOFOLLOW`` implementation, but the production root resolver
+    is Windows-only and fails closed elsewhere. Two concurrent callers can
+    never both succeed.
 
     This function is never called from any Stage B CLI command -- Stage B
     preflight only *validates* an authorization artifact, it never consumes
@@ -1370,12 +1382,22 @@ def consume_authorization(
     future, separately authorized Stage C execution attempt would call it,
     and that code path does not exist in this package.
     """
-    safe_id = _safe_ledger_filename(authorization_id)
-    ledger_path = _normalized_ledger_path(
-        Path(ledger_dir)
-        if ledger_dir is not None
-        else default_authorization_ledger_dir()
+    return _consume_authorization_at_validated_root(
+        authorization_id, _authorization_ledger_root()
     )
+
+
+def _consume_authorization_at_validated_root(
+    authorization_id: str, ledger_dir: Path
+) -> Path:
+    """Consume below a root already authorized by the production resolver.
+
+    This private helper exists only to isolate filesystem-boundary tests.
+    Production call sites must first obtain the non-configurable root from
+    :func:`_authorization_ledger_root` and must never accept a caller path.
+    """
+    safe_id = _safe_ledger_filename(authorization_id)
+    ledger_path = _normalized_ledger_path(Path(ledger_dir))
     marker_name = "{}.consumed".format(safe_id)
     marker_payload = json.dumps(
         {
@@ -1394,11 +1416,150 @@ def consume_authorization(
     )
 
 
+def _windows_known_folder_api() -> Tuple[Any, Any, Any, Any, Any]:
+    import ctypes
+    from ctypes import wintypes
+
+    class Guid(ctypes.Structure):
+        _fields_ = [
+            ("Data1", wintypes.DWORD),
+            ("Data2", wintypes.WORD),
+            ("Data3", wintypes.WORD),
+            ("Data4", ctypes.c_ubyte * 8),
+        ]
+
+    shell32 = ctypes.WinDLL("shell32", use_last_error=True)
+    ole32 = ctypes.WinDLL("ole32", use_last_error=True)
+    shell32.SHGetKnownFolderPath.argtypes = [
+        ctypes.POINTER(Guid),
+        wintypes.DWORD,
+        wintypes.HANDLE,
+        ctypes.POINTER(wintypes.LPWSTR),
+    ]
+    shell32.SHGetKnownFolderPath.restype = ctypes.c_long
+    ole32.CoTaskMemFree.argtypes = [wintypes.LPVOID]
+    ole32.CoTaskMemFree.restype = None
+    return ctypes, wintypes, shell32, ole32, Guid
+
+
+def _windows_local_app_data_known_folder() -> Path:
+    """Return FOLDERID_LocalAppData, releasing the shell-allocated buffer."""
+    if os.name != "nt":
+        raise AuthorizationLedgerSafetyError(
+            "the production authorization ledger requires Windows Known Folders"
+        )
+    ctypes, wintypes, shell32, ole32, Guid = _windows_known_folder_api()
+    folder_id = Guid(
+        0xF1B32785,
+        0x6FBA,
+        0x4FCF,
+        (ctypes.c_ubyte * 8)(
+            0x9D,
+            0x55,
+            0x7B,
+            0x8E,
+            0x7F,
+            0x15,
+            0x70,
+            0x91,
+        ),
+    )
+    allocated_path = wintypes.LPWSTR()
+    result = shell32.SHGetKnownFolderPath(
+        ctypes.byref(folder_id), 0, None, ctypes.byref(allocated_path)
+    )
+    try:
+        if result != 0:
+            raise AuthorizationLedgerSafetyError(
+                "Windows could not resolve the Local AppData Known Folder"
+            )
+        value = allocated_path.value if allocated_path else None
+        if not value or "\x00" in value:
+            raise AuthorizationLedgerSafetyError(
+                "Windows returned an invalid Local AppData Known Folder"
+            )
+        return Path(value)
+    finally:
+        if allocated_path:
+            ole32.CoTaskMemFree(ctypes.cast(allocated_path, ctypes.c_void_p))
+
+
+def _authorization_ledger_root() -> Path:
+    """Derive the sole production ledger root without environment overrides."""
+    local_app_data = _windows_local_app_data_known_folder()
+    raw = os.fspath(local_app_data)
+    if not raw or "\x00" in raw or not ntpath.isabs(raw):
+        raise AuthorizationLedgerSafetyError(
+            "Windows returned a non-absolute Local AppData Known Folder"
+        )
+    drive, _tail = ntpath.splitdrive(raw)
+    if not drive or drive.startswith("\\\\"):
+        raise AuthorizationLedgerSafetyError(
+            "the Local AppData Known Folder must be on a local Windows drive"
+        )
+    ledger_path = Path(ntpath.normpath(raw)) / "MellyCore" / "batch" / "authorizations"
+    return _validate_authorized_ledger_root(ledger_path)
+
+
+def _repository_root_from_source() -> Path:
+    source_path = Path(__file__)
+    if not source_path.is_absolute():
+        raise AuthorizationLedgerSafetyError(
+            "the installed activation source path is not absolute"
+        )
+    return Path(ntpath.normpath(os.fspath(source_path.parent.parent.parent)))
+
+
+def _canonical_windows_parts(path: Path) -> Tuple[str, ...]:
+    raw = os.fspath(path)
+    if not raw or "\x00" in raw or not ntpath.isabs(raw):
+        raise AuthorizationLedgerSafetyError(
+            "ledger boundary comparison requires an absolute Windows path"
+        )
+    normalized = ntpath.normcase(ntpath.normpath(raw))
+    return tuple(part.casefold() for part in PureWindowsPath(normalized).parts)
+
+
+def _windows_path_is_same_or_descendant(candidate: Path, parent: Path) -> bool:
+    candidate_parts = _canonical_windows_parts(candidate)
+    parent_parts = _canonical_windows_parts(parent)
+    return (
+        len(candidate_parts) >= len(parent_parts)
+        and candidate_parts[: len(parent_parts)] == parent_parts
+    )
+
+
+def _validate_authorized_ledger_root(ledger_path: Path) -> Path:
+    """Reject repository, ancestor, and Git-administrative ledger locations."""
+    normalized = _normalized_ledger_path(ledger_path)
+    repository_root = _repository_root_from_source()
+    if _windows_path_is_same_or_descendant(
+        normalized, repository_root
+    ) or _windows_path_is_same_or_descendant(repository_root, normalized):
+        raise AuthorizationLedgerSafetyError(
+            "the production authorization ledger must be outside the repository"
+        )
+    if any(
+        part.casefold() == ".git"
+        for part in PureWindowsPath(
+            ntpath.normcase(ntpath.normpath(os.fspath(normalized)))
+        ).parts
+    ):
+        raise AuthorizationLedgerSafetyError(
+            "the production authorization ledger cannot use a Git administrative path"
+        )
+    return normalized
+
+
 def _normalized_ledger_path(ledger_dir: Path) -> Path:
     raw = os.fspath(ledger_dir)
     if not raw or "\x00" in raw:
         raise AuthorizationLedgerSafetyError("ledger directory path is invalid")
-    absolute = Path(os.path.abspath(raw))
+    if not Path(raw).is_absolute():
+        raise AuthorizationLedgerSafetyError(
+            "ledger directory must be an absolute non-root path"
+        )
+    absolute = Path(os.path.normpath(raw))
     if not absolute.is_absolute() or absolute == Path(absolute.anchor):
         raise AuthorizationLedgerSafetyError(
             "ledger directory must be an absolute non-root path"

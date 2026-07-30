@@ -13,9 +13,11 @@ from __future__ import annotations
 import copy
 import json
 import os
+import subprocess
 import tempfile
 import threading
 import unittest
+from unittest import mock
 from datetime import datetime, timezone
 from decimal import (
     ROUND_DOWN,
@@ -935,6 +937,16 @@ class AuthorizationArtifactSchemaTests(unittest.TestCase):
 
 
 class AuthorizationArtifactValidationTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.ledger_dir = Path(self._tmp.name) / "authorizations"
+        root_patch = mock.patch.object(
+            act, "_authorization_ledger_root", return_value=self.ledger_dir
+        )
+        root_patch.start()
+        self.addCleanup(root_patch.stop)
+
     def _artifact(self, **overrides):
         return act.parse_authorization_artifact(_make_authorization_dict(**overrides))
 
@@ -1125,18 +1137,252 @@ class AuthorizationArtifactValidationTests(unittest.TestCase):
             )
 
     def test_consumed_authorization_rejected_during_validation(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            ledger_dir = Path(tmp)
-            artifact = self._artifact()
-            act.consume_authorization(artifact.authorization_id, ledger_dir)
-            with self.assertRaises(act.AuthorizationAlreadyConsumedError):
-                act.validate_authorization_artifact(
-                    artifact,
-                    now=_NOW,
-                    expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
-                    expected_activation_commit_sha="1111111111111111111111111111111111111111",
-                    ledger_dir=ledger_dir,
+        artifact = self._artifact()
+        act._consume_authorization_at_validated_root(
+            artifact.authorization_id, self.ledger_dir
+        )
+        with self.assertRaises(act.AuthorizationAlreadyConsumedError):
+            act.validate_authorization_artifact(
+                artifact,
+                now=_NOW,
+                expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
+                expected_activation_commit_sha="1111111111111111111111111111111111111111",
+            )
+
+
+class TrustedAuthorizationLedgerRootTests(unittest.TestCase):
+    class _FakeFunction:
+        def __init__(self, callback):
+            self._callback = callback
+            self.argtypes = None
+            self.restype = None
+
+        def __call__(self, *args):
+            return self._callback(*args)
+
+    class _FakeLibrary:
+        pass
+
+    def _known_folder_api(self, *, value, result=0):
+        import ctypes
+        from ctypes import wintypes
+
+        class Guid(ctypes.Structure):
+            _fields_ = [
+                ("Data1", wintypes.DWORD),
+                ("Data2", wintypes.WORD),
+                ("Data3", wintypes.WORD),
+                ("Data4", ctypes.c_ubyte * 8),
+            ]
+
+        buffers = []
+        released = []
+
+        def resolve(_folder_id, _flags, _token, output):
+            if value is not None:
+                buffer = ctypes.create_unicode_buffer(value)
+                buffers.append(buffer)
+                output_pointer = ctypes.cast(
+                    output, ctypes.POINTER(wintypes.LPWSTR)
                 )
+                output_pointer[0] = ctypes.cast(buffer, wintypes.LPWSTR)
+            return result
+
+        shell32 = self._FakeLibrary()
+        shell32.SHGetKnownFolderPath = self._FakeFunction(resolve)
+        ole32 = self._FakeLibrary()
+        ole32.CoTaskMemFree = self._FakeFunction(released.append)
+        return (ctypes, wintypes, shell32, ole32, Guid), buffers, released
+
+    def test_public_consumption_apis_expose_no_root_parameter(self) -> None:
+        import inspect
+
+        self.assertEqual(
+            ["authorization_id"],
+            list(inspect.signature(act.consume_authorization).parameters),
+        )
+        self.assertEqual(
+            ["authorization_id"],
+            list(inspect.signature(act.is_authorization_consumed).parameters),
+        )
+        self.assertNotIn(
+            "ledger_dir",
+            inspect.signature(act.validate_authorization_artifact).parameters,
+        )
+
+    def test_public_api_rejects_all_caller_selected_roots(self) -> None:
+        candidates = [
+            act._repository_root_from_source(),
+            act._repository_root_from_source() / "scripts",
+            Path("."),
+            Path(".."),
+            Path(tempfile.gettempdir()) / "arbitrary-ledger",
+        ]
+        for candidate in candidates:
+            with self.subTest(candidate=candidate):
+                with self.assertRaises(TypeError):
+                    act.consume_authorization("auth-root-rejected", candidate)
+                with self.assertRaises(TypeError):
+                    act.consume_authorization(
+                        "auth-root-rejected", ledger_dir=candidate
+                    )
+        for keyword in ("ledger_root", "runtime_root", "marker_directory", "path"):
+            with self.subTest(keyword=keyword):
+                with self.assertRaises(TypeError):
+                    act.consume_authorization(
+                        "auth-root-rejected", **{keyword: candidates[0]}
+                    )
+        artifact = act.parse_authorization_artifact(_make_authorization_dict())
+        with self.assertRaises(TypeError):
+            act.validate_authorization_artifact(
+                artifact,
+                now=_NOW,
+                expected_canonical_base_sha="81b1baf9da5363ef088fe236de93d6cd3713b659",
+                expected_activation_commit_sha="1" * 40,
+                ledger_dir=candidates[0],
+            )
+
+    def test_public_consumption_uses_only_resolved_root(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "authorizations"
+            captured = []
+
+            def capture(ledger_path, marker_name, payload, authorization_id):
+                captured.append(
+                    (ledger_path, marker_name, payload, authorization_id)
+                )
+                return ledger_path / marker_name
+
+            with mock.patch.object(
+                act, "_authorization_ledger_root", return_value=root
+            ), mock.patch.object(act, "_windows_create_marker", side_effect=capture):
+                marker = act.consume_authorization("auth-fixed-root")
+
+        self.assertEqual(root / "auth-fixed-root.consumed", marker)
+        self.assertEqual(root, captured[0][0])
+        self.assertEqual("auth-fixed-root", captured[0][3])
+
+    def test_authorization_artifact_cannot_define_ledger_root(self) -> None:
+        for field in (
+            "ledger_dir",
+            "ledger_root",
+            "runtime_root",
+            "marker_directory",
+        ):
+            with self.subTest(field=field):
+                with self.assertRaises(act.AuthorizationArtifactSchemaError):
+                    act.parse_authorization_artifact(
+                        _make_authorization_dict(**{field: r"C:\attacker"})
+                    )
+
+    def test_known_folder_result_has_exact_ledger_suffix(self) -> None:
+        with mock.patch.object(
+            act,
+            "_windows_local_app_data_known_folder",
+            return_value=Path(r"C:\Users\review\AppData\Local"),
+        ):
+            root = act._authorization_ledger_root()
+        self.assertEqual(
+            ("MellyCore", "batch", "authorizations"), root.parts[-3:]
+        )
+
+    def test_environment_and_current_directory_cannot_override_root(self) -> None:
+        expected_base = Path(r"C:\Users\review\AppData\Local")
+        original_directory = Path.cwd()
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(
+            act,
+            "_windows_local_app_data_known_folder",
+            return_value=expected_base,
+        ):
+            baseline = act._authorization_ledger_root()
+            with mock.patch.dict(
+                os.environ,
+                {
+                    "LOCALAPPDATA": r"C:\attacker-local",
+                    "APPDATA": r"C:\attacker-roaming",
+                    "USERPROFILE": r"C:\attacker-profile",
+                    "HOME": r"C:\attacker-home",
+                },
+            ):
+                try:
+                    os.chdir(tmp)
+                    changed = act._authorization_ledger_root()
+                finally:
+                    os.chdir(original_directory)
+        self.assertEqual(baseline, changed)
+
+    def test_known_folder_memory_is_released(self) -> None:
+        api, buffers, released = self._known_folder_api(
+            value=r"C:\Users\review\AppData\Local"
+        )
+        with mock.patch.object(act, "_windows_known_folder_api", return_value=api):
+            result = act._windows_local_app_data_known_folder()
+        self.assertEqual(Path(r"C:\Users\review\AppData\Local"), result)
+        self.assertEqual(1, len(buffers))
+        self.assertEqual(1, len(released))
+
+    def test_known_folder_empty_result_fails_closed_and_is_released(self) -> None:
+        api, _buffers, released = self._known_folder_api(value="")
+        with mock.patch.object(act, "_windows_known_folder_api", return_value=api):
+            with self.assertRaises(act.AuthorizationLedgerSafetyError):
+                act._windows_local_app_data_known_folder()
+        self.assertEqual(1, len(released))
+
+    def test_known_folder_api_failure_fails_closed_and_releases_any_buffer(
+        self,
+    ) -> None:
+        api, _buffers, released = self._known_folder_api(
+            value=r"C:\unexpected", result=-1
+        )
+        with mock.patch.object(act, "_windows_known_folder_api", return_value=api):
+            with self.assertRaises(act.AuthorizationLedgerSafetyError):
+                act._windows_local_app_data_known_folder()
+        self.assertEqual(1, len(released))
+
+    def test_relative_and_malformed_known_folder_results_fail_closed(self) -> None:
+        for value in (
+            Path("relative"),
+            Path(r"\\server\share\Local"),
+            Path(r"\\?\C:\Users\review\AppData\Local"),
+            Path("bad\x00path"),
+        ):
+            with self.subTest(value=value), mock.patch.object(
+                act, "_windows_local_app_data_known_folder", return_value=value
+            ):
+                with self.assertRaises(act.AuthorizationLedgerSafetyError):
+                    act._authorization_ledger_root()
+
+    def test_repository_and_git_administrative_paths_are_excluded(self) -> None:
+        repository = act._repository_root_from_source()
+        rejected = [
+            repository,
+            repository / "scripts",
+            repository / ".git" / "objects",
+            repository.parent,
+            Path(str(repository).swapcase()),
+            Path(r"C:\external\.git\worktrees\mellycore"),
+        ]
+        for candidate in rejected:
+            with self.subTest(candidate=candidate):
+                with self.assertRaises(act.AuthorizationLedgerSafetyError):
+                    act._validate_authorized_ledger_root(candidate)
+
+    def test_ordinary_local_app_data_and_prefix_collision_are_allowed(self) -> None:
+        ordinary = (
+            Path(r"C:\Users\review\AppData\Local")
+            / "MellyCore"
+            / "batch"
+            / "authorizations"
+        )
+        repository = act._repository_root_from_source()
+        prefix_collision = Path(str(repository) + "-archive") / "authorizations"
+        self.assertEqual(
+            ordinary, act._validate_authorized_ledger_root(ordinary)
+        )
+        self.assertEqual(
+            prefix_collision,
+            act._validate_authorized_ledger_root(prefix_collision),
+        )
 
 
 class AuthorizationConsumptionTests(unittest.TestCase):
@@ -1146,23 +1392,45 @@ class AuthorizationConsumptionTests(unittest.TestCase):
         self.ledger_dir = Path(self._tmp.name) / "authorizations"
 
     def test_not_consumed_initially(self) -> None:
-        self.assertFalse(act.is_authorization_consumed("auth-001", self.ledger_dir))
+        self.assertFalse(
+            act._is_authorization_consumed_at_validated_root(
+                "auth-001", self.ledger_dir
+            )
+        )
 
     def test_consume_creates_marker_and_is_reflected(self) -> None:
-        marker = act.consume_authorization("auth-001", self.ledger_dir)
+        marker = act._consume_authorization_at_validated_root(
+            "auth-001", self.ledger_dir
+        )
         self.assertTrue(marker.exists())
-        self.assertTrue(act.is_authorization_consumed("auth-001", self.ledger_dir))
+        self.assertTrue(
+            act._is_authorization_consumed_at_validated_root(
+                "auth-001", self.ledger_dir
+            )
+        )
 
     def test_reuse_rejected(self) -> None:
-        act.consume_authorization("auth-001", self.ledger_dir)
+        act._consume_authorization_at_validated_root("auth-001", self.ledger_dir)
         with self.assertRaises(act.AuthorizationAlreadyConsumedError):
-            act.consume_authorization("auth-001", self.ledger_dir)
+            act._consume_authorization_at_validated_root(
+                "auth-001", self.ledger_dir
+            )
 
     def test_different_ids_do_not_collide(self) -> None:
-        act.consume_authorization("auth-001", self.ledger_dir)
-        act.consume_authorization("auth-002", self.ledger_dir)  # must not raise
-        self.assertTrue(act.is_authorization_consumed("auth-001", self.ledger_dir))
-        self.assertTrue(act.is_authorization_consumed("auth-002", self.ledger_dir))
+        act._consume_authorization_at_validated_root("auth-001", self.ledger_dir)
+        act._consume_authorization_at_validated_root(
+            "auth-002", self.ledger_dir
+        )  # must not raise
+        self.assertTrue(
+            act._is_authorization_consumed_at_validated_root(
+                "auth-001", self.ledger_dir
+            )
+        )
+        self.assertTrue(
+            act._is_authorization_consumed_at_validated_root(
+                "auth-002", self.ledger_dir
+            )
+        )
 
     def test_two_concurrent_consumers_have_exactly_one_success(self) -> None:
         barrier = threading.Barrier(2)
@@ -1171,7 +1439,9 @@ class AuthorizationConsumptionTests(unittest.TestCase):
         def consume() -> None:
             barrier.wait()
             try:
-                act.consume_authorization("auth-race", self.ledger_dir)
+                act._consume_authorization_at_validated_root(
+                    "auth-race", self.ledger_dir
+                )
                 outcomes.append("success")
             except act.AuthorizationAlreadyConsumedError:
                 outcomes.append("already-consumed")
@@ -1189,7 +1459,7 @@ class AuthorizationConsumptionTests(unittest.TestCase):
         symlink = Path(self._tmp.name) / "ledger-symlink"
         os.symlink(str(target), str(symlink), target_is_directory=True)
         with self.assertRaises(act.AuthorizationLedgerSafetyError):
-            act.consume_authorization("auth-symlink", symlink)
+            act._consume_authorization_at_validated_root("auth-symlink", symlink)
         self.assertEqual([], list(target.iterdir()))
 
     def test_symlinked_parent_component_rejected_without_redirect(self) -> None:
@@ -1198,33 +1468,88 @@ class AuthorizationConsumptionTests(unittest.TestCase):
         symlink = Path(self._tmp.name) / "parent-symlink"
         os.symlink(str(target), str(symlink), target_is_directory=True)
         with self.assertRaises(act.AuthorizationLedgerSafetyError):
-            act.consume_authorization("auth-parent", symlink / "authorizations")
+            act._consume_authorization_at_validated_root(
+                "auth-parent", symlink / "authorizations"
+            )
         self.assertEqual([], list(target.iterdir()))
 
+    def test_junction_ledger_root_rejected_without_redirect(self) -> None:
+        target = Path(self._tmp.name) / "junction-target"
+        target.mkdir()
+        junction = Path(self._tmp.name) / "ledger-junction"
+        result = subprocess.run(
+            ["cmd", "/c", "mklink", "/J", str(junction), str(target)],
+            capture_output=True,
+            check=False,
+            text=True,
+        )
+        if result.returncode != 0:
+            self.skipTest("Windows could not create an isolated test junction")
+        try:
+            with self.assertRaises(act.AuthorizationLedgerSafetyError):
+                act._consume_authorization_at_validated_root(
+                    "auth-junction", junction
+                )
+            self.assertEqual([], list(target.iterdir()))
+        finally:
+            os.rmdir(junction)
+
     def test_symlinked_marker_rejected(self) -> None:
-        act.consume_authorization("auth-bootstrap", self.ledger_dir)
+        act._consume_authorization_at_validated_root(
+            "auth-bootstrap", self.ledger_dir
+        )
         target = Path(self._tmp.name) / "marker-target"
         target.write_text("target", encoding="utf-8")
         marker = self.ledger_dir / "auth-marker.consumed"
         os.symlink(str(target), str(marker), target_is_directory=False)
         with self.assertRaises(act.AuthorizationLedgerSafetyError):
-            act.is_authorization_consumed("auth-marker", self.ledger_dir)
+            act._is_authorization_consumed_at_validated_root(
+                "auth-marker", self.ledger_dir
+            )
         with self.assertRaises(act.AuthorizationLedgerSafetyError):
-            act.consume_authorization("auth-marker", self.ledger_dir)
+            act._consume_authorization_at_validated_root(
+                "auth-marker", self.ledger_dir
+            )
         self.assertEqual("target", target.read_text(encoding="utf-8"))
 
+    def test_partial_and_zero_byte_markers_remain_consumed(self) -> None:
+        act._consume_authorization_at_validated_root(
+            "auth-bootstrap", self.ledger_dir
+        )
+        for authorization_id, content in (
+            ("auth-zero", b""),
+            ("auth-partial", b'{"authorization_id":'),
+        ):
+            marker = self.ledger_dir / "{}.consumed".format(authorization_id)
+            marker.write_bytes(content)
+            with self.subTest(authorization_id=authorization_id):
+                self.assertTrue(
+                    act._is_authorization_consumed_at_validated_root(
+                        authorization_id, self.ledger_dir
+                    )
+                )
+                with self.assertRaises(act.AuthorizationAlreadyConsumedError):
+                    act._consume_authorization_at_validated_root(
+                        authorization_id, self.ledger_dir
+                    )
+                self.assertEqual(content, marker.read_bytes())
+
     def test_uppercase_case_variant_is_rejected(self) -> None:
-        act.consume_authorization("auth-case", self.ledger_dir)
+        act._consume_authorization_at_validated_root("auth-case", self.ledger_dir)
         with self.assertRaises(act.AuthorizationArtifactInvalidError):
-            act.consume_authorization("AUTH-CASE", self.ledger_dir)
+            act._consume_authorization_at_validated_root(
+                "AUTH-CASE", self.ledger_dir
+            )
 
     def test_unsafe_authorization_id_rejected(self) -> None:
         with self.assertRaises(act.AuthorizationArtifactInvalidError):
-            act.consume_authorization("../../etc/passwd", self.ledger_dir)
+            act._consume_authorization_at_validated_root(
+                "../../etc/passwd", self.ledger_dir
+            )
 
-    def test_ledger_lives_under_runtime_batch(self) -> None:
+    def test_production_ledger_uses_local_app_data_suffix(self) -> None:
         default_dir = act.default_authorization_ledger_dir()
-        self.assertIn(".runtime", default_dir.parts)
+        self.assertIn("MellyCore", default_dir.parts)
         self.assertIn("batch", default_dir.parts)
         self.assertIn("authorizations", default_dir.parts)
 
@@ -1239,7 +1564,9 @@ class AuthorizationConsumptionTests(unittest.TestCase):
             expected_activation_commit_sha="1111111111111111111111111111111111111111",
         )
         self.assertFalse(
-            act.is_authorization_consumed(artifact.authorization_id, self.ledger_dir)
+            act._is_authorization_consumed_at_validated_root(
+                artifact.authorization_id, self.ledger_dir
+            )
         )
         self.assertFalse(self.ledger_dir.exists())
 

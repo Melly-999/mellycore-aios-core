@@ -557,13 +557,20 @@ tokens); Decimal-only cost estimation against a hard `USD 0.01` cap (the
 worst-case envelope estimates to `USD 0.0075136`, about 75% of the cap);
 rejection of tools, web/file search, code interpreter, image/file/audio
 input, external URLs, and any request-body field outside an explicit
-allowlist; a one-time, non-secret local authorization-artifact schema and an
-untracked local consumption ledger whose default is
-`.runtime/batch/authorizations/`. Before marker access, the implementation
-opens and validates a non-reparse local directory boundary; marker creation
-is relative to that directory handle and exclusive (create-once; reuse
-rejected), so symlinks, junctions, and other Windows reparse points are
-refused rather than followed. A hardcoded Stage C kill switch
+allowlist; a one-time, non-secret local authorization-artifact schema and a
+fixed production consumption ledger derived with the Windows Local AppData
+Known Folder API at
+`<LocalAppData>\MellyCore\batch\authorizations`. Callers, CLI arguments,
+environment variables, configuration, and authorization artifacts cannot
+select or override that root. Repository paths, repository ancestors,
+children, `.git`, and worktree administrative paths are explicitly excluded
+with case-insensitive component comparisons. The only root-taking helper is
+private and retained for isolated filesystem tests; production calls resolve
+the fixed root internally. Before marker access, the implementation opens and
+validates a non-reparse local directory boundary; marker creation is relative
+to that directory handle and exclusive (create-once; reuse rejected), so
+symlinks, junctions, and other Windows reparse points are refused rather than
+followed. A hardcoded Stage C kill switch
 (`stage_c_live_execution_authorized = False`) that no manifest,
 authorization artifact, CLI flag, or environment variable this package reads
 can set to `True`.

@@ -85,8 +85,14 @@ Pricing evidence is accepted only when both its SHA-256 integrity digest and
 the complete hardcoded Python dual lock agree on every reviewed price,
 source URL, timestamp, capability flag, and envelope field; the digest alone
 is not an authority source. Any future one-time authorization consumption is
-confined to a validated local directory handle: symlinks, junctions, marker
-links, and other Windows reparse points are rejected, and the marker is
-created exclusively relative to the validated handle. Stage B preflight
-never creates or consumes such a marker.
+confined to a fixed production root derived from the Windows Local AppData
+Known Folder at `<LocalAppData>\MellyCore\batch\authorizations`. Callers,
+CLI arguments, environment variables, configuration, and authorization
+artifacts cannot select that root; repository paths, repository ancestors,
+children, `.git`, and worktree administrative paths are excluded. The
+root-taking helper is private and test-only. Symlinks, junctions, marker
+links, and other Windows reparse points remain rejected, and the marker is
+created exclusively relative to the validated root handle. Stage B preflight
+never creates or consumes such a marker. Stage C and the `USD 0.01` spend
+remain unauthorized, and migration trigger #5 remains uncrossed.
 
