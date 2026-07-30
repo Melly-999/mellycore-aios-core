@@ -1,6 +1,100 @@
 # Agent Handoff
 
-## Latest Update — Independent final review 002 blocked on truthful handoff state
+## Latest Update — Batch PR publication workflow requires verified body reconciliation
+
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-002`
+
+### MCR-001 remediation
+
+- Independent handoff-remediation review 001 returned
+  `REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_PR_HANDOFF_TRUTHFUL_STATE_REMEDIATION_REVIEW_001`
+  after reproducing one merge-blocking governance defect:
+  `MCR-001 — PR-body reconciliation missing from the post-push workflow`.
+  The review established the exact local identity and one-file scope of the
+  first handoff-remediation commit, then stopped at its mandatory
+  workflow-consistency gate. Its later validation and live-state phases were
+  not executed and must not be represented as results of that review.
+- Before this task, the local branch contained six commits above canonical
+  base `81b1baf9da5363ef088fe236de93d6cd3713b659`, ending at local-only commit
+  `29c3444a149cf666440275abdcb6f753be0d6af7`. PR #32 and the remote feature
+  branch still pointed to published five-commit head
+  `3f9b03f649ca61045e3967bdc89b9fbae9a8a0de`, and the PR body still named
+  that SHA as its current head and stated five commits.
+- This task changes only `shared_context/AGENT_HANDOFF.md` and creates a
+  seventh local documentation commit above `29c3444…`. It does not embed or
+  guess that seventh commit's SHA in its own content. Push of the current
+  local chain is not authorized by this task, and neither the seventh commit
+  nor its required PR-body reconciliation is represented as published or
+  already completed.
+- After commit creation, the current Stage B governance state is
+  `STAGE_B_PR_HANDOFF_PUBLICATION_WORKFLOW_REMEDIATION_COMPLETE_NOT_REVIEWED`.
+  `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
+  `USD_0_01_SPEND_NOT_AUTHORIZED`, and
+  `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding. PR #28 remains
+  untouched, and physical Android Chromium Gate B remains
+  `OPEN / NOT EXECUTED`.
+
+### Required remaining workflow
+
+1. A fresh independent local review must assess the exact seven-commit local
+   head:
+   `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-REVIEW-002`.
+2. Only after that review passes, the separately authorized publication and
+   metadata-reconciliation task is:
+   `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-PUSH-002`.
+   That task must:
+   - push the exact independently reviewed local head through a normal
+     SHA-to-ref fast-forward, without force or history rewriting;
+   - verify that both the remote feature branch and PR #32 point to the exact
+     head produced by that push;
+   - update PR #32's body only after the push to name that actual published
+     head, state exactly seven commits above canonical base, list the complete
+     seven-commit chain, and retain exactly the unchanged authorized 13-file
+     scope;
+   - describe both handoff-governance commits: `29c3444…` corrected the stale
+     independent-review handoff state, while the seventh commit resolves
+     MCR-001 by requiring post-push PR-body reconciliation before final
+     review;
+   - disclose the independent-review-002 blocker and that review 002 stopped
+     during Phase 5;
+   - record validation results and the current Stage B governance state
+     truthfully, distinguishing current reproduced evidence from historical
+     evidence;
+   - preserve F1 and N1–N7, the disclosed PyPI lookup policy violation, and
+     Sourcery's skipped classification if Sourcery remains skipped;
+   - preserve `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
+     `USD_0_01_SPEND_NOT_AUTHORIZED`, and
+     `MIGRATION_TRIGGER_5_NOT_YET_CROSSED`, and state that the publication
+     task creates no merge authorization;
+   - remove every stale current-state claim that PR #32 is at five commits or
+     that `3f9b03f…` remains its current head;
+   - re-fetch and verify the complete PR body after updating it, confirming
+     that its head, seven-commit chain, 13-file scope, validation,
+     governance, process-disclosure, and review-state claims all match the
+     actual published PR state;
+   - leave PR #32 open and unmerged with auto-merge disabled.
+
+   The future publication task is not complete when the branch push succeeds.
+   It is complete only after PR #32 points to the exact pushed head and the PR
+   body is updated and verified against that same head, seven-commit chain,
+   and unchanged 13-file scope. If branch publication succeeds but PR-body
+   reconciliation fails, the publication task must report a partial or
+   blocked outcome and must not authorize independent final review 003.
+3. Only after the published PR head and the re-fetched, verified PR body are
+   mutually consistent may a fresh session begin:
+   `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-INDEPENDENT-FINAL-MERGE-READINESS-REVIEW-003`.
+   Review 003 must not begin against stale PR metadata.
+4. Only if independent review 003 returns PASS may the separately authorized
+   merge-only task be considered:
+   `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-MERGE-001`.
+   This remediation task does not authorize merge. Under temporary Model A,
+   any future explicit authorization to merge this specific PR must warn that
+   the merge immediately updates the public Production host.
+
+The immediate next task at this seventh commit's creation is
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-REVIEW-002`.
+
+## Previous Update — Independent final review 002 blocked on truthful handoff state
 
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-001`
 
