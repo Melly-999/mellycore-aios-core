@@ -1,6 +1,79 @@
 # Agent Handoff
 
-## Latest Update — Batch PR post-push code review and metadata reconciliation
+## Latest Update — Independent final review 002 blocked on truthful handoff state
+
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-001`
+
+### Historical review facts
+
+- At the time this handoff-remediation commit was created, PR #32 remained
+  published at
+  `3f9b03f649ca61045e3967bdc89b9fbae9a8a0de` (`docs: reconcile Batch PR
+  review state`). Its reviewed code head remained
+  `b27f2d9ad9c51b35226fc89f4eda3e7eff8ec33e` (`fix: harden Batch preflight
+  trust inputs`); no implementation or test changed after that code head.
+- Final merge-readiness review 001 technically returned
+  `PASS_WITH_NOTES_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_PR_FINAL_MERGE_READINESS_REVIEW_001`.
+  It did not satisfy the required organizational independence control:
+  the same session created and pushed `3f9b03f…`, edited the PR body, posted
+  evidence replies to the three review threads, resolved those threads, and
+  then reviewed its own metadata and thread work.
+- A fresh session then performed
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-INDEPENDENT-FINAL-MERGE-READINESS-REVIEW-002`.
+  Review 002 established reviewer independence and independently confirmed,
+  before stopping, that PR #32 was open, non-draft, unmerged, had no
+  auto-merge, retained the exact base and published head, contained the exact
+  five-commit chain and 13-file scope, had a documentation-only fifth commit,
+  had no code or test drift after `b27f2d9…`, passed complete diff-integrity
+  checks, and had a PR body containing the required textual disclosures.
+- Review 002 stopped during Phase 5 because this handoff still presented the
+  already-completed review 001 as the outstanding exact next task. Its exact
+  outcome was
+  `BLOCKED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_PR_INDEPENDENT_FINAL_MERGE_READINESS_REVIEW_002_HANDOFF_MATERIALLY_MISLEADING`.
+
+### Review 002 validation boundary
+
+- After that stop condition, review 002 did **not** execute S1 dynamic
+  reproduction, the complete S2 thread audit, S3 dynamic reproduction, the
+  full thread-state audit, post-metadata activity audit, live check retrieval,
+  Preview or Production verification, targeted tests, the project validator,
+  the focused or full test suites, compileall, the Black check, pricing or
+  provider-policy replay, the SDK check, preflight non-consumption,
+  Production-separation audit, the PR #28 live check, or the Gate B live
+  check. None of those unexecuted phases is represented as independently
+  passing under review 002.
+- Earlier validation results (network-denial 4 passed, CLI 47 passed, project
+  validator PASS, focused Batch suite 329 passed, full suite 574 passed,
+  compileall PASS, diff checks PASS, Black unavailable) remain historical
+  results from earlier reviews, not results produced by review 002.
+
+### Current restriction and remaining gate sequence
+
+- No merge authorization currently exists. This remediation changes only
+  `shared_context/AGENT_HANDOFF.md`, remains local until separately reviewed
+  and authorized for push, and does not alter Batch implementation or tests.
+- `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
+  `USD_0_01_SPEND_NOT_AUTHORIZED`, and
+  `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding. No provider
+  connection or execution is authorized. PR #28 remains untouched, and
+  physical Android Chromium Gate B remains `OPEN / NOT EXECUTED`.
+- Remaining workflow, in order:
+  1. Independent review of this local handoff-remediation commit:
+     `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-REVIEW-001`.
+  2. After that review passes, separately authorized fast-forward push:
+     `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-PUSH-001`.
+  3. Fresh independent final merge-readiness review against the resulting
+     published head:
+     `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-INDEPENDENT-FINAL-MERGE-READINESS-REVIEW-003`.
+  4. Only if review 003 passes, the separately authorized merge-only task:
+     `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-MERGE-001`.
+- This entry records the state at the creation of the handoff-remediation
+  commit. Later operators must verify live GitHub and Git state rather than
+  treating this historical entry as a permanent live pointer. The immediate
+  next task at commit-creation time is
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-HANDOFF-TRUTHFUL-STATE-REMEDIATION-REVIEW-001`.
+
+## Previous Update — Batch PR post-push code review and metadata reconciliation
 
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-POST-PUSH-REVIEW-001` /
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-METADATA-AND-THREAD-REMEDIATION-001`
@@ -25,7 +98,7 @@
 - `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`, `USD_0_01_SPEND_NOT_AUTHORIZED`,
   and `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding. PR #28 is
   untouched, and Gate B remains `OPEN / NOT EXECUTED`.
-- Exact next task:
+- Exact next task at that historical point:
   `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-PR-FINAL-MERGE-READINESS-REVIEW-001`.
 
 ## Previous Update — PR #32 Batch preflight trust-input remediation (commit created locally, since reviewed)
