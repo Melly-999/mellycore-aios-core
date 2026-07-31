@@ -350,31 +350,47 @@ this roadmap entry.
   commit (GitHub deployment `5694313001`, `success`); the accepted host
   `https://mellycore-aios-core.vercel.app` returned HTTP 200; no manual
   deployment action or page-level visual acceptance occurred.
-- **Final canonical reconciliation:**
+- **Final canonical reconciliation — merged.**
   `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`
-  records this merged, Production-verified state as the durable Stage B
-  governance baseline. At creation of its local documentation commit, that
-  commit is local-only and unreviewed — a time-scoped creation fact. The
-  exact immediate next task at creation time is
-  `-RECONCILIATION-REVIEW-001`.
-- **Required completion path after a PASS:** `-RECONCILIATION-PUSH-001`,
-  then `-RECONCILIATION-PR-CREATION-001`, then `-RECONCILIATION-PR-REVIEW-001`,
-  then `-RECONCILIATION-MERGE-001`. Once that reconciliation content is
-  independently reviewed, merged into canonical `main`, and its automatic
-  Production deployment is verified, the canonical state it describes is the
-  final reconciled Stage B governance baseline — no further state-sync task
-  is required solely to restate the PR #33 merge already recorded above.
-- **Conditional later decision, only after the reconciliation chain
-  completes:** `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` — a
-  separate decision task, not live execution authorization.
+  was independently reviewed
+  (`PASS_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_FINAL_CANONICAL_STATE_RECONCILIATION_PR_REVIEW_002`)
+  and merged as [PR #34](https://github.com/Melly-999/mellycore-aios-core/pull/34)
+  at `2026-07-31T18:30:57Z` via GitHub merge commit
+  `947f33d27d5546775186e96bdc61e30db78c0b3d` (first parent
+  `f118110181fe5428940ac86256dedc63f52282a6`, second parent exact reviewed
+  head `05e3f143116dda1d28192f8ec994e65d991bf713`; merge tree
+  `037a530d7b6f1e0502d404103ed32b666430c4c8` identical to the reviewed-head
+  tree). Static `site` tree remained `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`.
+  The automatic Vercel Production deployment succeeded (GitHub deployment
+  `5696334358`, `success`); the accepted host
+  `https://mellycore-aios-core.vercel.app` returned HTTP 200. **This is now
+  the final reconciled Stage B governance baseline
+  (`FINAL_RECONCILED_STAGE_B_GOVERNANCE_BASELINE_ESTABLISHED`)** — no further
+  state-sync task is required solely to restate this merge.
+- **Bounded live-smoke authorization — proposed, not executed.**
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` recorded
+  `AUTHORIZED_FOR_ONE_EXACT_FUTURE_LIVE_SMOKE_NOT_EXECUTED`: one future
+  Batch, one request, model `gpt-5.4-nano-2026-03-17`, endpoint
+  `/v1/responses`, a 238-byte payload (SHA-256
+  `a3794dd08e07124f522d56a2a4950e3c5011bc9b90affc0d2dd37a23ad344a6b`), and a
+  reproducible worst-case cost of `USD 0.0000338` against the `USD 0.01`
+  hard cap (~99.66% safety margin). Full envelope in
+  `docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md`. It
+  authorizes no provider connection, upload, Batch submission, poll,
+  download, cancellation, or spend now; it expires at pricing-evidence
+  expiry (`2026-08-27T22:00:34Z`), on canonical-main drift, or on any
+  payload/model/policy change, and is not reusable or standing. Exact next
+  task: `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a
+  fresh independent review required before publication, merge, or execution.
 - Task-record next-task fields are creation-time historical snapshots,
   superseded by this roadmap and `RUN_QUEUE.md`.
 
-This state sync does not authorize Stage C or live Batch execution. Live
-smoke remains a separate Operator decision; the hard `USD 0.01` boundary
-remains unavailable until separately authorized; migration trigger #5
-remains uncrossed; provider policy remains fail-closed. Neither the PR #32
-merge nor the PR #33 merge changed any `site/**` file; both automatic
+This authorization proposal does not itself execute Stage C or live Batch
+execution. Live smoke execution remains a separate, later Operator decision
+requiring its own explicit approval; the hard `USD 0.01` boundary remains
+unspent; migration trigger #5 remains uncrossed; provider policy remains
+fail-closed. Neither the PR #32, PR #33, nor PR #34 merge changed any
+`site/**` file; all automatic
 Production deployments published the unchanged static tree only.
 
 ## Safety Gates

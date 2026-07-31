@@ -1,6 +1,92 @@
 # Agent Handoff
 
-## Latest Update — PR #33 merged; final canonical state reconciliation in progress
+## Latest Update — PR #34 merged; Production verified; bounded live-smoke authorization proposed (not executed)
+
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`
+
+### PR #34 merge and Production verification
+
+- Final independent PR review returned
+  `PASS_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_FINAL_CANONICAL_STATE_RECONCILIATION_PR_REVIEW_002`.
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-MERGE-001`
+  then merged [PR #34](https://github.com/Melly-999/mellycore-aios-core/pull/34)
+  at `2026-07-31T18:30:57Z` using GitHub's merge-commit method. Exact reviewed
+  head `05e3f143116dda1d28192f8ec994e65d991bf713` is the second parent of
+  merge commit `947f33d27d5546775186e96bdc61e30db78c0b3d`; first parent is
+  `f118110181fe5428940ac86256dedc63f52282a6`. The merge tree
+  (`037a530d7b6f1e0502d404103ed32b666430c4c8`) is identical to the
+  reviewed-head tree, and canonical `main` now points to the merge commit.
+  PR #34's exact two-commit, five-file documentation-only scope is canonical;
+  no `site/**` file changed and the static `site` tree remained
+  `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`. The source branch
+  `docs/mellycore-openai-batch-final-canonical-reconciliation-001` is
+  preserved, and the one Codex thread (`PRRT_kwDOTQjWMs6VfKuy`) is resolved
+  with a published evidence reply matching the merged state.
+- The automatic Vercel Git deployment succeeded in Production for the exact
+  merge commit: GitHub deployment `5696334358`, SHA
+  `947f33d27d5546775186e96bdc61e30db78c0b3d`, state `success`, source
+  automatic Git deployment. The accepted public host
+  `https://mellycore-aios-core.vercel.app` returned HTTP 200. No manual
+  deployment action occurred and no page-level visual acceptance was
+  performed or claimed. The exact Vercel deployment ID was not obtainable
+  from the read-only sources available during this task (no authenticated
+  Vercel CLI/API access in that environment) and is recorded as not
+  independently verified rather than invented.
+- `FINAL_RECONCILED_STAGE_B_GOVERNANCE_BASELINE_ESTABLISHED`. No additional
+  state-sync task is required solely to restate this merge.
+
+### Bounded live-smoke authorization (proposed, not executed)
+
+- `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` recorded decision
+  `AUTHORIZED_FOR_ONE_EXACT_FUTURE_LIVE_SMOKE_NOT_EXECUTED`: exactly one
+  future OpenAI Batch smoke (`gpt-5.4-nano-2026-03-17`, endpoint
+  `/v1/responses`, one request, one file, one Batch) with a reproducible
+  worst-case cost of `USD 0.0000338` against the `USD 0.01` hard cap — a
+  safety margin of `USD 0.0099662` (~99.66%). Full envelope, exact payload,
+  input-file SHA-256, cost formula, invalidation conditions, and required
+  future preflight/operator-confirmation/fail-closed-restoration steps are
+  recorded in
+  `docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md`.
+- This decision does **not** authorize provider connection, upload, Batch
+  submission, status polling against a live Batch, download, cancellation, or
+  spend. No such operation occurred while producing this record.
+  `STAGE_C_ONE_EXACT_LIVE_BATCH_SMOKE_AUTHORIZATION_PROPOSED_NOT_EXECUTED`,
+  `USD_0_01_MAXIMUM_SPEND_PROPOSED_NOT_SPENT`,
+  `MIGRATION_TRIGGER_5_EXACT_CROSSING_PROPOSED_NOT_CROSSED`, and
+  `PROVIDER_CONNECTION_NOT_EXECUTED` all hold.
+- This authorization is single-use, exact-scope, and expires at or after
+  `2026-08-27T22:00:34Z` (pricing-evidence `valid_until`), on canonical-main
+  drift beyond `947f33d27d5546775186e96bdc61e30db78c0b3d`, on any
+  model/pricing/policy drift, or on any change to the exact recorded payload.
+  It is not a blanket or standing approval and cannot be reused for another
+  model, request, file, Batch, or amount.
+- Exact next task:
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh,
+  independent review of this authorization record, required before
+  publication, PR review, merge, or any future execution task may proceed.
+  A further, separate, explicit execution-approval task remains required
+  after that review passes before any provider access may occur.
+
+### Safety and adjacent gates
+
+- `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED` for actual execution remains true
+  in the operative sense: only a bounded future proposal exists, not an
+  execution authorization. The hard `USD 0.01` boundary
+  (`USD_0_01_SPEND_NOT_AUTHORIZED`) and migration trigger #5
+  (`MIGRATION_TRIGGER_5_NOT_YET_CROSSED`) remain binding. Provider policy
+  remains fail-closed at `LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5`,
+  exit code `78`; the OpenAI SDK remains absent from the reviewed
+  environment.
+- Pricing evidence remains finite: verified `2026-07-28T22:00:34Z`, expires
+  `2026-08-27T22:00:34Z`, and must be revalidated when required.
+- PR #28 remains open, non-draft, unmerged, intentionally paused, and
+  `CONFLICTING / DIRTY` at `57bb841e67e9a5d557f88bf096537eba78df1cd8`; it is
+  directly untouched. Physical Android Chromium Gate B remains
+  `OPEN / NOT EXECUTED`.
+- F1 and N1–N7 remain deferred non-blocking observations. The prior PyPI
+  lookup policy violation remains disclosed and non-authoritative.
+
+## Previous Update — PR #33 merged; final canonical state reconciliation in progress
 
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`
 

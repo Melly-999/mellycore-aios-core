@@ -692,25 +692,62 @@ reconciliation task (no authenticated Vercel CLI/API access in that
 environment); it is recorded as not independently verified rather than
 invented.
 
-**Final canonical reconciliation.** This record
+**Final canonical reconciliation — merged.** The reconciliation record
 (`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`)
-is the durable Stage B governance baseline reflecting the merged, deployed
-state above. At the creation of its local documentation commit
-(`docs: reconcile final Batch activation state`, parent
-`f118110181fe5428940ac86256dedc63f52282a6`), that commit is local-only and
-unreviewed — a time-scoped creation-time fact, not a permanent claim about
-this file's own content. The exact immediate next task at creation time is
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-REVIEW-001`.
-Only a PASS there may advance to
-`-RECONCILIATION-PUSH-001`, then `-RECONCILIATION-PR-CREATION-001`, then
-`-RECONCILIATION-PR-REVIEW-001`, then `-RECONCILIATION-MERGE-001`. Once that
-chain independently reviews, merges, and Production-verifies this
-reconciliation content into canonical `main`, the canonical state it
-describes is the final reconciled Stage B governance baseline and no further
-state-sync task is required solely to restate the PR #33 merge recorded
-above. The next eligible task then becomes
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` — a separate decision
-task, not live execution authorization. None of this authorizes Stage C,
-provider connection, migration trigger #5, or USD 0.01 spend. Task-record
+was independently reviewed
+(`PASS_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_FINAL_CANONICAL_STATE_RECONCILIATION_PR_REVIEW_002`)
+and merged as [PR #34](https://github.com/Melly-999/mellycore-aios-core/pull/34)
+at `2026-07-31T18:30:57Z` via GitHub merge commit
+`947f33d27d5546775186e96bdc61e30db78c0b3d` (first parent
+`f118110181fe5428940ac86256dedc63f52282a6`, second parent exact reviewed head
+`05e3f143116dda1d28192f8ec994e65d991bf713`; merge tree
+`037a530d7b6f1e0502d404103ed32b666430c4c8`, identical to the reviewed-head
+tree). PR #34's exact two-commit, five-file
+documentation-only scope is now canonical on `main`; the static `site` tree
+remained unchanged at `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`. The Codex
+thread (`PRRT_kwDOTQjWMs6VfKuy`) is resolved with a published evidence reply.
+The automatic Vercel Production deployment succeeded for the exact merge
+commit (GitHub deployment `5696334358`, SHA
+`947f33d27d5546775186e96bdc61e30db78c0b3d`, `success`); the accepted host
+`https://mellycore-aios-core.vercel.app` returned HTTP 200 (reachability
+only; no page-level visual acceptance claimed). **This is now the final
+reconciled Stage B governance baseline
+(`FINAL_RECONCILED_STAGE_B_GOVERNANCE_BASELINE_ESTABLISHED`).** No further
+state-sync task is required solely to restate this merge.
+
+**Bounded OpenAI Batch live-smoke authorization — proposed, not executed.**
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` recorded decision
+`AUTHORIZED_FOR_ONE_EXACT_FUTURE_LIVE_SMOKE_NOT_EXECUTED` in
+`docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md`: exactly
+one future Batch, one request, one input file, model
+`gpt-5.4-nano-2026-03-17`, endpoint `/v1/responses`, `max_output_tokens: 16`,
+a 238-byte input payload (SHA-256
+`a3794dd08e07124f522d56a2a4950e3c5011bc9b90affc0d2dd37a23ad344a6b`), and a
+reproducible worst-case cost of `USD 0.0000338` against the `USD 0.01` hard
+cap (`STAGE_B_HARD_COST_CAP_USD`) — a safety margin of `USD 0.0099662`
+(approximately 99.66%). The proposal reuses the already-canonical, current
+pricing evidence (`verified_at 2026-07-28T22:00:34Z`,
+`valid_until 2026-08-27T22:00:34Z`) and the existing dual-locked Stage B
+constants in `scripts/mellycore_batch/activation.py`; it changes no code,
+policy, or pricing value.
+
+This authorization is single-use, exact-scope, and expires automatically at
+or after `2026-08-27T22:00:34Z`, on canonical-`main` drift beyond
+`947f33d27d5546775186e96bdc61e30db78c0b3d`, on any model/pricing/policy
+drift, or on any change to the exact recorded payload. It does **not**
+authorize provider connection, credential access, file upload, Batch
+submission, status polling against a live Batch, download, cancellation, or
+spend — none of those occurred while producing this record. It does not
+itself construct or consume a runtime one-time-use authorization artifact;
+that must be freshly built by a separately authorized future execution task,
+after its own fresh preflight and explicit operator confirmation, with
+immediate post-smoke restoration of the fail-closed policy afterward.
+`STAGE_C_ONE_EXACT_LIVE_BATCH_SMOKE_AUTHORIZATION_PROPOSED_NOT_EXECUTED`,
+`USD_0_01_MAXIMUM_SPEND_PROPOSED_NOT_SPENT`,
+`MIGRATION_TRIGGER_5_EXACT_CROSSING_PROPOSED_NOT_CROSSED`, and
+`PROVIDER_CONNECTION_NOT_EXECUTED` all hold. The exact immediate next task is
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh
+independent review of this authorization record, required before
+publication, PR review, merge, or any execution attempt. Task-record
 next-task fields remain creation-time historical snapshots, superseded by
 this file, `AGENT_HANDOFF.md`, and `RUN_QUEUE.md`.

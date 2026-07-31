@@ -44,7 +44,7 @@ or 3D implementation. A successful merge does not automatically require a
 post-merge synchronization task; another sync is warranted only if a concrete
 live canonical statement becomes false.
 
-## Current — OpenAI Batch Final Canonical State Reconciliation Gate
+## Historical — OpenAI Batch Final Canonical State Reconciliation (merged; see "Current" gate below)
 
 Completed:
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-MERGE-001`. PR #32 merged
@@ -77,39 +77,72 @@ succeeded for the exact merge commit (GitHub deployment `5694313001`,
 returned HTTP 200; no manual deployment action or page-level visual
 acceptance occurred.
 
-**Current gate:**
+**Final canonical reconciliation — merged.**
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`
-records the merged, Production-verified state above as the durable Stage B
-governance baseline across this queue, `PROJECT_STATE.md`, `AGENT_HANDOFF.md`,
-and `ROADMAP.md`. At creation of its local documentation commit
-(`docs: reconcile final Batch activation state`, parent
-`f118110181fe5428940ac86256dedc63f52282a6`), that commit is local-only and
-unreviewed. This is a time-scoped task-creation statement, not a permanent
-workflow invariant.
+was independently reviewed
+(`PASS_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_FINAL_CANONICAL_STATE_RECONCILIATION_PR_REVIEW_002`)
+and merged as [PR #34](https://github.com/Melly-999/mellycore-aios-core/pull/34)
+at `2026-07-31T18:30:57Z` via GitHub merge commit
+`947f33d27d5546775186e96bdc61e30db78c0b3d` (first parent
+`f118110181fe5428940ac86256dedc63f52282a6`, second parent exact reviewed head
+`05e3f143116dda1d28192f8ec994e65d991bf713`; merge tree
+`037a530d7b6f1e0502d404103ed32b666430c4c8` identical to the reviewed-head
+tree). Canonical `main` is now that merge commit. PR #34's exact two-commit,
+five-file documentation-only scope is canonical; the static `site` tree
+remained unchanged at `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`; the Codex
+thread (`PRRT_kwDOTQjWMs6VfKuy`) is resolved with a published evidence
+reply; the source branch is preserved. The automatic Vercel Production
+deployment succeeded for the exact merge commit (GitHub deployment
+`5696334358`, `success`); the accepted host
+`https://mellycore-aios-core.vercel.app` returned HTTP 200; no manual
+deployment action or page-level visual acceptance occurred. **This is now
+the final reconciled Stage B governance baseline
+(`FINAL_RECONCILED_STAGE_B_GOVERNANCE_BASELINE_ESTABLISHED`)** — no further
+state-sync task is required solely to restate this merge.
 
-**Exact immediate next task at creation of the local reconciliation
-commit:**
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-REVIEW-001`.
+## Current — Bounded OpenAI Batch Live-Smoke Authorization Gate
 
-Only after that review returns PASS may
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-PUSH-001`
-push the exact reviewed local head by normal SHA-to-ref fast-forward, then
-`-RECONCILIATION-PR-CREATION-001` open a PR, then
-`-RECONCILIATION-PR-REVIEW-001` independently review it, then
-`-RECONCILIATION-MERGE-001` merge it into canonical `main` and verify the
-resulting automatic Production deployment. That publication/merge chain is
-incomplete if any step's evidence (push, PR body accuracy, review outcome,
-merge identity, deployment verification) does not match the actual live
-state; a mismatch must produce a partial or blocked outcome and must not
-advance to the next step.
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` recorded decision
+`AUTHORIZED_FOR_ONE_EXACT_FUTURE_LIVE_SMOKE_NOT_EXECUTED` in
+`docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md`: exactly
+one future Batch, one request, one input file, model
+`gpt-5.4-nano-2026-03-17`, endpoint `/v1/responses`, `max_output_tokens: 16`,
+a 238-byte payload (SHA-256
+`a3794dd08e07124f522d56a2a4950e3c5011bc9b90affc0d2dd37a23ad344a6b`), and a
+reproducible worst-case cost of `USD 0.0000338` against the `USD 0.01` hard
+cap (`STAGE_B_HARD_COST_CAP_USD`) — a safety margin of `USD 0.0099662`
+(~99.66%). The proposal reuses the already-canonical, current pricing
+evidence (`verified_at 2026-07-28T22:00:34Z`,
+`valid_until 2026-08-27T22:00:34Z`) and the existing dual-locked Stage B
+constants in `scripts/mellycore_batch/activation.py`; no code, policy, or
+pricing value changed.
 
-Once this reconciliation content is independently reviewed, merged into
-canonical `main`, and its automatic Production deployment is verified, the
-canonical state it describes is the final reconciled Stage B governance
-baseline. No further state-sync task is required solely to restate the PR
-#33 merge already recorded above. Only then may
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
-separate decision task, not live execution authorization.
+This decision does **not** authorize provider connection, credential access,
+file upload, Batch submission, status polling against a live Batch,
+download, cancellation, or spend — none of those occurred while producing
+this record. It does not construct or consume a runtime one-time-use
+authorization artifact; a separately authorized future execution task must
+build that artifact after its own fresh preflight and explicit operator
+confirmation, and must restore the fail-closed policy immediately afterward.
+`STAGE_C_ONE_EXACT_LIVE_BATCH_SMOKE_AUTHORIZATION_PROPOSED_NOT_EXECUTED`,
+`USD_0_01_MAXIMUM_SPEND_PROPOSED_NOT_SPENT`,
+`MIGRATION_TRIGGER_5_EXACT_CROSSING_PROPOSED_NOT_CROSSED`, and
+`PROVIDER_CONNECTION_NOT_EXECUTED` all hold.
+
+This authorization is single-use, exact-scope, and expires automatically at
+or after `2026-08-27T22:00:34Z` (pricing-evidence `valid_until`), on
+canonical-`main` drift beyond `947f33d27d5546775186e96bdc61e30db78c0b3d`, on
+any model/pricing/policy drift, or on any change to the exact recorded
+payload. It is not a blanket or standing approval and cannot be reused for
+another model, request, file, Batch, or amount.
+
+**Exact immediate next task:**
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh,
+independent review of this authorization record, required before
+publication, PR creation, PR review, merge, or any execution attempt. A
+further, separate, explicit execution-approval task remains required after
+that review passes and this record is merged, before any provider access
+may occur.
 
 Task-record next-task fields are creation-time historical snapshots,
 superseded by this queue and `AGENT_HANDOFF.md`.
@@ -117,7 +150,9 @@ superseded by this queue and `AGENT_HANDOFF.md`.
 This queue entry does not authorize Stage C or live execution.
 `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
 `USD_0_01_SPEND_NOT_AUTHORIZED`, and
-`MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding. Provider policy remains
+`MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding in the operative sense
+(only a bounded proposal exists, not an execution authorization). Provider
+policy remains
 `LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5` (exit code `78`).
 F1 and N1–N7 remain deferred non-blocking observations; the prior PyPI lookup
 policy violation remains disclosed. PR #28 remains directly untouched, open,
