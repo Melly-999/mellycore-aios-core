@@ -657,11 +657,38 @@ non-blocking observations. The prior prohibited PyPI lookup remains
 disclosed; its output is not authority for the dependency pin. Neither the
 merge nor this state sync closes, suppresses, or upgrades those observations.
 
-**Current workflow:** this post-merge state sync is local-only and is not yet
-reviewed, pushed, merged, or canonical. Its immediate next task is
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-REVIEW-001`.
-Only after independent review and separately authorized publication of this
-state sync may
+**Current PR #33 remediation state:** original state-sync commit
+`472fcd21e828a71f5d5cc6fbd8ab8bc4573e12d4` was independently reviewed
+locally, its branch was published, and
+[PR #33](https://github.com/Melly-999/mellycore-aios-core/pull/33) was
+created. PR #33 remains open, non-draft, unmerged, and not merge-authorized.
+PR review 001 returned
+`REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_001`
+after independently reproducing Codex P2 finding `Advance the canonical
+queue past the completed review`: this file, `AGENT_HANDOFF.md`, `ROADMAP.md`,
+and `RUN_QUEUE.md` retained stale present-tense claims that the original
+state-sync commit was local-only, unreviewed, and unpushed and retained the
+already-completed local review as the next task. At the start of remediation,
+the one Codex thread (`discussion_r3690288402`) was unresolved. This task does
+not reply to or resolve it.
+
+**Gated completion path:** at creation of the local remediation commit, that
+commit is local-only and unreviewed, and the exact immediate next task is
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-REVIEW-001`.
+This is a time-scoped task-creation statement. Only a PASS may advance to
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`,
+which must push the exact reviewed head by normal SHA-to-ref fast-forward,
+verify the remote and PR heads, update and re-fetch the PR body with the
+actual remediation SHA and two-commit identity while preserving the exact
+five-file scope and validation provenance, describe the P2 remediation,
+reply with exact published evidence, resolve the thread only after verifying
+the correction, verify checks and Preview, and leave PR #33 open, unmerged,
+and without auto-merge. Push without complete body and thread reconciliation
+is partial or blocked and cannot advance to a fresh independent
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`.
+Only review 002 PASS may permit a separately authorized
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`.
+Only after review, merge, and canonical reconciliation may
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
-separate operational decision. This state sync creates no live-smoke,
-provider-connection, Stage C, or spend authorization.
+separate decision task. None of this authorizes merge, Stage C, provider
+connection, migration trigger #5, or USD 0.01 spend.

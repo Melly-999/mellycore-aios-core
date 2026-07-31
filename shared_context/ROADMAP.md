@@ -332,16 +332,38 @@ this roadmap entry.
   `5e7628a72a22fc10ecd0f9a25515ab61eb7223b9` at
   `2026-07-30T22:19:15Z`. Canonical `main` contains the exact reviewed tree
   and all seven reviewed commits.
-- **Current documentation task:**
-  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-001`.
-  It is local-only and not reviewed, pushed, merged, or canonical.
-- **Immediate next gate after the local commit:**
-  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-REVIEW-001`.
-- **Conditional later decision, only after reviewed and published state
-  sync:** `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+- **Published state-sync:** original state-sync commit `472fcd21…` was
+  independently reviewed locally, its branch was published, and PR #33 was
+  created. PR #33 remains open, non-draft, unmerged, and not
+  merge-authorized.
+- **PR review 001:** returned
+  `REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_001`.
+  Codex P2 finding `Advance the canonical queue past the completed review`
+  identified stale present-tense workflow state across `PROJECT_STATE.md`,
+  `AGENT_HANDOFF.md`, this roadmap, and `RUN_QUEUE.md`. At the start of the
+  remediation, its single thread (`discussion_r3690288402`) was unresolved.
+- **Time-scoped remediation gate:** at creation of the local remediation
+  commit, that commit is local-only and unreviewed. The exact immediate next
+  task is
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-REVIEW-001`.
+- **Required completion path after a PASS:**
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`
+  must push the exact reviewed head by normal SHA-to-ref fast-forward, verify
+  the remote and PR heads, update and re-fetch the PR body with the actual
+  remediation SHA and two-commit state while preserving the five-file scope
+  and validation provenance, describe the P2 remediation, reply with exact
+  published evidence, resolve the thread only after verification, verify
+  checks and Preview, and leave PR #33 open, unmerged, and without
+  auto-merge. Push without complete metadata and thread reconciliation is
+  partial or blocked. Only then may a fresh independent
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`
+  run; only its PASS may permit a separately authorized merge.
+- **Conditional later decision, only after reviewed, merged, and canonically
+  reconciled state sync:**
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
 
-This roadmap state does not authorize Stage C or place live Batch execution
-into an active queue. Live smoke remains a separate Operator decision; the
+This remediation and roadmap state do not authorize PR #33 merge, Stage C,
+or live Batch execution. Live smoke remains a separate Operator decision; the
 hard `USD 0.01` boundary remains unavailable until separately authorized;
 migration trigger #5 remains uncrossed; provider policy remains fail-closed.
 The PR #32 merge changed no `site/**` file, and its automatic Production

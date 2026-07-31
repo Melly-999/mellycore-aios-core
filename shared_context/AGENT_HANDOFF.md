@@ -1,8 +1,8 @@
 # Agent Handoff
 
-## Latest Update — PR #32 merged; Batch post-merge state sync is local-only
+## Latest Update — PR #33 review requires living-state remediation
 
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-001`
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-001`
 
 ### Canonical merge and Production state
 
@@ -28,7 +28,7 @@
 ### Safety and adjacent gates
 
 - Stage B controlled activation is merged:
-  `STAGE_B_OPENAI_BATCH_CONTROLLED_ACTIVATION_MERGED_STATE_SYNCED_LOCALLY_NOT_REVIEWED`.
+  `STAGE_B_OPENAI_BATCH_CONTROLLED_ACTIVATION_MERGED_STATE_SYNC_PR_REMEDIATION_REQUIRED`.
   Stage C remains `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`; the hard
   `USD 0.01` boundary remains `USD_0_01_SPEND_NOT_AUTHORIZED`; migration
   trigger #5 remains `MIGRATION_TRIGGER_5_NOT_YET_CROSSED`.
@@ -47,18 +47,52 @@
   lookup policy violation remains disclosed and its output remains
   non-authoritative.
 
-### State-sync publication boundary and next tasks
+### PR #33 review outcome and gated remediation workflow
 
-- This documentation state sync is local-only. At commit creation it is not
-  reviewed, pushed, merged, or canonical, and it creates no authorization to
-  connect to a provider, run a live Batch smoke, or spend money.
-- Immediate next task:
-  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-REVIEW-001`.
-- Conditional later task, only after this state sync is independently
-  reviewed and separately authorized for publication:
-  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`. That task is a
-  separate decision gate; it is not active execution work and is not
-  authorized by this handoff.
+- Original state-sync commit
+  `472fcd21e828a71f5d5cc6fbd8ab8bc4573e12d4` was independently reviewed
+  locally, the branch was published, and
+  [PR #33](https://github.com/Melly-999/mellycore-aios-core/pull/33) was
+  created. PR #33 remains open, non-draft, unmerged, and not
+  merge-authorized.
+- PR review 001 returned
+  `REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_001`.
+  It independently reproduced Codex P2 finding `Advance the canonical queue
+  past the completed review`: the current workflow in `PROJECT_STATE.md`,
+  this handoff, `ROADMAP.md`, and `RUN_QUEUE.md` still described the original
+  state-sync commit as local-only, unreviewed, and unpushed and still pointed
+  to the completed local review.
+- At the start of this remediation, the one Codex P2 thread
+  (`discussion_r3690288402`) was unresolved. This task does not reply to or
+  resolve it. At creation of the local remediation commit, that commit is
+  local-only and unreviewed; this is a time-scoped task-creation fact, not a
+  permanent workflow invariant.
+- At creation of the local remediation commit, the exact immediate next task
+  is
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-REVIEW-001`.
+- Only after that review returns PASS may
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`
+  push the exact reviewed head by normal SHA-to-ref fast-forward. That task
+  must verify the remote branch and PR head, update the PR body from one to
+  two commits with the actual remediation SHA while preserving the exact
+  five-file PR scope and validation provenance, describe the Codex P2 finding
+  and remediation, reply to the thread with exact published evidence, resolve
+  it only after verifying the correction, re-fetch and verify the body,
+  checks, and Preview, and leave PR #33 open, unmerged, and without
+  auto-merge. A successful push without complete body and thread
+  reconciliation is a partial or blocked outcome and cannot advance.
+- Only after complete publication and reconciliation may a fresh independent
+  session run
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`.
+  Only its PASS may allow a separately authorized
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`.
+  Merge is not authorized by this handoff.
+- Only after the state-sync PR is separately reviewed, merged, and
+  canonically reconciled may
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
+  separate decision task. It is not live execution authorization; Stage C,
+  the USD 0.01 spend, migration trigger #5, and provider operations remain
+  blocked.
 
 ## Previous Historical Update — Batch PR publication workflow required verified body reconciliation
 

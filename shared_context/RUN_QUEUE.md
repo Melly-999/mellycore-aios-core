@@ -44,7 +44,7 @@ or 3D implementation. A successful merge does not automatically require a
 post-merge synchronization task; another sync is warranted only if a concrete
 live canonical statement becomes false.
 
-## Current — OpenAI Batch PR #32 Post-Merge Documentation Gate
+## Current — OpenAI Batch PR #33 Living-State Remediation Gate
 
 Completed:
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-MERGE-001`. PR #32 merged
@@ -55,18 +55,52 @@ deployment succeeded (`5683195625` /
 the static `site` tree remained unchanged at
 `5df8bb686eb5b13bcf1fe2ad2ef6bc796bfc5d`.
 
-Current local documentation task:
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-001`.
-It creates one local documentation commit only and is not yet reviewed,
-pushed, merged, or canonical.
+Original state-sync commit
+`472fcd21e828a71f5d5cc6fbd8ab8bc4573e12d4` was independently reviewed
+locally, the branch was published, and
+[PR #33](https://github.com/Melly-999/mellycore-aios-core/pull/33) was
+created. PR #33 remains open, non-draft, unmerged, and not merge-authorized.
+PR review 001 returned
+`REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_001`.
+It independently reproduced Codex P2 finding `Advance the canonical queue
+past the completed review`: `PROJECT_STATE.md`, `AGENT_HANDOFF.md`,
+`ROADMAP.md`, and this queue retained stale local-only, unreviewed, unpushed,
+and completed-review-as-next-task claims. At the start of this remediation,
+the one Codex thread (`discussion_r3690288402`) was unresolved; this task does
+not reply to or resolve it.
 
-**Exact immediate next task after local commit:**
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-REVIEW-001`.
-Only after that review passes and this state sync is separately authorized
-for publication may the conditional operational decision task
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered.
+**Exact immediate next task at creation of the local remediation commit:**
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-REVIEW-001`.
+At creation, the remediation commit is local-only and unreviewed. This is a
+time-scoped task-creation statement, not a permanent workflow invariant.
 
-This queue entry does not authorize Stage C or enqueue live execution.
+Only after that review returns PASS may
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`
+perform the exact-head publication and reconciliation gate. It must:
+
+1. push the exact independently reviewed remediation head by a normal
+   SHA-to-ref fast-forward;
+2. verify the remote branch and PR #33 head;
+3. update the PR body from one published commit to two, insert the actual
+   remediation SHA, preserve the exact five-file scope and validation
+   provenance, and describe the Codex P2 finding and remediation;
+4. reply to the Codex thread with exact published evidence and resolve it
+   only after verifying the correction is present;
+5. re-fetch and verify the PR body, checks, and Preview; and
+6. leave PR #33 open, unmerged, and without auto-merge.
+
+That future publication task is incomplete if only the push succeeds. A
+stale PR body, missing evidence reply, unresolved thread, or any mismatch
+must produce a partial or blocked outcome and must not advance to fresh
+independent
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`.
+Only review 002 PASS may allow a separately authorized
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`.
+Only after review, merge, and canonical reconciliation may
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
+separate decision task, not live execution authorization.
+
+This queue entry does not authorize PR #33 merge, Stage C, or live execution.
 `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
 `USD_0_01_SPEND_NOT_AUTHORIZED`, and
 `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding. Provider policy remains
