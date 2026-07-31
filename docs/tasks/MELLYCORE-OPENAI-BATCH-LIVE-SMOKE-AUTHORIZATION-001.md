@@ -339,6 +339,85 @@ execution task still requires a fresh preflight (see "Required fresh
 execution preflight" below) and explicit operator approval (see "Required
 explicit operator confirmation" below).
 
+## Provider-policy transition and execution baseline
+
+The current canonical implementation of `scripts/mellycore_batch/policy.py`
+has no production-capable path from its hardcoded fail-closed policy
+(`allowed=False`) to an allowed state. `scripts/mellycore_batch/activation.py`'s
+`stage_c_live_execution_authorized` is likewise a hardcoded `False` constant
+with no code path, in that module or any module that imports it, that can set
+it to `True`. Neither module reads any parameter, environment variable, or
+configuration file to decide that answer. Canonical publication of this
+authorization record therefore does not, by itself, make the proposed smoke
+operationally executable: merging this record changes no code and opens no
+path to the provider.
+
+The canonical default must remain fail-closed. This authorization does not
+permit, and no future execution task may rely on: a persistent hardcoded
+`allowed=True` value; a local, uncommitted edit to `policy.py` made at
+execution time; a monkeypatch or direct-Python bypass of the CLI's policy
+check; an unauthenticated, generic environment-variable override; or an
+unrestricted command-line flag that could enable provider access for any
+request beyond this exact smoke.
+
+A future provider-policy transition requires a separately authorized Model B
+design-and-implementation task (following
+`MELLYCORE-MODEL-B-LIVE-PROVIDER-TRIGGER-5-DECISION-002`'s
+`APPROVE_CONSTRAINED_MODEL_B_TRIGGER_5_TRANSITION_002` outcome). That
+implementation must introduce a production-capable but narrowly bounded,
+one-use runtime authorization mechanism while preserving fail-closed default
+behavior. The mechanism must:
+
+- default to denial when no valid authorization is present;
+- require no credential material to be read before the authorization check
+  itself passes;
+- bind exactly to the reviewed smoke envelope (provider, endpoint, model,
+  payload SHA-256, request count, Batch count, cost ceiling, pricing-evidence
+  expiry, and the zero-automatic-retry rule);
+- require the operator's explicit, specific approval for that exact
+  execution, never inferred or blanket;
+- expire automatically;
+- be consumed (or otherwise refuse reuse) after one submission attempt or an
+  ambiguous result, so it cannot silently authorize a second attempt;
+- forbid automatic retry and provider fallback;
+- introduce no reusable, blanket, or standing enablement;
+- store no repository credential or secret value; and
+- be covered by tests proving default denial, exact-envelope binding,
+  single-use behavior, automatic expiry, rejection of payload/model/endpoint/
+  cost drift, rejection after an ambiguous submission, and that provider
+  initialization cannot occur before every authorization check passes.
+
+The exact, independently reviewed merge of that future implementation — and
+only that exact merge — is an explicitly sanctioned policy transition, not
+generic invalidating policy drift as defined below. That implementation merge
+commit becomes the **policy-transition execution baseline** only after a
+fresh preflight independently verifies its parentage, that its merge tree
+equals the reviewed implementation-head tree, that current canonical `main`
+equals that exact merge commit, that its automatic Production deployment
+succeeded, that the fail-closed default remains the code's starting state,
+and that the required tests above are present and passing.
+
+Execution eligibility requires current canonical `main` to equal that exact
+policy-transition execution baseline at the moment of execution. Any later
+canonical-main advancement beyond it invalidates execution eligibility;
+ancestry or containment of the reviewed implementation commit alone does not
+preserve validity. Any other change to `scripts/mellycore_batch/policy.py`'s
+hardcoded policy — generic, unrelated, unreviewed, broader in scope, or
+implemented differently from what was reviewed — remains invalidating policy
+drift under "Authorization invalidation conditions" below.
+
+Establishing this execution baseline does not itself authorize provider
+access. The future execution task still requires a fresh execution preflight
+(see "Required fresh execution preflight" above) and explicit operator
+confirmation (see "Required explicit operator confirmation" above)
+immediately before any provider connection.
+
+No such policy-transition implementation currently exists. Until it is
+separately designed, reviewed, and merged, this authorization record is not
+operationally executable, and the unresolved PR review finding that raised
+this contradiction should be treated as valid and blocking rather than
+resolved by this record alone.
+
 ## Authorization invalidation conditions
 
 This authorization is single-use, exact-scope, and expiring. It is
@@ -360,7 +439,12 @@ first:
   reusing this record.
 - **Model/pricing/policy drift**: any change to `STAGE_B_MODEL`, the pricing
   manifest's rates, `STAGE_B_HARD_COST_CAP_USD`, or
-  `scripts/mellycore_batch/policy.py`'s hardcoded policy.
+  `scripts/mellycore_batch/policy.py`'s hardcoded policy, **except** the
+  exact, independently reviewed policy-transition implementation merge
+  described in "Provider-policy transition and execution baseline" above,
+  which is a sanctioned transition rather than invalidating drift. No such
+  implementation currently exists; this exception has no present effect and
+  does not make this authorization executable today.
 - **Payload change**: any difference from the exact payload and SHA-256
   recorded above.
 - **Credential unavailability**: if the operator's own external OpenAI

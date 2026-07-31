@@ -1,6 +1,86 @@
 # Agent Handoff
 
-## Latest Update — PR #34 merged; Production verified; bounded live-smoke authorization proposed (not executed)
+## Latest Update — PR #35 P1 policy-transition finding assessed valid/blocking; documentation remediation created locally (not reviewed, not pushed)
+
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-001`
+
+### PR #35 merge preflight stopped on a new unresolved P1 finding
+
+- A merge-preflight task for [PR #35](https://github.com/Melly-999/mellycore-aios-core/pull/35)
+  (`docs: authorize bounded OpenAI Batch live smoke`, head
+  `1a379954393de0c95b91e554797d96bf80108c84`) correctly stopped before
+  merging: an unresolved, current, non-outdated review thread from
+  `chatgpt-codex-connector` (thread `PRRT_kwDOTQjWMs6VhoHo`, comment
+  `PRRC_kwDOTQjWMs7cIIFQ`, `docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md:363`,
+  `2026-07-31T20:15:18Z`, "Permit the required policy transition") was found
+  during Phase 4 review-thread inspection, outside the two non-blocking notes
+  the prior independent PR review had already accounted for. No merge
+  occurred; PR #35 remains open and unmerged at that same head.
+- A dedicated, read-only independent assessment task then returned
+  `VALID_BLOCKING_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_FINDING_ASSESSMENT_001`.
+  It confirmed from actual source: `scripts/mellycore_batch/policy.py`
+  hardcodes `allowed=False` and reads no parameter, environment variable, or
+  configuration file that could change that; `scripts/mellycore_batch/activation.py`'s
+  `stage_c_live_execution_authorized` is likewise a hardcoded `False` with no
+  code path to `True`; all five provider-backed CLI commands independently
+  re-verified exit `78` with `LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5`
+  when re-run with credential variables removed. The only way to ever permit
+  a live connection is a tracked-file edit to `policy.py`, yet the
+  authorization record (at the exact line the P1 thread is anchored to)
+  listed any change to that hardcoded policy as invalidating drift — an
+  operationally self-invalidating contradiction, not a paraphrase artifact.
+  `AGENTS.md:L35-L40` (the line the reviewer cited) adds a required Model B
+  gate before such an edit but defines no exemption from that drift clause.
+  No production-capable, non-file, runtime override (environment variable,
+  CLI flag, config file, or test-only mechanism) exists anywhere in the
+  repository.
+
+### Documentation remediation (this update)
+
+- This task adds a new "Provider-policy transition and execution baseline"
+  section to
+  `docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md` and
+  updates its "Model/pricing/policy drift" invalidation bullet to reference
+  it. The remediation does **not** flip `allowed` to `True`, does **not**
+  edit `policy.py` or `activation.py`, and does **not** create any
+  environment-variable or CLI bypass. It records, instead, that: the current
+  implementation has no production allow-path and canonical publication of
+  PR #35 alone does not make the smoke executable; the fail-closed default
+  must remain the canonical state; a future, separately authorized Model B
+  design-and-implementation task is required to introduce a bounded,
+  one-use, expiring, envelope-bound, test-covered runtime authorization
+  mechanism; and only the exact, independently reviewed merge of that future
+  implementation — verified for parentage, tree equality, canonical-main
+  identity, Production success, and fail-closed default — becomes a
+  sanctioned "policy-transition execution baseline," distinct from generic
+  policy drift, which remains invalidating. This exception has no present
+  effect: no such implementation exists yet.
+- This task creates exactly one new local documentation-only commit
+  (`docs: define bounded Batch policy transition`), parent
+  `1a379954393de0c95b91e554797d96bf80108c84`, changing exactly the five
+  authorized files (this file, the task record, `PROJECT_STATE.md`,
+  `ROADMAP.md`, `RUN_QUEUE.md`). At creation, this commit is local-only and
+  unreviewed — a time-scoped creation fact, not a permanent claim about this
+  file's own content. It does not embed or guess its own SHA. It is not
+  pushed, and it does not reply to, resolve, or otherwise mutate PR #35's P1
+  thread, PR #35 itself, or any other PR.
+- Exact next task:
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-REVIEW-001`
+  — an independent, read-only review of this local remediation commit. Only
+  after that review passes may this record be published, and only a
+  separately authorized, exact-head merge task may then merge PR #35. The
+  P1 thread remains unresolved and must not be replied to or resolved by
+  this task.
+
+### Safety state
+
+`PR_35_POLICY_TRANSITION_REMEDIATION_LOCAL_NOT_REVIEWED`,
+`POLICY_TRANSITION_IMPLEMENTATION_NOT_AUTHORIZED`,
+`PROVIDER_CONNECTION_NOT_EXECUTED`, `MIGRATION_TRIGGER_5_NOT_CROSSED`,
+`USD_0_01_NOT_SPENT`, and `STAGE_C_LIVE_SMOKE_NOT_EXECUTED` all hold. PR #28
+remains directly untouched and Gate B remains `OPEN / NOT EXECUTED`.
+
+## Previous Update — PR #34 merged; Production verified; bounded live-smoke authorization proposed (not executed)
 
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`
 

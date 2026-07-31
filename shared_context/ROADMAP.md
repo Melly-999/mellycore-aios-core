@@ -386,6 +386,29 @@ this roadmap entry.
   activation, and drift" section. Exact next task:
   `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh
   independent review required before publication, merge, or execution.
+- **PR #35 blocked pre-merge by an unresolved P1 policy-transition finding —
+  documentation remediation created locally, not reviewed, not pushed.** A
+  merge-preflight task correctly stopped on an unresolved
+  `chatgpt-codex-connector` thread ("Permit the required policy transition",
+  `docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md:363`);
+  no merge occurred. An independent assessment returned
+  `VALID_BLOCKING_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_FINDING_ASSESSMENT_001`:
+  `scripts/mellycore_batch/policy.py`'s hardcoded `allowed=False` has no
+  runtime override, so the only path to permitting a live connection is a
+  tracked-file edit — which the authorization record then listed as
+  invalidating drift, an operationally self-invalidating contradiction.
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-001`
+  repairs this in documentation only, adding a "Provider-policy transition
+  and execution baseline" section to the task record: the fail-closed
+  default remains required; only a future, separately authorized Model B
+  implementation task may introduce a bounded, one-use, expiring,
+  envelope-bound runtime authorization mechanism; and only the exact,
+  independently reviewed merge of that future implementation is a sanctioned
+  transition, distinct from generic policy drift, which remains
+  invalidating. No such implementation exists yet. This remediation creates
+  exactly one local commit across exactly five documentation files; it is
+  not pushed, and the P1 thread remains unresolved. Exact next task:
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-REVIEW-001`.
 - Task-record next-task fields are creation-time historical snapshots,
   superseded by this roadmap and `RUN_QUEUE.md`.
 

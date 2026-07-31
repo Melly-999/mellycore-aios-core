@@ -760,3 +760,41 @@ independent review of this authorization record, required before
 publication, PR review, merge, or any execution attempt. Task-record
 next-task fields remain creation-time historical snapshots, superseded by
 this file, `AGENT_HANDOFF.md`, and `RUN_QUEUE.md`.
+
+**PR #35 blocked pre-merge by an unresolved P1 policy-transition finding —
+documentation remediation created locally, not reviewed, not pushed.** A
+merge-preflight task for PR #35 correctly stopped after finding an
+unresolved, current `chatgpt-codex-connector` review thread (thread
+`PRRT_kwDOTQjWMs6VhoHo`,
+`docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md:363`,
+"Permit the required policy transition"). No merge occurred. An independent
+read-only assessment then returned
+`VALID_BLOCKING_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_FINDING_ASSESSMENT_001`:
+`scripts/mellycore_batch/policy.py` hardcodes `allowed=False` with no
+runtime override of any kind, so the only way to ever permit a live
+connection is a tracked-file edit — yet the authorization record listed any
+change to that hardcoded policy as invalidating drift, an operationally
+self-invalidating contradiction confirmed against actual source and via
+fresh fail-closed re-verification (all five provider commands still exit
+`78` with `LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5`).
+
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-001`
+repairs this in documentation only: the current implementation is recorded
+as having no production allow-path, so PR #35's canonical publication alone
+would not make the smoke executable; the fail-closed default remains
+required; a future, separately authorized Model B implementation task is
+required to introduce a bounded, one-use, expiring, envelope-bound,
+test-covered runtime authorization mechanism (never a persistent
+`allowed=True`, local edit, monkeypatch, generic environment-variable
+override, or unrestricted CLI flag); and only the exact, independently
+reviewed merge of that future implementation becomes a sanctioned
+"policy-transition execution baseline," distinct from generic policy drift,
+which remains invalidating. See the task record's new "Provider-policy
+transition and execution baseline" section. No such implementation exists
+yet, so this exception has no present effect. This remediation creates
+exactly one new local commit (`docs: define bounded Batch policy
+transition`, parent `1a379954393de0c95b91e554797d96bf80108c84`) across
+exactly five documentation files; it is not pushed, and the P1 thread
+remains unresolved. `PR_35_POLICY_TRANSITION_REMEDIATION_LOCAL_NOT_REVIEWED`
+and `POLICY_TRANSITION_IMPLEMENTATION_NOT_AUTHORIZED` hold. Exact next task:
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-REVIEW-001`.
