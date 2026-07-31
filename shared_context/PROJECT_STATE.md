@@ -657,59 +657,60 @@ non-blocking observations. The prior prohibited PyPI lookup remains
 disclosed; its output is not authority for the dependency pin. Neither the
 merge nor this state sync closes, suppresses, or upgrades those observations.
 
-**Current PR #33 remediation state:** original state-sync commit
+**PR #33 — merged.** Original state-sync commit
 `472fcd21e828a71f5d5cc6fbd8ab8bc4573e12d4` was independently reviewed
-locally, its branch was published, and
-[PR #33](https://github.com/Melly-999/mellycore-aios-core/pull/33) was
-created. PR #33 remains open, non-draft, unmerged, and not merge-authorized.
-PR review 001 returned
-`REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_001`
-after independently reproducing Codex P2 finding `Advance the canonical
-queue past the completed review`: this file, `AGENT_HANDOFF.md`, `ROADMAP.md`,
-and `RUN_QUEUE.md` retained stale present-tense claims that the original
-state-sync commit was local-only, unreviewed, and unpushed and retained the
-already-completed local review as the next task. Local remediation commit
-`c0f69c5a4e6aa41e738d0c271c70e1e8ec585d3c` addressed this finding.
+locally, published, and opened as
+[PR #33](https://github.com/Melly-999/mellycore-aios-core/pull/33). After
+remediation 001 (`c0f69c5a4e6aa41e738d0c271c70e1e8ec585d3c`), remediation 002
+(`ab5a6d775ff86bc051788ca2927e17c3d8eab880`), publication/reconciliation, and
+independent review 002
+(`PASS_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_002`),
+PR #33 was merged at `2026-07-31T15:52:54Z` using GitHub's merge-commit
+method. The exact reviewed head `ab5a6d775ff86bc051788ca2927e17c3d8eab880`
+is the second parent of merge commit
+`f118110181fe5428940ac86256dedc63f52282a6`; first parent is
+`5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`. The merge tree
+(`e49a392614b10be2e235dcb85ad374004bbced0b`) is identical to the reviewed-head
+tree, and canonical `main` now points to the merge commit. PR #33 retained
+its exact three-commit, five-file documentation-only scope and changed no
+`site/**` file; the static `site` tree remained
+`5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d` across the merge. The source
+branch `docs/mellycore-openai-batch-post-merge-state-sync-001` is preserved,
+unmerged mergeability is no longer applicable, and the one Codex thread
+(`discussion_r3690288402`) is resolved with a published evidence reply
+matching the merged state.
 
-**Remediation review 001 and remediation 002:** review 001 returned
-`PASS_WITH_NOTES_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REMEDIATION_REVIEW_001`
-against remediation commit `c0f69c5…`. The Codex P2 defect was confirmed
-resolved. One concrete factual note was raised: `AGENT_HANDOFF.md` and
-`RUN_QUEUE.md` carried an invalid 38-character static `site` subtree
-identifier (`5df8bb686eb5b13bcf1fe2ad2ef6bc796bfc5d`) instead of the
-authoritative Git object `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`; two
-closely related, non-blocking consistency notes were also raised — an
-inconsistent Stage B state code in `AGENT_HANDOFF.md`, and an unnamed
-merge-task identifier in `ROADMAP.md`. Local remediation commit
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002`
-corrects all three. At the start of this second remediation, the one Codex
-thread (`discussion_r3690288402`) remained unresolved. This task does not
-reply to or resolve it.
+The automatic Vercel Git deployment succeeded in Production for the exact
+merge commit: GitHub deployment `5694313001`, SHA
+`f118110181fe5428940ac86256dedc63f52282a6`, state `success`, source
+automatic Git deployment. The accepted public host
+`https://mellycore-aios-core.vercel.app` returned HTTP 200. No manual
+deployment action, promotion, redeploy, or cancellation occurred, and no
+page-level visual acceptance was performed or claimed. The exact Vercel
+deployment ID was not obtainable from the read-only sources available to the
+reconciliation task (no authenticated Vercel CLI/API access in that
+environment); it is recorded as not independently verified rather than
+invented.
 
-**Gated completion path:** at creation of the local remediation-002 commit,
-that commit is local-only and unreviewed, and the exact immediate next task
-is
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002-REVIEW-001`.
-This is a time-scoped task-creation statement. Only a PASS may advance to
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`,
-which must push the exact reviewed final head — the full three-commit chain
-built on the currently published one-commit head `472fcd21…` — by normal
-SHA-to-ref fast-forward, discovering the final commit's SHA only after it
-exists. It must verify the remote and PR heads then confirm three commits,
-update and re-fetch the PR body to list both remediation commits and the
-exact final head while preserving the cumulative five-file scope and
-validation provenance, correct the published static-site subtree evidence,
-describe the P2 finding and both remediation steps, reply with exact
-published evidence, resolve the thread only after verifying the correction,
-verify checks and Preview, and leave PR #33 open, unmerged, and without
-auto-merge. Push without complete body and thread reconciliation is partial
-or blocked and cannot advance to a fresh independent
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`.
-Only review 002 PASS may permit the separately authorized merge task
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`.
-Only after review, merge, and canonical reconciliation may
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
-separate decision task. None of this authorizes merge, Stage C, provider
-connection, migration trigger #5, or USD 0.01 spend. Task-record next-task
-fields are creation-time historical snapshots, superseded by this file,
-`AGENT_HANDOFF.md`, and `RUN_QUEUE.md`.
+**Final canonical reconciliation.** This record
+(`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`)
+is the durable Stage B governance baseline reflecting the merged, deployed
+state above. At the creation of its local documentation commit
+(`docs: reconcile final Batch activation state`, parent
+`f118110181fe5428940ac86256dedc63f52282a6`), that commit is local-only and
+unreviewed — a time-scoped creation-time fact, not a permanent claim about
+this file's own content. The exact immediate next task at creation time is
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-REVIEW-001`.
+Only a PASS there may advance to
+`-RECONCILIATION-PUSH-001`, then `-RECONCILIATION-PR-CREATION-001`, then
+`-RECONCILIATION-PR-REVIEW-001`, then `-RECONCILIATION-MERGE-001`. Once that
+chain independently reviews, merges, and Production-verifies this
+reconciliation content into canonical `main`, the canonical state it
+describes is the final reconciled Stage B governance baseline and no further
+state-sync task is required solely to restate the PR #33 merge recorded
+above. The next eligible task then becomes
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` — a separate decision
+task, not live execution authorization. None of this authorizes Stage C,
+provider connection, migration trigger #5, or USD 0.01 spend. Task-record
+next-task fields remain creation-time historical snapshots, superseded by
+this file, `AGENT_HANDOFF.md`, and `RUN_QUEUE.md`.
