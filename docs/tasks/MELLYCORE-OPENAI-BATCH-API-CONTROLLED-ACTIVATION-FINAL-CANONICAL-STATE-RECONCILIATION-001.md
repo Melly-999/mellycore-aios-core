@@ -108,13 +108,40 @@ The merge task
 reran only the project validator, identity checks, and diff checks — not the
 full suite.
 
-This final canonical reconciliation task independently reran, against the
-new worktree at canonical main (`f118110181fe5428940ac86256dedc63f52282a6`):
-project validator, network-denial tests, CLI tests, the focused Batch
-suite, the full suite, `compileall`, a Black-availability check, and
-`git diff --check`. See the "Validation results" section below for the
-actual counts produced by this task; no historical result is represented as
-a result of this task.
+The reconciliation implementation reran the repository validation and
+safety checks before creating the local commit, against the worktree at
+canonical main (`f118110181fe5428940ac86256dedc63f52282a6`): project
+validator, network-denial tests, CLI tests, the focused Batch suite, the
+full suite, `compileall`, a Black-availability check, and
+`git diff --check`. The actual results from that implementation run are
+recorded in the Validation results section below; no historical result is
+represented as a result of this task. This implementation run is not a
+substitute for the independent PR review still required by the workflow
+below.
+
+## Validation results
+
+The reconciliation implementation reran the repository validation suite
+before creating commit `f93ce1460d35d1cff038cbd98b3fc1cb85c00522`.
+
+Actual implementation-run results:
+
+- project validator: PASS
+- network-denial tests: 4 passed
+- CLI tests: 47 passed
+- focused Batch suite: 329 passed
+- full suite: 574 passed
+- compileall: PASS
+- Black: unavailable; it was not installed and is not claimed as passed
+- diff check: PASS
+
+The implementation also rechecked all five provider-backed commands
+offline: `submit`, `status`, `list`, `download`, and `cancel`. Each command
+remained blocked with `LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5`
+and exit code `78`.
+
+No provider connection, file upload, Batch operation, or paid operation
+occurred.
 
 ## Stage B / Stage C boundary
 
