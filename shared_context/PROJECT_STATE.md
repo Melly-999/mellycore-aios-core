@@ -104,8 +104,8 @@ concrete live canonical statement becomes false.
 [PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) (head
 `57bb841e67e9a5d557f88bf096537eba78df1cd8`, base `main`, two commits, twelve
 changed files, locally vendored Three.js r164). PR #28 remains **open,
-non-draft, unmerged, and mergeable**; it is **intentionally paused**, not
-merged, and **not authorized to merge**.
+non-draft, and unmerged**; GitHub reports **`CONFLICTING / DIRTY`**. It is
+**intentionally paused** and **not authorized to merge**.
 
 Accepted evidence:
 
@@ -513,16 +513,46 @@ milestones remain preserved in their task reports and repository history.
   Authorization — Model A Contract" above for the full contract and
   migration triggers.
 
-## OpenAI Batch API — Stage B Controlled Activation (Dormant, Trigger #5 Uncrossed)
+## OpenAI Batch API — Stage B Merged, Stage C Unauthorized
 
-Branch `feat/mellycore-openai-batch-controlled-activation-001` (base
-`81b1baf9da5363ef088fe236de93d6cd3713b659`) adds
-`scripts/mellycore_batch/activation.py`: a local-only, fail-closed
+[PR #32](https://github.com/Melly-999/mellycore-aios-core/pull/32) merged the
+Stage B controlled-activation foundation into canonical `main` at
+`2026-07-30T22:19:15Z` using GitHub's merge-commit method. Canonical `main`
+now points to merge commit
+`5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`, whose parents are, in order,
+`81b1baf9da5363ef088fe236de93d6cd3713b659` and
+`2b08a2c18f85e07cb1b6ade3ba79f01b2424395b`. The merge tree is identical to
+the reviewed-head tree. All seven reviewed PR commits, from `8bd40b4…`
+through `2b08a2c…`, are therefore part of canonical `main`.
+
+PR #32 changed exactly 13 authorized files: five files under
+`scripts/mellycore_batch/`, five Batch test files, and the three governance
+documents `shared_context/AGENT_HANDOFF.md`, `shared_context/PROJECT_STATE.md`,
+and `shared_context/SAFETY_CONTRACT.md`. It changed no `site/**` file.
+The `site` tree remained exactly
+`5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d` across the merge.
+
+The merge triggered an automatic Vercel Git deployment to Production:
+GitHub deployment `5683195625`, Vercel deployment
+`dpl_Bvijm1GRww7nVaLG4TwnUWBkZmuw`, deployment SHA
+`5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`. GitHub reported `success`;
+Vercel reported `READY`; the accepted public host
+`https://mellycore-aios-core.vercel.app` returned HTTP 200. No manual
+promotion, redeployment, cancellation, or other deployment mutation occurred.
+No page-level visual acceptance was performed or claimed. Because the static
+tree was unchanged, this deployment added no provider-secret dependency,
+backend route, serverless function, or Batch execution surface.
+
+`scripts/mellycore_batch/activation.py` is a local-only, fail-closed
 activation-control layer on top of the already-merged Batch foundation
 (`feat/mellycore-openai-batch-api-foundation-001`, head
-`d19dd2417d1a1008e976608c5560d858b5fb9574`). This is planning and validation
-only — it does not connect to OpenAI, does not import the `openai` SDK in
-any reachable path, and does not cross migration trigger #5.
+`d19dd2417d1a1008e976608c5560d858b5fb9574`). Stage B is now merged, but it
+remains planning and validation only: it does not connect to OpenAI, does not
+import the `openai` SDK in any reachable path, and does not cross migration
+trigger #5. No provider connection, credentialed request, upload, Batch
+operation, or paid action occurred during implementation review, merge, or
+this local documentation state sync. The OpenAI SDK remained absent from the
+reviewed environment.
 
 **Governance chain:**
 
@@ -547,7 +577,7 @@ any reachable path, and does not cross migration trigger #5.
   `STAGE_B_IMPLEMENTATION_AUTHORIZED`. That decision explicitly did **not**
   authorize Stage C: `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
   `MIGRATION_TRIGGER_5_NOT_YET_CROSSED`, and
-  `USD_0_01_SPEND_NOT_AUTHORIZED_BY_THIS_DECISION` all remain true after this
+  `USD_0_01_SPEND_NOT_AUTHORIZED_BY_THIS_DECISION` all remain true after the
   Stage B merge.
 
 **What Stage B is:** exact-model enforcement (`gpt-5.4-nano-2026-03-17`
@@ -586,24 +616,21 @@ provider-backed CLI command (`submit`, `status`, `list`, `download`,
 local-planning command, not a replacement for that gate.
 
 **Trigger #5 status:** migration trigger #5 ("first live provider
-connection") is **not** crossed by this merge and is only ever crossed by an
+connection") is **not** crossed by the merge and is only ever crossed by an
 actual, successful, credentialed connection to the OpenAI API — something
 this Stage B layer is explicitly designed never to perform. Stage C (an
 actual live Batch smoke test) remains a separate, not-yet-authorized future
-task: `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+decision task: `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+The hard `USD 0.01` spend boundary is likewise unavailable until separately
+authorized.
 
-**Production separation:** this change touches only files under
-`scripts/mellycore_batch/`, `tests/`, and this minimal `shared_context/`
-delta. Nothing under `site/**`, `vercel.json`, or `.github/**` changed, so
-the existing static Production boundary (Vercel Root Directory `site`,
-static-only, no provider SDK/credential/backend route/serverless
-function/Batch execution capability) is unaffected by construction. Per the
-existing Model A contract above, an eventual merge of this branch would
-still trigger an automatic Vercel Production deployment of the unchanged
-`site/` static artifact; this session did not independently re-verify that
-deployment's identity against a live Vercel API call (out of scope: no
-network access was authorized for this task) — confirming that remains a
-follow-up for whichever session actually merges this branch.
+**Production separation:** the reviewed Stage B change touched only files
+under `scripts/mellycore_batch/`, `tests/`, and the minimal
+`shared_context/` delta described above. Nothing under `site/**`,
+`vercel.json`, or `.github/**` changed, so the existing static Production
+boundary (Vercel Root Directory `site`, static-only, no provider
+SDK/credential/backend route/serverless function/Batch execution capability)
+remains intact.
 
 **Requirements-live.txt SDK version:** the Operator supplied the exact,
 local-only declaration `openai==2.48.0`. It is recorded as the sole line in
@@ -612,3 +639,77 @@ imports it. A previous worker performed a prohibited read-only
 `pip index versions openai` lookup. That policy violation is disclosed in
 the task completion report, and its output is not treated as authority for
 this pin. The pin's authority is the Operator's direct instruction.
+
+**Finite pricing authority:** pricing evidence was verified at
+`2026-07-28T22:00:34Z` and expires at `2026-08-27T22:00:34Z`. It remains
+authoritative only within that stated validity window and must be revalidated
+when the policy requires it, including at or after expiry and before any
+separately authorized live-smoke decision that depends on current pricing.
+
+**Independent adjacent state:** PR #28 remains open, non-draft, unmerged,
+intentionally paused, and currently `CONFLICTING / DIRTY` at
+`57bb841e67e9a5d557f88bf096537eba78df1cd8`; auto-merge remains absent.
+Physical Android Chromium Gate B remains `OPEN / NOT EXECUTED`. PR #32 and
+this state-sync task did not modify PR #28 or execute Gate B.
+
+**Review observations and incident:** F1 and N1–N7 remain deferred
+non-blocking observations. The prior prohibited PyPI lookup remains
+disclosed; its output is not authority for the dependency pin. Neither the
+merge nor this state sync closes, suppresses, or upgrades those observations.
+
+**Current PR #33 remediation state:** original state-sync commit
+`472fcd21e828a71f5d5cc6fbd8ab8bc4573e12d4` was independently reviewed
+locally, its branch was published, and
+[PR #33](https://github.com/Melly-999/mellycore-aios-core/pull/33) was
+created. PR #33 remains open, non-draft, unmerged, and not merge-authorized.
+PR review 001 returned
+`REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_001`
+after independently reproducing Codex P2 finding `Advance the canonical
+queue past the completed review`: this file, `AGENT_HANDOFF.md`, `ROADMAP.md`,
+and `RUN_QUEUE.md` retained stale present-tense claims that the original
+state-sync commit was local-only, unreviewed, and unpushed and retained the
+already-completed local review as the next task. Local remediation commit
+`c0f69c5a4e6aa41e738d0c271c70e1e8ec585d3c` addressed this finding.
+
+**Remediation review 001 and remediation 002:** review 001 returned
+`PASS_WITH_NOTES_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REMEDIATION_REVIEW_001`
+against remediation commit `c0f69c5…`. The Codex P2 defect was confirmed
+resolved. One concrete factual note was raised: `AGENT_HANDOFF.md` and
+`RUN_QUEUE.md` carried an invalid 38-character static `site` subtree
+identifier (`5df8bb686eb5b13bcf1fe2ad2ef6bc796bfc5d`) instead of the
+authoritative Git object `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`; two
+closely related, non-blocking consistency notes were also raised — an
+inconsistent Stage B state code in `AGENT_HANDOFF.md`, and an unnamed
+merge-task identifier in `ROADMAP.md`. Local remediation commit
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002`
+corrects all three. At the start of this second remediation, the one Codex
+thread (`discussion_r3690288402`) remained unresolved. This task does not
+reply to or resolve it.
+
+**Gated completion path:** at creation of the local remediation-002 commit,
+that commit is local-only and unreviewed, and the exact immediate next task
+is
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002-REVIEW-001`.
+This is a time-scoped task-creation statement. Only a PASS may advance to
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`,
+which must push the exact reviewed final head — the full three-commit chain
+built on the currently published one-commit head `472fcd21…` — by normal
+SHA-to-ref fast-forward, discovering the final commit's SHA only after it
+exists. It must verify the remote and PR heads then confirm three commits,
+update and re-fetch the PR body to list both remediation commits and the
+exact final head while preserving the cumulative five-file scope and
+validation provenance, correct the published static-site subtree evidence,
+describe the P2 finding and both remediation steps, reply with exact
+published evidence, resolve the thread only after verifying the correction,
+verify checks and Preview, and leave PR #33 open, unmerged, and without
+auto-merge. Push without complete body and thread reconciliation is partial
+or blocked and cannot advance to a fresh independent
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`.
+Only review 002 PASS may permit the separately authorized merge task
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`.
+Only after review, merge, and canonical reconciliation may
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
+separate decision task. None of this authorizes merge, Stage C, provider
+connection, migration trigger #5, or USD 0.01 spend. Task-record next-task
+fields are creation-time historical snapshots, superseded by this file,
+`AGENT_HANDOFF.md`, and `RUN_QUEUE.md`.

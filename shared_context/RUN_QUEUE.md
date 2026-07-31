@@ -44,6 +44,94 @@ or 3D implementation. A successful merge does not automatically require a
 post-merge synchronization task; another sync is warranted only if a concrete
 live canonical statement becomes false.
 
+## Current — OpenAI Batch PR #33 Living-State Remediation Gate
+
+Completed:
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-MERGE-001`. PR #32 merged
+by GitHub merge commit at `2026-07-30T22:19:15Z`; canonical `main` is
+`5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`. Its automatic Vercel Production
+deployment succeeded (`5683195625` /
+`dpl_Bvijm1GRww7nVaLG4TwnUWBkZmuw`, `READY`, accepted host HTTP 200), while
+the static `site` tree remained unchanged at
+`5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`.
+
+Original state-sync commit
+`472fcd21e828a71f5d5cc6fbd8ab8bc4573e12d4` was independently reviewed
+locally, the branch was published, and
+[PR #33](https://github.com/Melly-999/mellycore-aios-core/pull/33) was
+created. PR #33 remains open, non-draft, unmerged, and not merge-authorized.
+PR review 001 returned
+`REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_001`.
+It independently reproduced Codex P2 finding `Advance the canonical queue
+past the completed review`: `PROJECT_STATE.md`, `AGENT_HANDOFF.md`,
+`ROADMAP.md`, and this queue retained stale local-only, unreviewed, unpushed,
+and completed-review-as-next-task claims. Local remediation commit
+`c0f69c5…` addressed this finding.
+
+Remediation review 001 returned
+`PASS_WITH_NOTES_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REMEDIATION_REVIEW_001`.
+The Codex P2 defect was confirmed resolved. The sole factual note was an
+invalid 38-character static `site` subtree identifier
+(`5df8bb686eb5b13bcf1fe2ad2ef6bc796bfc5d`) in this queue and
+`AGENT_HANDOFF.md`, in place of the authoritative Git object
+`5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`; two closely related, non-blocking
+consistency notes were also raised (an inconsistent Stage B state code and
+an unnamed merge task). Local remediation commit
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002`
+corrects all three. At the start of this second remediation, the one Codex
+thread (`discussion_r3690288402`) remained unresolved; this task does not
+reply to or resolve it.
+
+**Exact immediate next task at creation of the local remediation-002
+commit:**
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002-REVIEW-001`.
+At creation, the remediation-002 commit is local-only and unreviewed. This
+is a time-scoped task-creation statement, not a permanent workflow
+invariant.
+
+Only after that review returns PASS may
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`
+perform the exact-head publication and reconciliation gate. It must:
+
+1. push the exact independently reviewed final head — the full three-commit
+   chain built on the currently published one-commit head `472fcd21…` — by
+   a normal SHA-to-ref fast-forward, discovering the final commit's SHA
+   only after it exists;
+2. verify the remote branch and PR #33 head then confirm three commits;
+3. update the PR body from one published commit to the full three-commit
+   chain, list both remediation commits and the exact final head, preserve
+   the exact five-file scope and validation provenance, correct the
+   published static-site subtree evidence, and describe the Codex P2
+   finding and both remediation steps;
+4. reply to the Codex thread with exact published evidence and resolve it
+   only after verifying the correction is present;
+5. re-fetch and verify the PR body, checks, and Preview; and
+6. leave PR #33 open, unmerged, and without auto-merge.
+
+That future publication task is incomplete if only the push succeeds. A
+stale PR body, missing evidence reply, unresolved thread, or any mismatch
+must produce a partial or blocked outcome and must not advance to fresh
+independent
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`.
+Only review 002 PASS may allow a separately authorized
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`.
+Only after review, merge, and canonical reconciliation may
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
+separate decision task, not live execution authorization.
+
+Task-record next-task fields are creation-time historical snapshots,
+superseded by this queue and `AGENT_HANDOFF.md`.
+
+This queue entry does not authorize PR #33 merge, Stage C, or live execution.
+`STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
+`USD_0_01_SPEND_NOT_AUTHORIZED`, and
+`MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding. Provider policy remains
+`LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5` (exit code `78`).
+F1 and N1–N7 remain deferred non-blocking observations; the prior PyPI lookup
+policy violation remains disclosed. PR #28 remains directly untouched, open,
+unmerged, intentionally paused, and `CONFLICTING / DIRTY`; Gate B remains
+`OPEN / NOT EXECUTED`.
+
 ## 3D Scene Foundation — PR #28 Paused State
 
 The durable product successor after Control Plane specification acceptance,
@@ -51,8 +139,8 @@ The durable product successor after Control Plane specification acceptance,
 `feat/mellycore-3d-scene-foundation-001` and published as
 [PR #28](https://github.com/Melly-999/mellycore-aios-core/pull/28) (head
 `57bb841e67e9a5d557f88bf096537eba78df1cd8`, two commits, twelve changed
-files). PR #28 remains **open, unmerged, mergeable, and intentionally
-paused** — it is **not authorized to merge**.
+files). PR #28 remains **open, unmerged, and intentionally paused**; GitHub
+reports **`CONFLICTING / DIRTY`**. It is **not authorized to merge**.
 
 Repository-verified evidence: independent foundation review returned
 `PASS_WITH_NOTES_3D_SCENE_FOUNDATION_REVIEW`; desktop accessibility/
@@ -532,8 +620,9 @@ fallback spec — all of which remain `NOT_IMPLEMENTED`/`NOT_STARTED`.
   (items 2s–2u): PR #11 merged into canonical `main` via merge commit
   `cad4e07f73f80c5794f9af2897fc10d922637ab3`. No Three.js implementation,
   dependency vendoring, NASA runtime retirement, or release/deployment
-  exists at any point in this chain. The current exact next task is
-  `MELLYCORE-DOCS-INTEGRATION-REVIEW-001`.
+  exists at any point in this chain. Its then-current exact next task was
+  `MELLYCORE-DOCS-INTEGRATION-REVIEW-001`; the live current pointer is the
+  OpenAI Batch post-merge documentation gate above.
 
 ## Standing Safety Gate
 
