@@ -1,8 +1,8 @@
 # Agent Handoff
 
-## Latest Update — PR #33 review requires living-state remediation
+## Latest Update — PR #33 remediation reviewed with notes; remediation 002 corrects evidence
 
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-001`
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002`
 
 ### Canonical merge and Production state
 
@@ -15,7 +15,7 @@
   seven reviewed PR commits are canonical.
 - PR #32 retained exactly its authorized 13-file scope and changed no
   `site/**` file. The static `site` tree remained
-  `5df8bb686eb5b13bcf1fe2ad2ef6bc796bfc5d`.
+  `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`.
 - The automatic Vercel Git deployment succeeded in Production: GitHub
   deployment `5683195625`, Vercel deployment
   `dpl_Bvijm1GRww7nVaLG4TwnUWBkZmuw`, exact deployment SHA
@@ -28,7 +28,7 @@
 ### Safety and adjacent gates
 
 - Stage B controlled activation is merged:
-  `STAGE_B_OPENAI_BATCH_CONTROLLED_ACTIVATION_MERGED_STATE_SYNC_PR_REMEDIATION_REQUIRED`.
+  `STAGE_B_OPENAI_BATCH_CONTROLLED_ACTIVATION_MERGED_STATE_SYNC_PR_REMEDIATION_COMPLETE_NOT_REVIEWED`.
   Stage C remains `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`; the hard
   `USD 0.01` boundary remains `USD_0_01_SPEND_NOT_AUTHORIZED`; migration
   trigger #5 remains `MIGRATION_TRIGGER_5_NOT_YET_CROSSED`.
@@ -58,29 +58,55 @@
 - PR review 001 returned
   `REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_001`.
   It independently reproduced Codex P2 finding `Advance the canonical queue
-  past the completed review`: the current workflow in `PROJECT_STATE.md`,
-  this handoff, `ROADMAP.md`, and `RUN_QUEUE.md` still described the original
-  state-sync commit as local-only, unreviewed, and unpushed and still pointed
-  to the completed local review.
-- At the start of this remediation, the one Codex P2 thread
-  (`discussion_r3690288402`) was unresolved. This task does not reply to or
-  resolve it. At creation of the local remediation commit, that commit is
-  local-only and unreviewed; this is a time-scoped task-creation fact, not a
-  permanent workflow invariant.
-- At creation of the local remediation commit, the exact immediate next task
-  is
-  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-REVIEW-001`.
+  past the completed review`: the then-current workflow in
+  `PROJECT_STATE.md`, this handoff, `ROADMAP.md`, and `RUN_QUEUE.md` still
+  described the original state-sync commit as local-only, unreviewed, and
+  unpushed and still pointed to the completed local review. That defect was
+  remediated by local remediation commit
+  `c0f69c5a4e6aa41e738d0c271c70e1e8ec585d3c`.
+- Remediation review 001 returned
+  `PASS_WITH_NOTES_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REMEDIATION_REVIEW_001`
+  against remediation commit `c0f69c5…`. The Codex P2 defect was confirmed
+  resolved. One concrete factual note was raised: `AGENT_HANDOFF.md` and
+  `RUN_QUEUE.md` carried an invalid 38-character static `site` subtree
+  identifier (`5df8bb686eb5b13bcf1fe2ad2ef6bc796bfc5d`) instead of the
+  authoritative Git object `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`; two
+  closely related, non-blocking consistency notes were also raised — an
+  inconsistent Stage B state code in this file, and an unnamed merge-task
+  identifier in `ROADMAP.md`. Remediation commit
+  `c0f69c5a4e6aa41e738d0c271c70e1e8ec585d3c` itself remains unchanged and
+  reviewed; it is not amended.
+- Local remediation commit
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002`
+  (subject `docs: correct Batch state-sync remediation evidence`) corrects
+  the invalid subtree identifier, normalizes the Stage B state code, names
+  the exact conditional merge task, and reconciles this living workflow from
+  a future two-commit PR state to the correct future three-commit PR state.
+  At creation, this remediation-002 commit is local-only and unreviewed;
+  this is a time-scoped task-creation fact, not a permanent workflow
+  invariant. The one Codex P2 thread (`discussion_r3690288402`) remains
+  unresolved; this task does not reply to or resolve it.
+- At creation of the local remediation-002 commit, the exact immediate next
+  task is
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002-REVIEW-001`.
 - Only after that review returns PASS may
   `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`
-  push the exact reviewed head by normal SHA-to-ref fast-forward. That task
-  must verify the remote branch and PR head, update the PR body from one to
-  two commits with the actual remediation SHA while preserving the exact
-  five-file PR scope and validation provenance, describe the Codex P2 finding
-  and remediation, reply to the thread with exact published evidence, resolve
-  it only after verifying the correction, re-fetch and verify the body,
-  checks, and Preview, and leave PR #33 open, unmerged, and without
-  auto-merge. A successful push without complete body and thread
-  reconciliation is a partial or blocked outcome and cannot advance.
+  push the exact reviewed final local head — the tip of the three-commit
+  chain (the original state-sync commit, remediation commit `c0f69c5…`, and
+  the remediation-002 commit) — by normal SHA-to-ref fast-forward from the
+  currently published one-commit head `472fcd21…`. That task must discover
+  the final commit's SHA only after it is created and never embed it in
+  advance; verify the remote branch and PR head then show three commits;
+  update the PR body from one published commit to the full three-commit
+  chain, list both remediation commits and the exact final head, correct
+  the published static-site subtree evidence, describe the original Codex
+  P2 finding and both remediation steps separately, preserve the exact
+  cumulative five-file PR scope and validation provenance, reply to the
+  thread with exact published evidence, resolve it only after verifying the
+  correction is present remotely, re-fetch and verify the body, checks, and
+  Preview, and leave PR #33 open, unmerged, and without auto-merge. A
+  successful push without complete body and thread reconciliation is a
+  partial or blocked outcome and cannot advance.
 - Only after complete publication and reconciliation may a fresh independent
   session run
   `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`.
@@ -93,6 +119,10 @@
   separate decision task. It is not live execution authorization; Stage C,
   the USD 0.01 spend, migration trigger #5, and provider operations remain
   blocked.
+- Task-record next-task fields (e.g. in
+  `docs/tasks/MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-001.md`)
+  are creation-time historical snapshots; this handoff and `RUN_QUEUE.md`
+  are the operative current-state pointers and supersede them.
 
 ## Previous Historical Update — Batch PR publication workflow required verified body reconciliation
 

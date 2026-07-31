@@ -668,27 +668,48 @@ after independently reproducing Codex P2 finding `Advance the canonical
 queue past the completed review`: this file, `AGENT_HANDOFF.md`, `ROADMAP.md`,
 and `RUN_QUEUE.md` retained stale present-tense claims that the original
 state-sync commit was local-only, unreviewed, and unpushed and retained the
-already-completed local review as the next task. At the start of remediation,
-the one Codex thread (`discussion_r3690288402`) was unresolved. This task does
-not reply to or resolve it.
+already-completed local review as the next task. Local remediation commit
+`c0f69c5a4e6aa41e738d0c271c70e1e8ec585d3c` addressed this finding.
 
-**Gated completion path:** at creation of the local remediation commit, that
-commit is local-only and unreviewed, and the exact immediate next task is
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-REVIEW-001`.
+**Remediation review 001 and remediation 002:** review 001 returned
+`PASS_WITH_NOTES_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REMEDIATION_REVIEW_001`
+against remediation commit `c0f69c5…`. The Codex P2 defect was confirmed
+resolved. One concrete factual note was raised: `AGENT_HANDOFF.md` and
+`RUN_QUEUE.md` carried an invalid 38-character static `site` subtree
+identifier (`5df8bb686eb5b13bcf1fe2ad2ef6bc796bfc5d`) instead of the
+authoritative Git object `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`; two
+closely related, non-blocking consistency notes were also raised — an
+inconsistent Stage B state code in `AGENT_HANDOFF.md`, and an unnamed
+merge-task identifier in `ROADMAP.md`. Local remediation commit
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002`
+corrects all three. At the start of this second remediation, the one Codex
+thread (`discussion_r3690288402`) remained unresolved. This task does not
+reply to or resolve it.
+
+**Gated completion path:** at creation of the local remediation-002 commit,
+that commit is local-only and unreviewed, and the exact immediate next task
+is
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002-REVIEW-001`.
 This is a time-scoped task-creation statement. Only a PASS may advance to
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`,
-which must push the exact reviewed head by normal SHA-to-ref fast-forward,
-verify the remote and PR heads, update and re-fetch the PR body with the
-actual remediation SHA and two-commit identity while preserving the exact
-five-file scope and validation provenance, describe the P2 remediation,
-reply with exact published evidence, resolve the thread only after verifying
-the correction, verify checks and Preview, and leave PR #33 open, unmerged,
-and without auto-merge. Push without complete body and thread reconciliation
-is partial or blocked and cannot advance to a fresh independent
+which must push the exact reviewed final head — the full three-commit chain
+built on the currently published one-commit head `472fcd21…` — by normal
+SHA-to-ref fast-forward, discovering the final commit's SHA only after it
+exists. It must verify the remote and PR heads then confirm three commits,
+update and re-fetch the PR body to list both remediation commits and the
+exact final head while preserving the cumulative five-file scope and
+validation provenance, correct the published static-site subtree evidence,
+describe the P2 finding and both remediation steps, reply with exact
+published evidence, resolve the thread only after verifying the correction,
+verify checks and Preview, and leave PR #33 open, unmerged, and without
+auto-merge. Push without complete body and thread reconciliation is partial
+or blocked and cannot advance to a fresh independent
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`.
-Only review 002 PASS may permit a separately authorized
+Only review 002 PASS may permit the separately authorized merge task
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`.
 Only after review, merge, and canonical reconciliation may
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
 separate decision task. None of this authorizes merge, Stage C, provider
-connection, migration trigger #5, or USD 0.01 spend.
+connection, migration trigger #5, or USD 0.01 spend. Task-record next-task
+fields are creation-time historical snapshots, superseded by this file,
+`AGENT_HANDOFF.md`, and `RUN_QUEUE.md`.
