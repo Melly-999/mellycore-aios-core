@@ -332,59 +332,50 @@ this roadmap entry.
   `5e7628a72a22fc10ecd0f9a25515ab61eb7223b9` at
   `2026-07-30T22:19:15Z`. Canonical `main` contains the exact reviewed tree
   and all seven reviewed commits.
-- **Published state-sync:** original state-sync commit `472fcd21…` was
-  independently reviewed locally, its branch was published, and PR #33 was
-  created. PR #33 remains open, non-draft, unmerged, and not
-  merge-authorized.
-- **PR review 001:** returned
-  `REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_001`.
-  Codex P2 finding `Advance the canonical queue past the completed review`
-  identified stale present-tense workflow state across `PROJECT_STATE.md`,
-  `AGENT_HANDOFF.md`, this roadmap, and `RUN_QUEUE.md`. At the start of that
-  remediation, its single thread (`discussion_r3690288402`) was unresolved.
-  Local remediation commit `c0f69c5…` addressed this finding.
-- **Remediation review 001:** returned
-  `PASS_WITH_NOTES_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REMEDIATION_REVIEW_001`.
-  The Codex P2 defect was confirmed resolved; the sole factual note was an
-  invalid 38-character static `site` subtree identifier in
-  `AGENT_HANDOFF.md` and `RUN_QUEUE.md`, plus two non-blocking consistency
-  notes (an inconsistent Stage B state code and an unnamed merge task).
-  Local remediation commit
-  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002`
-  corrects all three.
-- **Time-scoped remediation gate:** at creation of the local remediation-002
-  commit, that commit is local-only and unreviewed. The exact immediate next
-  task is
-  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002-REVIEW-001`.
-- **Required completion path after a PASS:**
-  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-PUSH-001`
-  must push the exact reviewed final local head — the full three-commit
-  chain built on the currently published one-commit head `472fcd21…` — by
-  normal SHA-to-ref fast-forward, discovering the final commit's SHA only
-  after it exists. It must verify the remote and PR heads then show three
-  commits, update and re-fetch the PR body to list both remediation commits
-  and the exact final head while preserving the cumulative five-file scope
-  and validation provenance, correct the published static-site subtree
-  evidence, describe the P2 finding and both remediation steps, reply with
-  exact published evidence, resolve the thread only after verification,
-  verify checks and Preview, and leave PR #33 open, unmerged, and without
-  auto-merge. Push without complete metadata and thread reconciliation is
-  partial or blocked. Only then may a fresh independent
-  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REVIEW-002`
-  run; only its PASS may permit the separately authorized merge task
-  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`.
-- **Conditional later decision, only after reviewed, merged, and canonically
-  reconciled state sync:**
-  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+- **Completed: PR #33 governance state-sync merged.** Original state-sync
+  commit `472fcd21…`, remediation 001 (`c0f69c5…`), and remediation 002
+  (`ab5a6d7…`) were published, reconciled, and independently reviewed
+  (`PASS_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_002`).
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`
+  merged PR #33 at `2026-07-31T15:52:54Z` via GitHub merge commit
+  `f118110181fe5428940ac86256dedc63f52282a6` (first parent
+  `5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`, second parent exact reviewed
+  head `ab5a6d775ff86bc051788ca2927e17c3d8eab880`; merge tree
+  `e49a392614b10be2e235dcb85ad374004bbced0b` identical to the reviewed-head
+  tree). PR #33's exact three-commit, five-file documentation-only scope is
+  now canonical on `main`; the static `site` tree remained unchanged at
+  `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`. The Codex thread
+  (`discussion_r3690288402`) is resolved with a published evidence reply.
+  The automatic Vercel Production deployment succeeded for the exact merge
+  commit (GitHub deployment `5694313001`, `success`); the accepted host
+  `https://mellycore-aios-core.vercel.app` returned HTTP 200; no manual
+  deployment action or page-level visual acceptance occurred.
+- **Final canonical reconciliation:**
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`
+  records this merged, Production-verified state as the durable Stage B
+  governance baseline. At creation of its local documentation commit, that
+  commit is local-only and unreviewed — a time-scoped creation fact. The
+  exact immediate next task at creation time is
+  `-RECONCILIATION-REVIEW-001`.
+- **Required completion path after a PASS:** `-RECONCILIATION-PUSH-001`,
+  then `-RECONCILIATION-PR-CREATION-001`, then `-RECONCILIATION-PR-REVIEW-001`,
+  then `-RECONCILIATION-MERGE-001`. Once that reconciliation content is
+  independently reviewed, merged into canonical `main`, and its automatic
+  Production deployment is verified, the canonical state it describes is the
+  final reconciled Stage B governance baseline — no further state-sync task
+  is required solely to restate the PR #33 merge already recorded above.
+- **Conditional later decision, only after the reconciliation chain
+  completes:** `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` — a
+  separate decision task, not live execution authorization.
 - Task-record next-task fields are creation-time historical snapshots,
   superseded by this roadmap and `RUN_QUEUE.md`.
 
-This remediation and roadmap state do not authorize PR #33 merge, Stage C,
-or live Batch execution. Live smoke remains a separate Operator decision; the
-hard `USD 0.01` boundary remains unavailable until separately authorized;
-migration trigger #5 remains uncrossed; provider policy remains fail-closed.
-The PR #32 merge changed no `site/**` file, and its automatic Production
-deployment published the unchanged static tree only.
+This state sync does not authorize Stage C or live Batch execution. Live
+smoke remains a separate Operator decision; the hard `USD 0.01` boundary
+remains unavailable until separately authorized; migration trigger #5
+remains uncrossed; provider policy remains fail-closed. Neither the PR #32
+merge nor the PR #33 merge changed any `site/**` file; both automatic
+Production deployments published the unchanged static tree only.
 
 ## Safety Gates
 

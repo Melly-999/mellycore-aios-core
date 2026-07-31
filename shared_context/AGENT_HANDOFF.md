@@ -1,6 +1,95 @@
 # Agent Handoff
 
-## Latest Update — PR #33 remediation reviewed with notes; remediation 002 corrects evidence
+## Latest Update — PR #33 merged; final canonical state reconciliation in progress
+
+`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`
+
+### PR #33 merge and Production verification
+
+- Independent PR review 002 returned
+  `PASS_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REVIEW_002`
+  after the publication/reconciliation task
+  (`SUCCESS_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_POST_MERGE_STATE_SYNC_PR_REMEDIATION_PUSH_001_PUBLISHED_RECONCILED_AWAITING_REVIEW_002`)
+  published the exact reviewed three-commit chain and reconciled the PR body
+  and Codex thread.
+- `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-MERGE-001`
+  then merged
+  [PR #33](https://github.com/Melly-999/mellycore-aios-core/pull/33) at
+  `2026-07-31T15:52:54Z` using GitHub's merge-commit method. Exact reviewed
+  head `ab5a6d775ff86bc051788ca2927e17c3d8eab880` is the second parent of
+  merge commit `f118110181fe5428940ac86256dedc63f52282a6`; first parent is
+  `5e7628a72a22fc10ecd0f9a25515ab61eb7223b9`. The merge tree
+  (`e49a392614b10be2e235dcb85ad374004bbced0b`) is identical to the
+  reviewed-head tree, and canonical `main` now points to the merge commit.
+  PR #33's exact three-commit, five-file documentation-only scope is
+  canonical; no `site/**` file changed and the static `site` tree remained
+  `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`. The source branch
+  `docs/mellycore-openai-batch-post-merge-state-sync-001` is preserved, and
+  the one Codex thread (`discussion_r3690288402`) is resolved with a
+  published evidence reply matching the merged state.
+- The automatic Vercel Git deployment succeeded in Production for the exact
+  merge commit: GitHub deployment `5694313001`, SHA
+  `f118110181fe5428940ac86256dedc63f52282a6`, state `success`, source
+  automatic Git deployment. The accepted public host
+  `https://mellycore-aios-core.vercel.app` returned HTTP 200. No manual
+  deployment action occurred and no page-level visual acceptance was
+  performed or claimed. The exact Vercel deployment ID was not obtainable
+  from the read-only sources available during reconciliation (no
+  authenticated Vercel CLI/API access in that environment) and is recorded
+  as not independently verified rather than invented.
+
+### Safety and adjacent gates
+
+- Stage B controlled activation and its governance state-sync are both
+  merged into canonical `main`:
+  `STAGE_B_OPENAI_BATCH_CONTROLLED_ACTIVATION_STATE_SYNC_MERGED_CANONICAL_RECONCILIATION_REQUIRED`.
+  `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`, the hard `USD 0.01` boundary
+  (`USD_0_01_SPEND_NOT_AUTHORIZED`), and migration trigger #5
+  (`MIGRATION_TRIGGER_5_NOT_YET_CROSSED`) remain binding. Provider policy
+  remains fail-closed at
+  `LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5`, exit code `78`;
+  the OpenAI SDK remains absent from the reviewed environment.
+- Pricing evidence remains finite: verified `2026-07-28T22:00:34Z`, expires
+  `2026-08-27T22:00:34Z`, and must be revalidated when required.
+- PR #28 remains open, non-draft, unmerged, intentionally paused, and
+  `CONFLICTING / DIRTY` at `57bb841e67e9a5d557f88bf096537eba78df1cd8`; it is
+  directly untouched. Physical Android Chromium Gate B remains
+  `OPEN / NOT EXECUTED`.
+- F1 and N1–N7 remain deferred non-blocking observations. The prior PyPI
+  lookup policy violation remains disclosed and non-authoritative.
+
+### Final canonical reconciliation workflow
+
+- This entry's task
+  (`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`)
+  creates one local documentation commit (`docs: reconcile final Batch
+  activation state`, parent `f118110181fe5428940ac86256dedc63f52282a6`) on a
+  dedicated worktree/branch. At creation, that commit is local-only and
+  unreviewed — a time-scoped creation fact, not a permanent claim about this
+  file's own content.
+- Exact immediate next task at creation time:
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-REVIEW-001`.
+- Only after that review passes: `-RECONCILIATION-PUSH-001` (push the exact
+  reviewed head), then `-RECONCILIATION-PR-CREATION-001` (open a PR), then
+  `-RECONCILIATION-PR-REVIEW-001` (independent PR review), then
+  `-RECONCILIATION-MERGE-001` (merge into canonical `main` and verify the
+  resulting automatic Production deployment).
+- Once that chain independently reviews, merges, and Production-verifies
+  this reconciliation content, the canonical state it describes is the
+  final reconciled Stage B governance baseline. No further state-sync task
+  is required solely to restate the PR #33 merge recorded above. The next
+  eligible task then becomes
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` — a separate
+  decision task, not live execution authorization. None of this authorizes
+  Stage C, provider connection, migration trigger #5, or USD 0.01 spend.
+- Task-record next-task fields (e.g. in
+  `docs/tasks/MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-001.md`
+  and
+  `docs/tasks/MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001.md`)
+  are creation-time historical snapshots; this handoff and `RUN_QUEUE.md`
+  are the operative current-state pointers and supersede them.
+
+## Previous Update — PR #33 remediation reviewed with notes; remediation 002 corrects evidence
 
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-POST-MERGE-STATE-SYNC-PR-REMEDIATION-002`
 
