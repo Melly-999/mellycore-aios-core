@@ -55,11 +55,18 @@
   `MIGRATION_TRIGGER_5_EXACT_CROSSING_PROPOSED_NOT_CROSSED`, and
   `PROVIDER_CONNECTION_NOT_EXECUTED` all hold.
 - This authorization is single-use, exact-scope, and expires at or after
-  `2026-08-27T22:00:34Z` (pricing-evidence `valid_until`), on canonical-main
-  drift beyond `947f33d27d5546775186e96bdc61e30db78c0b3d`, on any
+  `2026-08-27T22:00:34Z` (pricing-evidence `valid_until`), on any
   model/pricing/policy drift, or on any change to the exact recorded payload.
-  It is not a blanket or standing approval and cannot be reused for another
-  model, request, file, Batch, or amount.
+  The separately authorized publication merge of this exact reviewed commit
+  into canonical `main` is an explicitly sanctioned transition, not
+  invalidating drift, even though it necessarily advances `main` beyond the
+  pre-publication base `947f33d27d5546775186e96bdc61e30db78c0b3d` (an
+  evidence anchor only); that publication merge commit instead becomes the
+  activation baseline, and this authorization expires on any later
+  canonical-main drift beyond that baseline — see the task record's
+  "Canonical publication, activation, and drift" section. It is not a
+  blanket or standing approval and cannot be reused for another model,
+  request, file, Batch, or amount.
 - Exact next task:
   `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh,
   independent review of this authorization record, required before

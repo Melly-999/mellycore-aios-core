@@ -732,9 +732,18 @@ constants in `scripts/mellycore_batch/activation.py`; it changes no code,
 policy, or pricing value.
 
 This authorization is single-use, exact-scope, and expires automatically at
-or after `2026-08-27T22:00:34Z`, on canonical-`main` drift beyond
-`947f33d27d5546775186e96bdc61e30db78c0b3d`, on any model/pricing/policy
-drift, or on any change to the exact recorded payload. It does **not**
+or after `2026-08-27T22:00:34Z`, on any model/pricing/policy drift, or on any
+change to the exact recorded payload. The separately authorized publication
+merge of this exact reviewed commit into canonical `main` is an explicitly
+sanctioned transition, not invalidating drift, even though it necessarily
+advances `main` beyond the pre-publication base
+`947f33d27d5546775186e96bdc61e30db78c0b3d` (that base is only a branch-origin
+evidence anchor). That publication merge commit instead becomes the
+**activation baseline**; this authorization expires on any later
+canonical-`main` drift beyond that activation baseline, with ancestry alone
+insufficient to preserve validity. See the task record's "Canonical
+publication, activation, and drift" section for the full mechanism. It does
+**not**
 authorize provider connection, credential access, file upload, Batch
 submission, status polling against a live Batch, download, cancellation, or
 spend — none of those occurred while producing this record. It does not

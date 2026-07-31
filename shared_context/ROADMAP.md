@@ -378,10 +378,14 @@ this roadmap entry.
   `docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md`. It
   authorizes no provider connection, upload, Batch submission, poll,
   download, cancellation, or spend now; it expires at pricing-evidence
-  expiry (`2026-08-27T22:00:34Z`), on canonical-main drift, or on any
-  payload/model/policy change, and is not reusable or standing. Exact next
-  task: `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a
-  fresh independent review required before publication, merge, or execution.
+  expiry (`2026-08-27T22:00:34Z`) or on any payload/model/policy change, and
+  is not reusable or standing. The sanctioned publication merge of this
+  exact reviewed commit into canonical `main` does not itself invalidate it
+  (that merge commit becomes the activation baseline); only later drift
+  beyond that baseline does — see the task record's "Canonical publication,
+  activation, and drift" section. Exact next task:
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh
+  independent review required before publication, merge, or execution.
 - Task-record next-task fields are creation-time historical snapshots,
   superseded by this roadmap and `RUN_QUEUE.md`.
 

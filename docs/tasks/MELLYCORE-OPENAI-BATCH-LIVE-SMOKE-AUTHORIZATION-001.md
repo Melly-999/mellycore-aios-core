@@ -299,6 +299,46 @@ model, endpoint, or cost bound differs even slightly from this record; a
 second Batch would be required; or explicit operator confirmation has not
 been freshly obtained for that specific execution.
 
+## Canonical publication, activation, and drift
+
+This authorization is only a proposal while it exists locally or on a
+non-canonical branch. It cannot be used for provider access or live
+execution in that state.
+
+The separately authorized GitHub merge of the exact independently reviewed
+authorization head into canonical `main` is an explicitly sanctioned
+publication transition. That exact publication merge does not invalidate
+this authorization merely because canonical `main` advances beyond the
+pre-publication branch base `947f33d27d5546775186e96bdc61e30db78c0b3d`.
+
+The pre-publication base is an evidence anchor for branch origin. It is not
+the post-publication activation baseline.
+
+This authorization becomes eligible for a later execution decision only
+after a fresh preflight verifies the actual authorization publication merge
+commit and proves all of the following:
+
+1. the merge was created from the exact independently reviewed authorization
+   head;
+2. the publication merge commit has exactly two parents;
+3. its second parent is the exact reviewed authorization head;
+4. its merge tree equals the reviewed authorization-head tree;
+5. current canonical `main` equals that exact publication merge commit;
+6. every other pricing, payload, model, policy, credential, expiry, and
+   safety gate below remains valid.
+
+That exact publication merge commit is the **activation baseline**.
+
+Any later advancement of canonical `main` beyond the activation baseline
+invalidates this authorization. Ancestry or containment alone does not
+preserve validity after later canonical drift. A fresh authorization
+decision and independent review are then required.
+
+Canonical publication does not by itself authorize execution. The later
+execution task still requires a fresh preflight (see "Required fresh
+execution preflight" below) and explicit operator approval (see "Required
+explicit operator confirmation" below).
+
 ## Authorization invalidation conditions
 
 This authorization is single-use, exact-scope, and expiring. It is
@@ -307,10 +347,17 @@ first:
 
 - **Pricing-evidence expiry**: at or after `2026-08-27T22:00:34Z`
   (`valid_until` in `scripts/mellycore_batch/openai_batch_pricing.json`).
-- **Canonical-main drift**: if canonical `main` advances beyond
-  `947f33d27d5546775186e96bdc61e30db78c0b3d` before the future execution task
-  runs, that task must re-derive and re-authorize against the new base rather
-  than reuse this record.
+- **Canonical-main drift (post-activation)**: before this authorization is
+  activated (see "Canonical publication, activation, and drift" above), the
+  sanctioned publication merge of the exact reviewed authorization head into
+  canonical `main` does **not** invalidate this authorization, even though it
+  necessarily advances canonical `main` beyond the pre-publication base
+  `947f33d27d5546775186e96bdc61e30db78c0b3d`. Once activated, if canonical
+  `main` advances beyond the activation-baseline publication merge commit
+  before the future execution task runs, that task must stop; ancestry or
+  containment of the reviewed commit does not preserve validity; a fresh
+  authorization decision and independent review are required rather than
+  reusing this record.
 - **Model/pricing/policy drift**: any change to `STAGE_B_MODEL`, the pricing
   manifest's rates, `STAGE_B_HARD_COST_CAP_USD`, or
   `scripts/mellycore_batch/policy.py`'s hardcoded policy.
