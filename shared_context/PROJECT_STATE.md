@@ -739,10 +739,12 @@ sanctioned transition, not invalidating drift, even though it necessarily
 advances `main` beyond the pre-publication base
 `947f33d27d5546775186e96bdc61e30db78c0b3d` (that base is only a branch-origin
 evidence anchor). That publication merge commit instead becomes the
-**activation baseline**; this authorization expires on any later
-canonical-`main` drift beyond that activation baseline, with ancestry alone
-insufficient to preserve validity. See the task record's "Canonical
-publication, activation, and drift" section for the full mechanism. It does
+**authorization-publication baseline**. It governs canonical identity until
+the exact separately authorized and independently reviewed Model B
+implementation transition described in the remediation 002 state machine
+below; unrelated canonical advancement remains invalidating and ancestry
+alone remains insufficient. See the task record's "Canonical publication,
+activation, and drift" section for the full phase-specific mechanism. It does
 **not**
 authorize provider connection, credential access, file upload, Batch
 submission, status polling against a live Batch, download, cancellation, or
@@ -778,23 +780,45 @@ self-invalidating contradiction confirmed against actual source and via
 fresh fail-closed re-verification (all five provider commands still exit
 `78` with `LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5`).
 
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-001`
-repairs this in documentation only: the current implementation is recorded
-as having no production allow-path, so PR #35's canonical publication alone
-would not make the smoke executable; the fail-closed default remains
-required; a future, separately authorized Model B implementation task is
-required to introduce a bounded, one-use, expiring, envelope-bound,
-test-covered runtime authorization mechanism (never a persistent
-`allowed=True`, local edit, monkeypatch, generic environment-variable
-override, or unrestricted CLI flag); and only the exact, independently
-reviewed merge of that future implementation becomes a sanctioned
-"policy-transition execution baseline," distinct from generic policy drift,
-which remains invalidating. See the task record's new "Provider-policy
-transition and execution baseline" section. No such implementation exists
-yet, so this exception has no present effect. This remediation creates
-exactly one new local commit (`docs: define bounded Batch policy
-transition`, parent `1a379954393de0c95b91e554797d96bf80108c84`) across
-exactly five documentation files; it is not pushed, and the P1 thread
-remains unresolved. `PR_35_POLICY_TRANSITION_REMEDIATION_LOCAL_NOT_REVIEWED`
-and `POLICY_TRANSITION_IMPLEMENTATION_NOT_AUTHORIZED` hold. Exact next task:
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-REVIEW-001`.
+First remediation commit `b611fc08f1a105bcc15a90935a7df2d76337798f`
+(`docs: define bounded Batch policy transition`) attempted a documentation
+repair but was independently rejected with
+`REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_REVIEW_001`.
+B-01 found that the implementation merge was exempted from policy drift but
+not canonical-main drift, so it would still invalidate the authorization.
+B-02 found that the future implementation test contract was incomplete.
+
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-002`
+repairs both documentation defects. The task record now defines a seven-state
+governance sequence from proposal through consumed-or-blocked. The verified
+PR #35 merge becomes the authorization-publication baseline but remains
+non-executable. Until the implementation transition, canonical `main` must
+equal that baseline exactly and a separately authorized, independently
+reviewed Model B implementation branch must be based directly on it. The
+exact implementation merge must have exactly two parents (first: publication
+baseline; second: reviewed implementation head), tree equality with that
+head, only reviewed scope, preserved default denial, the complete future test
+contract passing, and successful automatic Production verification.
+
+Only that exact verified implementation merge is exempt from both
+canonical-main drift and provider-policy drift. It preserves the bounded
+authorization, supersedes the publication baseline solely for execution
+eligibility, and becomes the execution baseline; simultaneous equality to
+both baselines is not required. Unrelated advancement before the transition
+and every later advancement after it remain invalidating, and ancestry alone
+is insufficient. No other canonical or policy change receives an exception.
+The task record explicitly enumerates all 40 mandatory future implementation
+test cases. No policy implementation currently exists; the provider remains
+hard fail-closed and PR #35 publication alone remains non-executable.
+
+Remediation 002 creates exactly one new local-only documentation commit on
+top of `b611fc08f1a105bcc15a90935a7df2d76337798f` across exactly the task
+record and four living documents. It is unreviewed and unpushed; PR #35
+remains open and unmerged, and P1 thread `PRRT_kwDOTQjWMs6VhoHo` remains
+unresolved. `PR_35_POLICY_TRANSITION_REMEDIATION_002_LOCAL_NOT_REVIEWED`,
+`POLICY_TRANSITION_IMPLEMENTATION_NOT_AUTHORIZED`,
+`PROVIDER_CONNECTION_NOT_EXECUTED`, `MIGRATION_TRIGGER_5_NOT_CROSSED`,
+`USD_0_01_NOT_SPENT`, and `STAGE_C_LIVE_SMOKE_NOT_EXECUTED` hold. No provider
+operation or spending occurred; PR #28 remains directly untouched and Gate B
+remains `OPEN / NOT EXECUTED`. Exact next task:
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-002-REVIEW-001`.

@@ -301,43 +301,91 @@ been freshly obtained for that specific execution.
 
 ## Canonical publication, activation, and drift
 
-This authorization is only a proposal while it exists locally or on a
-non-canonical branch. It cannot be used for provider access or live
-execution in that state.
+This section defines a governance state machine and future acceptance
+criteria only. The repository does not currently implement these runtime
+states or a production policy transition.
 
-The separately authorized GitHub merge of the exact independently reviewed
-authorization head into canonical `main` is an explicitly sanctioned
-publication transition. That exact publication merge does not invalidate
-this authorization merely because canonical `main` advances beyond the
-pre-publication branch base `947f33d27d5546775186e96bdc61e30db78c0b3d`.
+### Explicit authorization-baseline state machine
 
-The pre-publication base is an evidence anchor for branch origin. It is not
-the post-publication activation baseline.
+**STATE 1 — PROPOSAL.** The authorization exists only on its feature branch.
+It is not canonically active and cannot be used for provider access or live
+execution.
 
-This authorization becomes eligible for a later execution decision only
-after a fresh preflight verifies the actual authorization publication merge
-commit and proves all of the following:
+**STATE 2 — AUTHORIZATION PUBLISHED.** A separately authorized GitHub merge
+of the exact independently reviewed authorization head publishes PR #35 to
+canonical `main`. A fresh preflight must verify that the publication merge:
 
-1. the merge was created from the exact independently reviewed authorization
-   head;
-2. the publication merge commit has exactly two parents;
-3. its second parent is the exact reviewed authorization head;
-4. its merge tree equals the reviewed authorization-head tree;
-5. current canonical `main` equals that exact publication merge commit;
-6. every other pricing, payload, model, policy, credential, expiry, and
-   safety gate below remains valid.
+1. was created from the exact independently reviewed authorization head;
+2. has exactly two parents;
+3. has the exact reviewed authorization head as its second parent;
+4. has a merge tree equal to the reviewed authorization-head tree; and
+5. is the exact commit at canonical `main`.
 
-That exact publication merge commit is the **activation baseline**.
+That verified merge commit becomes the **authorization-publication
+baseline**. It is the first explicitly sanctioned canonical-main transition
+and does not invalidate this authorization merely because `main` advances
+beyond the pre-publication branch-origin evidence anchor
+`947f33d27d5546775186e96bdc61e30db78c0b3d`. Publication makes the
+authorization canonical but does not make it executable: PR #35 changes no
+provider-policy implementation and opens no production provider allow path.
 
-Any later advancement of canonical `main` beyond the activation baseline
-invalidates this authorization. Ancestry or containment alone does not
-preserve validity after later canonical drift. A fresh authorization
-decision and independent review are then required.
+**STATE 3 — IMPLEMENTATION TRANSITION PENDING.** A separately authorized
+Model B implementation must be developed on a branch based directly on the
+exact authorization-publication baseline and independently reviewed. From
+publication until the exact implementation merge, canonical `main` must
+equal the authorization-publication baseline exactly. Any unrelated or
+intervening canonical-main advancement during this state invalidates
+authorization eligibility; history containment or ancestry is insufficient.
 
-Canonical publication does not by itself authorize execution. The later
-execution task still requires a fresh preflight (see "Required fresh
-execution preflight" below) and explicit operator approval (see "Required
-explicit operator confirmation" below).
+**STATE 4 — EXECUTION BASELINE ESTABLISHED.** The exact independently
+reviewed Model B implementation is merged. This is the second and only other
+explicitly sanctioned transition: it is both a canonical-main transition and
+a provider-policy transition. A fresh preflight must verify that the merge:
+
+1. has exactly two parents;
+2. has the authorization-publication baseline as its first parent;
+3. has the exact independently reviewed implementation head as its second
+   parent;
+4. has a merge tree equal to the reviewed implementation-head tree;
+5. contains only the independently reviewed implementation scope;
+6. preserves default fail-closed behavior;
+7. satisfies every mandatory implementation test below; and
+8. completed automatic Production verification successfully.
+
+When and only when every requirement is independently verified, that exact
+implementation merge is exempt from both canonical-main-drift invalidation
+and generic provider-policy-drift invalidation. It does not invalidate the
+underlying bounded authorization. Instead, it supersedes the
+authorization-publication baseline **solely for execution eligibility** and
+becomes the **policy-transition execution baseline**. Equality to the
+superseded authorization-publication baseline is no longer required after
+this transition; simultaneous equality with both baselines is neither
+required nor possible.
+
+**STATE 5 — EXECUTION ELIGIBLE BUT NOT AUTHORIZED TO RUN.** Canonical `main`
+equals the policy-transition execution baseline exactly and every other
+pricing, payload, model, credential, expiry, authorization, and safety gate
+passes. Explicit operator confirmation for an attempt has not yet been
+given, so provider access remains prohibited.
+
+**STATE 6 — ONE ATTEMPT AUTHORIZED.** A fresh execution preflight passes and
+the operator explicitly confirms one exact attempt for the immutable smoke
+envelope. Only that single attempt is authorized.
+
+**STATE 7 — CONSUMED OR BLOCKED.** A successful submission, a failed
+submission attempt, or an ambiguous submission outcome consumes the
+authorization or otherwise durably blocks its reuse. It cannot authorize a
+retry or second Batch.
+
+After STATE 4, execution eligibility requires canonical `main` to equal the
+policy-transition execution baseline exactly. Any later canonical-main
+advancement invalidates execution eligibility. Ancestry, containment, or the
+presence of both reviewed changes in history does not preserve validity.
+No canonical-main or provider-policy change other than the exact publication
+merge and exact implementation merge described above receives an exception.
+Canonical publication and execution-baseline establishment still do not
+authorize provider access without STATE 6's fresh preflight and explicit
+operator confirmation.
 
 ## Provider-policy transition and execution baseline
 
@@ -382,29 +430,65 @@ behavior. The mechanism must:
 - forbid automatic retry and provider fallback;
 - introduce no reusable, blanket, or standing enablement;
 - store no repository credential or secret value; and
-- be covered by tests proving default denial, exact-envelope binding,
-  single-use behavior, automatic expiry, rejection of payload/model/endpoint/
-  cost drift, rejection after an ambiguous submission, and that provider
-  initialization cannot occur before every authorization check passes.
+- satisfy the complete mandatory future test contract below.
 
-The exact, independently reviewed merge of that future implementation — and
-only that exact merge — is an explicitly sanctioned policy transition, not
-generic invalidating policy drift as defined below. That implementation merge
-commit becomes the **policy-transition execution baseline** only after a
-fresh preflight independently verifies its parentage, that its merge tree
-equals the reviewed implementation-head tree, that current canonical `main`
-equals that exact merge commit, that its automatic Production deployment
-succeeded, that the fail-closed default remains the code's starting state,
-and that the required tests above are present and passing.
+### Mandatory future Model B implementation test contract
 
-Execution eligibility requires current canonical `main` to equal that exact
-policy-transition execution baseline at the moment of execution. Any later
-canonical-main advancement beyond it invalidates execution eligibility;
-ancestry or containment of the reviewed implementation commit alone does not
-preserve validity. Any other change to `scripts/mellycore_batch/policy.py`'s
-hardcoded policy — generic, unrelated, unreviewed, broader in scope, or
-implemented differently from what was reviewed — remains invalidating policy
-drift under "Authorization invalidation conditions" below.
+The future implementation task must add explicit tests for all 40 cases:
+
+1. default denial;
+2. missing-authorization denial;
+3. malformed-authorization denial;
+4. invalid-signature or invalid-integrity denial when the selected design
+   uses integrity protection;
+5. expired-authorization denial;
+6. already-consumed-authorization denial;
+7. exact provider binding;
+8. exact endpoint binding;
+9. exact model binding;
+10. exact payload-byte binding;
+11. exact payload-hash binding;
+12. exact custom-ID binding;
+13. exact output-token-limit binding;
+14. exact input-bound binding;
+15. exact request-count binding;
+16. exact input-file-count binding;
+17. exact Batch-count binding;
+18. exact hard-cost-cap binding;
+19. exact pricing-evidence-expiry binding;
+20. zero automatic retries;
+21. no model substitution;
+22. no provider fallback;
+23. one-use consumption;
+24. attempted submission consumes the authorization or otherwise blocks
+    reuse;
+25. ambiguous submission consumes the authorization or otherwise blocks
+    reuse;
+26. duplicate-submission denial;
+27. provider initialization only after every authorization gate passes;
+28. credentials are not inspected or used before authorization succeeds;
+29. no unauthenticated generic environment-variable bypass;
+30. no unrestricted CLI bypass;
+31. no local source-edit requirement;
+32. no monkeypatch or direct-Python bypass requirement;
+33. fail-closed behavior after successful use;
+34. fail-closed behavior after rejected use;
+35. fail-closed behavior after provider failure;
+36. fail-closed behavior after ambiguous submission;
+37. relock or consumed-state persistence across process restart when the
+    selected design requires persistent state;
+38. concurrent or repeated invocation cannot reuse the same authorization;
+39. missing or corrupted consumption state fails closed; and
+40. pricing expiry is checked immediately before provider initialization.
+
+These are future acceptance criteria only. This task implements none of
+these tests and no runtime provider-policy mechanism.
+
+Any other change to `scripts/mellycore_batch/policy.py`'s hardcoded policy —
+generic, unrelated, unreviewed, broader in scope, or implemented differently
+from the exact independently reviewed Model B implementation — remains
+invalidating policy drift under "Authorization invalidation conditions"
+below.
 
 Establishing this execution baseline does not itself authorize provider
 access. The future execution task still requires a fresh execution preflight
@@ -426,23 +510,25 @@ first:
 
 - **Pricing-evidence expiry**: at or after `2026-08-27T22:00:34Z`
   (`valid_until` in `scripts/mellycore_batch/openai_batch_pricing.json`).
-- **Canonical-main drift (post-activation)**: before this authorization is
-  activated (see "Canonical publication, activation, and drift" above), the
-  sanctioned publication merge of the exact reviewed authorization head into
-  canonical `main` does **not** invalidate this authorization, even though it
-  necessarily advances canonical `main` beyond the pre-publication base
-  `947f33d27d5546775186e96bdc61e30db78c0b3d`. Once activated, if canonical
-  `main` advances beyond the activation-baseline publication merge commit
-  before the future execution task runs, that task must stop; ancestry or
-  containment of the reviewed commit does not preserve validity; a fresh
-  authorization decision and independent review are required rather than
-  reusing this record.
+- **Canonical-main drift (phase-specific)**: exactly two verified transitions
+  are non-invalidating: the exact authorization publication merge and the
+  exact Model B implementation merge defined by the state machine above.
+  Before the implementation merge, canonical `main` must equal the
+  authorization-publication baseline exactly; any other advancement
+  invalidates authorization eligibility. The exact verified implementation
+  merge then supersedes that baseline solely for execution eligibility and
+  becomes the policy-transition execution baseline without invalidating the
+  bounded authorization. After that transition, canonical `main` must equal
+  the execution baseline exactly; any later advancement invalidates execution
+  eligibility. Ancestry or containment alone is insufficient in every phase.
+  No other canonical-main advancement receives an exception.
 - **Model/pricing/policy drift**: any change to `STAGE_B_MODEL`, the pricing
   manifest's rates, `STAGE_B_HARD_COST_CAP_USD`, or
   `scripts/mellycore_batch/policy.py`'s hardcoded policy, **except** the
   exact, independently reviewed policy-transition implementation merge
   described in "Provider-policy transition and execution baseline" above,
-  which is a sanctioned transition rather than invalidating drift. No such
+  which is the sole sanctioned policy transition rather than invalidating
+  drift. No other policy change receives this exception. No such
   implementation currently exists; this exception has no present effect and
   does not make this authorization executable today.
 - **Payload change**: any difference from the exact payload and SHA-256

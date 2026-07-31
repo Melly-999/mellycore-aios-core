@@ -381,9 +381,11 @@ this roadmap entry.
   expiry (`2026-08-27T22:00:34Z`) or on any payload/model/policy change, and
   is not reusable or standing. The sanctioned publication merge of this
   exact reviewed commit into canonical `main` does not itself invalidate it
-  (that merge commit becomes the activation baseline); only later drift
-  beyond that baseline does — see the task record's "Canonical publication,
-  activation, and drift" section. Exact next task:
+  (that merge commit becomes the authorization-publication baseline). That
+  baseline governs canonical identity until the exact separately authorized,
+  independently reviewed Model B implementation transition described below;
+  see the task record's "Canonical publication, activation, and drift"
+  section. Exact next task at this historical point:
   `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh
   independent review required before publication, merge, or execution.
 - **PR #35 blocked pre-merge by an unresolved P1 policy-transition finding —
@@ -397,18 +399,34 @@ this roadmap entry.
   runtime override, so the only path to permitting a live connection is a
   tracked-file edit — which the authorization record then listed as
   invalidating drift, an operationally self-invalidating contradiction.
-  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-001`
-  repairs this in documentation only, adding a "Provider-policy transition
-  and execution baseline" section to the task record: the fail-closed
-  default remains required; only a future, separately authorized Model B
-  implementation task may introduce a bounded, one-use, expiring,
-  envelope-bound runtime authorization mechanism; and only the exact,
-  independently reviewed merge of that future implementation is a sanctioned
-  transition, distinct from generic policy drift, which remains
-  invalidating. No such implementation exists yet. This remediation creates
-  exactly one local commit across exactly five documentation files; it is
-  not pushed, and the P1 thread remains unresolved. Exact next task:
-  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-REVIEW-001`.
+  First remediation commit
+  `b611fc08f1a105bcc15a90935a7df2d76337798f` attempted a documentation
+  repair but was independently rejected with
+  `REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_REVIEW_001`:
+  B-01 left the implementation merge invalidating under canonical-main drift,
+  and B-02 left the future implementation test contract incomplete.
+- **Execution-baseline supersession and test-contract remediation 002 —
+  local, unreviewed, unpushed.** The task record now defines seven explicit
+  governance states. Before the implementation transition, `main` must equal
+  the authorization-publication baseline exactly and the separately
+  authorized, independently reviewed Model B branch must be based directly
+  on it. The exact two-parent implementation merge (first parent:
+  publication baseline; second parent: reviewed implementation head; merge
+  tree equal to that head) is the sole second sanctioned canonical and policy
+  transition. Once its reviewed scope, default denial, complete 40-case test
+  contract, and Production verification pass, it preserves the bounded
+  authorization and supersedes the publication baseline solely for execution
+  eligibility. No simultaneous equality is required. Any unrelated
+  pre-transition advancement or later post-baseline advancement remains
+  invalidating; ancestry alone is insufficient; no other drift is exempt.
+  No implementation exists, provider policy remains fail-closed, PR #35
+  remains open/unmerged, and P1 remains unresolved. States
+  `PR_35_POLICY_TRANSITION_REMEDIATION_002_LOCAL_NOT_REVIEWED`,
+  `POLICY_TRANSITION_IMPLEMENTATION_NOT_AUTHORIZED`,
+  `PROVIDER_CONNECTION_NOT_EXECUTED`, `MIGRATION_TRIGGER_5_NOT_CROSSED`,
+  `USD_0_01_NOT_SPENT`, and `STAGE_C_LIVE_SMOKE_NOT_EXECUTED` hold. No provider
+  operation or spending occurred. Exact next task:
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-002-REVIEW-001`.
 - Task-record next-task fields are creation-time historical snapshots,
   superseded by this roadmap and `RUN_QUEUE.md`.
 
