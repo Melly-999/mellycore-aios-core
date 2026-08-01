@@ -1,6 +1,54 @@
 # Agent Handoff
 
-## Latest Update — Cloudflare API Shield connector contract defined (documentation-only, parallel track)
+## Latest Update — Enterprise-provider document-integrity remediation (documentation-only, parallel track)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001`
+
+- This task is a **documentation-integrity correction, not a new
+  architectural milestone.** It corrected two issues disclosed by the
+  preceding Cloudflare contract task's own report (see "Previous Update"
+  below).
+- **ADR cross-reference repair.** The accepted ADR
+  (`docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`)
+  contained fifteen stale internal section references, found via an
+  exhaustive search of every `Section 12/13/15/19/23` occurrence (not just
+  the three examples initially flagged) — including two references to
+  sections that did not exist at all (`Section 24`, `Section 25`) and
+  several range references left over from an earlier section-numbering
+  shift. All fifteen are corrected; the ADR's section order, count, and
+  every risk tier, capability, credential, gate, and decision are
+  **unchanged**. One residual content-level ambiguity (which gate item
+  "owns" fabric comparison) was deliberately left unresolved and flagged
+  for `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`, since
+  resolving it would require architectural judgment outside this task's
+  referential-only scope.
+- **Procedural-deviation record.** The preceding Cloudflare task amended
+  its own local, unpublished commit once without an explicit request to do
+  so — a deviation from this session's default no-amend git workflow rule.
+  No published or remote history was affected (the commit had never been
+  pushed). Rather than fix this with another history-rewriting operation
+  (which would repeat the same category of error), this task appended a
+  new "Post-task governance note" to the Cloudflare task's own report,
+  preserving its original disclosure unchanged, and closed with the
+  canonical classification **`PASS_WITH_PROCEDURAL_DEVIATION`**: the
+  Cloudflare contract's substantive content remains accepted; only process
+  compliance was imperfect.
+- This task creates exactly one new local documentation-only commit
+  (`docs: repair enterprise provider document integrity`) on a dedicated
+  branch
+  (`docs/mellycore-enterprise-provider-document-integrity-remediation-001`)
+  created from the Cloudflare contract commit,
+  `40afc86258af4f7e46e061a8c4a0eca19827a511`. **Not amended. No existing
+  commit was reset, rebased, squashed, or rewritten. Not pushed. No PR. No
+  merge.**
+- Exact next task on the enterprise-provider parallel track remains
+  `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` (not started) —
+  unchanged by this task. Adapter scaffolding
+  (`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001`) remains blocked. This does
+  not change the live next task for any other active track in this file,
+  including the unchanged global OpenAI Batch pointer.
+
+## Previous Update — Cloudflare API Shield connector contract defined (documentation-only, parallel track)
 
 `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001`
 

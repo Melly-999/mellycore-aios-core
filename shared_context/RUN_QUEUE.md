@@ -600,6 +600,16 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    authentication, API execution, MCP, or deployment authorization).
    Durable report:
    `docs/tasks/MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001.md`.
+   `MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001`
+   (documentation-integrity correction, not a new architectural milestone)
+   subsequently corrected fifteen stale internal section cross-references
+   in the accepted ADR and recorded the preceding task's single
+   unpublished-commit amend as a classified procedural deviation
+   (`PASS_WITH_PROCEDURAL_DEVIATION`) via an append-only commit — no
+   existing commit was rewritten and no substantive Cloudflare-contract or
+   ADR decision changed. **Complete: one local documentation commit, not
+   pushed.** Durable report:
+   `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001.md`.
 4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
    Provider Registry contract for enterprise SaaS, marketing, and
    cybersecurity systems. **Not started. Exact next task on this track.**

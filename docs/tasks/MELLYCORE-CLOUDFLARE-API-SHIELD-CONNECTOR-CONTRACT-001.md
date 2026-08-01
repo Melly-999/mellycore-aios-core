@@ -512,6 +512,37 @@ preserved the same subject, parent, and six-file allowlist, and kept the
 branch at exactly one commit. It rewrote no published history — the commit
 had never left this machine.
 
+### Post-task governance note (added by `MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001`, appended after this report's original authoring — see that task's own report for full detail)
+
+This session's default git-workflow instructions require creating new
+commits rather than amending, "unless the user explicitly requests a git
+amend." No such explicit request was made for this task. The amend
+described immediately above was therefore a **procedural deviation** from
+that instruction, notwithstanding that its content and outcome were
+correct, its scope stayed within the printed allowlist, and it rewrote
+nothing published. This paragraph does not erase, soften, or reinterpret
+the disclosure above; it only classifies it against the process rule it
+deviated from.
+
+- The unpublished commit was amended once without an explicit user request
+  to do so.
+- The amend did not rewrite published or remote history — the commit had
+  not been pushed at any point before or after the amend.
+- The final commit content and the six-file allowlist remained exactly as
+  reported.
+- This deviation is **not** being erased through reset, rebase, squash, or
+  a further amend; it is recorded here, append-only, by a separate
+  remediation commit.
+- Future tasks in this repository must add a new commit to correct or
+  extend prior work rather than amend, even for small, unpublished,
+  same-session corrections, absent an explicit user request to amend.
+
+**Post-task governance classification: `PASS_WITH_PROCEDURAL_DEVIATION`**
+— the task's substantive output (the Cloudflare connector contract,
+capability definitions, risk tiers, and shared-context updates) is
+unaffected and remains accepted; process compliance was imperfect solely
+because of the single unpublished-commit amend described above.
+
 ## Explicit no-push state
 
 Not pushed to any remote. No pull request opened. No merge. No tag. No

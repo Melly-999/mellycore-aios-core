@@ -52,10 +52,11 @@ inconsistently across providers.
 
 MellyCore adopts the architecture, provider tiers, isolation model,
 identity model, credential model, capability/risk model, approval model,
-audit model, and external-content posture recorded in Sections 4–20 below
+audit model, and external-content posture recorded in Sections 4–16 below
 as its accepted direction for enterprise-provider integration. Adapter
-implementation remains blocked behind the documentation gate in Section 23
-and a separate explicit operator authorization (Section 24).
+implementation remains blocked behind the documentation gate in Section 19
+(Implementation prerequisites) and a separate explicit operator
+authorization (also Section 19).
 
 ## 4. Provider integration classes
 
@@ -67,7 +68,7 @@ MellyCore recognizes three provider integration classes:
    operations requiring exact approval, audit, and verification semantics.
    A native adapter gives MellyCore full control over the capability
    contract, credential scoping, and read-after-write verification defined
-   in Sections 17–19, which a general-purpose fabric cannot guarantee.
+   in Sections 12–15, which a general-purpose fabric cannot guarantee.
 2. **Governed integration-fabric adapters** — usable for broad business
    integrations, marketing and CRM workflows, non-critical long-tail APIs,
    deterministic private automation, and delegated-user OAuth flows where
@@ -80,7 +81,7 @@ MellyCore recognizes three provider integration classes:
    autonomous agents.**
 
 Class selection follows the provider's role, not convenience: a provider
-capable of a critical security action (Section 12's R4/R5 tiers) is
+capable of a critical security action (Section 13's R4/R5 tiers) is
 integrated through a native adapter or, at minimum, a fabric-mediated path
 with equivalent approval/audit guarantees — never through unrestricted MCP.
 
@@ -113,8 +114,9 @@ findings, logs, reporting, correlation, and draft recommendations. Initial
 autonomous capabilities **must not include** endpoint isolation, user
 blocking, credential revocation, firewall or WAF mutation, incident
 resolution, remediation deployment, or any destructive security action —
-these remain R4/R5 actions under Section 12 and require explicit human
-approval whenever they are eventually implemented.
+these remain R4/R5 actions under Section 13 (Capability and risk-tier
+model) and require explicit human approval whenever they are eventually
+implemented.
 
 ## 7. Marketing-provider tiers
 
@@ -172,13 +174,14 @@ with credentials, or mutated by this task or the prior spot check (both
 fetches were unauthenticated reads of public documentation pages).
 
 **Consequential Cloudflare operations** (all require explicit approval
-whenever a connector is eventually implemented, per Section 12's R4
+whenever a connector is eventually implemented, per Section 13's R4
 minimum): adding or deleting managed API operations; replacing label
 bindings; uploading, activating, or deleting schemas; changing Schema
 Validation actions; setting validation to `block`; creating, updating,
 reordering, or deleting WAF rules; changing rate-limiting or
 access-control policy. Managed-label replacement is additionally a bulk
-mutation and must satisfy Section 18's diff-disclosure requirement.
+mutation and must satisfy Section 15's (Audit and verification model)
+diff-disclosure requirement.
 
 ## 9. OpenClaw findings
 
@@ -200,14 +203,15 @@ re-verified in this session):
 - One shared operator-level gateway **must not** be treated as hostile
   multi-tenant isolation.
 - Session keys and session identifiers are **routing/context selectors,
-  not authorization** (see Section 15).
+  not authorization** (see Section 11, Identity model, which formalizes
+  this as a MellyCore rule).
 - Operator-level OpenResponses endpoints **must not** be exposed directly
   to an untrusted frontend.
 - Agent-delivery fallback must not silently hide failure of consequential
   security notifications — a failed critical alert must surface as a
   failure, not degrade silently to a lower-visibility channel.
 - External applications must pass through MellyCore's own identity,
-  tenant, capability, policy, and audit controls (Sections 14–19); OpenClaw
+  tenant, capability, policy, and audit controls (Sections 10–15); OpenClaw
   connectivity, if ever adopted, does not substitute for them.
 - OpenClaw terminology may inform MellyCore's own gateway and delivery
   architecture vocabulary without OpenClaw becoming MellyCore's security
@@ -246,8 +250,8 @@ Seven identity types are distinguished and must not be conflated:
 Rules: session IDs do not grant authorization (Section 9); delegated-user
 credentials must not silently fall back to administrator credentials;
 service-account actions must be labeled as service-account actions in
-audit records (Section 19), never presented as if a specific human or
-delegated user performed them.
+audit records (Section 15, Audit and verification model), never presented
+as if a specific human or delegated user performed them.
 
 ## 12. Credential model
 
@@ -352,7 +356,8 @@ provider-sourced content.
   approval.
 - **Immediate implementation of every researched provider** — rejected.
   This ADR fixes architecture and tiering only; implementation proceeds
-  provider-by-provider, gated by the sequence in Section 23, not in bulk.
+  provider-by-provider, gated by the sequence in Section 19
+  (Implementation prerequisites), not in bulk.
 - **Use of the deprecated Cloudflare Firewall Rules API for new
   integration** — rejected; see Section 8. The Rulesets API is the
   accepted future WAF direction.
@@ -369,14 +374,14 @@ otherwise unrelated).
 
 **Tradeoffs:** committing to Composio/private-n8n as primary
 integration-fabric candidates ahead of a full fabric-comparison spec (item
-2 of Section 23) narrows early implementation choices in exchange for
+2 of Section 19) narrows early implementation choices in exchange for
 directional clarity; it remains subject to revision at
-`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` amendment (Section 25)
+`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` amendment (Section 22)
 if the fabric-comparison work surfaces a materially better option. The
-seven-item documentation gate (Section 23) intentionally delays any
-provider adapter work; this is an accepted cost of the fail-closed posture
-this repository already applies to deployment authorization and Batch API
-activation.
+seven-item documentation gate (Section 19, Implementation prerequisites)
+intentionally delays any provider adapter work; this is an accepted cost of
+the fail-closed posture this repository already applies to deployment
+authorization and Batch API activation.
 
 ## 19. Implementation prerequisites
 

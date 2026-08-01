@@ -849,6 +849,18 @@ read-only), MCP connection, or deployment. Canonical contract:
 Durable report:
 `docs/tasks/MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001.md`.
 
+**Document-integrity remediation — complete.**
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001`
+corrected fifteen stale internal section cross-references in the accepted
+ADR (a numbering defect, not an architectural conflict — no risk tier,
+capability, credential, or gate content changed) and recorded the
+Cloudflare task's single unpublished-commit amend as a classified
+procedural deviation (`PASS_WITH_PROCEDURAL_DEVIATION`) via a new,
+append-only commit — no existing commit was amended, reset, rebased, or
+squashed. This is a documentation-integrity correction, not a new
+architectural milestone. Durable report:
+`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001.md`.
+
 **Outstanding documentation work** (none started; full chain and
 reconciliation with existing priority work:
 `shared_context/ROADMAP.md`'s "Enterprise Provider Integration — Research
