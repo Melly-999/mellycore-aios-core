@@ -454,15 +454,21 @@ ordering at the time each task starts; none of items 2–9 is started):
    API call (including read-only), MCP or fabric connection, or deployment.
 5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
    between MellyCore, direct adapters, MCP servers, integration fabrics,
-   and delegated/service credentials. **Not started. Exact next task on
-   this track.**
+   and delegated/service credentials. **Specification complete after
+   recovery remediation and validation.** Canonical contract:
+   `docs/specs/MELLYCORE_INTEGRATION_GATEWAY_SECURITY_CONTRACT_SPEC_001.md`
+   — specification-level acceptance only, authorizing no Gateway
+   implementation, adapter, credential, provider authentication, provider
+   API call (including read-only), MCP or fabric connection, webhook
+   registration, or deployment.
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
-   cybersecurity provider pack. Not started; blocked on item 5.
+   cybersecurity provider pack. **Not started. Exact next task on this
+   track.**
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
-   marketing analytics/CRM provider pack. Not started; blocked on item 5.
+   marketing analytics/CRM provider pack. Not started; blocked on item 6.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on items 5–7.
+   context, and roadmap documentation. Not started; blocked on items 6–7.
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
    item 8 passes and requires separate explicit Operator authorization.
    **Not authorized. Blocked behind documentation review.**

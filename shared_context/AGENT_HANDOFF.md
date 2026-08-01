@@ -1,6 +1,36 @@
 # Agent Handoff
 
-## Latest Update — Provider Registry contract extension defined (documentation-only, parallel track)
+## Latest Update — Integration Gateway security contract remediated (documentation-only, parallel track)
+
+`MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-REMEDIATION-001`
+
+- Preserved the interrupted five-path dirty work and completed the canonical
+  40-section Gateway security contract without recreating or discarding it:
+  `docs/specs/MELLYCORE_INTEGRATION_GATEWAY_SECURITY_CONTRACT_SPEC_001.md`.
+- Closed the recovery assessment's P1 audit-ordering defect with a two-stage
+  durable model: R3–R5 requires an acknowledged append-only execution intent
+  before an external mutation; the attempt and verification outcome is then
+  appended separately. Reservation failure prevents execution. Completion
+  failure blocks success and provider retry, drives reconciliation and
+  containment, and retries only the audit append through a durable outbox.
+- Provider/fabric request IDs are absent or `not_applicable` before an
+  external attempt. Attempted calls record returned IDs or the truthful
+  `not_returned`, `not_supported`, or `unknown_after_timeout` state; IDs are
+  never invented.
+- Specification and documentation only. No Gateway, adapter, provider,
+  credential, MCP, fabric, webhook, runtime, deployment, or MellyTrade
+  operation was authorized or performed. Adapter scaffolding remains blocked.
+- Validation: `py -3.9 scripts/validate_project_state.py` passed;
+  `git diff --check` passed; pytest was `NOT_RUN` because this documentation-
+  only task did not install dependencies.
+- Exact next task on this parallel track:
+  `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`. The global OpenAI Batch
+  pointer remains unchanged. The marketing provider pack and enterprise-
+  provider docs-integration review remain queued; adapter scaffolding remains
+  blocked behind them and separate authorization. The resulting commit is
+  local only; no push, PR, merge, or deployment is authorized.
+
+## Previous Update — Provider Registry contract extension defined (documentation-only, parallel track)
 
 `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001`
 

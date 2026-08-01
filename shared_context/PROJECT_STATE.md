@@ -886,13 +886,40 @@ read-only), MCP or fabric connection, or deployment. Canonical contract:
 Durable report:
 `docs/tasks/MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001.md`.
 
+**Integration Gateway security contract — specification complete after recovery remediation.**
+`MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` defined the
+enforcement boundary between MellyCore and every external system. Its
+central decision is that **the Gateway is a policy-enforcement boundary,
+not a proxy**: it never forwards a caller's request, but re-derives every
+authorization input from authoritative records and constructs a new bounded
+provider request. Every caller claim and every provider response is
+untrusted. It fixes a twelve-identity model, a ten-link acting-identity
+chain that may never be broken, merged, or substituted, a **deterministic
+26-step policy-evaluation order** in which no later step may compensate for
+a failed earlier one and credentials are never resolved before
+authorization passes, twelve-element approval binding extending the Control
+Plane's four-field core, mandatory `INDETERMINATE` reconciliation instead
+of blind mutation retry, **six independent delivery statuses** never
+collapsed into one `success`, a durable audit-intent reservation before
+R3–R5 external mutation followed by a separate completion append, and the rule
+that no inbound webhook or provider event can cause MellyCore to act on
+that provider. It is the Data Plane architecture and threat model that the
+Control Plane spec's §3.2 requires, and extends that spec's §9.6 display
+module without modifying it. Cloudflare conformance was demonstrated across
+six representative flows with **no weakening detected**. This is
+**specification-level acceptance only** — it authorizes no Gateway
+implementation, adapter, credential, provider authentication, provider API
+call (including read-only), MCP or fabric connection, webhook
+registration, or deployment. Canonical contract:
+`docs/specs/MELLYCORE_INTEGRATION_GATEWAY_SECURITY_CONTRACT_SPEC_001.md`.
+Durable report:
+`docs/tasks/MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001.md`.
+
 **Outstanding documentation work** (none started; full chain and
 reconciliation with existing priority work:
 `shared_context/ROADMAP.md`'s "Enterprise Provider Integration — Research
 Direction" section and `shared_context/RUN_QUEUE.md`'s "Parallel Decision
 Track — Enterprise Provider Integration"):
-`MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` (exact next task on
-this track),
 `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
 `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`,
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`.

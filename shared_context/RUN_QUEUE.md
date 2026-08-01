@@ -625,18 +625,33 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    `docs/tasks/MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001.md`.
 5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
    between MellyCore, direct adapters, MCP servers, and integration
-   fabrics. **Not started. Exact next task on this track.** It additionally
-   inherits two items the registry contract deferred to it: where
-   tenant-provider and tenant-capability authorization records live, and
-   how a fabric-mediated path demonstrates approval/audit equivalence to a
-   native adapter.
+   fabrics. **Specification complete after recovery remediation and
+   validation; publication remains local and unpushed.**
+   Canonical contract:
+   `docs/specs/MELLYCORE_INTEGRATION_GATEWAY_SECURITY_CONTRACT_SPEC_001.md`
+   (specification-level acceptance only — no Gateway implementation,
+   adapter, credential, provider authentication, provider API call
+   including read-only, MCP or fabric connection, webhook registration, or
+   deployment authorization). It is the Data Plane architecture and threat
+   model that
+   `docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md` §3.2
+   requires before any future Data Plane may consume approved manifests,
+   and it extends that spec's §9.6 Integration Gateway display module
+   without modifying it. Of the two items the Provider Registry contract
+   deferred here, it resolved the **shape** of tenant-provider and
+   tenant-capability authorization records (explicit, separate,
+   independently revocable, absence denies) and left their storage and
+   issuance workflow, plus the fabric equivalence-evidence standard, as
+   recorded open questions. Durable report:
+   `docs/tasks/MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001.md`.
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
-   cybersecurity provider pack. Not started; blocked on item 5.
+   cybersecurity provider pack. **Not started. Exact next task on this
+   track.**
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
-   marketing analytics/CRM provider pack. Not started; blocked on item 5.
+   marketing analytics/CRM provider pack. Not started; blocked on item 6.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on items 5–7.
+   context, and roadmap documentation. Not started; blocked on items 6–7.
    Its remit now additionally includes correcting the stale internal
    section cross-references observed in the enterprise-provider ADR and
    recorded in the Cloudflare contract's Section 37.2 (a numbering defect,
