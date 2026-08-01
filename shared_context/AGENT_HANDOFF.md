@@ -1,6 +1,37 @@
 # Agent Handoff
 
-## Latest Update — Integration Gateway security contract remediated (documentation-only, parallel track)
+## Latest Update — Cybersecurity Provider Pack specified (documentation-only, parallel track)
+
+`MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`
+
+- Created the canonical 34-section Cybersecurity Provider Pack:
+  `docs/specs/MELLYCORE_CYBERSECURITY_PROVIDER_PACK_SPEC_001.md`.
+- Defined P0 Microsoft Defender XDR / Microsoft Graph Security, GitHub
+  Advanced Security, Cloudflare, and Okta; P1 Splunk and CrowdStrike
+  Falcon; and P2 Snyk. Established thirteen normalized security entities,
+  stable common capability families, provider mappings, source-evidence and
+  uncertainty requirements, and provider-specific contract gates.
+- Initial scope is strictly R0-R2. All R3-R5 mutation, containment,
+  identity, policy, remediation, repository-write, and remote-response
+  surfaces remain deferred and unauthorized. Pack membership and tiers are
+  sequencing metadata only; they satisfy none of the Provider Registry's
+  independent runtime facts.
+- Specification and documentation only. No provider, credential, adapter,
+  runtime, protected API, MCP, fabric, webhook, deployment, dependency, or
+  MellyTrade operation was authorized or performed. The accepted Cloudflare
+  contract remains authoritative; adapter scaffolding remains blocked.
+- Validation: `py -3.9 scripts/validate_project_state.py` passed;
+  `git diff --check` and staged diff checks passed; pytest was `NOT_RUN`
+  because this documentation-only task did not install dependencies or
+  change runtime code.
+- Exact next task on this parallel track:
+  `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`. The global OpenAI Batch
+  pointer remains unchanged. The enterprise-provider docs-integration
+  review remains blocked on that pack, and adapter scaffolding remains
+  blocked behind the review and separate authorization. The resulting
+  commit is local only; no push, PR, merge, or deployment is authorized.
+
+## Previous Update — Integration Gateway security contract remediated (documentation-only, parallel track)
 
 `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-REMEDIATION-001`
 

@@ -426,8 +426,8 @@ and verified legacy exclusions — is
 `docs/specs/MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001.md`
 (item 3 below).
 
-**Proposed documentation sequence** (reconciled against current canonical
-ordering at the time each task starts; none of items 2–9 is started):
+**Documentation sequence** (reconciled against current canonical ordering at
+the time each task starts; each item records its current state below):
 
 1. `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001` — this entry.
    **Complete as a local, unpushed documentation commit.**
@@ -462,13 +462,20 @@ ordering at the time each task starts; none of items 2–9 is started):
    API call (including read-only), MCP or fabric connection, webhook
    registration, or deployment.
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
-   cybersecurity provider pack. **Not started. Exact next task on this
-   track.**
+   cybersecurity provider pack. **Specification complete as a local,
+   unpushed documentation commit.** Canonical specification:
+   `docs/specs/MELLYCORE_CYBERSECURITY_PROVIDER_PACK_SPEC_001.md` — P0
+   Microsoft Defender XDR / Microsoft Graph Security, GitHub Advanced
+   Security, Cloudflare, and Okta; P1 Splunk and CrowdStrike Falcon; P2
+   Snyk; R0-R2 only, with R3-R5 deferred. This acceptance authorizes no
+   provider connection, credential, adapter, runtime, API call, MCP/fabric
+   connection, webhook registration, or deployment.
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
-   marketing analytics/CRM provider pack. Not started; blocked on item 6.
+   marketing analytics/CRM provider pack. **Not started. Exact next task on
+   this track.**
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on items 6–7.
+   context, and roadmap documentation. Not started; blocked on item 7.
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
    item 8 passes and requires separate explicit Operator authorization.
    **Not authorized. Blocked behind documentation review.**

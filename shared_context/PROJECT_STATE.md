@@ -915,12 +915,32 @@ registration, or deployment. Canonical contract:
 Durable report:
 `docs/tasks/MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001.md`.
 
-**Outstanding documentation work** (none started; full chain and
+**Cybersecurity Provider Pack — specification complete.**
+`MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` defines the first
+read-oriented provider pack across P0 Microsoft Defender XDR / Microsoft
+Graph Security, GitHub Advanced Security, Cloudflare, and Okta; P1 Splunk
+and CrowdStrike Falcon; and P2 Snyk. It establishes thirteen normalized
+security entities, stable common capability families, provider-specific
+read mappings, explicit normalization-loss and uncertainty handling, and
+an initial **R0-R2 ceiling**. All R3-R5 provider mutation, containment,
+identity, policy, remediation, repository-write, and remote-response
+surfaces remain deferred and unauthorized. Pack membership and provider
+tier are sequencing metadata only and do not collapse or satisfy the
+Provider Registry's eight independent facts. The Integration Gateway
+remains the enforcement boundary, and the accepted Cloudflare connector
+contract remains authoritative. This is specification-level acceptance
+only: no provider was connected; no credential, adapter, runtime, or
+webhook was configured; no provider API, MCP, or fabric operation occurred;
+and no deployment was authorized. Canonical specification:
+`docs/specs/MELLYCORE_CYBERSECURITY_PROVIDER_PACK_SPEC_001.md`. Durable
+report:
+`docs/tasks/MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001.md`.
+
+**Outstanding documentation work** (none started; remaining chain and
 reconciliation with existing priority work:
 `shared_context/ROADMAP.md`'s "Enterprise Provider Integration — Research
 Direction" section and `shared_context/RUN_QUEUE.md`'s "Parallel Decision
 Track — Enterprise Provider Integration"):
-`MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
 `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`,
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`.
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` may only be considered after that
