@@ -667,19 +667,20 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    MCP/fabric connection, webhook registration, or deployment authorization.
    Durable report:
    `docs/tasks/MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001.md`.
-8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
-   conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. **Not started. Exact next task on
-   this track.**
-   Its remit now additionally includes correcting the stale internal
-   section cross-references observed in the enterprise-provider ADR and
-   recorded in the Cloudflare contract's Section 37.2 (a numbering defect,
-   not an architectural conflict; the ADR was not modified by item 3).
+8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — final
+   integration review across 25 documents, 26 dimensions, and 12 scenarios.
+   **Complete; `FAIL_REMEDIATION_REQUIRED` (P0 = 0, P1 = 4, P2 = 2,
+   P3 = 3).** Canonical review:
+   `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_001.md`.
+   Exact next task:
+   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`, which
+   must resolve the provider-ID, Cloudflare-identity, credential-class, and
+   fabric-prerequisite P1 findings before this gate is rerun.
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
-   not authorized. May only be considered after item 8 passes and requires
-   separate explicit Operator authorization, independent of Model A/B
-   deployment authorization and independent of the OpenAI Batch Stage C
-   gate.
+   ineligible, and not authorized. May only be considered after item 8's
+   remediation completes, the integration gate passes, and separate explicit
+   Operator authorization is issued, independent of Model A/B deployment
+   authorization and independent of the OpenAI Batch Stage C gate.
 
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,

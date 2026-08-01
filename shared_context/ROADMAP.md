@@ -480,13 +480,17 @@ the time each task starts; each item records its current state below):
    This acceptance authorizes no provider connection, credential, adapter,
    runtime, tracking, audience/campaign operation, API call, MCP/fabric
    connection, webhook registration, or deployment.
-8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
-   conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. **Not started. Exact next task on
-   this track.**
+8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — final
+   integration review across 25 documents, 26 dimensions, and 12 scenarios.
+   **Complete; `FAIL_REMEDIATION_REQUIRED` (P0 = 0, P1 = 4, P2 = 2,
+   P3 = 3).** Canonical review:
+   `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_001.md`.
+   Exact next task:
+   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`.
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
-   item 8 passes and requires separate explicit Operator authorization.
-   **Not authorized. Blocked behind documentation review.**
+   the remediation completes, the integration gate passes, and separate
+   explicit Operator authorization is issued. **Blocked, ineligible, not
+   started, and not authorized.**
 
 No credentials, provider runtime, MCP connection, Cloudflare API call,
 marketing action, or cybersecurity remediation is authorized by this

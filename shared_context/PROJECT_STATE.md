@@ -956,15 +956,26 @@ or performed. Canonical specification:
 `docs/specs/MELLYCORE_MARKETING_PROVIDER_PACK_SPEC_001.md`. Durable report:
 `docs/tasks/MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001.md`.
 
-**Outstanding documentation work** (none started; remaining chain and
-reconciliation with existing priority work:
-`shared_context/ROADMAP.md`'s "Enterprise Provider Integration — Research
-Direction" section and `shared_context/RUN_QUEUE.md`'s "Parallel Decision
-Track — Enterprise Provider Integration"):
-`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`.
-`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` may only be considered after that
-full documentation-review gate passes and requires its own separate
-explicit authorization.
+**Enterprise-provider documentation integration review — complete; gate
+failed.** `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`
+reviewed the complete local chain across 25 documents, 26 integration
+dimensions, and 12 determinism scenarios. The result is
+`FAIL_REMEDIATION_REQUIRED`: P0 = 0, P1 = 4, P2 = 2, P3 = 3. Blocking
+incompatibilities concern Cybersecurity Pack provider IDs, the conflicting
+Cloudflare provider projection, unmapped pack credential classes, and the
+missing/misdirected integration-fabric comparison prerequisite. Canonical
+review:
+`docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_001.md`.
+Durable review report:
+`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001.md`.
+
+The exact next task on this parallel track is
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`.
+`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
+started, and not authorized until remediation completes, the integration
+gate passes, and separate explicit authorization is issued. This result does
+not reorder the global OpenAI Batch pointer, which remains
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
 
 Durable task report:
 `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001.md`.

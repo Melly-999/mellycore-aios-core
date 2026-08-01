@@ -1,6 +1,30 @@
 # Agent Handoff
 
-## Latest Update — Marketing Provider Pack specified (documentation-only, parallel track)
+## Latest Update — Enterprise-provider documentation integration review failed (documentation-only, parallel track)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`
+
+- Completed the final integration review across 25 documents, 26 dimensions,
+  and 12 determinism scenarios. Canonical assurance record:
+  `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_001.md`.
+- Gate decision: `FAIL_REMEDIATION_REQUIRED`; findings are P0 = 0, P1 = 4,
+  P2 = 2, and P3 = 3. The P1 findings cover invalid dotted Cybersecurity
+  provider IDs, a conflicting Cloudflare provider projection, credential
+  classes without a deterministic Registry/Gateway mapping, and a
+  missing/misdirected integration-fabric comparison prerequisite.
+- The review repaired no accepted ADR, contract, or provider pack. Exact next
+  task: `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`.
+  `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
+  started, and not authorized until remediation completes, the gate passes,
+  and separate authorization is issued.
+- Documentation only. No provider, credential, adapter, runtime, protected
+  API, MCP, fabric, webhook, deployment, dependency, or MellyTrade operation
+  was authorized or performed. The commit is local only; no push, PR, merge,
+  or deployment is authorized.
+- This independent track does not reorder the global OpenAI Batch pointer,
+  which remains `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+
+## Previous Update — Marketing Provider Pack specified (documentation-only, parallel track)
 
 `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`
 
