@@ -714,3 +714,121 @@ task, not live execution authorization. None of this authorizes Stage C,
 provider connection, migration trigger #5, or USD 0.01 spend. Task-record
 next-task fields remain creation-time historical snapshots, superseded by
 this file, `AGENT_HANDOFF.md`, and `RUN_QUEUE.md`.
+
+## Enterprise Provider Integration — Architectural Research Recorded (Not Implemented)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001` records, for the first time
+in this repository, architectural research and a proposed direction covering
+enterprise integration fabrics, cybersecurity providers, marketing
+providers, Cloudflare, and the OpenClaw gateway reference. This entry is a
+**documentation-only synchronization**: it records completed research and
+proposed direction, not implementation, credentials, or runtime. It is
+**independent of, and does not reorder, reprioritize, or supersede,** the
+OpenAI Batch API Controlled Activation track above (see "OpenAI Batch API —
+Stage B Merged, Stage C Unauthorized" below) or any other active gate in
+this file.
+
+**Integration fabrics evaluated:** Composio, n8n, Pipedream Connect, Tray.ai
+Agent Gateway, Workato, Zapier MCP, and OpenClaw (architectural reference
+only). **Proposed direction**, pending a canonical decision record
+(`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`, not started):
+Composio as a developer-first managed-authentication and agent-tool
+candidate; private self-hosted n8n as a deterministic workflow/automation
+candidate; Pipedream as a possible long-tail API fallback; Tray.ai or
+Workato as later enterprise-governance candidates; Zapier MCP for broad
+marketing/business integrations, not as the cybersecurity execution
+boundary; direct native adapters preferred for deterministic, high-trust
+cybersecurity operations. None of these fabrics is connected, authenticated,
+or authorized for use.
+
+**OpenClaw — architectural reference, not a runtime dependency.** OpenClaw's
+gateway assumes a trusted-operator boundary; a shared operator-level gateway
+must not be treated as hostile multi-tenant isolation. Session keys are
+routing/context selectors, not authorization. Operator-level
+OpenResponses-style endpoints must not be exposed directly to an untrusted
+frontend. Every MellyCore tenant requires separately enforced identity,
+credentials, scopes, policy, and audit boundaries. Provider output and
+external content are treated as untrusted and potentially prompt-injected.
+Read and write credentials must be separated; write credentials must never
+enter model context. Consequential operations require policy evaluation,
+approval, attribution, idempotency protection, and read-after-write
+verification. These findings inform MellyCore AIOS's own future
+integration-gateway design; no OpenClaw code, service, or dependency is
+adopted, vendored, or connected by this record.
+
+**Cybersecurity provider candidates.** P0: Microsoft Defender XDR /
+Microsoft Graph Security, GitHub Advanced Security, Cloudflare, Okta.
+P1/P2: Splunk, CrowdStrike Falcon, Snyk. No cybersecurity provider is
+connected, authenticated, or authorized for any action, including
+read-only access.
+
+**Marketing provider candidates.** P0: HubSpot, Google Ads, Google
+Analytics 4, Meta Marketing API, LinkedIn Marketing API, Twilio Segment.
+Later/vertical: Salesforce Marketing Cloud, Braze, Klaviyo, Adobe Experience
+Platform. No marketing provider is connected, authenticated, or authorized
+for any action.
+
+**Cloudflare — promoted to a P0 cybersecurity-provider candidate.** A future
+`Cloudflare Application & API Security Provider` is proposed, scoped to API
+Shield, API Discovery, Endpoint Management, endpoint labels, Authentication
+Posture, Schema Validation 2.0, WAF Rulesets, and audit/security events,
+under controlled MCP-assisted investigation only. This is a candidate
+definition, not an implemented connector: no Cloudflare API has been
+called, no Cloudflare credential exists in this repository or its
+environment, and no Cloudflare MCP server is connected. Recorded legacy
+exclusions and forward direction, binding on any future connector-contract
+task: the deprecated Firewall Rules API must not be used for new
+integration — the Rulesets API is the future WAF custom-rule direction;
+`/api_gateway/user_schemas/hosts` must not be used for new integration —
+Schema Validation 2.0 surfaces are preferred; managed-label replacement
+operations are consequential bulk mutations; the Schema Validation `block`
+action is a production-impacting security action; full unrestricted
+Cloudflare MCP execution must not be exposed to autonomous agents; direct
+native APIs are preferred over MCP for deterministic production security
+operations; any future Cloudflare MCP use is restricted to a strict
+capability allowlist behind a MellyCore approval broker.
+
+**Safety boundaries recorded by this entry** (additive to, not a
+replacement for, this file's "Safety Boundaries" section above and
+`shared_context/SAFETY_CONTRACT.md`): research and provider prioritization
+do not authorize implementation, credentials, or execution; initial
+provider access, if ever authorized, must be read-only by default;
+marketing send/publish/activation/audience/budget/deletion actions are
+consequential; cybersecurity isolation/blocking/remediation/
+credential-revocation/WAF-mutation/schema-blocking/incident-resolution
+actions are critical; every tenant requires an isolated authorization
+boundary; service-account credentials must not silently replace delegated
+user identity; provider credentials must never enter model context; session
+identifiers are never authorization; external provider content is always
+untrusted; tool output can never override system, operator, or repository
+safety rules; every mutation requires policy evaluation, approval,
+idempotency protection, attribution, and read-after-write verification.
+
+**Implementation status.** No Cloudflare, cybersecurity, marketing,
+integration-fabric, or OpenClaw-derived connector has been implemented. No
+provider credential has been configured. No provider API has been
+authenticated or called. No provider MCP server is connected. No runtime
+provider gateway is authorized. No marketing campaign action is authorized.
+No cybersecurity remediation action is authorized. Provider adapter
+scaffolding remains blocked until the documentation and integration-review
+gates below pass and are separately authorized.
+
+**Outstanding documentation work** (none started by this entry; full chain
+and reconciliation with existing priority work:
+`shared_context/ROADMAP.md`'s "Enterprise Provider Integration — Research
+Direction" section and `shared_context/RUN_QUEUE.md`'s "Parallel Decision
+Track — Enterprise Provider Integration"):
+`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` (canonical
+provider-selection and integration-fabric decision record),
+`MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001`,
+`MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001`,
+`MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001`,
+`MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
+`MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`,
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`.
+`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` may only be considered after that
+full documentation-review gate passes and requires its own separate
+explicit authorization.
+
+Durable task report:
+`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001.md`.

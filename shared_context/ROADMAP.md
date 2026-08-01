@@ -377,6 +377,80 @@ remains uncrossed; provider policy remains fail-closed. Neither the PR #32
 merge nor the PR #33 merge changed any `site/**` file; both automatic
 Production deployments published the unchanged static tree only.
 
+## Enterprise Provider Integration — Research Direction (Proposed, Parallel Track)
+
+This section records architectural research and a proposed direction for
+future enterprise integration-fabric, cybersecurity-provider, and
+marketing-provider work. It is **independent of, and does not reorder,**
+the OpenAI Batch Controlled Activation sequence above or any other active
+gate in this roadmap — analogous to the "Parallel Decision Track — Source
+Arena Renderer" pattern in `shared_context/RUN_QUEUE.md`. Naming a
+candidate here does not authorize its selection, connection, or
+implementation.
+
+**Integration fabrics evaluated:** Composio, n8n, Pipedream Connect, Tray.ai
+Agent Gateway, Workato, Zapier MCP, and OpenClaw (architectural reference
+only, not a runtime dependency — full findings in `PROJECT_STATE.md`'s
+"Enterprise Provider Integration" entry). Proposed direction, pending
+`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`: Composio (managed
+auth / agent-tool layer), private self-hosted n8n (deterministic workflow
+layer), Pipedream (long-tail fallback), Tray.ai/Workato (later
+enterprise-governance options), Zapier MCP (broad marketing/business
+integration, not the cybersecurity execution boundary), and direct native
+adapters for deterministic high-trust cybersecurity operations.
+
+**Cybersecurity provider candidates** — P0: Microsoft Defender XDR /
+Microsoft Graph Security, GitHub Advanced Security, Cloudflare, Okta.
+P1/P2: Splunk, CrowdStrike Falcon, Snyk.
+
+**Marketing provider candidates** — P0: HubSpot, Google Ads, Google
+Analytics 4, Meta Marketing API, LinkedIn Marketing API, Twilio Segment.
+Later/vertical: Salesforce Marketing Cloud, Braze, Klaviyo, Adobe Experience
+Platform.
+
+**Cloudflare** is proposed as a P0 cybersecurity-provider candidate under a
+future `Cloudflare Application & API Security Provider` (API Shield, API
+Discovery, Endpoint Management, Authentication Posture, Schema Validation
+2.0, WAF Rulesets, audit events). The deprecated Firewall Rules API and
+`/api_gateway/user_schemas/hosts` are excluded from any new integration;
+the Rulesets API and Schema Validation 2.0 are the recorded future
+direction. Full detail, legacy exclusions, and safety boundaries:
+`PROJECT_STATE.md`'s "Enterprise Provider Integration — Architectural
+Research Recorded (Not Implemented)".
+
+**Proposed documentation sequence** (reconciled against current canonical
+ordering at the time each task starts; none of items 2–9 is started):
+
+1. `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001` — this entry.
+   **Complete as a local, unpushed documentation commit.**
+2. `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` — canonical
+   provider-selection and integration-fabric decision record. Not started.
+3. `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` — Cloudflare
+   capability, authorization, approval, audit, rollout, and
+   legacy-exclusion contract. Not started; blocked on item 2.
+4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
+   Provider Registry contract for enterprise SaaS, marketing, and
+   cybersecurity systems (tenant identity, credentials, scopes, risk tiers,
+   approvals, audit, data classification). Not started; blocked on item 2.
+5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
+   between MellyCore, direct adapters, MCP servers, integration fabrics,
+   and delegated/service credentials. Not started; blocked on item 2.
+6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
+   cybersecurity provider pack. Not started; blocked on items 2–5.
+7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
+   marketing analytics/CRM provider pack. Not started; blocked on items 2–5.
+8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
+   conflicts across provider, control-plane, secrets, audit, safety,
+   context, and roadmap documentation. Not started; blocked on items 2–7.
+9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
+   item 8 passes and requires separate explicit Operator authorization.
+   **Not authorized. Blocked behind documentation review.**
+
+No credentials, provider runtime, MCP connection, Cloudflare API call,
+marketing action, or cybersecurity remediation is authorized by this
+section. Live sequencing for this track: `shared_context/RUN_QUEUE.md`'s
+"Parallel Decision Track — Enterprise Provider Integration".
+
 ## Safety Gates
 
 - Human approval is mandatory for consequential actions.

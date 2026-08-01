@@ -569,6 +569,55 @@ social-feed-style media card. It is CSS/DOM only: it does not start task 4,
 vendor Three.js, add WebGL/Canvas, or implement the ADR's CSS-complete
 fallback spec — all of which remain `NOT_IMPLEMENTED`/`NOT_STARTED`.
 
+## Parallel Decision Track — Enterprise Provider Integration
+
+This track is **independent of, and does not reorder,** the primary live
+sequence above — `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`
+remains the current live next task for that sequence (see "Current —
+OpenAI Batch Final Canonical State Reconciliation Gate"). It records newly
+incorporated architectural research, not previously completed repository
+work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
+
+1. `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001` — synchronizes
+   `PROJECT_STATE.md`, `ROADMAP.md`, this file, and `AGENT_HANDOFF.md` with
+   completed enterprise-provider architectural research (integration
+   fabrics, OpenClaw, cybersecurity/marketing provider tiers, Cloudflare
+   P0 candidacy and legacy exclusions). **Complete: one local documentation
+   commit, not pushed.** Durable report:
+   `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001.md`.
+2. `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` — canonical
+   provider-selection and integration-fabric decision record. **Not
+   started. Exact next task on this track.**
+3. `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` — Cloudflare
+   capability/authorization/approval/audit/rollout/legacy-exclusion
+   contract. Not started; blocked on item 2.
+4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
+   Provider Registry contract for enterprise SaaS, marketing, and
+   cybersecurity systems. Not started; blocked on item 2.
+5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
+   between MellyCore, direct adapters, MCP servers, and integration
+   fabrics. Not started; blocked on item 2.
+6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
+   cybersecurity provider pack. Not started; blocked on items 2–5.
+7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
+   marketing analytics/CRM provider pack. Not started; blocked on items
+   2–5.
+8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
+   conflicts across provider, control-plane, secrets, audit, safety,
+   context, and roadmap documentation. Not started; blocked on items 2–7.
+9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
+   not authorized. May only be considered after item 8 passes and requires
+   separate explicit Operator authorization, independent of Model A/B
+   deployment authorization and independent of the OpenAI Batch Stage C
+   gate.
+
+Blocked pending this track's own gates and separate explicit authorization,
+regardless of any other track's state: provider credentials of any kind,
+provider runtime, any MCP connection to a provider, any Cloudflare API
+mutation (including read-only Cloudflare API calls, since no connector
+contract yet exists), any marketing campaign action, any cybersecurity
+remediation action, and provider adapter scaffolding.
+
 ## Deferred Work
 
 - Cross-agent context smoke testing remains a separate clean-worktree task.
