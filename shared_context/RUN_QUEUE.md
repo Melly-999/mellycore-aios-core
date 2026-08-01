@@ -144,16 +144,17 @@ activation, and drift" section. The authorization is not a blanket or
 standing approval and cannot be reused for another model, request, file,
 Batch, or amount.
 
-**PR #35 blocked pre-merge by an unresolved P1 policy-transition finding —
-documentation remediation created locally, not reviewed, not pushed.** After
+**PR #35 blocked pre-merge by a P1 policy-transition finding (historical) —
+documentation remediation created, subsequently published.** After
 independent PR review passed with only two non-blocking notes, a
 merge-preflight task correctly stopped before merging PR #35: Phase 4
-review-thread inspection found an unresolved, current
+review-thread inspection found an unresolved, then-current
 `chatgpt-codex-connector` thread (`PRRT_kwDOTQjWMs6VhoHo`,
 `docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md:363`,
 "Permit the required policy transition") outside the scope of those two
-notes. No merge occurred; PR #35 remains open and unmerged at
-`1a379954393de0c95b91e554797d96bf80108c84`.
+notes. No merge occurred; PR #35 was open and unmerged at
+`1a379954393de0c95b91e554797d96bf80108c84` at that time — see "Current" gate
+below for the verified current state.
 
 An independent, read-only assessment then returned
 `VALID_BLOCKING_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_FINDING_ASSESSMENT_001`:
@@ -197,12 +198,41 @@ concurrency safety, corrupt-state denial, and immediate pricing-expiry
 checking. No implementation currently exists and provider policy remains
 fail-closed.
 
-**Exact immediate next task:**
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-002-REVIEW-001`
-— an independent, read-only review of the one new local remediation 002
-commit before any push, PR/thread action, merge, implementation, or provider
-operation. PR #35 remains open and unmerged and P1 remains unresolved.
-`PR_35_POLICY_TRANSITION_REMEDIATION_002_LOCAL_NOT_REVIEWED`,
+**Verified state at task start.** Both remediation commits — `b611fc08…`
+and `159701e0…` — are pushed and published; PR #35's remote head is
+`159701e045abcce104e3037bb2ba97aa571761f0` (4 commits, 5 files, tree
+`4003dd8ca2fab8256485573e80da7546bf6c149b`), not `1a379954…`. P1 thread
+`PRRT_kwDOTQjWMs6VhoHo` remains unresolved and **outdated**, with exactly
+one published evidence reply (`PRRC_kwDOTQjWMs7cRJKy`). A local independent
+review of remediation 002 returned
+`PASS_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_002_REVIEW_001`.
+A subsequent fresh, independent **PR-level** review of that published head
+returned
+`REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_002_PR_REVIEW_001`:
+it confirmed the governance repair (seven-state machine, both narrow drift
+exceptions, complete 40-case contract, unchanged immutable envelope,
+truthful PR body) sound, with the **sole blocker (F-01)** being that these
+living documents still described an obsolete pre-push state.
+
+**CURRENT:**
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-LIVING-DOCUMENT-PUBLICATION-STATE-SYNC-001`
+— correct exactly the F-01 stale claims in `AGENT_HANDOFF.md`,
+`PROJECT_STATE.md`, `ROADMAP.md`, and this file. No code, test, task-record,
+or policy content changes; the P1 thread is not touched. This commit is
+created locally, with exactly one parent, directly on top of published head
+`159701e045abcce104e3037bb2ba97aa571761f0`; at creation it is local and not
+yet pushed.
+
+**NEXT AFTER PUBLICATION:**
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-PR-REVIEW-001`
+— after the remediation-003 commit is separately authorized and pushed, an
+independent PR-level review must inspect the newly published remote head,
+independently verify F-01 is repaired, re-check the five-document
+cumulative PR scope, re-run the required validators, and reconfirm all five
+provider commands remain blocked. That review must avoid resolving P1
+unless separately authorized, and must avoid merge, provider access,
+execution, and spend.
+
 `POLICY_TRANSITION_IMPLEMENTATION_NOT_AUTHORIZED`,
 `PROVIDER_CONNECTION_NOT_EXECUTED`, `MIGRATION_TRIGGER_5_NOT_CROSSED`,
 `USD_0_01_NOT_SPENT`, and `STAGE_C_LIVE_SMOKE_NOT_EXECUTED` hold. No provider

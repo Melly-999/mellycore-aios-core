@@ -388,9 +388,9 @@ this roadmap entry.
   section. Exact next task at this historical point:
   `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh
   independent review required before publication, merge, or execution.
-- **PR #35 blocked pre-merge by an unresolved P1 policy-transition finding —
-  documentation remediation created locally, not reviewed, not pushed.** A
-  merge-preflight task correctly stopped on an unresolved
+- **PR #35 blocked pre-merge by a P1 policy-transition finding (historical)
+  — documentation remediation created, subsequently published.** A
+  merge-preflight task correctly stopped on an unresolved, then-current
   `chatgpt-codex-connector` thread ("Permit the required policy transition",
   `docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md:363`);
   no merge occurred. An independent assessment returned
@@ -406,7 +406,7 @@ this roadmap entry.
   B-01 left the implementation merge invalidating under canonical-main drift,
   and B-02 left the future implementation test contract incomplete.
 - **Execution-baseline supersession and test-contract remediation 002 —
-  local, unreviewed, unpushed.** The task record now defines seven explicit
+  published; current PR #35 head.** The task record defines seven explicit
   governance states. Before the implementation transition, `main` must equal
   the authorization-publication baseline exactly and the separately
   authorized, independently reviewed Model B branch must be based directly
@@ -419,14 +419,39 @@ this roadmap entry.
   eligibility. No simultaneous equality is required. Any unrelated
   pre-transition advancement or later post-baseline advancement remains
   invalidating; ancestry alone is insufficient; no other drift is exempt.
-  No implementation exists, provider policy remains fail-closed, PR #35
-  remains open/unmerged, and P1 remains unresolved. States
-  `PR_35_POLICY_TRANSITION_REMEDIATION_002_LOCAL_NOT_REVIEWED`,
+  No implementation exists and provider policy remains fail-closed.
+  Both remediation commits (`b611fc08…` and `159701e0…`) are pushed and
+  published; `159701e045abcce104e3037bb2ba97aa571761f0` is the current PR
+  #35 remote head (4 commits, 5 files). A local independent review returned
+  `PASS_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_002_REVIEW_001`,
+  and a published evidence reply recorded it on the P1 thread without
+  resolving it. PR #35 remains open/unmerged, and P1 thread
+  `PRRT_kwDOTQjWMs6VhoHo` remains unresolved and **outdated**.
+- **Fresh independent PR-level review of published head `159701e…`.**
+  Returned
+  `REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_002_PR_REVIEW_001`.
+  It independently reproduced the original P1 and both B-01/B-02, confirmed
+  remediation 002 repairs both, validated the governance machine, both
+  narrow drift exceptions, the complete 40-case contract, the unchanged
+  immutable envelope, and the truthful PR body. **The sole blocker (F-01):**
+  the four living documents still described an obsolete pre-push state
+  (stale remote head, "local-only/unpushed" remediations, "non-outdated" P1
+  thread) despite the true published state above.
+- **Remediation 003 — living-document publication state synchronization
+  (current).** Corrects exactly the F-01 stale claims in
+  `AGENT_HANDOFF.md`, `PROJECT_STATE.md`, this roadmap, and `RUN_QUEUE.md`.
+  Changes no code, test, task-record, or policy content; does not touch the
+  P1 thread. States
+  `PR_35_LIVING_DOCUMENT_SYNC_LOCAL_NOT_PUSHED`,
   `POLICY_TRANSITION_IMPLEMENTATION_NOT_AUTHORIZED`,
   `PROVIDER_CONNECTION_NOT_EXECUTED`, `MIGRATION_TRIGGER_5_NOT_CROSSED`,
-  `USD_0_01_NOT_SPENT`, and `STAGE_C_LIVE_SMOKE_NOT_EXECUTED` hold. No provider
-  operation or spending occurred. Exact next task:
-  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-002-REVIEW-001`.
+  `USD_0_01_NOT_SPENT`, and `STAGE_C_LIVE_SMOKE_NOT_EXECUTED` hold. No
+  provider operation or spending occurred. Exact next task after this commit
+  is separately authorized and pushed:
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-PR-REVIEW-001`
+  — a fresh independent PR-level review of the newly published head. P1
+  resolution, merge, provider access, and Stage C execution remain
+  separately gated and are not authorized here.
 - Task-record next-task fields are creation-time historical snapshots,
   superseded by this roadmap and `RUN_QUEUE.md`.
 
