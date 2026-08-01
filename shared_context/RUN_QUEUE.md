@@ -612,18 +612,31 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001.md`.
 4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
    Provider Registry contract for enterprise SaaS, marketing, and
-   cybersecurity systems. **Not started. Exact next task on this track.**
+   cybersecurity systems. **Complete: one local documentation commit, not
+   pushed.** Canonical contract:
+   `docs/specs/MELLYCORE_PROVIDER_REGISTRY_CONTRACT_EXTENSION_SPEC_001.md`
+   (specification-level acceptance only — no registry implementation,
+   adapter, credential, provider authentication, provider API call
+   including read-only, MCP or fabric connection, or deployment
+   authorization). Extends, without modifying,
+   `docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md`'s
+   §7.2 entity catalogue and §9.1 Provider Registry module. Durable
+   report:
+   `docs/tasks/MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001.md`.
 5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
    between MellyCore, direct adapters, MCP servers, and integration
-   fabrics. Not started; blocked on item 4.
+   fabrics. **Not started. Exact next task on this track.** It additionally
+   inherits two items the registry contract deferred to it: where
+   tenant-provider and tenant-capability authorization records live, and
+   how a fabric-mediated path demonstrates approval/audit equivalence to a
+   native adapter.
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
-   cybersecurity provider pack. Not started; blocked on items 4–5.
+   cybersecurity provider pack. Not started; blocked on item 5.
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
-   marketing analytics/CRM provider pack. Not started; blocked on items
-   4–5.
+   marketing analytics/CRM provider pack. Not started; blocked on item 5.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on items 4–7.
+   context, and roadmap documentation. Not started; blocked on items 5–7.
    Its remit now additionally includes correcting the stale internal
    section cross-references observed in the enterprise-provider ADR and
    recorded in the Cloudflare contract's Section 37.2 (a numbering defect,

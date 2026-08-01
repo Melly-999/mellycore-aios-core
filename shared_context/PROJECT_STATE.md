@@ -861,14 +861,38 @@ squashed. This is a documentation-integrity correction, not a new
 architectural milestone. Durable report:
 `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001.md`.
 
+**Provider Registry contract extension — complete.**
+`MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` defined the canonical
+registry contract enabling any enterprise, cybersecurity, marketing,
+integration-fabric, or restricted-MCP provider to be described through one
+fail-closed record structure. Its core rule is that **registration is not
+authorization**: provider registered, adapter implemented, credential
+configured, credential verified, tenant authorized, capability authorized,
+runtime enabled, and operation approved are **eight independent,
+conjunctive facts**, and no field may collapse them. Lifecycle is split
+across three orthogonal axes (record governance, adapter implementation,
+and the authorization facts), so no lifecycle state can imply credentials
+or production use. It reuses the existing canonical `sensitivity_level`
+vocabulary rather than inventing a parallel scale, extends — without
+modifying — the Control Plane spec's §7.2 entity catalogue and §9.1
+Provider Registry module, and represents the Cloudflare contract's 58
+capabilities and legacy exclusions with no weakening (recording Cloudflare
+as `contract_defined`, not `conformance_verified`, because that contract's
+own open `UNVERIFIED` items remain). This is **specification-level
+acceptance only** — it authorizes no registry implementation, adapter,
+credential, provider authentication, provider API call (including
+read-only), MCP or fabric connection, or deployment. Canonical contract:
+`docs/specs/MELLYCORE_PROVIDER_REGISTRY_CONTRACT_EXTENSION_SPEC_001.md`.
+Durable report:
+`docs/tasks/MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001.md`.
+
 **Outstanding documentation work** (none started; full chain and
 reconciliation with existing priority work:
 `shared_context/ROADMAP.md`'s "Enterprise Provider Integration — Research
 Direction" section and `shared_context/RUN_QUEUE.md`'s "Parallel Decision
 Track — Enterprise Provider Integration"):
-`MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` (exact next task on
+`MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` (exact next task on
 this track),
-`MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001`,
 `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
 `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`,
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`.

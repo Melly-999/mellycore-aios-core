@@ -1,6 +1,75 @@
 # Agent Handoff
 
-## Latest Update — Enterprise-provider document-integrity remediation (documentation-only, parallel track)
+## Latest Update — Provider Registry contract extension defined (documentation-only, parallel track)
+
+`MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001`
+
+- This task creates the canonical Provider Registry contract extension:
+  `docs/specs/MELLYCORE_PROVIDER_REGISTRY_CONTRACT_EXTENSION_SPEC_001.md`.
+  It **extends, without modifying,**
+  `docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md`'s §7.2
+  entity catalogue and §9.1 Provider Registry module, and conforms to both
+  the enterprise-provider ADR and the accepted Cloudflare contract.
+- **Core rule — registration is not authorization.** Execution requires
+  **eight independent, conjunctive, fail-closed facts**: provider
+  registered, adapter implemented, credential configured, credential
+  verified, tenant authorized, capability authorized, runtime enabled, and
+  operation approved. Any one missing, `unknown`, or expired denies, with
+  no override, and **no field may collapse two or more** — a single
+  `enabled` boolean is explicitly rejected.
+- **Lifecycle is split across three orthogonal axes** so no state can imply
+  credentials or production use: Axis A `registration_status` (record
+  governance), Axis B `adapter_state` (adapter implementation), Axis C the
+  eight authorization facts. The proposed states `authorized_read_only` and
+  `authorized_limited_write` were **rejected as lifecycle states**
+  precisely because they would re-merge authorization into lifecycle.
+- Also fixed: immutable provider- and capability-IDs; fail-closed defaults
+  (missing risk tier, scope, or approval policy all **deny**, never
+  defaulting to R0/wildcard/allow); mandatory read/write credential
+  separation with `secret_manager_ref` as an opaque reference only;
+  provider account scope is **never** MellyCore's tenant boundary;
+  integration fabrics must preserve the full
+  `MellyCore → fabric → downstream → resource` chain or become ineligible
+  for R3–R5; MCP registered separately with no unrestricted
+  search-and-execute and dynamic tool discovery ineligible for autonomous
+  use; append-only audit where sink unavailability blocks mutations; and
+  provider-specific contracts may only **narrow** generic safety, never
+  relax it.
+- **Reused rather than reinvented:** `sensitivity_level` comes from the
+  existing `MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001` §5
+  vocabulary, with provider data categories as an orthogonal axis mapping
+  into it — no parallel classification scale was created.
+- **Cloudflare conformance: representable with no weakening detected.** Its
+  58 capabilities, 13 prohibitions, R0–R5 tiers, legacy exclusions, and
+  documentation-only MCP all map onto the generic record. The registry
+  records Cloudflare as `contract_defined` / `adapter_state: blocked` —
+  **not** `conformance_verified`, because that contract's own open
+  `UNVERIFIED` items remain unresolved.
+- **This is specification-level acceptance only.** It authorizes no
+  registry implementation, adapter scaffolding, credential, provider
+  authentication, provider API call (**including read-only**), MCP or
+  integration-fabric connection, or deployment. Zero providers are
+  registered in any executable form; no registry exists.
+- This task creates exactly one new local documentation-only commit
+  (`docs: extend provider registry contract`) on a dedicated branch
+  (`docs/mellycore-provider-registry-contract-extension-001`) created from
+  the document-integrity remediation commit,
+  `0695292a987ed31d0a70cf86d28753c3170ca715`. **Not amended. Not pushed. No
+  PR. No merge.**
+- Exact next task on the enterprise-provider parallel track:
+  `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` (not started),
+  which additionally inherits two items this contract deferred to it: where
+  tenant-provider and tenant-capability authorization records live, and how
+  a fabric-mediated path demonstrates approval/audit equivalence to a
+  native adapter. Queued afterward:
+  `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
+  `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`,
+  `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`, then the
+  still-blocked `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001`. This does not
+  change the live next task for any other active track, including the
+  unchanged global OpenAI Batch pointer.
+
+## Previous Update — Enterprise-provider document-integrity remediation (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001`
 
@@ -41,9 +110,12 @@
   `40afc86258af4f7e46e061a8c4a0eca19827a511`. **Not amended. No existing
   commit was reset, rebased, squashed, or rewritten. Not pushed. No PR. No
   merge.**
-- Exact next task on the enterprise-provider parallel track remains
-  `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` (not started) —
-  unchanged by this task. Adapter scaffolding
+- Exact next task on the enterprise-provider parallel track **at the time
+  of this entry** was
+  `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — unchanged by that
+  task. It has since completed (see "Latest Update" at the top of this
+  file), so this pointer is a creation-time historical snapshot, not a
+  current-state claim. Adapter scaffolding
   (`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001`) remains blocked. This does
   not change the live next task for any other active track in this file,
   including the unchanged global OpenAI Batch pointer.

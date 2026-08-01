@@ -446,18 +446,23 @@ ordering at the time each task starts; none of items 2–9 is started):
 4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
    Provider Registry contract for enterprise SaaS, marketing, and
    cybersecurity systems (tenant identity, credentials, scopes, risk tiers,
-   approvals, audit, data classification). **Not started. Exact next task
-   on this track.**
+   approvals, audit, data classification). **Complete as a local, unpushed
+   documentation commit.** Canonical contract:
+   `docs/specs/MELLYCORE_PROVIDER_REGISTRY_CONTRACT_EXTENSION_SPEC_001.md`
+   — specification-level acceptance only, authorizing no registry
+   implementation, adapter, credential, provider authentication, provider
+   API call (including read-only), MCP or fabric connection, or deployment.
 5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
    between MellyCore, direct adapters, MCP servers, integration fabrics,
-   and delegated/service credentials. Not started; blocked on item 4.
+   and delegated/service credentials. **Not started. Exact next task on
+   this track.**
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
-   cybersecurity provider pack. Not started; blocked on items 4–5.
+   cybersecurity provider pack. Not started; blocked on item 5.
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
-   marketing analytics/CRM provider pack. Not started; blocked on items 4–5.
+   marketing analytics/CRM provider pack. Not started; blocked on item 5.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on items 4–7.
+   context, and roadmap documentation. Not started; blocked on items 5–7.
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
    item 8 passes and requires separate explicit Operator authorization.
    **Not authorized. Blocked behind documentation review.**
