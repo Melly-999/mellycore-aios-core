@@ -1,6 +1,38 @@
 # Agent Handoff
 
-## Latest Update — Cybersecurity Provider Pack specified (documentation-only, parallel track)
+## Latest Update — Marketing Provider Pack specified (documentation-only, parallel track)
+
+`MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`
+
+- Created the canonical 40-section Marketing Provider Pack:
+  `docs/specs/MELLYCORE_MARKETING_PROVIDER_PACK_SPEC_001.md`.
+- Defined P0 HubSpot, Google Analytics 4, Google Ads, Meta Marketing API,
+  LinkedIn Marketing API, and Twilio Segment; P1 Salesforce Marketing
+  Cloud, Braze, and Klaviyo; and P2 Adobe Experience Platform. Established
+  22 separate normalized marketing entity kinds, stable read/report/proposal
+  capability families, provider mappings, and privacy, identity, metric,
+  attribution, provenance, normalization-loss, and uncertainty requirements.
+- Initial scope is strictly R0-R2. All R3-R5 tracking, campaign/send, budget,
+  audience activation, CRM/profile/identity/consent mutation, export, and
+  provider-write surfaces remain deferred and unauthorized. Pack membership
+  and tiers are sequencing metadata only; they satisfy none of the Provider
+  Registry's eight independent runtime facts.
+- Specification and documentation only. No provider, credential, adapter,
+  runtime, tracking, audience, campaign, protected API, MCP, fabric, webhook,
+  deployment, dependency, or MellyTrade operation was authorized or
+  performed. Unknown provider facts remain explicitly `UNVERIFIED`.
+- Validation: `py -3.9 scripts/validate_project_state.py` passed;
+  `git diff --check` and staged diff checks passed; pytest was `NOT_RUN`
+  because this documentation-only task did not install dependencies or
+  change runtime code.
+- Exact next task on this parallel track:
+  `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`. The global
+  OpenAI Batch pointer remains unchanged. Adapter scaffolding remains blocked
+  until that review passes, any required remediation completes, and separate
+  authorization is issued. The resulting commit is local only; no push, PR,
+  merge, or deployment is authorized.
+
+## Previous Update — Cybersecurity Provider Pack specified (documentation-only, parallel track)
 
 `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`
 

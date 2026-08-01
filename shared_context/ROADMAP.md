@@ -471,11 +471,19 @@ the time each task starts; each item records its current state below):
    provider connection, credential, adapter, runtime, API call, MCP/fabric
    connection, webhook registration, or deployment.
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
-   marketing analytics/CRM provider pack. **Not started. Exact next task on
-   this track.**
+   marketing analytics/CRM provider pack. **Specification complete as a
+   local, unpushed documentation commit.** Canonical specification:
+   `docs/specs/MELLYCORE_MARKETING_PROVIDER_PACK_SPEC_001.md` — P0 HubSpot,
+   Google Analytics 4, Google Ads, Meta Marketing API, LinkedIn Marketing
+   API, and Twilio Segment; P1 Salesforce Marketing Cloud, Braze, and
+   Klaviyo; P2 Adobe Experience Platform; R0-R2 only, with R3-R5 deferred.
+   This acceptance authorizes no provider connection, credential, adapter,
+   runtime, tracking, audience/campaign operation, API call, MCP/fabric
+   connection, webhook registration, or deployment.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on item 7.
+   context, and roadmap documentation. **Not started. Exact next task on
+   this track.**
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
    item 8 passes and requires separate explicit Operator authorization.
    **Not authorized. Blocked behind documentation review.**

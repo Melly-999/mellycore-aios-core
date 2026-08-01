@@ -936,12 +936,31 @@ and no deployment was authorized. Canonical specification:
 report:
 `docs/tasks/MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001.md`.
 
+**Marketing Provider Pack — specification complete.**
+`MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` defines a zero-trust,
+read-oriented provider pack across P0 HubSpot, Google Analytics 4, Google
+Ads, Meta Marketing API, LinkedIn Marketing API, and Twilio Segment; P1
+Salesforce Marketing Cloud, Braze, and Klaviyo; and P2 Adobe Experience
+Platform. It establishes 22 separate normalized marketing entity kinds,
+stable read/report/proposal capability families, provider-specific mappings,
+and explicit identity, tenant, consent, purpose, sensitivity, metric,
+attribution, provenance, and normalization-loss requirements. Initial scope
+is strictly **R0-R2**; all R3-R5 tracking, mutation, audience activation,
+campaign/send, CRM/identity/consent change, and export surfaces remain
+deferred and unauthorized. Pack membership and provider tier are sequencing
+metadata only and do not satisfy the Provider Registry's eight independent
+facts. This is specification-level acceptance only: no provider was
+connected; no credential, adapter, runtime, tracking, audience, campaign,
+webhook, protected API, MCP/fabric operation, or deployment was authorized
+or performed. Canonical specification:
+`docs/specs/MELLYCORE_MARKETING_PROVIDER_PACK_SPEC_001.md`. Durable report:
+`docs/tasks/MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001.md`.
+
 **Outstanding documentation work** (none started; remaining chain and
 reconciliation with existing priority work:
 `shared_context/ROADMAP.md`'s "Enterprise Provider Integration — Research
 Direction" section and `shared_context/RUN_QUEUE.md`'s "Parallel Decision
 Track — Enterprise Provider Integration"):
-`MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`,
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`.
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` may only be considered after that
 full documentation-review gate passes and requires its own separate

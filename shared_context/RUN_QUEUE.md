@@ -656,11 +656,21 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    authorization. Durable report:
    `docs/tasks/MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001.md`.
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
-   marketing analytics/CRM provider pack. **Not started. Exact next task on
-   this track.**
+   marketing analytics/CRM provider pack. **Specification complete;
+   publication remains local and unpushed.** Canonical specification:
+   `docs/specs/MELLYCORE_MARKETING_PROVIDER_PACK_SPEC_001.md` (P0 HubSpot,
+   Google Analytics 4, Google Ads, Meta Marketing API, LinkedIn Marketing
+   API, and Twilio Segment; P1 Salesforce Marketing Cloud, Braze, and
+   Klaviyo; P2 Adobe Experience Platform; R0-R2 only, with R3-R5 deferred).
+   Specification-level acceptance only — no provider connection, credential,
+   adapter, runtime, tracking, audience/campaign operation, provider API call,
+   MCP/fabric connection, webhook registration, or deployment authorization.
+   Durable report:
+   `docs/tasks/MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001.md`.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on item 7.
+   context, and roadmap documentation. **Not started. Exact next task on
+   this track.**
    Its remit now additionally includes correcting the stale internal
    section cross-references observed in the enterprise-provider ADR and
    recorded in the Cloudflare contract's Section 37.2 (a numbering defect,
