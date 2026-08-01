@@ -586,25 +586,28 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    commit, not pushed.** Durable report:
    `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001.md`.
 2. `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` — canonical
-   provider-selection and integration-fabric decision record. **Not
-   started. Exact next task on this track.**
+   provider-selection and integration-fabric decision record. **Complete:
+   one local documentation commit, not pushed.** Canonical decision:
+   `docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001.md`.
 3. `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` — Cloudflare
    capability/authorization/approval/audit/rollout/legacy-exclusion
-   contract. Not started; blocked on item 2.
+   contract. **Not started. Exact next task on this track.**
 4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
    Provider Registry contract for enterprise SaaS, marketing, and
-   cybersecurity systems. Not started; blocked on item 2.
+   cybersecurity systems. Not started; blocked on item 3.
 5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
    between MellyCore, direct adapters, MCP servers, and integration
-   fabrics. Not started; blocked on item 2.
+   fabrics. Not started; blocked on item 3.
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
-   cybersecurity provider pack. Not started; blocked on items 2–5.
+   cybersecurity provider pack. Not started; blocked on items 3–5.
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
    marketing analytics/CRM provider pack. Not started; blocked on items
-   2–5.
+   3–5.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on items 2–7.
+   context, and roadmap documentation. Not started; blocked on items 3–7.
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
    not authorized. May only be considered after item 8 passes and requires
    separate explicit Operator authorization, independent of Model A/B

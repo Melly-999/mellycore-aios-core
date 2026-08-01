@@ -391,8 +391,12 @@ implementation.
 **Integration fabrics evaluated:** Composio, n8n, Pipedream Connect, Tray.ai
 Agent Gateway, Workato, Zapier MCP, and OpenClaw (architectural reference
 only, not a runtime dependency — full findings in `PROJECT_STATE.md`'s
-"Enterprise Provider Integration" entry). Proposed direction, pending
-`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`: Composio (managed
+"Enterprise Provider Integration" entry). **Accepted architecture
+direction**, per
+`docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`
+(`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`, decision/
+specification level only — no fabric is configured, credentialed, or
+connected by that ADR): Composio (managed
 auth / agent-tool layer), private self-hosted n8n (deterministic workflow
 layer), Pipedream (long-tail fallback), Tray.ai/Workato (later
 enterprise-governance options), Zapier MCP (broad marketing/business
@@ -424,24 +428,27 @@ ordering at the time each task starts; none of items 2–9 is started):
 1. `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001` — this entry.
    **Complete as a local, unpushed documentation commit.**
 2. `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` — canonical
-   provider-selection and integration-fabric decision record. Not started.
+   provider-selection and integration-fabric decision record. **Complete
+   as a local, unpushed documentation commit.** Canonical decision:
+   `docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`.
 3. `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` — Cloudflare
    capability, authorization, approval, audit, rollout, and
-   legacy-exclusion contract. Not started; blocked on item 2.
+   legacy-exclusion contract. **Not started. Exact next task on this
+   track.**
 4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
    Provider Registry contract for enterprise SaaS, marketing, and
    cybersecurity systems (tenant identity, credentials, scopes, risk tiers,
-   approvals, audit, data classification). Not started; blocked on item 2.
+   approvals, audit, data classification). Not started; blocked on item 3.
 5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
    between MellyCore, direct adapters, MCP servers, integration fabrics,
-   and delegated/service credentials. Not started; blocked on item 2.
+   and delegated/service credentials. Not started; blocked on item 3.
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
-   cybersecurity provider pack. Not started; blocked on items 2–5.
+   cybersecurity provider pack. Not started; blocked on items 3–5.
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
-   marketing analytics/CRM provider pack. Not started; blocked on items 2–5.
+   marketing analytics/CRM provider pack. Not started; blocked on items 3–5.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on items 2–7.
+   context, and roadmap documentation. Not started; blocked on items 3–7.
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
    item 8 passes and requires separate explicit Operator authorization.
    **Not authorized. Blocked behind documentation review.**

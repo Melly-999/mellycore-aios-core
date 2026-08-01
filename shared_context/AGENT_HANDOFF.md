@@ -1,6 +1,68 @@
 # Agent Handoff
 
-## Latest Update — Enterprise provider integration research recorded (documentation-only, parallel track)
+## Latest Update — Enterprise provider architecture decision recorded (documentation-only, parallel track)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`
+
+- This task converts the enterprise-provider research synchronized by
+  `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001` (see "Previous Update"
+  below) into a canonical architecture decision record:
+  `docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`.
+- The ADR locks: three provider integration classes (native adapters
+  preferred for high-trust deterministic cybersecurity operations;
+  governed integration fabrics for broad business/marketing/long-tail
+  work; restricted MCP for controlled investigation only, never
+  unrestricted for autonomous agents); the integration-fabric selection
+  (Composio + private self-hosted n8n as primary candidates, Pipedream as
+  secondary, Tray.ai/Workato as later candidates, Zapier MCP restricted
+  from becoming the cybersecurity execution boundary); cybersecurity and
+  marketing provider tiers; the Cloudflare P0 decision with its legacy
+  exclusions (deprecated Firewall Rules API and
+  `/api_gateway/user_schemas/hosts` excluded from new integration;
+  Rulesets API and Schema Validation 2.0 are the future direction); the
+  OpenClaw findings (architectural reference only, session IDs are not
+  authorization, one shared gateway is not multi-tenant isolation); the
+  tenant-isolation model; the seven-part identity model; the read/write
+  credential-separation model; the R0–R5 capability/risk/approval model;
+  the audit and read-after-write verification model; and the
+  external-content/prompt-injection posture. Ten alternatives were
+  explicitly rejected (full list in the ADR's Section 17).
+- **This decision is architecture and sequencing acceptance only.** It
+  authorizes no provider implementation, no credentials, no provider
+  authentication, no API execution (including read-only calls to any
+  cybersecurity, marketing, or Cloudflare API), no MCP connection, and no
+  deployment. Two unauthenticated, read-only spot-check fetches of public
+  Cloudflare documentation pages were performed during research (accessed
+  2026-08-01); no credential was used or exposed, and no API mutation
+  occurred.
+- **This entry is independent of, and does not reorder, reprioritize, or
+  supersede, the live OpenAI Batch API track.** That track's live next
+  task remains unchanged:
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` (see
+  `RUN_QUEUE.md`'s "Current — OpenAI Batch Final Canonical State
+  Reconciliation Gate"). This task neither advances nor blocks it.
+- This task creates exactly one new local documentation-only commit
+  (`docs: record enterprise provider architecture decision`) on a
+  dedicated branch
+  (`docs/mellycore-enterprise-provider-decision-record-001`) created from
+  the immediately preceding roadmap-sync commit,
+  `adcceae9f0720826c2cc702c3007acbcdd463d89`. **Not pushed. No PR. No
+  merge.**
+- Exact next task on the enterprise-provider parallel track:
+  `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` (Cloudflare
+  capability/authorization/approval/audit/rollout/legacy-exclusion
+  contract; not started). Queued afterward, in order:
+  `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001`,
+  `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001`,
+  `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
+  `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`,
+  `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`, then the
+  still-blocked `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` (not authorized
+  until that full gate passes and a separate explicit operator
+  authorization is given). This does not change the live next task for any
+  other active track in this file.
+
+## Previous Update — Enterprise provider integration research recorded (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`
 
@@ -41,11 +103,11 @@
   from canonical `clean-origin/main` at
   `947f33d27d5546775186e96bdc61e30db78c0b3d`. **Not pushed. No PR. No
   merge.**
-- Exact next task on this new parallel track:
-  `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` (canonical
-  provider-selection and integration-fabric decision record; not started).
-  This does not change the live next task for any other active track in
-  this file.
+- Exact next task on this parallel track at the time of this entry was
+  `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`; that task has since
+  completed (see "Latest Update" above) and this pointer is superseded,
+  not a current-state claim. This did not change the live next task for
+  any other active track in this file.
 
 ## Previous Update — PR #33 merged; final canonical state reconciliation in progress
 

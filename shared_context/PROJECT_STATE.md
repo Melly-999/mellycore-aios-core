@@ -730,8 +730,11 @@ this file.
 
 **Integration fabrics evaluated:** Composio, n8n, Pipedream Connect, Tray.ai
 Agent Gateway, Workato, Zapier MCP, and OpenClaw (architectural reference
-only). **Proposed direction**, pending a canonical decision record
-(`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`, not started):
+only). **Accepted architecture direction**, per the canonical decision
+record
+(`docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`,
+`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`, decision/
+specification level only):
 Composio as a developer-first managed-authentication and agent-tool
 candidate; private self-hosted n8n as a deterministic workflow/automation
 candidate; Pipedream as a possible long-tail API fallback; Tray.ai or
@@ -813,14 +816,26 @@ No cybersecurity remediation action is authorized. Provider adapter
 scaffolding remains blocked until the documentation and integration-review
 gates below pass and are separately authorized.
 
-**Outstanding documentation work** (none started by this entry; full chain
-and reconciliation with existing priority work:
+**Canonical architecture decision — complete.**
+`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` locked provider
+integration classes, integration-fabric selection, cybersecurity/marketing
+provider tiers, the Cloudflare decision, OpenClaw findings, tenant
+isolation, identity/credential model, capability/risk/approval model,
+audit/verification model, and external-content posture as **architecture
+and sequencing direction only** — it authorizes no implementation,
+credentials, provider authentication, API execution, or deployment.
+Canonical decision:
+`docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`.
+Durable report:
+`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001.md`.
+
+**Outstanding documentation work** (none started; full chain and
+reconciliation with existing priority work:
 `shared_context/ROADMAP.md`'s "Enterprise Provider Integration — Research
 Direction" section and `shared_context/RUN_QUEUE.md`'s "Parallel Decision
 Track — Enterprise Provider Integration"):
-`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` (canonical
-provider-selection and integration-fabric decision record),
-`MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001`,
+`MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` (exact next task
+on this track),
 `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001`,
 `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001`,
 `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
