@@ -420,7 +420,11 @@ Discovery, Endpoint Management, Authentication Posture, Schema Validation
 the Rulesets API and Schema Validation 2.0 are the recorded future
 direction. Full detail, legacy exclusions, and safety boundaries:
 `PROJECT_STATE.md`'s "Enterprise Provider Integration — Architectural
-Research Recorded (Not Implemented)".
+Research Recorded (Not Implemented)". The canonical connector contract —
+capabilities, risk tiers, approvals, credential profiles, rollout staging,
+and verified legacy exclusions — is
+`docs/specs/MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001.md`
+(item 3 below).
 
 **Proposed documentation sequence** (reconciled against current canonical
 ordering at the time each task starts; none of items 2–9 is started):
@@ -433,22 +437,27 @@ ordering at the time each task starts; none of items 2–9 is started):
    `docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`.
 3. `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` — Cloudflare
    capability, authorization, approval, audit, rollout, and
-   legacy-exclusion contract. **Not started. Exact next task on this
-   track.**
+   legacy-exclusion contract. **Complete as a local, unpushed
+   documentation commit.** Canonical contract:
+   `docs/specs/MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001.md`
+   — specification-level acceptance only, authorizing no implementation,
+   credential, provider authentication, Cloudflare API call (including
+   read-only), MCP connection, or deployment.
 4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
    Provider Registry contract for enterprise SaaS, marketing, and
    cybersecurity systems (tenant identity, credentials, scopes, risk tiers,
-   approvals, audit, data classification). Not started; blocked on item 3.
+   approvals, audit, data classification). **Not started. Exact next task
+   on this track.**
 5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
    between MellyCore, direct adapters, MCP servers, integration fabrics,
-   and delegated/service credentials. Not started; blocked on item 3.
+   and delegated/service credentials. Not started; blocked on item 4.
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
-   cybersecurity provider pack. Not started; blocked on items 3–5.
+   cybersecurity provider pack. Not started; blocked on items 4–5.
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
-   marketing analytics/CRM provider pack. Not started; blocked on items 3–5.
+   marketing analytics/CRM provider pack. Not started; blocked on items 4–5.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on items 3–7.
+   context, and roadmap documentation. Not started; blocked on items 4–7.
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
    item 8 passes and requires separate explicit Operator authorization.
    **Not authorized. Blocked behind documentation review.**

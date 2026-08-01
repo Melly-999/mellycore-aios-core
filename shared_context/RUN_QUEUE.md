@@ -593,21 +593,31 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001.md`.
 3. `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` — Cloudflare
    capability/authorization/approval/audit/rollout/legacy-exclusion
-   contract. **Not started. Exact next task on this track.**
+   contract. **Complete: one local documentation commit, not pushed.**
+   Canonical contract:
+   `docs/specs/MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001.md`
+   (specification-level acceptance only — no implementation, credential,
+   authentication, API execution, MCP, or deployment authorization).
+   Durable report:
+   `docs/tasks/MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001.md`.
 4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
    Provider Registry contract for enterprise SaaS, marketing, and
-   cybersecurity systems. Not started; blocked on item 3.
+   cybersecurity systems. **Not started. Exact next task on this track.**
 5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
    between MellyCore, direct adapters, MCP servers, and integration
-   fabrics. Not started; blocked on item 3.
+   fabrics. Not started; blocked on item 4.
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
-   cybersecurity provider pack. Not started; blocked on items 3–5.
+   cybersecurity provider pack. Not started; blocked on items 4–5.
 7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
    marketing analytics/CRM provider pack. Not started; blocked on items
-   3–5.
+   4–5.
 8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — resolves
    conflicts across provider, control-plane, secrets, audit, safety,
-   context, and roadmap documentation. Not started; blocked on items 3–7.
+   context, and roadmap documentation. Not started; blocked on items 4–7.
+   Its remit now additionally includes correcting the stale internal
+   section cross-references observed in the enterprise-provider ADR and
+   recorded in the Cloudflare contract's Section 37.2 (a numbering defect,
+   not an architectural conflict; the ADR was not modified by item 3).
 9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
    not authorized. May only be considered after item 8 passes and requires
    separate explicit Operator authorization, independent of Model A/B
@@ -617,9 +627,12 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,
 provider runtime, any MCP connection to a provider, any Cloudflare API
-mutation (including read-only Cloudflare API calls, since no connector
-contract yet exists), any marketing campaign action, any cybersecurity
-remediation action, and provider adapter scaffolding.
+call or mutation — **including read-only Cloudflare API calls, which
+acceptance of the item 3 connector contract does not unblock** (that
+contract is specification-level only; its Section 35 keeps read-only access
+blocked until the full documentation gate passes and a separate explicit
+Operator authorization is given) — any marketing campaign action, any
+cybersecurity remediation action, and provider adapter scaffolding.
 
 ## Deferred Work
 

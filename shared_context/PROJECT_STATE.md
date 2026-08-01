@@ -829,14 +829,33 @@ Canonical decision:
 Durable report:
 `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001.md`.
 
+**Cloudflare connector contract — complete.**
+`MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` defined the
+canonical Cloudflare Application & API Security Provider connector
+contract: four authorization domains, 58 capability IDs (16 read-only,
+16 proposal-only, 23 approval-required mutations, 3 operator-investigation)
+plus 13 explicitly prohibited capabilities, R0–R5 classification with no
+R3 capability, credential profiles with strict read/write separation, a
+mandatory 17-stage Schema Validation rollout in which zone-wide `block` is
+always R5, WAF Rulesets mutation safety, Endpoint Management deletion as an
+R5 irreversible action, complete-diff label replacement, documentation-only
+MCP, mandatory read-after-write verification, and non-optional audit. Its
+verified legacy exclusions are the Firewall Rules API, the Filters API,
+Classic Schema Validation, and `/api_gateway/user_schemas/hosts`. This is
+**specification-level acceptance only** — it authorizes no implementation,
+credential, provider authentication, Cloudflare API call (including
+read-only), MCP connection, or deployment. Canonical contract:
+`docs/specs/MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001.md`.
+Durable report:
+`docs/tasks/MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001.md`.
+
 **Outstanding documentation work** (none started; full chain and
 reconciliation with existing priority work:
 `shared_context/ROADMAP.md`'s "Enterprise Provider Integration — Research
 Direction" section and `shared_context/RUN_QUEUE.md`'s "Parallel Decision
 Track — Enterprise Provider Integration"):
-`MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` (exact next task
-on this track),
-`MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001`,
+`MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` (exact next task on
+this track),
 `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001`,
 `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
 `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`,

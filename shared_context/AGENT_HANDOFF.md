@@ -1,6 +1,68 @@
 # Agent Handoff
 
-## Latest Update — Enterprise provider architecture decision recorded (documentation-only, parallel track)
+## Latest Update — Cloudflare API Shield connector contract defined (documentation-only, parallel track)
+
+`MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001`
+
+- This task creates the canonical Cloudflare Application & API Security
+  Provider connector contract:
+  `docs/specs/MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001.md`.
+  It conforms to, and does not amend, the accepted ADR
+  (`docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`,
+  see "Previous Update" below).
+- The contract fixes: four authorization domains (security inventory,
+  posture/proposal, protection changes, operator investigation); **58
+  capability IDs** — 16 read-only (R0×5, R1×11), 16 proposal-only (R2), 23
+  approval-required mutations (R4×17, R5×6), 3 operator-investigation (R0)
+  — plus **13 explicitly prohibited** capabilities; **no R3 capability**,
+  because the ADR places every in-scope Cloudflare mutation at an R4
+  minimum; four credential profiles with strict read/write separation and
+  no Global API Key; explicit tenant/account/zone allowlisting, including
+  the hazard that Cloudflare's API Gateway permissions are **account**
+  scoped and must never be treated as MellyCore's tenant boundary; a
+  mandatory **17-stage Schema Validation rollout** where zone-wide `block`
+  is always R5 and the emergency `none` containment path must be proven
+  reachable *before* the first `block`; WAF Rulesets mutation safety
+  (version preconditions, complete order/expression/action/scope diffs,
+  nine R5 escalations); Endpoint Management deletion as an **R5
+  irreversible** action; complete add/remove/unchanged diffs for label
+  replacement; **documentation-only MCP**; mandatory read-after-write
+  verification; and non-optional audit that blocks R3–R5 when unavailable.
+- **Verified legacy exclusions** (official Cloudflare documentation,
+  accessed 2026-08-01, unauthenticated public pages only): the Firewall
+  Rules API and Filters API ("no longer supported since 2025-06-15" —
+  independently confirming the operator-supplied research the prior task's
+  spot check could not settle); Classic Schema Validation (deprecated,
+  cannot accept new schemas); and `/api_gateway/user_schemas/hosts`.
+  Transitional documentation inconsistencies are recorded honestly in the
+  contract's Section 8.4, with open, unverified items in Section 8.8.
+- **This is a specification-level connector contract only.** It authorizes
+  no Cloudflare implementation, adapter scaffold, credential, provider
+  authentication, API token, Cloudflare API call (**including read-only**),
+  MCP connection, Cloudflare configuration change, or deployment. No
+  Cloudflare API was authenticated or called and no MCP server was
+  connected or invoked during this task.
+- **This entry is independent of, and does not reorder, reprioritize, or
+  supersede, the live OpenAI Batch API track.** That track's live next task
+  remains unchanged: `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
+- This task creates exactly one new local documentation-only commit
+  (`docs: define Cloudflare API Shield connector contract`) on a dedicated
+  branch (`docs/mellycore-cloudflare-api-shield-connector-contract-001`)
+  created from the immediately preceding decision-record commit,
+  `e4b8db4a657d7316ab6168f806fefb2f3e9ac636`. **Not pushed. No PR. No
+  merge.**
+- Exact next task on the enterprise-provider parallel track:
+  `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` (not started).
+  Queued afterward, in order:
+  `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001`,
+  `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
+  `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001`,
+  `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`, then the
+  still-blocked `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` (not authorized
+  until that full gate passes and a separate explicit operator
+  authorization is given).
+
+## Previous Update — Enterprise provider architecture decision recorded (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`
 
@@ -48,10 +110,13 @@
   the immediately preceding roadmap-sync commit,
   `adcceae9f0720826c2cc702c3007acbcdd463d89`. **Not pushed. No PR. No
   merge.**
-- Exact next task on the enterprise-provider parallel track:
+- Exact next task on the enterprise-provider parallel track **at the time
+  of this entry** was
   `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` (Cloudflare
   capability/authorization/approval/audit/rollout/legacy-exclusion
-  contract; not started). Queued afterward, in order:
+  contract). That task has since completed — see "Latest Update" at the top
+  of this file — so this pointer is a creation-time historical snapshot,
+  not a current-state claim. Queued afterward, in order:
   `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001`,
   `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001`,
   `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001`,
@@ -105,8 +170,8 @@
   merge.**
 - Exact next task on this parallel track at the time of this entry was
   `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`; that task has since
-  completed (see "Latest Update" above) and this pointer is superseded,
-  not a current-state claim. This did not change the live next task for
+  completed (see the "Previous Update" entry for it immediately above) and
+  this pointer is superseded, not a current-state claim. This did not change the live next task for
   any other active track in this file.
 
 ## Previous Update — PR #33 merged; final canonical state reconciliation in progress
