@@ -505,11 +505,27 @@ the time each task starts; each item records its current state below):
     nine canonical Registry classes, binds every concrete registration to one
     class before Gateway resolution, and routes the three P3 findings.
     `P1-201` closure remains unverified.
-11. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` — **exact next
-    task; not started.** Independent review must verify `P1-201` closure and
-    the credential-class model without treating remediation prose as evidence.
-12. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
-    Review 003 passes, plus separate
+11. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` — **complete;
+    gate failed.** `FAIL_REMEDIATION_REQUIRED` (P0 = 0, P1 = 2, P2 = 1,
+    P3 = 2) across 17 documents and 16 determinism scenarios. `P1-201` is
+    `PARTIALLY_CLOSED`: the ninth canonical class, the one-class D4 binding,
+    the derived non-normative `credential_class: investigation` value, and the
+    `CF_READ` projection are independently verified closed; the operator-bound
+    restricted-tool path is not expressible in the Gateway acting-identity
+    model (`P1-301`) or under the Cloudflare provider record's required scope
+    dimensions (`P1-302`). Both fail in the deny direction, and no safety
+    regression was found. Canonical review:
+    `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_003.md`.
+    The documentation gate has not passed.
+12. `MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`
+    — **exact next task; not started.** Must reconcile the Integration Gateway
+    acting-identity model and the Provider Registry provider-record scope model
+    with `restricted_operator_investigation`, without weakening any fail-closed
+    default and without granting that class provider-account, provider-API, or
+    mutation authority, and must route the remaining P2 and P3 findings. A
+    further independent review must follow it.
+13. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
+    that remediation and a further passing independent review, plus separate
     explicit Operator authorization. **Blocked, ineligible, not
     started, and not authorized.**
 

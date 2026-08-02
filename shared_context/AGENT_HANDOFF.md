@@ -1,6 +1,49 @@
 # Agent Handoff
 
-## Latest Update — Enterprise-provider credential-class conformance remediated (documentation-only, parallel track)
+## Latest Update — Enterprise-provider documentation integration review 003 failed (documentation-only, parallel track)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003`
+
+- Independent post-remediation gate over commit
+  `8e1f7289345eb556d6b1972cac61c0aa9a950c89`, across 17 documents and 16
+  determinism scenarios. Result: `FAIL_REMEDIATION_REQUIRED` with P0 = 0,
+  P1 = 2, P2 = 1, P3 = 2. The documentation gate has **not** passed.
+- `P1-201` is `PARTIALLY_CLOSED`. Verified closed: Registry §13.2 now holds
+  exactly nine canonical credential-profile classes including
+  `restricted_operator_investigation`; every concrete capability binds exactly
+  one class before Gateway resolution; Cloudflare's `CF_*` values are
+  provider-specific requirement labels with a five-row normative projection and
+  are never Gateway inputs; the residual `credential_class: investigation`
+  value is derived, non-normative, and has no runtime use anywhere in the
+  chain; and `CF_READ` resolves to exactly one identity-specific read class
+  before runtime.
+- Still open, both concerning the operator-bound restricted
+  documentation/investigation path. `P1-301`: Gateway §9.2, Rule 16.7, §17
+  step 13, and the §23 envelope admit only `delegated_user` or
+  `service_account`, so a request bound to `restricted_operator_investigation`
+  — Registry `identity_type: mellycore_operator` — has no resolvable acting
+  identity, while Gateway §34.6 and Cloudflare §25.2 present a reachable D4
+  path. `P1-302`: Registry §26.1 declares `required_scope_dimensions: tenant,
+  account, zone` for provider `cloudflare` and §11.2 rule 2 fails closed on a
+  missing dimension, while Cloudflare §11.2 rule 2 requires D4 to carry an
+  empty account, zone, and resource binding.
+- Both findings fail in the deny direction. No safety regression: the 58
+  Cloudflare capability rows and 13 prohibition rows are byte-identical to the
+  pre-remediation commit, risk classifications are intact, the eight
+  authorization facts remain separate, and the documentation-only class carries
+  no provider account, provider API, or mutation authority.
+- Exact next task:
+  `MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`.
+  `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
+  started, and not authorized.
+- Documentation only; one local commit only; not pushed. No provider is
+  connected, authenticated, credentialed, enabled, live, deployed, or
+  implemented. No provider authentication/API/MCP, fabric, webhook, credential,
+  runtime, workflow, dependency, deploy, push, PR, merge, or MellyTrade action
+  is authorized or performed. The global task pointer is unchanged, not
+  reordered, and not reinterpreted by this parallel-track review.
+
+## Previous Update — Enterprise-provider credential-class conformance remediated (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`
 

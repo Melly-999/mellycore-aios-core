@@ -1019,10 +1019,47 @@ service-account fallback, or read-to-write widening exists. The three Review
 002 P3 maintenance findings are also routed in their canonical documents.
 
 This documentation-only remediation is **not** a documentation-gate PASS.
-`P1-201` closure remains unverified until the exact next enterprise-provider
-task, `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003`, completes.
-No provider runtime, credential, provider API, MCP/fabric connection, mutation,
-or scaffold is authorized.
+
+**Enterprise-provider documentation integration review 003 — complete; gate
+failed.** `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003`
+independently verified the credential-class remediation across 17 documents and
+16 determinism scenarios. Result: `FAIL_REMEDIATION_REQUIRED` with P0 = 0,
+P1 = 2, P2 = 1, P3 = 2. `P1-201` is `PARTIALLY_CLOSED`: four of its six
+sub-defects are independently verified closed — the ninth canonical class
+exists, D4 binds exactly one class, the residual `credential_class:
+investigation` value is derived and non-normative with no runtime use anywhere,
+and `CF_READ` now resolves to exactly one read class before runtime. Two
+sub-defects remain open, both concerning the operator-bound restricted
+documentation/investigation path:
+
+- `P1-301` — Integration Gateway §9.2, Rule 16.7, §17 step 13, and the §23
+  request envelope admit only `delegated_user` or `service_account` as the
+  acting identity, so a request bound to `restricted_operator_investigation`,
+  whose Registry-declared `identity_type` is `mellycore_operator`, has no
+  resolvable acting identity — while Gateway §34.6 and Cloudflare §25.2 present
+  a reachable D4 path.
+- `P1-302` — Registry §26.1 declares `required_scope_dimensions: tenant,
+  account, zone` for provider `cloudflare` and §11.2 rule 2 fails closed on a
+  missing required dimension, while Cloudflare §11.2 rule 2 requires the D4
+  label to carry an empty account, zone, and resource binding.
+
+Both findings fail in the deny direction. No safety regression was found: the
+58 Cloudflare capability rows and 13 prohibition rows are byte-identical to the
+pre-remediation commit, all risk classifications are intact, the eight
+authorization facts remain separate, and the documentation-only class carries
+no provider account, provider API, or mutation authority. Canonical review:
+`docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_003.md`.
+Durable review report:
+`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003.md`.
+
+The documentation gate has **not** passed. The exact next enterprise-provider
+task is
+`MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`,
+which must reconcile the Gateway acting-identity model and the Registry
+provider-record scope model with the ninth canonical class without weakening
+any fail-closed default, and route the remaining P2 and P3 findings. A further
+independent review must follow it. No provider runtime, credential, provider
+API, MCP/fabric connection, mutation, or scaffold is authorized.
 
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
 started, and not authorized. This result does

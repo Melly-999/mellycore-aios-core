@@ -703,13 +703,37 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    are routed. The documentation gate has **not** passed; `P1-201` closure is
    not independently verified. Durable report:
    `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001.md`.
-11. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` — **exact next
-   task; not started.** Must independently verify the remediation and decide
-   whether the documentation integration gate passes before scaffold
-   eligibility is reconsidered.
-12. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
-   ineligible, and not authorized. May only be considered after item 11 passes
-   and separate explicit
+11. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` — **complete in
+   one local documentation-only commit; not pushed. Gate failed.**
+   `FAIL_REMEDIATION_REQUIRED` with P0 = 0, P1 = 2, P2 = 1, P3 = 2 across 17
+   documents and 16 determinism scenarios. `P1-201` is `PARTIALLY_CLOSED` —
+   the ninth canonical class, the one-class D4 binding, the derived
+   non-normative `credential_class: investigation` value, and the `CF_READ`
+   projection are independently verified closed. Open: `P1-301`, the Gateway
+   acting-identity model (§9.2, Rule 16.7, §17 step 13, §23) admits only
+   `delegated_user` or `service_account` and cannot express
+   `restricted_operator_investigation`'s `mellycore_operator` identity; and
+   `P1-302`, Registry §26.1's `required_scope_dimensions: tenant, account,
+   zone` for provider `cloudflare` contradicts Cloudflare §11.2 rule 2's
+   mandatory empty D4 account/zone/resource binding. Both fail in the deny
+   direction; 58 capability rows and 13 prohibition rows are byte-identical to
+   the pre-remediation commit and no safety regression was found. Canonical
+   review:
+   `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_003.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003.md`.
+   The documentation gate has **not** passed.
+12. `MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`
+   — **exact next task; not started.** Must reconcile the Integration Gateway
+   acting-identity model and the Provider Registry provider-record scope model
+   with `restricted_operator_investigation`, without weakening any fail-closed
+   default and without granting that class provider-account, provider-API, or
+   mutation authority, and must route the remaining P2 and P3 findings. A
+   further independent review must follow before scaffold eligibility is
+   reconsidered.
+13. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
+   ineligible, and not authorized. May only be considered after item 12 and a
+   further passing independent review, and separate explicit
    Operator authorization is issued, independent of Model A/B deployment
    authorization and independent of the OpenAI Batch Stage C gate.
 
