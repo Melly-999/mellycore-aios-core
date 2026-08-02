@@ -970,7 +970,7 @@ Durable review report:
 `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001.md`.
 
 The exact next task on this parallel track is
-`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002`.
+`MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`.
 
 **Enterprise-provider documentation integration remediation — complete.**
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001` closes all
@@ -983,9 +983,38 @@ repairs. Canonical new specification:
 `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001.md`.
 This is documentation-only and makes no claim that review-002 has passed.
 
+**Enterprise-provider documentation integration review 002 — complete; gate
+failed.** `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002`
+independently re-ran the documentation gate against the remediated chain across
+19 documents and 16 determinism scenarios. Result:
+`FAIL_REMEDIATION_REQUIRED` with P0 = 0, P1 = 1, P2 = 0, P3 = 3. Eight of the
+nine review-001 findings are independently verified `CLOSED`; review-001
+`P1-003` (credential-class mapping) is `PARTIALLY_CLOSED`. The remaining
+blocker is `P1-201`: the remediation made Provider Registry §13.2 a closed,
+mandatory eight-value credential-profile-class catalogue binding on
+provider-specific contracts, but the already-accepted Cloudflare connector
+contract still declares `CF_READ`, `CF_WRITE_CONTROLLED`, `CF_CONTAIN`, and
+`CF_MCP_OPERATOR` with no projection onto those eight —
+`CF_MCP_OPERATOR` maps to none of them — and Integration Gateway §§34.1–34.6
+still label those values "Credential class" although Gateway §14.2 now denies
+anything that is not one exact Registry §13.2 identifier. Three P3 maintenance
+findings also remain. Canonical review:
+`docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_002.md`.
+Durable review report:
+`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002.md`.
+The documentation gate has **not** passed. No provider is connected,
+authenticated, credentialed, enabled, live, deployed, or implemented, and no
+credential exists.
+
+The exact next enterprise-provider task is
+`MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`,
+which must publish a deterministic normative projection between the Cloudflare
+contract's credential profiles and Registry §13.2, align Gateway §§34.1–34.6
+with Gateway §14.2, and route the three P3 findings, before any further
+independent review.
+
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
-started, and not authorized until review-002 passes and separate explicit
-authorization is issued. This result does
+started, and not authorized. This result does
 not reorder the global OpenAI Batch pointer, which remains
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
 

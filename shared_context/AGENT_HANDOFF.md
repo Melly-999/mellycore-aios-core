@@ -1,6 +1,46 @@
 # Agent Handoff
 
-## Latest Update — Enterprise-provider documentation integration remediated (documentation-only, parallel track)
+## Latest Update — Enterprise-provider documentation integration review 002 failed (documentation-only, parallel track)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002`
+
+- Independent post-remediation gate across 19 documents and 16 determinism
+  scenarios. Decision: `FAIL_REMEDIATION_REQUIRED`, with P0 = 0, P1 = 1,
+  P2 = 0, P3 = 3.
+- Eight of the nine review-001 findings are independently verified `CLOSED`:
+  provider-ID grammar, the single canonical `cloudflare` identity, the
+  fabric-comparison owner, the positive native-equivalence standard,
+  authorization-record custody and lifecycle, and the three reference and
+  narrative repairs.
+- Review-001 `P1-003` is `PARTIALLY_CLOSED`. Blocking finding `P1-201`: the
+  remediation made Provider Registry §13.2 a closed, mandatory eight-value
+  credential-profile-class catalogue binding on provider-specific contracts,
+  but the already-accepted Cloudflare connector contract still declares
+  `CF_READ`, `CF_WRITE_CONTROLLED`, `CF_CONTAIN`, and `CF_MCP_OPERATOR` with no
+  projection onto those eight. `CF_MCP_OPERATOR` maps to none of them, so
+  Cloudflare's three operator-investigation capabilities cannot declare the
+  now-mandatory `required_credential_profile_class`; and Integration Gateway
+  §§34.1–34.6 still present those `CF_*` values as "Credential class" although
+  Gateway §14.2 now denies anything that is not one exact Registry §13.2
+  identifier. Three P3 maintenance findings also remain.
+- The documentation gate has **not** passed. Exact next task:
+  `MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`.
+  `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
+  started, and not authorized.
+- Canonical review:
+  `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_002.md`.
+  Durable report:
+  `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002.md`.
+- No reviewed ADR, contract, specification, provider pack, review record, or
+  remediation report was modified. Documentation only; local commit only. No
+  provider is connected, authenticated, credentialed, enabled, live, deployed,
+  or implemented. No provider authentication/API/MCP, fabric, webhook,
+  credential, implementation, workflow, dependency, deploy, push, PR, merge, or
+  MellyTrade action is authorized or performed. The global task pointer recorded
+  elsewhere in this file is unchanged, not reordered, and not reinterpreted by
+  this parallel-track review.
+
+## Previous Update — Enterprise-provider documentation integration remediated (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`
 

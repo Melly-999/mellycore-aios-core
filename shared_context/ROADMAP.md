@@ -489,12 +489,24 @@ the time each task starts; each item records its current state below):
    `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`, which
    closes all nine findings and adds
    `docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`.
-9. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` — exact next
-   task; not started. Must independently verify the remediation before the
-   documentation gate may pass.
-10. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
-   review-002 passes and separate
-   explicit Operator authorization is issued. **Blocked, ineligible, not
+9. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` — independent
+   post-remediation gate across 19 documents and 16 scenarios. **Complete;
+   `FAIL_REMEDIATION_REQUIRED` (P0 = 0, P1 = 1, P2 = 0, P3 = 3).** Eight of the
+   nine review-001 findings are independently verified closed; review-001
+   `P1-003` is `PARTIALLY_CLOSED`. Blocking finding `P1-201`: Registry §13.2's
+   closed eight-class credential catalogue cannot express the accepted
+   Cloudflare contract's `CF_MCP_OPERATOR` profile, and Gateway §§34.1–34.6
+   contradict Gateway §14.2. Canonical review:
+   `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_002.md`.
+   The documentation gate has not passed.
+10. `MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`
+   — exact next task; not started. Must publish a deterministic normative
+   projection between the Cloudflare contract's credential profiles and
+   Registry §13.2, align Gateway §§34.1–34.6 with Gateway §14.2, and route the
+   three P3 findings, before a further independent review.
+11. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
+   that remediation and a further passing independent review, plus separate
+   explicit Operator authorization. **Blocked, ineligible, not
    started, and not authorized.**
 
 No credentials, provider runtime, MCP connection, Cloudflare API call,
