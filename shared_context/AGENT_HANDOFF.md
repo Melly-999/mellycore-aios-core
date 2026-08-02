@@ -1,6 +1,28 @@
 # Agent Handoff
 
-## Latest Update — Enterprise-provider documentation integration review failed (documentation-only, parallel track)
+## Latest Update — Enterprise-provider documentation integration remediated (documentation-only, parallel track)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`
+
+- Closed P1-001 through P1-004, P2-001 through P2-002, and P3-001 through
+  P3-003 without runtime or provider work.
+- Provider IDs now satisfy Registry grammar and Cloudflare resolves only to
+  `cloudflare`. Registry §13 owns canonical credential-profile classes;
+  Registry §§21.3–21.5 own authorization-record custody/lifecycle; Gateway
+  §14/§17 owns deterministic resolution and evaluation.
+- Added
+  `docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`, including
+  positive native-equivalence evidence and fail-closed outcomes. No candidate
+  currently has sufficient evidence, and no fabric is selected or connected.
+- Exact next task:
+  `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002`.
+  `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked and unauthorized
+  until that review passes and separate explicit Operator authorization exists.
+- Documentation only; local commit only. No provider authentication/API/MCP,
+  fabric, webhook, credential, implementation, workflow, dependency, deploy,
+  push, PR, merge, or MellyTrade action is authorized or performed.
+
+## Previous Update — Enterprise-provider documentation integration review failed (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`
 

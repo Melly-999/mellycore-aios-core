@@ -372,13 +372,15 @@ approval requirements across unrelated provider domains (a Cloudflare WAF
 mutation and a marketing-campaign activation are both R4 despite being
 otherwise unrelated).
 
-**Tradeoffs:** committing to Composio/private-n8n as primary
-integration-fabric candidates ahead of a full fabric-comparison spec (item
-2 of Section 19) narrows early implementation choices in exchange for
-directional clarity; it remains subject to revision at
+**Tradeoffs:** retaining Composio/private-n8n as primary
+integration-fabric candidates narrows early implementation choices in exchange
+for directional clarity. The comparison owner, evidence model, native-equivalence
+standard, and outcomes are now fixed by
+`docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`, created by
+Section 19 item 8; candidate ranking remains subject to revision at
 `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` amendment (Section 22)
 if the fabric-comparison work surfaces a materially better option. The
-seven-item documentation gate (Section 19, Implementation prerequisites)
+documentation gate (Section 19, Implementation prerequisites)
 intentionally delays any provider adapter work; this is an accepted cost of
 the fail-closed posture this repository already applies to deployment
 authorization and Batch API activation.
@@ -388,18 +390,22 @@ authorization and Batch API activation.
 Before any provider adapter scaffolding begins, the following
 enterprise-provider documentation tasks must pass, in order:
 
-1. `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` — this ADR. **Complete
-   as a local, unpushed documentation commit.**
-2. `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` — not started.
-3. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — not started.
-4. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — not started.
-5. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — not started.
-6. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — not started.
-7. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — not
-   started.
+1. `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` — complete.
+2. `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` — complete.
+3. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — complete.
+4. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — complete.
+5. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — complete.
+6. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — complete.
+7. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — complete;
+   `FAIL_REMEDIATION_REQUIRED` (P1 = 4, P2 = 2, P3 = 3).
+8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001` —
+   complete in the local documentation commit that adds the canonical Fabric
+   Comparison specification and repairs all nine findings.
+9. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` — exact next
+   task; not started.
 
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains **blocked**, not started,
-and not authorized until item 7 passes and a separate, explicit operator
+and not authorized until item 9 passes and a separate, explicit operator
 authorization is given — independent of Model A/B deployment authorization
 and independent of the OpenAI Batch Stage C gate.
 

@@ -970,10 +970,22 @@ Durable review report:
 `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001.md`.
 
 The exact next task on this parallel track is
-`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`.
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002`.
+
+**Enterprise-provider documentation integration remediation — complete.**
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001` closes all
+nine review-001 findings: canonical provider IDs and Cloudflare identity;
+Registry-owned reusable credential classes and authorization records;
+Gateway-owned deterministic resolution/evaluation; a new file-backed Fabric
+Comparison and native-equivalence standard; and the three reference/narrative
+repairs. Canonical new specification:
+`docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`. Durable report:
+`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001.md`.
+This is documentation-only and makes no claim that review-002 has passed.
+
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
-started, and not authorized until remediation completes, the integration
-gate passes, and separate explicit authorization is issued. This result does
+started, and not authorized until review-002 passes and separate explicit
+authorization is issued. This result does
 not reorder the global OpenAI Batch pointer, which remains
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
 

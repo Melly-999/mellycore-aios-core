@@ -413,12 +413,23 @@ Credentials are handled exclusively through **opaque references**
 (`secret_manager_ref`, Registry §13.1), resolved outside model-visible
 context at the moment of use and never returned upward.
 
-### 14.2 Selection inputs (all required)
+### 14.2 Selection inputs and canonical class resolution (all required)
 
-Tenant; provider; capability class; acting identity type; environment;
-provider-native scope; read/write class; and approval state where
-applicable. Selection is **deterministic** — the same inputs select the
-same profile, or deny.
+Tenant; provider; `required_credential_profile_class`; acting identity type;
+environment; provider-native scope; capability class; read/write class; and
+approval state where applicable. The requested class MUST be one exact Registry
+§13.2 identifier. The Gateway resolves a single concrete profile whose class,
+identity, pinned `authentication_mode`, tenant, provider, environment, scope, and
+capability constraints all match. Zero or multiple matches deny; the Gateway
+never interprets a pack-local alias or chooses among authentication modes.
+
+The canonical classes are `read_only_delegated`, `read_only_service`,
+`controlled_write`, `event_verification`, `integration_fabric_read`,
+`integration_fabric_controlled_write`, `emergency_containment`, and
+`reporting_only`. `integration_fabric_controlled_write` additionally requires a
+current `PASS_EQUIVALENT` outcome under
+`docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`; any other
+outcome denies R3–R5 before credential material is resolved.
 
 ### 14.3 Prohibited selection behaviors
 
@@ -481,8 +492,8 @@ neither, denies.
 | 6 | Resolve capability | `CAPABILITY_UNKNOWN` |
 | 7 | Validate provider and adapter lifecycle states (facts 1–2) | `PROVIDER_SUSPENDED` / `ADAPTER_UNAVAILABLE` |
 | 8 | Validate runtime enablement (fact 7) | `RUNTIME_NOT_ENABLED` |
-| 9 | Validate tenant authorization (fact 5) | `AUTHZ_DENIED_MELLYCORE` |
-| 10 | Validate capability authorization (fact 6) | `AUTHZ_DENIED_MELLYCORE` |
+| 9 | Resolve and validate the current Registry-owned tenant-provider authorization record (fact 5) | `AUTHZ_DENIED_MELLYCORE` |
+| 10 | Resolve and validate the current Registry-owned tenant-capability authorization record (fact 6) | `AUTHZ_DENIED_MELLYCORE` |
 | 11 | Resolve target scope against allowlists | `AUTHZ_DENIED_MELLYCORE` |
 | 12 | Validate data classification and `allowed_use` | `AUTHZ_DENIED_MELLYCORE` |
 | 13 | Resolve acting identity type (delegated vs service) | `IDENTITY_UNRESOLVED` |
@@ -517,6 +528,15 @@ prevents execution; a failed completion append prevents success reporting
 and enters reconciliation and containment. The audit store and provider
 are not a distributed transaction, and this contract does not pretend
 that atomic cross-system commit exists (Section 29).
+
+**Rule 17.4 — authorization-record evaluation.** Steps 9–10 validate record
+type, tenant, provider, capability where applicable, exact scope, environment,
+`active` lifecycle state, effective/expiry times, policy revision, record
+revision, and absence of a newer suspension, revocation, or supersession. The
+Gateway re-resolves both revisions immediately before step 21 (or before step 22
+for R0–R2). Stale cache, propagation uncertainty, ambiguity, or a mid-flight
+revision change denies. The Gateway is evaluator only; it cannot issue, approve,
+reactivate, mutate, or delete an authorization record.
 
 ## 18. Approval binding
 
@@ -626,6 +646,15 @@ weight (Section 6.2).
 **Rule 20.7 — never the cybersecurity execution boundary.** Per ADR §5,
 a fabric — Zapier MCP specifically named — must not become the primary
 cybersecurity execution boundary.
+
+**Rule 20.8 — positive equivalence is file-backed.** A fabric-mediated
+R3–R5 path requires a current `PASS_EQUIVALENT` assessment produced under
+`docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`, bound to
+the exact fabric, downstream provider, capability class, tenant model,
+credential-custody mode, and contract revisions. Missing, stale, partial,
+`FAIL_NOT_EQUIVALENT`, or `INSUFFICIENT_EVIDENCE` outcomes prohibit R3–R5.
+The comparison record supplements and never replaces this Gateway's own
+policy, approval, audit, verification, or containment checks.
 
 ## 21. MCP security contract
 
@@ -1262,7 +1291,7 @@ Gateway implementation may not begin until **all** hold:
    contracts — reviewed, published, and merged through normal gates.
 2. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` passes.
 3. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` passes.
-4. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` passes.
+4. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` passes.
 5. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` receives its own **separate,
    explicit operator authorization**, independent of Model A/B deployment
    authorization and of the OpenAI Batch Stage C gate. It remains
@@ -1284,17 +1313,14 @@ unauthorized**, consistent with `shared_context/RUN_QUEUE.md`.
 
 ## 38. Open questions
 
-### 38.1 Items inherited from the Provider Registry contract
+### 38.1 Items inherited from the Provider Registry contract — resolved
 
-- **Where tenant-provider and tenant-capability authorization records
-  live** (facts 5–6). This contract fixes that they must be **explicit,
-  separate, independently revocable records** resolved at Section 17 steps
-  9–10, and that their absence denies. Their storage, issuance workflow,
-  and revocation propagation remain unspecified and are carried forward to
-  the provider-pack specs and the adapter-scaffold authorization.
-- **How a fabric demonstrates approval/audit equivalence to a native
-  adapter** (Rule 20.4). This contract fixes the *consequence* of failure
-  (R3–R5 prohibited) but not the positive evidence standard. Unresolved.
+Authorization-record custody, metadata, issuance, lifecycle, revocation,
+propagation, and retention are now owned by Registry §§21.3–21.5; this
+Gateway owns runtime evaluation through §17 steps 9–10 and Rule 17.4.
+Fabric native-equivalence evidence is now owned by
+`docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md` and enforced
+by Rule 20.8. Neither resolution authorizes implementation or runtime use.
 
 ### 38.2 New to this contract
 

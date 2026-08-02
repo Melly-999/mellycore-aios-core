@@ -1586,7 +1586,7 @@ following hold:
 3. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` passes.
 4. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` passes.
 5. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` passes.
-6. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` passes.
+6. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` passes.
 7. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` receives its own **separate,
    explicit operator authorization**, independent of Model A/B deployment
    authorization and independent of the OpenAI Batch Stage C gate. It
@@ -1636,24 +1636,20 @@ deprecation status, the security-event search surface and filter grammar,
 and plan-dependent feature availability — remain open and must be resolved
 by Section 35 item 11 before implementation.
 
-### 37.2 Observed ADR documentation defect (recorded, not corrected here)
+### 37.2 ADR documentation defect — corrected, history preserved
 
 `docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`
-contains **stale internal cross-references**: its Section 4 and Section 8
-cite "Section 12's R4/R5 tiers" and "Section 12's R4 minimum" where the
-risk-tier table is Section **13** (Section 12 is the credential model);
-Section 11 cites "audit records (Section 19)" where the audit model is
-Section **15** (Section 19 is implementation prerequisites); and Sections 3
-and 18 cite "Section 23" for the documentation gate, which is Section
-**19** (Section 23 is References).
+formerly contained stale internal cross-references. They were corrected by
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCUMENT-INTEGRITY-REMEDIATION-001` in a
+separate append-only documentation commit. That remediation changed no
+Cloudflare capability, risk tier, credential rule, authorization, or runtime
+state, and this accepted connector contract remains authoritative.
 
-This is a numbering defect, **not an architectural conflict** — every cited
-rule exists in the ADR, unambiguously, under a different number, and this
-contract conforms to the rules themselves. Accordingly this contract cites
-ADR sections by **number and title together** (Section 3) so the reference
-survives the defect. The ADR was **not modified** by this task; correcting
-it belongs to `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`,
-whose remit is exactly this class of cross-document inconsistency.
+The historical defect and remediation record are deliberately retained here;
+they are not a current open correction. Implementation-time verification items
+in Section 37.1 remain open and blocking. Nothing in the correction, the later
+integration review, or this remediation authorizes Cloudflare authentication,
+API access, MCP use, credentials, adapter work, deployment, or runtime execution.
 
 ### 37.3 Deferred design questions
 

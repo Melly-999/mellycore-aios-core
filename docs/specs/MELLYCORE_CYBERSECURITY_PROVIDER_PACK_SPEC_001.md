@@ -39,7 +39,7 @@ pretending that unlike provider objects are identical.
 
 This contract is downstream of, and MUST NOT weaken:
 
-1. `SAFETY_CONTRACT.md`;
+1. `shared_context/SAFETY_CONTRACT.md`;
 2. `docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`;
 3. `docs/specs/MELLYCORE_PROVIDER_REGISTRY_CONTRACT_EXTENSION_SPEC_001.md`;
 4. `docs/specs/MELLYCORE_INTEGRATION_GATEWAY_SECURITY_CONTRACT_SPEC_001.md`;
@@ -48,7 +48,7 @@ This contract is downstream of, and MUST NOT weaken:
 7. `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`;
 8. `docs/specs/MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001.md`;
 9. `shared_context/SAFETY_CONTRACT.md`; and
-10. `VALIDATION.md`.
+10. `shared_context/VALIDATION.md`.
 
 The accepted Cloudflare connector contract remains authoritative for every
 Cloudflare operation. Section 21 is a pack mapping, not a replacement copy.
@@ -115,13 +115,13 @@ successful authentication MUST NOT be interpreted as execution authority.
 
 | Tier | Stable provider ID | Display name | Initial posture |
 | --- | --- | --- | --- |
-| P0 | `microsoft.defender_xdr_graph_security` | Microsoft Defender XDR / Microsoft Graph Security | R0-R2 contract target |
-| P0 | `github.advanced_security` | GitHub Advanced Security | R0-R2 contract target |
-| P0 | `cloudflare.application_api_security` | Cloudflare Application & API Security | R0-R2 mapping to accepted Cloudflare contract |
-| P0 | `okta.workforce_identity` | Okta | R0-R2 contract target |
-| P1 | `splunk.security_analytics` | Splunk | Later R0-R2 target |
-| P1 | `crowdstrike.falcon` | CrowdStrike Falcon | Later R0-R2 target |
-| P2 | `snyk.developer_security` | Snyk | Later R0-R2 target |
+| P0 | `microsoft_defender_xdr_graph_security` | Microsoft Defender XDR / Microsoft Graph Security | R0-R2 contract target |
+| P0 | `github_advanced_security` | GitHub Advanced Security | R0-R2 contract target |
+| P0 | `cloudflare` | Cloudflare Application & API Security | R0-R2 mapping to accepted Cloudflare contract |
+| P0 | `okta_workforce_identity` | Okta | R0-R2 contract target |
+| P1 | `splunk_security_analytics` | Splunk | Later R0-R2 target |
+| P1 | `crowdstrike_falcon` | CrowdStrike Falcon | Later R0-R2 target |
+| P2 | `snyk_developer_security` | Snyk | Later R0-R2 target |
 
 Pack membership and tier are **sequencing metadata only**. They do not prove
 registration, implementation, credential state, tenant authorization,
@@ -274,11 +274,12 @@ class:
 
 | Class | Purpose | Initial pack status |
 | --- | --- | --- |
-| `read_delegated_user` | Read as a bounded human identity | Described, not configured |
-| `read_service_account` | Read as an explicitly labelled workload identity | Described, not configured |
+| `read_only_delegated` | Registry class: bounded delegated human read | Described, not configured |
+| `read_only_service` | Registry class: explicitly labelled workload read | Described, not configured |
 | `controlled_write` | Future provider mutation | Deferred and unauthorized |
 | `event_verification` | Verify an inbound event source/signature or token | Described, not configured |
-| `integration_fabric` | Bound fabric-mediated downstream identity | Described only where relevant |
+| `integration_fabric_read` | Bound fabric-mediated downstream read identity | Described only where relevant |
+| `integration_fabric_controlled_write` | Bound fabric-mediated downstream write identity | Deferred and unauthorized |
 
 Credential references are opaque. Secret values remain in an approved secret
 manager, outside prompts, model context, logs, normalized entities, evidence,
@@ -400,7 +401,7 @@ request.
 
 ## 19. Microsoft Defender XDR / Microsoft Graph Security
 
-**Provider ID:** `microsoft.defender_xdr_graph_security`
+**Provider ID:** `microsoft_defender_xdr_graph_security`
 
 **Tier:** P0
 
@@ -438,7 +439,7 @@ and automated response are deferred to R3-R5 contracts.
 
 ## 20. GitHub Advanced Security
 
-**Provider ID:** `github.advanced_security`
+**Provider ID:** `github_advanced_security`
 
 **Tier:** P0
 
@@ -474,7 +475,7 @@ deferred and unauthorized.
 
 ## 21. Cloudflare
 
-**Provider ID:** `cloudflare.application_api_security`
+**Provider ID:** `cloudflare`
 
 **Tier:** P0
 
@@ -485,6 +486,10 @@ deferred and unauthorized.
 
 This section maps the accepted Cloudflare contract into the common pack; that
 contract controls whenever wording differs.
+
+The mapping is a projection only: all 58 accepted Cloudflare capabilities and
+all 13 explicit prohibitions remain authoritative under provider ID
+`cloudflare`. This pack neither duplicates nor narrows those tables.
 
 | Common capability | Accepted Cloudflare mapping | Risk |
 | --- | --- | --- |
@@ -505,7 +510,7 @@ documentation-only and cannot discover authority or execute.
 
 ## 22. Okta
 
-**Provider ID:** `okta.workforce_identity`
+**Provider ID:** `okta_workforce_identity`
 
 **Tier:** P0
 
@@ -536,7 +541,7 @@ tenant/provider contract is accepted.
 
 ## 23. Splunk
 
-**Provider ID:** `splunk.security_analytics`
+**Provider ID:** `splunk_security_analytics`
 
 **Tier:** P1
 
@@ -566,7 +571,7 @@ capabilities, ES/notable licensing, retention, and deployment topology are
 
 ## 24. CrowdStrike Falcon
 
-**Provider ID:** `crowdstrike.falcon`
+**Provider ID:** `crowdstrike_falcon`
 
 **Tier:** P1
 
@@ -591,7 +596,7 @@ read capability registration or from this provider's P1 sequence tier.
 
 ## 25. Snyk
 
-**Provider ID:** `snyk.developer_security`
+**Provider ID:** `snyk_developer_security`
 
 **Tier:** P2
 
@@ -724,7 +729,7 @@ All of the following are prerequisites, not authorizations:
 
 1. acceptance of this pack and the marketing pack;
 2. successful
-   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001`;
+   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002`;
 3. separate operator authorization for adapter scaffolding;
 4. accepted provider-specific contracts for each attempted provider;
 5. implemented and tested Registry, Gateway, audit, secret-manager, tenant,
@@ -738,25 +743,26 @@ calls remain blocked.
 
 ## 32. Open questions
 
-1. Which authoritative store and issuance workflow will hold tenant-provider
-   and tenant-capability authorization records?
-2. What evidence standard proves a fabric-mediated path equivalent to a native
-   adapter for identity, audit, scope, and failure semantics?
-3. What retention policy applies to provider-native raw references by
+1. What retention policy applies to provider-native raw references by
    sensitivity and provider contract?
-4. Which canonical severity/status vocabulary should be versioned for security
+2. Which canonical severity/status vocabulary should be versioned for security
    entities without erasing native semantics?
-5. Which Microsoft permissions/licenses expose the required evidence in the
+3. Which Microsoft permissions/licenses expose the required evidence in the
    target tenant?
-6. Which GitHub credential class gives the exact cross-org read coverage?
-7. Which Okta scopes/roles and editions cover System Log and identity reads?
-8. Which Splunk Cloud/Enterprise and Enterprise Security surfaces are enabled?
-9. Which CrowdStrike alert/detection generation and product entitlements are
+4. Which GitHub credential class gives the exact cross-org read coverage?
+5. Which Okta scopes/roles and editions cover System Log and identity reads?
+6. Which Splunk Cloud/Enterprise and Enterprise Security surfaces are enabled?
+7. Which CrowdStrike alert/detection generation and product entitlements are
    authoritative for the target environment?
-10. Which Snyk service-account topology achieves true least-privilege read-only
+8. Which Snyk service-account topology achieves true least-privilege read-only
     access across required organizations/products?
 
 Each remains `UNVERIFIED`; none may be filled by assumption.
+
+Authorization-record custody is resolved by Registry §§21.3–21.5 and Gateway
+Rule 17.4. Native-equivalence evidence is resolved by
+`docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`; neither is an
+open provider fact or an execution authorization.
 
 ## 33. Amendment and supersession
 
@@ -782,8 +788,8 @@ an editorial update.
 - `docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md`
 - `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`
 - `docs/specs/MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001.md`
-- `SAFETY_CONTRACT.md`
-- `VALIDATION.md`
+- `shared_context/SAFETY_CONTRACT.md`
+- `shared_context/VALIDATION.md`
 
 ### 34.2 Official provider evidence snapshot
 

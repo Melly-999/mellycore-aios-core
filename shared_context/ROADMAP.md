@@ -485,10 +485,15 @@ the time each task starts; each item records its current state below):
    **Complete; `FAIL_REMEDIATION_REQUIRED` (P0 = 0, P1 = 4, P2 = 2,
    P3 = 3).** Canonical review:
    `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_001.md`.
-   Exact next task:
-   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`.
-9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
-   the remediation completes, the integration gate passes, and separate
+   Remediated by
+   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`, which
+   closes all nine findings and adds
+   `docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`.
+9. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` — exact next
+   task; not started. Must independently verify the remediation before the
+   documentation gate may pass.
+10. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
+   review-002 passes and separate
    explicit Operator authorization is issued. **Blocked, ineligible, not
    started, and not authorized.**
 

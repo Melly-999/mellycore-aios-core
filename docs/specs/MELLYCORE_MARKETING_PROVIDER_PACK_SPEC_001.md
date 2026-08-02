@@ -32,7 +32,7 @@ Normative repository authority, in descending order where requirements overlap:
 3. `docs/specs/MELLYCORE_PROVIDER_REGISTRY_CONTRACT_EXTENSION_SPEC_001.md`.
 4. `docs/specs/MELLYCORE_INTEGRATION_GATEWAY_SECURITY_CONTRACT_SPEC_001.md`.
 5. `docs/specs/MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001.md`.
-6. `docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC_001.md`.
+6. `docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md`.
 7. Provider-specific accepted contracts; these may narrow but never weaken this
    contract.
 
@@ -200,9 +200,11 @@ confidence source cannot overwrite higher-confidence consent evidence.
 
 ## 13. Credential custody
 
-Future provider contracts must define separate profiles for delegated read,
-service-account read, controlled write, webhook verification, integration fabric,
-and reporting-only use where applicable. Credentials are opaque references outside
+Future provider contracts must select the Registry's canonical profile classes:
+`read_only_delegated`, `read_only_service`, `controlled_write`,
+`event_verification`, `integration_fabric_read`,
+`integration_fabric_controlled_write`, and `reporting_only`, as applicable.
+Credentials are opaque references outside
 model context and logs. Read and write credentials remain separate and bound to
 tenant, provider-native scope, owner, allowed capabilities, expiry, rotation, and
 revocation. No profile widening, implicit fallback, delegated-user-to-service-
@@ -587,8 +589,9 @@ revoked; one missing, unknown, expired, or unresolved fact denies. Facts 1-7 are
 standing state, while fact 8 is per-operation. No aggregate `enabled`, `ready`,
 `connected`, or `active` field may collapse them.
 
-Before scaffolding, the enterprise-provider documentation integration review must
-pass and any remediation must be completed. Any future R3-R5 work additionally
+Before scaffolding,
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` must pass after
+this remediation. Any future R3-R5 work additionally
 requires exact target-bound approval, fresh state, separate write credentials,
 mandatory audit (whose failure blocks consequential action), idempotency,
 read-after-write verification, and reconciliation of unknown outcomes. Stale state

@@ -672,13 +672,16 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    **Complete; `FAIL_REMEDIATION_REQUIRED` (P0 = 0, P1 = 4, P2 = 2,
    P3 = 3).** Canonical review:
    `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_001.md`.
-   Exact next task:
-   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`, which
-   must resolve the provider-ID, Cloudflare-identity, credential-class, and
-   fabric-prerequisite P1 findings before this gate is rerun.
-9. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
-   ineligible, and not authorized. May only be considered after item 8's
-   remediation completes, the integration gate passes, and separate explicit
+   All nine findings are closed by
+   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`; canonical
+   fabric comparison:
+   `docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`.
+9. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` — **exact next
+   task; not started.** Must independently re-run the integration gate against
+   the remediated chain.
+10. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
+   ineligible, and not authorized. May only be considered after item 9 passes
+   and separate explicit
    Operator authorization is issued, independent of Model A/B deployment
    authorization and independent of the OpenAI Batch Stage C gate.
 

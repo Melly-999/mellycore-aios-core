@@ -394,7 +394,9 @@ lacks reach **fails**. It is never retried under
 | `identity_type` | One of the seven ADR §11 identity types |
 | `tenant_owner` / `provider_owner` | Both required |
 | `environment` | e.g. `local`, `staging`, `production` — declared, never inferred |
+| `credential_profile_class` | One canonical reusable class from Section 13.2; pack-local aliases are prohibited |
 | `credential_class` | `read`, `controlled_write`, `containment`, `investigation` |
+| `authentication_mode` | Exactly one mode from Section 12, pinned by the concrete profile; never selected at runtime from a list |
 | `permitted_capability_classes` | Allowlist of `read` / `proposal` / `mutation` classes this profile may serve |
 | `provider_scope` | The explicit `(dimension → allowlist)` map of Section 11 |
 | `secret_manager_ref` | **An opaque reference only** — a pointer resolvable outside model-visible context. Never a value, path to a value, or anything from which a value is derivable |
@@ -405,7 +407,30 @@ lacks reach **fails**. It is never retried under
 | `write_separation_ref` | The paired read profile, asserting separation holds |
 | `emergency_containment` | Boolean; marks the narrowly scoped containment profile |
 
-### 13.2 Prohibitions (normative)
+### 13.2 Canonical reusable credential-profile classes
+
+Provider packs and provider-specific contracts MUST reference one of these
+class identifiers. The class fixes the coarse Registry fields; the concrete
+profile record pins the one permitted authentication mode and exact scope.
+
+| `credential_profile_class` | `identity_type` | `credential_class` | Permitted authentication mode | Capability / use constraint |
+| --- | --- | --- | --- | --- |
+| `read_only_delegated` | `delegated_end_user` | `read` | `delegated_oauth` | `read`, `proposal`; never mutation |
+| `read_only_service` | `service_account` | `read` | exactly one of `service_account_oauth`, `api_token`, `scoped_personal_token`, `workload_identity` | `read`, `proposal`; service identity labelled |
+| `controlled_write` | exactly one of `delegated_end_user`, `service_account` | `controlled_write` | exactly one provider-contract-approved mode compatible with that identity | `mutation`; separate read profile required |
+| `event_verification` | `provider_credential` | `read` | exactly one of `signed_request`, `mtls`, `webhook_secret` | inbound verification only; no outbound capability |
+| `integration_fabric_read` | exactly one of `delegated_end_user`, `service_account` | `read` | `fabric_delegated_identity` | fabric-mediated `read`/`proposal`; full downstream provenance required |
+| `integration_fabric_controlled_write` | exactly one of `delegated_end_user`, `service_account` | `controlled_write` | `fabric_delegated_identity` | fabric-mediated mutation; native-equivalence evidence required |
+| `emergency_containment` | `service_account` | `containment` | exactly one provider-contract-approved service mode | containment allowlist only; `emergency_containment: true` |
+| `reporting_only` | `service_account` | `read` | exactly one of `service_account_oauth`, `api_token`, `workload_identity` | aggregate reporting only; no raw export or mutation |
+
+`read_delegated_user` and `read_service_account` are retired pack-local
+aliases for `read_only_delegated` and `read_only_service`. A generic
+`integration_fabric` class is prohibited because it fails to distinguish read
+from controlled write. A provider-specific contract may narrow a canonical
+class, but may not invent another class or widen its capability/use constraint.
+
+### 13.3 Prohibitions (normative)
 
 Raw secrets, token values, private keys, `Authorization` headers, cookies,
 account IDs, or anything secret-*shaped* in any registry record, audit
@@ -414,7 +439,7 @@ in model-visible context. Hidden cross-profile fallback. Automatic
 privilege widening. A single profile serving both `read` and
 `controlled_write` (ADR §12; Section 28).
 
-### 13.3 Profile presence is not credential existence
+### 13.4 Profile presence is not credential existence
 
 **Normative.** A `credential_profile` record describes a credential that
 *would* be used. Its presence is **not** evidence that a credential exists,
@@ -433,7 +458,7 @@ Every capability declares all of:
 (7) `resource_type`; (8) `api_family`; (9) `transport_class`;
 (10) `risk_tier` (Section 15); (11) `classification` —
 `read` | `proposal` | `mutation` | `prohibited`; (12)
-`required_identity_type`; (13) `required_credential_class`;
+`required_identity_type`; (13) `required_credential_profile_class`;
 (14) `required_provider_scope`; (15) `tenant_scope`;
 (16) `data_classification` (Section 16); (17) `approval_policy`
 (Section 15); (18) `idempotency_policy`; (19) `audit_policy`;
@@ -717,6 +742,49 @@ simultaneously. Each is established, evidenced, and revoked independently.
 6. **Registration is not authorization.** Reaching
    `conformance_verified` satisfies fact 1 only.
 
+### 21.3 Authorization-record custody and metadata
+
+The Provider Registry is the authoritative custodian of authorization-record
+metadata and lifecycle history. The Integration Gateway evaluates those records;
+it does not issue, own, or silently synthesize them. Two record types exist and
+remain separate: `tenant_provider_authorization` (fact 5) and
+`tenant_capability_authorization` (fact 6).
+
+Each record requires: stable `authorization_record_id`; `record_type`; `tenant_id`;
+`provider_id`; `capability_id` (required only for fact 6); exact provider-native
+scope; `environment`; `authorization_state`; `issued_by`; `issued_at`;
+`effective_at`; `expires_at` or an explicit non-expiring policy reference;
+`revoked_at`; `revoked_by`; `revocation_reason`; `supersedes_record_id`;
+`policy_revision`; `evidence_refs`; `record_revision`; and append-only audit
+metadata from Section 20. Raw credential or approval material is prohibited.
+
+### 21.4 Lifecycle and transition authority
+
+The lifecycle is `proposed` → `approved` → `active`, with terminal or restrictive
+transitions to `suspended`, `expired`, `revoked`, or `superseded`. `approved`
+does not satisfy facts 5 or 6 until its `effective_at` is reached and the record
+is `active`. Only an authenticated human operator or a separately accepted
+authorization-governance service may approve, suspend, revoke, or supersede a
+record. An agent, provider, fabric, MCP server, webhook, adapter, or Gateway may
+never do so. Reinstatement creates a new revision or successor record; it never
+removes the restrictive history.
+
+### 21.5 Issuance, revocation, propagation, and retention
+
+Issuance requires an explicit request, exact tenant/provider/capability/scope,
+authoritative approver, policy revision, and evidence. Revocation becomes
+effective immediately in the Registry. The Gateway MUST re-resolve the current
+revision at evaluation time and immediately before any external attempt; a stale,
+missing, conflicting, suspended, expired, revoked, or superseded record denies.
+Cached authorization may never outlive the earlier of record expiry, policy
+freshness, or a revocation notification, and cache uncertainty denies.
+
+Authorization records are append-only governance evidence: no hard deletion
+while referenced by an audit, proposal, approval, or execution record. Retention
+follows the stricter applicable legal/audit policy; expiry or revocation changes
+state and never erases history. Operation approval remains separate fact 8 and
+cannot be embedded in either standing authorization record.
+
 ## 22. Provider-specific contract inheritance
 
 See Section 25 — inheritance rules are stated there to keep the
@@ -949,7 +1017,7 @@ asserts these validations pass for no provider**, including Cloudflare
 | Provider registration as runtime authorization | Registration is description; authorization is Section 21 |
 | Capability existence as permission | A capability record is a policy input, not a grant (Section 14.2) |
 | Provider account as MellyCore tenant boundary | Section 11.3; verified account-scoped-permission hazard |
-| Raw credentials in registry records | Section 13.2; `SAFETY_CONTRACT.md` |
+| Raw credentials in registry records | Section 13.3; `SAFETY_CONTRACT.md` |
 | One credential for read and write | ADR §12, §17 |
 | Silent delegated-user → service-account fallback | ADR §11; Section 12 |
 | Fabric-only downstream identity | Section 23.3; destroys attribution and approval fidelity |
@@ -975,7 +1043,7 @@ Registry implementation may not begin until **all** hold:
 2. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` passes.
 3. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` passes.
 4. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` passes.
-5. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` passes.
+5. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` passes.
 6. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` receives its own **separate,
    explicit operator authorization**, independent of Model A/B deployment
    authorization and of the OpenAI Batch Stage C gate. It remains
@@ -993,22 +1061,15 @@ unauthorized**, consistent with `shared_context/RUN_QUEUE.md`.
 
 ## 30. Open questions
 
-1. **Where tenant-provider and tenant-capability authorization records
-   live** (Section 21 facts 5–6) — this contract defines that they must
-   exist and be separate; their storage and issuance workflow belong to
-   `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001`.
-2. **Credential verification mechanics** (fact 4) — how a credential is
+1. **Credential verification mechanics** (fact 4) — how a credential is
    proven usable without a broad probe, and how often, is unresolved.
-3. **Fabric equivalence demonstration** (Section 23.4) — the concrete
-   evidence proving a fabric-mediated path offers approval/audit
-   guarantees *equivalent* to a native adapter is not yet specified.
-4. **Numeric freshness thresholds** for `capability_verification_date` and
+2. **Numeric freshness thresholds** for `capability_verification_date` and
    `documentation_review_date` — currently tenant-policy shaped, not fixed.
-5. **Whether `regulated_high_risk` provider data can ever be admitted** —
+3. **Whether `regulated_high_risk` provider data can ever be admitted** —
    the sensitivity spec §5.1 defers this to a separate approval process
    that still does not exist; until it does, such capabilities are
    unregistrable as returnable.
-6. **Registry record storage format** — deliberately unspecified, since
+4. **Registry record storage format** — deliberately unspecified, since
    naming one would edge toward implementation.
 
 ## 31. Amendment and supersession rules
