@@ -518,18 +518,23 @@ the time each task starts; each item records its current state below):
     `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_003.md`.
     The documentation gate has not passed.
 12. `MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`
-    — **exact next task; not started.** Must reconcile the Integration Gateway
-    acting-identity model and the Provider Registry provider-record scope model
-    with `restricted_operator_investigation`, without weakening any fail-closed
-    default and without granting that class provider-account, provider-API, or
-    mutation authority, and must route the remaining P2 and P3 findings. A
-    further independent review must follow it.
-13. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
-    that remediation and a further passing independent review, plus separate
+    — **complete as one local documentation remediation; not a gate PASS.**
+    Defines the Registry-owned three-value acting-identity vocabulary,
+    `required_acting_identity_type`, capability-level scope applicability,
+    authentication targets, and exact restricted-tool registration/scope.
+    Gateway, Cloudflare D4, and the Cybersecurity Pack now consume the same
+    contract. `P1-301` and `P1-302` closure remains unverified.
+13. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004` — **exact next
+    task; not started.** Independent documentation review of all five Review
+    003 findings. The gate remains failed until that review returns an
+    independent PASS.
+14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
+    Review 004 passes, plus separate
     explicit Operator authorization. **Blocked, ineligible, not
     started, and not authorized.**
 
-No credentials, provider runtime, MCP connection, Cloudflare API call,
+No credentials, provider runtime, restricted-tool or MCP connection,
+MCP execution, Cloudflare API call,
 marketing action, or cybersecurity remediation is authorized by this
 section. Live sequencing for this track: `shared_context/RUN_QUEUE.md`'s
 "Parallel Decision Track — Enterprise Provider Integration".

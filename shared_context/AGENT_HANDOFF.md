@@ -1,6 +1,41 @@
 # Agent Handoff
 
-## Latest Update — Enterprise-provider documentation integration review 003 failed (documentation-only, parallel track)
+## Latest Update — Restricted operator tool path remediated (documentation-only, parallel track)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`
+
+- Remediates Review 003 findings `P1-301`, `P1-302`, `P2-301`, `P3-301`, and
+  `P3-302` at specification level. Provider Registry now owns exactly three
+  canonical acting-identity types — `delegated_user`, `service_account`, and
+  `mellycore_operator` — plus the canonical
+  `required_acting_identity_type` selector, authentication-target vocabulary,
+  capability-level scope-applicability model, and exact restricted-tool record.
+- Gateway can represent `mellycore_operator` only for an explicitly compatible
+  operator-bound restricted-tool capability and class. The identity selector,
+  authentication target, and scope applicability bind before credential
+  resolution and remain immutable for one request; missing, conflicting,
+  unknown, inapplicable, zero-match, and multiple-match states deny.
+- Cloudflare D4 remains documentation/investigation-only, R0 in v1.0 and R2
+  maximum, with no account, API, mutation, containment, or proposal-evidence
+  authority. It requires `mellycore_operator`,
+  `restricted_operator_investigation`, target `restricted_tool`, provider-native
+  account/zone/resource explicitly `not_applicable`, and exact registered-tool
+  scope. `mcp_oauth_grant`, if selected, targets only that tool/server and is
+  never Cloudflare/provider OAuth.
+- This remediation is **not** a documentation-gate PASS. `P1-301` and
+  `P1-302` closure remains unverified until independent Review 004. Exact next
+  task: `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004`.
+  `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
+  started, and unauthorized.
+- No restricted tool is connected, no MCP execution is authorized, no provider
+  runtime/API is authorized, and no credential exists. Documentation only; one
+  local commit only; not pushed. No provider authentication, API call,
+  MCP/fabric connection, webhook, credential, runtime, workflow, dependency,
+  deploy, PR, merge, or MellyTrade action is authorized or performed. The
+  global OpenAI Batch pointer is unchanged, not reordered, and not
+  reinterpreted.
+
+## Previous Update — Enterprise-provider documentation integration review 003 failed (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003`
 

@@ -724,22 +724,27 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003.md`.
    The documentation gate has **not** passed.
 12. `MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`
-   — **exact next task; not started.** Must reconcile the Integration Gateway
-   acting-identity model and the Provider Registry provider-record scope model
-   with `restricted_operator_investigation`, without weakening any fail-closed
-   default and without granting that class provider-account, provider-API, or
-   mutation authority, and must route the remaining P2 and P3 findings. A
-   further independent review must follow before scaffold eligibility is
-   reconsidered.
-13. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
-   ineligible, and not authorized. May only be considered after item 12 and a
-   further passing independent review, and separate explicit
+   — **complete in one local documentation-only commit; not pushed and not a
+   gate PASS.** Registry owns exactly three acting-identity types,
+   `required_acting_identity_type`, scope applicability, authentication targets,
+   and restricted-tool registration. Gateway, Cloudflare D4, and the
+   Cybersecurity Pack consume that model. D4 has explicit provider-native
+   `not_applicable` scope and exact restricted-tool scope. `P1-301` and
+   `P1-302` remain unverified. Durable report:
+   `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001.md`.
+13. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004` — **exact next
+   task; not started.** Must independently review the five Review 003 findings.
+   The documentation gate remains failed unless and until Review 004 passes.
+14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
+   ineligible, and not authorized. May only be considered after item 13 passes
+   and separate explicit
    Operator authorization is issued, independent of Model A/B deployment
    authorization and independent of the OpenAI Batch Stage C gate.
 
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,
-provider runtime, any MCP connection to a provider, any Cloudflare API
+provider runtime, any restricted-tool or MCP connection, any MCP execution,
+any Cloudflare API
 call or mutation — **including read-only Cloudflare API calls, which
 acceptance of the item 3 connector contract does not unblock** (that
 contract is specification-level only; its Section 35 keeps read-only access

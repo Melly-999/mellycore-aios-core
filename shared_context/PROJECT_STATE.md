@@ -1052,14 +1052,35 @@ no provider account, provider API, or mutation authority. Canonical review:
 Durable review report:
 `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003.md`.
 
-The documentation gate has **not** passed. The exact next enterprise-provider
-task is
+The documentation gate has **not** passed. At the time of Review 003, the exact
+next enterprise-provider task was
 `MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`,
 which must reconcile the Gateway acting-identity model and the Registry
 provider-record scope model with the ninth canonical class without weakening
 any fail-closed default, and route the remaining P2 and P3 findings. A further
 independent review must follow it. No provider runtime, credential, provider
 API, MCP/fabric connection, mutation, or scaffold is authorized.
+
+**Enterprise-provider restricted-tool path conformance remediation — complete;
+closure unverified.**
+`MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`
+defines one Registry-owned acting-identity vocabulary (`delegated_user`,
+`service_account`, `mellycore_operator`), the canonical
+`required_acting_identity_type` field, capability-level scope applicability,
+the separate authentication-target vocabulary, and exact restricted-tool
+registration/scope. Gateway now represents the constrained operator identity
+through evaluation, envelope, and audit. Cloudflare D4 binds
+`mellycore_operator`, `restricted_operator_investigation`, target
+`restricted_tool`, provider-native account/zone/resource explicitly
+`not_applicable`, and exact tool scope. `mcp_oauth_grant`, if used, is a
+tool/server grant only and cannot become Cloudflare authentication.
+
+This documentation-only remediation is **not** a documentation-gate PASS.
+`P1-301` and `P1-302` remain unverified until an independent Review 004. No
+restricted tool is connected, no MCP execution is authorized, no provider
+runtime or API is authorized, and no credential exists. The exact next
+enterprise-provider task is
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004`.
 
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
 started, and not authorized. This result does

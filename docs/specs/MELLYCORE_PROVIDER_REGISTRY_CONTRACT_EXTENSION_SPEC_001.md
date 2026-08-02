@@ -201,6 +201,27 @@ contract does not modify, supersede, or reinterpret the Control Plane spec;
 it adds a governance layer beneath its display layer. Both remain true
 simultaneously.
 
+### 7.5 Canonical acting-identity types (normative owner)
+
+This Registry contract is the sole normative owner of the reusable
+`acting_identity_type` vocabulary consumed by capability registrations and by
+the Integration Gateway. The closed vocabulary is exactly:
+
+| Canonical identifier | Human? | Delegation semantics | Provider-account eligible | Provider API eligible | Restricted-tool eligible | Compatible credential-profile classes | Substitution rule | Audit actor representation |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `delegated_user` | Yes | A provider-side grant held by the exact end user; no broader identity may replace it | Yes, only within the exact delegated grant | Yes, only for an explicitly compatible capability | No | `read_only_delegated`; identity-compatible `controlled_write`; identity-compatible fabric classes | Never substitute a service account or operator | Exact delegated-subject reference, labelled `delegated_user` |
+| `service_account` | No | No human delegation is implied; the workload identity acts only under explicit tenant policy | Yes, within its explicit allowlist | Yes, only for an explicitly compatible capability | No | `read_only_service`; identity-compatible `controlled_write`; identity-compatible fabric classes; `emergency_containment`; `reporting_only` | Never present as a human, delegated user, or operator | Exact service-account reference, conspicuously labelled `service_account` |
+| `mellycore_operator` | Yes | Authenticated MellyCore human operator; no provider-side delegation, provider-user identity, or provider-account identity is implied | **No** | **No** | Yes, only for an explicitly operator-bound capability and registered restricted tool | `restricted_operator_investigation` only | Never substitute a service account, delegated user, agent, session, or credential | Exact MellyCore operator reference, labelled `mellycore_operator`; provider-native actor is `not_applicable` |
+
+The ADR's human-readable "delegated end user" and "service account" identity
+concepts map to `delegated_user` and `service_account` respectively. No
+downstream contract may create a competing token, silently translate one
+acting identity into another, or treat `mellycore_operator` as a universal
+third fallback. `mellycore_operator` is eligible only when the concrete
+capability, selected canonical credential-profile class, authentication target,
+tenant, environment, and exact registered restricted-tool surface all permit
+it. Missing, unknown, conflicting, or incompatible values deny.
+
 ## 8. Provider categories and subcategories
 
 Subcategory examples, illustrative and extensible: for `cybersecurity` —
@@ -315,18 +336,29 @@ verbatim, per the task's own instruction. Material changes:
 
 ### 11.1 Dimensions
 
-`tenant` (always required), then as applicable: `organization`, `account`,
-`subscription`, `workspace`, `project`, `repository`, `site`, `zone`,
-`property`, `campaign_account`, `dataset`, `environment`, `region`,
-`resource`.
+MellyCore scope is always required: `tenant`, `capability`,
+`acting_identity`, `environment`, and `runtime_state`.
+
+Provider-native scope dimensions, as applicable, are: `organization`,
+`account`, `subscription`, `workspace`, `project`, `repository`, `site`,
+`zone`, `property`, `campaign_account`, `dataset`, `region`, and `resource`.
+
+Restricted-tool scope dimensions, when a restricted tool is the authentication
+target, are: `restricted_tool_id`, `tool_contract_revision`,
+`tool_capability`, `operator`, `tenant`, `environment`, and
+`allowed_resource_class`.
 
 ### 11.2 Rules
 
 1. **`tenant` is mandatory on every record and every capability
    invocation.** A record without a resolved tenant is unusable.
-2. Each provider declares its `required_scope_dimensions` and
-   `optional_scope_dimensions`. A capability invocation missing a required
-   dimension **fails closed** — it is never widened to a default.
+2. Provider metadata declares `possible_provider_native_scope_dimensions` and
+   may declare stricter `provider_api_scope_defaults`. These describe the full
+   provider model; they do not force every dimension onto a capability that has
+   no provider access. Every concrete capability MUST declare
+   `scope_applicability` for every dimension allowed by its provider contract,
+   using exactly one of `required`, `optional`, or `not_applicable`. A missing
+   declaration denies.
 3. **Scope values are explicit allowlists.** A zone, account, or workspace
    absent from the allowlist is out of scope even when the credential
    technically reaches it.
@@ -337,6 +369,25 @@ verbatim, per the task's own instruction. Material changes:
    restrict a parent's allowlist; it may never broaden it.
 6. **Cross-scope access fails closed**, visibly and audited — never as a
    silent empty result.
+7. A dimension declared `required` MUST have one exact, authorized value or
+   explicit allowlist as the provider contract permits. Missing or empty
+   required scope denies. A dimension declared `optional` may be absent but
+   never widens authority. `not_applicable` is valid only when the provider
+   contract explicitly permits it for that concrete capability.
+8. `not_applicable` is not an empty wildcard. It asserts that the capability
+   has no authority in that scope domain. Supplying a value for a
+   `not_applicable` dimension, omitting a dimension without explicitly marking
+   it `not_applicable`, or selecting `not_applicable` outside the provider
+   contract's permitted model denies and is audited.
+9. Provider API capabilities retain every applicable provider-native
+   requirement. A capability-level declaration may narrow provider metadata;
+   it may never weaken scope for another capability.
+10. A non-provider-access restricted-tool capability may use empty
+    provider-native scope only when all provider-native dimensions are
+    explicitly `not_applicable`, its credential class prohibits provider-
+    account binding, its authentication target is `restricted_tool`, and all
+    required restricted-tool dimensions are present. Missing exact tenant,
+    tool, capability, operator, environment, or allowed resource class denies.
 
 ### 11.3 Provider scope is not the MellyCore tenant boundary
 
@@ -384,6 +435,31 @@ model-visible context; any mode without a revocation path.
 lacks reach **fails**. It is never retried under
 `service_account_oauth` or an administrator identity (ADR §11).
 
+### 12.1 Authentication targets (normative owner)
+
+`authentication_mode` describes how authentication occurs.
+`authentication_target` independently identifies what authority is
+authenticated. The closed target vocabulary is:
+
+| Target | Meaning |
+| --- | --- |
+| `provider_account` | A provider-native account or API authority governed by the provider contract and applicable provider scope |
+| `restricted_tool` | One exact registered restricted tool or MCP server; grants no provider-account or provider-API authority |
+| `integration_fabric` | One registered fabric authority that must preserve the full downstream identity and provider chain |
+
+Every concrete credential profile and capability registration pins exactly one
+compatible target before runtime. A mode name containing `oauth` or `mcp`
+never implies a provider-account target. Missing, unknown, conflicting, or
+incompatible mode/target/class/identity combinations deny before credential
+material is resolved.
+
+For `mcp_oauth_grant` under `restricted_operator_investigation`, the OAuth
+authority belongs only to the exact registered restricted tool or MCP server:
+`authentication_target: restricted_tool`. It is not a Cloudflare or other
+provider OAuth grant; grants no provider account or provider API access; is
+tenant- and tool-bound; is limited to the registered tool capabilities; and
+cannot be reused, projected, or resolved as a provider credential.
+
 ## 13. Credential profiles
 
 ### 13.1 Profile metadata (no secret material, ever)
@@ -391,12 +467,14 @@ lacks reach **fails**. It is never retried under
 | Field | Rule |
 | --- | --- |
 | `credential_profile_id` | Stable, machine-safe, opaque |
-| `identity_type` | One of the seven ADR §11 identity types |
+| `credential_subject_type` | Identity authenticated by the credential mechanism; may be a provider credential for inbound verification and is never assumed to be the acting identity |
+| `compatible_acting_identity_types` | Exact Section 7.5 allowlist, or explicit `not_applicable` for an inbound-verification-only profile with no execution actor |
 | `tenant_owner` / `provider_owner` | Both required |
 | `environment` | e.g. `local`, `staging`, `production` — declared, never inferred |
 | `credential_profile_class` | One canonical reusable class from Section 13.2; provider-local requirement labels and pack-local aliases are prohibited as stored/runtime values |
 | `credential_class` | Coarse descriptive metadata derived from `credential_profile_class`: `read`, `controlled_write`, `containment`, or `investigation`; never a runtime-selection identifier |
 | `authentication_mode` | Exactly one mode from Section 12, pinned by the concrete profile; never selected at runtime from a list |
+| `authentication_target` | Exactly one target from Section 12.1, compatible with class, identity, capability, and scope |
 | `permitted_capability_classes` | Allowlist of `read` / `proposal` / `mutation` classes this profile may serve |
 | `provider_scope` | The explicit `(dimension → allowlist)` map of Section 11 |
 | `secret_manager_ref` | **An opaque reference only** — a pointer resolvable outside model-visible context. Never a value, path to a value, or anything from which a value is derivable |
@@ -413,17 +491,25 @@ Provider packs and provider-specific contracts MUST reference one of these
 class identifiers. The class fixes the coarse Registry fields; the concrete
 profile record pins the one permitted authentication mode and exact scope.
 
-| `credential_profile_class` | `identity_type` | `credential_class` | Permitted authentication mode | Capability / use constraint |
+| `credential_profile_class` | Compatible `acting_identity_type` | `credential_class` | Permitted authentication mode | Capability / use constraint |
 | --- | --- | --- | --- | --- |
-| `read_only_delegated` | `delegated_end_user` | `read` | `delegated_oauth` | `read`, `proposal`; never mutation |
+| `read_only_delegated` | `delegated_user` | `read` | `delegated_oauth` | `read`, `proposal`; never mutation |
 | `read_only_service` | `service_account` | `read` | exactly one of `service_account_oauth`, `api_token`, `scoped_personal_token`, `workload_identity` | `read`, `proposal`; service identity labelled |
-| `controlled_write` | exactly one of `delegated_end_user`, `service_account` | `controlled_write` | exactly one provider-contract-approved mode compatible with that identity | `mutation`; separate read profile required |
-| `event_verification` | `provider_credential` | `read` | exactly one of `signed_request`, `mtls`, `webhook_secret` | inbound verification only; no outbound capability |
-| `integration_fabric_read` | exactly one of `delegated_end_user`, `service_account` | `read` | `fabric_delegated_identity` | fabric-mediated `read`/`proposal`; full downstream provenance required |
-| `integration_fabric_controlled_write` | exactly one of `delegated_end_user`, `service_account` | `controlled_write` | `fabric_delegated_identity` | fabric-mediated mutation; native-equivalence evidence required |
+| `controlled_write` | exactly one of `delegated_user`, `service_account` | `controlled_write` | exactly one provider-contract-approved mode compatible with that identity | `mutation`; separate read profile required |
+| `event_verification` | `not_applicable` — provider credential verifies the inbound source and is never an acting identity | `read` | exactly one of `signed_request`, `mtls`, `webhook_secret` | inbound verification only; no outbound capability |
+| `integration_fabric_read` | exactly one of `delegated_user`, `service_account` | `read` | `fabric_delegated_identity` | fabric-mediated `read`/`proposal`; full downstream provenance required |
+| `integration_fabric_controlled_write` | exactly one of `delegated_user`, `service_account` | `controlled_write` | `fabric_delegated_identity` | fabric-mediated mutation; native-equivalence evidence required |
 | `emergency_containment` | `service_account` | `containment` | exactly one provider-contract-approved service mode | containment allowlist only; `emergency_containment: true` |
 | `reporting_only` | `service_account` | `read` | exactly one of `service_account_oauth`, `api_token`, `workload_identity` | aggregate reporting only; no raw export or mutation |
-| `restricted_operator_investigation` | `mellycore_operator` | `investigation` | exactly one of `no_auth_public_documentation`, `mcp_oauth_grant`, pinned by the separately registered restricted tool | documentation/investigation only; R0-R2 maximum; no provider account access, provider API, proposal evidence, or mutation |
+| `restricted_operator_investigation` | `mellycore_operator` | `investigation` | exactly one of `no_auth_public_documentation`, `mcp_oauth_grant`, pinned by the separately registered restricted tool; target MUST be `restricted_tool` | documentation/investigation only; R0-R2 maximum; no provider account access, provider API, proposal evidence, or mutation |
+
+Target compatibility is closed: `integration_fabric_read` and
+`integration_fabric_controlled_write` require
+`authentication_target: integration_fabric`;
+`restricted_operator_investigation` requires
+`authentication_target: restricted_tool`; every other class in this table
+requires `authentication_target: provider_account`. This target classification
+does not imply that a credential exists or that any authorization fact holds.
 
 `read_delegated_user` and `read_service_account` are retired pack-local
 aliases for `read_only_delegated` and `read_only_service`. A generic
@@ -435,16 +521,19 @@ class, but may not invent another class or widen its capability/use constraint.
 MUST declare exactly one `required_credential_profile_class` from this closed
 catalogue before Gateway resolution. A provider-specific requirement label may
 permit more than one canonical class at specification level only when the
-concrete registration selects exactly one based on its declared acting-identity
-mode. The authorization records bind to that selected class. The Gateway never
+concrete registration selects exactly one based on its canonical
+`required_acting_identity_type`. The authorization records bind to that
+selected class. The Gateway never
 chooses between classes, identity modes, or authentication modes. Zero or
 multiple compatible profiles deny; there is no "best available credential",
 delegated-user-to-service-account fallback, or read-to-write widening.
 
 `restricted_operator_investigation` is not a provider credential or an
 exception to provider credential resolution. It is valid only for a separately
-registered, operator-only restricted tool whose account/resource binding is
-empty and whose provider API and mutation authority are both prohibited. It
+registered, operator-only restricted tool whose provider-native scope is
+explicitly `not_applicable`, whose exact restricted-tool scope is present, and
+whose provider API and mutation authority are both prohibited. Its
+`authentication_target` is always `restricted_tool`. It
 cannot be used by a provider API capability or substituted for any read, write,
 event, fabric, containment, or reporting class.
 
@@ -476,14 +565,16 @@ Every capability declares all of:
 (7) `resource_type`; (8) `api_family`; (9) `transport_class`;
 (10) `risk_tier` (Section 15); (11) `classification` —
 `read` | `proposal` | `mutation` | `prohibited`; (12)
-`required_identity_type`; (13) `required_credential_profile_class`;
-(14) `required_provider_scope`; (15) `tenant_scope`;
-(16) `data_classification` (Section 16); (17) `approval_policy`
-(Section 15); (18) `idempotency_policy`; (19) `audit_policy`;
-(20) `verification_policy`; (21) `retry_policy`; (22) `pagination_policy`;
-(23) `concurrency_policy`; (24) `rollback_or_containment`;
-(25) `external_content_exposure` (Section 17); (26)
-`implementation_status` (Axis B); (27) `authorization_status`
+`required_acting_identity_type`; (13) `required_credential_profile_class`;
+(14) `required_authentication_target`; (15) `scope_applicability`, containing
+the complete MellyCore, provider-native, and restricted-tool applicability
+maps plus their exact required scope; (16) `tenant_scope`;
+(17) `data_classification` (Section 16); (18) `approval_policy`
+(Section 15); (19) `idempotency_policy`; (20) `audit_policy`;
+(21) `verification_policy`; (22) `retry_policy`; (23) `pagination_policy`;
+(24) `concurrency_policy`; (25) `rollback_or_containment`;
+(26) `external_content_exposure` (Section 17); (27)
+`implementation_status` (Axis B); (28) `authorization_status`
 (Section 21 — a *computed view*, never a stored grant).
 
 ### 14.2 Rules
@@ -495,8 +586,9 @@ Every capability declares all of:
    `[[MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001]]`
    Rule 15.1).
 3. **A missing `risk_tier` denies.** It never defaults to R0.
-4. **A missing `required_provider_scope` denies.** It never defaults to
-   wildcard.
+4. **A missing or incomplete `scope_applicability` denies.** Required scope
+   never defaults to wildcard, and absent scope never implies
+   `not_applicable`.
 5. **A missing `approval_policy` denies.** It never defaults to allow.
 6. **Capability presence is not permission.** A registered capability is a
    *policy input*. Execution requires all eight Section 21 facts.
@@ -506,6 +598,13 @@ Every capability declares all of:
 8. **One concrete capability, one canonical class.** Field (13) contains
    exactly one Section 13.2 identifier selected before runtime. Missing,
    provider-local, unresolved, or multiply applicable values deny.
+9. **One acting-identity type and authentication target.** Fields (12) and
+   (14) each contain one exact canonical value compatible with the selected
+   class. Missing, conflicting, or inapplicable values deny. The Gateway does
+   not switch them dynamically.
+10. **Applicability is capability-local and provider-constrained.** Field (15)
+    may use `not_applicable` only where the provider contract explicitly allows
+    it. The declaration cannot alter or weaken any other capability.
 
 ### 14.3 The registry does not restate provider capability tables
 
@@ -859,14 +958,25 @@ substitutive.
 
 ### 24.1 MCP servers register separately
 
-MCP servers are registered as a distinct record type, never as ordinary
-providers, with: `mcp_server_id`; `server_owner`; `transport`;
-`authentication_mode`; `tool_discovery_mode` (`static` | `dynamic`);
-`tool_set_stability`; `generic_execution_capability` (boolean);
-`allowed_tools` (allowlist); `denied_tools`; `tenant_binding`;
-`credential_binding`; `output_trust_level`; `operator_only` (boolean);
-`autonomous_agent_eligible` (boolean); `audit_mode`;
-`max_response_size`; `execution_timeout`; `mutation_prohibited` (boolean).
+Restricted tools and MCP servers are registered as a distinct record type,
+never as ordinary providers. Each record contains exactly one stable
+`restricted_tool_id` (an MCP record also carries its `mcp_server_id`),
+`tool_contract_revision`; `server_owner`; `transport`; `environment`;
+`authentication_mode`; `authentication_target`; one
+`required_credential_profile_class`; `tool_discovery_mode` (`static` |
+`dynamic`); `tool_set_stability`; `generic_execution_capability` (boolean);
+`allowed_tools` and exact `allowed_capability_ids` allowlists; `denied_tools`;
+`tenant_binding`; `eligible_acting_identity_types`; `credential_binding`;
+`data_sensitivity`; `allowed_resource_classes`; `external_content_posture`;
+`output_trust_level`; `operator_only` (boolean);
+`autonomous_agent_eligible` (boolean); `audit_source`; `audit_mode`;
+`retention_policy`; `session_metadata_policy`; `max_response_size`;
+`execution_timeout`; `mutation_prohibited` (boolean).
+
+A discovered tool is never executable until this exact record, revision,
+tenant, environment, acting identity, authentication target, credential class,
+tool capability, runtime enablement, and operator authorization all match. Zero
+or multiple matching tool or credential records deny.
 
 ### 24.2 Defaults (fail-closed)
 
@@ -948,7 +1058,9 @@ contract's tables (Section 14.3).
 | `contract_ref` | `MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_001` @ v1.0 |
 | `registration_status` (Axis A) | `contract_defined` |
 | `adapter_state` (Axis B) | `blocked` |
-| `required_scope_dimensions` | `tenant`, `account`, `zone` |
+| `possible_provider_native_scope_dimensions` | `account`, `zone`, `resource` |
+| `provider_api_scope_defaults` | `account: required` where the API family is account-scoped; `zone: required` where zone-scoped; `resource: required` where the capability targets a concrete resource. Every provider API capability declares all three states explicitly |
+| D4 scope rule | `account: not_applicable`, `zone: not_applicable`, `resource: not_applicable`; exact restricted-tool ID, tool capability, tenant, operator, environment, revision, and allowed documentation/investigation resource class are `required` |
 | `supported_auth_modes` | Provider API: `api_token` (scoped), global API key **prohibited**. Separately registered D4 restricted tools pin exactly one of `no_auth_public_documentation` or `mcp_oauth_grant` and carry no Cloudflare account binding |
 | Control Plane projection | §7.2 `Integration` (display only, no authorization) |
 
@@ -961,31 +1073,32 @@ Cloudflare contract itself records as `UNVERIFIED` in its §8.8.
 The Cloudflare contract's **58 capabilities** (16 read-only, 16
 proposal-only, 23 approval-required mutations, 3 operator-investigation)
 and **13 prohibited** capabilities map onto Section 14.1 as follows. Its 25
-per-capability attributes are a **subset** of this registry's 27 fields:
+per-capability attributes are a **subset** of this registry's 28 fields:
 
 | Cloudflare attribute (its §13.0) | Registry field (Section 14.1) |
 | --- | --- |
 | capability ID, name, domain | 1, 4, 5 |
 | Cloudflare API family, HTTP method class, resource type | 8, 9, 7 |
-| account/zone scope | 14, 15 (via `required_scope_dimensions`) |
+| account/zone scope | 15, 16 through the concrete capability's complete `scope_applicability` declaration |
 | classification, risk tier | 11, 10 |
-| required MellyCore identity, provider-specific credential requirement label, minimum permission | 12; label projects normatively to 13 before registration; profile `permitted_capability_classes` narrows use |
-| data classification, prompt-injection exposure | 16, 25 |
-| approval requirement | 17 |
-| idempotency, preconditions, concurrency | 18, 17/23, 23 |
-| response normalization, pagination, rate-limit/retry | (adapter concern) 22, 21 |
-| audit fields, read-after-write, rollback/containment | 19, 20, 24 |
-| failure outcome | 24 + Section 18.2 |
+| required MellyCore identity, provider-specific credential requirement label, minimum permission | 12; label projects normatively to 13 before registration; authentication target binds at 14; profile `permitted_capability_classes` narrows use |
+| data classification, prompt-injection exposure | 17, 26 |
+| approval requirement | 18 |
+| idempotency, preconditions, concurrency | 19, 18/24, 24 |
+| response normalization, pagination, rate-limit/retry | (adapter concern) 23, 22 |
+| audit fields, read-after-write, rollback/containment | 20, 21, 25 |
+| failure outcome | 25 + Section 18.2 |
 
-The two registry fields with no Cloudflare counterpart —
-`implementation_status` (26) and `authorization_status` (27) — are exactly
+The Registry-specific runtime-governance fields — including
+`required_authentication_target` (14), `implementation_status` (27), and
+`authorization_status` (28) — are exactly
 the registry's own contribution: they keep *description* separate from
 *readiness* and *authorization*, which a provider contract alone cannot
 express.
 
 The Cloudflare labels project as follows: `CF_READ` selects exactly one of
 `read_only_delegated` or `read_only_service` according to the concrete
-registration's acting-identity mode; `CF_WRITE_CONTROLLED` selects
+registration's `required_acting_identity_type`; `CF_WRITE_CONTROLLED` selects
 `controlled_write`; `CF_CONTAIN` selects `emergency_containment`; and
 `CF_MCP_OPERATOR` selects `restricted_operator_investigation`. The projection
 is performed by the provider contract and stored on the concrete capability
@@ -999,7 +1112,7 @@ record before runtime. The Gateway never receives or interprets a `CF_*` label.
 | Zone-wide `block` always R5 | Risk tier stored per capability; provider contract may raise, never lower (Section 15.1) |
 | Read/write credential separation | Two profiles, `credential_class` `read` and `controlled_write` (Section 13) |
 | Account-scoped Cloudflare permissions ≠ MellyCore tenant | Section 11.3, stated generically |
-| MCP documentation-only, no account grant | `restricted_operator_investigation` capability binding plus MCP record with `mutation_prohibited: true`, `operator_only: true`, `autonomous_agent_eligible: false`, empty account binding (Section 24) |
+| MCP documentation-only, no account grant | `restricted_operator_investigation`, `required_acting_identity_type: mellycore_operator`, `required_authentication_target: restricted_tool`, provider-native scope explicitly `not_applicable`, exact restricted-tool scope required, plus a matching Section 24 record with `mutation_prohibited: true`, `operator_only: true`, and `autonomous_agent_eligible: false` |
 | Read-after-write mandatory for mutations | `verification_policy` (field 20), non-optional for `classification: mutation` (Section 27) |
 | Read-only Cloudflare API access still unauthorized | Section 21 facts 5–7 unsatisfied; `adapter_state: blocked` |
 

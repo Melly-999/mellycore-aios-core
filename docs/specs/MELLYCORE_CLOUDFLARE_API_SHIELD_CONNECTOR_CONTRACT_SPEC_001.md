@@ -413,11 +413,13 @@ authorization boundary. Applied to Cloudflare:
 1. **Tenant-specific provider registration.** A tenant that has not
    registered the Cloudflare provider has no Cloudflare capability, and a
    registration for tenant A never satisfies a request for tenant B.
-2. **Explicit account scoping.** Every capability carries an explicit
-   Cloudflare account reference. No capability may operate against "the
-   default account," "the only account," or an account inferred from a
-   token's implicit reach.
-3. **Explicit zone scoping.** Every zone-scoped capability carries an
+2. **Explicit account scoping for provider API capabilities.** Every
+   Cloudflare provider API capability whose account dimension is applicable
+   carries an explicit account reference. No provider API capability may
+   operate against "the default account," "the only account," or an account
+   inferred from a token's implicit reach. D4 has no provider API authority and
+   instead declares `account: not_applicable` under Rule 9.4.
+3. **Explicit zone scoping for provider API capabilities.** Every zone-scoped capability carries an
    explicit zone reference. Enumerating zones (`cloudflare.zones.list`) does
    not authorize acting on them.
 4. **Allowlist, not denylist.** The set of `(tenant, account, zone)` triples
@@ -429,6 +431,17 @@ authorization boundary. Applied to Cloudflare:
 6. **Fail closed.** A cross-tenant, cross-account, or out-of-allowlist access
    attempt fails visibly with an audited denial. It never degrades to a
    narrower success, and never silently returns empty.
+
+**Rule 9.4 — capability-level applicability.** Registry §11 owns the generic
+`required` / `optional` / `not_applicable` model. Cloudflare permits
+`not_applicable` for `account`, `zone`, and `resource` only on D4, whose three
+capabilities have no provider-account or provider-API authority. Every D1–D3
+provider API capability declares each provider-native dimension explicitly and
+retains `required` account, zone, and resource scope wherever its row or domain
+requires them. A missing declaration, missing required value, unpermitted
+`not_applicable`, or provider-native value supplied to D4 denies. D4 instead
+requires exact registered restricted-tool scope; this exception cannot weaken
+any D1–D3 capability.
 
 ### 9.2 The account-scope hazard (Cloudflare-specific)
 
@@ -454,6 +467,12 @@ policy.
 
 ## 10. Identity model
 
+Provider Registry §7.5 solely owns the canonical acting-identity vocabulary:
+`delegated_user`, `service_account`, and `mellycore_operator`. This section
+applies Cloudflare-specific constraints and creates no second enum. Every
+concrete registration stores exactly one `required_acting_identity_type` before
+Gateway resolution.
+
 The seven identity types of ADR §11 are not conflated. Cloudflare-specific
 consequences:
 
@@ -475,6 +494,13 @@ allowlisted `(account, zone)` scope for provider API capabilities, a policy
 decision, the canonical `required_credential_profile_class` bound by the
 concrete capability, and — for R4/R5 — a valid approval bound to that exact
 proposal.
+
+**Rule 10.2 — operator identity is not provider identity.**
+`required_acting_identity_type: mellycore_operator` is valid only for D4 with
+`restricted_operator_investigation`. It implies no Cloudflare account,
+provider-user, service-account, or API identity and can never be substituted
+into D1–D3. Missing, conflicting, or incompatible identity/class combinations
+deny.
 
 ## 11. Credential model and credential profiles
 
@@ -502,10 +528,10 @@ projected its label to exactly one canonical class on the capability record.
 
 | Label/value | Remains? | Canonical projection | Concrete-registration rule | Identity constraints | Maximum risk | Provider API authority | MCP authority | Mutation authority | Fail-closed behavior | Migration / retirement rule |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `CF_READ` | Yes, as provider shorthand only | Exactly one of `read_only_delegated`, `read_only_service` | Select one before runtime from the declared acting-identity mode; store it as `required_credential_profile_class` | Delegated user or conspicuously labelled service account; no switching | R2 | Bounded read only, and only after separate authorization | None | None | Zero/multiple compatible profiles, identity mismatch, or unresolved label deny; no delegated→service fallback | Existing registrations migrate to one identity-specific canonical class; no Gateway interpretation of `CF_READ` |
+| `CF_READ` | Yes, as provider shorthand only | Exactly one of `read_only_delegated`, `read_only_service` | Select one before runtime from `required_acting_identity_type`: `delegated_user` selects `read_only_delegated`; `service_account` selects `read_only_service`; store the result as `required_credential_profile_class` | Delegated user or conspicuously labelled service account; no switching | R2 | Bounded read only, and only after separate authorization | None | None | Missing/unknown selector, zero/multiple compatible profiles, identity mismatch, or unresolved label deny; no delegated→service fallback | Existing registrations migrate to one identity-specific canonical class; no Gateway interpretation of `CF_READ` |
 | `CF_WRITE_CONTROLLED` | Yes, as provider shorthand only | `controlled_write` | Every D3 non-containment registration binds this one class | Exactly one declared delegated-user or service-account mode; separate read profile required | R5 | Exact approved write surface only | None | R4/R5 only with all approval, audit, idempotency, verification, and reconciliation controls | Missing/multiple profiles, permission failure, or approval mismatch deny; no broader-profile retry or read→write widening | Replace any runtime use of the label with `controlled_write`; label remains descriptive in this contract |
 | `CF_CONTAIN` | Yes, as provider shorthand only | `emergency_containment` | Containment registrations bind this one class and the containment allowlist | Labelled service account only | R5 | Narrow containment API surface only | None | Approved containment only; class membership alone never authorizes it | Missing/multiple profiles or any absent approval/audit/verification fact denies; no fallback | Replace any runtime use of the label with `emergency_containment`; existing R5 decisions remain unchanged |
-| `CF_MCP_OPERATOR` | Yes, as provider shorthand only | `restricted_operator_investigation` | D4 registrations bind this class and a separately registered restricted tool/MCP record | MellyCore operator only; no agent initiation; no service-account fallback; empty account/resource binding | R2 (D4 v1.0 remains R0) | **None** | Documentation/investigation only under Section 25 | **None** | Missing/multiple profiles, tool-registration mismatch, account binding, provider API attempt, or mutation attempt denies and audits | Migrate runtime-looking uses to `restricted_operator_investigation`; the label never authorizes Cloudflare account access |
+| `CF_MCP_OPERATOR` | Yes, as provider shorthand only | `restricted_operator_investigation` | D4 registrations bind this class, `required_acting_identity_type: mellycore_operator`, `required_authentication_target: restricted_tool`, and one separately registered restricted-tool/MCP record | MellyCore operator only; no agent initiation; no service-account fallback; provider-native account/zone/resource explicitly `not_applicable`; exact restricted-tool scope required | R2 (D4 v1.0 remains R0) | **None** | Documentation/investigation only under Section 25 | **None** | Missing/multiple profiles, identity/target/tool/revision/scope mismatch, provider-native value, provider API attempt, or mutation attempt denies and audits | Migrate runtime-looking uses to `restricted_operator_investigation`; the label never authorizes Cloudflare account access |
 | `credential_class: investigation` | Yes only as Registry-derived coarse descriptive metadata; not a Cloudflare requirement label | Produced only by `restricted_operator_investigation` | No runtime component interprets it; concrete D4 registration uses `required_credential_profile_class: restricted_operator_investigation` | MellyCore operator only under the restricted-tool record | R2 | **None** | Documentation/investigation only | **None** | Any use as a runtime selector or alias denies | Retire all standalone/runtime uses; retain only as derived non-authorizing metadata |
 
 The projection is complete before Gateway resolution. No concrete capability
@@ -513,13 +539,27 @@ registration may retain two candidate canonical classes. Authorization records
 bind to the selected canonical class, zero compatible profiles deny, multiple
 compatible profiles deny, and no "best available credential" behavior exists.
 
+Authentication mode and authentication target are independent. Every D1–D3
+provider API registration uses `required_authentication_target: provider_account`.
+Every D4 registration uses
+`required_authentication_target: restricted_tool`. If D4 pins
+`mcp_oauth_grant`, the OAuth authority belongs only to the exact registered
+restricted tool or MCP server: it is not a Cloudflare grant, grants no
+Cloudflare account or API access, is restricted to the registered tenant and
+tool capabilities, and cannot be reused as a provider credential.
+
 ### 11.2 Requirements (normative)
 
 1. **Tenant-specific.** One profile instance per tenant. Never shared.
-2. **Account/zone-scoped for provider API labels.** `CF_READ`,
+2. **Capability-level scope applicability.** `CF_READ`,
    `CF_WRITE_CONTROLLED`, and `CF_CONTAIN` bind to the tenant's explicit
-   allowlist. `CF_MCP_OPERATOR` instead requires an empty Cloudflare account,
-   zone, and resource binding and cannot be reused for a provider API.
+   provider-native allowlist with every applicable account, zone, and resource
+   dimension marked `required`. `CF_MCP_OPERATOR` instead requires `account`,
+   `zone`, and `resource` each explicitly marked `not_applicable` and cannot be
+   reused for a provider API. D4 requires exact restricted-tool ID, contract
+   revision, tool capability, tenant, operator, environment, and allowed
+   documentation/investigation resource class. Missing applicable scope,
+   omitted applicability, or any unexpected provider-native value denies.
 3. **Least privilege.** The minimum permission group that satisfies the
    capability, not the most convenient one.
 4. **Read/write separation.** `CF_READ` must never carry an Edit permission.
@@ -624,8 +664,11 @@ classification; (14) prompt-injection exposure; (15) approval requirement;
 (25) failure outcome.
 
 In addition to these 25 provider attributes, every concrete registration binds
-exactly one Registry `required_credential_profile_class` under Section 11.1.1.
-That canonical field, not attribute (11), is the sole Gateway resolution input.
+exactly one Registry `required_acting_identity_type`,
+`required_credential_profile_class`, `required_authentication_target`, and
+complete `scope_applicability` declaration under Sections 9–11. Those canonical
+fields, not attribute (11), are the sole Gateway resolution inputs and are
+immutable for one request evaluation.
 
 ### 13.1 Domain 1 — Cloudflare Security Inventory (read-only)
 
@@ -634,7 +677,12 @@ That canonical field, not attribute (11), is the sole Gateway resolution input.
 - **Classification:** read. **Method class:** `GET` only.
 - **Identity:** tenant + (operator or agent). **Provider requirement label:**
   `CF_READ`. Each concrete registration selects `read_only_delegated` or
-  `read_only_service` before runtime from its declared acting-identity mode.
+  `read_only_service` before runtime from
+  `required_acting_identity_type: delegated_user` or `service_account`.
+- **Authentication target:** `provider_account`.
+- **Provider-native scope applicability:** account, zone, and resource are
+  declared explicitly; every dimension applicable to the row is `required`.
+  Restricted-tool scope is `not_applicable`.
 - **Approval:** none required (policy-allowed per ADR §14 for R0/R1).
 - **Idempotency:** naturally idempotent; no idempotency key required.
 - **Preconditions:** tenant registered; `(account, zone)` on the allowlist;
@@ -698,7 +746,10 @@ tenant's boundary by a D1 capability.
   and stops — they never execute").
 - **Identity:** tenant + (operator or agent). **Provider requirement label:**
   `CF_READ` only; the concrete registration selects one identity-specific read
-  class before runtime. A D2 capability may not be issued a write credential.
+  class from `required_acting_identity_type` before runtime. A D2 capability
+  may not be issued a write credential.
+- **Authentication target:** `provider_account`; applicable provider-native
+  scope is `required`; restricted-tool scope is `not_applicable`.
 - **Approval:** producing a proposal requires no approval; the proposal
   itself confers none.
 - **Idempotency:** proposal generation is side-effect-free; regenerating
@@ -756,6 +807,10 @@ is a D3 mutation.
   but never approve. **Provider requirement label:** `CF_WRITE_CONTROLLED`
   projecting to `controlled_write` (or `CF_CONTAIN` projecting to
   `emergency_containment` for the containment subset, Section 33.3).
+- **Authentication target:** `provider_account`; applicable provider-native
+  scope is `required`; restricted-tool scope is `not_applicable`. The acting
+  provider identity is one exact `delegated_user` or `service_account` selected
+  before runtime and is distinct from the approving operator.
 - **Minimum Cloudflare permission:** the narrowest Edit group that covers the
   capability — API Gateway Edit for Endpoint Management, labels, and Schema
   Validation; WAF/Rulesets Edit for Rulesets capabilities (Section 8.7).
@@ -825,6 +880,16 @@ approval merely policy-dependent — would contradict the ADR.
   D4 session. **Provider requirement label:** `CF_MCP_OPERATOR`, projecting to
   `restricted_operator_investigation`; it carries no Cloudflare account grant
   in v1.0 and authorizes no provider API.
+- **Canonical identity:** `required_acting_identity_type: mellycore_operator`;
+  exact operator reference required; no identity fallback.
+- **Authentication target:** `required_authentication_target: restricted_tool`;
+  the pinned mode is `no_auth_public_documentation` or a
+  tool-targeted `mcp_oauth_grant`, never Cloudflare/provider OAuth.
+- **Provider-native scope applicability:** `account: not_applicable`, `zone:
+  not_applicable`, `resource: not_applicable`; a supplied value denies.
+- **Restricted-tool scope:** exact tool/server ID, tool-contract revision, D4
+  tool capability, tenant, operator, environment, and allowed
+  documentation/investigation resource class are all `required`.
 - **Approval:** operator initiation is the authorization; the session
   confers no capability outside its allowlist.
 - **Output:** untrusted (Section 26), size-bounded, provenance-stamped, and
@@ -1307,15 +1372,28 @@ misconfiguration rather than by decision.
 2. tenant explicitly selected;
 3. provider requirement label `CF_MCP_OPERATOR` projected before runtime to
    `required_credential_profile_class: restricted_operator_investigation`;
-4. capability allowlist applied — the session may reach only D4 capabilities;
-5. read-only by default, with no write method reachable;
-6. bounded execution envelope — call count, duration, and concurrency capped;
-7. bounded response size, with truncation labeled, never silently dropped;
-8. output treated as untrusted (Section 26);
-9. complete audit trail preserved (Section 31.4);
-10. dangerous generic methods blocked — no arbitrary request execution, no
+4. `required_acting_identity_type: mellycore_operator` with the exact
+   authenticated operator reference; no service-account or agent substitution;
+5. `required_authentication_target: restricted_tool` with one exact registered
+   tool/server ID, matching contract revision, tenant, environment, operator
+   eligibility, credential class, and allowed tool capability;
+6. authentication mode pinned by that tool record; if it is
+   `mcp_oauth_grant`, the grant targets only that tool/server, not Cloudflare or
+   any provider account, and cannot be reused as a provider credential;
+7. provider-native `account`, `zone`, and `resource` each explicitly
+   `not_applicable`; exact allowed documentation/investigation resource class
+   present;
+8. capability allowlist applied — the session may reach only D4 capabilities;
+9. read-only by default, with no write method reachable;
+10. bounded execution envelope — call count, duration, and concurrency capped;
+11. bounded response size, with truncation labeled, never silently dropped;
+12. output treated as untrusted (Section 26);
+13. complete audit trail preserved (Section 31.4);
+14. dangerous generic methods blocked — no arbitrary request execution, no
     raw path passthrough, no code execution, no credential-bearing call;
-11. **no autonomous unrestricted search-and-execute**, in any form.
+15. tool discovery alone grants nothing; exact registration, revision, identity,
+    scope, runtime enablement, and operator authorization all match; and
+16. **no autonomous unrestricted search-and-execute**, in any form.
 
 ### 25.3 Non-substitution
 
@@ -1462,9 +1540,12 @@ headroom.
 
 Every Cloudflare execution record includes, where applicable:
 
-tenant ID; MellyCore operator ID; delegated-user or service-account
-identity (explicitly labeled as to which); provider ID; Cloudflare account
-ID reference; Cloudflare zone ID reference; capability ID; risk tier;
+tenant ID; MellyCore operator ID; canonical
+`required_acting_identity_type`; exact acting-identity reference (delegated
+user, service account, or MellyCore operator, explicitly labelled);
+authentication target; provider ID; applicable Cloudflare account and zone ID
+references or explicit `not_applicable`; applicable restricted-tool ID and
+contract revision; capability ID; risk tier;
 approval ID; policy decision ID; credential reference ID; request
 correlation ID; provider request ID; exact target resources (enumerated,
 never summarized); sanitized before state; sanitized proposed diff;
@@ -1490,10 +1571,14 @@ before execution; and the post-execution observation evidence identifiers.
 
 ### 31.4 D4 session audit
 
-An MCP or investigation session records: operator identity; tenant; profile;
-start and end time; every capability invoked; every query issued; response
-sizes and truncation; and any content flagged under Section 26.1 rule 9.
-Session records are retained under the tenant's retention policy.
+An MCP or investigation session records: exact operator identity and canonical
+`mellycore_operator` type; tenant; environment; profile; authentication mode and
+`restricted_tool` target; exact tool/server ID and contract revision; allowed
+resource class; provider-native scope explicitly `not_applicable`; start and
+end time; every capability invoked; every query issued; response sizes and
+truncation; audit source; retention/session metadata; and any content flagged
+under Section 26.1 rule 9. Session records are retained under the tenant's
+retention policy.
 
 ### 31.5 Security observations
 

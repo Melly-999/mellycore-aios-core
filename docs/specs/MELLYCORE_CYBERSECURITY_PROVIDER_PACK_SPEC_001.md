@@ -102,7 +102,10 @@ successful authentication MUST NOT be interpreted as execution authority.
    not a tenant-capability authorization.
 5. **Authentication and authorization are separate.** Authentication proves an
    identity; policy decides whether that identity may perform one operation.
-6. **Provider-native scope is not tenant scope.** Both MUST resolve and agree.
+6. **Provider-native scope is not tenant scope.** MellyCore scope always
+   resolves. Provider-native scope resolves where the concrete capability marks
+   it applicable; an explicit contract-permitted `not_applicable` is distinct
+   from missing scope and never supplies provider authority.
 7. **Loss is visible.** Normalization loss, ambiguity, sampling, retention, and
    licensing gaps are first-class fields.
 8. **External content is untrusted.** Alerts, logs, code fragments, findings,
@@ -248,10 +251,14 @@ provider-specific contract from weakening them; they do not admit R3-R5.
 
 ## 11. Identity and tenant isolation
 
-Every request MUST preserve the Gateway's complete acting-identity chain,
-including tenant, requesting actor, delegated user or service account,
-adapter/fabric when present, downstream provider, and target resource. The
-chain MUST NOT be merged, substituted, or inferred from session state.
+Every request MUST preserve the Gateway's complete acting-identity chain.
+Provider Registry §7.5 is the sole owner of the canonical acting-identity
+vocabulary: `delegated_user`, `service_account`, and `mellycore_operator`.
+The last is valid only for an explicitly operator-bound restricted-tool
+capability and is never a fallback. The chain includes tenant, requesting
+actor, exact canonical acting identity, authentication target, adapter/fabric
+when present, applicable downstream provider, and exact provider or tool
+target. It MUST NOT be merged, substituted, or inferred from session state.
 
 A fabric-mediated path MUST preserve the full downstream chain
 `MellyCore -> integration fabric -> downstream provider -> target resource`,
@@ -260,7 +267,8 @@ credential-profile references, and provider-native scope. Lost provenance
 cannot be repaired by the fabric's own authentication and makes the path
 ineligible.
 
-Tenant authorization and provider-native account scope are independent checks.
+Tenant authorization and applicable provider-native account scope are
+independent checks.
 Enterprise, organization, repository, account, subscription, zone, index,
 customer, and region identifiers remain provider resource scopes; none is a
 MellyCore tenant ID. Cross-tenant caches, correlation, credentials, results,
@@ -269,7 +277,8 @@ event deduplication, and raw references are prohibited.
 ## 12. Credential contract
 
 Future provider-specific contracts MUST select an explicit credential-profile
-class:
+class. This table is a non-exhaustive pack projection of the Registry §13.2
+catalogue and creates no second enum:
 
 | Class | Purpose | Initial pack status |
 | --- | --- | --- |
@@ -279,12 +288,14 @@ class:
 | `event_verification` | Verify an inbound event source/signature or token | Described, not configured |
 | `integration_fabric_read` | Bound fabric-mediated downstream read identity | Described only where relevant |
 | `integration_fabric_controlled_write` | Bound fabric-mediated downstream write identity | Deferred and unauthorized |
-| `restricted_operator_investigation` | Operator-only, documentation/investigation tool path with no provider account access | Cloudflare D4 only; described, not connected or configured |
+| `restricted_operator_investigation` | Operator-only, documentation/investigation tool path with `required_acting_identity_type: mellycore_operator`, `required_authentication_target: restricted_tool`, provider-native scope explicitly `not_applicable`, and exact restricted-tool scope | Cloudflare D4 only; described, not connected or configured |
 
 Credential references are opaque. Secret values remain in an approved secret
 manager, outside prompts, model context, logs, normalized entities, evidence,
-task reports, and error text. Profiles MUST bind tenant, provider-native scope,
-allowed capability class, expiry, rotation, revocation, and verification state.
+task reports, and error text. Profiles MUST bind tenant, canonical acting
+identity, authentication target, complete scope applicability, exact applicable
+provider-native or restricted-tool scope, allowed capability class, expiry,
+rotation, revocation, and verification state.
 
 Read and write credentials MUST be separate. Delegated-user credentials MUST
 NOT fall back to service accounts; service accounts MUST be conspicuously
@@ -294,8 +305,11 @@ credential reuse is permitted.
 Provider-specific `CF_*` terms are Cloudflare-contract requirement labels, not
 runtime classes. The Cloudflare contract projects each concrete capability to
 exactly one canonical Registry class before Gateway resolution; this pack does
-not reinterpret those labels or authorize MCP execution, provider API access,
-containment, or mutation.
+not reinterpret those labels. A D4 restricted-tool authentication mode,
+including `mcp_oauth_grant`, targets only the exact registered restricted tool
+and cannot be interpreted or reused as Cloudflare/provider authentication.
+Nothing here authorizes MCP execution, provider API access, containment, or
+mutation.
 
 ## 13. Data and sensitivity contract
 
@@ -498,7 +512,11 @@ all 13 explicit prohibitions remain authoritative under provider ID
 `cloudflare`. This pack neither duplicates nor narrows those tables.
 The Cloudflare contract's normative credential projection also remains
 authoritative: `CF_*` labels are not Gateway inputs, and every concrete
-registration binds one canonical Registry class before runtime.
+registration binds one canonical Registry class, acting-identity type,
+authentication target, and complete scope-applicability declaration before
+runtime. D4 uses `mellycore_operator`, target `restricted_tool`, provider-native
+account/zone/resource `not_applicable`, and exact registered-tool scope; this
+does not authorize a tool connection or Cloudflare API access.
 
 | Common capability | Accepted Cloudflare mapping | Risk |
 | --- | --- | --- |
@@ -737,8 +755,9 @@ coverage, canonical cross-reference checks, forbidden authorization scans,
 All of the following are prerequisites, not authorizations:
 
 1. acceptance of this pack and the marketing pack;
-2. successful
-   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003`;
+2. a future independent `PASS` from
+   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004` — currently not
+   run; the documentation gate remains failed;
 3. separate operator authorization for adapter scaffolding;
 4. accepted provider-specific contracts for each attempted provider;
 5. implemented and tested Registry, Gateway, audit, secret-manager, tenant,
