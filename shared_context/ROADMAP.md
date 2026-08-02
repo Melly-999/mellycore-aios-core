@@ -524,14 +524,30 @@ the time each task starts; each item records its current state below):
     authentication targets, and exact restricted-tool registration/scope.
     Gateway, Cloudflare D4, and the Cybersecurity Pack now consume the same
     contract. `P1-301` and `P1-302` closure remains unverified.
-13. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004` — **exact next
-    task; not started.** Independent documentation review of all five Review
-    003 findings. The gate remains failed until that review returns an
-    independent PASS.
-14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
-    Review 004 passes, plus separate
-    explicit Operator authorization. **Blocked, ineligible, not
-    started, and not authorized.**
+13. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004` — **complete;
+    documentation gate passed with non-blocking findings.**
+    `PASS_WITH_NON_BLOCKING_FINDINGS` (P0 = 0, P1 = 0, P2 = 0, P3 = 3) across
+    20 documents and 24 determinism scenarios, all 24 deterministic. All five
+    Review 003 findings — `P1-301`, `P1-302`, `P2-301`, `P3-301`, `P3-302` —
+    are independently verified `CLOSED`. Verified from contract text: one
+    Registry-owned three-value acting-identity vocabulary; one canonical
+    `required_acting_identity_type` selector bound before credential
+    resolution; three authentication targets with mode and target separate;
+    capability-level scope applicability whose `not_applicable` is permitted
+    only where a provider contract explicitly allows it (Cloudflare: D4 only);
+    `mellycore_operator` neither provider-account nor provider-API eligible and
+    never a fallback; restricted-tool OAuth that cannot become provider OAuth;
+    and Cloudflare's 58 capability and 13 prohibition rows byte-identical to
+    the pre-remediation commit with D4 unchanged at three R0 capabilities.
+    Three non-blocking P3 observations remain (`P3-401`, `P3-402`, `P3-403`);
+    none changes a runtime decision. Canonical review:
+    `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_004.md`.
+14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **exact next task; eligible for
+    separate authorization; not started.** Eligible for separate explicit
+    Operator authorization under the four constraints recorded in Review 004
+    §36. Eligibility is not authorization: it is not authorized, not approved
+    for execution, not active, not implemented, and not enabled, and no
+    scaffold work may begin without that separate Operator authorization.
 
 No credentials, provider runtime, restricted-tool or MCP connection,
 MCP execution, Cloudflare API call,

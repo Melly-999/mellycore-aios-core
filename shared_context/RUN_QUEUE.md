@@ -732,13 +732,25 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    `not_applicable` scope and exact restricted-tool scope. `P1-301` and
    `P1-302` remain unverified. Durable report:
    `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001.md`.
-13. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004` — **exact next
-   task; not started.** Must independently review the five Review 003 findings.
-   The documentation gate remains failed unless and until Review 004 passes.
-14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
-   ineligible, and not authorized. May only be considered after item 13 passes
-   and separate explicit
-   Operator authorization is issued, independent of Model A/B deployment
+13. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004` — **complete in
+   one local documentation-only commit; not pushed.** Outcome
+   `PASS_WITH_NON_BLOCKING_FINDINGS`: P0 0, P1 0, P2 0, P3 3, across 20
+   documents and 24 scenarios, all 24 deterministic. All five Review 003
+   findings (`P1-301`, `P1-302`, `P2-301`, `P3-301`, `P3-302`) are
+   independently verified `CLOSED`. Cloudflare's 58 capability and 13
+   prohibition rows are byte-identical to the pre-remediation commit and D4
+   remains three R0 documentation-only capabilities. Three non-blocking P3
+   observations remain (`P3-401`, `P3-402`, `P3-403`). The documentation gate
+   has **passed with non-blocking findings**. Canonical review:
+   `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_004.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004.md`.
+14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **exact next task; eligible for
+   separate authorization; not started.** Not authorized, not approved for
+   execution, not active, not implemented, and not enabled. Requires separate
+   explicit
+   Operator authorization before any work begins, issued under the four
+   constraints in Review 004 §36, independent of Model A/B deployment
    authorization and independent of the OpenAI Batch Stage C gate.
 
 Blocked pending this track's own gates and separate explicit authorization,

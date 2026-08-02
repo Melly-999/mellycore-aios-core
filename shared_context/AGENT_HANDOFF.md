@@ -1,6 +1,52 @@
 # Agent Handoff
 
-## Latest Update — Restricted operator tool path remediated (documentation-only, parallel track)
+## Latest Update — Enterprise-provider documentation gate passed with non-blocking findings (documentation-only, parallel track)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004`
+
+- Independent review of remediation commit
+  `b90ce82ab497469ea3c8b8c0f3c8be8ce8717dbd`. Outcome:
+  `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 0, P3 = 3, across 20
+  documents and 24 deterministic scenarios (24 of 24 deterministic; none
+  requires architectural interpretation).
+- All five Review 003 findings are independently verified `CLOSED`, none
+  partially: `P1-301` (Gateway now represents `mellycore_operator` through
+  chain, evaluation, envelope, credential matching, and audit), `P1-302`
+  (capability-level scope applicability replaces the provider-wide required
+  dimensions and reconciles D4), `P2-301` (authentication target is a separate
+  closed vocabulary; `mcp_oauth_grant` targets only the exact registered
+  restricted tool), `P3-301` (`required_acting_identity_type` is the named
+  selector), and `P3-302` (Registry §7.5 is the single canonical three-token
+  vocabulary).
+- Verified from contract text, not from the remediation's claims: exactly three
+  acting-identity types, three authentication targets, three
+  scope-applicability values, and nine credential-profile classes;
+  `mellycore_operator` is neither provider-account nor provider-API eligible
+  and is never a fallback; `not_applicable` is permitted only where a provider
+  contract explicitly allows it, which for Cloudflare is Domain 4 alone and
+  cannot weaken any D1–D3 capability; restricted-tool OAuth cannot become
+  provider OAuth; Cloudflare retains 58 capability and 13 prohibition rows
+  byte-identical to the pre-remediation commit; and D4 remains three R0
+  documentation-only capabilities.
+- Three non-blocking P3 observations remain and none changes a runtime
+  decision: `P3-401` (Registry §7.5's table has a malformed delimiter row),
+  `P3-402` (two intra-Registry references were not updated for the §14.1
+  renumbering), `P3-403` (no non-provider-operated restricted-tool OAuth
+  authority is identified).
+- The documentation gate has **passed with non-blocking findings**. Exact next
+  task: `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001`, now **eligible for separate
+  Operator authorization** under the four constraints in Review 004 §36.
+  Eligibility is not authorization: it is not started, not authorized, not
+  approved for execution, not active, not implemented, and not enabled.
+- No provider is connected, authenticated, credentialed, enabled, live,
+  deployed, or implemented. No restricted tool is connected, no MCP execution
+  is authorized, and no credential exists. Documentation only; one local commit
+  only; not pushed. No provider authentication, API call, MCP/fabric
+  connection, webhook, credential, runtime, workflow, dependency, deploy, PR,
+  merge, or MellyTrade action is authorized or performed. The global OpenAI
+  Batch pointer is unchanged, not reordered, and not reinterpreted.
+
+## Previous Update — Restricted operator tool path remediated (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`
 

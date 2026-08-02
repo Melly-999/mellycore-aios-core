@@ -1078,12 +1078,56 @@ tool/server grant only and cannot become Cloudflare authentication.
 This documentation-only remediation is **not** a documentation-gate PASS.
 `P1-301` and `P1-302` remain unverified until an independent Review 004. No
 restricted tool is connected, no MCP execution is authorized, no provider
-runtime or API is authorized, and no credential exists. The exact next
-enterprise-provider task is
+runtime or API is authorized, and no credential exists. At the time of that
+remediation, the exact next enterprise-provider task was
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004`.
 
-`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
-started, and not authorized. This result does
+**Enterprise-provider documentation integration review 004 — complete;
+documentation gate passed with non-blocking findings.**
+`MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004` independently
+verified the restricted-tool-path remediation commit
+`b90ce82ab497469ea3c8b8c0f3c8be8ce8717dbd`. Outcome:
+`PASS_WITH_NON_BLOCKING_FINDINGS`. Finding counts: P0 0, P1 0, P2 0, P3 3.
+All five Review 003 findings — `P1-301`, `P1-302`, `P2-301`, `P3-301`, and
+`P3-302` — are independently verified `CLOSED`; none is partially closed.
+
+Verified independently from contract text, not from the remediation's claims:
+Provider Registry §7.5 is the sole owner of exactly three canonical
+acting-identity types; `required_acting_identity_type` is the single canonical
+selector, bound before credential resolution and immutable for one evaluation;
+Registry §12.1 owns exactly three authentication targets, with mode and target
+as independent fields; scope applicability is capability-level with exactly
+three values, and `not_applicable` is permitted only where a provider contract
+explicitly allows it — for Cloudflare, Domain 4 alone. `mellycore_operator` is
+neither provider-account nor provider-API eligible and is never a fallback.
+Restricted-tool OAuth cannot become provider OAuth. Cloudflare retains 58
+capability rows and 13 prohibition rows, byte-identical to the pre-remediation
+commit, with Domain 4 unchanged at three R0 documentation-only capabilities.
+All 24 replayed scenarios resolve deterministically; none requires
+architectural interpretation.
+
+Three non-blocking P3 observations remain: `P3-401` (Registry §7.5's table has
+a malformed delimiter row and may not render as a table; its raw text is
+complete and unambiguous), `P3-402` (two intra-Registry references were not
+updated for the §14.1 renumbering), and `P3-403` (no non-provider-operated
+restricted-tool OAuth authority is identified, so `mcp_oauth_grant` may be
+unselectable in practice for Domain 4). None changes any runtime decision.
+
+Canonical review record:
+`docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_004.md`.
+Durable review report:
+`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004.md`.
+
+The documentation gate has **passed with non-blocking findings**. The exact
+next enterprise-provider task is `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001`,
+which is now **eligible for separate Operator authorization** under the four
+constraints recorded in Review 004 §36. It is not started, not authorized, not
+approved for execution, not active, not implemented, and not enabled;
+eligibility is not authorization. No provider is connected, authenticated,
+credentialed, or enabled; no restricted tool is connected; no MCP execution is
+authorized; and no credential exists.
+
+This result does
 not reorder the global OpenAI Batch pointer, which remains
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
 
