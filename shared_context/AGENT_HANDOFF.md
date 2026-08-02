@@ -1,6 +1,37 @@
 # Agent Handoff
 
-## Latest Update — Enterprise-provider documentation integration review 002 failed (documentation-only, parallel track)
+## Latest Update — Enterprise-provider credential-class conformance remediated (documentation-only, parallel track)
+
+`MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`
+
+- Resolved review-002 finding `P1-201` at the specification level. Provider
+  Registry §13.2 now owns a closed nine-value canonical
+  credential-profile-class catalogue, including
+  `restricted_operator_investigation`; every concrete capability must bind to
+  exactly one canonical class before Gateway evaluation.
+- Cloudflare's `CF_READ`, `CF_WRITE_CONTROLLED`, `CF_CONTAIN`, and
+  `CF_MCP_OPERATOR` values are provider-specific requirement labels, not
+  Registry/Gateway runtime class identifiers. A normative projection maps them
+  by capability identity, with the residual coarse
+  `credential_class: investigation` value descriptive only. Unknown, zero, or
+  multiple projections deny; there is no best-available or fallback selection.
+- Gateway §§34.1–34.6 now use only canonical class identifiers. The
+  Cybersecurity pack has the ninth class and no duplicate Safety Contract
+  authority entry. The Registry authorization-record ownership statement and
+  the queue's stale Cloudflare profile count are synchronized.
+- The documentation gate has **not** passed and `P1-201` closure is not yet
+  independently verified. Exact next task:
+  `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003`.
+  `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
+  started, and not authorized.
+- Documentation only; one local commit only. No provider is connected,
+  authenticated, credentialed, enabled, live, deployed, or implemented. No
+  provider authentication/API/MCP, fabric, webhook, credential, runtime,
+  workflow, dependency, deploy, push, PR, merge, or MellyTrade action is
+  authorized or performed. The global task pointer is unchanged, not reordered,
+  and not reinterpreted by this parallel-track remediation.
+
+## Previous Update — Enterprise-provider documentation integration review 002 failed (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002`
 

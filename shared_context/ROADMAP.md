@@ -500,14 +500,18 @@ the time each task starts; each item records its current state below):
    `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_002.md`.
    The documentation gate has not passed.
 10. `MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`
-   — exact next task; not started. Must publish a deterministic normative
-   projection between the Cloudflare contract's credential profiles and
-   Registry §13.2, align Gateway §§34.1–34.6 with Gateway §14.2, and route the
-   three P3 findings, before a further independent review.
-11. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
-   that remediation and a further passing independent review, plus separate
-   explicit Operator authorization. **Blocked, ineligible, not
-   started, and not authorized.**
+    — **complete as one local documentation remediation; not a gate PASS.**
+    Publishes a deterministic projection from Cloudflare requirement labels to
+    nine canonical Registry classes, binds every concrete registration to one
+    class before Gateway resolution, and routes the three P3 findings.
+    `P1-201` closure remains unverified.
+11. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` — **exact next
+    task; not started.** Independent review must verify `P1-201` closure and
+    the credential-class model without treating remediation prose as evidence.
+12. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — may only be considered after
+    Review 003 passes, plus separate
+    explicit Operator authorization. **Blocked, ineligible, not
+    started, and not authorized.**
 
 No credentials, provider runtime, MCP connection, Cloudflare API call,
 marketing action, or cybersecurity remediation is authorized by this

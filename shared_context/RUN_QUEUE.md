@@ -640,9 +640,10 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    without modifying it. Of the two items the Provider Registry contract
    deferred here, it resolved the **shape** of tenant-provider and
    tenant-capability authorization records (explicit, separate,
-   independently revocable, absence denies) and left their storage and
-   issuance workflow, plus the fabric equivalence-evidence standard, as
-   recorded open questions. Durable report:
+   independently revocable, absence denies) and assigned their storage and
+   issuance workflow to the Provider Registry and their runtime resolution to
+   the Integration Gateway. The fabric equivalence-evidence standard was
+   subsequently resolved by item 8's remediation. Durable report:
    `docs/tasks/MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001.md`.
 6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
    cybersecurity provider pack. **Specification complete; publication
@@ -692,16 +693,23 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002.md`.
    The documentation gate has **not** passed.
 10. `MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`
-   — **exact next task; not started.** Must publish a deterministic normative
-   projection between the Cloudflare contract's four credential profiles and
-   Registry §13.2 (amending §13.2 and reconciling the residual
-   `credential_class: investigation` value if a new canonical
-   operator-investigation / restricted-MCP class is chosen), align Gateway
-   §§34.1–34.6 with Gateway §14.2, and route the three P3 findings. A further
-   independent review must follow before scaffold eligibility is reconsidered.
-11. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
-   ineligible, and not authorized. May only be considered after item 10 and a
-   further passing independent review, and separate explicit
+   — **complete in one local documentation-only commit; not pushed.** Registry
+   §13.2 now owns a closed nine-value canonical credential-profile-class
+   catalogue, including `restricted_operator_investigation`. Cloudflare's four
+   provider-specific requirement labels and residual coarse
+   `credential_class: investigation` metadata now project deterministically to
+   exactly one canonical class before Gateway evaluation. Gateway §§34.1–34.6
+   use only canonical class identifiers, and the three P3 maintenance findings
+   are routed. The documentation gate has **not** passed; `P1-201` closure is
+   not independently verified. Durable report:
+   `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001.md`.
+11. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` — **exact next
+   task; not started.** Must independently verify the remediation and decide
+   whether the documentation integration gate passes before scaffold
+   eligibility is reconsidered.
+12. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **blocked**, not started,
+   ineligible, and not authorized. May only be considered after item 11 passes
+   and separate explicit
    Operator authorization is issued, independent of Model A/B deployment
    authorization and independent of the OpenAI Batch Stage C gate.
 

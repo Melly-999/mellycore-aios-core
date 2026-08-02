@@ -46,9 +46,8 @@ This contract is downstream of, and MUST NOT weaken:
 5. `docs/specs/MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001.md`;
 6. `docs/specs/MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC.md`;
 7. `docs/specs/MELLYCORE_OPERATIONS_DATA_CONTRACT_SPEC_001.md`;
-8. `docs/specs/MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001.md`;
-9. `shared_context/SAFETY_CONTRACT.md`; and
-10. `shared_context/VALIDATION.md`.
+8. `docs/specs/MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001.md`; and
+9. `shared_context/VALIDATION.md`.
 
 The accepted Cloudflare connector contract remains authoritative for every
 Cloudflare operation. Section 21 is a pack mapping, not a replacement copy.
@@ -280,6 +279,7 @@ class:
 | `event_verification` | Verify an inbound event source/signature or token | Described, not configured |
 | `integration_fabric_read` | Bound fabric-mediated downstream read identity | Described only where relevant |
 | `integration_fabric_controlled_write` | Bound fabric-mediated downstream write identity | Deferred and unauthorized |
+| `restricted_operator_investigation` | Operator-only, documentation/investigation tool path with no provider account access | Cloudflare D4 only; described, not connected or configured |
 
 Credential references are opaque. Secret values remain in an approved secret
 manager, outside prompts, model context, logs, normalized entities, evidence,
@@ -290,6 +290,12 @@ Read and write credentials MUST be separate. Delegated-user credentials MUST
 NOT fall back to service accounts; service accounts MUST be conspicuously
 labelled in decisions and audit evidence. No scope widening or cross-tenant
 credential reuse is permitted.
+
+Provider-specific `CF_*` terms are Cloudflare-contract requirement labels, not
+runtime classes. The Cloudflare contract projects each concrete capability to
+exactly one canonical Registry class before Gateway resolution; this pack does
+not reinterpret those labels or authorize MCP execution, provider API access,
+containment, or mutation.
 
 ## 13. Data and sensitivity contract
 
@@ -490,6 +496,9 @@ contract controls whenever wording differs.
 The mapping is a projection only: all 58 accepted Cloudflare capabilities and
 all 13 explicit prohibitions remain authoritative under provider ID
 `cloudflare`. This pack neither duplicates nor narrows those tables.
+The Cloudflare contract's normative credential projection also remains
+authoritative: `CF_*` labels are not Gateway inputs, and every concrete
+registration binds one canonical Registry class before runtime.
 
 | Common capability | Accepted Cloudflare mapping | Risk |
 | --- | --- | --- |
@@ -729,7 +738,7 @@ All of the following are prerequisites, not authorizations:
 
 1. acceptance of this pack and the marketing pack;
 2. successful
-   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002`;
+   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003`;
 3. separate operator authorization for adapter scaffolding;
 4. accepted provider-specific contracts for each attempted provider;
 5. implemented and tested Registry, Gateway, audit, secret-manager, tenant,

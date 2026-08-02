@@ -90,7 +90,7 @@ relaxes it.
 | §14 Approval model | Section 18 of this contract. |
 | §15 Audit and verification model | Sections 31–33 of this contract. |
 | §16 External-content and prompt-injection posture | Section 26 of this contract. |
-| §19 Implementation prerequisites | Section 35 of this contract; this document is item 2 of that seven-item gate. |
+| §19 Implementation prerequisites | Section 35 of this contract; this document is item 2 of that nine-item gate. |
 | §20 Explicit non-authorizations | Section 5 of this contract. |
 | §22 Supersession or amendment rules | Section 38 of this contract. |
 
@@ -471,9 +471,10 @@ consequences:
 authorization *input*: it names what is being requested so that policy can
 evaluate it. Presenting, possessing, or resolving a capability ID confers no
 permission. Authorization requires, jointly: tenant registration, an
-allowlisted `(account, zone)` scope, a policy decision, the credential class
-required by the capability, and — for R4/R5 — a valid approval bound to that
-exact proposal.
+allowlisted `(account, zone)` scope for provider API capabilities, a policy
+decision, the canonical `required_credential_profile_class` bound by the
+concrete capability, and — for R4/R5 — a valid approval bound to that exact
+proposal.
 
 ## 11. Credential model and credential profiles
 
@@ -482,17 +483,43 @@ exact proposal.
 At least four credential profiles are defined. They are **specifications for
 credentials that do not exist**; this contract creates none.
 
-| Profile | Purpose | Cloudflare permission class (minimum) | Capabilities served |
+For this contract, each `CF_*` name is a **provider-specific credential
+requirement label**: Cloudflare-owned shorthand for provider-specific intent.
+It is not a Registry class, a Gateway runtime-selection identifier, an
+authorization fact, an approval, runtime enablement, or operation approval. The
+Provider Registry owns canonical credential-profile classes; the Integration
+Gateway resolves one concrete profile only after the provider contract has
+projected its label to exactly one canonical class on the capability record.
+
+| Provider-specific requirement label | Purpose | Cloudflare permission class (minimum) | Capabilities served |
 | --- | --- | --- | --- |
 | `CF_READ` | Deterministic inventory and posture reads | API Gateway Read; WAF/Rulesets read; Logs Read for event lookup; account/zone read | All of D1; the read half of D2 |
 | `CF_WRITE_CONTROLLED` | Approved, scoped mutations | API Gateway Edit and/or WAF Edit, narrowed to the exact capability set approved for the tenant | D3 only, and only after Section 18 approval |
 | `CF_CONTAIN` | Emergency containment (Section 33.3) | The narrowest permission that permits setting mitigation action to `none` and disabling a schema | The containment subset of D3 only |
 | `CF_MCP_OPERATOR` | Operator-assisted documentation session | Documentation-scoped only; **no account grant** in v1.0 (Section 25) | D4 only |
 
+### 11.1.1 Normative projection to Registry classes
+
+| Label/value | Remains? | Canonical projection | Concrete-registration rule | Identity constraints | Maximum risk | Provider API authority | MCP authority | Mutation authority | Fail-closed behavior | Migration / retirement rule |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `CF_READ` | Yes, as provider shorthand only | Exactly one of `read_only_delegated`, `read_only_service` | Select one before runtime from the declared acting-identity mode; store it as `required_credential_profile_class` | Delegated user or conspicuously labelled service account; no switching | R2 | Bounded read only, and only after separate authorization | None | None | Zero/multiple compatible profiles, identity mismatch, or unresolved label deny; no delegated→service fallback | Existing registrations migrate to one identity-specific canonical class; no Gateway interpretation of `CF_READ` |
+| `CF_WRITE_CONTROLLED` | Yes, as provider shorthand only | `controlled_write` | Every D3 non-containment registration binds this one class | Exactly one declared delegated-user or service-account mode; separate read profile required | R5 | Exact approved write surface only | None | R4/R5 only with all approval, audit, idempotency, verification, and reconciliation controls | Missing/multiple profiles, permission failure, or approval mismatch deny; no broader-profile retry or read→write widening | Replace any runtime use of the label with `controlled_write`; label remains descriptive in this contract |
+| `CF_CONTAIN` | Yes, as provider shorthand only | `emergency_containment` | Containment registrations bind this one class and the containment allowlist | Labelled service account only | R5 | Narrow containment API surface only | None | Approved containment only; class membership alone never authorizes it | Missing/multiple profiles or any absent approval/audit/verification fact denies; no fallback | Replace any runtime use of the label with `emergency_containment`; existing R5 decisions remain unchanged |
+| `CF_MCP_OPERATOR` | Yes, as provider shorthand only | `restricted_operator_investigation` | D4 registrations bind this class and a separately registered restricted tool/MCP record | MellyCore operator only; no agent initiation; no service-account fallback; empty account/resource binding | R2 (D4 v1.0 remains R0) | **None** | Documentation/investigation only under Section 25 | **None** | Missing/multiple profiles, tool-registration mismatch, account binding, provider API attempt, or mutation attempt denies and audits | Migrate runtime-looking uses to `restricted_operator_investigation`; the label never authorizes Cloudflare account access |
+| `credential_class: investigation` | Yes only as Registry-derived coarse descriptive metadata; not a Cloudflare requirement label | Produced only by `restricted_operator_investigation` | No runtime component interprets it; concrete D4 registration uses `required_credential_profile_class: restricted_operator_investigation` | MellyCore operator only under the restricted-tool record | R2 | **None** | Documentation/investigation only | **None** | Any use as a runtime selector or alias denies | Retire all standalone/runtime uses; retain only as derived non-authorizing metadata |
+
+The projection is complete before Gateway resolution. No concrete capability
+registration may retain two candidate canonical classes. Authorization records
+bind to the selected canonical class, zero compatible profiles deny, multiple
+compatible profiles deny, and no "best available credential" behavior exists.
+
 ### 11.2 Requirements (normative)
 
 1. **Tenant-specific.** One profile instance per tenant. Never shared.
-2. **Account/zone-scoped.** Bound to the tenant's explicit allowlist.
+2. **Account/zone-scoped for provider API labels.** `CF_READ`,
+   `CF_WRITE_CONTROLLED`, and `CF_CONTAIN` bind to the tenant's explicit
+   allowlist. `CF_MCP_OPERATOR` instead requires an empty Cloudflare account,
+   zone, and resource binding and cannot be reused for a provider API.
 3. **Least privilege.** The minimum permission group that satisfies the
    capability, not the most convenient one.
 4. **Read/write separation.** `CF_READ` must never carry an Edit permission.
@@ -589,19 +616,25 @@ attribute is as binding as an inline one.
 Attributes: (1) capability ID; (2) name; (3) domain; (4) Cloudflare API
 family; (5) HTTP method class; (6) resource type; (7) account/zone scope;
 (8) classification; (9) risk tier; (10) required MellyCore identity;
-(11) credential class; (12) minimum Cloudflare permission; (13) data
+(11) provider-specific credential requirement label; (12) minimum Cloudflare permission; (13) data
 classification; (14) prompt-injection exposure; (15) approval requirement;
 (16) idempotency; (17) preconditions; (18) response normalization;
 (19) audit fields; (20) read-after-write; (21) rollback/containment;
 (22) rate-limit and retry; (23) pagination; (24) concurrency;
 (25) failure outcome.
 
+In addition to these 25 provider attributes, every concrete registration binds
+exactly one Registry `required_credential_profile_class` under Section 11.1.1.
+That canonical field, not attribute (11), is the sole Gateway resolution input.
+
 ### 13.1 Domain 1 — Cloudflare Security Inventory (read-only)
 
 #### 13.1.0 D1 defaults
 
 - **Classification:** read. **Method class:** `GET` only.
-- **Identity:** tenant + (operator or agent). **Credential:** `CF_READ`.
+- **Identity:** tenant + (operator or agent). **Provider requirement label:**
+  `CF_READ`. Each concrete registration selects `read_only_delegated` or
+  `read_only_service` before runtime from its declared acting-identity mode.
 - **Approval:** none required (policy-allowed per ADR §14 for R0/R1).
 - **Idempotency:** naturally idempotent; no idempotency key required.
 - **Preconditions:** tenant registered; `(account, zone)` on the allowlist;
@@ -663,8 +696,9 @@ tenant's boundary by a D1 capability.
 - **Method class:** `GET` reads only. **A D2 capability never issues a
   write request of any kind** (ADR §14: R2 "produces a draft or proposed diff
   and stops — they never execute").
-- **Identity:** tenant + (operator or agent). **Credential:** `CF_READ`
-  only. A D2 capability may not be issued a write credential.
+- **Identity:** tenant + (operator or agent). **Provider requirement label:**
+  `CF_READ` only; the concrete registration selects one identity-specific read
+  class before runtime. A D2 capability may not be issued a write credential.
 - **Approval:** producing a proposal requires no approval; the proposal
   itself confers none.
 - **Idempotency:** proposal generation is side-effect-free; regenerating
@@ -718,9 +752,10 @@ is a D3 mutation.
 - **Classification:** mutation. **Every D3 capability requires explicit
   human approval** (ADR §8 sets an R4 minimum for the Cloudflare operations
   listed there; no D3 capability in this contract falls below R4).
-- **Identity:** tenant + MellyCore operator as approver; an agent may
-  request but never approve. **Credential:** `CF_WRITE_CONTROLLED`
-  (or `CF_CONTAIN` for the containment subset, Section 33.3).
+- **Identity:** tenant + MellyCore operator as approver; an agent may request
+  but never approve. **Provider requirement label:** `CF_WRITE_CONTROLLED`
+  projecting to `controlled_write` (or `CF_CONTAIN` projecting to
+  `emergency_containment` for the containment subset, Section 33.3).
 - **Minimum Cloudflare permission:** the narrowest Edit group that covers the
   capability — API Gateway Edit for Endpoint Management, labels, and Schema
   Validation; WAF/Rulesets Edit for Rulesets capabilities (Section 8.7).
@@ -786,9 +821,10 @@ approval merely policy-dependent — would contradict the ADR.
 #### 13.4.0 D4 defaults
 
 - **Classification:** read (documentation scope only in v1.0).
-- **Identity:** MellyCore **operator only**. No autonomous agent may
-  initiate a D4 session. **Credential:** `CF_MCP_OPERATOR`, which carries no
-  Cloudflare account grant in v1.0.
+- **Identity:** MellyCore **operator only**. No autonomous agent may initiate a
+  D4 session. **Provider requirement label:** `CF_MCP_OPERATOR`, projecting to
+  `restricted_operator_investigation`; it carries no Cloudflare account grant
+  in v1.0 and authorizes no provider API.
 - **Approval:** operator initiation is the authorization; the session
   confers no capability outside its allowlist.
 - **Output:** untrusted (Section 26), size-bounded, provenance-stamped, and
@@ -1269,7 +1305,8 @@ misconfiguration rather than by decision.
 
 1. operator-initiated session — never agent-initiated, never background;
 2. tenant explicitly selected;
-3. credential profile explicitly selected (`CF_MCP_OPERATOR`);
+3. provider requirement label `CF_MCP_OPERATOR` projected before runtime to
+   `required_credential_profile_class: restricted_operator_investigation`;
 4. capability allowlist applied — the session may reach only D4 capabilities;
 5. read-only by default, with no write method reachable;
 6. bounded execution envelope — call count, duration, and concurrency capped;
@@ -1586,7 +1623,7 @@ following hold:
 3. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` passes.
 4. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` passes.
 5. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` passes.
-6. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` passes.
+6. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` passes.
 7. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` receives its own **separate,
    explicit operator authorization**, independent of Model A/B deployment
    authorization and independent of the OpenAI Batch Stage C gate. It

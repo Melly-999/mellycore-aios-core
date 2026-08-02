@@ -422,11 +422,21 @@ approval state where applicable. The requested class MUST be one exact Registry
 identity, pinned `authentication_mode`, tenant, provider, environment, scope, and
 capability constraints all match. Zero or multiple matches deny; the Gateway
 never interprets a pack-local alias or chooses among authentication modes.
+Provider-specific requirement labels MUST be projected to one canonical class
+and bound to the concrete capability registration before the request reaches
+the Gateway. An unresolved label, a label supplied as the runtime class, or a
+registration retaining multiple candidate classes denies before credential
+material is resolved.
 
 The canonical classes are `read_only_delegated`, `read_only_service`,
 `controlled_write`, `event_verification`, `integration_fabric_read`,
-`integration_fabric_controlled_write`, `emergency_containment`, and
-`reporting_only`. `integration_fabric_controlled_write` additionally requires a
+`integration_fabric_controlled_write`, `emergency_containment`,
+`reporting_only`, and `restricted_operator_investigation`.
+`restricted_operator_investigation` is valid only for separately registered,
+operator-only documentation/investigation tools with empty provider-account
+binding, no provider API authority, and `mutation_prohibited: true`; it is not a
+bypass for a provider API capability. `integration_fabric_controlled_write`
+additionally requires a
 current `PASS_EQUIVALENT` outcome under
 `docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`; any other
 outcome denies R3–R5 before credential material is resolved.
@@ -1118,13 +1128,24 @@ completion appended after verification; and read-only Cloudflare API
 access **still unauthorized** because facts 5–7 are unsatisfied and
 `adapter_state` is `blocked`.
 
+Cloudflare's `CF_*` terms below are provider-contract requirement labels, not
+Registry classes and not Gateway inputs. The Cloudflare contract projects each
+label to the one canonical `required_credential_profile_class` stored on the
+concrete registration. `CF_READ` must be resolved before runtime according to
+the declared acting-identity mode; the examples below deliberately pin a
+service-account mode. `CF_WRITE_CONTROLLED` projects to `controlled_write`,
+`CF_CONTAIN` to `emergency_containment`, and `CF_MCP_OPERATOR` to
+`restricted_operator_investigation`. Unresolved or multiply applicable
+projections deny.
+
 ### 34.1 Read-only API operations inventory (`cloudflare.endpoint_management.operations.list`, R1)
 
 | Aspect | Enforcement |
 | --- | --- |
-| Identity chain | operator *or* agent → tenant → agent → worker → gateway → `CF_READ` → service account → cloudflare → zone |
+| Identity chain | operator *or* agent → tenant → agent → worker → gateway → `read_only_service` profile → service account → cloudflare → zone |
 | Registry facts | 1–7 required; fact 8 resolves `not_required` (Section 18.4) |
-| Credential class | `CF_READ` — a write profile is **prohibited** here (Rule 17.2 ordering; Section 14.3) |
+| Provider requirement label | `CF_READ` |
+| Canonical class | `read_only_service` — selected before runtime for this declared service-account flow; a write profile is **prohibited** here (Rule 17.2 ordering; Section 14.3) |
 | Target scope | Zone must be on the tenant allowlist; account scope not inferred |
 | Risk tier | R1 |
 | Approval | Not required, but **resolved and recorded** |
@@ -1139,7 +1160,8 @@ access **still unauthorized** because facts 5–7 are unsatisfied and
 | --- | --- |
 | Identity chain | As above; **`CF_READ` only** |
 | Registry facts | 1–7; fact 8 `not_required` for producing a proposal |
-| Credential class | `CF_READ`. A D2 capability issued a write credential is non-conforming |
+| Provider requirement label | `CF_READ` |
+| Canonical class | `read_only_service` for this declared service-account flow. A D2 capability issued a write credential is non-conforming |
 | Target scope | Exact ruleset and rule IDs from a fresh read |
 | Risk tier | R2 — **generates a diff and stops** |
 | Approval | The proposal **confers none**; it names the R4/R5 mutation it would target |
@@ -1152,9 +1174,10 @@ access **still unauthorized** because facts 5–7 are unsatisfied and
 
 | Aspect | Enforcement |
 | --- | --- |
-| Identity chain | **operator required** → tenant → agent → worker → gateway → `CF_WRITE_CONTROLLED` → service account → cloudflare → exact operation |
+| Identity chain | **operator required** → tenant → agent → worker → gateway → `controlled_write` profile → service account → cloudflare → exact operation |
 | Registry facts | All eight; fact 8 digest-bound |
-| Credential class | `CF_WRITE_CONTROLLED`; read/write separation enforced |
+| Provider requirement label | `CF_WRITE_CONTROLLED` |
+| Canonical class | `controlled_write`; read/write separation enforced |
 | Target scope | Exact `operation_id`; no pattern matching |
 | Risk tier | R4, **escalating to R5** when the endpoint is tenant-critical or observation evidence is absent |
 | Approval | Twelve-element binding (Section 18.1); approval view shows the full rollout evidence |
@@ -1169,7 +1192,8 @@ access **still unauthorized** because facts 5–7 are unsatisfied and
 | --- | --- |
 | Identity chain | Operator required; agent may never self-approve |
 | Registry facts | All eight |
-| Credential class | `CF_WRITE_CONTROLLED` |
+| Provider requirement label | `CF_WRITE_CONTROLLED` |
+| Canonical class | `controlled_write` |
 | Target scope | Exact zone, enumerated; **wildcard prohibited** |
 | Risk tier | **R5, always — never downgraded** |
 | Approval | R5 binding: strict preconditions, exact resource enumeration, enhanced audit |
@@ -1184,7 +1208,8 @@ access **still unauthorized** because facts 5–7 are unsatisfied and
 | --- | --- |
 | Identity chain | Operator required |
 | Registry facts | All eight |
-| Credential class | `CF_WRITE_CONTROLLED` |
+| Provider requirement label | `CF_WRITE_CONTROLLED` |
+| Canonical class | `controlled_write` |
 | Target scope | Exact `operation_id` plus confirmed method/hostname/path triple |
 | Risk tier | **R5 — irreversible**; historical metrics cannot be restored |
 | Approval | Approval view must show the dependency lookup, the affected-feature list, and the irreversibility |
@@ -1198,8 +1223,9 @@ access **still unauthorized** because facts 5–7 are unsatisfied and
 | Aspect | Enforcement |
 | --- | --- |
 | Identity chain | **Operator-initiated only**; no agent initiation, no background use |
-| Registry facts | MCP record; **no Cloudflare account grant in v1.0** |
-| Credential class | `CF_MCP_OPERATOR` — carries no account reach |
+| Registry facts | Restricted-tool capability record plus separate MCP record; **no Cloudflare account grant in v1.0** |
+| Provider requirement label | `CF_MCP_OPERATOR` — carries no account reach |
+| Canonical class | `restricted_operator_investigation`; valid only with the separately registered operator-only restricted tool and never for a provider API capability |
 | Target scope | Documentation only; no account, zone, or resource |
 | Risk tier | R0 |
 | Approval | Operator initiation is the authorization; the session confers no capability |
@@ -1214,6 +1240,10 @@ access **still unauthorized** because facts 5–7 are unsatisfied and
 with no weakening detected.** No Cloudflare requirement needed relaxation,
 and every Cloudflare-specific restriction is either enforced by a generic
 Gateway rule or preserved by Section 33's stricter-only inheritance.
+Every concrete example supplies one canonical class before Gateway resolution;
+no `CF_*` label is interpreted at runtime. Zero or multiple compatible profiles
+deny, and D4's restricted-tool path grants no Cloudflare API or mutation
+authority.
 
 ## 35. Testing and validation requirements
 
@@ -1291,7 +1321,7 @@ Gateway implementation may not begin until **all** hold:
    contracts — reviewed, published, and merged through normal gates.
 2. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` passes.
 3. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` passes.
-4. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` passes.
+4. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` passes.
 5. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` receives its own **separate,
    explicit operator authorization**, independent of Model A/B deployment
    authorization and of the OpenAI Batch Stage C gate. It remains

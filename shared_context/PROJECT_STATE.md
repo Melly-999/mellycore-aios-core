@@ -1006,12 +1006,23 @@ The documentation gate has **not** passed. No provider is connected,
 authenticated, credentialed, enabled, live, deployed, or implemented, and no
 credential exists.
 
-The exact next enterprise-provider task is
-`MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`,
-which must publish a deterministic normative projection between the Cloudflare
-contract's credential profiles and Registry §13.2, align Gateway §§34.1–34.6
-with Gateway §14.2, and route the three P3 findings, before any further
-independent review.
+**Enterprise-provider credential-class conformance remediation — complete;
+closure unverified.**
+`MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`
+publishes one deterministic model: Registry §13.2 owns nine canonical classes;
+Gateway §14.2 resolves exactly one concrete profile; Cloudflare `CF_*` values
+are provider-specific requirement labels projected before runtime; and
+`CF_MCP_OPERATOR` maps to the operator-bound, documentation/investigation-only,
+non-provider-access class `restricted_operator_investigation`. Zero or multiple
+compatible profiles deny. No best-available selection, delegated-user to
+service-account fallback, or read-to-write widening exists. The three Review
+002 P3 maintenance findings are also routed in their canonical documents.
+
+This documentation-only remediation is **not** a documentation-gate PASS.
+`P1-201` closure remains unverified until the exact next enterprise-provider
+task, `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003`, completes.
+No provider runtime, credential, provider API, MCP/fabric connection, mutation,
+or scaffold is authorized.
 
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` remains blocked, ineligible, not
 started, and not authorized. This result does

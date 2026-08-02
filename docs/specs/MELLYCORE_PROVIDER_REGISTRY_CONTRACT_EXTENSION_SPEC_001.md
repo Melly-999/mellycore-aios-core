@@ -394,8 +394,8 @@ lacks reach **fails**. It is never retried under
 | `identity_type` | One of the seven ADR §11 identity types |
 | `tenant_owner` / `provider_owner` | Both required |
 | `environment` | e.g. `local`, `staging`, `production` — declared, never inferred |
-| `credential_profile_class` | One canonical reusable class from Section 13.2; pack-local aliases are prohibited |
-| `credential_class` | `read`, `controlled_write`, `containment`, `investigation` |
+| `credential_profile_class` | One canonical reusable class from Section 13.2; provider-local requirement labels and pack-local aliases are prohibited as stored/runtime values |
+| `credential_class` | Coarse descriptive metadata derived from `credential_profile_class`: `read`, `controlled_write`, `containment`, or `investigation`; never a runtime-selection identifier |
 | `authentication_mode` | Exactly one mode from Section 12, pinned by the concrete profile; never selected at runtime from a list |
 | `permitted_capability_classes` | Allowlist of `read` / `proposal` / `mutation` classes this profile may serve |
 | `provider_scope` | The explicit `(dimension → allowlist)` map of Section 11 |
@@ -423,12 +423,30 @@ profile record pins the one permitted authentication mode and exact scope.
 | `integration_fabric_controlled_write` | exactly one of `delegated_end_user`, `service_account` | `controlled_write` | `fabric_delegated_identity` | fabric-mediated mutation; native-equivalence evidence required |
 | `emergency_containment` | `service_account` | `containment` | exactly one provider-contract-approved service mode | containment allowlist only; `emergency_containment: true` |
 | `reporting_only` | `service_account` | `read` | exactly one of `service_account_oauth`, `api_token`, `workload_identity` | aggregate reporting only; no raw export or mutation |
+| `restricted_operator_investigation` | `mellycore_operator` | `investigation` | exactly one of `no_auth_public_documentation`, `mcp_oauth_grant`, pinned by the separately registered restricted tool | documentation/investigation only; R0-R2 maximum; no provider account access, provider API, proposal evidence, or mutation |
 
 `read_delegated_user` and `read_service_account` are retired pack-local
 aliases for `read_only_delegated` and `read_only_service`. A generic
 `integration_fabric` class is prohibited because it fails to distinguish read
 from controlled write. A provider-specific contract may narrow a canonical
 class, but may not invent another class or widen its capability/use constraint.
+
+**Concrete binding rule (normative).** Every concrete capability registration
+MUST declare exactly one `required_credential_profile_class` from this closed
+catalogue before Gateway resolution. A provider-specific requirement label may
+permit more than one canonical class at specification level only when the
+concrete registration selects exactly one based on its declared acting-identity
+mode. The authorization records bind to that selected class. The Gateway never
+chooses between classes, identity modes, or authentication modes. Zero or
+multiple compatible profiles deny; there is no "best available credential",
+delegated-user-to-service-account fallback, or read-to-write widening.
+
+`restricted_operator_investigation` is not a provider credential or an
+exception to provider credential resolution. It is valid only for a separately
+registered, operator-only restricted tool whose account/resource binding is
+empty and whose provider API and mutation authority are both prohibited. It
+cannot be used by a provider API capability or substituted for any read, write,
+event, fabric, containment, or reporting class.
 
 ### 13.3 Prohibitions (normative)
 
@@ -485,6 +503,9 @@ Every capability declares all of:
 7. **`prohibited` capabilities are registered deliberately**, so a request
    naming one is recognized and denied as an audited security event, rather
    than merely unsupported.
+8. **One concrete capability, one canonical class.** Field (13) contains
+   exactly one Section 13.2 identifier selected before runtime. Missing,
+   provider-local, unresolved, or multiply applicable values deny.
 
 ### 14.3 The registry does not restate provider capability tables
 
@@ -928,7 +949,7 @@ contract's tables (Section 14.3).
 | `registration_status` (Axis A) | `contract_defined` |
 | `adapter_state` (Axis B) | `blocked` |
 | `required_scope_dimensions` | `tenant`, `account`, `zone` |
-| `supported_auth_modes` | `api_token` (scoped); global API key **prohibited** |
+| `supported_auth_modes` | Provider API: `api_token` (scoped), global API key **prohibited**. Separately registered D4 restricted tools pin exactly one of `no_auth_public_documentation` or `mcp_oauth_grant` and carry no Cloudflare account binding |
 | Control Plane projection | §7.2 `Integration` (display only, no authorization) |
 
 `registration_status: contract_defined` — **not** `conformance_verified`,
@@ -948,7 +969,7 @@ per-capability attributes are a **subset** of this registry's 27 fields:
 | Cloudflare API family, HTTP method class, resource type | 8, 9, 7 |
 | account/zone scope | 14, 15 (via `required_scope_dimensions`) |
 | classification, risk tier | 11, 10 |
-| required MellyCore identity, credential class, minimum permission | 12, 13, 13 (profile `permitted_capability_classes`) |
+| required MellyCore identity, provider-specific credential requirement label, minimum permission | 12; label projects normatively to 13 before registration; profile `permitted_capability_classes` narrows use |
 | data classification, prompt-injection exposure | 16, 25 |
 | approval requirement | 17 |
 | idempotency, preconditions, concurrency | 18, 17/23, 23 |
@@ -962,6 +983,14 @@ the registry's own contribution: they keep *description* separate from
 *readiness* and *authorization*, which a provider contract alone cannot
 express.
 
+The Cloudflare labels project as follows: `CF_READ` selects exactly one of
+`read_only_delegated` or `read_only_service` according to the concrete
+registration's acting-identity mode; `CF_WRITE_CONTROLLED` selects
+`controlled_write`; `CF_CONTAIN` selects `emergency_containment`; and
+`CF_MCP_OPERATOR` selects `restricted_operator_investigation`. The projection
+is performed by the provider contract and stored on the concrete capability
+record before runtime. The Gateway never receives or interprets a `CF_*` label.
+
 ### 26.3 Preserved without weakening
 
 | Cloudflare rule | Registry mechanism preserving it |
@@ -970,7 +999,7 @@ express.
 | Zone-wide `block` always R5 | Risk tier stored per capability; provider contract may raise, never lower (Section 15.1) |
 | Read/write credential separation | Two profiles, `credential_class` `read` and `controlled_write` (Section 13) |
 | Account-scoped Cloudflare permissions ≠ MellyCore tenant | Section 11.3, stated generically |
-| MCP documentation-only, no account grant | MCP record with `mutation_prohibited: true`, `operator_only: true`, `autonomous_agent_eligible: false`, empty account binding (Section 24) |
+| MCP documentation-only, no account grant | `restricted_operator_investigation` capability binding plus MCP record with `mutation_prohibited: true`, `operator_only: true`, `autonomous_agent_eligible: false`, empty account binding (Section 24) |
 | Read-after-write mandatory for mutations | `verification_policy` (field 20), non-optional for `classification: mutation` (Section 27) |
 | Read-only Cloudflare API access still unauthorized | Section 21 facts 5–7 unsatisfied; `adapter_state: blocked` |
 
@@ -1043,7 +1072,7 @@ Registry implementation may not begin until **all** hold:
 2. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` passes.
 3. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` passes.
 4. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` passes.
-5. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` passes.
+5. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` passes.
 6. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` receives its own **separate,
    explicit operator authorization**, independent of Model A/B deployment
    authorization and of the OpenAI Batch Stage C gate. It remains
