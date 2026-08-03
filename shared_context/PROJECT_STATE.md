@@ -2144,15 +2144,121 @@ owner and prior-evidence files were re-verified byte-identical after the
 commit. `pytest`, black, flake8, and mypy were not run and are not claimed
 passing.
 
-**This specification is unverified and not accepted.** No review has run.
+**That specification was unverified at the time of that entry.**
 
-**Exact next task:** `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001` — an
-independent, read-only review of this specification. Not started, not
-authorized by this entry. Shared Context Bridge, Agent Runtime Scaffold
+**Exact next task at the time of that specification:**
+`MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001`.
+
+## Framework Bridge Contract Spec Review 001 — Gate PASS_WITH_NON_BLOCKING_FINDINGS; Accepted As Documentation Only; No Adapter Or Framework Integration
+
+`MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001` is **complete as one
+local documentation commit; not pushed.** An independent, read-only
+architecture, ownership, interoperability, and safety review of the Framework
+Bridge Contract (**version 1.0**, commit `278eae0`). Durable record:
+`docs/research/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`; task
+report: `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+**Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`.** P0 = 0 and P1 = 0. Eight
+new non-blocking findings recorded (P2 = 4, P3 = 4). The outcome is not `PASS`
+solely because the review introduced new findings.
+
+**Method.** Owner lists were reconstructed mechanically from the owner
+documents — Agent Runtime §11.1's closed framework set, §11.2's six bridge
+rules, §16's nine bridge operations, §33's 55 error classes, and Agent Package
+§10.1's five capability states — and then tested against the reviewed text,
+rather than accepted from the specification's own claims. Every self-reported
+metric was recounted directly. **Every canonical owner document is
+byte-identical before and after this review.**
+
+**Verified correct.** The closed six-member framework set is exact, with
+`custom` **not** accepted as an alias for `mellycore_custom` and
+`other`/`generic`/`auto` appearing only inside the prohibition sentence. All
+six Runtime §11.2 rules are cited by number and none is weakened. The
+canonical-versus-projected direction holds, with every projected form
+non-authoritative and a framework SDK's schema requirement explicitly not a
+canonical justification. Thirteen permission categories default deny, framework
+defaults cannot override them, and permission flattening into a coarse
+framework switch is prohibited. Shared Context writes are proposal-only with
+mandatory return-path re-validation; five memory scopes stay separated and any
+framework persistence feature is forced into bridge-local scope. Routing cannot
+be bypassed by framework configuration. Safety-relevant projection loss fails
+closed and ambiguity resolves to loss. Validation does not authorize execution.
+No new Control Plane status dimension is created. All six framework profiles
+are conceptual with **zero** overclaim, and `mellycore_custom` is explicitly no
+bypass.
+
+**Framework-validation obligation — assessed on its merits, not excused.**
+Agent Runtime §11.3 and §35 scope the obligation to "before any bridge is
+implemented". The contract states plainly that this task could not discharge
+it, records the per-framework cells as **unvalidated planning positions**, and
+assigns the obligation to each future per-framework adapter specification.
+Verdict: **honest, owner-correct, and a permitted documentation-only
+deferral** — not a P1 ownership failure and not a false validation claim.
+**Empirical framework validation remains `NOT_PERFORMED`**; the Runtime
+§11.3/§35 cells are unvalidated after this review exactly as before it.
+
+**New P2 findings.** `NEW-P2-01` — four of Runtime §16's nine bridge operations
+are never named, and `normalize_result` ("Contract unmet → `failed`, never a
+coerced success") has **no counterpart rule anywhere**, leaving run-output
+normalization unspecified. `NEW-P2-02` — `PROJECTION_UNSUPPORTED` overlaps the
+Runtime-owned `BRIDGE_UNSUPPORTED_BEHAVIOR` with no stated discriminator.
+`NEW-P2-03` — the contract silently renumbers the Agent Package Contract's
+capability states, shifting owner rows 2–5 each by one, so "capability state 2"
+resolves to different concepts in two live contracts. `NEW-P2-04` — the
+framework-validation obligation is not wired into the ten Bridge Validation
+layers or into Bridge Eligibility.
+
+**New P3 findings.** `NEW-P3-01` — no document-metrics table, breaking the
+convention both prior specifications follow and removing the count-drift safety
+net that caught a defect in the Agent Package chain. `NEW-P3-02` — §37
+criterion 1 says "All 37 sections" against a 39-section document. `NEW-P3-03` —
+`LIFECYCLE_MISMATCH`'s coexistence with Runtime's mandatory `unmapped` event is
+unstated. `NEW-P3-04` — the specification run's outcome code is recorded in no
+tracked file.
+
+**No duplicated Runtime error ownership.** Zero exact name collisions across 55
+Runtime and 16 Agent Package classes; the contract correctly attributes all
+twelve consumed classes to the Agent Runtime and claims none of them.
+
+**Agent Package P2 containment confirmed.** All three findings remain
+**contained and open**: the contract defines no package-lifecycle rendering
+field, declares neither package contract version 1.0 nor 1.1 as canonically
+current, and enumerates no protected command classes. **The Agent Package
+Contract was not edited.**
+
+**Specification accepted as a documentation contract only.**
+`MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_001` version 1.0 is accepted under the
+eight recorded non-blocking constraints. Acceptance fixes what a future
+Framework Adapter must satisfy and **establishes no implementation of any
+kind**.
+
+**Nothing implemented.** Framework Bridge `NOT_IMPLEMENTED`; Framework Adapters
+(all six) `NONE_EXIST`; SDKs and frameworks `NOT_INSTALLED`, `NOT_IMPORTED`,
+`NOT_EXECUTED`; framework sessions created and runtime handles issued
+**zero**. No Agent Runtime, package loading, package execution, command, hook,
+plugin, MCP, or batch capability exists; no provider connection, credential,
+model call, network operation, or deployment. Migration triggers #1, #4, #5,
+#6, and #7 remain uncrossed.
+
+**Validation.** Exactly eight files changed (two new review artifacts, six
+bounded state-sync edits); no source, test, configuration, or workflow file
+changed; no `.env`, secret, or provider key. `git diff --check` exit `0`;
+`py -3.9 scripts/validate_project_state.py` `PASS`. The reviewed specification
+was **not edited** — blob identical before and after — and all fourteen
+immutable subject and owner files were re-verified unchanged after the commit.
+The normative-modal scan found **zero** inverted constructions. `pytest`,
+black, flake8, and mypy were not run and are not claimed passing; a passing
+scaffold validator is not treated as evidence of architectural correctness.
+
+**Exact next item:** the next entry already present in canonical
+`RUN_QUEUE.md` for this track is the **Shared Context Bridge**, recorded there
+as a **plain name with no task identifier**, followed by Agent Runtime Scaffold
 (inert), Scaffold Review, first Agent Package, Cross-Agent Smoke, Integration
 Review, the six per-framework adapter specifications, and the twelve Agent
-Package follow-up contracts each remain **blocked**, requiring their own
+Package follow-up contracts. Each remains **blocked**, requiring its own
 specification, independent review, and separate explicit Operator
-authorization. The global higher-priority pointer
+authorization. Consistent with the repository convention that a task identifier
+is minted at the moment of Operator authorization, **no identifier was minted,
+started, or authorized by this entry.** The global higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
 place, not reordered, and not reinterpreted.

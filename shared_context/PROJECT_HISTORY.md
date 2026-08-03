@@ -221,6 +221,38 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    Complete as one local documentation commit on
    `docs/mellycore-framework-bridge-contract-spec-001`, not pushed. Full
    detail: `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001.md`.
+10. `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001` — `ACCEPTED`
+   (documentation only), 2026-08-03. Independent, read-only architecture,
+   ownership, interoperability, and safety review of the Framework Bridge
+   Contract (version 1.0, commit `278eae0`). Gate
+   **`PASS_WITH_NON_BLOCKING_FINDINGS`** — P0 0 / P1 0 / P2 4 / P3 4. Owner
+   lists were reconstructed mechanically from Agent Runtime §11.1, §11.2, §16,
+   §33 and Agent Package §10.1, then tested against the reviewed text rather
+   than accepted from its claims; every canonical owner document was verified
+   byte-identical before and after. Verified correct: the exact closed
+   six-member framework set with no alias for `mellycore_custom`; all six
+   Runtime §11.2 bridge rules preserved; canonical-versus-projected direction;
+   thirteen deny-by-default permission categories with flattening prohibited;
+   proposal-only Shared Context with mandatory return-path re-validation; five
+   separated memory scopes; non-bypassable routing; fail-closed projection loss
+   with ambiguity resolving to loss; validation that does not authorize
+   execution; no new Control Plane dimension; and six conceptual framework
+   profiles with zero overclaim. The framework-validation obligation of Runtime
+   §11.3/§35 was judged **honest and owner-correct as a documentation-only
+   deferral** — not a P1 failure — and **empirical framework validation remains
+   `NOT_PERFORMED`**. Eight new non-blocking findings were recorded and none
+   discarded, the sharpest being that four of Runtime §16's nine bridge
+   operations are never named and `normalize_result` has no counterpart rule.
+   All three open Agent Package P2 findings remain **contained and open**, and
+   the Agent Package Contract was not edited. The specification is **accepted
+   as a documentation contract only**; **no implementation of any kind
+   exists** — no bridge, adapter, SDK, framework session, runtime handle,
+   runtime, provider connection, credential, or deployment. Complete as one
+   local documentation commit on
+   `docs/mellycore-framework-bridge-contract-spec-review-001`, not pushed. Full
+   detail:
+   `docs/research/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`,
+   `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
 
 ## How to Extend This File
 

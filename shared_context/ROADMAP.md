@@ -925,7 +925,41 @@ place, and independently governed.
    Agent Runtime §11.3/§35 per-framework cells remain **unvalidated planning
    positions**, with the validation obligation assigned to each future
    per-framework adapter specification. **Nothing implemented, integrated, or
-   installed**; the specification is **unverified and not accepted**.
+   installed**; at the time of that entry the specification was **unverified**.
+
+10. `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001` — **complete as one
+    local documentation commit; not pushed.** Independent, read-only review of
+    specification version 1.0 (commit `278eae0`). Durable record:
+    `docs/research/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`;
+    task report:
+    `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+    **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 / P2 4 /
+    P3 4). Owner lists were reconstructed mechanically from Agent Runtime
+    §11.1, §11.2, §16, §33 and Agent Package §10.1 and tested against the
+    reviewed text rather than accepted from its claims; every canonical owner
+    document was verified byte-identical before and after. Verified: the closed
+    six-member framework set is exact with no alias for `mellycore_custom`; all
+    six Runtime §11.2 rules preserved; permissions stay deny-by-default against
+    framework defaults with flattening prohibited; Shared Context writes are
+    proposal-only with mandatory return-path re-validation; routing is not
+    bypassable; safety-relevant projection loss fails closed; validation does
+    not authorize execution; and all six framework profiles are conceptual with
+    zero overclaim. The Runtime §11.3/§35 validation obligation was judged
+    **honest and owner-correct as a documentation-only deferral** — not a P1
+    failure — with **empirical framework validation `NOT_PERFORMED`**. Eight
+    new non-blocking findings were recorded and none discarded, the sharpest
+    being that four of Runtime §16's nine bridge operations are never named and
+    `normalize_result` has no counterpart rule. All three open Agent Package P2
+    findings remain **contained and open**; the Agent Package Contract was not
+    edited.
+
+    `MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_001` version 1.0 is **accepted as a
+    documentation contract only**, under those eight constraints. **No
+    implementation of any kind exists** — no Framework Bridge, no Framework
+    Adapter for any framework, no installed or imported SDK, no framework
+    session, no runtime handle, no runtime, no provider connection, no
+    credential, and no deployment.
 
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted

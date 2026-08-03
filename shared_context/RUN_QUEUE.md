@@ -1137,10 +1137,62 @@ frameworks `NOT_INSTALLED` / `NOT_IMPORTED` / `NOT_EXECUTED`; framework sessions
 created **zero**. **The specification is unverified and not accepted** — no
 review has run.
 
+**`MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001` — complete as one
+local documentation commit on
+`docs/mellycore-framework-bridge-contract-spec-review-001`; not pushed.**
+Independent, read-only review of specification **version 1.0** at commit
+`278eae0`. Durable record:
+`docs/research/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`; task
+report: `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+**Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 / P2 4 /
+P3 4). Owner lists were reconstructed mechanically from Agent Runtime §11.1,
+§11.2, §16, §33 and Agent Package §10.1, then tested against the reviewed text
+rather than accepted from its claims. **Every canonical owner document is
+byte-identical before and after the review.** Verified: the closed six-member
+framework set is exact, with `custom` **not** accepted as an alias and
+`other`/`generic`/`auto` present only inside the prohibition; all six Runtime
+§11.2 rules preserved; canonical-versus-projected direction holds; thirteen
+permission categories deny-by-default with flattening prohibited; Shared
+Context writes proposal-only with mandatory return-path re-validation; five
+memory scopes separated; routing not bypassable; safety-relevant projection
+loss fails closed with ambiguity resolving to loss; validation does not
+authorize execution; no new Control Plane dimension; all six framework profiles
+conceptual with zero overclaim; and `mellycore_custom` explicitly no bypass.
+
+**The framework-validation obligation was assessed on its merits.** Agent
+Runtime §11.3/§35 scope it to "before any bridge is implemented"; the contract
+states it cannot discharge it, records the cells as **unvalidated planning
+positions**, and assigns the obligation to each future per-framework adapter
+specification. Verdict: honest, owner-correct, and a permitted
+documentation-only deferral. **Empirical framework validation:
+`NOT_PERFORMED`.**
+
+**Eight new non-blocking findings, none discarded.** P2: `NEW-P2-01` (four of
+Runtime §16's nine bridge operations never named, and `normalize_result` —
+"never a coerced success" — has no counterpart rule, leaving run-output
+normalization unspecified); `NEW-P2-02` (`PROJECTION_UNSUPPORTED` overlaps
+Runtime-owned `BRIDGE_UNSUPPORTED_BEHAVIOR` with no discriminator);
+`NEW-P2-03` (Agent Package capability states silently renumbered, so
+"capability state 2" resolves differently in two live contracts); `NEW-P2-04`
+(framework-validation obligation not wired into the ten Bridge Validation
+layers or Bridge Eligibility). P3: `NEW-P3-01` (no document-metrics table),
+`NEW-P3-02` ("All 37 sections" vs 39), `NEW-P3-03` (`LIFECYCLE_MISMATCH` vs
+Runtime's mandatory `unmapped` event), `NEW-P3-04` (outcome code recorded in no
+tracked file). Each P2 must be corrected before the follow-up work depending on
+it.
+
+**The Framework Bridge Contract is accepted as a documentation contract only**,
+under those eight constraints. **No implementation exists**: Framework Bridge
+`NOT_IMPLEMENTED`; Framework Adapters (all six) `NONE_EXIST`; SDKs
+`NOT_INSTALLED` / `NOT_IMPORTED` / `NOT_EXECUTED`; framework sessions and
+runtime handles **zero**. All three open Agent Package P2 findings remain
+**contained and open**; the Agent Package Contract was not edited.
+
 **Still blocked**, each requiring its own gate and separate explicit
-Operator authorization, in this recommended order:
-`MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001` (**exact next task in
-this track — not started, not authorized**); Shared Context Bridge; Agent
+Operator authorization, in this recommended order: **Shared Context Bridge**
+(**next item in this track — recorded by plain name only; no task identifier
+exists, and none is minted or authorized here**); Agent
 Runtime Scaffold (inert, no framework
 process, no provider call, no credential, no model call, no tool
 execution, no deployment); Scaffold Review; first Agent Package;
