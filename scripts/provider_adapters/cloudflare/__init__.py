@@ -9,6 +9,7 @@ from .adapter import CloudflareDelegatedReadAdapter, CloudflareServiceReadAdapte
 from .contracts import (
     CloudflareAdapterInclusion,
     CloudflareApiOperation,
+    CloudflareAuthenticationMode,
     CloudflareAuthenticationModeMetadata,
     CloudflareCapabilityClassification,
     CloudflareCapabilityDescriptor,
@@ -53,6 +54,7 @@ __all__ = [
     "CLOUDFLARE_SERVICE_READ_PLANS",
     "CloudflareAdapterInclusion",
     "CloudflareApiOperation",
+    "CloudflareAuthenticationMode",
     "CloudflareAuthenticationModeMetadata",
     "CloudflareCapabilityClassification",
     "CloudflareCapabilityDescriptor",

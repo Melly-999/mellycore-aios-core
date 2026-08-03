@@ -792,10 +792,18 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    priority pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is
    unchanged.
 18. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001` — **exact
-   next task on this parallel track; eligible for separate authorization.** The
-   provider-foundation checkpoint remains incomplete and Agent Runtime
-   architecture waits for independently accepted remediation. Live Cloudflare
-   and all provider execution work remain blocked.
+   remediation completed in one local implementation commit; not pushed.**
+   Delegated and service capability records now bind exact canonical non-runtime
+   modes, operation plans preserve them, contradictory metadata denies, fixture
+   URL/endpoint shapes deny under a closed synthetic-host grammar, and the
+   focused tests contain an independent 58-row contract oracle plus the missing
+   adversarial coverage. No generic scaffold, credential, OAuth, authentication,
+   provider request, network, mutation, containment, or runtime behavior was
+   added. Claims remain unverified pending Review 002.
+19. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002` — **exact next
+   task on this parallel track; eligible for separate authorization.** Provider
+   foundation remains incomplete and Agent Runtime remains blocked until the
+   remediation passes independent review. Live Cloudflare work remains blocked.
 
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,

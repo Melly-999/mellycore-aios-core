@@ -38,6 +38,7 @@ from scripts.provider_adapters.cloudflare import (
     CLOUDFLARE_SERVICE_READ_MANIFEST,
     CLOUDFLARE_SERVICE_READ_PLANS,
     CloudflareAdapterInclusion,
+    CloudflareAuthenticationMode,
     CloudflareDelegatedReadAdapter,
     CloudflareErrorCode,
     CloudflareFixtureError,
@@ -50,6 +51,225 @@ from scripts.provider_adapters.cloudflare import (
 
 ROOT = Path(__file__).resolve().parents[1]
 CLOUDFLARE_SOURCE = ROOT / "scripts" / "provider_adapters" / "cloudflare"
+
+# Literal oracle transcribed from the canonical Cloudflare contract Section 13.
+# Expected values intentionally do not derive from adapter classification data.
+EXPECTED_CLOUDFLARE_CONTRACT = {
+    "cloudflare.accounts.list": ("D1", "R0", "IN_SCOPE_READ_ONLY"),
+    "cloudflare.zones.list": ("D1", "R0", "IN_SCOPE_READ_ONLY"),
+    "cloudflare.zones.get": ("D1", "R0", "IN_SCOPE_READ_ONLY"),
+    "cloudflare.endpoint_management.operations.list": (
+        "D1",
+        "R1",
+        "IN_SCOPE_READ_ONLY",
+    ),
+    "cloudflare.endpoint_management.operations.get": (
+        "D1",
+        "R1",
+        "IN_SCOPE_READ_ONLY",
+    ),
+    "cloudflare.endpoint_labels.list": ("D1", "R0", "IN_SCOPE_READ_ONLY"),
+    "cloudflare.endpoint_labels.get": ("D1", "R0", "IN_SCOPE_READ_ONLY"),
+    "cloudflare.schema_validation.schemas.list": (
+        "D1",
+        "R1",
+        "IN_SCOPE_READ_ONLY",
+    ),
+    "cloudflare.schema_validation.schemas.get": (
+        "D1",
+        "R1",
+        "IN_SCOPE_READ_ONLY",
+    ),
+    "cloudflare.schema_validation.settings.get": (
+        "D1",
+        "R1",
+        "IN_SCOPE_READ_ONLY",
+    ),
+    "cloudflare.schema_validation.operation_settings.list": (
+        "D1",
+        "R1",
+        "IN_SCOPE_READ_ONLY",
+    ),
+    "cloudflare.authentication_posture.findings.list": (
+        "D1",
+        "R1",
+        "IN_SCOPE_READ_ONLY",
+    ),
+    "cloudflare.waf.rulesets.list": ("D1", "R1", "IN_SCOPE_READ_ONLY"),
+    "cloudflare.waf.rulesets.get": ("D1", "R1", "IN_SCOPE_READ_ONLY"),
+    "cloudflare.security_events.search": ("D1", "R1", "IN_SCOPE_READ_ONLY"),
+    "cloudflare.audit_events.search": ("D1", "R1", "IN_SCOPE_READ_ONLY"),
+    "cloudflare.endpoint_management.operations.add.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.endpoint_management.operations.delete.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.endpoint_labels.bindings.diff": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.schema_validation.schemas.upload.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.schema_validation.rollout.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.schema_validation.operation_change.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.waf.rules.create.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.waf.rules.update.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.waf.rules.reorder.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.waf.rules.delete.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.api_posture.report": ("D2", "R2", "OUT_OF_SCOPE_PROPOSAL"),
+    "cloudflare.schema_coverage.report": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.schema_drift.report": ("D2", "R2", "OUT_OF_SCOPE_PROPOSAL"),
+    "cloudflare.unprotected_endpoints.report": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.shadow_endpoints.report": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.rate_limiting.propose": (
+        "D2",
+        "R2",
+        "OUT_OF_SCOPE_PROPOSAL",
+    ),
+    "cloudflare.endpoint_management.operations.add": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.endpoint_management.operations.delete": (
+        "D3",
+        "R5",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.endpoint_labels.bindings.replace": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.schemas.upload": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.schemas.delete": (
+        "D3",
+        "R5",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.schemas.enable": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.schemas.disable": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.zone_default.set_none": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.zone_default.set_log": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.zone_default.set_block": (
+        "D3",
+        "R5",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.operation.set_none": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_CONTAINMENT",
+    ),
+    "cloudflare.schema_validation.operation.set_log": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.operation.set_block": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.schema_validation.zone_override.set_none": (
+        "D3",
+        "R4",
+        "OUT_OF_SCOPE_CONTAINMENT",
+    ),
+    "cloudflare.waf.rulesets.create": ("D3", "R4", "OUT_OF_SCOPE_MUTATION"),
+    "cloudflare.waf.rulesets.update": ("D3", "R4", "OUT_OF_SCOPE_MUTATION"),
+    "cloudflare.waf.entrypoint.execute_rule.add": (
+        "D3",
+        "R5",
+        "OUT_OF_SCOPE_MUTATION",
+    ),
+    "cloudflare.waf.entrypoint.execute_rule.remove": (
+        "D3",
+        "R5",
+        "OUT_OF_SCOPE_CONTAINMENT",
+    ),
+    "cloudflare.waf.rules.create": ("D3", "R4", "OUT_OF_SCOPE_MUTATION"),
+    "cloudflare.waf.rules.update": ("D3", "R4", "OUT_OF_SCOPE_MUTATION"),
+    "cloudflare.waf.rules.reorder": ("D3", "R4", "OUT_OF_SCOPE_MUTATION"),
+    "cloudflare.waf.rules.disable": ("D3", "R4", "OUT_OF_SCOPE_CONTAINMENT"),
+    "cloudflare.waf.rules.delete": ("D3", "R5", "OUT_OF_SCOPE_MUTATION"),
+    "cloudflare.docs.search": ("D4", "R0", "OUT_OF_SCOPE_RESTRICTED_TOOL"),
+    "cloudflare.api_surface.discover": (
+        "D4",
+        "R0",
+        "OUT_OF_SCOPE_RESTRICTED_TOOL",
+    ),
+    "cloudflare.mcp.documentation_session": (
+        "D4",
+        "R0",
+        "OUT_OF_SCOPE_RESTRICTED_TOOL",
+    ),
+}
 
 
 def _facts(all_satisfied: bool = False) -> AuthorizationFacts:
@@ -124,12 +344,13 @@ def _envelope(
 def _operation(
     canonical_ref: str = "fixture-operation-1",
     provider_native_ref: str = "fixture-native-operation-1",
+    host: str = "api.fixture.invalid",
     description: str = "synthetic provider-authored description",
 ) -> Tuple[Tuple[str, Any], ...]:
     return (
         ("canonical_ref", canonical_ref),
         ("provider_native_ref", provider_native_ref),
-        ("host", "api.fixture.invalid"),
+        ("host", host),
         ("path", "/fixture/resource"),
         ("operation_method", "GET"),
         ("description", description),
@@ -267,38 +488,68 @@ class DescriptorAndManifestTests(unittest.TestCase):
 
     def test_operator_restricted_and_provider_local_classes_are_rejected(self) -> None:
         capability = CLOUDFLARE_SERVICE_READ_MANIFEST[0]
-        with self.assertRaises(AdapterValidationError):
-            validate_manifest(
-                CLOUDFLARE_PROVIDER_DESCRIPTOR,
-                (
-                    replace(
-                        capability,
-                        required_acting_identity_type=(
-                            ActingIdentityType.MELLYCORE_OPERATOR
-                        ),
-                    ),
+        with self.assertRaises(ValueError):
+            replace(
+                capability,
+                required_acting_identity_type=ActingIdentityType.MELLYCORE_OPERATOR,
+            )
+        with self.assertRaises(ValueError):
+            replace(
+                capability,
+                required_credential_profile_class=(
+                    CredentialProfileClass.RESTRICTED_OPERATOR_INVESTIGATION
                 ),
             )
-        with self.assertRaises(AdapterValidationError):
-            validate_manifest(
-                CLOUDFLARE_PROVIDER_DESCRIPTOR,
-                (
-                    replace(
-                        capability,
-                        required_credential_profile_class=(
-                            CredentialProfileClass.RESTRICTED_OPERATOR_INVESTIGATION
-                        ),
-                    ),
-                ),
-            )
-        with self.assertRaises(AdapterValidationError):
-            validate_manifest(
-                CLOUDFLARE_PROVIDER_DESCRIPTOR,
-                (replace(capability, required_credential_profile_class="CF_READ"),),
+        with self.assertRaises(ValueError):
+            replace(
+                capability,
+                required_credential_profile_class="CF_READ",
             )
 
 
 class ClassificationTests(unittest.TestCase):
+    def test_independent_contract_oracle_has_exact_expected_partition(self) -> None:
+        self.assertEqual(len(EXPECTED_CLOUDFLARE_CONTRACT), 58)
+        included = {
+            capability_id
+            for capability_id, (_, _, inclusion) in (
+                EXPECTED_CLOUDFLARE_CONTRACT.items()
+            )
+            if inclusion == "IN_SCOPE_READ_ONLY"
+        }
+        excluded = set(EXPECTED_CLOUDFLARE_CONTRACT) - included
+        self.assertEqual(len(included), 16)
+        self.assertEqual(len(excluded), 42)
+        self.assertFalse(included & excluded)
+
+    def test_implementation_matches_independent_contract_oracle(self) -> None:
+        actual = {
+            row.capability_id.value: (
+                row.domain,
+                row.risk_tier,
+                row.adapter_inclusion.value,
+            )
+            for row in CLOUDFLARE_CAPABILITY_CLASSIFICATION
+        }
+        self.assertEqual(actual, EXPECTED_CLOUDFLARE_CONTRACT)
+
+    def test_manifest_ids_match_oracle_included_set_without_extras(self) -> None:
+        expected = {
+            capability_id
+            for capability_id, (_, _, inclusion) in (
+                EXPECTED_CLOUDFLARE_CONTRACT.items()
+            )
+            if inclusion == "IN_SCOPE_READ_ONLY"
+        }
+        delegated = {
+            item.capability_id.value for item in CLOUDFLARE_DELEGATED_READ_MANIFEST
+        }
+        service = {
+            item.capability_id.value for item in CLOUDFLARE_SERVICE_READ_MANIFEST
+        }
+        self.assertEqual(delegated, expected)
+        self.assertEqual(service, expected)
+
     def test_all_58_capabilities_are_classified_once(self) -> None:
         rows = CLOUDFLARE_CAPABILITY_CLASSIFICATION
         ids = tuple(item.capability_id.value for item in rows)
@@ -395,6 +646,89 @@ class ScopeAndEnvelopeTests(unittest.TestCase):
                 ),
             ),
             AdapterErrorCode.UNEXPECTED_SCOPE_FOR_NOT_APPLICABLE,
+        )
+
+    def test_unpermitted_provider_native_not_applicable_denies(self) -> None:
+        capability = CLOUDFLARE_SERVICE_READ_MANIFEST[0]
+        for name in ("account", "zone", "resource"):
+            applicability = tuple(
+                replace(entry, applicability=ScopeApplicability.NOT_APPLICABLE)
+                if entry.family is ScopeFamily.PROVIDER_NATIVE
+                and entry.name == name
+                else entry
+                for entry in capability.scope_applicability
+            )
+            with self.subTest(name=name), self.assertRaises(
+                AdapterValidationError
+            ) as caught:
+                validate_manifest(
+                    CLOUDFLARE_PROVIDER_DESCRIPTOR,
+                    (replace(capability, scope_applicability=applicability),),
+                )
+            self.assertIs(
+                caught.exception.error.code,
+                AdapterErrorCode.MANIFEST_MISMATCH,
+            )
+
+    def test_account_only_optional_zone_is_explicit_narrowing(self) -> None:
+        capability = CLOUDFLARE_SERVICE_READ_MANIFEST[0]
+        envelope = _envelope(capability)
+        zone = ScopeReference(
+            family=ScopeFamily.PROVIDER_NATIVE,
+            name="zone",
+            value_ref="fixture-zone-narrowing-1",
+        )
+        self.adapter.validate(
+            replace(
+                envelope,
+                scope_references=envelope.scope_references + (zone,),
+            )
+        )
+
+    def test_empty_and_whitespace_scope_values_deny(self) -> None:
+        envelope = _envelope(CLOUDFLARE_SERVICE_READ_MANIFEST[4])
+        for malformed in ("", "   "):
+            references = tuple(
+                replace(reference, value_ref=malformed)
+                if reference.family is ScopeFamily.PROVIDER_NATIVE
+                and reference.name == "account"
+                else reference
+                for reference in envelope.scope_references
+            )
+            self.assert_denied(
+                replace(envelope, scope_references=references),
+                AdapterErrorCode.SENSITIVE_VALUE_REJECTED,
+            )
+
+    def test_missing_mellycore_tenant_and_environment_scope_deny(self) -> None:
+        envelope = _envelope(CLOUDFLARE_SERVICE_READ_MANIFEST[4])
+        for name in ("tenant", "environment"):
+            references = tuple(
+                reference
+                for reference in envelope.scope_references
+                if not (
+                    reference.family is ScopeFamily.MELLYCORE
+                    and reference.name == name
+                )
+            )
+            self.assert_denied(
+                replace(envelope, scope_references=references),
+                AdapterErrorCode.MISSING_REQUIRED_SCOPE,
+            )
+
+    def test_unknown_envelope_scope_reference_denies(self) -> None:
+        envelope = _envelope(CLOUDFLARE_SERVICE_READ_MANIFEST[4])
+        unknown = ScopeReference(
+            family=ScopeFamily.PROVIDER_NATIVE,
+            name="unknown",
+            value_ref="fixture-unknown-1",
+        )
+        self.assert_denied(
+            replace(
+                envelope,
+                scope_references=envelope.scope_references + (unknown,),
+            ),
+            AdapterErrorCode.UNKNOWN_SCOPE_DIMENSION,
         )
 
     def test_missing_or_unknown_applicability_denies(self) -> None:
@@ -569,15 +903,119 @@ class PlanAndAuthenticationMetadataTests(unittest.TestCase):
 
     def test_authentication_mode_is_non_runtime_metadata_only(self) -> None:
         metadata = CLOUDFLARE_AUTHENTICATION_MODE_METADATA
-        self.assertEqual(metadata.provider_account_modes, ("api_token",))
+        self.assertIs(
+            metadata.delegated_mode,
+            CloudflareAuthenticationMode.DELEGATED_OAUTH,
+        )
+        self.assertIs(metadata.service_mode, CloudflareAuthenticationMode.API_TOKEN)
         self.assertFalse(metadata.runtime_selectable)
         self.assertFalse(metadata.credential_resolution_supported)
-        for capability in CLOUDFLARE_SERVICE_READ_MANIFEST:
-            self.assertFalse(hasattr(capability, "authentication_mode"))
+        self.assertFalse(hasattr(metadata, "provider_account_modes"))
+        for capability in (
+            CLOUDFLARE_DELEGATED_READ_MANIFEST
+            + CLOUDFLARE_SERVICE_READ_MANIFEST
+        ):
             self.assertEqual(
                 capability.authentication_mode_treatment,
                 "non-runtime-contract-metadata-only",
             )
+
+    def test_each_variant_binds_one_exact_compatible_mode(self) -> None:
+        for capability in CLOUDFLARE_DELEGATED_READ_MANIFEST:
+            self.assertIs(
+                capability.authentication_mode,
+                CloudflareAuthenticationMode.DELEGATED_OAUTH,
+            )
+        for capability in CLOUDFLARE_SERVICE_READ_MANIFEST:
+            self.assertIs(
+                capability.authentication_mode,
+                CloudflareAuthenticationMode.API_TOKEN,
+            )
+
+    def test_mode_mismatches_unknown_alias_case_whitespace_and_missing_deny(
+        self,
+    ) -> None:
+        delegated = CLOUDFLARE_DELEGATED_READ_MANIFEST[0]
+        service = CLOUDFLARE_SERVICE_READ_MANIFEST[0]
+        cases = (
+            (delegated, CloudflareAuthenticationMode.API_TOKEN),
+            (service, CloudflareAuthenticationMode.DELEGATED_OAUTH),
+            (delegated, "unknown_mode"),
+            (delegated, "delegated_oauth"),
+            (delegated, "oauth"),
+            (delegated, "DELEGATED_OAUTH"),
+            (delegated, " delegated_oauth"),
+            (delegated, "delegated_oauth "),
+            (delegated, None),
+        )
+        for capability, mode in cases:
+            with self.subTest(mode=mode), self.assertRaisesRegex(
+                ValueError,
+                "authentication mode binding is not canonical",
+            ):
+                replace(capability, authentication_mode=mode)
+
+    def test_global_metadata_cannot_contradict_concrete_modes(self) -> None:
+        for field, mode in (
+            ("delegated_mode", CloudflareAuthenticationMode.API_TOKEN),
+            ("service_mode", CloudflareAuthenticationMode.DELEGATED_OAUTH),
+        ):
+            with self.subTest(field=field), self.assertRaisesRegex(
+                ValueError,
+                "authentication mode metadata is not canonical",
+            ):
+                replace(CLOUDFLARE_AUTHENTICATION_MODE_METADATA, **{field: mode})
+
+    def test_operator_identity_with_read_modes_denies(self) -> None:
+        for capability in (
+            CLOUDFLARE_DELEGATED_READ_MANIFEST[0],
+            CLOUDFLARE_SERVICE_READ_MANIFEST[0],
+        ):
+            with self.subTest(
+                mode=capability.authentication_mode.value
+            ), self.assertRaises(ValueError):
+                replace(
+                    capability,
+                    required_acting_identity_type=ActingIdentityType.MELLYCORE_OPERATOR,
+                )
+
+    def test_operation_plans_preserve_modes_and_are_immutable(self) -> None:
+        for plans, expected in (
+            (
+                CLOUDFLARE_DELEGATED_READ_PLANS,
+                CloudflareAuthenticationMode.DELEGATED_OAUTH,
+            ),
+            (
+                CLOUDFLARE_SERVICE_READ_PLANS,
+                CloudflareAuthenticationMode.API_TOKEN,
+            ),
+        ):
+            self.assertTrue(all(plan.authentication_mode is expected for plan in plans))
+            with self.assertRaises(FrozenInstanceError):
+                plans[0].authentication_mode = expected
+            with self.assertRaisesRegex(
+                ValueError,
+                "operation-plan authentication binding is not canonical",
+            ):
+                replace(
+                    plans[0],
+                    authentication_mode=(
+                        CloudflareAuthenticationMode.API_TOKEN
+                        if expected is CloudflareAuthenticationMode.DELEGATED_OAUTH
+                        else CloudflareAuthenticationMode.DELEGATED_OAUTH
+                    ),
+                )
+
+    def test_authentication_mode_metadata_cannot_enable_execution(self) -> None:
+        adapter = CloudflareServiceReadAdapter()
+        envelope = _envelope(
+            CLOUDFLARE_SERVICE_READ_MANIFEST[0], all_satisfied=True
+        )
+        adapter.validate(envelope)
+        self.assertIs(
+            adapter.execute(envelope).outcome,
+            OperationOutcome.EXECUTION_DISABLED,
+        )
 
     def test_adapter_never_selects_between_variants(self) -> None:
         delegated = CloudflareDelegatedReadAdapter()
@@ -605,6 +1043,65 @@ class FixtureNormalizationTests(unittest.TestCase):
         self.assertFalse(first.provider_authenticated)
         self.assertFalse(first.provider_request_occurred)
         self.assertEqual(dict(first.provenance)["provider_request"], "not-performed")
+
+    def test_only_bounded_reserved_synthetic_host_is_accepted(self) -> None:
+        result = normalize_api_operations_fixture(
+            _fixture((_operation(host="inventory.fixture.invalid"),))
+        )
+        self.assertEqual(result.items[0].host, "inventory.fixture.invalid")
+        self.assertTrue(result.fixture_only)
+        self.assertFalse(result.provider_request_occurred)
+
+    def test_endpoint_and_non_synthetic_host_shapes_deny_without_echo(self) -> None:
+        rejected = (
+            "http://api.fixture.invalid",
+            "https://api.fixture.invalid",
+            "ftp://api.fixture.invalid",
+            "api.fixture.invalid/path",
+            "api.fixture.invalid?query=value",
+            "api.fixture.invalid#fragment",
+            "user@api.fixture.invalid",
+            "api.fixture.invalid\\path",
+            "api. fixture.invalid",
+            "api.fixture.invalid\n",
+            "a" * 254,
+        )
+        for host in rejected:
+            with self.subTest(host=host), self.assertRaises(
+                CloudflareFixtureError
+            ) as caught:
+                normalize_api_operations_fixture(_fixture((_operation(host=host),)))
+            self.assertIs(
+                caught.exception.error.code,
+                CloudflareErrorCode.INVALID_FIXTURE_SHAPE,
+            )
+            self.assertNotIn(host, str(caught.exception))
+            self.assertFalse(caught.exception.error.provider_request_occurred)
+
+    def test_sensitive_shaped_host_denies_without_echo(self) -> None:
+        host = "Bearer fixture-sensitive-value"
+        with self.assertRaises(CloudflareFixtureError) as caught:
+            normalize_api_operations_fixture(_fixture((_operation(host=host),)))
+        self.assertIs(
+            caught.exception.error.code,
+            CloudflareErrorCode.SENSITIVE_FIXTURE_VALUE,
+        )
+        self.assertNotIn(host, str(caught.exception))
+
+    def test_dangerous_repr_and_mutable_nested_input_deny_before_normalization(
+        self,
+    ) -> None:
+        class Dangerous:
+            def __repr__(self) -> str:
+                raise AssertionError("repr must not be called")
+
+        self.assert_fixture_denied(
+            Dangerous(), CloudflareErrorCode.INVALID_FIXTURE_SHAPE
+        )
+        mutable_items = []
+        fixture = _replace_pair(_fixture(), "items", mutable_items)
+        self.assert_fixture_denied(fixture, CloudflareErrorCode.INVALID_FIXTURE_SHAPE)
+        mutable_items.append(_operation())
 
     def test_normalized_entity_is_immutable_and_untrusted(self) -> None:
         result = normalize_api_operations_fixture(_fixture())

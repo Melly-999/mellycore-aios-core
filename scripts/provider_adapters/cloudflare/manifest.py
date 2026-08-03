@@ -27,6 +27,7 @@ from ..contracts import (
 )
 from .contracts import (
     CloudflareAdapterInclusion,
+    CloudflareAuthenticationMode,
     CloudflareAuthenticationModeMetadata,
     CloudflareCapabilityClassification,
     CloudflareCapabilityDescriptor,
@@ -67,7 +68,8 @@ CLOUDFLARE_PROVIDER_DESCRIPTOR = CloudflareProviderDescriptor(
 
 
 CLOUDFLARE_AUTHENTICATION_MODE_METADATA = CloudflareAuthenticationModeMetadata(
-    provider_account_modes=("api_token",),
+    delegated_mode=CloudflareAuthenticationMode.DELEGATED_OAUTH,
+    service_mode=CloudflareAuthenticationMode.API_TOKEN,
     runtime_selectable=False,
     credential_resolution_supported=False,
     binding_authority=CLOUDFLARE_CONTRACT_REF,
@@ -513,16 +515,22 @@ CLOUDFLARE_CAPABILITY_CLASSIFICATION = (
 
 def _identity_binding(
     identity_variant: CloudflareIdentityVariant,
-) -> Tuple[CredentialProfileClass, ActingIdentityType]:
+) -> Tuple[
+    CredentialProfileClass,
+    ActingIdentityType,
+    CloudflareAuthenticationMode,
+]:
     if identity_variant is CloudflareIdentityVariant.DELEGATED:
         return (
             CredentialProfileClass.READ_ONLY_DELEGATED,
             ActingIdentityType.DELEGATED_USER,
+            CLOUDFLARE_AUTHENTICATION_MODE_METADATA.delegated_mode,
         )
     if identity_variant is CloudflareIdentityVariant.SERVICE:
         return (
             CredentialProfileClass.READ_ONLY_SERVICE,
             ActingIdentityType.SERVICE_ACCOUNT,
+            CLOUDFLARE_AUTHENTICATION_MODE_METADATA.service_mode,
         )
     raise ValueError("unsupported static Cloudflare identity variant")
 
@@ -530,7 +538,9 @@ def _identity_binding(
 def _manifest(
     identity_variant: CloudflareIdentityVariant,
 ) -> Tuple[CloudflareCapabilityDescriptor, ...]:
-    credential_class, identity = _identity_binding(identity_variant)
+    credential_class, identity, authentication_mode = _identity_binding(
+        identity_variant
+    )
     return tuple(
         CloudflareCapabilityDescriptor(
             provider_id=CLOUDFLARE_PROVIDER_ID,
@@ -558,6 +568,7 @@ def _manifest(
             read_operation_plan_ref="cf-plan-{}-{}".format(
                 identity_variant.value, item.contract_key.lower()
             ),
+            authentication_mode=authentication_mode,
             authentication_mode_treatment="non-runtime-contract-metadata-only",
         )
         for item in _READ_DEFINITIONS
@@ -596,6 +607,7 @@ def _operation_plans(
                 ),
                 acting_identity_type=(capability.required_acting_identity_type.value),
                 authentication_target=(capability.required_authentication_target.value),
+                authentication_mode=capability.authentication_mode,
                 expected_entity_family=definition.entity_family,
                 pagination_metadata=definition.pagination_metadata,
                 cursor_execution_supported=False,

@@ -579,10 +579,17 @@ the time each task starts; each item records its current state below):
     and focused tests are not a complete independent contract oracle. The
     provider-foundation checkpoint remains incomplete.
 18. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001` — **exact
-    next enterprise-provider task; eligible for separate authorization.** Live
-    transport, credentials, authentication, provider execution, deployment,
-    runtime work, and the Agent Runtime pivot remain blocked pending separately
-    authorized remediation and an independent acceptance review.
+    remediation completed in one local implementation commit; not pushed.**
+    Concrete delegated/service entries now bind exact compatible non-runtime
+    modes; global metadata no longer conflates variants; fixture hosts use a
+    closed synthetic grammar; and focused tests include a literal 58-row
+    contract oracle plus expanded adversarial coverage. No generic scaffold,
+    transport, credential, authentication, provider, or runtime path changed.
+    Remediation claims remain unverified pending Review 002.
+19. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002` — **exact next
+    enterprise-provider task; eligible for separate authorization.** Provider
+    foundation remains incomplete. Live Cloudflare work and Agent Runtime remain
+    blocked pending independent acceptance.
 
 No credentials, provider runtime, restricted-tool or MCP connection,
 MCP execution, Cloudflare API call,

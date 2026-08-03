@@ -1250,3 +1250,30 @@ The exact next task is
 `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001`.
 The pre-existing global higher-priority pointer remains unchanged and is not
 reordered or reinterpreted.
+
+## Cloudflare API Shield Read-Only Adapter Remediation 001 — Local Implementation Complete, Review 002 Required
+
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001` remediates
+Review 001 findings P1-01, P2-01, and P2-02. Each of the 16 delegated entries
+now binds `delegated_oauth`; each of the 16 service entries binds scoped
+`api_token`. Provider-specific frozen validation closes mode/class/identity/
+target compatibility and rejects missing, unknown, aliased, case/whitespace-
+varied, or mismatched values. Global metadata names both variants separately,
+and operation plans preserve the concrete mode. No generic scaffold or envelope
+change was required.
+
+Synthetic fixture hosts now use a closed reserved-host grammar. URL schemes,
+userinfo, path/query/fragment material, slashes, controls, whitespace,
+sensitive-shaped text, and excessive length deny locally without echo. Focused
+tests contain an independent literal 58-row contract oracle and expanded
+authentication, scope, fixture, plan, subclass, execution, and error coverage.
+The production 58-row classification remains unchanged: 16 D1 reads included
+and 42 proposal, mutation, containment, and restricted-tool rows excluded.
+
+This remediation remains transportless, credentialless, unauthenticated, and
+execution-disabled. Its claims remain unverified until independent Review 002;
+provider foundation remains incomplete, live Cloudflare remains blocked, and
+Agent Runtime remains blocked. The exact next task is
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002`.
+The pre-existing global higher-priority pointer remains unchanged and is not
+reordered or reinterpreted.

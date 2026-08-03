@@ -19,6 +19,10 @@ from .contracts import (
 from .manifest import CLOUDFLARE_CONTRACT_REVISION
 
 _OPAQUE_REFERENCE_PATTERN = re.compile(r"^[a-z][a-z0-9_-]{2,127}$")
+_SYNTHETIC_HOST_PATTERN = re.compile(
+    r"(?=.{1,253}\Z)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+"
+    r"(?:invalid|test|example)"
+)
 _SENSITIVE_VALUE_PATTERNS = (
     re.compile(r"(?i)\bbearer\s+[a-z0-9._-]+"),
     re.compile(r"(?i)\b(?:api[_-]?key|client[_-]?secret|password)\s*[:=]"),
@@ -225,6 +229,17 @@ def _normalize_untrusted_text(value: Any, field: str) -> Tuple[str, bool]:
     return sanitized, suspected
 
 
+def _require_synthetic_host(value: Any) -> str:
+    host = _require_text(value, "host")
+    if not _SYNTHETIC_HOST_PATTERN.fullmatch(host):
+        _deny(
+            CloudflareErrorCode.INVALID_FIXTURE_SHAPE,
+            "fixture host must be a bounded synthetic hostname",
+            "host",
+        )
+    return host
+
+
 def _normalize_item(value: Any) -> CloudflareApiOperation:
     item = _pairs_to_dict(value, "items")
     _require_exact_keys(item, _ITEM_KEYS, "items")
@@ -232,7 +247,7 @@ def _normalize_item(value: Any) -> CloudflareApiOperation:
     provider_native_ref = _require_reference(
         item["provider_native_ref"], "provider_native_ref"
     )
-    host, host_flag = _normalize_untrusted_text(item["host"], "host")
+    host = _require_synthetic_host(item["host"])
     path, path_flag = _normalize_untrusted_text(item["path"], "path")
     operation_method, method_flag = _normalize_untrusted_text(
         item["operation_method"], "operation_method"
@@ -248,7 +263,7 @@ def _normalize_item(value: Any) -> CloudflareApiOperation:
         operation_method=operation_method,
         description=description,
         trust=CloudflareFixtureTrust.UNTRUSTED_PROVIDER_CONTENT,
-        injection_suspected=(host_flag or path_flag or method_flag or description_flag),
+        injection_suspected=(path_flag or method_flag or description_flag),
         fixture_only=True,
         contract_revision=CLOUDFLARE_CONTRACT_REVISION,
     )

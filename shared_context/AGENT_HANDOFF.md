@@ -1,6 +1,38 @@
 # Agent Handoff
 
-## Latest Update — Cloudflare API Shield read-only adapter review 001 failed; remediation required
+## Latest Update — Cloudflare API Shield adapter remediation 001 complete; Review 002 required
+
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001`
+
+- Remediated Review 001 findings P1-01, P2-01, and P2-02 on a dedicated local
+  branch. Claims remain unverified until independent Review 002.
+- Every delegated entry now binds `delegated_oauth` with
+  `read_only_delegated` / `delegated_user` / `provider_account`; every service
+  entry binds scoped `api_token` with `read_only_service` / `service_account` /
+  `provider_account`. Frozen provider-specific validation rejects missing,
+  unknown, aliased, case/whitespace-varied, or mismatched combinations. No
+  generic envelope or scaffold change was required.
+- Global mode metadata now names the delegated and service bindings separately
+  and cannot contradict concrete entries. Operation plans preserve the same
+  non-runtime mode identity. No credential, OAuth flow, token exchange,
+  authentication, provider request, transport, or runtime selection exists.
+- Fixture hosts now accept only bounded reserved synthetic hostnames; schemes,
+  userinfo, paths, queries, fragments, slashes, controls, whitespace, sensitive
+  shapes, and excessive length deny without echo.
+- Focused tests now carry a literal 58-row canonical contract oracle and direct
+  authentication, scope, fixture, plan, subclass, inertness, and error probes.
+  Production classification remains 16 D1 reads included and 42 excluded.
+- Current focused validation: 60 Cloudflare tests and 62 neutral scaffold tests
+  pass. Full validation is recorded in the remediation report/final execution
+  evidence.
+- Provider foundation remains incomplete; live Cloudflare and Agent Runtime
+  remain blocked.
+- Exact next task:
+  `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002`.
+- The pre-existing global higher-priority pointer remains unchanged, in place,
+  and independently governed.
+
+## Previous Update — Cloudflare API Shield read-only adapter review 001 failed; remediation required
 
 `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001`
 

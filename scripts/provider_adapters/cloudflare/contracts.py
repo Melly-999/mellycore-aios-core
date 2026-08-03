@@ -11,9 +11,12 @@ from enum import Enum
 from typing import Any, Dict, Optional, Tuple
 
 from ..contracts import (
+    ActingIdentityType,
     AdapterErrorCode,
+    AuthenticationTarget,
     CapabilityDescriptor,
     CapabilityId,
+    CredentialProfileClass,
     ProviderDescriptor,
 )
 
@@ -29,6 +32,13 @@ class CloudflareIdentityVariant(str, Enum):
 
     DELEGATED = "delegated"
     SERVICE = "service"
+
+
+class CloudflareAuthenticationMode(str, Enum):
+    """Closed non-runtime modes used by concrete Cloudflare read variants."""
+
+    DELEGATED_OAUTH = "delegated_oauth"
+    API_TOKEN = "api_token"
 
 
 class CloudflareAdapterInclusion(str, Enum):
@@ -103,7 +113,37 @@ class CloudflareCapabilityDescriptor(CapabilityDescriptor):
     identity_variant: CloudflareIdentityVariant
     provider_requirement_label: str
     read_operation_plan_ref: str
+    authentication_mode: CloudflareAuthenticationMode
     authentication_mode_treatment: str
+
+    def __post_init__(self) -> None:
+        expected = {
+            CloudflareIdentityVariant.DELEGATED: (
+                CloudflareAuthenticationMode.DELEGATED_OAUTH,
+                CredentialProfileClass.READ_ONLY_DELEGATED,
+                ActingIdentityType.DELEGATED_USER,
+                AuthenticationTarget.PROVIDER_ACCOUNT,
+            ),
+            CloudflareIdentityVariant.SERVICE: (
+                CloudflareAuthenticationMode.API_TOKEN,
+                CredentialProfileClass.READ_ONLY_SERVICE,
+                ActingIdentityType.SERVICE_ACCOUNT,
+                AuthenticationTarget.PROVIDER_ACCOUNT,
+            ),
+        }.get(self.identity_variant)
+        actual = (
+            self.authentication_mode,
+            self.required_credential_profile_class,
+            self.required_acting_identity_type,
+            self.required_authentication_target,
+        )
+        if expected is None or any(
+            actual_value is not expected_value
+            for actual_value, expected_value in zip(actual, expected)
+        ):
+            raise ValueError(
+                "Cloudflare authentication mode binding is not canonical"
+            )
 
 
 @dataclass(frozen=True)
@@ -123,12 +163,24 @@ class CloudflareCapabilityClassification:
 
 @dataclass(frozen=True)
 class CloudflareAuthenticationModeMetadata:
-    """Non-runtime documentation of the scaffold authentication-mode gap."""
+    """Fixed non-runtime authentication-mode bindings for both variants."""
 
-    provider_account_modes: Tuple[str, ...]
+    delegated_mode: CloudflareAuthenticationMode
+    service_mode: CloudflareAuthenticationMode
     runtime_selectable: bool
     credential_resolution_supported: bool
     binding_authority: str
+
+    def __post_init__(self) -> None:
+        if (
+            self.delegated_mode is not CloudflareAuthenticationMode.DELEGATED_OAUTH
+            or self.service_mode is not CloudflareAuthenticationMode.API_TOKEN
+            or self.runtime_selectable
+            or self.credential_resolution_supported
+        ):
+            raise ValueError(
+                "Cloudflare authentication mode metadata is not canonical"
+            )
 
 
 @dataclass(frozen=True)
@@ -145,12 +197,44 @@ class CloudflareReadOperationPlan:
     credential_profile_class: str
     acting_identity_type: str
     authentication_target: str
+    authentication_mode: CloudflareAuthenticationMode
     expected_entity_family: CloudflareEntityFamily
     pagination_metadata: str
     cursor_execution_supported: bool
     verification_expectation: str
     provider_contract_revision: str
     adapter_revision: str
+
+    def __post_init__(self) -> None:
+        expected = {
+            CloudflareIdentityVariant.DELEGATED: (
+                CredentialProfileClass.READ_ONLY_DELEGATED.value,
+                ActingIdentityType.DELEGATED_USER.value,
+                AuthenticationTarget.PROVIDER_ACCOUNT.value,
+                CloudflareAuthenticationMode.DELEGATED_OAUTH,
+            ),
+            CloudflareIdentityVariant.SERVICE: (
+                CredentialProfileClass.READ_ONLY_SERVICE.value,
+                ActingIdentityType.SERVICE_ACCOUNT.value,
+                AuthenticationTarget.PROVIDER_ACCOUNT.value,
+                CloudflareAuthenticationMode.API_TOKEN,
+            ),
+        }.get(self.identity_variant)
+        actual = (
+            self.credential_profile_class,
+            self.acting_identity_type,
+            self.authentication_target,
+            self.authentication_mode,
+        )
+        if expected is None or any(
+            actual_value is not expected_value
+            if isinstance(expected_value, CloudflareAuthenticationMode)
+            else actual_value != expected_value
+            for actual_value, expected_value in zip(actual, expected)
+        ):
+            raise ValueError(
+                "Cloudflare operation-plan authentication binding is not canonical"
+            )
 
 
 @dataclass(frozen=True)
