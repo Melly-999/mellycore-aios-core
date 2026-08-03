@@ -1417,11 +1417,103 @@ this architecture and are **not** crossed by this documentation task. Trigger
 agent execution-capable until the Model B reconsideration required by the
 Model A contract is separately completed.
 
-**Exact next task:** `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` —
-an independent, read-only architecture review. Agent Package Contract,
-Framework Bridge Contract, Shared Context Bridge, Agent Runtime Scaffold, first
-agent package, and cross-agent smoke testing are recommended successors and
-remain **blocked** pending that review and separate explicit authorization.
-Live provider work remains deferred and blocked. The pre-existing global
+**Exact next task at the time of that specification:**
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` — an independent,
+read-only architecture review. That statement is a creation-time historical
+record; the review has since completed with
+`FAIL_REMEDIATION_REQUIRED` — see "Agent Runtime Architecture Spec Review 001"
+below. Live provider work remains deferred and blocked. The pre-existing global
 higher-priority pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`
 remains unchanged and is not reordered or reinterpreted.
+
+## Agent Runtime Architecture Spec Review 001 — Architecture Gate Failed, Remediation Required
+
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` is **complete as one
+local documentation commit; not pushed.** It is an independent, read-only
+architecture, security, consistency, and implementability review of
+`docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md` at commit
+`17da8603fbe8b75082cfea44223745b3c63f14de`. Review record:
+`docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_001.md`. Durable
+report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001.md`.
+
+**Gate decision: `FAIL_REMEDIATION_REQUIRED`. P0 = 0, P1 = 4, P2 = 5, P3 = 5.**
+
+The reviewer did not author the specification and treated every architectural
+claim as unverified. Every numeric dimension was recounted directly from the
+specification text; all 17 lifecycle states, 11 authorization facts, and 6
+frameworks were accounted for; all 32 original scenarios and 10 additional
+adversarial scenarios were replayed; and 20 ownership concerns were assessed
+independently against the canonical owners, yielding 13 `CONSISTENT`, 2
+`COMPLEMENTARY`, 2 `AMBIGUOUS`, and **3 `CONFLICTING`**.
+
+**No P0 exists.** No direct credential or provider path, no cross-tenant
+execution possibility, no canonical-context mutation bypass, no authorization or
+approval bypass, no secret exposure, and no unsafe consequential retry was
+found. The canonical serialization and digest discipline carrying Cloudflare
+`P2-03`, the package/runtime separation, the framework-bridge prohibitions, the
+memory categories, the handoff acceptance model, the single governed provider
+path, the cancellation honesty model, the retry and reconciliation rules, the
+isolation boundaries, the approval properties, the security model, the
+external-content posture, the runtime modes, and the inert v1 boundary all
+passed independent review without a finding.
+
+**Four blocking findings:**
+
+- `P1-01` — §12.2 projects six `run_state` values to `lifecycle_status:active`,
+  which Control Plane §8.2 states MUST NOT describe a running agent; the two
+  Control Plane modules that render Runs (§9.5, §9.7) enumerate a Run lifecycle
+  set containing neither `active`, `queued`, `draft`, nor `ready`.
+- `P1-02` — Authorization facts 5 and 6 duplicate Provider Registry facts 5 and
+  6. Registry §21.3 defines both record types as provider-scoped and requiring a
+  `provider_id`, while runtime fact 10 already delegates entirely to all eight
+  Registry facts; the capability vocabulary fact 6 evaluates is unstated.
+- `P1-03` — Multiple attempts per `run_id` with per-attempt ledger evidence
+  contradicts AI Operations Intelligence §5.9 (deduplication by `run_id`) and
+  §5.1 (one `outcome`/`model`/`provider` per run), which the Agent Runtime, as a
+  declared non-owner, cannot amend.
+- `P1-04` — §23.6 mandates `run_state:waiting_for_operator` for an unresolved
+  routing tie, but §12.3 does not permit that transition from
+  `waiting_for_model`, the state §12.2 assigns to awaiting a routing decision.
+
+Non-blocking findings: `P2-01` undefined stale-snapshot policy; `P2-02`
+`model_routing_decision_ref` inside an immutable, digest-bound envelope; `P2-03`
+agent-run identity not reconciled with the existing run-ledger `run_id` form or
+with loop runs; `P2-04` concurrent broadcast acceptance unspecified; `P2-05`
+runtime-instance restart with an attempt in an unknown state unaddressed; and
+five editorial findings `P3-01`–`P3-05`, including three count discrepancies
+(context-flow trace is 16 fields not 17; handoff envelope contents are 12 not
+11; 38 error rows carry 40 distinct class names).
+
+**Cloudflare constraints are unchanged by this review.** `P2-03` is correctly
+carried forward and materially strengthened; `P2-04` is correctly carried
+forward and explicitly **not** resolved or adjudicated; `P3-01` is correctly
+discharged in structure. The provider checkpoint is correctly not treated as
+live-provider readiness.
+
+**Implementation status: nothing implemented, connected, or executed.** No Agent
+Runtime, agent registry, agent package, framework bridge, or scaffold exists. No
+agent framework was installed, imported, connected, or executed by this review.
+Zero agents have been executed. No model provider, tool, or provider is
+connected. No credential is configured. No context or memory backend, queue, or
+frontend is implemented. Exactly one network operation occurred during the
+review: one authorized read-only `git fetch clean-origin`.
+
+**Agent Package eligibility:** `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` is
+**not eligible** for authorization. Agent Package Contract, Framework Bridge
+Contract, Shared Context Bridge, Agent Runtime Scaffold, first Agent Package,
+Cross-Agent Smoke, and Integration Review **remain blocked**. Agent Runtime
+implementation remains blocked.
+
+**Exact next task:**
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` — a bounded
+documentation remediation of `P1-01` through `P1-04`, with `P2-01`–`P2-05` and
+`P3-01`–`P3-05` addressed or explicitly adjudicated. Not started and not
+authorized by the review. `P1-01` and `P1-03` may require a companion amendment
+to the canonical owner documents under those documents' own amendment rules
+rather than a unilateral change to the Agent Runtime specification; that choice
+belongs to the Operator.
+
+Live provider work remains deferred and blocked. Migration triggers #1, #4, #5,
+#6, and #7 remain uncrossed. The pre-existing global higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged and is
+not reordered or reinterpreted.

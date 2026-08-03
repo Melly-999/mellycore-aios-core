@@ -658,15 +658,62 @@ place, and independently governed.
    is configured. No context or memory backend, queue, or frontend is
    implemented. No deployment occurred.
 
-2. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` — **exact next task
-   on this track.** Independent, read-only architecture review. Not started,
-   not authorized by item 1, and not an implementation task.
+2. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` — **complete as one
+   local documentation commit; not pushed.** Independent, read-only
+   architecture, security, consistency, and implementability review of item 1.
+   Review record:
+   `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_001.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001.md`.
 
-Recommended, **not authorized**, successors — each requires its own gate and
-separate explicit Operator authorization, in this order: Agent Package
+   **Gate decision: `FAIL_REMEDIATION_REQUIRED`. P0 = 0, P1 = 4, P2 = 5,
+   P3 = 5.** Twenty ownership concerns assessed independently: 13
+   `CONSISTENT`, 2 `COMPLEMENTARY`, 2 `AMBIGUOUS`, 3 `CONFLICTING`. All 17
+   lifecycle states, 11 authorization facts, and 6 frameworks accounted for;
+   32 original and 10 additional scenarios replayed, of which 30 and 9
+   respectively resolve deterministically.
+
+   Blocking findings: `P1-01` the `lifecycle_status:active` projection
+   conflicts with Control Plane §8.2 and the Run lifecycle sets in §9.5/§9.7;
+   `P1-02` authorization facts 5 and 6 duplicate Provider Registry facts 5 and
+   6, whose §21.3 record types are provider-scoped, with undefined scope and
+   capability vocabulary; `P1-03` per-attempt ledger evidence contradicts AI
+   Operations Intelligence §5.9 deduplication by `run_id` and §5.1's single
+   `outcome`/`model`/`provider` per run; `P1-04` the lifecycle cannot express
+   the `waiting_for_operator` outcome §23.6 mandates for an unresolved routing
+   tie. Non-blocking: `P2-01`–`P2-05` and `P3-01`–`P3-05`.
+
+   **No P0 exists.** No direct credential or provider path, cross-tenant
+   execution possibility, canonical-context mutation bypass, authorization or
+   approval bypass, secret exposure, or unsafe consequential retry was found.
+   Canonical serialization and digests, package/runtime separation, bridge
+   prohibitions, memory categories, handoff acceptance, the single provider
+   path, cancellation honesty, retry and reconciliation, isolation, approvals,
+   the security model, external content, runtime modes, and the inert v1
+   boundary all passed without a finding. Cloudflare `P2-03`, `P2-04`, and
+   `P3-01` are unchanged by the review and remain carried forward, with `P2-04`
+   explicitly not adjudicated.
+
+   Nothing was implemented, connected, or executed. Exactly one network
+   operation occurred: one authorized read-only `git fetch clean-origin`.
+
+3. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` — **exact next
+   task on this track.** A bounded documentation remediation of `P1-01` through
+   `P1-04`, with `P2-01`–`P2-05` and `P3-01`–`P3-05` addressed or explicitly
+   adjudicated. Not started, not authorized by item 2, and not an
+   implementation task. `P1-01` and `P1-03` may require a companion amendment
+   to the canonical owner documents under those documents' own amendment rules
+   rather than a unilateral change to the Agent Runtime specification; that
+   choice belongs to the Operator.
+
+**Blocked pending remediation, a subsequent independent review, and separate
+explicit Operator authorization** — `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001`
+is **not eligible** for authorization. The recommended, **not authorized**,
+successors — each requiring its own gate, in this order — are: Agent Package
 Contract; Framework Bridge Contract; Shared Context Bridge; Agent Runtime
 Scaffold (inert); Scaffold Review; first Agent Package; Cross-Agent Smoke
-(inert modes only); Integration Review.
+(inert modes only); Integration Review. Agent Runtime implementation remains
+blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 before it may proceed to

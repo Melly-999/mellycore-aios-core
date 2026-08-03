@@ -874,18 +874,53 @@ place, and independently governed.
    `P3-01` are carried forward as architecture constraints and are **not**
    adjudicated here.
 
-**Current gate — exact next task:**
-`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` — an independent,
-read-only architecture review of the local specification commit. Not started.
-It is not an implementation task and authorizes no implementation.
+2. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` — **complete as one
+   local documentation commit; not pushed.** Independent, read-only
+   architecture, security, consistency, and implementability review of item 1.
+   Review record:
+   `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_001.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001.md`. Full
+   detail: `shared_context/PROJECT_STATE.md`'s "Agent Runtime Architecture Spec
+   Review 001" section and `shared_context/ROADMAP.md`'s "Agent Runtime —
+   Product Track".
 
-**Blocked pending that review and separate explicit Operator authorization,**
-in this recommended order: Agent Package Contract; Framework Bridge Contract;
-Shared Context Bridge; Agent Runtime Scaffold (inert, no framework process, no
-provider call, no credential, no model call, no tool execution, no
-deployment); Scaffold Review; first Agent Package; Cross-Agent Smoke (inert
-modes only); Integration Review. None of these is authorized by this queue
-entry.
+   **Gate decision: `FAIL_REMEDIATION_REQUIRED`. P0 = 0, P1 = 4, P2 = 5,
+   P3 = 5.** Four blocking findings: `P1-01` `lifecycle_status:active`
+   projection versus Control Plane §8.2 and §9.5/§9.7; `P1-02` authorization
+   facts 5 and 6 duplicating Provider Registry facts 5 and 6 with undefined
+   scope; `P1-03` per-attempt ledger evidence versus AI Operations Intelligence
+   §5.1/§5.9 record identity and deduplication; `P1-04` the routing-tie outcome
+   §23.6 mandates being unreachable in the §12.3 transition table.
+
+   Recorded honestly: **no runtime implemented**; **no agent framework
+   connected, installed, or imported**; **no agent executed**; **no model
+   provider connected**; **no tool connected**; **no provider connected**; **no
+   credential configured**; **no context or memory backend implemented**; **no
+   queue implemented**; **no frontend implemented**. No deployment, push, pull
+   request, or merge occurred. Exactly one network operation: one authorized
+   read-only `git fetch clean-origin`. No P0 exists, and Cloudflare `P2-03`,
+   `P2-04`, and `P3-01` are unchanged by the review, with `P2-04` explicitly not
+   adjudicated.
+
+**Current gate — exact next task:**
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` — a bounded
+documentation remediation of `P1-01` through `P1-04`, with `P2-01`–`P2-05` and
+`P3-01`–`P3-05` addressed or explicitly adjudicated. Not started. It is not an
+implementation task and authorizes no implementation. `P1-01` and `P1-03` may
+require a companion amendment to the canonical owner documents under those
+documents' own amendment rules rather than a unilateral change to the Agent
+Runtime specification; that choice belongs to the Operator.
+
+**`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` is not eligible for
+authorization.** Blocked pending remediation, a subsequent independent review,
+and separate explicit Operator authorization, in this recommended order: Agent
+Package Contract; Framework Bridge Contract; Shared Context Bridge; Agent
+Runtime Scaffold (inert, no framework process, no provider call, no credential,
+no model call, no tool execution, no deployment); Scaffold Review; first Agent
+Package; Cross-Agent Smoke (inert modes only); Integration Review. None of
+these is authorized by this queue entry. Agent Runtime implementation remains
+blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 ("first execution-capable
