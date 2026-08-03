@@ -31,8 +31,9 @@ task. Full narrative detail lives in `shared_context/ROADMAP.md`,
 | `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` | `COMPLETE` (local, not pushed) — gate `FAIL_REMEDIATION_REQUIRED` | `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_001.md` |
 | `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` | `COMPLETE` (local, not pushed) — unverified pending review | `docs/decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001.md` |
 | `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` | `COMPLETE` (local, not pushed) — gate `PASS_WITH_NON_BLOCKING_FINDINGS` | `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md` |
-| `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` | `IN_PROGRESS` | This documentation-synchronization entry; full Agent Package Contract specification document itself remains to be drafted. See `ROADMAP.md`'s "Developer Platform & Agent Package Ecosystem" section and `AGENT_HANDOFF.md`'s Latest Update. |
-| Framework Bridge Contract | `BLOCKED` | Requires its own gate after Agent Package Contract Spec 001. |
+| `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` | `COMPLETE` (specification only, local, not pushed) — **unverified** | `docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md`, `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md` |
+| `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` | `ELIGIBLE` | Exact next task: independent, read-only review of the specification above. Not started. |
+| Framework Bridge Contract | `BLOCKED` | Requires its own gate after Agent Package Contract Spec Review 001. |
 | Shared Context Bridge | `BLOCKED` | Requires its own gate. |
 | Agent Runtime Scaffold (inert) | `BLOCKED` | No framework process, provider call, credential, model call, tool execution, or deployment permitted even once started. |
 | Scaffold Review | `BLOCKED` | Requires Scaffold to exist first. |
@@ -58,6 +59,26 @@ Runtime track above.
 | `MELLYCORE-MCP-LAYER-SPEC-001` | `PLANNED` | MCP Registry: Model Context Protocol server registration and discovery, provider-agnostic. |
 | `MELLYCORE-DEVELOPER-PLATFORM-SPEC-001` | `PLANNED` | Umbrella spec unifying the five registries above with Package Validation, Package Lifecycle, and Package Distribution. |
 | `MELLYCORE-PACKAGE-ECOSYSTEM-SPEC-001` | `PLANNED` | Distribution, discovery, and trust model for third-party Agent Packages. |
+
+### Agent Package Contract Follow-Ups (Named by Spec §26; No Task ID Assigned Yet)
+
+`docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md` §26 names twelve
+follow-up contracts. Five overlap in scope with the rows above (Skill, Hook,
+Command, Plugin, and MCP Registries); six are net-new concepts not yet named
+with a task ID anywhere else in this repository, listed here as `PLANNED`
+concepts only, per the same rule this index applies elsewhere — no row here
+is a task ID until `ROADMAP.md` or `RUN_QUEUE.md` names one:
+
+- Agent Manifest contract
+- Capability Contract
+- Package Validation
+- Package Lifecycle
+- Package Distribution
+- Package Repository (the Agent Package Store / Package Registry
+  implementation itself)
+
+Plus one review: the Batch Orchestration compatibility review named in §26,
+which requires a Batch Orchestration contract to exist first.
 
 ## Completed Milestones (Pre-Agent-Runtime)
 

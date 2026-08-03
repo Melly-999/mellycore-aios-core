@@ -953,40 +953,54 @@ repaired. Durable evidence:
 `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md`,
 `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002.md`.
 
-**Current — in progress:**
+**Current — specification drafted, unverified, pending independent review:**
 `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — Operator-directed in this
-session (2026-08-03) via direct chat instruction, which serves as the
-required explicit authorization for this documentation-only task. **Scope
-of this entry: a documentation-synchronization pass** — introducing the
-Developer Platform and Agent Package Ecosystem planning direction across
-`shared_context/ROADMAP.md` (new "Developer Platform & Agent Package
-Ecosystem" section), this file, `shared_context/PROJECT_STATE.md`,
-`shared_context/PROJECT_HISTORY.md` (new canonical file), and
-`shared_context/TASK_INDEX.md` (new canonical file). **The Agent Package
-Contract specification document itself (the full, reviewed, section-by-section
-spec in the style of `docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md`)
-is not yet drafted** — that remains a separately tracked next step under this
-same task ID, still subject to its own independent review and gate exactly
-like the Agent Runtime spec above. Nothing implemented, connected, or
-executed by this entry: no registry, validator, CLI command, plugin loader,
-or MCP integration exists.
+session (2026-08-03) via direct chat instruction. Two sub-phases now
+complete under this one task ID:
 
-Nine new planned layers were named (all **planned**, none specified beyond a
-one-paragraph description, none implemented): Shared Context Expansion,
-Multi-Agent Workflow, Commands Layer, Skills Layer, Hooks Layer, Plugin
-Layer, MCP Layer, Developer Platform (umbrella), Package Ecosystem. Task
-identifiers and current status: `shared_context/TASK_INDEX.md`.
+1. A documentation-synchronization pass — introduced the Developer Platform
+   and Agent Package Ecosystem planning direction across
+   `shared_context/ROADMAP.md`, this file, `shared_context/PROJECT_STATE.md`,
+   `shared_context/PROJECT_HISTORY.md`, and `shared_context/TASK_INDEX.md`.
+2. **The actual specification.** Canonical:
+   `docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md` (29 sections).
+   Durable report: `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md`.
+   Complete as one local documentation commit on
+   `docs/mellycore-agent-package-contract-spec-001`; **not pushed.**
+   **Unverified** — no independent review has run; this specification is
+   **not accepted**.
 
-**Still blocked**, each requiring its own gate and separate explicit Operator
-authorization, in this recommended order: the Agent Package Contract
-specification draft itself (remainder of the current task); Framework
-Bridge Contract; Shared Context Bridge; Agent Runtime Scaffold (inert, no
-framework process, no provider call, no credential, no model call, no tool
-execution, no deployment); Scaffold Review; first Agent Package; Cross-Agent
-Smoke (inert modes only); Integration Review; and, following those, each of
-the nine Developer Platform layer specs listed above, each independently
-gated. None of these is authorized by this queue entry. Agent Runtime
-implementation remains blocked.
+Defines the Agent Package's identity, boundary, layout, manifest
+relationships, five-state capability separation, twelve-category
+permission/approval model, dependency model, six-framework compatibility
+projection, Skill/Command/Hook/Plugin/MCP asset boundaries, Shared Context
+interaction, nine-stage Agent Runtime interaction, eleven-state package
+lifecycle, nine-layer validation model, seven-category trust vocabulary,
+observability, error taxonomy, Batch Orchestration eligibility declarations,
+security considerations, and twelve named follow-up contracts. Every
+identifier and required field the Agent Runtime spec already fixed is
+reused verbatim; no concern is duplicated (full ownership map:
+`docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md` §4–§5).
+
+Nothing implemented, connected, or executed: no Agent Package Store,
+Package Registry, Package Validator, loader, Skill/Hook/Command/Plugin/MCP
+registry, or signing mechanism exists; no package, manifest, or artifact
+exists; no agent framework is installed, imported, connected, or executed;
+no provider is connected; no credential is configured.
+
+**Still blocked**, each requiring its own gate and separate explicit
+Operator authorization, in this recommended order:
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` (exact next task — an
+independent, read-only review of the specification above, in the same
+review/remediation/review sequence already applied to the Agent Runtime
+architecture); Framework Bridge Contract; Shared Context Bridge; Agent
+Runtime Scaffold (inert, no framework process, no provider call, no
+credential, no model call, no tool execution, no deployment); Scaffold
+Review; first Agent Package; Cross-Agent Smoke (inert modes only);
+Integration Review; and, following those, the twelve named follow-up
+contracts (§26 of the new spec), each independently gated. None of these is
+authorized by this queue entry. Agent Runtime implementation remains
+blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 ("first execution-capable

@@ -112,14 +112,29 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
 4. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` — gate
    `PASS_WITH_NON_BLOCKING_FINDINGS` (P0 0 / P1 0 / P2 0 / P3 1 new,
    `NEW-P3-01`). Architecture accepted as canonical foundation for this track.
-5. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — **current active task**
-   (started this entry; see `shared_context/AGENT_HANDOFF.md`'s Latest
-   Update). Documentation-only: records the Developer Platform and Agent
-   Package Ecosystem planning direction across `shared_context/ROADMAP.md`,
-   `RUN_QUEUE.md`, `PROJECT_STATE.md`, this file, and `TASK_INDEX.md`.
-   Nothing implemented; no registry, validator, CLI command, plugin loader,
-   or MCP integration exists. Full detail: `shared_context/ROADMAP.md`'s
-   "Developer Platform & Agent Package Ecosystem" section.
+5. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — two sub-phases complete
+   under one task ID. **Phase 1** (documentation synchronization): recorded
+   the Developer Platform and Agent Package Ecosystem planning direction
+   across `shared_context/ROADMAP.md`, `RUN_QUEUE.md`, `PROJECT_STATE.md`,
+   this file, and `TASK_INDEX.md`. **Phase 2** (the specification itself,
+   **current active task**; see `shared_context/AGENT_HANDOFF.md`'s Latest
+   Update): drafted the canonical Agent Package Contract —
+   `docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md` (29 sections,
+   durable report `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md`)
+   — defining package identity, boundary, layout, manifest relationships, a
+   five-state capability separation, a permission/approval model, a
+   dependency model, six-framework compatibility projection,
+   Skill/Command/Hook/Plugin/MCP asset boundaries, Shared Context and Agent
+   Runtime interaction, an eleven-state package lifecycle, validation,
+   trust and provenance, observability, error taxonomy, Batch Orchestration
+   eligibility, security considerations, and twelve named follow-up
+   contracts. **Unverified; not accepted.** Complete as one local
+   documentation commit on
+   `docs/mellycore-agent-package-contract-spec-001`, not pushed. Nothing
+   implemented; no Agent Package Store, Package Registry, Package
+   Validator, loader, registry, or signing mechanism exists. Full detail:
+   `shared_context/PROJECT_STATE.md`'s "Agent Package Contract Spec 001 —
+   Specification Drafted" section.
 
 ## How to Extend This File
 

@@ -1,6 +1,79 @@
 # Agent Handoff
 
-## Latest Update — Developer Platform & Agent Package Ecosystem direction documented; MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001 in progress; nothing implemented, connected, or executed
+## Latest Update — Agent Package Contract specification drafted; unverified, pending independent review; nothing implemented, connected, or executed
+
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001`
+
+- Completed the actual specification work this task ID's prior
+  documentation-synchronization entry (below) explicitly deferred. Canonical
+  specification: `docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md`
+  (29 sections). Durable report:
+  `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md`. Complete as one
+  local documentation commit on
+  `docs/mellycore-agent-package-contract-spec-001`; **not pushed**.
+- **Unverified.** No independent architecture, security, or consistency
+  review has run. This specification is **not accepted** until
+  `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` passes, in the same
+  spec → review → remediation → review sequence already used for the Agent
+  Runtime architecture.
+- **Reuse over invention.** Every identifier and required field the Agent
+  Runtime spec already fixed — `agent_definition_id`, `package_revision_id`,
+  the six-member `framework_type` set, and all eighteen §10.1 package
+  fields — is reused verbatim. This contract adds only the declarations
+  Runtime §10 explicitly reserved for it: identity, boundary, layout,
+  manifest relationships, a five-state capability separation (declared →
+  runtime-supported → policy-allowed → operator-approved → active), a
+  twelve-category default-deny permission/approval model, a dependency
+  model, a six-framework compatibility projection naming no framework
+  canonical owner, Skill/Command/Hook/Plugin/MCP asset boundaries, an
+  eight-rule Shared Context interaction boundary, a nine-stage Runtime
+  interaction contract, an eleven-state package lifecycle, a nine-layer
+  validation model, a seven-category trust vocabulary, eleven observability
+  projections, a fifteen-class error taxonomy, Batch Orchestration
+  eligibility declarations, twelve security-threat mitigation postures, and
+  twelve named follow-up contracts.
+- **No concern duplicated.** MCP Declarations reference Provider Registry
+  §24 server records; they never register or redefine one. Package
+  capability declarations are requests only; the Integration Gateway
+  remains sole resolver and enforcer. Package lifecycle and trust states
+  project one-directionally onto the Control Plane's six existing status
+  dimensions, exactly as `run_state` already does, and create no seventh
+  dimension. Control Plane's `Skill`/`Tool`/`Agent` entities remain
+  byte-identical downstream projection targets, not redefined. Full owner
+  map: `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md` §4.
+- **No signing claimed.** The trust vocabulary (§19) names seven categories
+  without asserting any cryptographic mechanism exists; every package
+  defaults to `unsigned_or_unverified`.
+- Recorded honestly: **no Agent Package Store, Package Registry, Package
+  Validator, loader, Skill/Hook/Command/Plugin/MCP registry, or signing
+  mechanism exists.** No package, manifest, or artifact exists anywhere in
+  this repository. No agent framework is installed, imported, connected, or
+  executed; no agent has been executed; no model provider, tool, or
+  credential is connected or configured. No deployment, push, pull request,
+  or merge occurred.
+- Validation: exactly eight files changed (two new, six edited); no source
+  or test file changed. The specification's own §1.4 metrics table was
+  recomputed against its cited sections and four counting errors were
+  found and corrected before commit. Every `[[...]]` cross-reference
+  resolves to an existing repository file. `pytest`, black, flake8, and
+  mypy were not run and are not claimed passing.
+- **Not reopened, not reordered.** The Agent Runtime architecture gate
+  (Review 002, `PASS_WITH_NON_BLOCKING_FINDINGS`) is not reopened. Framework
+  Bridge Contract, Shared Context Bridge, Agent Runtime Scaffold, first
+  Agent Package, Cross-Agent Smoke, and Integration Review remain blocked,
+  as does Agent Runtime implementation. The twelve named follow-up
+  contracts remain unauthorized to begin their own specification work. The
+  global higher-priority pointer
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged,
+  in place, and independently governed.
+- Exact next task: `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` — an
+  independent, read-only review of this specification. Not started, not
+  authorized by this entry.
+- Durable evidence:
+  `docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md`,
+  `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md`.
+
+## Previous Update — Developer Platform & Agent Package Ecosystem direction documented; MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001 in progress; nothing implemented, connected, or executed
 
 `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001`
 

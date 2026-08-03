@@ -774,20 +774,62 @@ place, and independently governed.
    `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md`,
    `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002.md`.
 
-5. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — **exact next task on this
-   track.** A documentation-only Agent Package Contract specification, now
-   **eligible for separate Operator authorization** under the `NEW-P3-01`
-   constraint. Not started and not authorized by item 4.
+5. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — **specification drafted;
+   unverified; pending independent review.** Operator-authorized in chat
+   session 2026-08-03 under the `NEW-P3-01` eligibility constraint. Canonical
+   specification: `docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md`
+   (29 sections). Durable report:
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md`. Full detail:
+   `shared_context/PROJECT_STATE.md`'s "Agent Package Contract Spec 001 —
+   Specification Drafted" section.
 
-**Architecture accepted; Agent Package Contract eligible, not authorized.**
+   Defines the Agent Package as the provider-agnostic, portable package
+   boundary: identity (reusing Runtime §8.1's identifiers and §10.1's
+   eighteen required fields verbatim); a permitted/prohibited content
+   boundary; a nine-category asset layout; manifest relationships to a
+   future Agent Manifest and to Skill/Command/Hook/Plugin/MCP declarations
+   (each bounded, not fully specified); a five-state capability separation
+   (declared → runtime-supported → policy-allowed → operator-approved →
+   active); a twelve-category default-deny permission/approval model; a
+   dependency model; a six-framework compatibility projection naming no
+   framework canonical owner; an eight-rule Shared Context interaction
+   boundary that leaves the existing Context Gate unweakened; a nine-stage
+   Runtime interaction contract; an eleven-state package lifecycle
+   (distinct from Runtime's seventeen `run_state` values and Control
+   Plane's six status dimensions, projecting onto them one-directionally
+   without creating a seventh); a nine-layer validation model in which
+   validation success is explicitly not execution authorization; a
+   seven-category trust vocabulary claiming no signing mechanism; eleven
+   observability projections; a fifteen-class error taxonomy; Batch
+   Orchestration eligibility declarations; twelve security-threat
+   mitigation postures; and twelve named follow-up contracts (Agent
+   Manifest, Capability Contract, Skill/Hook/Command/Plugin/MCP Registries,
+   Package Validation, Package Lifecycle, Package Distribution, Package
+   Repository, and a Batch Orchestration compatibility review).
+
+   **Specification-level only, unverified.** No Agent Package Store, Package
+   Registry, Package Validator, loader, registry, or signing mechanism is
+   implemented. No package, manifest, or artifact exists. No agent
+   framework is installed, imported, connected, or executed. No provider is
+   connected, no credential configured. No deployment, push, pull request,
+   or merge occurred; complete as one local documentation commit on
+   `docs/mellycore-agent-package-contract-spec-001`, not pushed.
+
+   Exact next task: `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` — an
+   independent, read-only review, in the same review/remediation/review
+   sequence already applied to the Agent Runtime architecture. Not started,
+   not authorized by this item.
+
+**Architecture accepted; Agent Package Contract drafted, unverified.**
 Review 002 accepted `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical
 architectural foundation for this track under one non-blocking constraint, and
 confirmed that all eighteen Agent Package concerns are specifiable without
-architectural invention. Eligibility is not authorization. The remaining
+architectural invention. Drafting is not acceptance. The remaining
 recommended, **not authorized**, successors — each requiring its own gate, in
-this order — are: Framework Bridge Contract; Shared Context Bridge; Agent Runtime
-Scaffold (inert); Scaffold Review; first Agent Package; Cross-Agent Smoke (inert
-modes only); Integration Review. Agent Runtime implementation remains blocked.
+this order — are: Agent Package Contract Review 001; Framework Bridge
+Contract; Shared Context Bridge; Agent Runtime Scaffold (inert); Scaffold
+Review; first Agent Package; Cross-Agent Smoke (inert modes only);
+Integration Review. Agent Runtime implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 before it may proceed to
