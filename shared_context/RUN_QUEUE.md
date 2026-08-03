@@ -903,24 +903,54 @@ place, and independently governed.
    `P2-04`, and `P3-01` are unchanged by the review, with `P2-04` explicitly not
    adjudicated.
 
+3. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` — **complete as
+   one local documentation commit; not pushed.** Remediates all fourteen
+   Review 001 findings. Seam-decision record, created **before** any owner edit:
+   `docs/decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001.md`.
+   Full detail: `shared_context/PROJECT_STATE.md`'s "Agent Runtime Architecture
+   Spec Remediation 001" section and `shared_context/ROADMAP.md`'s "Agent
+   Runtime — Product Track".
+
+   `P1-01` closed by a minimal additive Control Plane amendment plus a complete
+   17-row projection in which no state projects to `active`. `P1-02` closed
+   inside the Agent Runtime with the **Provider Registry byte-identical** and
+   its eight facts unchanged. `P1-03` closed by a minimal additive AI Operations
+   amendment under which attempts are never deduplicated and existing loop
+   ledgers remain conforming unmodified. `P1-04` closed by adding the escalation
+   transitions and closing the transition table. All five P2 and all five P3
+   findings closed; counts recalculated from the document's own tables.
+
+   **Owner documents amended: two, both additively.** Provider Registry,
+   Integration Gateway, Operations Data Contract, Loop Operations, all loop
+   schemas, all Shared Context contracts, the Safety Contract, the Enterprise
+   Provider ADR, both prior reviews, and both original task reports remain
+   byte-identical.
+
+   Recorded honestly: **remediation claims are unverified pending Review 002**
+   and the architecture gate is **not** re-opened by this task; **no runtime
+   implemented**; **no agent framework connected, installed, or imported**; **no
+   agent executed**; **no model provider connected**; **no tool connected**;
+   **no provider connected**; **no credential configured**; **no context or
+   memory backend implemented**; **no queue implemented**; **no frontend
+   implemented**. No deployment, push, pull request, or merge occurred. Exactly
+   one network operation: one authorized read-only `git fetch clean-origin`.
+
 **Current gate — exact next task:**
-`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` — a bounded
-documentation remediation of `P1-01` through `P1-04`, with `P2-01`–`P2-05` and
-`P3-01`–`P3-05` addressed or explicitly adjudicated. Not started. It is not an
-implementation task and authorizes no implementation. `P1-01` and `P1-03` may
-require a companion amendment to the canonical owner documents under those
-documents' own amendment rules rather than a unilateral change to the Agent
-Runtime specification; that choice belongs to the Operator.
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` — an independent,
+read-only re-review of the remediated architecture, the seam-decision record,
+and both owner amendments. Not started. It is not an implementation task and
+authorizes no implementation.
 
 **`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` is not eligible for
-authorization.** Blocked pending remediation, a subsequent independent review,
-and separate explicit Operator authorization, in this recommended order: Agent
-Package Contract; Framework Bridge Contract; Shared Context Bridge; Agent
-Runtime Scaffold (inert, no framework process, no provider call, no credential,
-no model call, no tool execution, no deployment); Scaffold Review; first Agent
-Package; Cross-Agent Smoke (inert modes only); Integration Review. None of
-these is authorized by this queue entry. Agent Runtime implementation remains
-blocked.
+authorization.** Blocked pending Review 002 and separate explicit Operator
+authorization, in this recommended order: Agent Package Contract; Framework
+Bridge Contract; Shared Context Bridge; Agent Runtime Scaffold (inert, no
+framework process, no provider call, no credential, no model call, no tool
+execution, no deployment); Scaffold Review; first Agent Package; Cross-Agent
+Smoke (inert modes only); Integration Review. None of these is authorized by
+this queue entry. Agent Runtime implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 ("first execution-capable

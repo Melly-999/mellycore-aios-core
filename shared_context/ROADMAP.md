@@ -697,23 +697,69 @@ place, and independently governed.
    Nothing was implemented, connected, or executed. Exactly one network
    operation occurred: one authorized read-only `git fetch clean-origin`.
 
-3. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` — **exact next
-   task on this track.** A bounded documentation remediation of `P1-01` through
-   `P1-04`, with `P2-01`–`P2-05` and `P3-01`–`P3-05` addressed or explicitly
-   adjudicated. Not started, not authorized by item 2, and not an
-   implementation task. `P1-01` and `P1-03` may require a companion amendment
-   to the canonical owner documents under those documents' own amendment rules
-   rather than a unilateral change to the Agent Runtime specification; that
-   choice belongs to the Operator.
+3. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` — **complete as
+   one local documentation commit; not pushed.** Remediates all fourteen
+   Review 001 findings. Canonical seam-decision record, written **before** any
+   owner document was edited:
+   `docs/decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001.md`.
 
-**Blocked pending remediation, a subsequent independent review, and separate
-explicit Operator authorization** — `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001`
-is **not eligible** for authorization. The recommended, **not authorized**,
-successors — each requiring its own gate, in this order — are: Agent Package
-Contract; Framework Bridge Contract; Shared Context Bridge; Agent Runtime
-Scaffold (inert); Scaffold Review; first Agent Package; Cross-Agent Smoke
-(inert modes only); Integration Review. Agent Runtime implementation remains
-blocked.
+   Three of the four blocking findings were seam conflicts across three owners.
+   Rule applied throughout: the existing owner wins unless it provably cannot
+   represent the required semantics, and no seam is hidden by redefining another
+   subsystem's vocabulary inside the Agent Runtime document.
+
+   `P1-01` — the Control Plane lifecycle enum had no member meaning "executing"
+   and forbids `active` for a running agent, so it was **minimally amended**
+   (one additive member `running`, one §8.2 clause, three module Run lifecycle
+   sets extended) with the `active` prohibition preserved verbatim; the Agent
+   Runtime now publishes a complete 17-row projection in which no state projects
+   to `active`. `P1-02` — resolved **entirely inside the Agent Runtime**; the
+   Provider Registry is **byte-identical** and its eight facts remain exactly
+   eight; runtime facts 5 and 6 became runtime-scoped records over a disjoint
+   agent capability vocabulary, and fact evaluation points were fixed (1–8
+   run-admission, 9–11 per-invocation). `P1-03` — AI Operations Intelligence §5
+   was **minimally amended** with `ledger_record_id`, optional `attempt_id`, and
+   optional `run_kind`, plus a §5.9 rule that attempts are never deduplicated
+   and logical-run summaries are derived rather than substituted; existing loop
+   ledgers remain conforming unmodified. `P1-04` — the three in-flight waiting
+   states may now escalate to `waiting_for_operator`, the transition table is
+   closed, and new §12.3.1 fixes predecessors, triggers, evidence, and release.
+
+   P2 closures: deterministic six-condition stale-snapshot policy; immutable
+   envelope revision chain with an 8-step authorization sequence; `run_kind`
+   identity namespacing that keeps agent runs and loop runs unconfusable without
+   renaming or absorbing Loop Operations; single-winner atomic broadcast
+   acceptance where racing grants no scope; and a 16-row restart-recovery matrix
+   in which no unknown attempt is blindly redispatched. P3 closures: all counts
+   recalculated from the document's own tables and fixed as normative metrics —
+   trace **17** fields, handoff contents **12**, error taxonomy **49 rows / 49
+   classes** under a one-class-per-row invariant, and **42** deterministic
+   scenarios.
+
+   **Owner documents amended: two, both additively** — Control Plane and AI
+   Operations Intelligence. Provider Registry, Integration Gateway, Operations
+   Data Contract, Loop Operations, all loop schemas, all Shared Context
+   contracts, the Safety Contract, the Enterprise Provider ADR, both prior
+   reviews, and both original task reports are **byte-identical**.
+
+   **Remediation claims are unverified**, and this task does **not** re-open the
+   architecture gate. Nothing was implemented, connected, or executed; exactly
+   one authorized read-only `git fetch clean-origin` used the network.
+
+4. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` — **exact next task
+   on this track.** An independent, read-only re-review of the remediated
+   architecture, the seam-decision record, and both owner amendments. Not
+   started, not authorized by item 3, and not an implementation task.
+
+**Blocked pending Review 002 and separate explicit Operator authorization** —
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` is **not eligible** for
+authorization. The recommended, **not authorized**, successors — each requiring
+its own gate, in this order — are: Agent Package Contract; Framework Bridge
+Contract; Shared Context Bridge; Agent Runtime Scaffold (inert); Scaffold
+Review; first Agent Package; Cross-Agent Smoke (inert modes only); Integration
+Review. Agent Runtime implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 before it may proceed to

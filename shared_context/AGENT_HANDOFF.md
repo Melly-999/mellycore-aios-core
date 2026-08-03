@@ -1,6 +1,97 @@
 # Agent Handoff
 
-## Latest Update — Agent Runtime architecture gate FAILED; remediation required; nothing implemented, connected, or executed
+## Latest Update — Agent Runtime architecture seams remediated; unverified pending Review 002; nothing implemented, connected, or executed
+
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001`
+
+- Remediated all fourteen findings of Architecture Review 001 (P0 = 0, P1 = 4,
+  P2 = 5, P3 = 5) in one local documentation commit; **not pushed**.
+- **A canonical seam-decision record was created before any owner document was
+  edited**: `docs/decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001.md`.
+  Durable report:
+  `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001.md`.
+- Governing rule: the existing canonical owner wins unless it **provably cannot
+  represent** the required semantics; a seam is never hidden by redefining
+  another subsystem's vocabulary inside the Agent Runtime document. Every
+  rejected alternative is recorded with its reason.
+- **`P1-01`** — the Control Plane lifecycle enum contained no member meaning
+  "executing" and §8.2 explicitly forbids `active` for a running agent, so the
+  owner was **minimally amended**: one additive member `running`, one §8.2
+  clause, and the Run lifecycle sets in §9.5/§9.7/§9.10 extended. The `active`
+  prohibition is preserved **verbatim**. The Agent Runtime now publishes a
+  complete 17-row projection table — six states project to `running`, two to
+  `blocked`, and **none to `active`**.
+- **`P1-02`** — resolved **entirely inside the Agent Runtime**. The Provider
+  Registry is **byte-identical** and its eight facts remain exactly eight. Facts
+  5 and 6 became runtime-scoped records
+  (`tenant_agent_runtime_authorization`, `tenant_agent_capability_authorization`)
+  over an agent capability vocabulary explicitly disjoint from the provider
+  vocabulary, with rules in both directions preventing either record type from
+  satisfying the other's fact. Evaluation points fixed: facts 1–8 are
+  run-admission, facts 9–11 per-invocation.
+- **`P1-03`** — deduplication keyed on `run_id` alone cannot preserve two
+  attempts, so AI Operations Intelligence §5 was **minimally amended**:
+  `ledger_record_id` as the dedup identity, optional `attempt_id`, optional
+  `run_kind`, and a §5.9 rule that records differing in `attempt_id` are
+  distinct and **MUST NOT be deduplicated**, with logical-run summaries derived
+  and never replacing attempt evidence. All fields optional with defined absent
+  semantics, so **existing loop run ledgers remain conforming unmodified** and
+  the higher-precedence loop schemas were not edited.
+- **`P1-04`** — the three in-flight waiting states may now escalate to
+  `waiting_for_operator`; the transition table is declared **closed**; new
+  §12.3.1 fixes the four predecessors, the escalation triggers, mandatory
+  evidence, and the release conditions.
+- **P2 closures**: deterministic six-condition stale-snapshot policy with
+  materiality by enumeration and a fail-closed default (§17.4); immutable
+  envelope revision chain with an explicit 8-step authorization sequence, where
+  a routing decision after authorization is a step-scoped artifact that never
+  re-digests the envelope (§15.4); `run_kind` identity namespacing keeping agent
+  runs and loop runs unconfusable **without renaming or absorbing** the Loop
+  Operations model (§8.4); single-winner atomic broadcast acceptance where **no
+  recipient gains scope by racing** (§20.4); and a 16-row restart-recovery
+  matrix in which **no unknown attempt is ever blindly redispatched** (§29.3).
+- **P3 closures**: every count recalculated from the document's own tables and
+  recorded as normative metrics in new §1.4 — context-flow trace **17** fields,
+  handoff envelope contents **12**, error taxonomy **49 rows / 49 distinct class
+  names** under a new one-class-per-row invariant, and **42** deterministic
+  scenarios (32 original + 10 additional, added as §38.1).
+  `INSUFFICIENT_PRICING_DATA` given an owner and definition; the nine-state ↔
+  eleven-fact mapping stated (§9.1); normative wording made
+  implementation-neutral with the Python form marked non-normative.
+- **Canonical owners amended: two, both additively** — Control Plane and AI
+  Operations Intelligence. **Byte-identical and unchanged**: Provider Registry,
+  Integration Gateway, Operations Data Contract, Loop Operations Architecture,
+  all loop schemas, all Shared Context contracts, Safety Contract, Validation,
+  the Enterprise Provider ADR, both prior reviews, and both original task
+  reports.
+- **Remediation claims are unverified.** This task remediated its own reviewed
+  findings; no independent party has confirmed the closures, and **the
+  architecture gate is not re-opened by this task**.
+- Recorded honestly: **no runtime implemented**; **no agent framework connected,
+  installed, or imported**; **no agent executed**; **no model provider
+  connected**; **no tool connected**; **no provider connected**; **no credential
+  configured**; **no context or memory backend implemented**; **no queue
+  implemented**; **no frontend implemented**. Exactly one network operation
+  occurred: one authorized read-only `git fetch clean-origin`.
+- Validation: exactly nine approved files changed; no source or test file
+  changed. Table counts were verified programmatically rather than asserted, and
+  one draft assertion was corrected to the measured value before commit.
+  `pytest: NOT_RUN — no source or test files changed.` Black, flake8, and mypy
+  were not run and are not claimed passing.
+- **Agent Package Contract remains blocked** pending Review 002, as do the
+  Framework Bridge Contract, Shared Context Bridge, Agent Runtime Scaffold,
+  first Agent Package, Cross-Agent Smoke, and Integration Review. Agent Runtime
+  implementation remains blocked.
+- Exact next task: `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` — an
+  independent, read-only re-review of the remediated architecture, the
+  seam-decision record, and both owner amendments.
+- Live provider work remains deferred and blocked. Migration triggers #1, #4,
+  #5, #6, and #7 remain uncrossed.
+- The pre-existing global higher-priority pointer
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
+  place, and independently governed.
+
+## Previous Update — Agent Runtime architecture gate FAILED; remediation required; nothing implemented, connected, or executed
 
 `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001`
 
@@ -73,13 +164,10 @@
   Context Bridge, Agent Runtime Scaffold, first Agent Package, Cross-Agent
   Smoke, and Integration Review **remain blocked**. Agent Runtime
   implementation remains blocked.
-- Exact next task:
-  `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` — a bounded
-  documentation remediation of `P1-01` through `P1-04`, with `P2-01`–`P2-05` and
-  `P3-01`–`P3-05` addressed or explicitly adjudicated. Not started and not
-  authorized by this review. `P1-01` and `P1-03` may require a companion
-  amendment to the canonical owner documents under those documents' own
-  amendment rules; that choice belongs to the Operator.
+- Exact next task **at the time of that review**:
+  `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001`. That pointer is a
+  creation-time historical snapshot and is **superseded**: the remediation has
+  since completed, and the live pointer is the Latest Update above.
 - Live provider work remains deferred and blocked. Migration triggers #1, #4,
   #5, #6, and #7 remain uncrossed.
 - The pre-existing global higher-priority pointer

@@ -245,7 +245,10 @@ A normalized, append-oriented record for every agent/model task execution across
 | Field | Type | Notes |
 |---|---|---|
 | `schema_version` | string | Contract version. |
-| `run_id` | string | Stable unique run identity (compatible with the existing run-ledger `run_id` form). |
+| `ledger_record_id` | string | Stable unique identity of **this ledger record**. It, not `run_id`, is the deduplication identity (Section 5.9). Absent on a record produced before this field existed, in which case that record's existing identity is used and deduplication reduces to the prior `run_id` behavior. |
+| `run_kind` | enum \| absent | Identity namespace of `run_id`: `loop_run` or `agent_run`. **Absent means `loop_run`**, preserving every existing record unchanged. `run_id` uniqueness and form are scoped *within* a `run_kind`; a `loop_run` identity and an `agent_run` identity are never equivalent, interchangeable, or substitutable for one another, and neither may be projected onto the other. |
+| `run_id` | string | Stable unique run identity within its `run_kind` namespace. For `run_kind: loop_run` this preserves the existing run-ledger `run_id` form exactly. For other kinds the form is defined by that kind's owner and is opaque here. |
+| `attempt_id` | string \| null | The execution attempt this record belongs to, for domains whose runs may be attempted more than once. **`null` or absent means a single-attempt domain**, which is the existing loop behavior. When present, `model`, `provider`, and `outcome` below are attributed to **this attempt**, not to the logical run. |
 | `task_id` | string | The task/loop this run served. |
 | `agent` | string | Actor that performed the run. |
 | `model` | string \| null | Model used, normalized (Section 4.3); `null`/`UNKNOWN` if not applicable. |
@@ -300,7 +303,15 @@ Each `validator_results` entry records the validator identity, verdict (`ACCEPT`
 
 ### 5.9 Deduplication, correction, supersession
 
-Duplicate run events (same `run_id`) are deduplicated to one record. Corrections are made by appending a superseding record referencing the prior one; the history is never silently rewritten (Section 13).
+Deduplication identity is **`ledger_record_id`**. Two deliveries carrying the same `ledger_record_id` are the same record and are deduplicated to one. Corrections are made by appending a superseding record referencing the prior one; the history is never silently rewritten (Section 13).
+
+Records that share a `run_id` but differ in `attempt_id` are **distinct records and MUST NOT be deduplicated**. Attempt evidence is never collapsed, overwritten, or discarded: each attempt's records remain intact, addressable, and independently readable. A retry produces a new `attempt_id`; a replay produces a new `run_id` with a recorded link to its source.
+
+Where a record predates `ledger_record_id` and carries no `attempt_id` — including every existing loop run ledger — its identity is its `run_id` and this section's behavior is exactly as before.
+
+A **logical-run summary** MAY be derived from the complete set of a run's attempt records. It is derived, never stored as a replacement, and MUST NOT erase, supersede, hide, or stand in for attempt-level evidence. Where attempts disagree — different outcomes, models, or providers — the summary reports the disagreement and its basis; it never selects one attempt as the run's truth.
+
+Added by `[[../decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001]]`. The addition is additive and backward compatible; it changes no existing record, contradicts no higher-precedence contract in Section 1.8, and authorizes no persistence or migration.
 
 ---
 

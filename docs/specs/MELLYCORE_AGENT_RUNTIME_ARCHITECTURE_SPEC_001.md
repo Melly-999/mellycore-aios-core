@@ -1,8 +1,15 @@
 # MellyCore Agent Runtime Architecture Spec
 
 **Task ID:** MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001
+**Remediated by:** MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001
 **Contract ID:** MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001
-**Version:** 1.0
+**Version:** 1.1 — remediates the four P1, five P2, and five P3 findings of
+`[[../research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_001]]` under
+`[[../decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001]]`.
+**Verification status:** Remediation claims in this version are **unverified**
+pending `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002`. Version 1.1 does
+not re-open the architecture gate; the gate remains failed until that
+independent review passes.
 **Status:** ACCEPTED as an architecture-level specification only. **This status does not authorize Agent Runtime implementation, framework bridge implementation, agent execution, agent-framework installation or connection, model-provider calls, tool execution, provider authentication, credential configuration, MCP or integration-fabric connection, persistence, queueing, frontend work, or deployment.** It fixes the architecture a later, separately authorized implementation must satisfy.
 **Scope:** Defines how MellyCore AIOS represents, coordinates, isolates, observes, and governs agents implemented with Claude Code, the OpenAI Agents SDK, LangGraph, CrewAI, AutoGen, and custom MellyCore-compatible agents — covering identity, packaging, lifecycle, execution envelopes, framework bridges, shared-context and memory access, handoffs, model routing, tool and provider governance, approvals, run ledger and provenance, tracing, cost, cancellation, retry, reconciliation, isolation, human oversight, observability information architecture, and fail-closed behavior.
 
@@ -67,6 +74,59 @@ separately completed. Triggers #1 (first backend endpoint), #4 (first runtime
 secret), #5 (first live provider connection), and #7 (first external
 write-capable integration) are likewise implicated by later phases of this
 architecture and are not crossed here.
+
+### 1.4 Document metrics (normative)
+
+Every count below was **recalculated from this document's own tables** during
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001`, not carried
+forward. Review 001 recorded three count discrepancies as findings, so these
+figures are normative: a future amendment that changes a table MUST recompute
+and restate the corresponding row here, and any divergence between this table
+and the referenced section is a defect in this document.
+
+| Dimension | Count | Authoritative section |
+| --- | --- | --- |
+| Specification sections | 43 | §1–§43 |
+| Framework types | 6 | §11.1 |
+| Canonical identifiers | 15 | §8.1 |
+| Package/runtime separation states | 9 | §9 |
+| Run lifecycle states | 17 | §12.2 |
+| — terminal / waiting / pending | 5 / 4 / 2 | §12.2 |
+| Lifecycle transition rows | 13 | §12.3 |
+| `waiting_for_operator` predecessors | 4 | §12.3.1 |
+| Forbidden-transition rules | 12 | §12.4 |
+| Authorization facts | 11 | §14 |
+| — run-admission / per-invocation | 8 / 3 | §14.1 / §14.2 |
+| Execution-envelope field groups | 14 | §15.1 |
+| Authorization sequencing steps | 8 | §15.4 |
+| Framework Bridge operations | 9 | §16 |
+| Shared Context operations | 7 | §17.1 |
+| Staleness conditions | 6 | §17.4 |
+| Memory categories | 6 | §18 |
+| Context-flow trace fields | **17** | §19 |
+| Handoff kinds | 6 | §20.1 |
+| Handoff envelope contents | **12** | §20.2 |
+| Broadcast acceptance conditions | 7 | §20.4 |
+| Tool-access stages | 7 | §21.1 |
+| Routing request dimensions | 8 | §23.2 |
+| Routing artifacts | 7 | §23.3 |
+| Ledger record kinds | 14 | §25 |
+| Runtime event categories | 12 | §26.1 |
+| Isolation boundaries | 8 | §29.1 |
+| Race and conflict behaviors | 8 | §29.2 |
+| Recovery matrix rows | 16 | §29.3 |
+| Human-approval triggers | 10 | §30.1 |
+| Security threats | 16 | §31 |
+| Error taxonomy **rows** | **49** | §33 |
+| Error taxonomy **distinct class names** | **49** | §33 |
+| Operator views | 13 | §34 |
+| Framework compatibility matrix | 6 × 13 | §35 |
+| Runtime modes | 7 | §36 |
+| Deterministic scenarios | **42** (32 original + 10 additional) | §38, §38.1 |
+
+Row and class counts for §33 are stated separately and are equal by
+construction: the table carries exactly one class per row, and §33 requires that
+property to be preserved.
 
 ## 2. Purpose
 
@@ -295,11 +355,14 @@ normalized reference fields, and, because the digest was computed over
 
 Normative rules at every Agent Runtime trust boundary:
 
-1. **Exact built-in primitive types only.** A value declared as a string,
-   integer, boolean, or byte string MUST be exactly that built-in type.
-   `type(value) is str` — not `isinstance` — is the required discipline for
-   string-typed fields, and the analogous exact-type check applies to every
-   other primitive.
+1. **Exact primitive types only.** A value declared as a string, integer,
+   boolean, or byte string MUST be exactly that primitive type. The required
+   discipline is an **exact-type identity check**, not a subtype- or
+   interface-compatible check: a value whose type is a *subtype* of the declared
+   primitive does not satisfy the declaration. This applies to every primitive
+   and is language-neutral; each implementation language binds it to its own
+   exact-type test. *(Non-normative illustration: in Python the required test is
+   `type(value) is str`, never `isinstance(value, str)`.)*
 2. **Subclasses are rejected or canonically converted.** A primitive subclass
    MUST be either rejected with `INVALID_CANONICAL_TYPE` or converted to an
    exact built-in primitive **before** any normalization, comparison,
@@ -338,6 +401,32 @@ These rules apply, without exception, to: run fingerprints, context-block
 hashes, artifact references, handoff envelopes, tool-result identities,
 model-response identities, audit records, and replay records.
 
+### 8.4 Run identity namespaces
+
+MellyCore has more than one kind of run. A **loop run** is owned by
+`[[../architecture/MELLYCORE_LOOP_OPERATIONS_ARCHITECTURE_001]]` and
+`shared_context/loops/**`; an **agent run** is owned by this specification.
+They are different concepts with different owners, different lifecycles, and
+different identity forms, and they must never be confused.
+
+`run_kind` is a closed vocabulary at the ledger boundary
+(`[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §5.1) with the members
+`loop_run` and `agent_run`. Normative rules for the Agent Runtime:
+
+| Rule | Requirement |
+| --- | --- |
+| Namespace | `run_id` uniqueness is scoped **within** one `run_kind`. Identity is the pair `(run_kind, run_id)`; a bare `run_id` is not a complete run reference at any trust boundary |
+| Discriminator is mandatory | Every agent run identifier the runtime emits — in envelopes, handoffs, events, ledger records, audit records, and operator projections — carries `run_kind: agent_run` |
+| Form | An agent `run_id` is opaque per §8.2 rule 3. It **MUST NOT** be constructed in, parsed as, or validated against the loop run-ledger form, and the loop form is neither adopted nor extended here |
+| Forbidden substitution | An agent run is never represented as, projected onto, resolved as, counted as, or substituted for a loop run, and the reverse is equally prohibited. A cross-kind lookup denies with `RUN_KIND_MISMATCH`; it does not fall back or return empty |
+| Collision prevention | Because uniqueness is per-namespace, two runs of different kinds may never collide; a value that would resolve in both namespaces is a `DIGEST_COLLISION_SUSPECTED`-class integrity event, not a match |
+| Linkage, not reuse | A loop that causes an agent run records an explicit typed reference `triggering_run_ref = (run_kind, run_id)`. Identity is **referenced**, never **reused**. The agent run keeps its own identity, lifecycle, budget, and authorization |
+| Ownership | This specification does not rename, absorb, extend, or supersede the Loop Operations model. Loop run identity, loop state, and the loop guard contracts remain exactly as their owners define them |
+
+Sub-runs (§13) are agent runs and carry `run_kind: agent_run`; they are
+distinguished from their parent by `sub_run_id` and explicit parentage, never by
+a different kind.
+
 ## 9. Agent definition versus runtime instance
 
 Nine separated states. **No state implies the next.** Each is established,
@@ -359,6 +448,30 @@ Prohibited designs: any `ready`, `enabled`, `installed`, `ok`, `healthy`, or
 `status: active` field standing for two or more of these; any derivation of a
 later state from an earlier one; any UI or API that presents them as one
 progress bar without exposing each independently.
+
+### 9.1 Relationship to the authorization facts (normative)
+
+These nine states and the eleven authorization facts of Section 14 answer
+different questions and are **not** a one-to-one mapping. A separation state
+asks *what exists*; an authorization fact asks *what is permitted*. The exact
+correspondence is:
+
+| # | Separation state | Corresponding fact | Note |
+| --- | --- | --- | --- |
+| 1 | Agent defined | Fact 1 | 1:1 |
+| 2 | Package artifact exists | **none** | Existence of a build artifact is a precondition of verification, never an authorization. There is deliberately no fact 2 for it |
+| 3 | Package verified | Fact 2 | 1:1 |
+| 4 | Package installed | Fact 3 | 1:1 |
+| 5 | Agent registered | Fact 4 | 1:1 |
+| 6 | Runtime enabled | Fact 7 | 1:1 |
+| 7 | Agent instantiated | **none** | Instantiation is a runtime mechanic performed only after facts 1–8 hold; it authorizes nothing |
+| 8 | Run authorized | Fact 8 | 1:1 |
+| 9 | Run active | **none** | Activity is observed evidence, never an authorization |
+
+Facts 5, 6, 9, 10, and 11 have no separation state because they authorize a
+tenant, a capability, a tool, a provider, and an operation rather than an
+artifact's existence. The absence of a fact for states 2, 7, and 9 is
+deliberate: it prevents an existence signal from being read as a grant.
 
 ## 10. Agent package relationship
 
@@ -480,27 +593,71 @@ dimensions." Accordingly:
   `lifecycle_status`, `evidence_state`, `freshness_state`, and
   `approval_state`.
 
+**Projection direction and authority.** The Control Plane owns the
+`lifecycle_status` vocabulary; this specification owns `run_state`. The mapping
+in §12.2 projects `run_state` **onto** `lifecycle_status` in one direction only.
+It is deliberately **lossy** — several `run_state` values legitimately share one
+`lifecycle_status` — and `run_state` remains the authoritative field for every
+runtime decision. No `lifecycle_status` value is ever reversed into a
+`run_state`, and no runtime decision, authorization, transition, or gate is
+taken on a projected value.
+
+**Control Plane dependency (normative).** Every projected value in §12.2 is a
+member of the Control Plane §8.1 lifecycle enum, and every projection respects
+Control Plane §8.2. In particular, an executing agent run projects to
+`lifecycle_status:running`, **never** to `lifecycle_status:active`, which §8.2
+reserves for an effective policy or configuration and explicitly forbids for a
+running agent. The `running` member was added to the Control Plane enum by
+`[[../decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001]]` §6
+because that vocabulary contained no member capable of expressing a live
+execution; this specification defines no status value of its own, adds no
+dimension, and introduces no local alias.
+
 ### 12.2 The seventeen run states
 
-| `run_state` | Terminal? | Meaning | Projects to `lifecycle_status` |
-| --- | --- | --- | --- |
-| `proposed` | No | A run has been requested; nothing validated | `draft` |
-| `validated` | No | Envelope, package, and declarations are structurally valid | `planned` |
-| `authorized` | No | All eleven facts (Section 14) hold | `ready` |
-| `queued` | No | Admitted for scheduling; not started | `queued` |
-| `starting` | No | Instantiation and bridge preparation in progress | `active` |
-| `running` | No | The agent is executing a step | `active` |
-| `waiting_for_model` | No (waiting) | Blocked on a routing decision or model response | `active` |
-| `waiting_for_tool` | No (waiting) | Blocked on a tool result | `active` |
-| `waiting_for_agent` | No (waiting) | Blocked on a handoff or sub-run | `active` |
-| `waiting_for_operator` | No (waiting) | Blocked on a human decision | `blocked` |
-| `cancellation_requested` | No | Cancellation requested; not yet acknowledged or settled | `active` |
-| `reconciliation_required` | No | An external outcome is unknown and must be reconciled | `blocked` |
-| `completed` | **Yes** | The run finished and its output contract was satisfied | `completed` |
-| `failed` | **Yes** | The run finished without satisfying its output contract | `failed` |
-| `cancelled` | **Yes** | Cancellation completed with **no** unknown external effect | `cancelled` |
-| `timed_out` | **Yes** | A limit was reached with **no** unknown external effect | `failed` |
-| `blocked` | **Yes** | The run was refused and will not proceed under this authorization | `blocked` |
+Every row states one Control Plane dimension and one canonical value from that
+dimension's §8.1 enum. No row is ambiguous, and no row uses a value in a sense
+its owner forbids.
+
+| # | `run_state` | Terminal? | Meaning | Control Plane dimension | Canonical projected value | Owner evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | `proposed` | No | A run has been requested; nothing validated | `lifecycle_status` | `draft` | CP §8.1 — progression not yet planned |
+| 2 | `validated` | No | Envelope, package, and declarations are structurally valid | `lifecycle_status` | `planned` | CP §8.1 |
+| 3 | `authorized` | No | The eight run-admission facts (§14) hold | `lifecycle_status` | `ready` | CP §8.1 — prepared, not started |
+| 4 | `queued` | No | Admitted for scheduling; not started | `lifecycle_status` | `queued` | CP §8.1 |
+| 5 | `starting` | No | Instantiation and bridge preparation in progress | `lifecycle_status` | `running` | CP §8.2 — live execution in progress |
+| 6 | `running` | No | The agent is executing a step | `lifecycle_status` | `running` | CP §8.2 |
+| 7 | `waiting_for_model` | No (waiting) | Awaiting a routing decision or model response | `lifecycle_status` | `running` | CP §8.2 — execution in progress, awaiting a machine result |
+| 8 | `waiting_for_tool` | No (waiting) | Awaiting a tool result | `lifecycle_status` | `running` | CP §8.2 |
+| 9 | `waiting_for_agent` | No (waiting) | Awaiting a handoff decision or sub-run | `lifecycle_status` | `running` | CP §8.2 |
+| 10 | `waiting_for_operator` | No (waiting) | Awaiting a human decision | `lifecycle_status` | `blocked` | CP §8.1 — progression halted pending an external decision |
+| 11 | `cancellation_requested` | No (pending) | Cancellation requested; not yet acknowledged or settled | `lifecycle_status` | `running` | CP §8.2 — the run has not stopped; nothing is settled |
+| 12 | `reconciliation_required` | No (pending) | An external outcome is unknown and must be reconciled | `lifecycle_status` | `blocked` | CP §8.1 — an open obligation halts progression |
+| 13 | `completed` | **Yes** | The run finished and its output contract was satisfied | `lifecycle_status` | `completed` | CP §8.1 |
+| 14 | `failed` | **Yes** | The run finished without satisfying its output contract | `lifecycle_status` | `failed` | CP §8.1 |
+| 15 | `cancelled` | **Yes** | Cancellation completed with **no** unknown external effect | `lifecycle_status` | `cancelled` | CP §8.1 |
+| 16 | `timed_out` | **Yes** | A limit was reached with **no** unknown external effect | `lifecycle_status` | `failed` | CP §8.1 — no distinct timeout member; `run_state` carries the distinction |
+| 17 | `blocked` | **Yes** | The run was refused and will not proceed under this authorization | `lifecycle_status` | `blocked` | CP §8.1 |
+
+Projection notes, normative:
+
+1. **Six `run_state` values project to `running`** — rows 5, 6, 7, 8, 9, and 11
+   (`starting`, `running`, `waiting_for_model`, `waiting_for_tool`,
+   `waiting_for_agent`, `cancellation_requested`). They are distinct runtime
+   states and are never merged in `run_state`, in events, in the ledger, or in
+   any operator view; only the coarse Control Plane dimension is shared.
+2. **`waiting_for_operator` and `reconciliation_required` both project to
+   `blocked`** and remain distinct `run_state` values with distinct meanings,
+   distinct exits, and distinct operator obligations. §34 requires both to be
+   displayed by `run_state`, never only by projection.
+3. **`timed_out` projects to `failed`** because the Control Plane enum has no
+   timeout member. The `run_state` retains the honest distinction, and §12.4
+   rule 5 still forbids `timed_out` whenever an external outcome is unknown.
+4. **No value projects to `active`.** `lifecycle_status:active` remains reserved
+   for an effective policy or configuration (Control Plane §8.2) and is never
+   produced by an agent run.
+5. Every projected value is renderable by Control Plane §9.5, §9.7, and §9.10,
+   whose Run lifecycle sets were extended for exactly this purpose.
 
 The four non-terminal **waiting** states are `waiting_for_model`,
 `waiting_for_tool`, `waiting_for_agent`, and `waiting_for_operator`.
@@ -517,23 +674,63 @@ The four non-terminal **waiting** states are `waiting_for_model`,
 | `queued` | `starting`, `cancellation_requested`, `blocked`, `timed_out` |
 | `starting` | `running`, `failed`, `cancellation_requested`, `blocked` |
 | `running` | `waiting_for_model`, `waiting_for_tool`, `waiting_for_agent`, `waiting_for_operator`, `cancellation_requested`, `reconciliation_required`, `completed`, `failed`, `timed_out`, `blocked` |
-| `waiting_for_model` | `running`, `cancellation_requested`, `reconciliation_required`, `failed`, `timed_out`, `blocked` |
-| `waiting_for_tool` | `running`, `cancellation_requested`, `reconciliation_required`, `failed`, `timed_out`, `blocked` |
-| `waiting_for_agent` | `running`, `cancellation_requested`, `reconciliation_required`, `failed`, `timed_out`, `blocked` |
+| `waiting_for_model` | `running`, **`waiting_for_operator`**, `cancellation_requested`, `reconciliation_required`, `failed`, `timed_out`, `blocked` |
+| `waiting_for_tool` | `running`, **`waiting_for_operator`**, `cancellation_requested`, `reconciliation_required`, `failed`, `timed_out`, `blocked` |
+| `waiting_for_agent` | `running`, **`waiting_for_operator`**, `cancellation_requested`, `reconciliation_required`, `failed`, `timed_out`, `blocked` |
 | `waiting_for_operator` | `running`, `cancellation_requested`, `failed`, `timed_out`, `blocked` |
 | `cancellation_requested` | `cancelled`, `reconciliation_required`, `failed`, `completed` |
 | `reconciliation_required` | `completed`, `failed`, `cancelled`, `blocked` |
 | `completed`, `failed`, `cancelled`, `timed_out`, `blocked` | **none** |
 
+**This table is closed.** A transition that does not appear in it is forbidden,
+whether or not §12.4 names it. There are no implicit, derived, or
+convenience transitions, and no transition may be reached by an unstated
+intermediate hop.
+
 `cancellation_requested → completed` is legal and required for the honest case
 in which the run finished before cancellation took effect. It is never used to
 report a cancelled run as successful.
+
+### 12.3.1 Escalation to `waiting_for_operator` (normative)
+
+`waiting_for_operator` has exactly four allowed predecessors: `running`,
+`waiting_for_model`, `waiting_for_tool`, and `waiting_for_agent`. The three
+waiting-state escalations exist because an in-flight wait can produce a result
+that only a human may resolve; without them, the outcomes §23.6, §21.1, and
+§20.3 mandate would be unreachable.
+
+| Escalation trigger | Predecessor | Reason class recorded |
+| --- | --- | --- |
+| Routing returns multiple equally-ranked permitted candidates and no declared tie-breaker resolves them (§23.6) | `waiting_for_model` | `ROUTING_TIE_UNRESOLVED` |
+| A tool invocation requires an operator approval that is not yet held (§21.1 stage 7) | `waiting_for_tool` | `APPROVAL_REQUIRED` |
+| A handoff, sub-run, or context conflict requires operator adjudication (§17.3 rule 3, §20.3) | `waiting_for_agent` | `APPROVAL_REQUIRED` or the recorded conflict class |
+| Any §30.1 trigger arising mid-step | `running` | The applicable §33 class |
+
+Rules:
+
+1. Every escalation appends the §12.5 evidence record, whose `reason_code`
+   names the exact escalation trigger. An escalation without evidence is
+   forbidden by §12.4 rule 9.
+2. The runtime **never** resolves the escalated condition itself. It may not
+   pick a candidate, approve an invocation, or adjudicate a conflict.
+3. Release from `waiting_for_operator` requires a recorded operator decision
+   that is action-, revision-, and time-bound under §30.2. An expired decision
+   releases nothing; the run remains waiting until it expires by its own limit
+   or is blocked.
+4. Returning to `running` carries the operator decision reference. The run
+   resumes at the step that escalated; it does not restart the attempt.
+5. `reconciliation_required` deliberately has **no** transition to
+   `waiting_for_operator`. It is already an operator-visible open obligation
+   (§28 rule 5), and routing it through a waiting state would disguise an
+   unresolved external outcome as an ordinary pause.
 
 ### 12.4 Forbidden transitions (normative)
 
 1. Any transition out of a terminal state.
 2. `proposed`, `validated`, or `queued` directly to `running`.
-3. Any transition to `authorized` without all eleven facts of Section 14.
+3. Any transition to `authorized` without all **eight run-admission facts** of
+   Section 14.1. Facts 9, 10, and 11 are per-invocation facts and are neither
+   evaluated nor satisfiable at run authorization (§14.3).
 4. `cancellation_requested → cancelled` when any external effect is unknown;
    the required transition is `reconciliation_required`.
 5. `waiting_for_*` or `running` → `timed_out` when any external effect is
@@ -545,6 +742,14 @@ report a cancelled run as successful.
 8. Any transition to `completed` when a sub-run, handoff, or required
    validation is unresolved.
 9. Any transition performed without the evidence record of Section 12.5.
+10. Any transition not listed in the §12.3 table, including any transition
+    reached by an unstated intermediate hop.
+11. Any transition to `waiting_for_operator` from a state other than the four
+    predecessors named in §12.3.1, and any release from `waiting_for_operator`
+    without a recorded, unexpired, action- and revision-bound operator decision.
+12. Any resolution of a routing tie, tool approval, or context conflict by the
+    runtime itself, by a silent fallback, by an arbitrary or random selection,
+    or by a timeout that substitutes a default.
 
 ### 12.5 Transition evidence
 
@@ -591,40 +796,87 @@ Normative rules:
 
 ## 14. The eleven authorization facts
 
-Registry §21.1's **eight provider facts remain exactly eight, unmodified**.
-This section adds runtime-layer facts and states which system owns each. All
-eleven are **conjunctive** and **independently established, evidenced, and
-revoked**.
+Registry §21.1's **eight provider facts remain exactly eight, unmodified**, and
+this specification does not amend, restate, extend, or re-scope them. The
+eleven facts below are Agent Runtime facts. All eleven are **conjunctive** and
+**independently established, evidenced, and revoked**.
 
-| # | Fact | Owner | Absence means |
-| --- | --- | --- | --- |
-| 1 | Agent defined | Agent Registry | Unknown agent — deny |
-| 2 | Package verified | Future Agent Package Contract | Unverified — deny |
-| 3 | Package installed | Agent Registry | Not installed — deny |
-| 4 | Agent registered | Agent Registry | Unregistered — deny |
-| 5 | Tenant authorized | Provider Registry custody / tenant policy | Not authorized — deny |
-| 6 | Capability authorized | Tenant-capability authorization record | Not authorized — deny |
-| 7 | Runtime enabled | Explicit runtime enablement for tenant + environment | Not enabled — deny |
-| 8 | Run authorized | Recorded run authorization bound to this exact run and revision | Unauthorized — deny |
-| 9 | Tool authorized | Tool Gateway authorization (Section 21) | Not authorized — deny |
-| 10 | Provider authorized | The eight Registry facts, evaluated by the Gateway | Not authorized — deny |
-| 11 | Operation approved | Operator approval for the exact bound operation, where required | Not approved — deny |
+### 14.1 The eight run-admission facts
 
-Rules:
+These eight are evaluated before a run may enter `authorized` (§12.2 row 3).
+
+| # | Fact | Canonical owner | Evidence record | Subject | Action scope | Tenant scope | Environment scope | Revision binding | Expiry | Denial class |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | **Agent defined** | Agent Registry | Agent definition record | `agent_definition_id` | The agent may be referenced at all | Tenant-scoped | All | — | Non-expiring; revocable by supersession | `AUTHORIZATION_DENIED` |
+| 2 | **Package verified** | Future Agent Package Contract | Package verification evidence (integrity, provenance, signer, digest) | `package_revision_id` | This exact revision may be installed | Tenant-scoped | All | **This revision only** | Re-verification required on revision change | `PACKAGE_UNVERIFIED` |
+| 3 | **Package installed** | Agent Registry | Installation record | `installed_agent_id` | This revision is installed here | Tenant-scoped | **One environment** | This revision only | Until uninstalled or superseded | `AUTHORIZATION_DENIED` |
+| 4 | **Agent registered** | Agent Registry | Conforming current agent record | `agent_definition_id` + `installed_agent_id` | The definition is bound to the installed revision | Tenant-scoped | One environment | This revision only | Until deregistered or superseded | `AGENT_UNREGISTERED` |
+| 5 | **Tenant runtime authorization** | **Agent Runtime** (this specification) | `tenant_agent_runtime_authorization` | `tenant_id` | This tenant may operate the Agent Runtime and cause agent runs | **One tenant** | **One environment** | — | Explicit `expires_at` or a declared non-expiring policy reference | `RUNTIME_AUTHORIZATION_DENIED` |
+| 6 | **Agent capability authorization** | **Agent Runtime** (this specification) | `tenant_agent_capability_authorization` | `tenant_id` + `agent_definition_id` + one **agent capability class** | This tenant may run this agent for this declared capability | One tenant | One environment | Bound to the package revision whose `declared_capabilities` contain the class | Explicit `expires_at` or declared non-expiring policy | `CAPABILITY_AUTHORIZATION_DENIED` |
+| 7 | **Runtime enabled** | Operator, recorded | Agent Runtime enablement record | `tenant_id` + `environment` | Agent runs may execute here at all | One tenant | One environment | — | Revocable at any time; revocation takes effect immediately | `RUNTIME_DISABLED` |
+| 8 | **Run authorized** | Operator / policy, recorded | Run authorization record | This exact `run_id` | This exact run, under this exact envelope digest | One tenant | One environment | **`package_revision_id` + `envelope_revision_id` + `envelope_digest`** | Explicit expiry; revocable | `AUTHORIZATION_DENIED` / `RUN_AUTHORIZATION_EXPIRED` |
+
+### 14.2 The three per-invocation facts
+
+These three are evaluated **at the exact point of use**, never at run
+authorization.
+
+| # | Fact | Canonical owner | Evidence record | Subject | Action scope | Revision binding | Expiry | Denial class |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 9 | **Tool authorized** | Tool Gateway (§21) | Tenant/agent/tool authorization | One `tool_id` | One tool, at one pinned contract revision | Pinned tool contract revision | Per record | `TOOL_DENIED` |
+| 10 | **Provider authorized** | **Provider Registry §21.1 evaluated by Integration Gateway §17** | The Registry's own eight-fact evaluation | One provider capability + scope | One provider operation proposal | Per Registry/Gateway records | Per Registry/Gateway records | `PROVIDER_DENIED` |
+| 11 | **Operation approved** | Operator | Approval record (Control Plane §16.1, Gateway §18) | One exact typed target | One exact operation | `target_version` + `target_digest` + `package_revision_id` | Explicit expiry; non-replayable | `APPROVAL_REQUIRED` |
+
+### 14.3 Rules
 
 1. **No `ready` boolean.** No single field, computed property, aggregate,
    score, or cached view may stand for two or more facts. A schema doing so is
    non-conforming.
-2. **No fact implies another.** Runtime enabled does not authorize a run; run
-   authorized does not authorize a tool; tool authorized does not authorize a
-   provider; provider authorized does not approve an operation.
-3. Fact 10 **delegates entirely** to Registry §21.1 and Gateway §17. The Agent
+2. **No fact implies another.** Tenant runtime authorization does not authorize
+   a capability; capability authorization does not enable the runtime; runtime
+   enabled does not authorize a run; run authorized does not authorize a tool;
+   tool authorized does not authorize a provider; provider authorized does not
+   approve an operation.
+3. **Evaluation points are fixed.** Facts 1–8 are run-admission facts and must
+   all hold to enter `authorized`. Facts 9, 10, and 11 are per-invocation facts,
+   evaluated at the point of tool use, provider proposal, and consequential
+   operation respectively. A run authorization **never** pre-satisfies,
+   pre-approves, or reserves facts 9, 10, or 11 for operations not yet proposed,
+   and no run-admission fact is re-used as evidence for a per-invocation fact.
+4. **Fact 10 delegates entirely** to Registry §21.1 and Gateway §17. The Agent
    Runtime never re-implements, caches past its inputs, summarizes, or
-   second-guesses the eight provider facts.
-4. Facts 1–10 are standing state; fact 11 is **per-operation** and bound to one
-   exact typed, versioned, digest-bound target (Control Plane §16.1, Gateway
-   §18).
-5. An `authorization_status` view MAY be computed at evaluation time. It is
+   second-guesses the eight provider facts, and never records a provider
+   decision it did not receive from the Gateway.
+5. **Runtime facts are not provider facts (normative separation).** Facts 5 and
+   6 are Agent Runtime authorizations about operating the runtime and running an
+   agent capability. They are **not** Registry facts 5 and 6, which are
+   provider-scoped (`tenant_provider_authorization` and
+   `tenant_capability_authorization`, both requiring a `provider_id` per
+   Registry §21.3). Specifically:
+   - A Registry `tenant_provider_authorization` never satisfies runtime fact 5,
+     and a `tenant_agent_runtime_authorization` never satisfies Registry fact 5.
+   - A Registry `tenant_capability_authorization` never satisfies runtime fact
+     6, and a `tenant_agent_capability_authorization` never satisfies Registry
+     fact 6.
+   - Provider-side tenant authorization and provider-side capability
+     authorization exist **only** inside fact 10.
+   - An agent run that proposes no provider operation requires facts 1–8 only,
+     never a `provider_id`, and never a Registry authorization record.
+   A schema, evaluator, or record that satisfies one of these facts with the
+   other's record type is non-conforming.
+6. **Two capability vocabularies exist and are disjoint in use.** The **agent
+   capability vocabulary** is the closed set of capability classes a package
+   declares in `declared_capabilities` (§10.1); it is authorized by fact 6 and
+   requested as `requested_capability` in the envelope. The **provider
+   capability vocabulary** is the set of provider capability IDs owned by the
+   Provider Registry; it is authorized only inside fact 10 and appears only in a
+   provider operation proposal. Neither vocabulary is ever resolved, matched, or
+   substituted against the other; an attempt to do so denies with
+   `UNSUPPORTED_CAPABILITY`.
+7. Facts 5, 6, 7, and 8 are separately revocable. Revoking any one denies
+   without altering the evidence of the others, exactly as Registry §21.2 rule 3
+   requires within its own set.
+8. An `authorization_status` view MAY be computed at evaluation time. It is
    never stored as a grant, never cached past its inputs, and never writable.
 
 ## 15. Execution envelope
@@ -641,8 +893,8 @@ receives more.
 | Isolation | `tenant_id`, `environment`, `context_namespace_id`, `memory_namespace_id` |
 | Agent | `agent_definition_id`, `installed_agent_id`, `package_revision_id`, `framework_type`, `bridge_contract_revision` |
 | Intent | `requested_capability`, `output_contract_ref`, `stop_conditions` |
-| Routing | `model_routing_request_ref` (a request, never a model binding), `model_routing_decision_ref` (nullable until decided) |
-| Context | `context_snapshot_refs[]`, `context_access_scope`, `redaction_policy_ref` |
+| Routing | `model_routing_request_ref` (a request, never a model binding), `bound_routing_decision_ref` (nullable; present **only** when this revision was created to bind an already-issued routing decision — §15.4) |
+| Context | `context_snapshot_refs[]`, `context_access_scope`, `redaction_policy_ref`, `context_staleness_policy_ref` |
 | Memory | `memory_scope_refs[]`, `memory_write_scope` |
 | Permissions | `tool_permission_refs[]`, `provider_permission_refs[]` |
 | Limits | `max_steps`, `max_depth`, `max_wall_clock`, `max_input_tokens`, `max_output_tokens`, `max_concurrent_steps` |
@@ -650,7 +902,7 @@ receives more.
 | Audit | `audit_intent_ref`, `audit_reservation_ref` |
 | Cost | `cost_budget_ref`, `reserved_budget` |
 | Behavior | `cancellation_policy_ref`, `retry_policy_ref`, `external_content_posture` |
-| Integrity | `envelope_digest` (canonical, per Section 8.3), `schema_version` |
+| Integrity | `envelope_revision_id`, `supersedes_envelope_revision_id` (nullable), `envelope_digest` (canonical, per Section 8.3), `schema_version` |
 
 ### 15.2 Prohibited envelope contents (normative)
 
@@ -663,12 +915,80 @@ Sensitive context is carried **by reference**, resolved at the point of use
 under the run's access scope, and never inlined into an envelope, a handoff, a
 log, an event payload, an error message, or an audit record.
 
-### 15.3 Immutability
+### 15.3 Immutability and the revision chain
 
-An envelope is immutable once an attempt starts. Any change requires a new
-attempt with a new `attempt_id` and a re-evaluation of Section 14. An envelope
-whose `envelope_digest` does not reproduce is rejected with
-`ENVELOPE_INTEGRITY_FAILED`; it is never repaired in place.
+An envelope revision is **immutable from the moment it is constructed** — not
+merely from attempt start. It is never edited, patched, completed, or repaired
+in place. An envelope whose `envelope_digest` does not reproduce is rejected
+with `ENVELOPE_INTEGRITY_FAILED`.
+
+A change of any kind produces a **new revision**, never a mutation:
+
+1. The new revision receives a fresh `envelope_revision_id`, a fresh
+   `envelope_digest`, and `supersedes_envelope_revision_id` pointing at its
+   predecessor.
+2. The superseded revision **remains stored, addressable, and auditable**. It is
+   never deleted, overwritten, or tombstoned.
+3. Section 14.1's eight run-admission facts are **re-evaluated in full** against
+   the new revision. A prior authorization does not carry forward.
+4. Any operator approval bound to the superseded revision's digest is stale by
+   construction and authorizes nothing for the new revision
+   (`APPROVAL_STALE`, §30.2, Scenario 32).
+5. If the run has already started, a new revision additionally requires a new
+   attempt with a new `attempt_id`.
+
+There is no partial, provisional, or "to be completed" envelope field. Every
+field is fixed at construction; a field whose value is not yet knowable is
+absent or `null` **and stays that way for the life of that revision**.
+
+### 15.4 Authorization sequencing (normative)
+
+This section fixes the temporal order so that no field can be required before
+it is knowable, and no decision can silently alter an authorized artifact.
+
+| # | Step | Produces | State |
+| --- | --- | --- | --- |
+| 1 | Run request | Run intent, `run_id`, `run_kind: agent_run` | `proposed` |
+| 2 | Initial validation | **Envelope revision 1** — structurally valid, digest-bound, `bound_routing_decision_ref: null` | `validated` |
+| 3 | Pre-authorization routing request (**only** when tenant policy requires the model bound before authorization) | Routing request artifact | `validated` |
+| 4 | Routing decision | Immutable, digest-bound routing decision artifact | `validated` |
+| 5 | Resolved revision | **Envelope revision 2** — carries `bound_routing_decision_ref`, supersedes revision 1, new digest | `validated` |
+| 6 | Renewed validation | Structural re-validation of the current revision | `validated` |
+| 7 | Authorization | Facts 1–8 evaluated against the **current revision's exact digest** | `authorized` |
+| 8 | Dispatch eligibility | Admission for scheduling | `queued` |
+
+Steps 3–5 are **skipped entirely** in the ordinary case. Then the authorized
+artifact is revision 1 with `bound_routing_decision_ref: null`, and routing is
+performed per step during execution.
+
+**Per-step routing during execution.** Once an attempt is running, a routing
+decision is a **step-scoped artifact**, not an envelope field. It carries
+`run_id`, `attempt_id`, `step_id`, its own canonical digest, and its
+authorization references, and it is bound to the step and recorded in the Run
+Ledger. It never enters, alters, or re-digests the envelope. This is why
+`bound_routing_decision_ref` can only ever describe a decision issued **before**
+authorization: a decision issued after authorization is bound to a step, never
+to the envelope.
+
+Invariants (normative):
+
+1. **An authorized envelope revision is never mutated.** Not to add a routing
+   decision, not to record a result, not for any reason.
+2. **Adding or changing a bound routing decision creates a new digest-bound
+   revision**, and that revision requires renewed validation and renewed
+   authorization under §15.3 rules 3–5.
+3. **The prior revision and the prior routing decision remain auditable**, with
+   the supersession link recorded in both directions.
+4. **A stale approval cannot authorize a changed decision.** An approval bound
+   to revision *N*'s digest is void for revision *N+1*.
+5. A per-step routing decision that would cross a §23.4 boundary — sensitivity,
+   provider, quality floor, cost ceiling, or the approved-model set — is not a
+   step decision at all: it requires a new routing decision, a new envelope
+   revision, a new attempt, and renewed authorization, plus a fresh approval
+   where policy demands one.
+6. An envelope revision whose `supersedes_envelope_revision_id` chain contains a
+   cycle, a gap, or an unresolvable predecessor is rejected with
+   `ENVELOPE_INTEGRITY_FAILED`.
 
 ## 16. Framework bridge contract boundary
 
@@ -728,10 +1048,71 @@ canonical vocabulary, not a parallel scale), `retention_policy`,
    both claims with provenance and precedence; the runtime never picks a winner
    (Scenario 26).
 4. **Snapshots are immutable and versioned.** A stale snapshot never silently
-   refreshes; a run holding one is told (Scenario 25).
+   refreshes; a run holding one is told, and the outcome follows §17.4
+   deterministically (Scenario 25).
 5. **Sensitivity does not decay.** Derived context inherits the highest
    sensitivity of its sources unless an explicit, recorded redaction
    transformation lowers it.
+
+### 17.4 Snapshot staleness policy (normative)
+
+Canonical context truth is owned by the Shared Context Layer. This section
+governs only what the **Agent Runtime** does with a snapshot it already holds.
+It adds no admission rule and changes no provenance or sensitivity semantics.
+
+Every run carries a `context_staleness_policy_ref` (§15.1). A staleness policy
+is a declared, versioned, digest-bound artifact containing:
+
+| Field | Meaning |
+| --- | --- |
+| `policy_revision` | Exact version of this policy |
+| `max_snapshot_age` | Maximum acceptable age, or `null` for "age is never sufficient grounds" |
+| `non_material_field_set` | The **explicitly enumerated** fields whose change is non-material for this run. Absent or empty means *every* change is material |
+| `refresh_permitted` | Whether the runtime may re-read on a non-material change |
+| `operator_exception_permitted` | Whether an operator may authorize use of a stale snapshot |
+
+**Materiality is determined by enumeration, never by inference.** A change is
+non-material only if every changed field is named in `non_material_field_set`.
+Any change to a field the run's authorization, read scope, or output contract
+depends on is material regardless of enumeration.
+
+Detection compares the held `context_snapshot_id` and its canonical digest
+against the current source revision under §8.3.
+
+| # | Condition | Detection | Resulting `run_state` | Reason class | Evidence | Operator |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | **Current** — digest and source revision match, and `max_snapshot_age` is unset or unexceeded | Digest equality | `running` — proceed | n/a | Context read record | No |
+| 2 | **Stale, non-material, refresh permitted** — every changed field is enumerated non-material and `refresh_permitted` is true | Digest mismatch, changed-field set ⊆ `non_material_field_set` | `running` — a **new** snapshot is read, receiving a **new** `context_snapshot_id` | n/a | §19 trace record with both digests and the changed-field set | No |
+| 3 | **Stale and material** — any changed field is material | Digest mismatch, changed-field set ⊄ `non_material_field_set` | `blocked` | `STALE_STATE` | Held digest, current digest, changed-field set | Yes — a new run or new envelope revision is required |
+| 4 | **No declared policy** — `context_staleness_policy_ref` absent, unresolvable, or expired | Reference resolution failure | `blocked` | `STALE_STATE` | Missing or expired policy reference | Yes |
+| 5 | **Source unavailable** — currency cannot be established | Source read failure or `freshness_state:unknown` | `blocked` | `STALE_STATE` with `evidence_state:unknown` | Attempted source reference and failure class | Yes |
+| 6 | **Conflicting revision** — two current revisions contend for one source | Conflict detection (§17.3 rule 3) | `waiting_for_operator` | Recorded conflict class | Both revisions with provenance and precedence | **Yes — adjudication** |
+
+Rules:
+
+1. **A stale snapshot is never used automatically.** Only condition 1 proceeds
+   on the held snapshot; only condition 2 proceeds at all, and only on a freshly
+   read replacement.
+2. **Refresh is replacement, never mutation.** A refreshed snapshot is a new
+   immutable snapshot with a new identity. The prior snapshot and both digests
+   remain recorded, and a §19 trace record is appended for the transfer.
+3. **A material change invalidates the envelope's context binding.** The run's
+   authorization was granted against `context_snapshot_refs[]` at a specific
+   revision; a materially different context is a different run input. Proceeding
+   requires a new envelope revision and renewed authorization under §15.3 — not
+   a re-read.
+4. **Absence fails closed.** Conditions 4 and 5 block. There is no default
+   policy, no default staleness tolerance, and no substituted, cached, partial,
+   or nearest-available context.
+5. **An operator exception is explicit and bounded.** Where
+   `operator_exception_permitted` is true, an operator may authorize the use of
+   a specific stale snapshot by its exact `context_snapshot_id` and digest, for
+   one named run, time-bound and recorded under §30.2. It never generalizes to
+   another snapshot, run, or class, and it never converts a material change into
+   a non-material one.
+6. **Every outcome is auditable**, including conditions that proceed. A staleness
+   evaluation that produced no change is still recorded with its policy revision
+   and both digests.
 
 ## 18. Memory architecture
 
@@ -763,13 +1144,31 @@ Rules:
 ## 19. Context-flow tracing
 
 Every context transfer — between agents, between runs, into a handoff, or into
-a derived record — appends an immutable trace record:
+a derived record — appends an immutable trace record of **exactly seventeen
+fields**:
 
-`source_agent_id`, `destination_agent_id`, `source_run_id`, `source_step_id`,
-`context_class`, `source_reference`, `canonical_hash`, `transformation_id`,
-`redaction_applied`, `sensitivity_level`, `access_decision`,
-`acceptance_state` (`accepted` | `rejected`), `rejection_reason` (nullable),
-`observed_at`, `recorded_at`, `trace_id`.
+| # | Field | Purpose |
+| --- | --- | --- |
+| 1 | `source_agent_id` | Which agent released the context |
+| 2 | `destination_agent_id` | Which agent is the intended recipient |
+| 3 | `source_run_id` | Which run released it |
+| 4 | `destination_run_id` | Which run receives it, so every transfer is attributable to both runs and cross-run flow is auditable under §29.1 run isolation |
+| 5 | `source_step_id` | Which step released it |
+| 6 | `context_class` | The class transferred |
+| 7 | `source_reference` | The exact addressable source |
+| 8 | `canonical_hash` | Digest under §8.3 |
+| 9 | `transformation_id` | Which transformation, if any, was applied |
+| 10 | `redaction_applied` | Whether redaction occurred |
+| 11 | `sensitivity_level` | From the canonical vocabulary |
+| 12 | `access_decision` | The scope evaluation result at the point of use |
+| 13 | `acceptance_state` | `accepted` \| `rejected` |
+| 14 | `rejection_reason` | Nullable; required when rejected |
+| 15 | `observed_at` | When the transfer was observed |
+| 16 | `recorded_at` | When the record was durably appended |
+| 17 | `trace_id` | End-to-end causal trace |
+
+`destination_run_id` is `null` only for a transfer into a derived record within
+the same run, where it is the source run by construction.
 
 `canonical_hash` is computed under Section 8.3. Values presented at this
 boundary are subject to Section 8.3's exact-type discipline: a primitive
@@ -794,10 +1193,14 @@ untraced context as absent.
 
 ### 20.2 Required envelope contents
 
-`source_identity` (agent, run, attempt, step), `intended_recipient`,
-`purpose`, `allowed_action_scope`, `context_refs[]`, `output_contract_ref`,
-`budget`, `deadline`, `cancellation_behavior`, `provenance`,
-`authorization_evidence_refs[]`, `handoff_digest` (Section 8.3).
+**Exactly twelve** required contents: `source_identity` (agent, run, attempt,
+step), `intended_recipient`, `purpose`, `allowed_action_scope`,
+`context_refs[]`, `output_contract_ref`, `budget`, `deadline`,
+`cancellation_behavior`, `provenance`, `authorization_evidence_refs[]`,
+`handoff_digest` (Section 8.3).
+
+A `broadcast_proposal` additionally carries `acceptance_deadline` and
+`acceptance_version` (§20.4).
 
 ### 20.3 Rules
 
@@ -820,6 +1223,66 @@ untraced context as absent.
    parent's remaining reserve; the sum of children never exceeds the parent.
 6. **Depth is bounded.** `max_depth` is enforced at handoff creation; exceeding
    it denies with `DEPTH_LIMIT_EXCEEDED`.
+
+### 20.4 Concurrent acceptance (normative)
+
+A `broadcast_proposal` is offered to several eligible recipients, so two or more
+may attempt acceptance at the same instant. That race is resolved
+deterministically.
+
+**Model: single-winner with an atomic acceptance decision.** A broadcast is
+never multi-accept, never quorum-based, and never arbitrated by a policy the
+runtime would have to interpret.
+
+**Acceptance transaction.** Acceptance is a two-part operation, and only the
+second part is decisive:
+
+1. The receiving agent's runtime independently evaluates §14.1 facts 1–8 for the
+   receiving side (§20.3 rule 1). Failure ends the attempt here; no claim is
+   made.
+2. On success it submits an acceptance **claim** as an atomic compare-and-set on
+   the handoff record, keyed by `handoff_id`, with `acceptance_version` as the
+   expected-version precondition — the same optimistic-concurrency mechanism
+   §29.2 already mandates for shared derived records.
+
+Exactly one claim can satisfy the precondition. That recipient is the winner.
+Every other claim fails the precondition and is denied.
+
+| # | Condition | Outcome | Reason class | Recipient run | Budget |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Two or more simultaneous claims | Exactly one wins the compare-and-set | Winner: n/a. Losers: `HANDOFF_ALREADY_ACCEPTED` | Winner's run reaches `authorized`; losers create **no run at all** | Winner draws the reservation; losers release theirs |
+| 2 | Claim after a winner exists | Deny | `HANDOFF_ALREADY_ACCEPTED` | None | Nothing drawn |
+| 3 | Claim after `acceptance_deadline` | Deny | `HANDOFF_EXPIRED` | None | Reservation released to the parent |
+| 4 | Claim after the broadcast was cancelled or withdrawn | Deny | `HANDOFF_WITHDRAWN` | None | Reservation released |
+| 5 | Claim when the parent's remaining reserve cannot cover the carved budget | Deny **before** any run is created | `BUDGET_EXCEEDED` | None | Nothing drawn |
+| 6 | Claimant lacks a required §14.1 fact | Deny at part 1; no claim is submitted | The unmet fact's class | None | Nothing drawn |
+| 7 | Duplicate claim from the recipient that already won | Suppressed; the recorded decision is returned | n/a — duplicate suppressed | Unchanged | Unchanged |
+
+Rules:
+
+1. **Racing grants nothing.** Winning the compare-and-set decides *who* proceeds,
+   never *with what*. The winner's effective scope remains the intersection of
+   the handoff's `allowed_action_scope` and its own authorizations (§20.3 rule
+   2). No permission, context class, tool, provider, model, or budget is widened
+   by having accepted first.
+2. **Budget is reserved once.** A broadcast reserves the carved budget from the
+   parent once, at broadcast creation. Only the winner draws it. On expiry,
+   withdrawal, or no acceptance, the reservation is released to the parent in
+   full and the release is recorded.
+3. **Losing is recorded, not erased.** Every claim and every denial is appended
+   append-only with its reason class. A losing recipient's evaluation evidence
+   is retained.
+4. **No partial starts.** A losing claimant never instantiates an agent, never
+   reads context under the handoff, and never emits a step.
+5. **Cancellation propagates to the winner only**, per the handoff's declared
+   `cancellation_behavior`. Losers have nothing to cancel.
+6. **Duplicate suppression is unchanged** (§20.3 rule 4): identity remains the
+   canonical digest of source identity, recipient, purpose, scope, context
+   references, and output contract.
+7. If the atomic decision boundary cannot be established — the handoff record is
+   unreachable or its version cannot be read — **no acceptance occurs**. The
+   claim denies and the run is not created. There is no optimistic acceptance
+   pending confirmation.
 
 ## 21. Tool access
 
@@ -961,6 +1424,35 @@ If no declared tie-breaker resolves the tie, the result is
 `ROUTING_TIE_UNRESOLVED` and `run_state:waiting_for_operator` — never a random
 or arbitrary pick (Scenario 15).
 
+**Reachability (normative).** A run awaiting a routing decision is in
+`waiting_for_model` (§12.2 row 7). The transition
+`waiting_for_model → waiting_for_operator` is explicitly permitted by §12.3 and
+governed by §12.3.1, so the outcome this section mandates is reachable by a
+single, listed transition. No intermediate hop through `running` is used,
+implied, or permitted.
+
+The escalation appends the §12.5 evidence record with
+`reason_code: ROUTING_TIE_UNRESOLVED`, `actor: runtime`, and evidence
+references to the routing request, the complete tied candidate set, and the
+applied rules and precedence.
+
+Resolution rules:
+
+1. The runtime **never** breaks the tie. It may not select, rank, prefer,
+   sample, or default to any candidate.
+2. The operator's decision selects one candidate **from the recorded tied set
+   only**. A candidate outside that set is outside the authorized set and denies
+   with `MODEL_UNAUTHORIZED`.
+3. The decision is action-bound, revision-bound, and time-bound under §30.2. An
+   expired decision releases nothing.
+4. On release, the run returns to `running` carrying the operator decision
+   reference and resumes at the escalating step (§12.3.1 rule 4).
+5. If the operator declines, or the decision expires, the run transitions to
+   `blocked` with `ROUTING_TIE_UNRESOLVED`. A tie is **never** resolved by
+   timeout, by silent fallback, or by a default model.
+6. Where the operator's selection crosses a §23.4 boundary, it is an override,
+   not a tie-break, and additionally follows §15.4 invariant 5.
+
 ## 24. Cost and token accounting
 
 **Estimates and actuals are separate fields, separately sourced, and never
@@ -980,6 +1472,16 @@ Rules:
 2. **Unknown pricing stays unknown.** A missing price is `null` with an
    explicit `INSUFFICIENT_PRICING_DATA` state. It is never `0`, never omitted
    silently, and never inferred from a similar model.
+
+   `INSUFFICIENT_PRICING_DATA` is an **Agent Runtime-layer class**, owned by
+   this specification and enumerated in §33. It names the runtime-layer
+   condition "this run's cost cannot be established from available pricing
+   evidence". It does **not** redefine cost semantics: the underlying rules that
+   an estimate is never a measured charge, that zero never means unknown, and
+   that a budget check over unmeasured values reports `unenforceable` rather
+   than `pass` remain owned by
+   `[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §5.2–§5.3 and Control
+   Plane §19, and are reused unchanged.
 3. **A budget over unknown pricing is unenforceable** and must be labelled so
    (Control Plane §19).
 4. **Expired pricing evidence is not authority.** Pricing outside its declared
@@ -1003,7 +1505,52 @@ context proposals; handoff creation, acceptance, and rejection; operator
 decisions; errors; cancellation requests and outcomes; reconciliation outcomes;
 and completion.
 
-Rules:
+### 25.1 Record identity (normative)
+
+The Agent Runtime's run/attempt/step model and the canonical ledger's record
+identity are reconciled by
+`[[MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001]]` §5.1 and §5.9, as amended by
+`[[../decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001]]` §8. This
+specification **consumes** that identity model and does not define one.
+
+Every ledger record the Agent Runtime emits carries:
+
+| Field | Value the runtime supplies |
+| --- | --- |
+| `ledger_record_id` | The record's own stable identity — the **deduplication identity** |
+| `run_kind` | `agent_run`, always (§8.4) |
+| `run_id` | The logical run |
+| `attempt_id` | The attempt this record belongs to — **always present** for an agent run |
+| `step_id` | The step, where the record is step-scoped |
+| `sequence` | Monotonic per attempt (§26.3 rule 3) |
+| `observed_at` / `recorded_at` | Separate, never merged (§12.5) |
+
+Consequences, all owned by AI Operations §5.9 and reused here unchanged:
+
+1. **Deduplication cannot collapse attempts.** Records sharing a `run_id` but
+   differing in `attempt_id` are distinct records and are never deduplicated.
+   Only identical `ledger_record_id` values deduplicate.
+2. **A retry produces a new `attempt_id`**, so its records are additive. The
+   original attempt's records remain intact, addressable, and independently
+   readable (§13 rule 1).
+3. **A replay produces a new `run_id`** with a recorded link to
+   `source_run_id`, never a second attempt of the source run.
+4. **Model, provider, and outcome are attempt-level attributions.** Two attempts
+   of one run may legitimately record different models, providers, and outcomes,
+   and both are true of their own attempt.
+5. **A logical-run summary is derived, never stored as a replacement.** It never
+   erases, supersedes, hides, or stands in for attempt records. Where attempts
+   disagree, the summary reports the disagreement and its basis rather than
+   selecting one attempt as the run's truth.
+6. **Ordering evidence is explicit.** Sequence gaps surface as
+   `evidence_state:partial` with the last confirmed sequence; a gap is never
+   rendered as quiet.
+
+The Agent Runtime does **not** own, operate, or define a second run ledger. Any
+design in which runtime evidence lives outside the canonical Unified Run Ledger
+is non-conforming.
+
+### 25.2 Rules
 
 1. **Append-only.** Records are never edited or deleted. Corrections are new
    records that reference and supersede.
@@ -1127,6 +1674,82 @@ Rules:
 | Duplicate handoff | Suppressed by handoff digest; the recorded decision is returned (Scenario 24) |
 | Competing approvals | At most one approval may be effective for one exact target binding; a second is rejected as `APPROVAL_CONFLICT` and both are audited |
 | Cancellation race | If a run completes before cancellation takes effect, the honest terminal state is `completed` with the cancellation request recorded; if any effect is unknown, `reconciliation_required` |
+| Concurrent broadcast acceptance | Single-winner atomic compare-and-set on the handoff record; losers denied with `HANDOFF_ALREADY_ACCEPTED`, no run created, reservations released (§20.4) |
+| Runtime-instance loss | Orphaned runs are claimed only by a recorded takeover; any state in which an external effect could be in flight resolves to `reconciliation_required` (§29.3) |
+
+### 29.3 Runtime restart and recovery (normative)
+
+A `runtime_instance_id` identifies one coordinator instance (§8.1). An instance
+can be lost — crash, host failure, or shutdown — while an attempt it owned may
+still have external work in flight. This section fixes what happens next. The
+*persistence mechanism* remains deferred (§41.3); the *safe-state requirement*
+does not.
+
+**Durable evidence expected before restart.** §12.5 requires every transition to
+be durably appended with `recorded_at` before it is effective, and §25.1
+requires every ledger record to carry `run_id`, `attempt_id`, and monotonic
+`sequence`. The **last durably recorded transition** is therefore authoritative
+for recovery. Evidence that was observed but not durably appended is treated as
+absent, never as inferred.
+
+**Takeover is explicit.** A new instance never adopts a run implicitly. It
+performs a recovery scan of runs whose owning `runtime_instance_id` is lost and,
+for each, appends a **takeover record** carrying the prior and new
+`runtime_instance_id`, the last durable `run_state`, `attempt_id`, last
+confirmed `sequence`, and the recovery decision below. A run without a takeover
+record is not owned and is not advanced by anyone.
+
+**External status query.** Where the framework bridge supports it, the runtime
+MAY query bridge status for the attempt. A definitive answer is evidence. An
+unsupported query, an error, a timeout, or an ambiguous answer is **not**
+evidence of absence and yields `unknown`.
+
+| # | Last durable `run_state` | Authoritative external status | Resulting `run_state` | Dispatch allowed | Reconciliation | Operator |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | `proposed`, `validated`, `authorized` | n/a — nothing dispatched | Unchanged | Yes, after re-evaluating facts 1–8 | No | No |
+| 2 | `queued` | n/a — nothing dispatched | `queued` | Yes, after re-evaluating facts 1–8 | No | No |
+| 3 | `starting` | Definitive: never reached the framework | `queued` | Yes — **same** attempt | No | No |
+| 4 | `starting` | `unknown` | `reconciliation_required` | **No** | **Yes** | Yes |
+| 5 | `running` | Definitive: no external call in flight | `running` | Yes — **same** attempt, resuming at the last confirmed step | No | No |
+| 6 | `running` | `unknown` | `reconciliation_required` | **No** | **Yes** | Yes |
+| 7 | `waiting_for_model` / `waiting_for_tool` | Definitive: request never transmitted | Return to `running` | Yes — **same** attempt | No | No |
+| 8 | `waiting_for_model` / `waiting_for_tool` | Definitive: completed, result retrievable | Return to `running` with the retrieved result recorded | Yes — **same** attempt | No | No |
+| 9 | `waiting_for_model` / `waiting_for_tool` | `unknown` | `reconciliation_required` | **No** | **Yes** | Yes |
+| 10 | `waiting_for_agent` | Sub-run's own last durable state is definitive | Follows the sub-run's recovered state | Per sub-run | Only if the sub-run requires it | Per sub-run |
+| 11 | `waiting_for_agent` | Sub-run state `unknown` | `reconciliation_required` | **No** | **Yes** | Yes |
+| 12 | `waiting_for_operator` | n/a — nothing external in flight | `waiting_for_operator` | No — still waiting | No | Already involved |
+| 13 | `cancellation_requested` | Definitive: no effect occurred or all were reverted | `cancelled` | No | No | No |
+| 14 | `cancellation_requested` | `unknown` | `reconciliation_required` | **No** | **Yes** | Yes |
+| 15 | `reconciliation_required` | Any | Unchanged | **No** | **Yes** — still open | Yes |
+| 16 | Any terminal state | Any | Unchanged | No | No | No |
+
+Rules:
+
+1. **No unknown attempt is ever blindly redispatched.** Rows 4, 6, 9, 11, and
+   14 forbid dispatch outright. This is the same rule as §28's unsafe-retry
+   prohibition, applied to recovery.
+2. **Resumption within the same attempt is permitted only when no external
+   effect could be in flight** — rows 3, 5, 7, and 8, each requiring a
+   *definitive* external status. Resuming preserves `attempt_id` and continues
+   the monotonic `sequence` from the last confirmed value.
+3. **A new attempt is required** whenever reconciliation establishes what
+   happened and the run may safely proceed. The new attempt receives a new
+   `attempt_id`; the interrupted attempt's evidence remains intact and is never
+   reused, rewritten, or continued.
+4. **Duplicate dispatch is prevented** by attempt identity and by the §28
+   idempotency-key state: a recovered attempt never re-issues a request whose
+   idempotency key is already recorded as transmitted.
+5. **Operator escalation** is required for every `reconciliation_required`
+   outcome. The obligation is visible until resolved (§28 rule 5).
+6. **Permanent block** applies when reconciliation cannot establish the external
+   outcome and the operator declines to authorize a new attempt: the run
+   transitions to `blocked` with `EXTERNAL_OUTCOME_UNKNOWN` recorded, and the
+   unresolved obligation is retained rather than closed.
+7. **Recovery never revives a terminal run** (row 16), and never rewrites,
+   backfills, or re-times any prior record.
+8. If the durable evidence itself is unreadable or internally inconsistent, the
+   run is `blocked` with `evidence_state:unknown`; it is never reconstructed by
+   inference.
 
 ## 30. Human-in-the-loop
 
@@ -1228,7 +1851,10 @@ reference MUST NOT be reported as a sensitive-data error.
 | `PACKAGE_UNVERIFIED` | Fact 2 unmet | No |
 | `PACKAGE_MISMATCH` | Package revision, declarations, or digest do not match the authorization | No |
 | `AGENT_UNREGISTERED` | Fact 4 unmet | No |
-| `AUTHORIZATION_DENIED` | A runtime authorization fact (1, 3, 5, 6, 8) is unmet | No |
+| `AUTHORIZATION_DENIED` | A runtime authorization fact (1, 3, or 8) is unmet | No |
+| `RUNTIME_AUTHORIZATION_DENIED` | Fact 5 unmet — no `tenant_agent_runtime_authorization` for this tenant and environment. Distinct from `PROVIDER_DENIED`, which covers provider-side tenant authorization inside fact 10 | No |
+| `CAPABILITY_AUTHORIZATION_DENIED` | Fact 6 unmet — no `tenant_agent_capability_authorization` for this tenant, agent, and agent capability class | No |
+| `RUN_KIND_MISMATCH` | A run reference was resolved across identity namespaces, or a bare `run_id` was presented without its `run_kind` (§8.4) | No |
 | `RUN_AUTHORIZATION_EXPIRED` | Fact 8 held but has expired or been revoked | No |
 | `CONTEXT_ACCESS_DENIED` | Context scope evaluation denied | No |
 | `TOOL_DENIED` | Fact 9 unmet | No |
@@ -1249,7 +1875,15 @@ reference MUST NOT be reported as a sensitive-data error.
 | `UNSAFE_RETRY_REFUSED` | A retry would repeat a consequential action without authority | No |
 | `EXTERNAL_CONTENT_REJECTED` | Untrusted content failed validation or was quarantined | No |
 | `BUDGET_EXCEEDED` | An estimate or actual exceeded a budget or reservation | No |
-| `STEP_LIMIT_EXCEEDED` / `DEPTH_LIMIT_EXCEEDED` / `LOOP_DETECTED` | A containment limit was reached | No |
+| `INSUFFICIENT_PRICING_DATA` | Cost cannot be established from available pricing evidence; the value is `null`, never `0`, and any budget over it is `unenforceable` (§24 rule 2) | No |
+| `STEP_LIMIT_EXCEEDED` | The step containment limit was reached | No |
+| `DEPTH_LIMIT_EXCEEDED` | The delegation-depth containment limit was reached | No |
+| `LOOP_DETECTED` | A repeated-state or handoff cycle was detected | No |
+| `STALE_STATE` | A held context snapshot is no longer current and §17.4 does not permit proceeding, or an expected-version precondition failed. Adopted from Gateway §25.2 unchanged | No |
+| `HANDOFF_ALREADY_ACCEPTED` | A broadcast acceptance claim lost the atomic decision (§20.4) | No |
+| `HANDOFF_EXPIRED` | An acceptance claim arrived after `acceptance_deadline` | No |
+| `HANDOFF_WITHDRAWN` | An acceptance claim arrived after the handoff was cancelled or withdrawn | No |
+| `RUNTIME_INSTANCE_LOST` | The owning runtime instance was lost; recovery per §29.3 applies | No |
 | `TENANT_ISOLATION_VIOLATION` | A cross-tenant reference was attempted | No |
 | `ENVELOPE_INTEGRITY_FAILED` | `envelope_digest` did not reproduce | No |
 | `DIGEST_COLLISION_SUSPECTED` | A canonical-identity collision was detected | No |
@@ -1257,6 +1891,20 @@ reference MUST NOT be reported as a sensitive-data error.
 | `APPROVAL_CONFLICT` | Two approvals contend for one exact target binding | No |
 | `BRIDGE_UNSUPPORTED_BEHAVIOR` | A required behavior is unrepresentable in this bridge | No |
 | `BRIDGE_FAILURE_UNCLASSIFIED` | A bridge failure could not be mapped | No |
+
+**Row count and class count are distinct and are both stated.** The table above
+has **49 rows and 49 distinct Agent Runtime-layer class names** — one row per
+class, with no row carrying more than one class. Any future amendment MUST
+preserve the one-row-one-class property so the two counts can never diverge
+again, and MUST restate both numbers.
+
+`STALE_STATE` is adopted unchanged from Gateway §25.2 and is listed here only
+because the Agent Runtime raises it at a non-provider boundary (§17.4, §29.2).
+Listing it neither redefines nor forks the Gateway class. The Gateway classes
+`CONTRACT_CONFLICT`, `APPROVAL_STALE`, `AUDIT_RESERVATION_FAILED`,
+`PARTIAL_APPLICATION`, `INDETERMINATE`, and `INJECTION_SUSPECTED` are likewise
+adopted unchanged, are **not** restated in this table, and remain owned by
+`[[MELLYCORE_INTEGRATION_GATEWAY_SECURITY_CONTRACT_SPEC_001]]` §25.2.
 
 **No error message, event payload, summary, export, or audit record may contain
 a raw sensitive value.** Rejection records the field path and class, never the
@@ -1288,6 +1936,24 @@ them.
 Every view carries the applicable canonical status dimensions and an explicit
 source mode (`canonical`, `static_demo`, `simulated`, `future_live`, `partial`,
 `unknown`). No view synthesizes a universal "healthy," "active," or green state.
+
+**Projection rules for operator surfaces (normative).**
+
+1. Every view that displays a run MUST display its `run_state` — the
+   authoritative field — and MAY additionally display the projected
+   `lifecycle_status`. A view that shows only the projection is non-conforming,
+   because the projection is deliberately lossy (§12.2).
+2. The six `run_state` values projecting to `lifecycle_status:running` MUST
+   remain individually distinguishable in the Active-runs and Waiting-states
+   views. "Running" is never rendered as a single undifferentiated bucket.
+3. `waiting_for_operator` and `reconciliation_required` both project to
+   `blocked` and MUST be separated in the Blocked-runs view, because one awaits
+   a decision and the other carries an unresolved external obligation.
+4. No operator surface may display `lifecycle_status:active` for an agent run.
+   `active` remains reserved for an effective policy or configuration
+   (Control Plane §8.2).
+5. Filtering, sorting, and querying by the projected dimension MUST NOT be the
+   only way to reach a run; `run_state` is filterable in its own right.
 
 ## 35. Framework compatibility matrix
 
@@ -1393,7 +2059,7 @@ records whether an open external obligation results.
 | 12 | Cross-agent handoff rejected | Recipient evaluates and declines | Source `running`; recipient none | Reject | Recorded `rejection_reason` | Handoff + explicit rejection record | No |
 | 13 | Recipient lacks required context permission | Handoff grants scope the recipient does not hold | Recipient `blocked` | Deny; handoff does **not** widen scope | `CONTEXT_ACCESS_DENIED` | Intersection result, denied classes | No |
 | 14 | Routing returns no permitted model | Facts 1–8 ✓; candidate set empty after policy | `blocked` | Deny; no "best available" | `NO_PERMITTED_MODEL` | Request + all rejected candidates and reasons | No |
-| 15 | Routing returns multiple equal candidates | No declared tie-breaker resolves | `waiting_for_operator` | Escalate; no arbitrary pick | `ROUTING_TIE_UNRESOLVED` | Request, tied candidates, escalation | No |
+| 15 | Routing returns multiple equal candidates | No declared tie-breaker resolves; run is in `waiting_for_model` | `waiting_for_operator` **via the listed `waiting_for_model → waiting_for_operator` transition** (§12.3, §12.3.1) | Escalate; no arbitrary pick, no timeout default | `ROUTING_TIE_UNRESOLVED` | Request, complete tied candidate set, applied rules, escalation evidence | No |
 | 16 | Cost estimate exceeds budget | Estimate > budget or reservation | `blocked` | Deny **before** execution | `BUDGET_EXCEEDED` | Estimate, basis, budget, reservation | No |
 | 17 | Tool output contains prompt injection | Untrusted tool result, instruction-shaped | `running` | Flag; continue treating as data; no policy change | `INJECTION_SUSPECTED`; quarantine → `EXTERNAL_CONTENT_REJECTED` | Content-free security event + tool invocation ref | No |
 | 18 | Agent output contains instructions for another agent | Untrusted agent-to-agent content | Recipient `running` | Treat as data; not an authorization | `INJECTION_SUSPECTED` | Context-flow trace + security event | No |
@@ -1403,7 +2069,7 @@ records whether an open external obligation results.
 | 22 | Safe idempotent retry | Read-only or provably idempotent; prior effect known absent | `running` | New attempt under the same authorization | n/a | New `attempt_id`; original attempt intact | No |
 | 23 | Unsafe consequential retry | Consequential; outcome unknown | `reconciliation_required` | Refuse retry | `UNSAFE_RETRY_REFUSED` | Key state, prior attempt, obligation | **Yes** |
 | 24 | Duplicate handoff | Identical handoff digest already decided | Unchanged | Return recorded decision; no re-execution | n/a — duplicate suppressed | Duplicate-suppression record referencing the original | No |
-| 25 | Stale context snapshot | Snapshot digest/version no longer current | `blocked` or re-read per policy | Do **not** silently refresh | `STALE_STATE` | Held vs. current digest | No |
+| 25 | Stale context snapshot | Snapshot digest/version no longer current; outcome fixed by the §17.4 condition table | **§17.4 cond. 2** (every changed field enumerated non-material **and** `refresh_permitted`): `running` on a **new** snapshot. **All other cases** — material change, absent or expired policy, or unavailable source: `blocked`. Conflicting revisions: `waiting_for_operator` | Never silently refresh; never substitute; a material change additionally requires a new envelope revision and renewed authorization | `STALE_STATE` (cond. 3–5); recorded conflict class (cond. 6) | Policy revision, held vs. current digest, changed-field set, condition number | No |
 | 26 | Conflicting context proposals | Two proposals contend | `waiting_for_operator` | Surface both; auto-apply neither | n/a — conflict recorded | Both proposals, provenance, precedence | No |
 | 27 | Malicious `str` subclass at a digest boundary | Value passes shape checks; `type(v) is str` fails | `blocked` | Reject, or canonically convert **before** hashing | `INVALID_CANONICAL_TYPE` | Field path + class; **no value echo** | No |
 | 28 | Two distinct inputs attempt a digest collision | Distinct canonical bytes → one digest, or two values → one encoding | `blocked` | Quarantine both; block dependents | `DIGEST_COLLISION_SUSPECTED` | Both encodings by reference, algorithm, trace | No |
@@ -1411,6 +2077,28 @@ records whether an open external obligation results.
 | 30 | Bridge reports unsupported cancellation | `CANCELLATION_UNSUPPORTED` returned | `reconciliation_required` if anything in flight, else `cancelled` | Forced local stop; no guarantee claimed | `CANCELLATION_UNSUPPORTED` | Bridge report + in-flight inventory | **Yes**, if in flight |
 | 31 | Package revision changes after authorization | Authorized revision ≠ installed revision | `blocked` | Deny; never silently upgrade | `PACKAGE_MISMATCH` | Both revision IDs and digests | No |
 | 32 | Operator approval targets an older revision | Approval binding version/digest ≠ current | `blocked` | Deny; require a fresh decision | `APPROVAL_STALE` (Gateway class) | Complete approval binding vs. current target | No |
+
+### 38.1 Additional scenarios (33–42)
+
+Added by `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` from the
+adversarial replay set of
+`[[../research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_001]]` §42.
+Each resolves without architectural interpretation.
+
+| # | Scenario | Relevant facts | Expected `run_state` | Decision | Reason class | Audit record | Reconciliation |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 33 | Framework emits an unknown event type | Bridge cannot map the event (§16 `stream_events`, §26.3 rule 5) | Unchanged | Emit an explicit `unmapped` event carrying the bridge's raw category as untrusted data; never drop, never guess | n/a — `unmapped` is a valid event | `unmapped` event with bridge identity and raw category | No |
+| 34 | Framework writes native memory outside the bridge | §11.2 rules 1 and 6; §18 rule 2; §29.1 framework-process isolation | Unchanged | Contained as memory category 2 at most; bridge-local; never canonical, never cross-run without explicit normalized admission, never cross-tenant; discarded at attempt end | `BRIDGE_UNSUPPORTED_BEHAVIOR` where the behavior is required and unrepresentable | Bridge report; containment outcome; no memory content | No |
+| 35 | Agent requests a model outside the approved provider set | Facts 1–8 ✓; candidate outside the authorized set (§23.2, §23.4) | `blocked` | Deny the step; **no model call**; never substitute a permitted neighbour | `MODEL_UNAUTHORIZED` | Routing request, requested model, authorized set, rejection reason | No |
+| 36 | Agent requests a provider operation while provider registration is unresolved | Fact 10 unmet; Registry mode vs. required class unreconciled (`P2-04`, §22.5) | `blocked` | Deny; **never infer** an authentication mode; the Cloudflare constraint is not discharged | `PROVIDER_DENIED` with `CONTRACT_CONFLICT` inward | Proposal, Registry reference, required class, unresolved-finding reference | No |
+| 37 | Handoff references a superseded package revision | Handoff carries revision *N*; installed revision is *N+1* (§8.2 rule 6, §10.2 rule 4) | Recipient `blocked` | Recipient re-evaluates facts 2–4 against the **current installed** revision and denies; never silently upgrade or downgrade | `PACKAGE_MISMATCH` | Both revision IDs and digests; handoff digest; explicit rejection | No |
+| 38 | Approval expires while a run waits in a queue | Fact 8 or fact 11 expired during `queued` (§6 principle 3, §14.3 rule 3, §30.2) | `blocked` | Re-evaluate facts 1–8 at dispatch; expired authority authorizes nothing; deny **before** `starting` | `RUN_AUTHORIZATION_EXPIRED`, or `APPROVAL_REQUIRED` where fact 11 lapsed | Expiry timestamp, binding, dispatch-time evaluation record | No |
+| 39 | Two agents propose conflicting canonical-state updates | Two proposals contend for one canonical target (§17.3 rule 3, §29.2) | `waiting_for_operator` **via `waiting_for_agent → waiting_for_operator`** or `running → waiting_for_operator` (§12.3.1) | Record both; auto-apply neither; surface with provenance and precedence; the runtime never picks a winner | n/a — conflict recorded | Both proposals, provenance, precedence, escalation evidence | No |
+| 40 | Duplicate model responses arrive out of order | Two deliveries for one `model_invocation_id`; `sequence` non-monotonic (§8.1, §26.3 rules 3–4, §28) | Unchanged | Suppress the duplicate against the invocation identity; order by `sequence`; report gaps as `evidence_state:partial` with the last confirmed sequence; never merge, never reorder silently | n/a — duplicate suppressed | Both delivery records, `sequence` evidence, suppression reference | No |
+| 41 | Cancellation and completion race | Cancellation requested while the run was completing (§29.2 cancellation-race row, §12.3) | `completed` when the run finished first **and** no external effect is unknown; otherwise `reconciliation_required` | Record the honest terminal state with the cancellation request retained; never report a cancelled run as successful, never report a completed run as cancelled | `CANCELLATION_INCOMPLETE` in the unknown branch | Cancellation request, acknowledgement state, completion evidence, in-flight inventory | **Yes**, in the unknown branch |
+| 42 | Runtime restarts with an attempt in an unknown state | Owning `runtime_instance_id` lost; last durable transition authoritative (§29.3) | Per the §29.3 recovery matrix: rows 1–3, 5, 7, 8 resume; rows 4, 6, 9, 11, 14 → `reconciliation_required`; row 12 unchanged; row 16 terminal unchanged | Explicit recorded takeover; **no blind redispatch**; same-attempt resumption only when a definitive external status excludes in-flight effects; otherwise a new attempt after reconciliation | `RUNTIME_INSTANCE_LOST`, with `EXTERNAL_OUTCOME_UNKNOWN` on the unknown branches | Takeover record: prior and new instance, last durable state, `attempt_id`, last confirmed `sequence`, recovery decision | **Yes**, on every unknown branch |
+
+**Scenario totals: 32 original + 10 additional = 42, all deterministic.**
 
 ## 39. Non-goals
 
@@ -1489,6 +2177,10 @@ content is retained and marked, never deleted.
 - `[[MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001]]`
 - `[[MELLYCORE_CONTEXT_PROVENANCE_AND_SENSITIVITY_SPEC_001]]`
 - `[[../decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001]]`
+- `[[../decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001]]`
+- `[[../research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_001]]`
+- `[[../architecture/MELLYCORE_LOOP_OPERATIONS_ARCHITECTURE_001]]`,
+  `shared_context/loops/RUN_LEDGER_SCHEMA.json`
 - `[[../research/MELLYCORE_CLOUDFLARE_API_SHIELD_READ_ONLY_ADAPTER_REVIEW_002]]`
 - `[[../research/MELLYCORE_PROVIDER_ADAPTER_SCAFFOLD_REVIEW_001]]`
 - `shared_context/SAFETY_CONTRACT.md`, `PROJECT_STATE.md`, `ROADMAP.md`,
