@@ -1,6 +1,81 @@
 # Agent Handoff
 
-## Latest Update — Agent Package Contract Spec Remediation 001 complete; all seven Review 001 findings addressed; gate not re-opened; unverified pending Review 002
+## Latest Update — Agent Package Contract Spec Review 002 gate PASS_WITH_NON_BLOCKING_FINDINGS; specification accepted as documentation only; nothing implemented, connected, or executed
+
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002`
+
+- Independent, read-only re-review of the remediated Agent Package Contract
+  specification (**version 1.1**, commit `ad1d1fc`). Complete as one local
+  documentation commit on
+  `docs/mellycore-agent-package-contract-spec-review-002`; **not pushed**.
+  Durable record:
+  `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_002.md`;
+  task report:
+  `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002.md`.
+- **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`.** P0 = 0, P1 = 0.
+  **All seven Review 001 findings are independently `CLOSED`**, the single
+  P1 closed in full rather than partially. Seven new non-blocking findings
+  were recorded (P2 = 3, P3 = 4).
+- **`P1-01` verified genuinely closed.** Every occurrence of
+  `lifecycle_status`, `evidence_state`, `approval_state`, and `run_state`
+  in the specification was audited in context: each is an explicit denial
+  of projection or a non-collision statement. Zero surviving projection
+  claims; no Control Plane enum member invented; no package state silently
+  coerced. Control Plane §7.1's typed-domain-field allowance is quoted
+  **verbatim** and is correctly scoped — it literally names "trust". The
+  remediation adopted the exact resolution shape Review 001 itself named
+  as acceptable, resolving the finding with **zero** edits to any owner.
+- **Every canonical owner document is byte-identical** to the baseline
+  Review 001 recorded before the remediation ran — independent blob-ID
+  proof, not a report assertion, that no owner contract was edited to make
+  this specification pass.
+- **`P2-01` verified closed**, and the Provider Registry audit was extended
+  beyond the three locations Review 001 named to **all 17 occurrences**:
+  Provider Registry is nowhere presented as owning package lifecycle, trust
+  state, validation, dependency resolution, activation, command namespaces,
+  runtime authorization, installation, or execution. **`P2-02` verified
+  closed** — the `DEPENDENCY_UNRESOLVED` boundary is deterministic.
+  **`P2-03` and all three P3 findings verified closed.**
+- **The §17.3 rule 1 special review target was assessed independently** and
+  is **not** an ownership overreach and **not** a contradiction: the rule is
+  this contract's own, the analogy is technically accurate against Provider
+  Registry §24.3, and nothing is granted. It is recorded as a new **P3**
+  only because its three sibling analogies received explicit non-normative
+  disclaimers and it did not.
+- **New non-blocking findings.** P2: `NEW-P2-01` (§16 stage 7 and §17.1
+  direct implementers to §20 for a package-lifecycle rendering field that
+  §20.1 does not define); `NEW-P2-02` (§22 rule 2 still declares the
+  contract version "currently `1.0`" while the document is version 1.1 and
+  v1.1 added mandatory rejection rules); `NEW-P2-03` (§14.1 rule 6 imposes
+  an absolute prohibition over "protected command classes" that no document
+  enumerates). P3: `NEW-P3-01` (§17.3 rule 1 above), `NEW-P3-02` (§21 prose
+  says "Fifteen" against 16 rows), `NEW-P3-03` (five inverted normative
+  modals in v1.1-added text), `NEW-P3-04` (the remediation report's own
+  Provider Registry audit undercounts 17 occurrences as nine). None is
+  discarded; each carries a location and a required correction.
+- **The specification is accepted as a documentation contract only**, under
+  those seven recorded constraints. **No implementation exists.** Agent
+  Package Store, Package Registry, Agent Registry, Package Validator,
+  package loader: `NOT_IMPLEMENTED`. Agent Packages and package
+  installations: `NONE_EXIST`. Packages executed: **zero**. No command,
+  hook, plugin, MCP, or batch execution exists; no runtime, provider
+  connection, credential, or deployment exists.
+- Review 001 remains **historically failed** (`FAIL_REMEDIATION_REQUIRED`);
+  Remediation 001 remains **complete**; the Agent Runtime Review 002 gate is
+  **not reopened**. The global higher-priority pointer
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged,
+  not reordered, and not reinterpreted.
+- The reviewed specification was **not edited** by this review (blob ID
+  identical before and after the commit), nor was any owner document,
+  source file, test, configuration, or workflow. No network operation, push,
+  PR, merge, deployment, or destructive Git operation occurred.
+- Exact next task: the next item already present in canonical
+  `RUN_QUEUE.md` for this track is the **Framework Bridge Contract**, which
+  remains **blocked** and requires its own specification, independent
+  review, and separate explicit Operator authorization. Not started, not
+  authorized by this entry.
+
+## Previous Update — Agent Package Contract Spec Remediation 001 complete; all seven Review 001 findings addressed; gate not re-opened; unverified pending Review 002
 
 `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001`
 

@@ -1030,16 +1030,68 @@ all seven required command-namespace-collision checks and a dedicated
 `COMMAND_NAMESPACE_COLLISION` error class) are each closed. `P3-01`–`P3-03`
 closed editorially.
 
-**Remediation claims are unverified; the gate is not re-opened.** Review
-001's `FAIL_REMEDIATION_REQUIRED` decision remains historically recorded as
-failed until independent Review 002 passes. Nothing implemented; every
+**Remediation claims were unverified at the time of that commit; the gate
+was not re-opened by it.** Review 001's `FAIL_REMEDIATION_REQUIRED` decision
+remains historically recorded as failed. Nothing implemented; every
 canonical cross-check source, including both Review 001 artifacts,
 remained byte-identical after this commit.
 
+**`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` — complete as one
+local documentation commit on
+`docs/mellycore-agent-package-contract-spec-review-002`; not pushed.**
+Independent, read-only re-review of specification **version 1.1** at commit
+`ad1d1fc`. Durable record:
+`docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_002.md`; task
+report: `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002.md`.
+
+**Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`.** P0 = 0, P1 = 0. All
+seven Review 001 findings independently `CLOSED`, the single P1 closed in
+full. `P1-01` verified by auditing every `lifecycle_status`,
+`evidence_state`, `approval_state`, and `run_state` occurrence in the
+specification: each is an explicit denial of projection or a non-collision
+statement; zero surviving projection claims; no Control Plane enum member
+invented. Control Plane §7.1's typed-domain-field allowance is quoted
+verbatim and correctly scoped. **Every canonical owner document is
+byte-identical to the baseline Review 001 recorded before the remediation
+ran** — independent blob-ID proof that no owner contract was edited to make
+the specification pass. The Provider Registry audit was extended beyond the
+three locations Review 001 named to all 17 occurrences; Provider Registry is
+nowhere presented as owning package lifecycle, trust state, validation,
+dependency resolution, activation, command namespaces, runtime
+authorization, installation, or execution.
+
+**Seven new non-blocking findings** were recorded and are **not** discarded.
+P2: `NEW-P2-01` (§16 stage 7 and §17.1 direct implementers to §20 for a
+package-lifecycle rendering field §20.1 does not define); `NEW-P2-02` (§22
+rule 2 still declares the contract version "currently `1.0`" while the
+document is version 1.1 and v1.1 added mandatory rejection rules);
+`NEW-P2-03` (§14.1 rule 6 imposes an absolute prohibition over "protected
+command classes" that no document enumerates). P3: `NEW-P3-01` (§17.3 rule
+1's bare Provider Registry analogy — assessed independently and found
+technically accurate and **not** an ownership overreach, but inconsistently
+formatted relative to its three disclaimed siblings); `NEW-P3-02` (§21 prose
+says "Fifteen" against 16 rows); `NEW-P3-03` (five inverted normative modals
+in v1.1-added text); `NEW-P3-04` (the remediation report's own Provider
+Registry audit undercounts 17 occurrences as nine). Each of the three P2
+findings must be corrected before the follow-up contract that depends on its
+section (review record §23.2).
+
+**The Agent Package Contract specification is accepted as a documentation
+contract only**, under those seven recorded constraints. Acceptance
+establishes **no implementation of any kind**: Agent Package Store, Package
+Registry, Agent Registry, Package Validator, and package loader remain
+`NOT_IMPLEMENTED`; Agent Packages and package installations `NONE_EXIST`;
+packages executed **zero**; no command, hook, plugin, MCP, or batch
+execution, no runtime, no provider connection, no credential, and no
+deployment exists. The reviewed specification was **not edited** by the
+review. The Agent Runtime Review 002 gate is not reopened, and the global
+higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is unchanged, not
+reordered, and not reinterpreted.
+
 **Still blocked**, each requiring its own gate and separate explicit
-Operator authorization, in this recommended order:
-`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` (exact next task — an
-independent re-review of this remediation); Framework Bridge Contract;
+Operator authorization, in this recommended order: Framework Bridge Contract
+(**exact next task in this track — not started, not authorized**);
 Shared Context Bridge; Agent Runtime Scaffold (inert, no framework
 process, no provider call, no credential, no model call, no tool
 execution, no deployment); Scaffold Review; first Agent Package;

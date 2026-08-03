@@ -151,8 +151,7 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    `docs/mellycore-agent-package-contract-spec-review-001`, not pushed.
    Full detail:
    `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_001.md`.
-7. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` — **current
-   active task** (see `shared_context/AGENT_HANDOFF.md`'s Latest Update).
+7. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` — `COMPLETE`.
    Remediated all seven findings of item 6, advancing the specification to
    **version 1.1**. `P1-01` closed by removing the unsupported Control
    Plane projection claim (package lifecycle/trust state restated as
@@ -170,6 +169,30 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    `docs/mellycore-agent-package-contract-spec-remediation-001`, not
    pushed. Full detail:
    `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001.md`.
+8. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` — `ACCEPTED`
+   (documentation only), 2026-08-03. Independent, read-only re-review of the
+   remediated specification (version 1.1, commit `ad1d1fc`). Gate
+   **`PASS_WITH_NON_BLOCKING_FINDINGS`** — P0 0 / P1 0 / P2 3 / P3 4. All
+   seven Review 001 findings independently `CLOSED`, the single P1 closed in
+   full: every Control Plane status-dimension reference in the specification
+   was audited and each is an explicit denial of projection or a
+   non-collision statement, with zero surviving projection claims and no
+   invented enum member. Every canonical owner document was verified
+   byte-identical to the baseline Review 001 recorded before the remediation
+   ran. Seven new non-blocking findings recorded and none discarded,
+   including the §17.3 rule 1 Provider Registry analogy — assessed
+   independently and found technically accurate and **not** an ownership
+   overreach. `MELLYCORE_AGENT_PACKAGE_CONTRACT_001` v1.1 is **accepted as a
+   documentation contract only**, under those seven constraints; **no
+   implementation of any kind exists** — no store, registry, validator,
+   loader, package, installation, execution, runtime, provider connection,
+   credential, or deployment. Review 001 remains historically failed; the
+   Agent Runtime Review 002 gate is not reopened. The reviewed specification
+   was not edited. Complete as one local documentation commit on
+   `docs/mellycore-agent-package-contract-spec-review-002`, not pushed. Full
+   detail:
+   `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_002.md`,
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002.md`.
 
 ## How to Extend This File
 

@@ -862,26 +862,56 @@ place, and independently governed.
    normative command-namespace-collision subsection with a dedicated error
    class; two editorial fixes).
 
-   **Remediation claims are unverified.** This task remediated its own
-   reviewed findings; the gate is not re-opened, and Review 001's
-   `FAIL_REMEDIATION_REQUIRED` decision remains historically recorded as
-   failed until independent Review 002 passes. Nothing implemented; every
-   canonical cross-check source, including both Review 001 artifacts,
-   remained byte-identical after this commit.
+   **Remediation claims were unverified at the time of that commit.** This
+   task remediated its own reviewed findings; the gate was not re-opened by
+   it, and Review 001's `FAIL_REMEDIATION_REQUIRED` decision remains
+   historically recorded as failed. Nothing implemented; every canonical
+   cross-check source, including both Review 001 artifacts, remained
+   byte-identical after this commit.
 
-**Architecture accepted; Agent Package Contract remediated, unverified,
-awaiting Review 002.** Review 002 accepted `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001`
-as the canonical architectural foundation for this track under one
-non-blocking constraint, and confirmed that all eighteen Agent Package
-concerns are specifiable without architectural invention. Remediation is
-not acceptance, and the Agent Package Contract specification remains **not
-accepted** pending `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002`. The
-remaining recommended, **not authorized**, successors — each requiring its
-own gate, in this order — are: Agent Package Contract Review 002 (exact
-next task); Framework Bridge Contract; Shared Context Bridge; Agent
-Runtime Scaffold (inert); Scaffold Review; first Agent Package; Cross-Agent
-Smoke (inert modes only); Integration Review. Agent
-Runtime implementation remains blocked.
+8. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` — **complete as one
+   local documentation commit; not pushed.** An independent, read-only
+   re-review of the remediated specification (version 1.1, commit
+   `ad1d1fc`). Durable record:
+   `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_002.md`;
+   task report:
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002.md`.
+
+   **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 /
+   P2 3 / P3 4). All seven Review 001 findings independently `CLOSED`, the
+   single P1 closed in full. `P1-01` was verified by auditing every Control
+   Plane status-dimension reference in the specification: each is an
+   explicit denial of projection or a non-collision statement, with zero
+   surviving projection claims and no invented enum member. **Every
+   canonical owner document is byte-identical to the baseline Review 001
+   recorded before the remediation ran**, proving by blob ID that no owner
+   contract was edited to make the specification pass. Seven new
+   non-blocking findings were recorded and none discarded: `NEW-P2-01`
+   (§20.1 defines no package-lifecycle rendering field that §16 stage 7 and
+   §17.1 both require), `NEW-P2-02` (§22 still declares the contract version
+   "currently `1.0`" at document version 1.1), `NEW-P2-03` (§14.1 rule 6's
+   "protected command classes" are unenumerated), and `NEW-P3-01`–
+   `NEW-P3-04`. Each P2 must be corrected before the follow-up contract that
+   depends on its section.
+
+**Architecture accepted; Agent Package Contract accepted as documentation.**
+Review 002 of the Agent Runtime accepted
+`MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical architectural
+foundation for this track under one non-blocking constraint.
+`MELLYCORE_AGENT_PACKAGE_CONTRACT_001` version 1.1 is now **accepted as a
+documentation contract** under the seven non-blocking constraints recorded
+by its own Review 002. **Acceptance is of documentation only and establishes
+no implementation of any kind** — no Agent Package Store, Package Registry,
+Agent Registry, Package Validator, or loader exists; no Agent Package,
+package installation, or package execution exists; no command, hook, plugin,
+MCP, or batch execution exists; no runtime, provider connection, credential,
+or deployment exists. The remaining recommended, **not authorized**,
+successors — each requiring its own gate — are, in this order: Framework
+Bridge Contract (next in queue); Shared Context Bridge; Agent Runtime
+Scaffold (inert); Scaffold Review; first Agent Package; Cross-Agent Smoke
+(inert modes only); Integration Review; and then the twelve follow-up
+contracts of specification §26. Agent Runtime implementation remains
+blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 before it may proceed to

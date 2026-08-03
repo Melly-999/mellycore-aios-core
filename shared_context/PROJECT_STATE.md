@@ -1962,6 +1962,103 @@ Agent Package follow-up contracts remain blocked. The global
 higher-priority pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`
 remains unchanged, in place, and independently governed.
 
-**Exact next task:** `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` —
-an independent, read-only re-review of this remediation. Not started, not
-authorized by this entry.
+**Exact next task at the time of that remediation:**
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` — an independent,
+read-only re-review of this remediation.
+
+## Agent Package Contract Spec Review 002 — Gate PASS_WITH_NON_BLOCKING_FINDINGS; Specification Accepted As Documentation Only; Nothing Implemented
+
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` is **complete as one
+local documentation commit; not pushed.** An independent, read-only
+re-review of the remediated specification (**version 1.1**, commit
+`ad1d1fc`). Durable record:
+`docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_002.md`; task
+report: `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002.md`.
+
+**Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`.** P0 = 0 and P1 = 0.
+All seven Review 001 findings are independently `CLOSED`, with the single
+P1 closed in full rather than partially. The outcome is not `PASS` solely
+because the review introduced seven new non-blocking findings (P2 = 3,
+P3 = 4).
+
+**`P1-01` independently verified closed.** Every occurrence of
+`lifecycle_status`, `evidence_state`, `approval_state`, and `run_state` in
+the specification was audited in context; each is an explicit denial of
+projection or a non-collision statement. Zero surviving projection claims,
+no Control Plane enum member invented, no package state silently coerced.
+Control Plane §7.1's typed-domain-field allowance is quoted **verbatim** and
+is correctly scoped — it literally names "trust" among the fields that
+remain typed entity data. **Every canonical owner document is byte-identical
+to the baseline Review 001 recorded before the remediation ran**, which is
+independent blob-ID proof — not a report assertion — that no owner contract
+was edited to make this specification pass.
+
+**`P2-01`–`P2-03` and `P3-01`–`P3-03` independently verified closed.** The
+Provider Registry audit was extended beyond the three locations Review 001
+named to all 17 occurrences: Provider Registry is nowhere presented as
+owning package lifecycle, trust state, validation, dependency resolution,
+activation, command namespaces, runtime authorization, installation, or
+execution. The `DEPENDENCY_UNRESOLVED` evaluation boundary is deterministic
+and owned exclusively by §18.1 layer 4. The command-namespace collision
+rules of §14.1 are enumerated under §18.1 layer 1 with a dedicated
+`COMMAND_NAMESPACE_COLLISION` rejection class, and §14.1 rule 3's target —
+`ROADMAP.md`'s "Planned Commands" reservation — was verified to exist.
+
+**Seven new non-blocking findings, none discarded.** P2: `NEW-P2-01` (§16
+stage 7 and §17.1 direct implementers to §20 for a package-lifecycle
+rendering field that §20.1 does not define); `NEW-P2-02` (§22 rule 2 still
+declares the contract version "currently `1.0`" while the document is
+version 1.1 and version 1.1 added mandatory rejection rules); `NEW-P2-03`
+(§14.1 rule 6 imposes an absolute prohibition over "protected command
+classes" that no document enumerates). P3: `NEW-P3-01` (§17.3 rule 1's bare
+Provider Registry analogy — assessed independently and found technically
+accurate and **not** an ownership overreach, recorded only for inconsistent
+formatting relative to its three disclaimed siblings); `NEW-P3-02` (§21
+prose says "Fifteen" against 16 table rows); `NEW-P3-03` (five inverted
+normative modals in version-1.1-added text); `NEW-P3-04` (the Remediation
+001 report's own Provider Registry audit undercounts 17 occurrences as
+nine). Each of the three P2 findings must be corrected before the follow-up
+contract that depends on its section.
+
+**Specification accepted as a documentation contract only.**
+`MELLYCORE_AGENT_PACKAGE_CONTRACT_001` version 1.1 is accepted as the
+canonical documentation contract for the Agent Package track, under the
+seven recorded non-blocking constraints. Acceptance fixes what a future
+Agent Package must satisfy and **establishes no implementation whatsoever**.
+
+**Nothing implemented.** Agent Package Store, Package Registry, Agent
+Registry, Package Validator, and package loader remain `NOT_IMPLEMENTED`.
+Agent Packages and package installations `NONE_EXIST`. Packages executed:
+**zero**. No command, hook, plugin, or MCP execution exists; no batch
+execution exists and Batch Orchestration remains unspecified and
+unauthorized; no runtime, provider connection, credential, or deployment
+exists. Cryptographic package signing remains `NOT_SPECIFIED` and
+`NOT_IMPLEMENTED`. Migration triggers #1, #4, #5, #6, and #7 remain
+uncrossed.
+
+**Validation.** Exactly eight files changed (two new review artifacts, six
+bounded state-sync edits); no source file, test file, configuration file, or
+workflow YAML changed; no `.env` file changed and no secret or provider key
+was introduced. `git diff --check` exit `0`; `py -3.9
+scripts/validate_project_state.py` `PASS`. The reviewed specification was
+**not edited** — its blob ID is identical before and after this commit —
+and all fifteen immutable evidence and owner files were re-verified
+unchanged after the commit. `pytest`, black, flake8, and mypy were not run
+and are not claimed passing; a passing scaffold validator is not treated as
+evidence of architectural correctness.
+
+**Prior gates preserved.** Review 001 remains historically recorded as
+**failed** (`FAIL_REMEDIATION_REQUIRED`); Remediation 001 remains
+**complete**; the Agent Runtime architecture's Review 002
+(`PASS_WITH_NON_BLOCKING_FINDINGS`) is **not reopened**. The global
+higher-priority pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`
+remains unchanged, in place, not reordered, and not reinterpreted.
+
+**Exact next task:** the next item already present in canonical
+`RUN_QUEUE.md` for this track is the **Framework Bridge Contract**, followed
+by Shared Context Bridge, Agent Runtime Scaffold (inert), Scaffold Review,
+first Agent Package, Cross-Agent Smoke (inert modes only), Integration
+Review, and then the twelve follow-up contracts of specification §26. Each
+remains **blocked** and requires its own specification, independent review,
+and separate explicit Operator authorization. Not started, not authorized by
+this entry.
