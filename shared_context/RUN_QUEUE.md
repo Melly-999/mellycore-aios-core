@@ -745,13 +745,17 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_004.md`.
    Durable report:
    `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004.md`.
-14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **exact next task; eligible for
-   separate authorization; not started.** Not authorized, not approved for
-   execution, not active, not implemented, and not enabled. Requires separate
-   explicit
-   Operator authorization before any work begins, issued under the four
-   constraints in Review 004 §36, independent of Model A/B deployment
-   authorization and independent of the OpenAI Batch Stage C gate.
+14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **complete as one inert local
+   scaffold; not pushed.** The provider-neutral Python 3.9 contract package,
+   disabled adapter, static validation, sanitized error/result model, and
+   fixture-only in-memory tests are implemented under Review 004 §36. No real
+   provider adapter, registration, credential, provider access, network
+   transport, OAuth, MCP/fabric path, runtime enablement, or execution-success
+   path exists.
+15. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001` — **exact next task on
+   this parallel track.** Independent code/contract review only. Every concrete
+   provider adapter remains blocked, unimplemented, and unauthorized pending a
+   passing review and separate explicit Operator authorization.
 
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,
@@ -762,7 +766,7 @@ acceptance of the item 3 connector contract does not unblock** (that
 contract is specification-level only; its Section 35 keeps read-only access
 blocked until the full documentation gate passes and a separate explicit
 Operator authorization is given) — any marketing campaign action, any
-cybersecurity remediation action, and provider adapter scaffolding.
+cybersecurity remediation action, and any concrete provider adapter.
 
 ## Deferred Work
 

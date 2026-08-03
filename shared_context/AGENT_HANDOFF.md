@@ -1,6 +1,42 @@
 # Agent Handoff
 
-## Latest Update — Enterprise-provider documentation gate passed with non-blocking findings (documentation-only, parallel track)
+## Latest Update — Provider Adapter Scaffold 001 complete and inert (parallel track)
+
+`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001`
+
+- Implemented a provider-neutral, standard-library Python 3.9 contract package
+  at `scripts/provider_adapters/`, reusing the repository's frozen-dataclass,
+  protocol, stable-error-code, strict-validation, and `unittest` conventions.
+- Public contracts cover the canonical provider-ID grammar, nine credential
+  classes, three acting identities, three authentication targets, three scope
+  applicability values, R0-R5, immutable provider/capability descriptors,
+  resolved execution envelopes, and all eight separately represented
+  authorization facts.
+- Static validation fails closed on unknown/duplicate identity, capability,
+  class, target, scope, revision, credential-match, approval, and
+  external-content states. Errors are sanitized and never claim a provider
+  request occurred.
+- `DisabledProviderAdapter.execute()` returns only `EXECUTION_DISABLED` and no
+  success outcome exists. The test-only adapter normalizes allowlisted scalar
+  data in memory and marks every result `FIXTURE_ONLY`; it inherits disabled
+  execution. The focused suite contains 62 passing local tests.
+- Review 004 §36 is preserved: Registry §7.5 raw values are encoded directly;
+  mutable field ordinals and the retired scope field are absent; no restricted-
+  tool OAuth mode is selectable; and Gateway Rule 32.1 remains represented by
+  an always-disabled execution state.
+- No real provider adapter is implemented. No provider is registered,
+  connected, authenticated, credentialed, enabled, or live. No credential is
+  configured or verified; no tenant or capability is authorized; no operation
+  is approved; no provider access, network transport, SDK, OAuth, MCP/fabric,
+  webhook, deployment, dependency, workflow, frontend, or MellyTrade action
+  exists or occurred.
+- Exact next enterprise-provider task:
+  `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001`. Every concrete provider
+  adapter remains blocked, unimplemented, and unauthorized pending that
+  independent review and separate Operator authorization. The global OpenAI
+  Batch pointer is unchanged, not reordered, and not reinterpreted.
+
+## Previous Update — Enterprise-provider documentation gate passed with non-blocking findings (documentation-only, parallel track)
 
 `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004`
 

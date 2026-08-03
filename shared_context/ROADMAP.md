@@ -542,12 +542,21 @@ the time each task starts; each item records its current state below):
     Three non-blocking P3 observations remain (`P3-401`, `P3-402`, `P3-403`);
     none changes a runtime decision. Canonical review:
     `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_004.md`.
-14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **exact next task; eligible for
-    separate authorization; not started.** Eligible for separate explicit
-    Operator authorization under the four constraints recorded in Review 004
-    §36. Eligibility is not authorization: it is not authorized, not approved
-    for execution, not active, not implemented, and not enabled, and no
-    scaffold work may begin without that separate Operator authorization.
+14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **complete as one inert,
+    provider-neutral local scaffold; not pushed.** Standard-library Python 3.9
+    contracts now represent the canonical provider ID grammar, nine credential
+    classes, three acting identities, three authentication targets, three scope
+    applicability values, R0-R5, immutable descriptors/envelopes, and all eight
+    independent authorization facts. Static validation, sanitized typed errors,
+    a disabled adapter, and fixture-only in-memory tests exist. No real provider,
+    transport, credential, OAuth, MCP/fabric, registration, runtime enablement,
+    or execution-success path exists.
+15. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001` — **exact next
+    enterprise-provider task.** Independently review the scaffold against the
+    accepted Registry, Gateway, provider contracts/packs, Review 004 §36, and
+    its local negative-path tests. Concrete provider adapters remain blocked,
+    unimplemented, and unauthorized pending that review and separate Operator
+    authorization.
 
 No credentials, provider runtime, restricted-tool or MCP connection,
 MCP execution, Cloudflare API call,

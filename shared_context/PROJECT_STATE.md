@@ -1118,14 +1118,28 @@ Canonical review record:
 Durable review report:
 `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004.md`.
 
-The documentation gate has **passed with non-blocking findings**. The exact
-next enterprise-provider task is `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001`,
-which is now **eligible for separate Operator authorization** under the four
-constraints recorded in Review 004 §36. It is not started, not authorized, not
-approved for execution, not active, not implemented, and not enabled;
-eligibility is not authorization. No provider is connected, authenticated,
-credentialed, or enabled; no restricted tool is connected; no MCP execution is
-authorized; and no credential exists.
+**Provider Adapter Scaffold 001 — complete as an inert local code scaffold.**
+`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` consumed Review 004's
+`PASS_WITH_NON_BLOCKING_FINDINGS` gate and created a standard-library Python
+3.9 package under `scripts/provider_adapters/`. The package defines closed
+canonical vocabularies, immutable provider/capability/scope/envelope/fact
+contracts, typed sanitized failures, static manifest and envelope validation,
+a provider-neutral protocol, and a disabled adapter. Tests provide one
+fixture-only in-memory adapter. The scaffold uses Review 004 §36's four
+constraints directly: raw Registry §7.5 vocabulary values, field names rather
+than ordinals, no selectable restricted-tool OAuth mode, and an execution state
+that remains disabled under Gateway Rule 32.1.
+
+The scaffold implements no real provider adapter and creates no provider
+registration. No credential is configured or verified; no tenant or capability
+is authorized; no runtime is enabled; no operation is approved; no network
+transport, provider access, provider SDK, credential lookup, OAuth flow, MCP
+execution, integration-fabric connection, or execution-success path exists.
+Adapter existence remains distinct from every one of the eight authorization
+facts. The exact next enterprise-provider task is
+`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001`. Every concrete provider
+adapter remains blocked, unimplemented, and unauthorized pending that
+independent review and separate Operator authorization.
 
 This result does
 not reorder the global OpenAI Batch pointer, which remains
