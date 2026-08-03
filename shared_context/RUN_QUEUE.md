@@ -937,20 +937,36 @@ place, and independently governed.
    implemented**. No deployment, push, pull request, or merge occurred. Exactly
    one network operation: one authorized read-only `git fetch clean-origin`.
 
-**Current gate — exact next task:**
-`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` — an independent,
-read-only re-review of the remediated architecture, the seam-decision record,
-and both owner amendments. Not started. It is not an implementation task and
-authorizes no implementation.
+**Architecture gate — passed with non-blocking findings.**
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` is **complete as one
+local documentation commit; not pushed.** An independent, read-only re-review of
+remediation commit `ca221df3…` by a party that did not author it returned
+**`PASS_WITH_NON_BLOCKING_FINDINGS`** — P0 = 0, P1 = 0, P2 = 0, P3 = 1 (new) —
+with **all fourteen Review 001 findings independently `CLOSED`**, none partially
+closed and no regression introduced. Both owner amendments were confirmed
+minimal, additive, and bounded; the Provider Registry is byte-identical and
+remains the sole owner of provider authorization; loop behavior is unchanged and
+needed no schema edit; and all **42** deterministic scenarios resolve without
+interpretation. One new non-blocking finding, **`NEW-P3-01`** (§12.2 projection
+note 5 overstates renderability in Control Plane §9.10), is recorded, not
+repaired. Durable evidence:
+`docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md`,
+`docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002.md`.
 
-**`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` is not eligible for
-authorization.** Blocked pending Review 002 and separate explicit Operator
-authorization, in this recommended order: Agent Package Contract; Framework
-Bridge Contract; Shared Context Bridge; Agent Runtime Scaffold (inert, no
-framework process, no provider call, no credential, no model call, no tool
-execution, no deployment); Scaffold Review; first Agent Package; Cross-Agent
-Smoke (inert modes only); Integration Review. None of these is authorized by
-this queue entry. Agent Runtime implementation remains blocked.
+**Current gate — exact next task:**
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — a documentation-only Agent Package
+Contract specification, now **eligible for separate Operator authorization**
+under the `NEW-P3-01` constraint. Not started. Eligibility is not authorization:
+it requires its own explicit Operator authorization before it begins, and it is
+not an implementation task.
+
+**Still blocked**, each requiring its own gate and separate explicit Operator
+authorization, in this recommended order: Framework Bridge Contract; Shared
+Context Bridge; Agent Runtime Scaffold (inert, no framework process, no provider
+call, no credential, no model call, no tool execution, no deployment); Scaffold
+Review; first Agent Package; Cross-Agent Smoke (inert modes only); Integration
+Review. None of these is authorized by this queue entry. Agent Runtime
+implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 ("first execution-capable

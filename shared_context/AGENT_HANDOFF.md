@@ -1,6 +1,87 @@
 # Agent Handoff
 
-## Latest Update — Agent Runtime architecture seams remediated; unverified pending Review 002; nothing implemented, connected, or executed
+## Latest Update — Agent Runtime architecture gate PASSED with non-blocking findings; Agent Package Contract eligible; nothing implemented, connected, or executed
+
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002`
+
+- Independent, read-only re-review of remediation commit
+  `ca221df3f7ee6267c06f2050268b6a8e32bf9ea3` by a party that did **not** author
+  the remediation. Every remediation claim was treated as unverified until
+  independently reproduced from Review 001, the seam-decision record, the
+  complete nine-file diff, and deterministic replay. Complete as one local
+  documentation commit; **not pushed**.
+- **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`** — P0 = 0, P1 = 0, P2 = 0,
+  P3 = 1 (new). **All fourteen Review 001 findings independently `CLOSED`**:
+  none partially closed, none reopened, no regression introduced.
+- **`P1-01`** — the Control Plane amendment adds exactly one lifecycle member
+  `running`; the `active` bullet is unchanged and its prohibition explicitly
+  reaffirmed. Recounted all 17 projection rows: **zero** use `active`. The three
+  values added alongside `running` (`draft`, `queued`, `ready`) are exactly the
+  projections of rows 1, 4, and 3, so the extension is minimal rather than
+  scope creep. §9.8 correctly did **not** receive `running` — its key entities
+  are `QueueItem`/`Task`/`Artifact` with no `Run`.
+- **`P1-02`** — facts 5 and 6 are runtime-scoped record types with rules in both
+  directions preventing either from satisfying the other's fact; two disjoint
+  capability vocabularies are declared; a run proposing no provider operation
+  needs facts 1–8 only and never a `provider_id`. **Provider Registry is
+  byte-identical** and remains the sole owner of provider authorization.
+- **`P1-03`** — AI Operations §5.9 makes records differing in `attempt_id`
+  distinct and non-deduplicable; a full-document sweep found **no** surviving
+  clause implying one outcome per `run_id` or deduplication by `run_id` alone.
+  The Runtime consumes the owner's identity model rather than defining a
+  competing one.
+- **`P1-04`** — the transition is listed for all three in-flight waiting states,
+  §12.3 is declared closed, and Scenario 15 resolves by a single listed
+  transition with no intermediate hop.
+- **Loop compatibility holds without a schema edit.**
+  `shared_context/loops/RUN_LEDGER_SCHEMA.json` sets `"additionalProperties":
+  true`, and absent `run_kind`/`attempt_id` reproduce existing loop behavior
+  exactly. All four loop artifacts are byte-identical, as are the Integration
+  Gateway, Operations Data Contract, Loop Operations Architecture, all Shared
+  Context contracts, the Safety Contract, Validation, and Architecture Review
+  001.
+- **No validator or schema is invalidated.** A repository sweep found no JSON
+  schema or Python module enforcing a `lifecycle_status` enum and no JSON file
+  containing an `"active"` enum value. `py -3.9 scripts/validate_project_state.py`
+  → `PASS`, exit `0`.
+- **Counts were recalculated mechanically, not accepted from prose.** Two count
+  findings were fixed **structurally**: `P3-01` by adding a genuinely required
+  17th trace field (`destination_run_id`), `P3-03` by splitting the multi-class
+  error row under a normative one-class-per-row invariant — independently
+  counted as 49 rows / 49 distinct classes / zero duplicates. All **42**
+  scenarios resolve, IDs 1–42, no gaps or duplicates.
+- **One new non-blocking finding — `NEW-P3-01`:** §12.2 projection note 5 claims
+  every projected value is renderable by Control Plane §9.5, §9.7, **and §9.10**;
+  it holds for the two Run-bearing modules but not §9.10, whose lifecycle set
+  omits `draft` and `cancelled`. An inaccurate completeness claim in a
+  non-normative note, not a semantic incompatibility — §9.10 is a
+  cross-dimensional summary that did not enumerate `cancelled` before the
+  amendment either, and §34 requires operator surfaces to display `run_state`
+  rather than only the projection. **Recorded, not repaired**; this review
+  repaired nothing.
+- **Architecture accepted** as the canonical foundation for this track under
+  that single constraint. All eighteen Agent Package concerns are specifiable
+  without architectural invention, including the two Review 001 blocked on.
+- Nothing implemented, connected, or executed. No agent framework installed,
+  imported, connected, or executed; zero agents executed; no model provider,
+  tool, or provider connected; no credential configured. Exactly one network
+  operation: one authorized read-only `git fetch clean-origin`.
+- Exact next task: `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — documentation
+  only, now **eligible for separate Operator authorization** under the
+  `NEW-P3-01` constraint. Eligibility is not authorization; it is not started.
+- Framework Bridge Contract, Shared Context Bridge, Agent Runtime Scaffold,
+  first Agent Package, Cross-Agent Smoke, and Integration Review **remain
+  blocked**, as does Agent Runtime implementation. Live provider work remains
+  blocked; Gateway §32's seventeen-item gate still governs and none of it
+  passes. Migration triggers #1, #4, #5, #6, and #7 remain uncrossed. The global
+  higher-priority pointer
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is unchanged, not
+  reordered, and not reinterpreted.
+- Durable evidence:
+  `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md`,
+  `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002.md`.
+
+## Previous Update — Agent Runtime architecture seams remediated; unverified pending Review 002; nothing implemented, connected, or executed
 
 `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001`
 

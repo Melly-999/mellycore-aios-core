@@ -748,18 +748,46 @@ place, and independently governed.
    architecture gate. Nothing was implemented, connected, or executed; exactly
    one authorized read-only `git fetch clean-origin` used the network.
 
-4. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` — **exact next task
-   on this track.** An independent, read-only re-review of the remediated
-   architecture, the seam-decision record, and both owner amendments. Not
-   started, not authorized by item 3, and not an implementation task.
+4. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` — **complete as one
+   local documentation commit; not pushed.** An independent, read-only re-review
+   of remediation commit `ca221df3…`, the seam-decision record, and both owner
+   amendments, by a party that did not author the remediation. Outcome:
+   **`PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 = 0, P1 = 0, P2 = 0, P3 = 1 new).
 
-**Blocked pending Review 002 and separate explicit Operator authorization** —
-`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` is **not eligible** for
-authorization. The recommended, **not authorized**, successors — each requiring
-its own gate, in this order — are: Agent Package Contract; Framework Bridge
-Contract; Shared Context Bridge; Agent Runtime Scaffold (inert); Scaffold
-Review; first Agent Package; Cross-Agent Smoke (inert modes only); Integration
-Review. Agent Runtime implementation remains blocked.
+   **All fourteen Review 001 findings independently `CLOSED`** — none partially
+   closed, none reopened, no regression introduced. Both owner amendments are
+   minimal, additive, and bounded: the Control Plane gains exactly one lifecycle
+   member `running` with the `active` prohibition preserved verbatim, and §9.8
+   correctly did not receive it because it carries no `Run` entity. Provider
+   Registry is **byte-identical** and remains the sole owner of provider
+   authorization. Loop behavior is unchanged and required no schema edit. Counts
+   were recalculated mechanically — 17 lifecycle states and projections, 11
+   authorization facts, 49 error rows and 49 distinct classes, **42** scenarios,
+   all resolving without interpretation.
+
+   One new non-blocking finding, **`NEW-P3-01`**: §12.2 projection note 5
+   overstates renderability in Control Plane §9.10, whose lifecycle set omits
+   `draft` and `cancelled`. An inaccurate completeness claim in a non-normative
+   note, not a semantic incompatibility. Recorded, not repaired.
+
+   Durable evidence:
+   `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md`,
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002.md`.
+
+5. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — **exact next task on this
+   track.** A documentation-only Agent Package Contract specification, now
+   **eligible for separate Operator authorization** under the `NEW-P3-01`
+   constraint. Not started and not authorized by item 4.
+
+**Architecture accepted; Agent Package Contract eligible, not authorized.**
+Review 002 accepted `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical
+architectural foundation for this track under one non-blocking constraint, and
+confirmed that all eighteen Agent Package concerns are specifiable without
+architectural invention. Eligibility is not authorization. The remaining
+recommended, **not authorized**, successors — each requiring its own gate, in
+this order — are: Framework Bridge Contract; Shared Context Bridge; Agent Runtime
+Scaffold (inert); Scaffold Review; first Agent Package; Cross-Agent Smoke (inert
+modes only); Integration Review. Agent Runtime implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 before it may proceed to
