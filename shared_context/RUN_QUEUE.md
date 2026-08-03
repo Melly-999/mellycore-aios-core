@@ -768,18 +768,23 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    installed, not reported as passing. Canonical review:
    `docs/research/MELLYCORE_PROVIDER_ADAPTER_SCAFFOLD_REVIEW_001.md`. Durable
    report: `docs/tasks/MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001.md`.
-16. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001` — **exact next task
-   on this parallel track; eligible for separate authorization** under the seven
-   constraints recorded in the scaffold review (runtime-enable reference not
-   implied by validation success; disabled guarantee not sealed against
-   subclassing; fixture sensitive-text screen to be unified; untested validation
-   branches to gain coverage; `authentication_mode` requires an explicit
-   contract-aligned extension; `event_verification` remains unrepresentable;
-   bounded per-capability method shape remains a design decision). It is not
-   authorized, not started, not implemented, not connected, not authenticated,
-   not enabled, and not live. Separate explicit Operator authorization is
-   required before any concrete adapter work begins. The global higher-priority
-   pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is unchanged.
+16. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001` — **complete in one
+   local implementation commit; not pushed.** The provider-specific package is
+   transportless, credentialless, and execution-disabled. It contains one
+   Cloudflare descriptor, separate delegated/service 16-entry D1 manifests,
+   immutable read plans, exact scope declarations, a complete 58-row
+   classification, typed fixture errors, and bounded synthetic API Shield
+   normalization. Current evidence: 42 Cloudflare-focused, 62 neutral-scaffold,
+   and 678 full-suite tests pass; compile exits `0`; project validation passes.
+   No Cloudflare endpoint, credential, authentication, SDK, OAuth, MCP, webhook,
+   mutation, containment, runtime, deployment, dependency, or workflow path was
+   added or used.
+17. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001` — **exact
+   next task on this parallel track.** Independent review is required. Any live
+   Cloudflare transport, credentials, authentication, deployment, or runtime
+   work remains blocked pending that review and separate Operator authorization.
+   The global higher-priority pointer
+   `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is unchanged.
 
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,

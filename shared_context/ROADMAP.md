@@ -562,12 +562,18 @@ the time each task starts; each item records its current state below):
     outcome is representable. Both claimed test counts reproduce (62 focused,
     636 full). Canonical review:
     `docs/research/MELLYCORE_PROVIDER_ADAPTER_SCAFFOLD_REVIEW_001.md`.
-16. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001` — **exact next
-    enterprise-provider task; eligible for separate authorization** under the
-    seven constraints recorded in the scaffold review. It is not authorized, not
-    started, not implemented, not connected, not authenticated, not enabled, and
-    not live. Separate explicit Operator authorization is required before any
-    concrete adapter work begins.
+16. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001` — **complete in one
+    local implementation commit; not pushed.** Added a transportless,
+    credentialless, execution-disabled Cloudflare descriptor; separate delegated
+    and service 16-entry D1 manifests; immutable read-operation plans; explicit
+    scope projection; a complete 58-row classification; and bounded synthetic
+    API Shield fixture normalization. Excluded all proposal, mutation,
+    containment, D4 restricted-tool, MCP, webhook, and event-verification paths.
+    No provider was contacted or authenticated and no runtime was enabled.
+17. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001` — **exact
+    next enterprise-provider task; independent review required.** Live transport,
+    credentials, authentication, provider execution, deployment, and runtime
+    work remain blocked pending review and separate Operator authorization.
 
 No credentials, provider runtime, restricted-tool or MCP connection,
 MCP execution, Cloudflare API call,

@@ -1192,3 +1192,31 @@ Durable task reports:
 `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001.md` and
 `docs/tasks/MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001.md`. Canonical
 review: `docs/research/MELLYCORE_PROVIDER_ADAPTER_SCAFFOLD_REVIEW_001.md`.
+
+## Cloudflare API Shield Read-Only Adapter 001 — Local Implementation Complete, Review Required
+
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001` is complete on its
+local implementation branch. A transportless Cloudflare provider descriptor,
+two identity-specific 16-entry read-only manifests, immutable operation plans,
+Cloudflare scope enforcement, and bounded synthetic fixture normalization now
+exist over the unchanged provider-neutral scaffold. All 58 accepted Cloudflare
+capabilities are classified: 16 D1 reads included; 16 D2 proposals, 19 D3
+mutations, 4 D3 containment capabilities, and 3 D4 restricted-tool capabilities
+excluded.
+
+This code is concrete only in provider semantics and remains inert in execution.
+No network transport or endpoint exists; no Cloudflare endpoint was contacted;
+no SDK was added; no credential was configured or verified; no provider
+authentication occurred; no tenant or capability was authorized; no runtime was
+enabled; no operation was approved; and no MCP, fabric, webhook, proposal,
+mutation, containment, or execution-success path exists. Fixture normalization
+is local evidence only and cannot claim a provider request.
+
+Current validation: 42 Cloudflare-focused tests, 62 neutral-scaffold tests, and
+678 full-suite tests pass; compile exits `0`; the project validator reports
+`PASS`. The exact next enterprise-provider task is
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001`. Any live
+Cloudflare transport, credential, authentication, deployment, or runtime work
+remains blocked pending that independent review and separate Operator
+authorization. The pre-existing global higher-priority task pointer is
+unchanged, not reordered, and not reinterpreted.

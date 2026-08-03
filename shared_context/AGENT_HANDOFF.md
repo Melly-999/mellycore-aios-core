@@ -1,6 +1,38 @@
 # Agent Handoff
 
-## Latest Update — Provider adapter scaffold review 001 complete; scaffold gate passed with non-blocking findings (documentation-only, parallel track)
+## Latest Update — Cloudflare API Shield read-only adapter 001 complete; local review required
+
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001`
+
+- Implemented the first provider-specific projection over the accepted neutral
+  scaffold: one immutable Cloudflare descriptor, separate delegated and service
+  16-entry D1 manifests, immutable transport-independent operation plans,
+  explicit Cloudflare scope applicability, a complete 58-row classification,
+  typed local errors, and bounded synthetic API Shield fixture normalization.
+- Classification is complete and disjoint: 16 D1 reads included; 16 D2
+  proposals, 19 D3 mutations, 4 D3 containment capabilities, and 3 D4
+  restricted-tool capabilities excluded. No R3-R5, D4, event-verification, MCP,
+  webhook, proposal, mutation, or containment capability is implemented.
+- Both concrete adapter classes are final and runtime-sealed; every execution
+  attempt remains `EXECUTION_DISABLED`, including all eight authorization facts
+  satisfied with an explicit fact-7 record. Authentication mode remains
+  non-runtime contract metadata and cannot select credentials or execution.
+- Current validation: Cloudflare focused 42 `OK`; neutral scaffold 62 `OK`;
+  full suite 678 `OK`; Python 3.9 compile exit `0`; project validator `PASS`.
+- No network transport was implemented; no Cloudflare endpoint was contacted;
+  no SDK was added; no credential was configured or verified; no provider
+  authentication occurred; no tenant or capability was authorized; no runtime
+  was enabled; no operation was approved; and no provider request, OAuth, MCP,
+  fabric, webhook, mutation, containment, deployment, dependency, workflow,
+  frontend, or MellyTrade action occurred.
+- Exact next enterprise-provider task:
+  `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001`. Live transport,
+  credentials, authentication, provider execution, deployment, and runtime work
+  remain blocked pending independent review and separate Operator authorization.
+- The pre-existing global higher-priority task pointer is unchanged, not
+  reordered, and not reinterpreted.
+
+## Previous Update — Provider adapter scaffold review 001 complete; scaffold gate passed with non-blocking findings (documentation-only, parallel track)
 
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001`
 
