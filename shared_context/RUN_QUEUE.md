@@ -1089,13 +1089,63 @@ higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is unchanged, not
 reordered, and not reinterpreted.
 
+**`MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001` — complete as one local
+documentation commit on `docs/mellycore-framework-bridge-contract-spec-001`;
+not pushed.** Defines the provider-agnostic Framework Bridge Contract.
+Specification: `docs/specs/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_001.md`
+(version 1.0, 39 sections). Durable report:
+`docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001.md`.
+
+**Task identity was minted by explicit Operator authorization.** This queue
+entry previously carried only the plain name "Framework Bridge Contract" with
+no task identifier anywhere in the repository; the run that discovered this
+stopped before mutation rather than invent one, and the Operator then
+authorized `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001`.
+
+Fixes the one-directional projection chain — MellyCore canonical contract →
+framework-neutral bridge semantics → framework-specific adapter projection —
+and prohibits the inverse. Defines: the adapter declared boundary (twelve
+fields, no code); identity, manifest, capability, permission, prompt, tool,
+skill, command, hook, plugin, MCP, Shared Context, and memory projections; a
+sixth **framework-supported** capability state that never implies MellyCore
+authorization; thirteen deny-by-default permission categories that framework
+defaults MUST NOT override; eleven distinct runtime-interaction stages; the
+Model Router boundary that framework configuration MUST NOT bypass; error
+translation consuming twelve existing Agent Runtime classes and adding nine
+genuinely absent bridge classes; a four-tier projection-loss taxonomy that
+fails closed on safety-relevant loss; ten Bridge Validation layers that
+explicitly do **not** authorize execution; sixteen observability projections;
+six bounded per-framework profiles; and fifteen security threats.
+
+**All three open Agent Package P2 findings were contained, not resolved.** The
+contract defines no package-lifecycle rendering field (`NEW-P2-01`), declares
+neither package contract version 1.0 nor 1.1 as canonically current
+(`NEW-P2-02`), and defines no protected command classes (`NEW-P2-03`). No
+normative rule depends on any of the three; each is recorded as a deferred
+dependency. **The Agent Package Contract and every other owner document were
+not edited.**
+
+**Honest limitation.** Agent Runtime §11.3 and §35 require every per-framework
+cell to be validated by this task, but that needs framework installation and
+execution, which this authorization forbids. Those cells remain **unvalidated
+planning positions**, and the validation obligation is assigned, with recorded
+evidence, to each future per-framework adapter specification.
+
+**Nothing implemented, integrated, installed, or connected.** Framework Bridge
+`NOT_IMPLEMENTED`; Framework Adapters (all six) `NONE_EXIST`; SDKs and
+frameworks `NOT_INSTALLED` / `NOT_IMPORTED` / `NOT_EXECUTED`; framework sessions
+created **zero**. **The specification is unverified and not accepted** — no
+review has run.
+
 **Still blocked**, each requiring its own gate and separate explicit
-Operator authorization, in this recommended order: Framework Bridge Contract
-(**exact next task in this track — not started, not authorized**);
-Shared Context Bridge; Agent Runtime Scaffold (inert, no framework
+Operator authorization, in this recommended order:
+`MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001` (**exact next task in
+this track — not started, not authorized**); Shared Context Bridge; Agent
+Runtime Scaffold (inert, no framework
 process, no provider call, no credential, no model call, no tool
 execution, no deployment); Scaffold Review; first Agent Package;
-Cross-Agent Smoke (inert modes only); Integration Review; and, following
+Cross-Agent Smoke (inert modes only); Integration Review; the six
+per-framework adapter specifications; and, following
 those, the twelve named follow-up contracts (§26 of the spec), each
 independently gated. None of these is authorized by this queue entry. Agent
 Runtime implementation remains blocked.

@@ -894,6 +894,39 @@ place, and independently governed.
    `NEW-P3-04`. Each P2 must be corrected before the follow-up contract that
    depends on its section.
 
+9. `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001` — **complete as one local
+   documentation commit; not pushed.** Defines the provider-agnostic
+   **Framework Bridge Contract**:
+   `docs/specs/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_001.md` (version 1.0,
+   39 sections). Durable report:
+   `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001.md`. The task
+   identifier was **minted by explicit Operator authorization**, because the
+   queue previously carried only the plain name "Framework Bridge Contract"
+   with no identifier anywhere in the repository.
+
+   Fixes the one-directional projection chain — MellyCore canonical contract →
+   framework-neutral bridge semantics → framework-specific adapter projection
+   — and prohibits the inverse. No framework may redefine agent identity,
+   package identity, capability states, permissions, approvals, trust,
+   provenance, lifecycle, run state, Shared Context ownership, observability
+   ownership, error taxonomy, or Operator authority. Adds a sixth
+   **framework-supported** capability state that never implies MellyCore
+   authorization, keeps thirteen permission categories deny-by-default against
+   framework defaults, routes every framework model request through the Model
+   Router, fails closed on safety-relevant projection loss, and defines six
+   bounded per-framework profiles for `claude_code`, `openai_agents_sdk`,
+   `langgraph`, `crewai`, `autogen`, and `mellycore_custom` — the canonical
+   closed set, with no seventh identifier added.
+
+   **All three open Agent Package P2 findings were contained, not resolved**
+   (no lifecycle rendering field defined; neither package contract version
+   declared canonically current; no protected command classes defined), and
+   each is recorded as a deferred dependency. **No owner document was edited.**
+   Agent Runtime §11.3/§35 per-framework cells remain **unvalidated planning
+   positions**, with the validation obligation assigned to each future
+   per-framework adapter specification. **Nothing implemented, integrated, or
+   installed**; the specification is **unverified and not accepted**.
+
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted
 `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical architectural

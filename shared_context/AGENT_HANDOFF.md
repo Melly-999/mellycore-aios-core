@@ -1,6 +1,75 @@
 # Agent Handoff
 
-## Latest Update — Agent Package Contract Spec Review 002 gate PASS_WITH_NON_BLOCKING_FINDINGS; specification accepted as documentation only; nothing implemented, connected, or executed
+## Latest Update — Framework Bridge Contract specified (documentation only); no adapter, SDK, or framework integration exists; unverified pending independent review
+
+`MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001`
+
+- **Operator-authorized task identity minted.** This work previously had **no
+  task identifier anywhere in the repository** — `RUN_QUEUE.md` and
+  `TASK_INDEX.md` carried only the plain name "Framework Bridge Contract", and
+  an exhaustive search for any `…FRAMEWORK-BRIDGE…` identifier returned zero
+  matches. The preceding run therefore stopped before mutation
+  (`STOPPED_CANONICAL_TASK_IDENTITY_MISSING`). Explicit Operator authorization
+  then minted `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001`, matching the
+  repository convention that a task ID is created at the moment of
+  authorization (Agent Runtime §40, Agent Package Contract §26).
+- Drafted the canonical **Framework Bridge Contract** —
+  `docs/specs/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_001.md`, version 1.0,
+  39 sections — as one local documentation commit on
+  `docs/mellycore-framework-bridge-contract-spec-001`; **not pushed.** Durable
+  report: `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001.md`.
+- **The architectural direction is fixed and one-directional:** MellyCore
+  canonical contract → framework-neutral bridge semantics → framework-specific
+  adapter projection. The inverse is prohibited. No framework may redefine agent
+  identity, package identity, capability states, permissions, approvals, trust,
+  provenance, lifecycle, run state, Shared Context ownership, observability
+  ownership, error taxonomy, or Operator authority. No projected form is ever
+  authoritative.
+- **Ownership preserved.** The contract owns only projection semantics, the
+  adapter declared boundary, the projection-loss taxonomy, the bridge validation
+  layers, and the per-framework profiles. It consumes unchanged: Agent Runtime
+  §16's nine bridge operations, §11.2's six normative bridge rules, §11.1's
+  closed six-member framework set, and §33's error taxonomy; all Agent Package
+  concepts; Model Router decisions; Provider Registry facts; Gateway capability,
+  policy, and approval decisions; Shared Context canonical truth; and Control
+  Plane's six status dimensions. **No owner document was edited.**
+- **Capability projection adds a sixth state** — framework-supported — without
+  collapsing the Agent Package Contract's five. **A framework's ability to
+  perform an action is explicitly not MellyCore authorization**, and framework
+  defaults MUST NOT override deny-by-default across the thirteen permission
+  categories. Permission flattening into a coarse framework switch is
+  prohibited.
+- **All three open Agent Package P2 findings were contained, not resolved.**
+  `NEW-P2-01`: the contract defines **no** package-lifecycle rendering field and
+  no rule depends on one. `NEW-P2-02`: it declares **neither** package contract
+  version 1.0 nor 1.1 as canonically current, using declared ranges instead.
+  `NEW-P2-03`: it defines and enumerates **no** protected command classes and
+  never activates, owns, or resolves a command namespace. All three are recorded
+  as deferred dependencies owned by the Agent Package Contract and the future
+  Command Registry. **The Agent Package Contract was not edited.**
+- **Honest limitation recorded.** Agent Runtime §11.3 and §35 require every
+  per-framework cell to be validated by this task, but empirical validation
+  needs framework installation and execution, which this authorization forbids.
+  The contract therefore records those cells as **unvalidated planning
+  positions** and assigns the validation obligation, with recorded evidence, to
+  each future per-framework adapter specification.
+- **Nothing implemented, integrated, installed, or connected.** Framework
+  Bridge: `NOT_IMPLEMENTED`. Framework Adapters (all six): `NONE_EXIST`. SDKs
+  and frameworks: `NOT_INSTALLED`, `NOT_IMPORTED`, `NOT_EXECUTED`. Framework
+  sessions created: **zero**. No Agent Runtime, package loading, command, hook,
+  plugin, MCP, or batch capability exists; no provider connection, credential,
+  model call, or deployment. Migration triggers #1, #4, #5, #6, #7 remain
+  uncrossed.
+- **This specification is unverified and not accepted.** No review has run.
+- Exact next task: `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001` — an
+  independent, read-only review of this specification. **Not started, not
+  authorized by this entry.** Shared Context Bridge, Agent Runtime Scaffold,
+  Scaffold Review, first Agent Package, Cross-Agent Smoke, Integration Review,
+  the six per-framework adapter specifications, and the twelve Agent Package
+  follow-up contracts all remain blocked. The global higher-priority pointer
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is unchanged.
+
+## Previous Update — Agent Package Contract Spec Review 002 gate PASS_WITH_NON_BLOCKING_FINDINGS; specification accepted as documentation only; nothing implemented, connected, or executed
 
 `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002`
 

@@ -193,6 +193,34 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    detail:
    `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_002.md`,
    `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002.md`.
+9. `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001` — `SPECIFIED`
+   (documentation only, **unverified**), 2026-08-03. Defines the
+   provider-agnostic **Framework Bridge Contract**
+   (`docs/specs/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_001.md`, version 1.0,
+   39 sections). The task identifier was **minted by explicit Operator
+   authorization** after the preceding run found no identifier anywhere in the
+   repository and stopped before mutation rather than invent one. Fixes the
+   one-directional projection chain — MellyCore canonical contract →
+   framework-neutral bridge semantics → framework-specific adapter projection
+   — prohibits the inverse, and bars any framework from redefining agent or
+   package identity, capability states, permissions, approvals, trust,
+   provenance, lifecycle, run state, Shared Context ownership, observability
+   ownership, error taxonomy, or Operator authority. Adds a sixth
+   **framework-supported** capability state that never implies MellyCore
+   authorization; keeps thirteen permission categories deny-by-default against
+   framework defaults; routes every framework model request through the Model
+   Router; fails closed on safety-relevant projection loss; and defines six
+   bounded per-framework profiles across the canonical closed set, with no
+   seventh identifier added. All three open Agent Package P2 findings were
+   **contained, not resolved**, and recorded as deferred dependencies; **no
+   owner document was edited**. Agent Runtime §11.3/§35 per-framework cells
+   remain **unvalidated planning positions**, with the validation obligation
+   assigned to each future per-framework adapter specification. **Nothing
+   implemented, integrated, or installed** — no bridge, adapter, SDK,
+   framework session, runtime, provider connection, credential, or deployment.
+   Complete as one local documentation commit on
+   `docs/mellycore-framework-bridge-contract-spec-001`, not pushed. Full
+   detail: `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001.md`.
 
 ## How to Extend This File
 
