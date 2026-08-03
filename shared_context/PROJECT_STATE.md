@@ -1277,3 +1277,63 @@ Agent Runtime remains blocked. The exact next task is
 `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002`.
 The pre-existing global higher-priority pointer remains unchanged and is not
 reordered or reinterpreted.
+
+## Cloudflare API Shield Read-Only Adapter Review 002 — Passed With Non-Blocking Findings; Provider-Foundation Checkpoint Complete
+
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002` independently
+reviewed remediation commit `1a9acd2f1ad7b4597bce795d5d626424f34466e2` without
+trusting its report and without repairing anything. The outcome is
+`PASS_WITH_NON_BLOCKING_FINDINGS` with P0 = 0, P1 = 0, P2 = 2, P3 = 1. The
+record is `docs/research/MELLYCORE_CLOUDFLARE_API_SHIELD_READ_ONLY_ADAPTER_REVIEW_002.md`.
+
+All three Review 001 findings are independently verified `CLOSED`. For `P1-01`,
+all 32 concrete entries collapse to exactly one tuple per identity variant —
+delegated binds `delegated_oauth` with `read_only_delegated` / `delegated_user`
+/ `provider_account`, service binds `api_token` with `read_only_service` /
+`service_account` / `provider_account` — the mode enum is closed at two members
+with no `_missing_` hook and no case, whitespace or raw-string coercion,
+descriptor and plan modes agree for all 32, and 15 descriptor, 5 plan and 4
+global-metadata adversarial constructions all deny. Both mode values are
+determined by the closed Registry and Cloudflare tables rather than chosen, so
+no architectural interpretation was required. For `P2-01`, the fixture-host
+grammar is fail-closed across 46 host strings and 6 hostile objects, and no
+denial echoes its input. For `P2-02`, the 58-row test oracle is a distinct
+literal object that detects missing, extra, renamed, recategorized and
+risk-drifted capabilities.
+
+No regression was found. Review 001's own 58-row table matches current
+production classification exactly; manifest, plan, scope, fixture,
+execution-disabled and sensitive-data behaviour are unchanged; and the neutral
+scaffold, canonical contracts, Scaffold Review 001, Review 001 and the
+remediation report are byte-identical by SHA-256. Validation: 60
+Cloudflare-focused, 62 neutral-scaffold and 696 full-suite tests pass; compile
+and the project validator pass; Black, flake8 and mypy are `NOT_AVAILABLE` and
+are not claimed passing.
+
+Three new non-blocking findings are recorded. `P2-03`: a `str` subclass passes
+every fixture gate and escapes normalization into `host`, `canonical_ref` and
+`provider_native_ref`, and because `_state_digest` calls `repr()`, a crafted
+subclass produced a demonstrated digest collision between two different
+fixtures; it must close before `state_digest` or normalized string fields are
+consumed downstream. `P2-04`: Registry §26.1 records Cloudflare
+`supported_auth_modes` as scoped `api_token` for the provider API and no
+Cloudflare-track contract enumerates `delegated_oauth`, leaving an open
+registration-time question that must resolve before any Cloudflare provider
+record or credential profile is created; it does not block here because
+registration is `not_registered`, credentials are `unsupported`, and execution
+is disabled. `P3-01`: structurally malformed references are denied with a
+sensitive-value error code.
+
+The offline Cloudflare adapter checkpoint is accepted and the provider-
+foundation checkpoint is complete for the current milestone, under those
+constraints. Further live-provider development is deferred. Live Cloudflare
+transport, credentials, authentication, OAuth, token creation, MCP connection,
+webhook, provider API access including read-only calls, mutation, containment,
+registration, runtime enablement and deployment all remain blocked and
+unauthorized.
+
+The exact next main product task is
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001`, eligible for separate
+authorization. It is not started, not authorized, not approved, not active, and
+not implemented. The pre-existing global higher-priority pointer remains
+unchanged and is not reordered or reinterpreted.

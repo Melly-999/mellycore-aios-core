@@ -800,10 +800,32 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    adversarial coverage. No generic scaffold, credential, OAuth, authentication,
    provider request, network, mutation, containment, or runtime behavior was
    added. Claims remain unverified pending Review 002.
-19. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002` — **exact next
-   task on this parallel track; eligible for separate authorization.** Provider
-   foundation remains incomplete and Agent Runtime remains blocked until the
-   remediation passes independent review. Live Cloudflare work remains blocked.
+19. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002` — **complete in
+   one local documentation commit; not pushed.** Outcome
+   `PASS_WITH_NON_BLOCKING_FINDINGS`: P0 = 0, P1 = 0, P2 = 2, P3 = 1. `P1-01`,
+   `P2-01` and `P2-02` are independently verified `CLOSED`: all 32 concrete
+   entries bind one exact compatible non-runtime mode per identity variant with
+   descriptor/plan agreement and fail-closed denial of every mismatched,
+   missing, unknown, aliased, case- or whitespace-varied and raw-string value;
+   the fixture-host grammar denies every URL, user-info, port, whitespace,
+   control, malformed-label, confusable and overlong shape without echo; and
+   the focused tests carry a genuinely independent 58-row contract oracle that
+   detects missing, extra, renamed, recategorized and risk-drifted rows.
+   Evidence: 60 Cloudflare-focused, 62 neutral-scaffold and 696 full-suite
+   tests pass, compile and project validator pass, Black/flake8/mypy are
+   `NOT_AVAILABLE`. New non-blocking findings `P2-03` (a `str` subclass escapes
+   fixture normalization and can forge `state_digest`), `P2-04` (the Cloudflare
+   provider record does not enumerate `delegated_oauth` as an offered
+   provider-API mode — resolve before any provider record or credential profile
+   is created) and `P3-01` are recorded. The offline Cloudflare adapter
+   checkpoint is accepted and the provider-foundation checkpoint is complete
+   for this milestone under those constraints. Live Cloudflare work remains
+   blocked.
+20. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **exact next main product
+   task; eligible for separate authorization.** Not started, not authorized,
+   not approved, not active, and not implemented. No provider connectivity,
+   credential, or live Cloudflare capability is claimed or authorized by this
+   sequencing.
 
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,

@@ -586,10 +586,25 @@ the time each task starts; each item records its current state below):
     contract oracle plus expanded adversarial coverage. No generic scaffold,
     transport, credential, authentication, provider, or runtime path changed.
     Remediation claims remain unverified pending Review 002.
-19. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002` — **exact next
-    enterprise-provider task; eligible for separate authorization.** Provider
-    foundation remains incomplete. Live Cloudflare work and Agent Runtime remain
-    blocked pending independent acceptance.
+19. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002` — **complete in
+    one local documentation commit; not pushed.** Outcome
+    `PASS_WITH_NON_BLOCKING_FINDINGS`: P0 = 0, P1 = 0, P2 = 2, P3 = 1. Review
+    001's `P1-01`, `P2-01` and `P2-02` are each independently verified `CLOSED`
+    against the canonical contracts, the implementation, the tests, and direct
+    probes; no capability classification, scope, manifest, plan, fixture or
+    execution-disabled regression was found; and the neutral scaffold,
+    canonical contracts and prior reviews are byte-identical. New non-blocking
+    findings `P2-03`, `P2-04` and `P3-01` are recorded in
+    `docs/research/MELLYCORE_CLOUDFLARE_API_SHIELD_READ_ONLY_ADAPTER_REVIEW_002.md`.
+    The offline Cloudflare adapter checkpoint is accepted and the
+    provider-foundation checkpoint is complete for this milestone under those
+    findings' constraints. Live Cloudflare work remains blocked and
+    unauthorized.
+20. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **exact next main product
+    task; eligible for separate authorization.** Not started, not authorized,
+    not approved, not active, and not implemented. Its architecture depends on
+    no unresolved Cloudflare provider behaviour, because the adapter exposes no
+    runtime, transport, credential or authentication path.
 
 No credentials, provider runtime, restricted-tool or MCP connection,
 MCP execution, Cloudflare API call,

@@ -1,6 +1,44 @@
 # Agent Handoff
 
-## Latest Update — Cloudflare API Shield adapter remediation 001 complete; Review 002 required
+## Latest Update — Cloudflare API Shield adapter Review 002 passed with non-blocking findings; provider foundation complete
+
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002`
+
+- Independent post-remediation review of commit
+  `1a9acd2f1ad7b4597bce795d5d626424f34466e2` completed with
+  `PASS_WITH_NON_BLOCKING_FINDINGS`: P0 = 0, P1 = 0, P2 = 2, P3 = 1.
+- All three Review 001 findings are independently verified `CLOSED`. `P1-01`:
+  all 32 concrete entries bind exactly one compatible mode per variant, and 24
+  adversarial descriptor, plan and metadata constructions all deny. `P2-01`: 46
+  fixture-host strings and 6 hostile objects were exercised, and every scheme,
+  path, query, fragment, user-info, port, whitespace, control, malformed-label,
+  confusable and overlong case denies without echo. `P2-02`: the 58-row test
+  oracle is a distinct literal object that detects missing, extra, renamed,
+  recategorized and risk-drifted capabilities.
+- No regression: Review 001's own 58-row table matches current production
+  classification exactly, and the neutral scaffold, canonical contracts and
+  prior reviews are byte-identical by SHA-256.
+- New non-blocking findings: `P2-03`, a `str` subclass escapes fixture
+  normalization and can forge `state_digest`; `P2-04`, the Cloudflare provider
+  record does not enumerate `delegated_oauth` as an offered provider-API mode,
+  a registration-time specification question; `P3-01`, malformed references are
+  reported with a sensitive-value error code.
+- Validation: 60 Cloudflare-focused, 62 neutral-scaffold and 696 full-suite
+  tests pass; compile and project validator pass; Black, flake8 and mypy are
+  `NOT_AVAILABLE` and are not claimed passing.
+- The offline Cloudflare adapter checkpoint is accepted and the provider-
+  foundation checkpoint is complete for this milestone, under the constraints
+  that `P2-03` closes before `state_digest` is consumed downstream and `P2-04`
+  resolves before any provider record or credential profile is created.
+- Live Cloudflare transport, credentials, authentication, OAuth, MCP, webhook,
+  provider API access including read-only calls, registration, runtime
+  enablement and deployment all remain blocked and unauthorized.
+- Exact next task: `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — eligible
+  for separate authorization; not started, not authorized, not implemented.
+- The pre-existing global higher-priority pointer remains unchanged, in place,
+  and independently governed.
+
+## Previous Update — Cloudflare API Shield adapter remediation 001 complete; Review 002 required
 
 `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001`
 
