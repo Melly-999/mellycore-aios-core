@@ -1,6 +1,72 @@
 # Agent Handoff
 
-## Latest Update — Provider Adapter Scaffold 001 complete and inert (parallel track)
+## Latest Update — Provider adapter scaffold review 001 complete; scaffold gate passed with non-blocking findings (documentation-only, parallel track)
+
+`MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001`
+
+- Independent code, security, architecture, and test review of scaffold commit
+  `311ee3f371c61ca87bef2b0e5718d0f85b728902` (11 paths). Outcome:
+  `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 6, P3 = 5. All
+  scaffold claims were treated as unverified and reproduced from repository
+  evidence.
+- Canonical vocabularies verified exact and closed against contract text: nine
+  credential-profile classes, three acting identities, three authentication
+  targets, three scope-applicability values, R0–R5. No enum defines a
+  `_missing_` override, so no alias, case fold, whitespace trim, or fuzzy match
+  can produce a member; nine coercion attempts all denied. The provider-ID
+  grammar is byte-identical to Registry §7, and the class→identity and
+  class→target closures reproduce Registry §13.2 verbatim.
+- Fail-closed validation confirmed by probe, not by claim: 15 of 15 manifest
+  adversarial cases and 26 of 27 envelope adversarial cases deny with stable
+  typed codes, including provider/capability/version/revision/identity/class/
+  target/risk mismatch, missing required scope, value supplied for a
+  `not_applicable` dimension, zero and multiple credential matches, standing
+  facts set to `not_required`, and the R3–R5 approval gate in both directions.
+- The eight authorization facts are eight separate fields with no aggregate,
+  derived, or computed member. All 128 standing-fact combinations plus the
+  all-eight-satisfied case were executed: every one returned
+  `EXECUTION_DISABLED`. No execution-success outcome is representable —
+  `OperationOutcome` has no success member and the result model structurally
+  forbids provider request IDs, authentication claims, and mutation claims.
+- Deep immutability holds: every model is frozen and **no field is declared with
+  a mutable container type**; seven mutation attempts were all rejected, and
+  list-typed inputs deny at validation.
+- Independent static AST analysis and a runtime import audit confirm zero
+  network, environment, subprocess, dynamic-import, filesystem, or provider-SDK
+  behavior and zero module-level side effects — the package imports only `re`,
+  `hashlib`, `enum`, `dataclasses`, and `typing`. A 90-combination redaction
+  sweep across nine sensitive-shaped values and nine reference fields produced
+  zero leaks and zero acceptances.
+- Review 004 §36's four constraints are each satisfied with source, test, and
+  independent-probe evidence: Registry §7.5 raw values, field names rather than
+  ordinals, no selectable restricted-tool OAuth mode, and Gateway Rule 32.1
+  represented by an always-disabled execution state.
+- Test replay: 62 focused and 636 full tests both reproduce exactly; compile exit
+  `0`; project validator `PASS`. black/flake8/mypy are `NOT_AVAILABLE`, were not
+  installed, and are not reported as passing.
+- The six P2 findings are recorded constraints, all fail-closed: runtime-enable
+  reference never required even when fact 7 is `satisfied`; disabled guarantee
+  not sealed against subclassing; fixture sensitive-text screen narrower than
+  validation's; several security-relevant validation branches untested;
+  `authentication_mode` unrepresented; `event_verification` unrepresentable.
+- The task specification's Review 004 task-report path did not exist; the actual
+  canonical path
+  `docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004.md` was
+  discovered and used. No path was silently substituted.
+- Exact next enterprise-provider task:
+  `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001` — **eligible for
+  separate authorization** under the seven constraints in the review record. It
+  is not authorized, not started, not implemented, not connected, not
+  authenticated, not enabled, and not live.
+- No scaffold source or test was modified, no finding was repaired, and no
+  provider adapter was implemented. No provider is registered; no credential is
+  configured or verified; no tenant or capability is authorized; no runtime is
+  enabled; no operation is approved; no provider connection, network transport,
+  SDK, OAuth, MCP/fabric, webhook, deployment, dependency, workflow, frontend, or
+  MellyTrade action exists or occurred. The global OpenAI Batch pointer is
+  unchanged, not reordered, and not reinterpreted.
+
+## Previous Update — Provider Adapter Scaffold 001 complete and inert (parallel track)
 
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001`
 

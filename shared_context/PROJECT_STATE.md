@@ -1136,14 +1136,59 @@ is authorized; no runtime is enabled; no operation is approved; no network
 transport, provider access, provider SDK, credential lookup, OAuth flow, MCP
 execution, integration-fabric connection, or execution-success path exists.
 Adapter existence remains distinct from every one of the eight authorization
-facts. The exact next enterprise-provider task is
+facts. At the time of that record, the exact next enterprise-provider task was
 `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001`. Every concrete provider
-adapter remains blocked, unimplemented, and unauthorized pending that
+adapter remained blocked, unimplemented, and unauthorized pending that
 independent review and separate Operator authorization.
+
+**Provider adapter scaffold review 001 — complete; scaffold gate passed with
+non-blocking findings.** `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001`
+independently reviewed scaffold commit `311ee3f…` against the accepted Registry,
+Gateway, Cloudflare, provider-pack, fabric-comparison, and ADR contracts and
+against Review 004 §36. Outcome: `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0,
+P1 = 0, P2 = 6, P3 = 5.
+
+Verified independently rather than from the scaffold's claims: the nine
+credential-profile classes, three acting identities, three authentication
+targets, three scope-applicability values, and R0–R5 are exact, closed, and free
+of alias, case, whitespace, or fuzzy coercion; the provider-ID grammar is
+byte-identical to Registry §7; the class→identity and class→target closures
+reproduce Registry §13.2 verbatim; Registry §11's scope rules each deny
+independently and a missing declaration never becomes `not_applicable`; the
+eight authorization facts are eight separate fields with no aggregate or derived
+member; 26 of 27 adversarial envelope paths and 15 of 15 manifest paths deny with
+stable typed codes; every model is frozen and no field is declared with a mutable
+container type; a 90-combination redaction sweep produced zero leaks; static AST
+analysis and a runtime import audit confirm zero network, environment,
+subprocess, dynamic-import, or provider-SDK behavior; and 129 execution probes,
+including all 128 standing-fact combinations and the all-eight-satisfied case,
+produced only `EXECUTION_DISABLED`. No execution-success outcome is
+representable. Both claimed test counts reproduce exactly: 62 focused and 636
+full, with compile exit `0` and the project validator `PASS`.
+
+The six P2 findings are recorded constraints, not blockers: the runtime-enable
+reference is never required even when fact 7 is `satisfied`; the disabled
+guarantee is not sealed against subclassing; the fixture sensitive-text screen is
+narrower than validation's; several security-relevant validation branches are
+untested; `authentication_mode` has no representation; and `event_verification`
+capabilities are unrepresentable. Each fails closed.
+
+The scaffold gate is passed. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001`
+is **eligible for separate authorization** under the seven constraints recorded
+in the review record. It is not authorized, not started, not implemented, not
+connected, not authenticated, not enabled, and not live. The review itself starts
+and authorizes no concrete adapter. No provider is registered, no credential is
+configured or verified, no tenant or capability is authorized, no runtime is
+enabled, no operation is approved, and no provider connection exists.
+
+The exact next enterprise-provider task is
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001`.
 
 This result does
 not reorder the global OpenAI Batch pointer, which remains
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`.
 
-Durable task report:
-`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001.md`.
+Durable task reports:
+`docs/tasks/MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001.md` and
+`docs/tasks/MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001.md`. Canonical
+review: `docs/research/MELLYCORE_PROVIDER_ADAPTER_SCAFFOLD_REVIEW_001.md`.

@@ -551,12 +551,23 @@ the time each task starts; each item records its current state below):
     a disabled adapter, and fixture-only in-memory tests exist. No real provider,
     transport, credential, OAuth, MCP/fabric, registration, runtime enablement,
     or execution-success path exists.
-15. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001` — **exact next
-    enterprise-provider task.** Independently review the scaffold against the
-    accepted Registry, Gateway, provider contracts/packs, Review 004 §36, and
-    its local negative-path tests. Concrete provider adapters remain blocked,
-    unimplemented, and unauthorized pending that review and separate Operator
-    authorization.
+15. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001` — **complete; scaffold gate
+    passed with non-blocking findings.** Independent review of scaffold commit
+    `311ee3f…` against the accepted Registry, Gateway, provider contracts/packs,
+    Review 004 §36, and the scaffold's own tests. Outcome:
+    `PASS_WITH_NON_BLOCKING_FINDINGS`; P0 = 0, P1 = 0, P2 = 6, P3 = 5. Canonical
+    vocabularies are exact and closed, validation fails closed with stable typed
+    codes, every model is meaningfully immutable, no network/credential/
+    environment/SDK/OAuth/MCP/fabric behavior exists, and no execution-success
+    outcome is representable. Both claimed test counts reproduce (62 focused,
+    636 full). Canonical review:
+    `docs/research/MELLYCORE_PROVIDER_ADAPTER_SCAFFOLD_REVIEW_001.md`.
+16. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001` — **exact next
+    enterprise-provider task; eligible for separate authorization** under the
+    seven constraints recorded in the scaffold review. It is not authorized, not
+    started, not implemented, not connected, not authenticated, not enabled, and
+    not live. Separate explicit Operator authorization is required before any
+    concrete adapter work begins.
 
 No credentials, provider runtime, restricted-tool or MCP connection,
 MCP execution, Cloudflare API call,

@@ -752,10 +752,34 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    provider adapter, registration, credential, provider access, network
    transport, OAuth, MCP/fabric path, runtime enablement, or execution-success
    path exists.
-15. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001` — **exact next task on
-   this parallel track.** Independent code/contract review only. Every concrete
-   provider adapter remains blocked, unimplemented, and unauthorized pending a
-   passing review and separate explicit Operator authorization.
+15. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001` — **complete in one local
+   documentation commit; not pushed. Scaffold gate passed with non-blocking
+   findings.** Independent code/contract/security/test review of scaffold commit
+   `311ee3f…`. Outcome: `PASS_WITH_NON_BLOCKING_FINDINGS`; P0 = 0, P1 = 0,
+   P2 = 6, P3 = 5. Independently reproduced: exact closed canonical
+   vocabularies, byte-identical provider-ID grammar, Registry §13.2 binding
+   closures, Registry §11 scope rules, eight separate authorization facts with no
+   aggregate, 26 of 27 adversarial envelope denials and 15 of 15 manifest
+   denials, deep immutability with no mutable-typed field, a 90-combination
+   redaction sweep with zero leaks, zero network/environment/subprocess/SDK
+   behavior by AST and runtime audit, and 129 execution probes yielding only
+   `EXECUTION_DISABLED`. Tests reproduce exactly: 62 focused, 636 full; compile
+   exit `0`; project validator `PASS`. black/flake8/mypy `NOT_AVAILABLE`, not
+   installed, not reported as passing. Canonical review:
+   `docs/research/MELLYCORE_PROVIDER_ADAPTER_SCAFFOLD_REVIEW_001.md`. Durable
+   report: `docs/tasks/MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001.md`.
+16. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001` — **exact next task
+   on this parallel track; eligible for separate authorization** under the seven
+   constraints recorded in the scaffold review (runtime-enable reference not
+   implied by validation success; disabled guarantee not sealed against
+   subclassing; fixture sensitive-text screen to be unified; untested validation
+   branches to gain coverage; `authentication_mode` requires an explicit
+   contract-aligned extension; `event_verification` remains unrepresentable;
+   bounded per-capability method shape remains a design decision). It is not
+   authorized, not started, not implemented, not connected, not authenticated,
+   not enabled, and not live. Separate explicit Operator authorization is
+   required before any concrete adapter work begins. The global higher-priority
+   pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is unchanged.
 
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,
