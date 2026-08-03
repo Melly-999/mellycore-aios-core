@@ -1,6 +1,71 @@
 # Agent Handoff
 
-## Latest Update — Framework Bridge Contract Review 001 gate PASS_WITH_NON_BLOCKING_FINDINGS; specification accepted as documentation only; no adapter, SDK, or framework integration exists
+## Latest Update — Shared Context Bridge Contract specified (documentation only); no bridge, mutation engine, storage, or memory service exists; unverified pending independent review
+
+`MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001`
+
+- **Task ID minted by explicit Operator authorization** for the queued
+  plain-name item "Shared Context Bridge". A repository-wide search confirmed
+  **no conflicting identifier existed** before minting, matching the convention
+  that an identifier is created at the moment of authorization.
+- Drafted the canonical **Shared Context Bridge Contract** —
+  `docs/specs/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_001.md`, version
+  1.0, **50 sections** — as one local documentation commit on
+  `docs/mellycore-shared-context-bridge-contract-spec-001`; **not pushed**.
+  Durable report:
+  `docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001.md`.
+- **The allowed direction is fixed and one-directional:** canonical Shared
+  Context → bounded selection → validated projection → execution-local or
+  framework-local context → returned proposal → validation, provenance, policy
+  and approval gates → optional canonical mutation **by the canonical owner
+  alone**. The inverse — framework or agent output writing canonical state — is
+  prohibited outright. **No framework, agent, package, provider, tool, plugin,
+  hook, command, MCP server, adapter, or batch worker may independently mutate
+  canonical Shared Context.**
+- **Ownership preserved; no owner document edited.** The contract owns only the
+  exchange boundary — envelope, selection, projection eligibility, return-path
+  validation, quarantine, context loss, bridge rejection classes, and
+  per-consumer read boundaries. It consumes unchanged: Agent Runtime §17.1's
+  seven context operations **by name**, §17.2's ten record fields, §17.4's
+  snapshot staleness policy, §18's **six** memory categories, and §19's
+  seventeen-field trace record; `CONTEXT_GRAPH_SCHEMA.md`'s entities and nine
+  relation types; the Context Provenance and Sensitivity spec's provenance
+  labels and `sensitivity_level`; and the Context Gate / Ingestion Gate
+  admission workflow.
+- **Memory scopes are mapped by semantic name, not renumbered.** The eight
+  bridge scopes map onto Agent Runtime §18's six owner categories by name; no
+  seventh category is created and nothing is renumbered — deliberately avoiding
+  the defect recorded as Framework Bridge `NEW-P2-03`.
+- **All seven upstream P2 findings were contained, not resolved.** Framework
+  Bridge `NEW-P2-01`–`NEW-P2-04` and Agent Package `NEW-P2-01`–`NEW-P2-03`
+  each remain **open**: the contract owns no result normalization, resolves no
+  Framework Bridge error overlap, uses **no cross-document capability
+  ordinals**, treats no unvalidated framework profile as context-projection
+  eligible, defines no package lifecycle rendering field, declares no Agent
+  Package version canonically current, and enumerates no protected command
+  classes. **Neither upstream contract was edited.**
+- **A document-metrics table was included deliberately** (§48), addressing the
+  Framework Bridge Review 001 finding `NEW-P3-01` that recorded its omission as
+  removing the repository's count-drift safety net. It immediately caught two
+  drafting drifts, corrected before commit: terminology 30→**31** and ownership
+  rows 22→**20**. All 34 metric rows now reproduce independently.
+- **Nothing implemented.** Shared Context Bridge, canonical mutation engine,
+  context storage, database, vector store, memory service, compression,
+  validation, and proposal lifecycle are all `NOT_IMPLEMENTED`. Context
+  envelopes created, proposals submitted, and canonical mutations performed via
+  this bridge: **zero**. **Empirical framework validation remains
+  `NOT_PERFORMED`.** Migration triggers #1, #4, #5, #6, #7 remain uncrossed.
+- **This specification is unverified and not accepted.** No review has run.
+- Exact next task: `MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001` —
+  an independent, read-only review of this specification. **Not started, not
+  authorized by this entry.** Agent Runtime Scaffold, Scaffold Review, first
+  Agent Package, Cross-Agent Smoke, Integration Review, the six per-framework
+  adapter specifications, the Context Compression and durable-memory contracts,
+  and the twelve Agent Package follow-up contracts all remain blocked. The
+  global higher-priority pointer
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is unchanged.
+
+## Previous Update — Framework Bridge Contract Review 001 gate PASS_WITH_NON_BLOCKING_FINDINGS; specification accepted as documentation only; no adapter, SDK, or framework integration exists
 
 `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001`
 

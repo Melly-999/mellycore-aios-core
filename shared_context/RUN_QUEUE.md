@@ -1189,10 +1189,62 @@ under those eight constraints. **No implementation exists**: Framework Bridge
 runtime handles **zero**. All three open Agent Package P2 findings remain
 **contained and open**; the Agent Package Contract was not edited.
 
+**`MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001` — complete as one local
+documentation commit on
+`docs/mellycore-shared-context-bridge-contract-spec-001`; not pushed.**
+Defines the Shared Context Bridge Contract:
+`docs/specs/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_001.md` (version
+1.0, 50 sections). Durable report:
+`docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001.md`.
+
+**The task identifier was minted by explicit Operator authorization** for what
+this queue previously carried as the plain-name item "Shared Context Bridge";
+a repository-wide search confirmed no conflicting identifier existed.
+
+Fixes the one-directional exchange chain — canonical Shared Context → bounded
+selection → validated projection → execution-local or framework-local context
+→ returned proposal → validation, provenance, policy and approval gates →
+optional canonical mutation **by the canonical owner alone** — and prohibits
+the inverse. **No framework, agent, package, provider, tool, plugin, hook,
+command, MCP server, adapter, or batch worker may independently mutate
+canonical Shared Context.** Defines the logical context envelope (14 fields);
+purpose- and consumer-bounded selection; nine projection prohibitions and
+twelve eligibility preconditions; ten read boundaries; five separated
+write/mutation concepts; a ten-phase proposal lifecycle carrying **no**
+Control Plane projection; thirteen mandatory return-path checks treating all
+returned context as untrusted; provenance preservation that never collapses to
+the latest producer; ten namespace categories that are never flattened; a
+secret boundary distinguishing reference from value; eight memory scopes
+mapped **by semantic name** onto Agent Runtime §18's six owner categories; a
+seven-prohibition compression envelope; eight transformation classes; six
+context-loss classes with four failing closed; nine quarantine conditions;
+thirteen validation layers that authorize nothing; eleven mutation-eligibility
+conditions; nineteen observability projections; nine audit-evidence questions;
+and twenty-one security threats.
+
+**All seven upstream P2 findings were contained, not resolved**, and remain
+open: the contract owns no result normalization, resolves no Framework Bridge
+error overlap, uses no cross-document capability ordinals, treats no
+unvalidated framework profile as context-projection eligible, defines no
+package lifecycle rendering field, declares no Agent Package version
+canonically current, and enumerates no protected command classes. **Neither
+the Agent Package Contract nor the Framework Bridge Contract was edited.**
+
+A **document-metrics table** (§48) was included deliberately, addressing
+Framework Bridge Review 001's finding `NEW-P3-01`; it caught two drafting
+drifts corrected before commit, and all 34 rows now reproduce independently.
+
+**Nothing implemented.** Shared Context Bridge, canonical mutation engine,
+storage, database, vector store, memory service, compression, validation, and
+proposal lifecycle are all `NOT_IMPLEMENTED`; context envelopes, proposals,
+and canonical mutations via this bridge are **zero**; **empirical framework
+validation remains `NOT_PERFORMED`**. **The specification is unverified and
+not accepted** — no review has run.
+
 **Still blocked**, each requiring its own gate and separate explicit
-Operator authorization, in this recommended order: **Shared Context Bridge**
-(**next item in this track — recorded by plain name only; no task identifier
-exists, and none is minted or authorized here**); Agent
+Operator authorization, in this recommended order:
+`MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001` (**exact next task
+in this track — not started, not authorized**); Agent
 Runtime Scaffold (inert, no framework
 process, no provider call, no credential, no model call, no tool
 execution, no deployment); Scaffold Review; first Agent Package;

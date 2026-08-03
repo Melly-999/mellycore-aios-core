@@ -2259,6 +2259,97 @@ Package follow-up contracts. Each remains **blocked**, requiring its own
 specification, independent review, and separate explicit Operator
 authorization. Consistent with the repository convention that a task identifier
 is minted at the moment of Operator authorization, **no identifier was minted,
-started, or authorized by this entry.** The global higher-priority pointer
+started, or authorized by that entry.** The global higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
+place, not reordered, and not reinterpreted.
+
+## Shared Context Bridge Contract Spec 001 — Specified, Documentation Only, Unverified
+
+`MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001` is **complete as one local
+documentation commit; not pushed.** Specification:
+`docs/specs/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_001.md` (version
+1.0, 50 sections). Durable report:
+`docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001.md`.
+
+**Task identity minted by explicit Operator authorization** for the queued
+plain-name item "Shared Context Bridge", after a repository-wide search
+confirmed no conflicting identifier existed — matching the established
+convention that an identifier is created at the moment of authorization.
+
+**What the contract fixes.** The one-directional exchange chain — canonical
+Shared Context → bounded selection → validated projection → execution-local or
+framework-local context → returned proposal → validation, provenance, policy
+and approval gates → optional canonical mutation **by the canonical owner
+alone** — with the inverse direction prohibited outright. **No framework,
+agent, package, provider, tool, plugin, hook, command, MCP server, adapter, or
+batch worker may independently mutate canonical Shared Context.** It defines
+the logical context envelope; purpose- and consumer-bounded selection; nine
+projection prohibitions and twelve eligibility preconditions; ten per-consumer
+read boundaries; five separated write/mutation concepts; a ten-phase proposal
+lifecycle carrying **no** projection onto any Control Plane dimension;
+thirteen mandatory return-path checks treating **all** returned context as
+untrusted regardless of byte-identity; provenance preservation that never
+collapses to the latest producer; ten namespace categories that are never
+flattened; a secret boundary distinguishing reference from value; a
+seven-prohibition compression envelope; eight transformation classes; six
+context-loss classes of which four fail closed; nine quarantine conditions;
+thirteen validation layers that authorize nothing; eleven mutation-eligibility
+conditions distinct from mutation itself; nineteen observability projections;
+nine audit-evidence questions; and twenty-one security threats.
+
+**Ownership preserved; no owner document edited.** The contract owns only the
+exchange boundary. It consumes unchanged Agent Runtime §17.1's seven context
+operations **by name**, §17.2's ten record fields, §17.4's snapshot staleness
+policy, §18's **six** memory categories, and §19's seventeen-field trace
+record; `CONTEXT_GRAPH_SCHEMA.md`'s entities and nine relation types; the
+Context Provenance and Sensitivity spec's provenance labels and
+`sensitivity_level`; and the Context Gate and Ingestion Gate admission
+workflow. **Memory scopes are mapped by semantic name, not renumbered** — the
+eight bridge scopes map onto the six owner categories by name, creating no
+seventh category, deliberately avoiding the defect recorded as Framework
+Bridge `NEW-P2-03`.
+
+**All seven upstream P2 findings contained, not resolved, and still open.**
+Framework Bridge `NEW-P2-01`–`NEW-P2-04` and Agent Package
+`NEW-P2-01`–`NEW-P2-03`: the contract owns no result normalization, resolves
+no Framework Bridge error overlap, uses **no cross-document capability
+ordinals**, treats no unvalidated framework profile as context-projection
+eligible, defines no package lifecycle rendering field, declares no Agent
+Package version canonically current, and enumerates no protected command
+classes. **Neither upstream contract was edited.**
+
+**A document-metrics table was included deliberately** (§48), addressing
+Framework Bridge Review 001's finding `NEW-P3-01` that recorded its omission as
+removing the repository's count-drift safety net. It caught two drafting drifts
+corrected before commit — terminology 30→**31**, ownership rows 22→**20** — and
+all 34 metric rows now reproduce independently.
+
+**Nothing implemented.** Shared Context Bridge, canonical mutation engine,
+context storage, database, vector store, memory service, compression,
+validation, and proposal lifecycle are all `NOT_IMPLEMENTED`. Context envelopes
+created, proposals submitted, and canonical mutations performed via this
+bridge: **zero**. **Empirical framework validation remains `NOT_PERFORMED`.**
+No Agent Runtime, Framework Adapter, package loading, provider connection,
+credential, model call, network operation, or deployment exists. Migration
+triggers #1, #4, #5, #6, and #7 remain uncrossed.
+
+**Validation.** Exactly eight files changed (two new documentation artifacts,
+six bounded state-sync edits); no source, test, configuration, workflow, or
+storage-configuration file changed; no `.env`, secret, or provider key.
+`git diff --check` exit `0`; `py -3.9 scripts/validate_project_state.py`
+`PASS`. All nineteen immutable owner and upstream files were re-verified
+byte-identical after the commit. `pytest`, black, flake8, and mypy were not run
+and are not claimed passing.
+
+**This specification is unverified and not accepted.** No review has run.
+
+**Exact next task:** `MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001`
+— an independent, read-only review of this specification. Not started, not
+authorized by this entry. Agent Runtime Scaffold (inert), Scaffold Review,
+first Agent Package, Cross-Agent Smoke, Integration Review, the six
+per-framework adapter specifications, the Context Compression and durable-memory
+contracts, and the twelve Agent Package follow-up contracts each remain
+**blocked**, requiring their own specification, independent review, and
+separate explicit Operator authorization. The global higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
 place, not reordered, and not reinterpreted.

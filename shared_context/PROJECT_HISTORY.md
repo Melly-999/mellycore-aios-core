@@ -253,6 +253,42 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    detail:
    `docs/research/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`,
    `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+11. `MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001` — `SPECIFIED`
+   (documentation only, **unverified**), 2026-08-03. Defines the canonical
+   **Shared Context Bridge Contract**
+   (`docs/specs/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_001.md`, version
+   1.0, 50 sections). The task identifier was **minted by explicit Operator
+   authorization** for the queued plain-name item "Shared Context Bridge",
+   after a repository-wide search confirmed no conflicting identifier existed.
+   Fixes the one-directional exchange chain — canonical Shared Context →
+   bounded selection → validated projection → execution-local or
+   framework-local context → returned proposal → validation, provenance,
+   policy and approval gates → optional canonical mutation **by the canonical
+   owner alone** — and prohibits the inverse: **no framework, agent, package,
+   provider, tool, plugin, hook, command, MCP server, adapter, or batch worker
+   may independently mutate canonical Shared Context**. Defines the logical
+   context envelope, purpose- and consumer-bounded selection, projection
+   eligibility, ten read boundaries, five separated write/mutation concepts, a
+   ten-phase proposal lifecycle, thirteen mandatory return-path checks treating
+   all returned context as untrusted, provenance that never collapses to the
+   latest producer, ten never-flattened namespaces, a secret boundary,
+   compression and transformation envelopes, fail-closed context loss,
+   quarantine, thirteen validation layers that authorize nothing, eleven
+   mutation-eligibility conditions, and twenty-one security threats. Memory
+   scopes are mapped **by semantic name** onto Agent Runtime §18's six owner
+   categories, creating no seventh category. **All seven upstream P2 findings
+   were contained, not resolved**, and remain open; neither the Agent Package
+   Contract nor the Framework Bridge Contract was edited. A **document-metrics
+   table** was included deliberately, addressing Framework Bridge Review 001's
+   `NEW-P3-01`; it caught two drafting drifts corrected before commit.
+   **Nothing implemented** — no bridge, mutation engine, storage, database,
+   vector store, memory service, compression, validation, or proposal-lifecycle
+   runtime; context envelopes, proposals, and canonical mutations are **zero**;
+   empirical framework validation remains `NOT_PERFORMED`. Complete as one
+   local documentation commit on
+   `docs/mellycore-shared-context-bridge-contract-spec-001`, not pushed. Full
+   detail:
+   `docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001.md`.
 
 ## How to Extend This File
 

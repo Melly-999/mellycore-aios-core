@@ -961,6 +961,37 @@ place, and independently governed.
     session, no runtime handle, no runtime, no provider connection, no
     credential, and no deployment.
 
+11. `MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001` — **complete as one
+    local documentation commit; not pushed.** Defines the canonical **Shared
+    Context Bridge Contract**:
+    `docs/specs/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_001.md` (version
+    1.0, 50 sections). Durable report:
+    `docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001.md`. The task
+    identifier was **minted by explicit Operator authorization** for the queued
+    plain-name item "Shared Context Bridge".
+
+    Fixes the one-directional exchange chain — canonical Shared Context →
+    bounded selection → validated projection → execution-local or
+    framework-local context → returned proposal → validation, provenance,
+    policy and approval gates → optional canonical mutation **by the canonical
+    owner alone** — and prohibits the inverse. **No framework, agent, package,
+    provider, tool, plugin, hook, command, MCP server, adapter, or batch worker
+    may independently mutate canonical Shared Context.** All returned context
+    is untrusted and traverses thirteen mandatory return-path checks;
+    provenance never collapses to the latest producer; ten namespaces are never
+    flattened; safety- and authority-relevant context loss fails closed; and
+    thirteen validation layers authorize nothing. Memory scopes are mapped **by
+    semantic name** onto Agent Runtime §18's six owner categories, creating no
+    seventh category and renumbering nothing.
+
+    **All seven upstream P2 findings were contained, not resolved**, and remain
+    open; **no owner document was edited**. A **document-metrics table** was
+    included deliberately, addressing Framework Bridge Review 001's
+    `NEW-P3-01`. **Nothing implemented** — no bridge, mutation engine, storage,
+    memory service, compression, or validation runtime exists; empirical
+    framework validation remains `NOT_PERFORMED`; the specification is
+    **unverified and not accepted**.
+
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted
 `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical architectural
