@@ -32,8 +32,9 @@ task. Full narrative detail lives in `shared_context/ROADMAP.md`,
 | `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` | `COMPLETE` (local, not pushed) — unverified pending review | `docs/decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001.md` |
 | `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` | `COMPLETE` (local, not pushed) — gate `PASS_WITH_NON_BLOCKING_FINDINGS` | `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md` |
 | `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` | `COMPLETE` (specification only, local, not pushed) — **unverified** | `docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md`, `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md` |
-| `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` | `ELIGIBLE` | Exact next task: independent, read-only review of the specification above. Not started. |
-| Framework Bridge Contract | `BLOCKED` | Requires its own gate after Agent Package Contract Spec Review 001. |
+| `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` | `COMPLETE` (local, not pushed) — gate `FAIL_REMEDIATION_REQUIRED` (P0 0 / P1 1 / P2 3 / P3 3) | `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_001.md`, `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001.md` |
+| `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` | `ELIGIBLE` | Exact next task: remediate `P1-01` (unmapped package-lifecycle/trust-state projection) and `P2-01`–`P2-03`, `P3-01`–`P3-03`. Not started. |
+| Framework Bridge Contract | `BLOCKED` | Requires its own gate after Agent Package Contract Spec Remediation 001 and Review 002. |
 | Shared Context Bridge | `BLOCKED` | Requires its own gate. |
 | Agent Runtime Scaffold (inert) | `BLOCKED` | No framework process, provider call, credential, model call, tool execution, or deployment permitted even once started. |
 | Scaffold Review | `BLOCKED` | Requires Scaffold to exist first. |

@@ -953,9 +953,9 @@ repaired. Durable evidence:
 `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md`,
 `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002.md`.
 
-**Current — specification drafted, unverified, pending independent review:**
-`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — Operator-directed in this
-session (2026-08-03) via direct chat instruction. Two sub-phases now
+**Current — specification drafted; review 001 FAILED; remediation
+required:** `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — Operator-directed
+in this session (2026-08-03) via direct chat instruction. Two sub-phases now
 complete under this one task ID:
 
 1. A documentation-synchronization pass — introduced the Developer Platform
@@ -988,19 +988,39 @@ registry, or signing mechanism exists; no package, manifest, or artifact
 exists; no agent framework is installed, imported, connected, or executed;
 no provider is connected; no credential is configured.
 
+**`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` — complete as one
+local documentation commit on
+`docs/mellycore-agent-package-contract-spec-review-001`; not pushed.**
+Independent, read-only architecture, ownership, and consistency review.
+Review record:
+`docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_001.md`.
+Durable report:
+`docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+**Gate decision: `FAIL_REMEDIATION_REQUIRED`. P0 = 0, P1 = 1, P2 = 3, P3 =
+3.** All 24 self-reported metrics independently recount correctly; 12 of 13
+ownership rows independently confirm. Blocking finding `P1-01`: the
+package-lifecycle and trust-state projection onto Control Plane's six
+status dimensions is claimed without a row-complete mapping table or
+Control Plane amendment — four of eleven lifecycle states and five of
+seven trust-state categories have no legal target value in Control Plane
+§8.1's closed enum sets. `P2-01`–`P2-03` and `P3-01`–`P3-03` are
+non-blocking and each independently fail-closed. The reviewed
+specification itself was not edited; every canonical cross-check source
+remained byte-identical after the review commit.
+
 **Still blocked**, each requiring its own gate and separate explicit
 Operator authorization, in this recommended order:
-`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` (exact next task — an
-independent, read-only review of the specification above, in the same
-review/remediation/review sequence already applied to the Agent Runtime
-architecture); Framework Bridge Contract; Shared Context Bridge; Agent
-Runtime Scaffold (inert, no framework process, no provider call, no
-credential, no model call, no tool execution, no deployment); Scaffold
-Review; first Agent Package; Cross-Agent Smoke (inert modes only);
-Integration Review; and, following those, the twelve named follow-up
-contracts (§26 of the new spec), each independently gated. None of these is
-authorized by this queue entry. Agent Runtime implementation remains
-blocked.
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` (exact next task —
+remediate `P1-01` and, in the same pass, `P2-01`–`P2-03` and
+`P3-01`–`P3-03`); Agent Package Contract Review 002; Framework Bridge
+Contract; Shared Context Bridge; Agent Runtime Scaffold (inert, no
+framework process, no provider call, no credential, no model call, no tool
+execution, no deployment); Scaffold Review; first Agent Package;
+Cross-Agent Smoke (inert modes only); Integration Review; and, following
+those, the twelve named follow-up contracts (§26 of the spec), each
+independently gated. None of these is authorized by this queue entry. Agent
+Runtime implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 ("first execution-capable

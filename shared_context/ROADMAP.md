@@ -820,16 +820,44 @@ place, and independently governed.
    sequence already applied to the Agent Runtime architecture. Not started,
    not authorized by this item.
 
-**Architecture accepted; Agent Package Contract drafted, unverified.**
-Review 002 accepted `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical
-architectural foundation for this track under one non-blocking constraint, and
-confirmed that all eighteen Agent Package concerns are specifiable without
-architectural invention. Drafting is not acceptance. The remaining
-recommended, **not authorized**, successors — each requiring its own gate, in
-this order — are: Agent Package Contract Review 001; Framework Bridge
-Contract; Shared Context Bridge; Agent Runtime Scaffold (inert); Scaffold
-Review; first Agent Package; Cross-Agent Smoke (inert modes only);
-Integration Review. Agent Runtime implementation remains blocked.
+6. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` — **complete as one
+   local documentation commit; not pushed.** Independent, read-only
+   architecture, ownership, and consistency review of item 5. Review
+   record: `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_001.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+   **Gate decision: `FAIL_REMEDIATION_REQUIRED`. P0 = 0, P1 = 1, P2 = 3,
+   P3 = 3.** Every one of the specification's 24 self-reported metrics
+   independently recounts correctly. Twelve of thirteen ownership rows
+   independently confirm.
+
+   Blocking finding: `P1-01` — the package-lifecycle (§17) and trust-state
+   (§19) sections each claim a one-directional projection onto Control
+   Plane's six status dimensions "exactly as `run_state` already does," but
+   provide no row-complete mapping table and no Control Plane amendment,
+   unlike the verified precedent that actually closed this seam for
+   `run_state`. Four of eleven lifecycle states and five of seven
+   trust-state categories have no legal target value in Control Plane
+   §8.1's closed enum sets. Non-blocking: `P2-01`–`P2-03`, `P3-01`–`P3-03`.
+
+   **No P0 exists.** The reviewed specification itself was not edited by
+   this review; every canonical cross-check source remained byte-identical
+   after the review commit.
+
+**Architecture accepted; Agent Package Contract drafted, review 001 failed,
+remediation required.** Review 002 accepted `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001`
+as the canonical architectural foundation for this track under one
+non-blocking constraint, and confirmed that all eighteen Agent Package
+concerns are specifiable without architectural invention. Drafting is not
+acceptance, and the Agent Package Contract specification remains **not
+accepted** pending remediation of `P1-01`. The remaining recommended, **not
+authorized**, successors — each requiring its own gate, in this order —
+are: Agent Package Contract Remediation 001 (exact next task); Agent
+Package Contract Review 002; Framework Bridge Contract; Shared Context
+Bridge; Agent Runtime Scaffold (inert); Scaffold Review; first Agent
+Package; Cross-Agent Smoke (inert modes only); Integration Review. Agent
+Runtime implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 before it may proceed to

@@ -1840,3 +1840,67 @@ remains unchanged, in place, and independently governed.
 **Exact next task:** `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` — an
 independent, read-only review of this specification. Not started, not
 authorized by this entry.
+
+## Agent Package Contract Spec Review 001 — Gate FAILED, Remediation Required
+
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` is **complete as one
+local documentation commit; not pushed.** Independent, read-only
+architecture, ownership, and consistency review of
+`MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001` commit `708e265`. Durable
+evidence:
+`docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_001.md`,
+`docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+**Gate decision: `FAIL_REMEDIATION_REQUIRED`. P0 = 0, P1 = 1, P2 = 3, P3 =
+3.** Every one of the specification's 24 self-reported metrics independently
+recounts correctly — zero discrepancies, unlike the Agent Runtime
+architecture's own first review. Twelve of thirteen ownership rows
+independently confirm without qualification.
+
+**`P1-01`** — the specification's package-lifecycle (§17) and trust-state
+(§19) sections each claim a one-directional projection onto Control Plane's
+six canonical status dimensions "exactly as `run_state` already does," but
+provide no row-complete mapping table and no Control Plane amendment,
+unlike the verified precedent that closed this exact seam for `run_state`.
+Four of eleven package lifecycle states (`published`, `installed_reference`,
+`deprecated`, `retired`) and five of seven trust-state categories (`local`,
+`first_party`, `third_party`, `imported`, `generated`) have no legal target
+value in Control Plane §8.1's closed enum sets.
+
+**`P2-01`–`P2-03`** (non-blocking, each independently fail-closed):
+Provider Registry §24.2's pattern cited by analogy outside its stated scope
+in three locations; the evaluation point for `DEPENDENCY_UNRESOLVED`
+ambiguous between this contract's own validation time and the Agent
+Runtime's instantiation-eligibility time; reserved-command-collision
+detection required by §14/§24 but not enumerated among §18's nine
+validation layers.
+
+**`P3-01`–`P3-03`**: a thin compatibility-table row; no dedicated error
+class for command-collision rejection; one identity field's absence-
+handling stated in prose rather than table form.
+
+**No P0 exists.** No direct credential or provider path, cross-tenant
+execution possibility, canonical-context mutation bypass, authorization or
+approval bypass, secret exposure, or unsafe consequential retry was found.
+
+**The reviewed specification itself was not edited by this review.**
+Nothing implemented, connected, or executed: every one of the twelve
+canonical cross-check sources was re-hashed after this task's commit and
+confirmed byte-identical to its pre-review baseline.
+
+**Validation.** Exactly eight files changed (two new, six edited); no
+source or test file changed. `pytest`, black, flake8, and mypy were not run
+and are not claimed passing.
+
+**Not reopened, not reordered.** The Agent Runtime architecture gate
+(Review 002, `PASS_WITH_NON_BLOCKING_FINDINGS`) is not reopened. The Agent
+Package Contract specification remains **not accepted**. Framework Bridge
+Contract, Shared Context Bridge, Agent Runtime Scaffold, first Agent
+Package, Cross-Agent Smoke, Integration Review, and all twelve Agent
+Package follow-up contracts remain blocked. The global higher-priority
+pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains
+unchanged, in place, and independently governed.
+
+**Exact next task:** `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001`
+— remediate `P1-01` and, in the same pass, `P2-01`–`P2-03` and
+`P3-01`–`P3-03`. Not started, not authorized by this entry.

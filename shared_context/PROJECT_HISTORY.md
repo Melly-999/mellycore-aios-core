@@ -135,6 +135,22 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    Validator, loader, registry, or signing mechanism exists. Full detail:
    `shared_context/PROJECT_STATE.md`'s "Agent Package Contract Spec 001 —
    Specification Drafted" section.
+6. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` — **current active
+   task** (see `shared_context/AGENT_HANDOFF.md`'s Latest Update).
+   Independent, read-only review of item 5's specification. **Gate:
+   `FAIL_REMEDIATION_REQUIRED`** (P0 0 / P1 1 / P2 3 / P3 3). All 24
+   self-reported metrics recount correctly; 12 of 13 ownership rows
+   independently confirm. Blocking finding `P1-01`: the package-lifecycle
+   and trust-state sections claim a projection onto Control Plane's six
+   status dimensions without the row-complete mapping table or owner
+   amendment the `run_state` precedent required and received; four
+   lifecycle states and five trust-state categories have no legal
+   projection target. The reviewed specification was not edited; every
+   canonical cross-check source remained byte-identical after the review
+   commit. Complete as one local documentation commit on
+   `docs/mellycore-agent-package-contract-spec-review-001`, not pushed.
+   Full detail:
+   `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_001.md`.
 
 ## How to Extend This File
 
