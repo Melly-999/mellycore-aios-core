@@ -600,17 +600,83 @@ the time each task starts; each item records its current state below):
     provider-foundation checkpoint is complete for this milestone under those
     findings' constraints. Live Cloudflare work remains blocked and
     unauthorized.
-20. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **exact next main product
-    task; eligible for separate authorization.** Not started, not authorized,
-    not approved, not active, and not implemented. Its architecture depends on
-    no unresolved Cloudflare provider behaviour, because the adapter exposes no
-    runtime, transport, credential or authentication path.
+20. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **complete as one local
+    documentation commit; not pushed.** It was the exact next main product task
+    at the close of Review 002 and has since been executed as an
+    architecture-specification task only. Its architecture depends on no
+    unresolved Cloudflare provider behaviour, because the adapter exposes no
+    runtime, transport, credential or authentication path; Review 002's `P2-04`
+    is carried forward unchanged as a provider-registration constraint rather
+    than adjudicated. This item belongs to a separate product track — see
+    "Agent Runtime — Product Track" below.
 
 No credentials, provider runtime, restricted-tool or MCP connection,
 MCP execution, Cloudflare API call,
 marketing action, or cybersecurity remediation is authorized by this
 section. Live sequencing for this track: `shared_context/RUN_QUEUE.md`'s
 "Parallel Decision Track — Enterprise Provider Integration".
+
+## Agent Runtime — Product Track
+
+This track is **independent of, and does not reorder,** the primary live
+sequence. The global higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
+place, and independently governed.
+
+1. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **complete as one local
+   documentation commit; not pushed.** Canonical specification:
+   `docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md`. Durable
+   report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001.md`.
+
+   Defines the Agent Runtime as a control and coordination layer across 43
+   sections and six frameworks (Claude Code, OpenAI Agents SDK, LangGraph,
+   CrewAI, AutoGen, custom MellyCore-compatible agents): fifteen canonical
+   identifiers with `repr()`-independent canonical serialization and digest
+   rules; nine separated definition-to-instance states; expected Agent Package
+   Contract metadata; one framework-neutral bridge boundary that no
+   framework-native convenience API may bypass; seventeen `run_state` values
+   with allowed, forbidden, and evidence-bearing transitions; separated run,
+   attempt, step, sub-run, retry, and replay semantics; eleven conjunctive
+   authorization facts; an immutable digest-bound execution envelope carrying
+   no credential or secret; seven Shared Context operations with no direct
+   canonical write; six memory categories; context-flow tracing; six handoff
+   kinds requiring explicit acceptance; seven tool stages; one governed
+   provider path; the Model Router boundary with no automatic
+   sensitivity/provider/quality/cost/approved-set-crossing fallback; separated
+   cost estimates and actuals; the Run Ledger producer relationship; twelve
+   event categories; honest cancellation and timeout semantics; retry and
+   reconciliation rules; eight isolation boundaries; human-in-the-loop
+   requirements; sixteen threats; the external-content posture; 38 Agent
+   Runtime-layer error classes; operator observability information
+   architecture; a 6 × 13 framework compatibility matrix; seven runtime modes;
+   the inert v1 scaffold boundary; and 32 deterministic scenarios.
+
+   **Specification-level acceptance only.** No Agent Runtime, agent registry,
+   agent package, framework bridge, or scaffold is implemented. No agent
+   framework is installed, imported, connected, or executed. No agent has been
+   executed. No model provider, tool, or provider is connected. No credential
+   is configured. No context or memory backend, queue, or frontend is
+   implemented. No deployment occurred.
+
+2. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` — **exact next task
+   on this track.** Independent, read-only architecture review. Not started,
+   not authorized by item 1, and not an implementation task.
+
+Recommended, **not authorized**, successors — each requires its own gate and
+separate explicit Operator authorization, in this order: Agent Package
+Contract; Framework Bridge Contract; Shared Context Bridge; Agent Runtime
+Scaffold (inert); Scaffold Review; first Agent Package; Cross-Agent Smoke
+(inert modes only); Integration Review.
+
+Any task that would make an agent execution-capable additionally requires the
+Model B reconsideration of migration trigger #6 before it may proceed to
+implementation or merge. Triggers #1, #4, #5, and #7 are likewise implicated by
+later phases of this architecture and are not crossed by the specification.
+
+No agent execution, framework connection, model-provider call, tool
+invocation, provider connection, credential, persistence, queue, frontend, or
+deployment is authorized by this track. Live sequencing for this track:
+`shared_context/RUN_QUEUE.md`'s "Agent Runtime Product Track".
 
 ## Safety Gates
 

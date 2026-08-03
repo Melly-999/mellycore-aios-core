@@ -1,6 +1,72 @@
 # Agent Handoff
 
-## Latest Update — Cloudflare API Shield adapter Review 002 passed with non-blocking findings; provider foundation complete
+## Latest Update — Agent Runtime architecture specified; nothing implemented, connected, or executed
+
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001`
+
+- Created the canonical Agent Runtime architecture specification in one local
+  documentation commit; **not pushed**. Canonical specification:
+  `docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md`. Durable
+  report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001.md`.
+- Defines the Agent Runtime as a **control and coordination layer** that must
+  not own provider credentials, provider transport, model-provider SDK
+  credentials, canonical Shared Context truth, permanent external tool trust,
+  deployment infrastructure, or MellyTrade execution.
+- Covers six frameworks as a closed vocabulary — Claude Code, OpenAI Agents
+  SDK, LangGraph, CrewAI, AutoGen, custom MellyCore-compatible agents — across
+  43 sections, 15 canonical identifiers, 9 separated definition-to-instance
+  states, 17 `run_state` values, **11 conjunctive authorization facts**, 7
+  Shared Context operations, 6 memory categories, 6 handoff kinds, 7 tool
+  stages, 12 event categories, 8 isolation boundaries, 16 threats, 38 Agent
+  Runtime-layer error classes, 7 runtime modes, a 6 × 13 framework
+  compatibility matrix, and **32 deterministic scenarios**.
+- Canonical ownership is reused, not re-decided. Provider Registry §21.1's
+  **eight independent facts remain exactly eight**; provider authorization
+  delegates entirely to the Registry and the Integration Gateway. Gateway
+  §25.2 error classes are adopted unchanged rather than fragmented. The Run
+  Ledger record remains owned by the AI Operations Intelligence spec §5. The
+  Control Plane's six status dimensions are unmodified — `run_state` is a
+  typed entity field, not a seventh dimension.
+- Key separations preserved: framework support is not framework execution; a
+  handoff is not acceptance; receiving is not accepting; tool discovery is not
+  registration and registration is not authorization; context availability is
+  not access authorization; memory existence is not permission; a planned
+  action is not an executed action; a successful sub-step is not run
+  completion; a timeout is not a safe retry; a retry is not permission to
+  repeat a consequential action; cancellation is not proof external effects
+  stopped; and an unknown external outcome requires reconciliation.
+- Cloudflare Review 002 constraints are **carried forward, not adjudicated**.
+  `P2-03` becomes canonical-serialization and digest discipline (exact
+  built-in primitive types, subclass rejection or canonical conversion,
+  `repr()`-independent serialization, hashing over normalized bytes,
+  type-tagged fields, collision-resistant rules). `P2-04` is recorded
+  explicitly as a provider-registration constraint that must be resolved or
+  formally adjudicated **before** provider registration, credential
+  configuration, credential verification, live Cloudflare transport, and
+  delegated Cloudflare execution. `P3-01` becomes distinct error semantics so
+  malformed input is never reported as a sensitive-data error.
+- Recorded honestly: architecture specification created; **no runtime
+  implemented**; **no agent framework connected** (no framework SDK is
+  installed, imported, or present); **no agent executed**; **no model provider
+  connected**; **no tool connected**; **no provider connected**; **no
+  credential configured**; **no context or memory backend implemented**; **no
+  queue implemented**; **no frontend implemented**. The framework
+  compatibility matrix is an architectural planning position, not verified
+  capability testing.
+- Migration triggers #1, #4, #5, #6, and #7 are implicated by later phases and
+  are **not** crossed by this documentation task.
+- Validation: exactly six approved files changed; no source or test file, no
+  canonical provider document, and no prior review changed. `pytest: NOT_RUN`
+  — no source or test file changed, so the suite produces no evidence about
+  this change; it is not claimed passing.
+- Exact next task: `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` — an
+  independent, read-only architecture review. Implementation tasks remain
+  blocked pending it and separate explicit authorization.
+- The pre-existing global higher-priority pointer
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
+  place, and independently governed.
+
+## Previous Update — Cloudflare API Shield adapter Review 002 passed with non-blocking findings; provider foundation complete
 
 `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002`
 
@@ -33,8 +99,12 @@
 - Live Cloudflare transport, credentials, authentication, OAuth, MCP, webhook,
   provider API access including read-only calls, registration, runtime
   enablement and deployment all remain blocked and unauthorized.
-- Exact next task: `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — eligible
-  for separate authorization; not started, not authorized, not implemented.
+- Exact next task **at the time of that review**:
+  `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — then eligible for separate
+  authorization, not started, not authorized, not implemented. That pointer is
+  a creation-time historical snapshot and is **superseded**: the task has since
+  completed as an architecture specification, and the live pointer is the
+  Latest Update above.
 - The pre-existing global higher-priority pointer remains unchanged, in place,
   and independently governed.
 

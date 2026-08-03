@@ -821,11 +821,15 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    checkpoint is accepted and the provider-foundation checkpoint is complete
    for this milestone under those constraints. Live Cloudflare work remains
    blocked.
-20. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **exact next main product
-   task; eligible for separate authorization.** Not started, not authorized,
-   not approved, not active, and not implemented. No provider connectivity,
-   credential, or live Cloudflare capability is claimed or authorized by this
-   sequencing.
+20. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **complete as one local
+   documentation commit; not pushed.** It was the exact next main product task
+   at the close of Review 002 and has since been executed as an
+   architecture-specification task only. No provider connectivity, credential,
+   or live Cloudflare capability is claimed or authorized by it; Review 002's
+   `P2-04` is carried forward unchanged as a provider-registration constraint
+   rather than adjudicated. Live sequencing for it now belongs to the "Agent
+   Runtime Product Track" section below, not to this Enterprise Provider
+   track.
 
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,
@@ -837,6 +841,60 @@ contract is specification-level only; its Section 35 keeps read-only access
 blocked until the full documentation gate passes and a separate explicit
 Operator authorization is given) — any marketing campaign action, any
 cybersecurity remediation action, and any concrete provider adapter.
+
+## Agent Runtime Product Track
+
+This track is **independent of, and does not reorder,** the primary live
+sequence. The global higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
+place, and independently governed.
+
+1. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **complete as one local
+   documentation commit; not pushed.** Canonical specification:
+   `docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md`. Durable
+   report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001.md`.
+   Full detail: `shared_context/PROJECT_STATE.md`'s "Agent Runtime
+   Architecture Spec 001" section and `shared_context/ROADMAP.md`'s "Agent
+   Runtime — Product Track".
+
+   Recorded honestly: the architecture specification is created; **no runtime
+   is implemented**; **no agent framework is connected** (Claude Code, the
+   OpenAI Agents SDK, LangGraph, CrewAI, and AutoGen are absent from this
+   repository and its reviewed environment); **no agent has been executed**;
+   **no model provider is connected**; **no tool is connected**; **no provider
+   is connected**; **no credential is configured**; **no context or memory
+   backend is implemented**; **no queue is implemented**; **no frontend is
+   implemented**. No deployment, push, pull request, or merge occurred.
+
+   Canonical ownership is reused, not re-decided: Provider Registry §21.1's
+   eight independent facts remain exactly eight; Integration Gateway §25.2
+   error classes are adopted unchanged; the Run Ledger record remains owned by
+   the AI Operations Intelligence spec §5; the Control Plane's six status
+   dimensions are unmodified. Cloudflare Review 002's `P2-03`, `P2-04`, and
+   `P3-01` are carried forward as architecture constraints and are **not**
+   adjudicated here.
+
+**Current gate — exact next task:**
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` — an independent,
+read-only architecture review of the local specification commit. Not started.
+It is not an implementation task and authorizes no implementation.
+
+**Blocked pending that review and separate explicit Operator authorization,**
+in this recommended order: Agent Package Contract; Framework Bridge Contract;
+Shared Context Bridge; Agent Runtime Scaffold (inert, no framework process, no
+provider call, no credential, no model call, no tool execution, no
+deployment); Scaffold Review; first Agent Package; Cross-Agent Smoke (inert
+modes only); Integration Review. None of these is authorized by this queue
+entry.
+
+Any task that would make an agent execution-capable additionally requires the
+Model B reconsideration of migration trigger #6 ("first execution-capable
+agent") before it may proceed to implementation or merge. Triggers #1, #4, #5,
+and #7 are likewise implicated by later phases of this architecture and are not
+crossed by the specification.
+
+Live provider work remains deferred and blocked, exactly as recorded in the
+Enterprise Provider track above.
 
 ## Deferred Work
 

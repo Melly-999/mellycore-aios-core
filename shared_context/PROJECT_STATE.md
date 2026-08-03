@@ -1332,8 +1332,96 @@ webhook, provider API access including read-only calls, mutation, containment,
 registration, runtime enablement and deployment all remain blocked and
 unauthorized.
 
-The exact next main product task is
+At the time of that review, the exact next main product task was
 `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001`, eligible for separate
-authorization. It is not started, not authorized, not approved, not active, and
-not implemented. The pre-existing global higher-priority pointer remains
-unchanged and is not reordered or reinterpreted.
+authorization and then not started, not authorized, not approved, not active,
+and not implemented. That statement is a creation-time historical record; the
+task has since completed as an architecture specification — see "Agent Runtime
+Architecture Spec 001" below. The pre-existing global higher-priority pointer
+remains unchanged and is not reordered or reinterpreted.
+
+## Agent Runtime Architecture Spec 001 — Architecture Specified, Nothing Implemented
+
+`MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` is **complete as one local
+documentation commit; not pushed.** It creates the canonical architecture
+specification for the MellyCore Agent Runtime:
+`docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md`. Durable report:
+`docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001.md`.
+
+The specification defines the Agent Runtime as a **control and coordination
+layer** that must not own provider credentials, provider transport,
+model-provider SDK credentials, canonical Shared Context truth, permanent
+external tool trust, deployment infrastructure, or MellyTrade execution. It
+covers six frameworks as a closed vocabulary — Claude Code, the OpenAI Agents
+SDK, LangGraph, CrewAI, AutoGen, and custom MellyCore-compatible agents —
+across 43 sections: fifteen canonical identifiers; nine separated
+definition-to-instance states; expected Agent Package Contract metadata; one
+framework-neutral bridge boundary; seventeen `run_state` values with allowed,
+forbidden, and evidence-bearing transitions; separated run, attempt, step,
+sub-run, retry, and replay semantics; **eleven conjunctive authorization
+facts**; an immutable digest-bound execution envelope; seven Shared Context
+operations; six memory categories; context-flow tracing; six handoff kinds;
+seven tool stages; the single governed provider path; the Model Router
+boundary; separated cost estimates and actuals; the Run Ledger producer
+relationship; twelve event categories; honest cancellation and timeout
+semantics; retry and reconciliation rules; eight isolation boundaries;
+human-in-the-loop requirements; sixteen threats with prevention, detection,
+fail-closed result, and audit evidence; the external-content posture; 38
+Agent Runtime-layer error classes; operator observability information
+architecture; a 6 × 13 framework compatibility matrix; seven runtime modes;
+the inert v1 scaffold boundary; and **32 deterministic scenarios**.
+
+Canonical ownership is reused, not re-decided. Provider Registry §21.1's
+**eight independent facts remain exactly eight**; the eleven runtime facts add
+runtime-layer facts without collapsing any of them, and provider authorization
+delegates entirely to the Registry and the Integration Gateway. The Gateway's
+§25.2 error classes are adopted unchanged rather than fragmented. The Run
+Ledger record remains owned by
+`docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md` §5. The Control
+Plane's six status dimensions are unmodified: `run_state` is declared a typed
+entity field, not a seventh dimension, consistent with that spec's §7.1.
+
+**Cloudflare Review 002 constraints are carried forward, not adjudicated.**
+`P2-03` becomes a canonical-serialization and digest discipline: exact built-in
+primitive types at trust boundaries, rejection or canonical conversion of
+primitive subclasses, serialization independent of `repr()` and every other
+overridable object protocol, deterministic hashing over normalized bytes,
+type-tagged fields, no identity from arbitrary object representations, and
+collision-resistant digest rules — binding on run fingerprints, context-block
+hashes, artifact references, handoff envelopes, tool-result identities,
+model-response identities, audit records, and replay records. `P2-04` is
+recorded explicitly as a provider-registration constraint that **must be
+resolved or formally adjudicated before** provider registration, credential
+configuration, credential verification, live Cloudflare transport, and
+delegated Cloudflare execution; no Cloudflare delegated authentication is
+assumed and no agent is bound to a Cloudflare authentication mode. `P3-01`
+becomes distinct error semantics: structurally malformed input is never
+collapsed into a sensitive-data error.
+
+**Implementation status: nothing was implemented.** No Agent Runtime, agent
+registry, agent package, framework bridge, or scaffold exists. No agent
+framework is installed, imported, connected, or executed — Claude Code, the
+OpenAI Agents SDK, LangGraph, CrewAI, and AutoGen are absent from this
+repository and its reviewed environment. Zero agents have been executed. No
+model provider is connected and no model-provider call has occurred. No tool is
+connected and no tool has been invoked. No provider is connected, registered,
+authenticated, or enabled. No credential is configured. No context or memory
+backend is implemented. No queue is implemented. No frontend is implemented.
+The framework compatibility matrix is an architectural planning position, not
+verified capability testing, and every cell must be independently validated by
+the future Framework Bridge Contract task.
+
+Migration triggers #1, #4, #5, #6, and #7 are implicated by later phases of
+this architecture and are **not** crossed by this documentation task. Trigger
+#6 ("first execution-capable agent") blocks any future task that would make an
+agent execution-capable until the Model B reconsideration required by the
+Model A contract is separately completed.
+
+**Exact next task:** `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` —
+an independent, read-only architecture review. Agent Package Contract,
+Framework Bridge Contract, Shared Context Bridge, Agent Runtime Scaffold, first
+agent package, and cross-agent smoke testing are recommended successors and
+remain **blocked** pending that review and separate explicit authorization.
+Live provider work remains deferred and blocked. The pre-existing global
+higher-priority pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`
+remains unchanged and is not reordered or reinterpreted.
