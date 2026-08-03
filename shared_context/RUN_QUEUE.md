@@ -1009,13 +1009,39 @@ non-blocking and each independently fail-closed. The reviewed
 specification itself was not edited; every canonical cross-check source
 remained byte-identical after the review commit.
 
+**`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` — complete as
+one local documentation commit on
+`docs/mellycore-agent-package-contract-spec-remediation-001`; not pushed.**
+Remediates all seven findings above, advancing the specification to
+**version 1.1**. Durable report:
+`docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001.md`.
+
+`P1-01` closed by **removing** the unsupported projection claim: package
+lifecycle state (§17) and Package Trust State (§19) are now stated as
+Agent Package domain concepts, typed entity data under Control Plane
+§7.1's general allowance, with **no projection defined onto any Control
+Plane §8.1 dimension** — no Control Plane amendment was made or needed.
+`P2-01` (three Provider Registry §24 citations rephrased as explicit
+non-normative analogies), `P2-02` (a deterministic `DEPENDENCY_UNRESOLVED`
+evaluation boundary: dependency validation, §18.1 layer 4, is the
+exclusive owner; Runtime's instantiation eligibility consumes, never
+re-derives, the determination), and `P2-03` (a new normative §14.1 with
+all seven required command-namespace-collision checks and a dedicated
+`COMMAND_NAMESPACE_COLLISION` error class) are each closed. `P3-01`–`P3-03`
+closed editorially.
+
+**Remediation claims are unverified; the gate is not re-opened.** Review
+001's `FAIL_REMEDIATION_REQUIRED` decision remains historically recorded as
+failed until independent Review 002 passes. Nothing implemented; every
+canonical cross-check source, including both Review 001 artifacts,
+remained byte-identical after this commit.
+
 **Still blocked**, each requiring its own gate and separate explicit
 Operator authorization, in this recommended order:
-`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` (exact next task —
-remediate `P1-01` and, in the same pass, `P2-01`–`P2-03` and
-`P3-01`–`P3-03`); Agent Package Contract Review 002; Framework Bridge
-Contract; Shared Context Bridge; Agent Runtime Scaffold (inert, no
-framework process, no provider call, no credential, no model call, no tool
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` (exact next task — an
+independent re-review of this remediation); Framework Bridge Contract;
+Shared Context Bridge; Agent Runtime Scaffold (inert, no framework
+process, no provider call, no credential, no model call, no tool
 execution, no deployment); Scaffold Review; first Agent Package;
 Cross-Agent Smoke (inert modes only); Integration Review; and, following
 those, the twelve named follow-up contracts (§26 of the spec), each

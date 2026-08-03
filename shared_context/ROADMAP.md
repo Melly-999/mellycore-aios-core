@@ -845,18 +845,42 @@ place, and independently governed.
    this review; every canonical cross-check source remained byte-identical
    after the review commit.
 
-**Architecture accepted; Agent Package Contract drafted, review 001 failed,
-remediation required.** Review 002 accepted `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001`
+7. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` — **complete as
+   one local documentation commit; not pushed.** Remediates all seven
+   findings of item 6 (`P1-01`; `P2-01`–`P2-03`; `P3-01`–`P3-03`),
+   advancing the specification to **version 1.1**. Durable report:
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001.md`.
+
+   `P1-01` closed by **removing** the unsupported Control Plane projection
+   claim — package lifecycle state and Package Trust State are now stated
+   as Agent Package domain concepts under Control Plane §7.1's typed-field
+   allowance, with no projection defined onto any Control Plane dimension.
+   No Control Plane amendment was made or needed; Control Plane remains
+   byte-identical. `P2-01`–`P2-03` and `P3-01`–`P3-03` each closed with a
+   targeted correction (non-normative Provider Registry citations; a
+   deterministic `DEPENDENCY_UNRESOLVED` evaluation boundary; a new
+   normative command-namespace-collision subsection with a dedicated error
+   class; two editorial fixes).
+
+   **Remediation claims are unverified.** This task remediated its own
+   reviewed findings; the gate is not re-opened, and Review 001's
+   `FAIL_REMEDIATION_REQUIRED` decision remains historically recorded as
+   failed until independent Review 002 passes. Nothing implemented; every
+   canonical cross-check source, including both Review 001 artifacts,
+   remained byte-identical after this commit.
+
+**Architecture accepted; Agent Package Contract remediated, unverified,
+awaiting Review 002.** Review 002 accepted `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001`
 as the canonical architectural foundation for this track under one
 non-blocking constraint, and confirmed that all eighteen Agent Package
-concerns are specifiable without architectural invention. Drafting is not
-acceptance, and the Agent Package Contract specification remains **not
-accepted** pending remediation of `P1-01`. The remaining recommended, **not
-authorized**, successors — each requiring its own gate, in this order —
-are: Agent Package Contract Remediation 001 (exact next task); Agent
-Package Contract Review 002; Framework Bridge Contract; Shared Context
-Bridge; Agent Runtime Scaffold (inert); Scaffold Review; first Agent
-Package; Cross-Agent Smoke (inert modes only); Integration Review. Agent
+concerns are specifiable without architectural invention. Remediation is
+not acceptance, and the Agent Package Contract specification remains **not
+accepted** pending `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002`. The
+remaining recommended, **not authorized**, successors — each requiring its
+own gate, in this order — are: Agent Package Contract Review 002 (exact
+next task); Framework Bridge Contract; Shared Context Bridge; Agent
+Runtime Scaffold (inert); Scaffold Review; first Agent Package; Cross-Agent
+Smoke (inert modes only); Integration Review. Agent
 Runtime implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the

@@ -151,6 +151,25 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    `docs/mellycore-agent-package-contract-spec-review-001`, not pushed.
    Full detail:
    `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_001.md`.
+7. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` — **current
+   active task** (see `shared_context/AGENT_HANDOFF.md`'s Latest Update).
+   Remediated all seven findings of item 6, advancing the specification to
+   **version 1.1**. `P1-01` closed by removing the unsupported Control
+   Plane projection claim (package lifecycle/trust state restated as
+   Agent Package domain concepts under Control Plane §7.1's typed-field
+   allowance; no Control Plane amendment made or needed). `P2-01`–`P2-03`
+   closed with targeted corrections (non-normative Provider Registry
+   citations; a deterministic `DEPENDENCY_UNRESOLVED` evaluation boundary;
+   a new normative command-namespace-collision subsection with a
+   dedicated error class). `P3-01`–`P3-03` closed editorially.
+   **Unverified; gate not re-opened; specification remains not accepted**
+   pending `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002`. All twelve
+   canonical cross-check sources, including both Review 001 artifacts,
+   remained byte-identical after this commit. Complete as one local
+   documentation commit on
+   `docs/mellycore-agent-package-contract-spec-remediation-001`, not
+   pushed. Full detail:
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001.md`.
 
 ## How to Extend This File
 

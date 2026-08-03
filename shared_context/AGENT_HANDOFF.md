@@ -1,6 +1,90 @@
 # Agent Handoff
 
-## Latest Update — Agent Package Contract Spec Review 001 gate FAILED; remediation required; reviewed specification not edited; nothing implemented, connected, or executed
+## Latest Update — Agent Package Contract Spec Remediation 001 complete; all seven Review 001 findings addressed; gate not re-opened; unverified pending Review 002
+
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001`
+
+- Remediated all seven findings of Review 001 (`P1-01`; `P2-01`, `P2-02`,
+  `P2-03`; `P3-01`, `P3-02`, `P3-03`) in the Agent Package Contract
+  specification, advancing it to **version 1.1**, in one local
+  documentation commit; **not pushed**. Durable report:
+  `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001.md`.
+- **`P1-01` closed by removing the unsupported claim, not by amending
+  Control Plane.** Package lifecycle state (§17) and Package Trust State
+  (§4/§19) no longer claim a projection onto Control Plane's
+  `lifecycle_status`/`evidence_state`/`approval_state`. Both are now
+  stated explicitly as **Agent Package domain concepts, typed entity data
+  under Control Plane §7.1's general allowance** for fields like "trust,"
+  "outcome," and "verdict" — with **this contract defining no projection
+  onto any Control Plane §8.1 dimension.** No mapping table was invented
+  and no already-existing legal canonical mapping was found or used. The
+  Control Plane owner contract was **not edited** — re-hashed after this
+  commit and confirmed byte-identical to its pre-remediation baseline.
+- **`P2-01`** — the three Provider Registry §24 citations (§11.1 row 3
+  shell execution, §16 stage 9 termination/suspension, §17.3 rule 2
+  revocation inertness) are now explicit non-normative parentheticals:
+  "modeled on, but not owned or governed by," each stating plainly that
+  §24 does not itself extend to the generic package concern in question.
+  Provider Registry was **not edited**.
+- **`P2-02`** — `DEPENDENCY_UNRESOLVED`'s evaluation boundary is now
+  deterministic: dependency validation (§18.1 layer 4) is the **exclusive**
+  owner of the determination, reached before package verification; the
+  Agent Runtime's instantiation-eligibility stage (§16 stage 5) **consumes**
+  that determination and never independently re-derives it. An unresolved
+  optional dependency narrows scope without denying; §12.2 rule 1 now
+  states explicitly that a validation failure never itself installs,
+  fetches, or resolves anything.
+- **`P2-03`** — new normative **§14.1 "Command namespace and collision
+  detection"** enumerates all seven required checks (duplicate
+  identifiers/aliases within a package; reserved-MellyCore-command
+  collisions; already-authorized-namespace collisions; Unicode
+  NFKC-normalization-equivalent collisions; an absolute, non-liftable
+  prohibition on overriding safety/validation/approval/Git/provider/
+  deployment command classes; and package-local-declaration-is-not-
+  environment-activation), enumerated explicitly under §18.1 layer 1 and
+  rejected with a new `COMMAND_NAMESPACE_COLLISION` error class (§21).
+- **`P3-01`–`P3-03`** closed editorially: §13.2's `claude_code` row now
+  states a genuine five-way asset-type correspondence instead of restating
+  a terminology footnote; `COMMAND_NAMESPACE_COLLISION` gives command
+  rejection a dedicated identity; `license_metadata`'s absence-handling
+  moved from prose in a table cell to §7.2 rule 4, matching the other
+  eleven identity fields' format.
+- **Nothing implemented.** No Agent Package Store, Package Registry,
+  Package Validator, loader, command/hook/plugin/MCP runtime, or batch
+  runtime exists. No Control Plane enum value was invented; no Provider
+  Registry responsibility was broadened.
+- Validation: exactly eight files changed (one edited spec, one new task
+  report, six bounded state-sync edits); no source or test file changed.
+  All twelve canonical cross-check sources — Agent Runtime, Control Plane,
+  Provider Registry, Integration Gateway, AI Operations Intelligence,
+  Enterprise Provider ADR, the seam-decision record, Shared Context
+  contracts, the Safety Contract, and both Review 001 artifacts — were
+  re-hashed after this commit and confirmed byte-identical to their
+  pre-remediation baselines. `pytest`, black, flake8, and mypy were not
+  run and are not claimed passing.
+- **The gate is not re-opened and this specification remains not
+  accepted.** Review 001's `FAIL_REMEDIATION_REQUIRED` decision remains
+  historically recorded as failed until an independent Review 002 passes.
+  No implementation gate has opened; no downstream Agent Package
+  implementation task is authorized. Framework Bridge Contract, Shared
+  Context Bridge, Agent Runtime Scaffold, first Agent Package,
+  Cross-Agent Smoke, Integration Review, and all twelve Agent Package
+  follow-up contracts remain blocked. The global higher-priority pointer
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged,
+  in place, and independently governed.
+- One adjacent, previously-unflagged occurrence of the `P2-01` citation
+  pattern (§17.3 rule 1, `retired`/Provider Registry §24.3's `provider_id`
+  rule) was noticed but deliberately **not** touched — the review did not
+  name this occurrence, and this task's scope is limited to findings the
+  review record actually raised, not opportunistic cleanup beyond it.
+- Exact next task: `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` — an
+  independent, read-only re-review of this remediation. Not started, not
+  authorized by this entry.
+- Durable evidence:
+  `docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md` (v1.1),
+  `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001.md`.
+
+## Previous Update — Agent Package Contract Spec Review 001 gate FAILED; remediation required; reviewed specification not edited; nothing implemented, connected, or executed
 
 `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001`
 

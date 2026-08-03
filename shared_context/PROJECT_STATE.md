@@ -1904,3 +1904,64 @@ unchanged, in place, and independently governed.
 **Exact next task:** `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001`
 — remediate `P1-01` and, in the same pass, `P2-01`–`P2-03` and
 `P3-01`–`P3-03`. Not started, not authorized by this entry.
+
+## Agent Package Contract Spec Remediation 001 — All Review 001 Findings Addressed; Unverified Pending Review 002
+
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` is **complete as
+one local documentation commit; not pushed.** Remediates all seven findings
+of Review 001 (`P1-01`; `P2-01`, `P2-02`, `P2-03`; `P3-01`, `P3-02`,
+`P3-03`) in the reviewed specification, advancing it to **version 1.1**.
+Durable report:
+`docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001.md`.
+
+**`P1-01` resolved by removing the unsupported claim, not by amending
+Control Plane.** Package lifecycle state (§17) and Package Trust State
+(§19) are now stated explicitly as Agent Package domain concepts — typed
+entity data under Control Plane §7.1's general allowance — with **no
+projection defined onto any of Control Plane's six closed dimensions**. No
+mapping table was invented and no already-existing legal canonical mapping
+was found or used; the Control Plane owner contract was **not edited**
+(re-verified byte-identical after this commit). Any future projection
+remains explicitly deferred to a dedicated mapping contract or a
+separately reviewed Control Plane amendment.
+
+**`P2-01`–`P2-03` and `P3-01`–`P3-03` each closed with a targeted,
+owner-preserving correction:** the three Provider Registry §24 analogies
+were rephrased as explicit non-normative "modeled on" citations; the
+`DEPENDENCY_UNRESOLVED` evaluation boundary is now deterministic (dependency
+validation, §18.1 layer 4, is the exclusive owner; Runtime's instantiation
+eligibility consumes, never re-derives, the determination); a new,
+normative §14.1 enumerates all seven required command-namespace-collision
+checks and a new `COMMAND_NAMESPACE_COLLISION` error class gives the
+rejection a stable identity; the `claude_code` compatibility row and the
+`license_metadata` identity field were corrected editorially.
+
+**Nothing implemented.** No Agent Package Store, Package Registry, Package
+Validator, loader, command runtime, hook runtime, plugin runtime, MCP
+runtime, or batch runtime exists or was implemented by this task. No
+Control Plane enum value was invented; no Provider Registry responsibility
+was broadened.
+
+**Validation.** Exactly eight files changed (one edited spec, one new task
+report, six bounded state-sync edits); no source or test file changed.
+Every canonical cross-check source — Agent Runtime, Control Plane, Provider
+Registry, Integration Gateway, AI Operations Intelligence, Enterprise
+Provider ADR, the seam-decision record, Shared Context contracts, the
+Safety Contract, and both Review 001 artifacts — was re-hashed after this
+commit and confirmed byte-identical to its pre-remediation baseline.
+`pytest`, black, flake8, and mypy were not run and are not claimed passing.
+
+**Gate remains failed; specification remains not accepted.** This task does
+**not** claim Review 001's `FAIL_REMEDIATION_REQUIRED` gate has passed —
+that gate remains historically recorded as failed until an independent
+Review 002 runs and itself passes. No implementation gate has opened; no
+downstream Agent Package implementation task is authorized by this entry.
+Framework Bridge Contract, Shared Context Bridge, Agent Runtime Scaffold,
+first Agent Package, Cross-Agent Smoke, Integration Review, and all twelve
+Agent Package follow-up contracts remain blocked. The global
+higher-priority pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`
+remains unchanged, in place, and independently governed.
+
+**Exact next task:** `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` —
+an independent, read-only re-review of this remediation. Not started, not
+authorized by this entry.

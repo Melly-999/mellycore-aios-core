@@ -2,13 +2,17 @@
 
 **Task ID:** MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001
 **Contract ID:** MELLYCORE_AGENT_PACKAGE_CONTRACT_001
-**Version:** 1.0 — first draft.
-**Verification status:** **Unverified.** No independent review has run. This
-document is **not accepted** until `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001`
-completes with a passing gate decision, in the same sequence used for
-`[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]` (spec → review → remediation
-→ review).
-**Status:** Drafted, specification-level only, pending independent review.
+**Version:** 1.1 — remediates the one P1, three P2, and three P3 findings of
+`[[../research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_001]]` under
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001`.
+**Verification status:** Remediation claims in this version are **unverified**
+pending `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002`. Version 1.1 does
+not re-open or re-claim a passed gate; the gate remains failed
+(`FAIL_REMEDIATION_REQUIRED`) until that independent review passes, in the
+same sequence used for `[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]`
+(spec → review → remediation → review).
+**Status:** Drafted, specification-level only, pending independent Review 002.
+This document is **not accepted**.
 **This status does not authorize:** Agent Package Store implementation,
 Agent Registry implementation, Package Registry implementation, package
 loader implementation, package validator implementation, package
@@ -86,10 +90,11 @@ at least trigger #6, its own Model B reconsideration before proceeding.
 
 ### 1.4 Document metrics (normative)
 
-Every count below was computed directly from this document's own tables at
-authoring time. A future amendment that changes a table MUST recompute and
-restate the corresponding row; a divergence between this table and its
-section is a defect in this document, exactly as required by
+Every count below was **recomputed from this document's own tables during
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001`**, not carried
+forward from version 1.0. A future amendment that changes a table MUST
+recompute and restate the corresponding row; a divergence between this
+table and its section is a defect in this document, exactly as required by
 `[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]` §1.4.
 
 | Dimension | Count | Authoritative section |
@@ -106,13 +111,14 @@ section is a defect in this document, exactly as required by
 | Permission/approval categories | 12 | §11 |
 | Framework compatibility rows | 6 | §13 |
 | Asset-type boundary rows (§14) | 5 | §14 |
+| Command collision-detection rules | 7 | §14.1 (added in v1.1) |
 | Shared Context rules | 8 | §15 |
 | Runtime-interaction stages | 9 | §16 |
 | Package lifecycle states | 11 | §17 |
 | Validation layers | 9 | §18 |
 | Trust-state categories | 7 | §19 |
 | Observability projections | 11 | §20 |
-| Error/rejection classes | 15 | §21 |
+| Error/rejection classes | **16** (added `COMMAND_NAMESPACE_COLLISION` in v1.1) | §21 |
 | Batch eligibility declarations | 7 | §23 |
 | Security threats | 12 | §24 |
 | Non-goals | 12 | §25 |
@@ -247,7 +253,7 @@ this section cites the owner instead of redefining it.
 | **Package Registry** | The (future, unimplemented) discovery, index, and trust-state service for known Agent Packages. Terminology reconciliation: the Agent Runtime spec's adjacency table (§7.3) already names a future **Agent Package Store** as the owner of package artifact existence and of the verified/installed revision the Runtime references. This document uses **Package Registry** for that same future system's discovery/index/trust-state responsibility and **Agent Package Store** (Runtime's existing term, unchanged) for its artifact-storage responsibility — one future system, two named responsibilities, neither term renames the other. |
 | **Package Instance** | One activation-eligible reference to an installed package revision within one tenant and environment — the artifact a future Agent Registry installation record points at (Runtime §9 state 4, "Package installed"). A Package Instance is distinct from, and precedes, the Agent Runtime's `runtime_instance_id` (Runtime §8.1), which identifies a live coordinator instance, not an installed reference. |
 | **Package Provenance** | The `package_provenance` field already required by Runtime §10.1: source, build, signer, and digest evidence. This contract adds no second provenance field; §19 defines the trust-state vocabulary built on top of it. |
-| **Package Trust State** | The categorical classification (§19) a Package Instance holds along the local / first-party / third-party / imported / generated / unsigned-or-unverified / revoked-or-blocked vocabulary. A package-scoped classification, not a seventh Control Plane status dimension (§20); it may project one-directionally onto `evidence_state` and `approval_state`, exactly as the Agent Runtime's `run_state` projects onto `lifecycle_status` (Control Plane §8.2, as amended by `[[../decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001]]`). |
+| **Package Trust State** | The categorical classification (§19) a Package Instance holds along the local / first-party / third-party / imported / generated / unsigned-or-unverified / revoked-or-blocked vocabulary. This is an **Agent Package domain concept, typed entity data under Control Plane §7.1's general allowance** ("domain fields such as outcome, verdict, trust, basis, and configuration state remain typed entity data and are not additional status dimensions") — **not** a seventh Control Plane status dimension, and **this contract defines no projection of Package Trust State onto `evidence_state`, `approval_state`, or any other Control Plane §8.1 dimension.** Unlike the Agent Runtime's `run_state`, which projects onto `lifecycle_status` through a verified, row-complete mapping table and an explicit, additive Control Plane amendment (`[[../decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001]]`), Package Trust State has received neither, so this contract makes no equivalent claim. Any future rendering of Package Trust State alongside Control Plane's dimensions requires its own dedicated mapping contract or an explicit, separately reviewed Control Plane amendment — neither of which this document performs. |
 | **Contract Version** | The version of *this specification* a package declares conformance to (§22), independent of the package's own `package_version`. |
 | **Provider Pack** | An unrelated, already-existing, canonical concept (`[[MELLYCORE_CYBERSECURITY_PROVIDER_PACK_SPEC_001]]`, `[[MELLYCORE_MARKETING_PROVIDER_PACK_SPEC_001]]`): a bundle of *provider capability mappings* for a domain, owned by the Provider Registry track. It shares the word "pack" with "package" by coincidence of English, not of architecture; an Agent Package never contains, wraps, or supersedes a Provider Pack, and neither document amends the other. |
 
@@ -267,7 +273,7 @@ No concern below is owned by more than one document. Where this contract
 | Provider authorization facts, credential classes, MCP server registration | `[[MELLYCORE_PROVIDER_REGISTRY_CONTRACT_EXTENSION_SPEC_001]]` | Consumed unchanged; MCP Declarations reference, never redefine, §24 records |
 | Provider access execution, capability resolution, approval binding, policy-evaluation order, MCP security contract | `[[MELLYCORE_INTEGRATION_GATEWAY_SECURITY_CONTRACT_SPEC_001]]` | Consumed unchanged; package capability declarations are requests only |
 | Model routing | Model Router (future, control surface at Control Plane §9.2) | Consumed via Runtime §23's boundary; this contract adds no routing behavior |
-| Six status dimensions, entity catalogue (`Skill`, `Tool`, `Agent`, `Integration`), Batch queue surface | `[[MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC]]` | Consumed unchanged; this contract's declarations are inputs to those entities, never a competing definition |
+| Six status dimensions, entity catalogue (`Skill`, `Tool`, `Agent`, `Integration`), Batch queue surface | `[[MELLYCORE_OMNIROUTER_INSPIRED_CONTROL_PLANE_SPEC]]` | Consumed unchanged; this contract's declarations are inputs to those entities, never a competing definition. **Package lifecycle state (§17) and Package Trust State (§19) are Agent Package domain concepts under Control Plane §7.1's typed-domain-field allowance; this contract defines no projection of either onto any of Control Plane's six closed dimensions** (§4) |
 | Safety and approval layers | `shared_context/SAFETY_CONTRACT.md`, Control Plane §16, Gateway §18 | Consumed unchanged; this contract adds no new approval authority |
 | Package Registry (as a future implementation) | Future, separate task | Named and bounded here (§4, §16); not implemented, not authorized to begin implementation by this document |
 | Batch Orchestration | Future, separate task; consuming surface Control Plane §9.8 | This contract defines only package-side eligibility declarations (§23) |
@@ -319,7 +325,7 @@ check runs.
 | `publisher_or_origin` | This contract | First-party, third-party, or generated origin reference (§19), never a trust grant by itself |
 | `package_type` | This contract | One of the asset categories in §8.1 that best classifies the package's primary purpose |
 | `description` | This contract | Human-facing summary |
-| `license_metadata` | This contract | License reference, where applicable; absence is legal metadata, never a security fact |
+| `license_metadata` | This contract | License reference, where applicable (§7.2 rule 4) |
 | `created_at` / `modified_at` | This contract | Timestamps; unknown is `null`, never fabricated (Control Plane §7.1) |
 | `package_provenance` | Runtime §10.1 (reused, unchanged) | Source, build, signer, digest, and verification evidence |
 
@@ -332,6 +338,9 @@ check runs.
 3. Identity fields carry no mutable state, permission, sensitivity, or
    authorization outcome (Runtime §8.2 rule 3), applied identically to
    package identity.
+4. `license_metadata`'s absence is legal metadata, never a security fact,
+   and MUST NOT be treated as a validation, trust, or capability signal by
+   any layer of §18 or §19.
 
 ### 7.3 Reused Runtime package-metadata fields
 
@@ -446,7 +455,7 @@ declaration.
 | --- | --- | --- |
 | 1 | Filesystem read | Gateway policy + Operator approval; bounded to declared paths only |
 | 2 | Filesystem write | Same, stricter; a package MUST declare exact writable-file ownership |
-| 3 | Shell execution | Operator approval required; `operator_only` by default (Provider Registry §24.2 pattern reused) |
+| 3 | Shell execution | Operator approval required; `operator_only` by default. *(Non-normative: this default is modeled on, but not owned or governed by, Provider Registry §24.2's `operator_only` pattern for MCP/restricted-tool records — §24 does not itself extend to generic package shell execution.)* |
 | 4 | Network access | Gateway policy; bounded to declared `provider_requirements` / MCP targets only |
 | 5 | Provider access | Provider Registry's eight facts (§21.1, unchanged) plus Gateway resolution |
 | 6 | Git operations | Operator approval; no package may self-authorize a git mutation |
@@ -480,13 +489,39 @@ runtime requirement floor.
 ### 12.2 Rules
 
 1. A dependency is a **requirement statement**, never an automatic
-   installation, activation, or capability grant.
-2. An unresolved required dependency denies package instantiation
-   eligibility (§16) with `DEPENDENCY_UNRESOLVED` (§21); it does not
-   silently degrade or substitute another revision.
-3. Optional dependencies whose absence is tolerated MUST be explicitly
-   marked optional; an unmarked dependency is treated as required.
-4. Compatibility constraints are evaluated against `contract_version` and
+   installation, activation, or capability grant. **This contract defines no
+   dependency-installation or dependency-resolution mechanism; a validation
+   failure never itself installs, fetches, activates, or resolves anything.**
+2. **Evaluation boundary (normative, deterministic).** `DEPENDENCY_UNRESOLVED`
+   (§21) MUST be raised, if at all, exclusively by **§18.1 layer 4
+   (Dependency validation)** — this contract's own owned validation stage —
+   never by Reference validation (§18.1 layer 3, which checks only that a
+   reference *resolves to an existing target*, not that a *dependency
+   constraint is satisfiable*) and never by the Agent Runtime's
+   instantiation-eligibility stage (§16 stage 5). Dependency validation
+   (§18.1 layer 4) MUST run, and MUST reach a determination, **before**
+   package verification (Runtime §9 state 3) can be established, which is
+   itself a precondition every later Runtime §9 state (4–9) — including
+   instantiation eligibility (§16 stage 5) and activation gating (§16 stage
+   6) — requires. Runtime's instantiation-eligibility stage **consumes**
+   this contract's "Package verified" determination as one input among
+   Runtime §9's prerequisite states 1–7; it does **not** independently
+   re-derive, re-evaluate, or override a dependency-resolution outcome this
+   contract's own validation already reached. This contract, not the Agent
+   Runtime, is the sole owner of the `DEPENDENCY_UNRESOLVED` determination
+   itself (§5).
+3. An unresolved **required** dependency denies package verification with
+   `DEPENDENCY_UNRESOLVED` (§21) at dependency-validation time (rule 2); it
+   does not silently degrade, substitute another revision, or defer the
+   denial to a later stage.
+4. Optional dependencies whose absence is tolerated MUST be explicitly
+   marked optional; an unmarked dependency is treated as required. An
+   unresolved **optional** dependency MUST NOT raise `DEPENDENCY_UNRESOLVED`
+   and MUST NOT block package verification; it narrows the package's
+   effective declared capability or feature set (whatever that optional
+   dependency would have supplied) and MUST NOT be silently treated as
+   present, active, or satisfied.
+5. Compatibility constraints are evaluated against `contract_version` and
    declared `supported_environments` (Runtime §10.1); a package MUST NOT
    assume compatibility outside its declared range.
 
@@ -507,7 +542,7 @@ Runtime §11.3 already states applies here unchanged.
 
 | Framework | This contract's compatibility concern |
 | --- | --- |
-| `claude_code` | Package's Skill/Command/Hook/Plugin/MCP declarations map to concepts with a similar shape (§4's `Provider Pack` note applies equally here: shared shape, not shared ownership) |
+| `claude_code` | Each of this contract's five declared asset types (§14) has a structurally similar Claude Code counterpart — Skill declaration ↔ skill, Hook declaration ↔ hook, Command declaration ↔ slash command, Plugin declaration ↔ plugin, MCP Declaration ↔ MCP server reference — but the correspondence is a **naming and shape parallel only**: this contract's activation boundary (§10, §14), permission model (§11), and validation layers (§18) govern regardless of framework, and no Claude Code-native mechanism satisfies or bypasses any of them |
 | `openai_agents_sdk` | Package's `declared_tools` maps to SDK tool definitions via the future Framework Bridge Contract only |
 | `langgraph` | Package's lifecycle projects onto graph-node transitions via the bridge only |
 | `crewai` | Package's Skill declarations project onto crew task definitions via the bridge only |
@@ -526,10 +561,61 @@ its future dedicated registry.
 | Asset type | Declarative purpose | Ownership boundary | Validation expectation | Activation boundary | Security implications | Future registry |
 | --- | --- | --- | --- | --- | --- | --- |
 | **Skill** | Declares a packaged, reusable, triggerable workflow with declared inputs, outputs, and required capabilities | This contract fixes only the reference boundary (§9); full behavior contract is the registry's | Structural + capability + dependency validation (§18); a Skill declaring an undeclared capability fails validation | Never self-activating; requires runtime-supported + policy-allowed + operator-approved + active (§10) | Prompt injection via Skill content is an untrusted-content concern (§24); a Skill is data until activated | Skill Registry |
-| **Command** | Declares a named, invokable operation, generalizing `/roadmap` | Command *names* may collide with reserved operator commands (`ROADMAP.md`'s Planned Commands); this contract requires collision detection at validation, not resolution rules | Structural + naming-collision validation | Never self-invoking; invocation requires the same four-state chain as any capability | Command shadowing (a package declaring a command name that shadows a canonical one) is a named threat (§24) | Command Registry |
+| **Command** | Declares a named, invokable operation, generalizing `/roadmap` | Command *names* may collide with reserved operator commands (`ROADMAP.md`'s Planned Commands); this contract requires collision detection at validation (§14.1), not resolution rules | Structural validation, §18.1 layer 1, per the collision rules of §14.1 | Never self-invoking; invocation requires the same four-state chain as any capability | Command shadowing (a package declaring a command name that shadows a canonical one) is a named threat (§24), fully bounded by §14.1 | Command Registry |
 | **Hook** | Declares an event-bound automation unit | Bound only to already-fixed Agent Runtime lifecycle events (Runtime §12); this contract creates no new event vocabulary | Structural + event-reference validation (an unknown event name fails validation) | Never self-activating; a side-effecting Hook additionally requires Operator approval (§11.1 row 11) | Malicious hooks are a named threat (§24); a Hook is inert until an authorized run's lifecycle event triggers policy evaluation | Hook Registry |
 | **Plugin** | Declares a bundle of Skill/Command/Hook/agent/MCP declarations distributed as one unit | A Plugin is a manifest-level grouping, not a second Package Manifest (§8.1 rule 7) | Every bundled declaration validates independently; a Plugin's validity is the conjunction, not a separate check | Bundled assets activate independently, each through their own four-state chain; a Plugin grants nothing by bundling | Plugin impersonation (a Plugin claiming another's identity) is a named threat (§24), addressed by `package_provenance` | Plugin Registry |
 | **MCP Declaration** | Declares a package's intended reference to one already-registered MCP server record | Owned by Provider Registry §24 (registration) and Gateway §21 (security contract); this contract's declaration carries only `mcp_server_id` and `tool_contract_revision` as a reference, never a registration payload | Reference-existence validation only: the referenced record must exist, be un-suspended, and be un-retired (Provider Registry §24.3) | Governed entirely by Provider Registry §24.2 defaults (no unrestricted search-and-execute, no autonomous generic execution, `output_trust_level: untrusted` always) | Every threat already named in Gateway §21 and Provider Registry §24 applies unchanged; this contract adds no new MCP threat surface | MCP Registry (indexes package-side references only; server records remain Provider Registry's) |
+
+### 14.1 Command namespace and collision detection (normative)
+
+This subsection fixes the exact fail-closed validation requirement §14's
+Command row and §24's "command shadowing" threat both depend on. It is
+enumerated explicitly under **§18.1 layer 1 (Structural validation)**, so
+no future Package Validator implementation can miss it, and it rejects with
+`COMMAND_NAMESPACE_COLLISION` (§21).
+
+A package's declared command identifiers and aliases MUST be validated
+against all of the following, and **any** match denies the package at
+structural-validation time, before any other layer runs:
+
+1. **Duplicate command identifiers within one package.** Two command
+   declarations in the same package MUST NOT declare the same command
+   identifier.
+2. **Duplicate aliases within one package.** Two command declarations in
+   the same package MUST NOT declare the same alias, and no alias MUST
+   equal another command's primary identifier within that package.
+3. **Collisions with reserved MellyCore commands.** No declared command
+   identifier or alias MUST match any reserved operator command name
+   (`ROADMAP.md`'s Planned Commands, including `/roadmap` itself).
+4. **Collisions with already-authorized runtime command namespaces.** No
+   declared command identifier or alias MUST match a command namespace an
+   Operator has already authorized for this tenant and environment,
+   regardless of which package originally declared it.
+5. **Deceptive Unicode or normalization-equivalent names.** A declared
+   command identifier or alias MUST be validated in its Unicode-normalized
+   (NFKC) form; a name that normalizes to an identical or
+   visually-indistinguishable string as a reserved command, an
+   already-authorized command, or another declaration in the same package
+   is treated as a collision under rules 1–4, not as a distinct name.
+6. **Attempts to override protected command classes.** No declared command
+   identifier or alias MUST match, alias, or shadow a command in the
+   safety, validation, approval, Git, provider, or deployment classes,
+   regardless of tenant or environment authorization state — this
+   prohibition is absolute and MUST NOT be lifted by any package-level
+   declaration, capability, or approval.
+7. **Package-local declaration is not environment-wide activation.**
+   Declaring a command inside a package (§8.1, §9) creates a reference
+   candidate only; it MUST NOT be read as registering, activating, or
+   granting namespace ownership of that command identifier in any tenant
+   or environment. Namespace ownership, activation, and conflict
+   resolution across multiple installed packages remain the future
+   Command Registry's exclusive concern (§26); this contract fixes only
+   the pre-registration rejection rules above.
+
+Rules 1–6 are validation-time rejections this contract itself requires;
+rule 7 is a declaration-versus-activation boundary this contract fixes so
+the future Command Registry cannot be designed to treat a package-local
+declaration as an implicit grant.
 
 ## 15. Shared Context interaction
 
@@ -582,9 +668,9 @@ this document.
 | 4 | **Policy evaluation** | Declared capabilities, permissions, and dependencies pass Gateway policy (§10, §17 of Gateway) | Integration Gateway |
 | 5 | **Instantiation eligibility** | All prerequisite Runtime §9 states (1–7) hold for this exact revision | Agent Runtime |
 | 6 | **Activation gating** | Run authorization exists (Runtime §9 state 8, §14 eleven facts) | Agent Runtime / Operator |
-| 7 | **Lifecycle projection** | The package's own lifecycle state (§17) is projected for observability, never substituted for `run_state` | Agent Runtime, Control Plane |
+| 7 | **Lifecycle rendering** | The package's own lifecycle state (§17) is rendered for observability (§20) as its own typed field — **not** projected onto any Control Plane §8.1 dimension (§4, §17.1) — and never substituted for `run_state` | Agent Runtime, Control Plane |
 | 8 | **Observability projection** | Package-level fields render per §20 | Control Plane |
-| 9 | **Termination or suspension projection** | A package's revision may be suspended, deprecated, or retired (mirroring Provider Registry §24.3) independent of any in-flight run's own cancellation semantics (Runtime §27) | Agent Registry / Package Registry (future) |
+| 9 | **Termination or suspension projection** | A package's revision may be suspended, deprecated, or retired, independent of any in-flight run's own cancellation semantics (Runtime §27). *(Non-normative: this state shape is modeled on, but not owned or governed by, Provider Registry §24.3, which is scoped to provider and MCP-server records, not generic Agent Packages.)* | Agent Registry / Package Registry (future) |
 
 No stage above authorizes execution. Stage 6 alone gates whether a run may
 begin, and it is owned entirely by the Agent Runtime architecture already
@@ -597,9 +683,21 @@ accepted — this contract adds no parallel authorization path.
 These states describe a **Package Instance's** (§4) lifecycle. They are
 package-scoped, not run-scoped, and MUST NOT be confused with the Agent
 Runtime's seventeen `run_state` values (Runtime §12.2) or with Control
-Plane's six canonical status dimensions (Control Plane §8.1), which they may
-project onto one-directionally (§4's `Package Trust State` note applies
-identically to lifecycle):
+Plane's six canonical status dimensions (Control Plane §8.1). Package
+lifecycle state is an **Agent Package domain concept, typed entity data
+under Control Plane §7.1's general allowance for domain fields** (the same
+allowance that already covers "trust," "outcome," "verdict," and "basis"
+elsewhere in Control Plane's own entity catalogue) — it is **not** a
+Control Plane status dimension, and **this contract defines no projection
+of package lifecycle state onto `lifecycle_status`, `approval_state`, or
+any other Control Plane §8.1 dimension.** §4's `Package Trust State` note
+states the identical position for the reasoning behind this choice. No
+package lifecycle state below MUST be silently coerced into, rendered as,
+or displayed under any Control Plane §8.1 enum value; an implementer
+needing a cross-referenced view of package lifecycle alongside Control
+Plane's dimensions MUST treat package lifecycle state as its own
+independently rendered field (§20), not as a value within any Control Plane
+dimension:
 
 1. `draft`
 2. `submitted_for_validation`
@@ -630,8 +728,11 @@ from the absence of one.
 1. `retired` is terminal: a retired `package_revision_id` is never reused
    (mirroring Provider Registry §24.3's `provider_id` rule).
 2. `revoked` denies immediately from any state, requires no step-wise
-   progression, and does not delete prior approvals — they become inert,
-   mirroring Provider Registry §24.3's `suspended` behavior.
+   progression, and does not delete prior approvals — they become inert.
+   *(Non-normative: this behavior is modeled on, but not owned or governed
+   by, Provider Registry §24.3's `suspended` behavior for provider and
+   MCP-server records; §24 does not itself extend to generic Agent Package
+   revocation.)*
 3. No state above authorizes execution; only Runtime §9 state 8 ("Run
    authorized") does, and it is independent of every state here.
 
@@ -640,15 +741,22 @@ from the absence of one.
 ### 18.1 Nine layers
 
 1. **Structural validation** — the manifest parses and every required field
-   (§7.3) is present and correctly typed.
+   (§7.3) is present and correctly typed, **and** every declared command
+   identifier and alias passes the seven collision-detection rules of
+   §14.1, rejecting with `COMMAND_NAMESPACE_COLLISION` (§21) on any match.
 2. **Schema/contract validation** — the manifest conforms to this
    contract's declared shapes (§8–§12) and to the referenced
    `contract_version` (§22).
 3. **Reference validation** — every asset reference (§9), dependency
    reference (§12), and MCP Declaration reference (§14) resolves to an
-   existing target.
-4. **Dependency validation** — every required dependency is resolvable and
-   compatible (§12.2).
+   *existing target*. This layer does not evaluate whether a resolved
+   dependency's *constraint* is satisfiable — that is layer 4's exclusive
+   concern (§12.2 rule 2).
+4. **Dependency validation** — the exclusive owner of the
+   `DEPENDENCY_UNRESOLVED` determination (§12.2 rule 2): every required
+   dependency is resolvable and compatible; an unresolved optional
+   dependency narrows the feature set without failing this layer (§12.2
+   rule 4).
 5. **Capability validation** — every `declared_capabilities` entry is a
    recognized capability class (Gateway §12); an unrecognized class fails
    closed.
@@ -732,11 +840,15 @@ implemented by this document.
 
 ### 20.2 Rendering rules
 
-Every projection above carries its owning status dimension explicitly
-(Control Plane §8.2); no projection may synthesize a universal "healthy,"
-"active," or green state across more than one dimension. `NOT_RUN` /
-`NOT_IMPLEMENTED` never renders as pass, mirroring Control Plane's
-`ValidatorResult` rule (§7.2).
+Every projection above that carries a genuine Control Plane §8.1 status
+dimension value states that dimension explicitly (Control Plane §8.2).
+Projections 6 (validation result) and 7 (trust state) are **package-typed
+fields, not Control Plane dimension values** (§4, §17.1, §19) and MUST be
+labeled as package-domain data, never displayed as though they were a
+`lifecycle_status`, `evidence_state`, or `approval_state` value. No
+projection may synthesize a universal "healthy," "active," or green state
+across more than one dimension. `NOT_RUN` / `NOT_IMPLEMENTED` never renders
+as pass, mirroring Control Plane's `ValidatorResult` rule (§7.2).
 
 ## 21. Error and rejection taxonomy
 
@@ -761,6 +873,7 @@ precise" principle rather than duplicating its exact class list.
 | `CONTEXT_CLASS_UNDECLARED` | Shared Context proposal outside `produced_context_classes` (§15 rule 7) |
 | `CONTRACT_VERSION_INCOMPATIBLE` | Package's `contract_version` outside this document's declared compatibility range (§22) |
 | `REVISION_IMMUTABILITY_VIOLATION` | An attempt to mutate a published `package_revision_id` in place, rather than publish a new revision (§7.2 rule 1, §22) |
+| `COMMAND_NAMESPACE_COLLISION` | A declared command identifier or alias fails any of §14.1's seven collision-detection rules (duplicate identifier/alias, reserved-command collision, authorized-namespace collision, Unicode-normalization collision, or an attempt to override a protected safety/validation/approval/Git/provider/deployment command) |
 
 No class above is claimed implemented; this table defines stable names for a
 future Package Validator and Agent Runtime to emit, not code that emits them.
@@ -828,7 +941,7 @@ Seven required package-side declarations for batch eligibility:
 | --- | --- |
 | Prompt injection through package assets | Package content (prompts, Skill/Hook text) is untrusted data under Runtime §31's "untrusted by default" principle; never treated as instructions to the Runtime or Validator |
 | Malicious hooks | Hooks bind only to fixed lifecycle events (§14) and require Operator approval for side effects (§11.1 row 11); a Hook cannot self-activate |
-| Command shadowing | Structural validation MUST detect a declared command name colliding with a reserved operator command (§14, `ROADMAP.md`'s Planned Commands) and fail closed |
+| Command shadowing | Structural validation (§18.1 layer 1) MUST reject any of §14.1's seven collision classes — duplicate identifiers/aliases, reserved-command collisions, authorized-namespace collisions, Unicode-normalization collisions, and attempts to override protected safety/validation/approval/Git/provider/deployment commands — with `COMMAND_NAMESPACE_COLLISION` (§21), and fail closed |
 | Dependency confusion | Dependencies resolve only by exact `agent_package_id` + revision range (§12); no name-similarity or "nearest match" resolution, mirroring Runtime §8.2 rule 4 |
 | Undeclared network access | Denied by construction (§6.2 rule 5); any network destination must appear under `provider_requirements` or an MCP Declaration |
 | Secret exfiltration | Denied by construction (§6.2 rules 1–2); safety validation (§18.1 layer 7) fails closed on any detected secret pattern |
