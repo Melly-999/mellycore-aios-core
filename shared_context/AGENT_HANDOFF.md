@@ -1,6 +1,71 @@
 # Agent Handoff
 
-## Latest Update — Agent Runtime architecture gate PASSED with non-blocking findings; Agent Package Contract eligible; nothing implemented, connected, or executed
+## Latest Update — Developer Platform & Agent Package Ecosystem direction documented; MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001 in progress; nothing implemented, connected, or executed
+
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001`
+
+- Operator directed this task in this chat session (2026-08-03) — the
+  explicit authorization the task required after Review 002's `NEW-P3-01`
+  eligibility finding. Moved `ELIGIBLE` → `IN_PROGRESS` in
+  `shared_context/TASK_INDEX.md`.
+- **This entry is a documentation-synchronization pass, not the Agent
+  Package Contract specification.** Six files changed as one local
+  documentation commit; **not pushed**: `shared_context/ROADMAP.md` (new
+  "Developer Platform & Agent Package Ecosystem — Planned Direction"
+  section, including a Planned Commands subsection), `shared_context/RUN_QUEUE.md`
+  (Agent Runtime Product Track item 5 updated to in-progress, follow-on
+  layers queued as blocked), `shared_context/PROJECT_STATE.md` (new "Agent
+  Package Contract Spec 001" section), this file, and two **new** canonical
+  files: `shared_context/PROJECT_HISTORY.md` (chronological milestone
+  ledger) and `shared_context/TASK_INDEX.md` (task-identifier status index).
+- **Architectural direction recorded, all planned, none specified beyond a
+  one-paragraph description, none implemented:** Shared Context Expansion,
+  Multi-Agent Workflow, Commands Layer, Skills Layer, Hooks Layer, Plugin
+  Layer, MCP Layer, the Developer Platform umbrella (Skill/Hook/Command/
+  Plugin/MCP Registries plus Package Validation, Package Lifecycle, and
+  Package Distribution), and the Package Ecosystem. Task identifiers for all
+  nine: `shared_context/TASK_INDEX.md`.
+- **Nineteen command names reserved in documentation only** (`/roadmap`
+  existing, eighteen new: `/review`, `/architecture`, `/runtime`,
+  `/context`, `/route`, `/provider`, `/skills`, `/hooks`, `/plugins`,
+  `/packages`, `/agents`, `/batch`, `/status`, `/validate`, `/security`,
+  `/memory`, `/history`, `/report`, `/docs`), following the existing
+  `/roadmap` pattern (`docs/runbooks/MELLYCORE_ROADMAP_COMMAND.md`). **None
+  is implemented**; no CLI, agent, or runtime parses or routes any of them.
+- **Provider-agnostic by design.** The Developer Platform borrows a shape
+  similar to Claude Code (Skills, Hooks, Commands, Plugins, MCP Servers) as a
+  familiar reference point, not as a dependency. Every registry named must
+  remain expressible across the Agent Runtime's accepted six-framework
+  compatibility matrix (Claude Code, OpenAI Agents SDK, LangGraph, CrewAI,
+  AutoGen, custom MellyCore-compatible agents) without assuming any one
+  framework.
+- Recorded honestly: **no registry, package validator, CLI command, plugin
+  loader, MCP client, or Shared Context schema change exists.** No agent
+  framework is installed, imported, connected, or executed; no agent has
+  been executed; no model provider, tool, or credential is connected or
+  configured. No deployment, push, pull request, or merge occurred.
+- Validation: exactly six files changed (four edits, two new files); no
+  source or test file changed. `pytest`, black, flake8, and mypy were not
+  run and are not claimed passing — none applies to a documentation-only
+  change touching no source or test file.
+- **Not reopened, not reordered.** The Agent Runtime architecture gate
+  (Review 002, `PASS_WITH_NON_BLOCKING_FINDINGS`) is not reopened. Framework
+  Bridge Contract, Shared Context Bridge, Agent Runtime Scaffold, first
+  Agent Package, Cross-Agent Smoke, and Integration Review remain blocked,
+  as does Agent Runtime implementation. All nine Developer Platform layer
+  specs remain unauthorized to begin their own specification work. The
+  global higher-priority pointer
+  `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged,
+  in place, and independently governed.
+- Exact next step under this task ID: draft the Agent Package Contract
+  specification document itself (scoped to the concerns Review 002 found
+  eligible, not the full nine-layer Developer Platform set), then route it
+  through the same independent-review and remediation cycle used for the
+  Agent Runtime architecture.
+- Durable evidence: this commit's diff across the six files named above;
+  no separate `docs/tasks/` report exists yet for this in-progress task.
+
+## Previous Update — Agent Runtime architecture gate PASSED with non-blocking findings; Agent Package Contract eligible; nothing implemented, connected, or executed
 
 `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002`
 

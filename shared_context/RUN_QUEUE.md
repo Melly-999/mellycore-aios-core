@@ -953,19 +953,39 @@ repaired. Durable evidence:
 `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md`,
 `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002.md`.
 
-**Current gate — exact next task:**
-`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — a documentation-only Agent Package
-Contract specification, now **eligible for separate Operator authorization**
-under the `NEW-P3-01` constraint. Not started. Eligibility is not authorization:
-it requires its own explicit Operator authorization before it begins, and it is
-not an implementation task.
+**Current — in progress:**
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — Operator-directed in this
+session (2026-08-03) via direct chat instruction, which serves as the
+required explicit authorization for this documentation-only task. **Scope
+of this entry: a documentation-synchronization pass** — introducing the
+Developer Platform and Agent Package Ecosystem planning direction across
+`shared_context/ROADMAP.md` (new "Developer Platform & Agent Package
+Ecosystem" section), this file, `shared_context/PROJECT_STATE.md`,
+`shared_context/PROJECT_HISTORY.md` (new canonical file), and
+`shared_context/TASK_INDEX.md` (new canonical file). **The Agent Package
+Contract specification document itself (the full, reviewed, section-by-section
+spec in the style of `docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md`)
+is not yet drafted** — that remains a separately tracked next step under this
+same task ID, still subject to its own independent review and gate exactly
+like the Agent Runtime spec above. Nothing implemented, connected, or
+executed by this entry: no registry, validator, CLI command, plugin loader,
+or MCP integration exists.
+
+Nine new planned layers were named (all **planned**, none specified beyond a
+one-paragraph description, none implemented): Shared Context Expansion,
+Multi-Agent Workflow, Commands Layer, Skills Layer, Hooks Layer, Plugin
+Layer, MCP Layer, Developer Platform (umbrella), Package Ecosystem. Task
+identifiers and current status: `shared_context/TASK_INDEX.md`.
 
 **Still blocked**, each requiring its own gate and separate explicit Operator
-authorization, in this recommended order: Framework Bridge Contract; Shared
-Context Bridge; Agent Runtime Scaffold (inert, no framework process, no provider
-call, no credential, no model call, no tool execution, no deployment); Scaffold
-Review; first Agent Package; Cross-Agent Smoke (inert modes only); Integration
-Review. None of these is authorized by this queue entry. Agent Runtime
+authorization, in this recommended order: the Agent Package Contract
+specification draft itself (remainder of the current task); Framework
+Bridge Contract; Shared Context Bridge; Agent Runtime Scaffold (inert, no
+framework process, no provider call, no credential, no model call, no tool
+execution, no deployment); Scaffold Review; first Agent Package; Cross-Agent
+Smoke (inert modes only); Integration Review; and, following those, each of
+the nine Developer Platform layer specs listed above, each independently
+gated. None of these is authorized by this queue entry. Agent Runtime
 implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the

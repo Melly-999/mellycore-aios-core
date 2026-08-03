@@ -799,6 +799,100 @@ invocation, provider connection, credential, persistence, queue, frontend, or
 deployment is authorized by this track. Live sequencing for this track:
 `shared_context/RUN_QUEUE.md`'s "Agent Runtime Product Track".
 
+## Developer Platform & Agent Package Ecosystem — Planned Direction
+
+This section records planning direction only. It is written by
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001`, the current active task on the
+Agent Runtime Product Track (item 5 above), and does not itself specify,
+implement, authorize, or start any of the layers it names. Each layer below
+requires its own specification, independent review, remediation where
+required, and explicit Operator authorization before implementation — the
+same gated sequence already applied to the Agent Runtime architecture above.
+Task identifiers and status are tracked in `shared_context/TASK_INDEX.md`.
+
+MellyCore AIOS is evolving toward a provider-agnostic AI Operating System
+built from these pillars: Control Plane, Shared Context, Agent Runtime, Agent
+Package Ecosystem, Model Router, Provider Registry, Knowledge Graph, Context
+Compression, Cost Observatory, Observability, Multi-Agent Workflow, and
+Developer Platform. Control Plane, Shared Context, Agent Runtime, Model
+Router, and Provider Registry are already named and partially specified
+elsewhere in this roadmap and in `docs/specs/`; Knowledge Graph, Context
+Compression, Cost Observatory, and Observability remain **planned** and
+unspecified beyond their appearance in the AI Operations Intelligence data
+contract. Agent Package Ecosystem and Developer Platform are **new** as of
+this entry.
+
+The Developer Platform names concepts with a shape similar to Claude Code
+(Skills, Hooks, Commands, Plugins, MCP Servers) because that is a familiar,
+well-understood reference shape for developers — not because MellyCore AIOS
+depends on, wraps, or is limited to Claude Code. The Agent Runtime
+architecture's six-framework compatibility matrix (Claude Code, OpenAI Agents
+SDK, LangGraph, CrewAI, AutoGen, custom MellyCore-compatible agents) is the
+binding constraint: every Developer Platform registry and package format must
+be expressible without assuming any one framework, exactly as the Agent
+Runtime's framework-neutral bridge boundary already requires.
+
+Planned milestones (all **planned**; none specified beyond this paragraph,
+none implemented):
+
+1. **Shared Context Expansion** — extends the existing Shared Context
+   contracts (`shared_context/CONTEXT_GRAPH_SCHEMA.md`,
+   `CONTEXT_PACK_GENERATOR_SPEC.md`, and the Context Gate) to carry Agent
+   Package metadata, registry references, and package-scoped memory, without
+   reopening or weakening the accepted Context Gate guarantees.
+2. **Multi-Agent Workflow** — cross-agent coordination and handoff workflows
+   built on the Agent Runtime's accepted handoff-acceptance model (six
+   handoff kinds requiring explicit acceptance); does not reopen the Agent
+   Runtime architecture gate.
+3. **Commands Layer** (`MELLYCORE-COMMANDS-LAYER-SPEC-001`) — a Command
+   Registry: a provider-agnostic contract for invokable named operations,
+   generalizing the existing single documentation-defined command (`/roadmap`,
+   see "Operator Command" below) into a registrable family.
+4. **Skills Layer** (`MELLYCORE-SKILLS-LAYER-SPEC-001`) — a Skill Registry: a
+   contract for packaged, reusable, triggerable workflows with declared
+   inputs, outputs, and required capabilities.
+5. **Hooks Layer** (`MELLYCORE-HOOKS-LAYER-SPEC-001`) — a Hook Registry: a
+   contract for event-driven automation bound to Agent Runtime lifecycle
+   events, without introducing a new execution path around the Runtime's
+   authorization facts.
+6. **Plugin Layer** (`MELLYCORE-PLUGIN-LAYER-SPEC-001`) — a Plugin Registry:
+   a contract for bundles of commands, skills, hooks, agents, and MCP servers
+   distributed and versioned as a unit.
+7. **MCP Layer** (`MELLYCORE-MCP-LAYER-SPEC-001`) — an MCP Registry: a
+   contract for registering and discovering Model Context Protocol servers
+   without binding the registry to any single provider's MCP client
+   implementation.
+8. **Developer Platform** (`MELLYCORE-DEVELOPER-PLATFORM-SPEC-001`) — the
+   umbrella specification unifying the five registries above with three
+   cross-cutting concerns: **Package Validation** (schema and safety
+   conformance before admission), **Package Lifecycle** (draft → validated →
+   published → deprecated states, mirroring the Agent Runtime's
+   definition-to-instance separation), and **Package Distribution**
+   (discovery and retrieval, with no assumption of a specific package host).
+9. **Package Ecosystem** (`MELLYCORE-PACKAGE-ECOSYSTEM-SPEC-001`) — the
+   trust, authorship, and third-party distribution model for Agent Packages
+   built on the Developer Platform contracts above.
+
+None of these nine milestones is authorized to begin specification work by
+this entry alone; `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` itself covers
+only item 8's Agent Package Contract concerns as scoped by Agent Runtime
+Architecture Review 002's `NEW-P3-01` eligibility finding, not the full set.
+
+### Planned Commands (Documentation-Defined Naming Reservation Only)
+
+The following command names are reserved in documentation as future
+Developer Platform operator commands, following the existing `/roadmap`
+pattern (see "Operator Command" below). **None is implemented.** No CLI,
+agent, or runtime currently parses, routes, or executes any of them; each
+requires its own runbook (in the style of
+`docs/runbooks/MELLYCORE_ROADMAP_COMMAND.md`) before it is anything more than
+a reserved name:
+
+`/roadmap` (existing), `/review`, `/architecture`, `/runtime`, `/context`,
+`/route`, `/provider`, `/skills`, `/hooks`, `/plugins`, `/packages`,
+`/agents`, `/batch`, `/status`, `/validate`, `/security`, `/memory`,
+`/history`, `/report`, `/docs`.
+
 ## Safety Gates
 
 - Human approval is mandatory for consequential actions.

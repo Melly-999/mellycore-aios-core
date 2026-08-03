@@ -1,0 +1,85 @@
+# Task Index
+
+Canonical index of MellyCore AIOS task identifiers. Status values:
+
+- `COMPLETE` — task finished; may still be unpushed (local documentation
+  commit) or merged (see the linked evidence for which).
+- `IN_PROGRESS` — started, not complete.
+- `ELIGIBLE` — a gate has cleared it for Operator authorization; it has not
+  been authorized or started.
+- `BLOCKED` — not eligible; a prior gate, review, or Operator authorization is
+  outstanding.
+- `PLANNED` — named in the roadmap; no gate has run yet.
+
+This index does not itself authorize, start, or claim implementation of any
+task. Full narrative detail lives in `shared_context/ROADMAP.md`,
+`shared_context/RUN_QUEUE.md`, `shared_context/PROJECT_STATE.md`, and
+`shared_context/PROJECT_HISTORY.md`; durable per-task evidence lives in
+`docs/tasks/`.
+
+## Global Pointer
+
+| Task ID | Status | Notes |
+|---|---|---|
+| `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` | `IN_PROGRESS` | Global higher-priority pointer; independently governed; not reordered by any track below. See `RUN_QUEUE.md`'s "Current" section. |
+
+## Agent Runtime Product Track
+
+| Task ID | Status | Evidence |
+|---|---|---|
+| `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` | `COMPLETE` (local, not pushed) | `docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md`, `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001.md` |
+| `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` | `COMPLETE` (local, not pushed) — gate `FAIL_REMEDIATION_REQUIRED` | `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_001.md` |
+| `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` | `COMPLETE` (local, not pushed) — unverified pending review | `docs/decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001.md` |
+| `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` | `COMPLETE` (local, not pushed) — gate `PASS_WITH_NON_BLOCKING_FINDINGS` | `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md` |
+| `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` | `IN_PROGRESS` | This documentation-synchronization entry; full Agent Package Contract specification document itself remains to be drafted. See `ROADMAP.md`'s "Developer Platform & Agent Package Ecosystem" section and `AGENT_HANDOFF.md`'s Latest Update. |
+| Framework Bridge Contract | `BLOCKED` | Requires its own gate after Agent Package Contract Spec 001. |
+| Shared Context Bridge | `BLOCKED` | Requires its own gate. |
+| Agent Runtime Scaffold (inert) | `BLOCKED` | No framework process, provider call, credential, model call, tool execution, or deployment permitted even once started. |
+| Scaffold Review | `BLOCKED` | Requires Scaffold to exist first. |
+| First Agent Package | `BLOCKED` | Requires Scaffold Review to pass. |
+| Cross-Agent Smoke (inert modes only) | `BLOCKED` | Separate clean-worktree task per `RUN_QUEUE.md`'s "Deferred Work". |
+| Integration Review | `BLOCKED` | Final gate of this track. |
+
+## Developer Platform & Agent Package Ecosystem (Planned)
+
+All rows `PLANNED` unless noted. None is authorized, started, or implemented
+by this index. Each requires its own specification, independent review, and
+explicit Operator authorization before implementation, exactly like the Agent
+Runtime track above.
+
+| Task ID | Status | Notes |
+|---|---|---|
+| `MELLYCORE-SHARED-CONTEXT-EXPANSION-001` | `PLANNED` | Expands Shared Context contracts to carry Agent Package metadata and Developer Platform registries. |
+| `MELLYCORE-MULTI-AGENT-WORKFLOW-001` | `PLANNED` | Cross-agent handoff and coordination workflows, built on the accepted Agent Runtime handoff model. |
+| `MELLYCORE-COMMANDS-LAYER-SPEC-001` | `PLANNED` | Command Registry: provider-agnostic slash-command contract. |
+| `MELLYCORE-SKILLS-LAYER-SPEC-001` | `PLANNED` | Skill Registry: packaged, reusable workflow contract. |
+| `MELLYCORE-HOOKS-LAYER-SPEC-001` | `PLANNED` | Hook Registry: event-driven automation contract. |
+| `MELLYCORE-PLUGIN-LAYER-SPEC-001` | `PLANNED` | Plugin Registry: bundles of commands/skills/hooks/agents/MCP servers. |
+| `MELLYCORE-MCP-LAYER-SPEC-001` | `PLANNED` | MCP Registry: Model Context Protocol server registration and discovery, provider-agnostic. |
+| `MELLYCORE-DEVELOPER-PLATFORM-SPEC-001` | `PLANNED` | Umbrella spec unifying the five registries above with Package Validation, Package Lifecycle, and Package Distribution. |
+| `MELLYCORE-PACKAGE-ECOSYSTEM-SPEC-001` | `PLANNED` | Distribution, discovery, and trust model for third-party Agent Packages. |
+
+## Completed Milestones (Pre-Agent-Runtime)
+
+See `shared_context/PROJECT_HISTORY.md` for the full chronological ledger.
+Summary pointer only:
+
+| Milestone | Status |
+|---|---|
+| Context Gate I1–I4 | `COMPLETE` (implemented) |
+| Operational Trust / Loop Operations | `COMPLETE` (report-only, closed) |
+| AI Operations Intelligence spec | `COMPLETE` (merged, PR #7) — `SPECIFIED`, not implemented |
+| Operations Data Contract | `COMPLETE` (merged, PR #13) — schema/fixture scope |
+| Source Arena Hybrid Renderer ADR | `COMPLETE` (merged, PR #8) — `ACCEPTED`, not implemented |
+| Source Arena static CSS/DOM renderer slice | `COMPLETE` (merged, PR #17) |
+| NASA runtime retirement | `COMPLETE` (merged, PR #15) |
+| Cloudflare API Shield read-only adapter | `COMPLETE` (local) — review 002 `PASS_WITH_NON_BLOCKING_FINDINGS` |
+| Vercel Static Root | `COMPLETE` (merged, published) |
+| OpenAI Batch Stage B | `COMPLETE` (merged) — Stage C `BLOCKED` |
+
+## How to Extend This Index
+
+Add a row when a task ID is first named in `ROADMAP.md` or `RUN_QUEUE.md`.
+Update its status in place as gates resolve. Never mark a row `COMPLETE`
+without a durable evidence link, and never mark a row as implemented when the
+linked evidence states specification-only or documentation-only scope.
