@@ -780,11 +780,22 @@ work, per `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001`.
    mutation, containment, runtime, deployment, dependency, or workflow path was
    added or used.
 17. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001` — **exact
-   next task on this parallel track.** Independent review is required. Any live
-   Cloudflare transport, credentials, authentication, deployment, or runtime
-   work remains blocked pending that review and separate Operator authorization.
-   The global higher-priority pointer
-   `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is unchanged.
+   review completed in one local documentation commit; gate failed.** Outcome:
+   `FAIL_REMEDIATION_REQUIRED`; P0 = 0, P1 = 1, P2 = 2, P3 = 0. The 58-row
+   classification, 32 concrete entries, no-network posture, and disabled
+   execution are confirmed. P1-01 blocks acceptance because concrete
+   capabilities/profiles do not pin a Registry-compatible authentication mode;
+   global `api_token` metadata cannot satisfy the delegated class's
+   `delegated_oauth` contract or replace the required descriptor binding.
+   P2 findings cover unflagged endpoint-URL-shaped fixture host text and
+   incomplete independent contract-oracle test coverage. The global higher-
+   priority pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` is
+   unchanged.
+18. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001` — **exact
+   next task on this parallel track; eligible for separate authorization.** The
+   provider-foundation checkpoint remains incomplete and Agent Runtime
+   architecture waits for independently accepted remediation. Live Cloudflare
+   and all provider execution work remain blocked.
 
 Blocked pending this track's own gates and separate explicit authorization,
 regardless of any other track's state: provider credentials of any kind,

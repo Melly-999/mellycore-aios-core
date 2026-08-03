@@ -1220,3 +1220,33 @@ Cloudflare transport, credential, authentication, deployment, or runtime work
 remains blocked pending that independent review and separate Operator
 authorization. The pre-existing global higher-priority task pointer is
 unchanged, not reordered, and not reinterpreted.
+
+## Cloudflare API Shield Read-Only Adapter Review 001 — Failed, Remediation Required
+
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001` independently
+reviewed commit `3de6a4961a6ba4d20b7bc133298292ff1f0fc71c`. Decision:
+`FAIL_REMEDIATION_REQUIRED`; P0 = 0, P1 = 1, P2 = 2, P3 = 0.
+
+The contract-derived 58-row classification is complete and matches the code:
+16 D1 reads included and 42 proposal, mutation, containment, and D4 restricted-
+tool capabilities excluded. Both fixed identity manifests remain transportless
+and execution-disabled; all required tests replayed successfully and independent
+AST/import/execution probes found no network, credential, provider, SDK, OAuth,
+MCP, webhook, mutation, or success path.
+
+The gate nevertheless fails. P1-01 records that no concrete capability/profile
+pins the authentication mode required by Provider Registry Section 13.2. The
+delegated entries bind `read_only_delegated`, whose compatible mode is
+`delegated_oauth`, while the implementation supplies only global non-runtime
+`api_token` metadata. Scaffold Review 001 required an explicit descriptor
+extension and binding rules; treating metadata as sufficient would require
+forbidden architectural interpretation. P2-01 records unflagged acceptance of
+an endpoint-URL-shaped fixture host. P2-02 records incomplete independent
+contract-oracle coverage in the focused tests.
+
+The offline adapter is unaccepted and the provider-foundation checkpoint remains
+incomplete. Live provider work remains blocked; the Agent Runtime pivot waits.
+The exact next task is
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001`.
+The pre-existing global higher-priority pointer remains unchanged and is not
+reordered or reinterpreted.

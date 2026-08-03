@@ -1,6 +1,37 @@
 # Agent Handoff
 
-## Latest Update — Cloudflare API Shield read-only adapter 001 complete; local review required
+## Latest Update — Cloudflare API Shield read-only adapter review 001 failed; remediation required
+
+`MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001`
+
+- Independent review of commit `3de6a4961a6ba4d20b7bc133298292ff1f0fc71c`
+  completed with `FAIL_REMEDIATION_REQUIRED`: P0 = 0, P1 = 1, P2 = 2,
+  P3 = 0.
+- The 58-row classification is complete and correct: 16 D1 reads included;
+  16 proposals, 19 mutations, 4 containment capabilities, and 3 D4 restricted-
+  tool capabilities excluded. Both 16-entry identity manifests remain inert;
+  all execution probes returned `EXECUTION_DISABLED` and no network,
+  credential, environment, SDK, OAuth, MCP, webhook, or provider path exists.
+- Blocking P1-01: no concrete capability/profile pins the authentication mode
+  required by the Provider Registry. The delegated manifest binds
+  `read_only_delegated`, which requires `delegated_oauth`, while the only global
+  non-runtime metadata advertises `api_token`; satisfying the contract would
+  require the explicit descriptor extension and binding rules required by
+  Scaffold Review 001, not architectural inference.
+- P2 constraints: endpoint-URL-shaped `host` fixture text is accepted verbatim
+  and unflagged; focused tests are not a complete independent contract oracle.
+- Required replay passed: Cloudflare 42 `OK`, scaffold 62 `OK`, full suite 678
+  `OK`, compile exit `0`, project validator `PASS`. Passing inertness tests do
+  not override the P1 contract conflict.
+- The provider-foundation checkpoint remains incomplete. Live Cloudflare work
+  stays blocked and Agent Runtime architecture waits for independently accepted
+  remediation.
+- Exact next task:
+  `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001`.
+- The pre-existing global higher-priority pointer remains unchanged, in place,
+  and independently governed.
+
+## Previous Update — Cloudflare API Shield read-only adapter 001 complete; local review required
 
 `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001`
 

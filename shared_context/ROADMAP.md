@@ -571,9 +571,18 @@ the time each task starts; each item records its current state below):
     containment, D4 restricted-tool, MCP, webhook, and event-verification paths.
     No provider was contacted or authenticated and no runtime was enabled.
 17. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001` — **exact
-    next enterprise-provider task; independent review required.** Live transport,
-    credentials, authentication, provider execution, deployment, and runtime
-    work remain blocked pending review and separate Operator authorization.
+    review completed; gate failed and remediation is required.** Outcome:
+    `FAIL_REMEDIATION_REQUIRED`; P0 = 0, P1 = 1, P2 = 2, P3 = 0. The complete
+    58-row classification and inert execution posture passed review, but the
+    concrete capability/profile authentication mode required by the Registry is
+    absent. Endpoint-URL-shaped fixture host text is also accepted unflagged,
+    and focused tests are not a complete independent contract oracle. The
+    provider-foundation checkpoint remains incomplete.
+18. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001` — **exact
+    next enterprise-provider task; eligible for separate authorization.** Live
+    transport, credentials, authentication, provider execution, deployment,
+    runtime work, and the Agent Runtime pivot remain blocked pending separately
+    authorized remediation and an independent acceptance review.
 
 No credentials, provider runtime, restricted-tool or MCP connection,
 MCP execution, Cloudflare API call,
