@@ -989,8 +989,59 @@ place, and independently governed.
     included deliberately, addressing Framework Bridge Review 001's
     `NEW-P3-01`. **Nothing implemented** — no bridge, mutation engine, storage,
     memory service, compression, or validation runtime exists; empirical
-    framework validation remains `NOT_PERFORMED`; the specification is
-    **unverified and not accepted**.
+    framework validation remains `NOT_PERFORMED`. The specification was
+    **unverified and not accepted** at that point; see item 12.
+
+12. `MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001` — **complete as
+    one local documentation commit; not pushed.** Independent, read-only
+    architecture, ownership, memory, security, and consistency review of the
+    Shared Context Bridge Contract (version 1.0, commit `d3f8b73`). Durable
+    record:
+    `docs/research/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`;
+    task report:
+    `docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+    **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 8,
+    P3 = 2.** `MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_001` version 1.0 is
+    **accepted as a documentation contract only**, under ten recorded
+    constraints.
+
+    **Owner lists were reconstructed mechanically, not accepted from the
+    specification's claims** — Agent Runtime §17.1/§17.2/§17.4/§18/§19/§33,
+    `CONTEXT_GRAPH_SCHEMA.md` §5, Control Plane §7.1/§7.2/§8.1/§9.3, Integration
+    Gateway §25.2, Agent Package §21, Framework Bridge §23, and the Context
+    Ingestion Gate's five outcomes and nine refusal codes were each extracted
+    from the owner document and tested against the reviewed text. **All
+    twenty-five immutable review subjects are byte-identical before and after.**
+    **All 34 document-metric rows reproduce independently with zero
+    discrepancies**, and the 50-section structure recounts exactly.
+
+    **Verified `PASS` on the load-bearing properties:** **no direct or ambiguous
+    canonical-write path exists anywhere in the document**; returned context
+    stays untrusted even when byte-identical; provenance never collapses to the
+    latest producer; ten namespaces are never flattened; sensitivity does not
+    decay; the secret boundary holds; safety- and authority-relevant loss fails
+    closed with ambiguity resolving to loss; conflicts are surfaced, never
+    adjudicated; thirteen validation layers authorize nothing; no new Control
+    Plane status dimension is created; and the overclaim scan is clean.
+
+    **Eight non-blocking P2 findings**, each fail-closed: four unreconciled
+    owner-defined error neighbours; one consumed class attributed to the wrong
+    owner; proposal-lifecycle and reason-code overlap with the Context Ingestion
+    Gate; missing quarantine-versus-rejection precedence; two memory scopes
+    mapping to no Agent Runtime §18 category; a context envelope overlapping
+    Control Plane's `ContextPacket`; a proposal-replay mitigation citing a
+    projection-only mechanism; and an unmeasured "subtractive or equal"
+    property. **Two P3 findings** are editorial.
+
+    **All seven upstream P2 findings remain open and contained**; neither
+    upstream contract was edited; the reviewed specification was **not edited**
+    and this review repaired nothing. **Nothing implemented** — no bridge,
+    mutation engine, storage, database, vector store, memory service,
+    compression, validation, or proposal-lifecycle runtime; envelopes,
+    proposals, and canonical mutations remain **zero**; empirical framework
+    validation remains `NOT_PERFORMED`. **Acceptance authorizes no downstream
+    task.**
 
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted

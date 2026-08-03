@@ -1238,16 +1238,60 @@ drifts corrected before commit, and all 34 rows now reproduce independently.
 storage, database, vector store, memory service, compression, validation, and
 proposal lifecycle are all `NOT_IMPLEMENTED`; context envelopes, proposals,
 and canonical mutations via this bridge are **zero**; **empirical framework
-validation remains `NOT_PERFORMED`**. **The specification is unverified and
-not accepted** — no review has run.
+validation remains `NOT_PERFORMED`**. The specification was unverified and not
+accepted at the time of that entry; see the review entry immediately below.
+
+**`MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001` — complete as one
+local documentation commit on
+`docs/mellycore-shared-context-bridge-contract-spec-review-001`; not pushed.**
+Independent, read-only review of the Shared Context Bridge Contract (version 1.0,
+commit `d3f8b73`). Durable record:
+`docs/research/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`;
+task report:
+`docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+**Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 8,
+P3 = 2.** `MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_001` version 1.0 is
+**accepted as a documentation contract only**, under ten recorded constraints.
+Owner lists were reconstructed mechanically rather than accepted from the
+specification's claims; **all twenty-five immutable review subjects are
+byte-identical before and after**; **all 34 document-metric rows reproduce
+independently with zero discrepancies**; and the 50-section structure recounts
+exactly.
+
+**A full-document search found no direct or ambiguous canonical-write path.**
+Returned context stays untrusted even when byte-identical; provenance never
+collapses to the latest producer; namespaces are never flattened; sensitivity
+does not decay; safety- and authority-relevant loss fails closed; conflicts are
+surfaced, never adjudicated; validation authorizes nothing; no new Control Plane
+status dimension is created; and the overclaim scan is clean.
+
+**Eight non-blocking P2 findings**, every one fail-closed: `NEW-P2-01` four
+unreconciled owner-defined error neighbours (`CONTENT_QUARANTINED`,
+`PROVENANCE_VERIFICATION_FAILED`, `ENVELOPE_INTEGRITY_FAILED`,
+`PROJECTION_LOSS_UNACCEPTABLE`); `NEW-P2-02` `INJECTION_SUSPECTED` attributed to
+Agent Runtime §33 rather than its owner Integration Gateway §25.2; `NEW-P2-03`
+proposal-lifecycle and reason-code overlap with the Context Ingestion Gate's
+five outcomes and R1–R9 codes; `NEW-P2-04` missing quarantine-versus-rejection
+precedence; `NEW-P2-05` two memory scopes mapping to no Agent Runtime §18
+category; `NEW-P2-06` context envelope overlapping Control Plane's
+`ContextPacket`; `NEW-P2-07` proposal-replay mitigation citing a projection-only
+mechanism; `NEW-P2-08` "subtractive or equal" evaluated by no validation layer.
+**Two P3 findings** are editorial. **The reviewed specification was not edited
+and this review repaired nothing.**
+
+**Implementation depending on any unresolved P2 finding is not authorized.**
+`NEW-P2-03` and `NEW-P2-04` must be resolved before any proposal-lifecycle
+implementation; `NEW-P2-01` before any component emits bridge rejection classes;
+`NEW-P2-08` before any context-validation implementation; `NEW-P2-05` before the
+durable-memory contract.
 
 **Still blocked**, each requiring its own gate and separate explicit
-Operator authorization, in this recommended order:
-`MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001` (**exact next task
-in this track — not started, not authorized**); Agent
-Runtime Scaffold (inert, no framework
-process, no provider call, no credential, no model call, no tool
-execution, no deployment); Scaffold Review; first Agent Package;
+Operator authorization, in this recommended order: **Agent Runtime Scaffold**
+(inert, no framework process, no provider call, no credential, no model call, no
+tool execution, no deployment) — **the exact next plain-name item in this track,
+carrying no task identifier; none was minted, started, or authorized by the
+review**; Scaffold Review; first Agent Package;
 Cross-Agent Smoke (inert modes only); Integration Review; the six
 per-framework adapter specifications; and, following
 those, the twelve named follow-up contracts (§26 of the spec), each

@@ -2341,15 +2341,142 @@ storage-configuration file changed; no `.env`, secret, or provider key.
 byte-identical after the commit. `pytest`, black, flake8, and mypy were not run
 and are not claimed passing.
 
-**This specification is unverified and not accepted.** No review has run.
+**At the time of that specification task the contract was unverified and not
+accepted, and no review had run.** That state is superseded by the review
+recorded in the next section; this paragraph is retained as a historical record
+of the specification task, not as a current-state claim.
 
-**Exact next task:** `MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001`
-— an independent, read-only review of this specification. Not started, not
-authorized by this entry. Agent Runtime Scaffold (inert), Scaffold Review,
-first Agent Package, Cross-Agent Smoke, Integration Review, the six
-per-framework adapter specifications, the Context Compression and durable-memory
-contracts, and the twelve Agent Package follow-up contracts each remain
-**blocked**, requiring their own specification, independent review, and
-separate explicit Operator authorization. The global higher-priority pointer
+**Exact next task at that point:**
+`MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001` — since completed; see
+below. Agent Runtime Scaffold (inert), Scaffold Review, first Agent Package,
+Cross-Agent Smoke, Integration Review, the six per-framework adapter
+specifications, the Context Compression and durable-memory contracts, and the
+twelve Agent Package follow-up contracts each remain **blocked**, requiring their
+own specification, independent review, and separate explicit Operator
+authorization. The global higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
+place, not reordered, and not reinterpreted.
+
+## Shared Context Bridge Contract Review 001 — Gate PASS_WITH_NON_BLOCKING_FINDINGS, Documentation Only
+
+`MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001` is **complete as one
+local documentation commit on
+`docs/mellycore-shared-context-bridge-contract-spec-review-001`; not pushed.**
+Independent, read-only architecture, ownership, memory, security, and consistency
+review of the Shared Context Bridge Contract (version 1.0, commit `d3f8b73`).
+Durable record:
+`docs/research/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`; task
+report:
+`docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+**Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 8,
+P3 = 2.** `MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_001` version 1.0 is
+**accepted as a documentation contract only**, under the ten constraints recorded
+in the review record §12.
+
+**Owner lists were reconstructed mechanically, not accepted from the
+specification's claims.** Agent Runtime §17.1's seven operations, §17.2's ten
+record fields, §17.4's six staleness conditions, §18's six memory categories,
+§19's seventeen trace fields, and §33's 49 error classes;
+`CONTEXT_GRAPH_SCHEMA.md` §5's nine relation types; Control Plane §7.1, §7.2,
+§8.1, and §9.3; Integration Gateway §25.2; Agent Package §21; Framework Bridge
+§23; and the Context Ingestion Gate's five validation outcomes and nine refusal
+codes were each extracted from the owner document and tested against the reviewed
+text. **All twenty-five immutable review subjects — the reviewed specification,
+its task report, and every owner and prior-review artifact — are byte-identical
+before and after this review.**
+
+**All 34 document-metric rows reproduce independently, with zero discrepancies**,
+and the 50-section structure recounts exactly (numbered 1–50, no gap or
+duplicate). The §48 metrics table, added in response to Framework Bridge Review
+001's `NEW-P3-01`, survives independent recount intact.
+
+**Verified `PASS` on the load-bearing safety properties.** A full-document search
+found **no direct or ambiguous canonical-write path**: no framework, agent,
+package, provider, tool, plugin, hook, command, MCP server, adapter, or batch
+worker may mutate canonical Shared Context, and only the canonical owner may,
+after the eleven-condition mutation-eligibility intersection and explicit Operator
+approval. Returned context stays untrusted against all five bypass temptations
+including byte-identity; exactly three identities are minted and eleven
+referenced; unrestricted project-context requests fail closed; provenance is
+preserved across nine stages and never collapses to the latest producer; lineage
+uses six of the Context Graph Schema's nine relations and invents none; ten
+namespaces are never flattened; sensitivity does not decay and only a recorded
+redaction may lower it; the secret boundary distinguishes reference from value
+throughout; safety- and authority-relevant loss fails closed with **ambiguity
+resolving to loss**; conflicts are surfaced and never adjudicated; leases do not
+overreach into storage or concurrency control; external-deletion limits are
+represented honestly as `unknown` rather than overclaimed; thirteen validation
+layers authorize nothing; and **no new Control Plane status dimension is
+created**. The overclaim scan is clean — every occurrence of "implement" is a
+scope exclusion, prohibition, or `NOT_IMPLEMENTED` row, and every occurrence of
+"trust" is a denial.
+
+**Eight new P2 findings, all non-blocking and all fail-closed.** `NEW-P2-01`:
+four owner-defined semantic neighbours — Gateway `CONTENT_QUARANTINED`, Runtime
+`PROVENANCE_VERIFICATION_FAILED` and `ENVELOPE_INTEGRITY_FAILED`, and Framework
+Bridge `PROJECTION_LOSS_UNACCEPTABLE` — are never audited or discriminated, each
+appearing zero times, falsifying §29 rule 1's claim of a deterministic
+discriminator per class. `NEW-P2-02`: `INJECTION_SUSPECTED` is attributed to
+Agent Runtime §33, which explicitly states it is not restated there and remains
+owned by Integration Gateway §25.2. `NEW-P2-03`: the ten proposal phases and
+eleven rejection classes overlap the Context Ingestion Gate's five validation
+outcomes and nine R1–R9 refusal codes, and §12's non-collision claim omits the
+one owner that actually owns proposal admission. `NEW-P2-04`: seven of nine
+quarantine conditions have a §13 check whose disposition is "Reject" with no
+precedence rule, and §13 check 6 is explicitly "Reject or quarantine".
+`NEW-P2-05`: two of eight memory scopes map to no Agent Runtime §18 category and
+one collapses categories 5 and 6 without a discriminator, with Control Plane
+§9.3's five memory layers unreconciled. `NEW-P2-06`: the fourteen-field context
+envelope overlaps Control Plane §7.2/§9.3's `ContextPacket`, never cited or
+distinguished. `NEW-P2-07`: the proposal-replay mitigation cites a lease
+mechanism that governs projections only. `NEW-P2-08`: "subtractive or equal" is
+normative and the sole cited mitigation for permission amplification, yet no
+validation layer or eligibility precondition evaluates it. **Two P3 findings**:
+a `30.14` sub-heading over absent subsections, and an undefined
+`context_bridge_contract_version`.
+
+**Zero exact error-class name collisions** were found across a mechanical union
+index built from eight owner documents; the defect is semantic, not nominal, and
+name-uniqueness was independently confirmed.
+
+**All seven upstream P2 findings remain open and contained**, none silently
+resolved, and no normative rule depends on any of them: the contract owns no
+result normalization, emits neither overlapping class, uses no cross-document
+capability ordinal, treats no unvalidated framework profile as
+context-projection eligible, defines no package lifecycle rendering field,
+declares no Agent Package version canonically current, and enumerates no
+protected command class. **Neither the Agent Package Contract nor the Framework
+Bridge Contract was edited.**
+
+**Nothing implemented.** Shared Context Bridge, canonical mutation engine,
+context storage, database, vector store, index, memory service, compression,
+validation, and proposal lifecycle are all `NOT_IMPLEMENTED`. Context envelopes
+created, proposals submitted, and canonical mutations performed via this bridge:
+**zero**. **Empirical framework validation remains `NOT_PERFORMED`.** No Agent
+Runtime, Framework Adapter, package loading, provider connection, credential,
+model call, MCP connection, network operation, or deployment exists. Migration
+triggers #1, #4, #5, #6, and #7 remain uncrossed.
+
+**Validation.** Exactly eight files changed (two new documentation artifacts, six
+bounded state-sync edits); no source, test, configuration, workflow, storage,
+database, vector-store, or memory-configuration file changed; no `.env`, secret,
+token, credential, or provider key. `git diff --check` exit `0`;
+`py -3.9 scripts/validate_project_state.py` `PASS`, exit `0` — both at baseline
+and post-commit. `pytest`, black, flake8, and mypy were not run and are not
+claimed passing. The reviewed specification was **not edited** and this review
+repaired nothing.
+
+**Acceptance is of documentation only and authorizes no downstream task.** Per
+canonical `RUN_QUEUE.md`, the next item in this track is recorded as the plain
+name **"Agent Runtime Scaffold" (inert)** — no framework process, no provider
+call, no credential, no model call, no tool execution, no deployment. It remains
+**blocked** and requires its own specification, independent review, and separate
+explicit Operator authorization; **no identifier was minted, started, or
+authorized by this review.** Scaffold Review, first Agent Package, Cross-Agent
+Smoke, Integration Review, the six per-framework adapter specifications, the
+Context Compression and durable-memory contracts, and the twelve follow-up
+contracts of the reviewed spec's §46 each remain blocked behind their own gate.
+The global higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
 place, not reordered, and not reinterpreted.
