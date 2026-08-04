@@ -543,6 +543,64 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    Full detail:
    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001.md`.
 
+16. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002` — `REVIEWED`,
+   gate **`PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 / **P2 1 / P3 6**),
+   2026-08-05. Independent, read-only re-review of
+   `MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` **version 1.1** as remediated at commit
+   `038453f`. **Version 1.1 is accepted as a documentation contract only.**
+   **The remediation report was treated as an unverified claim set.** The twelve
+   Review 001 findings were reconstructed from the committed Review 001 record
+   rather than from the prompt or the remediation report, and **all twelve are
+   independently disposed `CLOSED`**, each traced to specific committed
+   specification text.
+   **Agent Runtime Architecture §37 was verified as the sole canonical owner.**
+   The owner section was extracted verbatim and decomposed; **all eleven "must
+   not implement" items are traced** into the specification — including
+   **queues**, the item Review 001 found absent — and the single restatement
+   (§8 rule 4) is explicitly cited and subordinate. No owner requirement is
+   broadened; stricter scaffold-owned additions are marked as such, which §3.1
+   permits.
+   **Independently reproduced:** **16/16** canonical Runtime operations against
+   an operation set derived from the owner's §16 (nine bridge) and §17.1 (seven
+   context); **all 30 document metric rows with zero drift**; 17/17 wikilinks
+   resolving; and a clean overclaim scan with no present-tense implementation
+   claim. **No false-success path exists** — no execution-success outcome is
+   representable and every operation refuses. The Baseline Inert Invariant is
+   coherently and exactly scoped; Injected Component Eligibility confers nothing
+   from interface conformance; executable configuration is rejected fail-closed
+   behind three independent barriers; nineteen deferred-effect mechanisms are
+   bound as constructors are; and logging, randomness, and clock access are
+   treated as side effects in their own right.
+   **Seven new non-blocking findings.** The single **P2** (`NEW-P2-01`) is §44
+   rule 1 declaring the specification version "currently `1.0`" while the header
+   reads 1.1 — consistent at v1.0 and invalidated by the remediation; the same
+   defect class the Agent Package track adjudicated P2. **Two of the six P3
+   findings are citation-level regressions introduced by Remediation 001**: §37
+   threat 8's `§8 row 10` citation, correct at v1.0, was broken by the 12→19
+   import-table renumbering, and §43.1 retains a bare `§37` against the
+   document's own new convention. The remaining four concern obligation 18's
+   conjunct enumeration, an evidence-record emission conflict, a cancellation
+   default-state disagreement between §14 and §26, and a pre-existing
+   mis-citation Review 001 did not detect. **None weakens a prohibition, none
+   creates a permissive path, and every one is fail-closed in each reading.**
+   **All fifteen upstream P2 findings remain open and contained**, reconstructed
+   from the Agent Package (3), Framework Bridge (4), and Shared Context Bridge
+   (8) review records; none silently resolved. The reviewed specification, the
+   original task report, both Review 001 artifacts, the Remediation 001 report,
+   and every consulted owner document are **byte-identical**.
+   **Nothing implemented** — no scaffold code, module, Python package, source
+   file, test, fixture, dependency, or configuration; no Runtime, framework
+   adapter, package loader, or provider/model integration; empirical framework,
+   provider, model, and runtime execution remains `NOT_PERFORMED`. **Review
+   passing is not implementation authorization**: the Agent Runtime Scaffold
+   implementation is the exact next **plain-name** item, carries **no task
+   identifier** — none was minted — and requires separate explicit Operator
+   authorization and its own exact file allowlist. Complete as one local
+   documentation commit on
+   `docs/mellycore-agent-runtime-scaffold-spec-review-002`, not pushed. Full
+   detail: `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_002.md`,
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002.md`.
+
 ## How to Extend This File
 
 Append new entries under the relevant phase heading (or a new heading for a

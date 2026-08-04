@@ -1159,6 +1159,46 @@ place, and independently governed.
     `NOT_PERFORMED`. **Version 1.1 is unverified**, pending independent Review
     002; scaffold implementation remains blocked.
 
+16. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002` — **complete as one local
+    documentation commit; not pushed.** Gate
+    **`PASS_WITH_NON_BLOCKING_FINDINGS`** — **P0 0 / P1 0 / P2 1 / P3 6**.
+    `MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` **version 1.1 is accepted as a
+    documentation contract only.** Durable record:
+    `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_002.md`;
+    report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002.md`.
+
+    **The remediation report was treated as an unverified claim set.** All
+    twelve Review 001 findings were reconstructed from the committed Review 001
+    record — not from the remediation report — and **all twelve are
+    independently disposed `CLOSED`**, each traced to specific committed
+    specification text.
+
+    **Agent Runtime Architecture §37 remains the sole canonical owner.** The
+    owner section was extracted verbatim and decomposed; **all eleven "must not
+    implement" items are traced**, including **queues**, and the single
+    restatement is cited and subordinate. **16/16** canonical Runtime operations
+    were verified against an owner-derived set; **all 30 metric rows reproduce
+    with zero drift**; **no false-success path exists**; **all fifteen upstream
+    P2 findings remain open and contained**.
+
+    **Seven new non-blocking findings.** The one **P2** is §44 rule 1 declaring
+    the version "currently `1.0`" while the header reads 1.1 — consistent at
+    v1.0 and invalidated by the remediation. **Two of the six P3 findings are
+    citation-level regressions introduced by Remediation 001**, both from the
+    12→19 import-table renumbering and the new §37 reference convention. The
+    remaining four are precision defects, **all fail-closed in every reading**;
+    none weakens a prohibition or creates a permissive path.
+
+    The reviewed specification, the original task report, both Review 001
+    artifacts, the Remediation 001 report, and every consulted owner document
+    are **byte-identical**. **Nothing implemented** — no scaffold code, module,
+    package, test, dependency, or configuration; no Runtime, framework adapter,
+    package loader, or provider/model integration; empirical execution remains
+    `NOT_PERFORMED`. **Review passing is not implementation authorization**: the
+    Agent Runtime Scaffold implementation is the exact next **plain-name** item,
+    carries **no task identifier** — none was minted — and requires separate
+    explicit Operator authorization and its own exact file allowlist.
+
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted
 `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical architectural

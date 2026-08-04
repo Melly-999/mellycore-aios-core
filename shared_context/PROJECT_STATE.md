@@ -2585,6 +2585,83 @@ higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
 place, not reordered, and not reinterpreted.
 
+## Agent Runtime Scaffold Review 002 — Gate PASS_WITH_NON_BLOCKING_FINDINGS, Version 1.1 Accepted as Documentation Only
+
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002` is **complete as one local
+documentation commit on
+`docs/mellycore-agent-runtime-scaffold-spec-review-002`; not pushed.** Gate
+**`PASS_WITH_NON_BLOCKING_FINDINGS`** — **P0 0 / P1 0 / P2 1 / P3 6**. Durable
+record: `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_002.md`;
+task report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002.md`.
+
+`MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` **version 1.1 is accepted as a
+documentation contract only.** The review treated the remediation report as an
+unverified claim set: **all twelve Review 001 findings (P2 7 / P3 5) were
+independently disposed `CLOSED`**, each traced to specific committed
+specification text rather than accepted from the report.
+
+**Agent Runtime Architecture §37 remains the sole canonical owner** of the inert
+Runtime boundary. The owner section was extracted verbatim and decomposed; all
+eleven "must not implement" items — including **queues**, the item Review 001
+found missing — are now traced into the specification, and the single
+restatement (§8 rule 4) is explicitly cited and marked subordinate. **No
+competing owner is created and no owner requirement is broadened.**
+
+**16/16 canonical Runtime operations** carry a scaffold disposition, verified
+against an operation set derived from the owner's §16 (nine bridge) and §17.1
+(seven context) rather than from the specification. **All 30 document metric
+rows reproduce with zero drift.** **No false-success path exists** — no
+execution-success outcome is representable, and every one of the sixteen
+operations refuses. The **Baseline Inert Invariant** (§31.1) is coherently
+scoped and makes no claim about injected components; **Injected Component
+Eligibility** (§31.2) requires seven separate validations and treats an
+unvalidated component as unavailable. Executable configuration is rejected
+fail-closed across three independent barriers; nineteen deferred-effect
+mechanisms are bound exactly as constructors are; queue safety spans eight
+surfaces; logging and randomness are treated as side effects; and **Scaffold
+Zero-Execution Evidence** is derived, correlation-scoped, explicitly
+non-canonical, and never a Runtime result or a Control Plane status dimension.
+
+**Seven new non-blocking findings** were recorded. The single **P2**
+(`NEW-P2-01`) is §44 rule 1 declaring the specification version "currently
+`1.0`" while the header reads 1.1 — consistent at v1.0 and invalidated by the
+remediation, the same defect class the Agent Package track adjudicated P2. Of
+the six **P3** findings, **two are citation-level regressions introduced by
+Remediation 001**: §37 threat 8's `§8 row 10` citation was broken by the 12→19
+import-table renumbering, and §43.1 retains a bare `§37` against the document's
+own new convention. The remaining four concern obligation 18's conjunct
+enumeration, an evidence-record emission conflict, a cancellation default-state
+disagreement between §14 and §26, and a pre-existing mis-citation Review 001 did
+not detect. **None weakens a prohibition; none creates a permissive path; every
+one is fail-closed in each of its readings.**
+
+**All fifteen upstream P2 findings remain open and contained** — reconstructed
+independently from the Agent Package (3), Framework Bridge (4), and Shared
+Context Bridge (8) review records, none silently resolved, and no normative
+scaffold rule depends on any of them. **No upstream contract, review artifact,
+remediation report, source file, test, dependency, or configuration file was
+edited.**
+
+**Nothing is implemented.** Agent Runtime Scaffold code, Agent Runtime,
+framework adapters, Shared Context Bridge, package loader, Package Validator,
+policy engine, Model Router, and provider integration are all `NOT_IMPLEMENTED`.
+Runtime ports, composition roots, and no-op adapters are **specified only; zero
+exist**. Agents executed, model calls, tool executions, provider requests, and
+context mutations: **zero**. **Empirical framework, provider, model, and runtime
+execution remains `NOT_PERFORMED`.** Migration triggers #1, #4, #5, #6, and #7
+remain uncrossed.
+
+**Review passing is not implementation authorization.** The **Agent Runtime
+Scaffold implementation** (inert code) is the **exact next plain-name item and
+carries no task identifier — Review 002 minted none**. It requires **separate
+explicit Operator authorization** and its own exact file allowlist before it may
+begin, and permits no framework process, provider call, credential, model call,
+tool execution, or deployment even once started. Four findings are **blocking
+for that task** and should be closed first: `NEW-P2-01`, `NEW-P3-03`,
+`NEW-P3-04`, and `NEW-P3-05`. The global higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
+place, not reordered, and not reinterpreted.
+
 ## Agent Runtime Scaffold Spec Remediation 001 — Version 1.1, Documentation Only, Unverified
 
 `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001` is **complete as one

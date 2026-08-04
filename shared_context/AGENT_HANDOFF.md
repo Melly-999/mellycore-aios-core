@@ -1,6 +1,71 @@
 # Agent Handoff
 
-## Latest Update — Agent Runtime Scaffold Spec remediated to version 1.1; all twelve Review 001 findings addressed; unverified pending Review 002; no scaffold code, Runtime, adapter, package loader, or provider integration exists
+## Latest Update — Agent Runtime Scaffold Spec v1.1 independently reviewed; gate PASS_WITH_NON_BLOCKING_FINDINGS; all twelve Review 001 findings independently CLOSED; accepted as documentation only; no scaffold code, Runtime, adapter, package loader, or provider integration exists
+
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002`
+
+- **Gate `PASS_WITH_NON_BLOCKING_FINDINGS`** — **P0 0 / P1 0 / P2 1 / P3 6** —
+  as one local documentation commit on
+  `docs/mellycore-agent-runtime-scaffold-spec-review-002`; **not pushed**.
+  Record: `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_002.md`;
+  report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002.md`.
+  **`MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` version 1.1 is accepted as a
+  documentation contract only.**
+- **The remediation report was treated as an unverified claim set.** All twelve
+  Review 001 findings were reconstructed from the committed **Review 001**
+  record — not from the prompt, the remediation report, or prior summaries — and
+  **all twelve are independently disposed `CLOSED`**, each traced to specific
+  committed specification text.
+- **Agent Runtime Architecture §37 remains the sole owner.** The owner section
+  was extracted verbatim and decomposed into its "may implement" and "must not
+  implement" lists; **all eleven must-not items are traced**, including
+  **queues** — the item Review 001 found missing — now covered across eight
+  surfaces. The single restatement (§8 rule 4) is explicitly cited and
+  subordinate. No requirement is broadened; where v1.1 is stricter it is marked
+  scaffold-owned, which §3.1 permits.
+- **Independently verified:** **16/16** canonical Runtime operations covered
+  against an owner-derived set (§16 nine bridge + §17.1 seven context); **all 30
+  metric rows reproduce with zero drift**; **no false-success path**; 17/17
+  wikilinks resolve; overclaim scan clean; no secret, `.env`, or workflow YAML
+  present or changed.
+- **One P2 — `NEW-P2-01`:** §44 rule 1 declares the version "currently `1.0`"
+  while the header reads **1.1**. Verified against v1.0: the statement was
+  consistent before remediation and was invalidated by it. Same defect class the
+  Agent Package track adjudicated **P2**. Non-blocking here; **blocking for any
+  future amendment**, which cannot apply §44 rule 1's additive-versus-major test
+  from a wrong baseline.
+- **Two P3 regressions introduced by Remediation 001.** `NEW-P3-01`: §37 threat
+  8 cites `§8 row 10`, which the 12→19 import-table renumbering changed from
+  hook registration to directory creation — the citation was **correct at v1.0**.
+  `NEW-P3-06`: §43.1 retains a bare `§37` denoting the owner's section, against
+  §1.1's own new absolute convention. **Neither weakens a prohibition.**
+- **Four further P3 findings**, all fail-closed in every reading: `NEW-P3-02`
+  (§37 threat 19 cites `§8 row 3` for environment access — a **pre-existing**
+  defect Review 001 did not detect); `NEW-P3-03` (obligation 18 claims "§31.1 in
+  full" but omits filesystem read, logging output, randomness, and clock, and §9
+  rule 3's registry-absence property has no obligation); `NEW-P3-04` (§27.1
+  property 8 forbids emitting the evidence record when evidence is incomplete
+  while rules 2–3 and obligation 16 require emitting it with `unknown`);
+  `NEW-P3-05` (§14 row 13 names "No active operation" as the inert cancellation
+  behavior while §26 makes state 5 the default).
+- **All fifteen upstream P2 findings remain open and contained** — reconstructed
+  from the Agent Package (3), Framework Bridge (4), and Shared Context Bridge (8)
+  review records, none silently resolved, none required normatively.
+- **Nothing is implemented.** No scaffold code, module, Python package, test,
+  Runtime, framework adapter, package loader, Package Validator, policy engine,
+  Model Router, or provider integration exists. Zero agents executed, zero model
+  calls, zero tool executions, zero context mutations. **Empirical framework,
+  provider, model, and runtime execution remains `NOT_PERFORMED`.** No upstream
+  contract, review artifact, remediation report, source file, test, dependency,
+  or configuration file was edited.
+- **Review passing is not implementation authorization.** The **Agent Runtime
+  Scaffold implementation** (inert code) is the **exact next plain-name item and
+  carries no task identifier — Review 002 minted none**. It requires separate
+  explicit Operator authorization and its own exact file allowlist. Close
+  `NEW-P2-01`, `NEW-P3-03`, `NEW-P3-04`, and `NEW-P3-05` first — each is
+  blocking for that task.
+
+## Previous Update — Agent Runtime Scaffold Spec remediated to version 1.1; all twelve Review 001 findings addressed; unverified pending Review 002; no scaffold code, Runtime, adapter, package loader, or provider integration exists
 
 `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001`
 

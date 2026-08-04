@@ -1422,13 +1422,38 @@ covered**; **all fifteen upstream P2 findings remain open and contained**;
 **Version 1.1 is unverified** — this remediation corrected its own reviewed
 findings and no independent party has confirmed the closures.
 
+**`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002` — complete as one local
+documentation commit on `docs/mellycore-agent-runtime-scaffold-spec-review-002`;
+not pushed.** Gate **`PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 / **P2 1** /
+**P3 6**). Specification **version 1.1 is accepted as a documentation contract
+only**. Durable record:
+`docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_002.md`.
+
+**All twelve Review 001 findings are independently disposed `CLOSED`** — each
+traced to committed specification text, not accepted from the remediation
+report. **Agent Runtime Architecture §37 remains the sole owner** (all eleven
+must-not items traced; the single restatement is cited and subordinate).
+**16/16 canonical Runtime operations covered** against an owner-derived list.
+**All 30 metric rows reproduce with zero drift.** **No false-success path
+exists.** **All fifteen upstream P2 findings remain open and contained.**
+
+**Seven new non-blocking findings**, of which **two are citation-level
+regressions introduced by Remediation 001** (§37 threat 8's `§8 row 10` broken by
+the 12→19 import-table renumbering; §43.1's bare `§37`). The one P2 —
+`NEW-P2-01` — is §44 rule 1 declaring the specification version "currently 1.0"
+while the header reads 1.1, the same class the Agent Package track adjudicated
+P2. Four findings are **blocking for the implementation task** and must be
+resolved before the corresponding code is written: `NEW-P3-03` (obligation 18's
+conjunct enumeration), `NEW-P3-04` (evidence-record emission conflict),
+`NEW-P3-05` (cancellation default state), and `NEW-P2-01` (before any amendment).
+**Nothing is implemented**; empirical execution remains `NOT_PERFORMED`.
+
 **Still blocked**, each requiring its own gate and separate explicit
 Operator authorization, in this recommended order:
-`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002` (**exact next task in this
-track — an independent, read-only re-review of the remediated version 1.1; not
-started, not authorized**); then the **Agent Runtime Scaffold implementation**
-(inert code) — a plain-name item carrying no task identifier — requiring Review
-002 to pass, separate explicit Operator authorization, and its own exact file
+the **Agent Runtime Scaffold implementation**
+(inert code) — **the exact next plain-name item, carrying no task identifier;
+Review 002 minted none** — now requiring separate explicit Operator
+authorization and its own exact file
 allowlist; no framework process, no provider call, no credential, no model
 call, no tool execution, no deployment;
 Scaffold Implementation Review; first Agent Package;
