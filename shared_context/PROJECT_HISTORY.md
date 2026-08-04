@@ -356,6 +356,61 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    Full detail:
    `docs/research/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`,
    `docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+13. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001` — `SPECIFIED`
+   (documentation only, **unverified**), 2026-08-04. Defines the canonical
+   **Agent Runtime Scaffold Specification**
+   (`docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md`, version 1.0,
+   **44 sections**). The task identifier was **minted by explicit Operator
+   authorization** for the queued plain-name item "Agent Runtime Scaffold
+   (inert)", after a repository-wide search confirmed no conflicting identifier
+   existed; the four pre-existing `*SCAFFOLD*` identifiers each own an
+   unrelated concern.
+   **The specification consumes Agent Runtime §37's "Inert v1 boundary"
+   unchanged.** §37 already owns what a first scaffold may and may not
+   implement, including the rule that **no execution-success outcome may be
+   representable**; this document adds only the structural detail §37 leaves
+   open and, by its own §44 rule 6, a change to §37 is not an amendment to it.
+   Defines the intended future repository boundary (labeled
+   `NON-NORMATIVE FUTURE LAYOUT — NOT IMPLEMENTED`); ten module
+   responsibilities; a single explicit composition root; twelve import-safety
+   prohibitions and eight construction-safety rules; eight configuration
+   prohibitions; explicit dependency injection with **no** resolution through
+   hidden global state; **fourteen typed runtime ports** that imply no
+   implementation; six distinct no-op/unavailable/unsupported/denied/
+   unimplemented/invalid dispositions in which **a no-op never stands in for an
+   operation whose absence matters**; scaffold dispositions for **all sixteen**
+   owner-defined operations (Runtime §17.1's seven context operations and §16's
+   nine bridge operations), none of which performs an external side effect; a
+   fail-closed execution boundary holding across **all combinations of the
+   eleven authorization facts including the all-eleven-satisfied case**; twenty
+   prohibited side-effect categories; ten ordered validation layers that
+   authorize nothing; twelve inert observability fields creating no Control
+   Plane status dimension; library-safe logging; a machine-testable inert-mode
+   invariant; seventeen future testing obligations; seven static validation
+   techniques; and twenty security threats.
+   **Owner boundaries preserved; no owner document edited.** Package, Framework
+   Bridge, Shared Context Bridge, Model Router, Provider Registry, Gateway,
+   Control Plane, Tool Gateway, and Batch boundaries each keep their canonical
+   owner. The scaffold defines **no** error class of its own, consuming
+   owner-defined classes instead, so no name or semantic collision is possible;
+   it emits neither `PROJECTION_UNSUPPORTED` nor `BRIDGE_UNSUPPORTED_BEHAVIOR`,
+   owns no part of `normalize_result`, uses **no cross-document capability
+   ordinal**, and treats no framework profile as runtime-eligible.
+   **All fifteen open upstream P2 findings — three Agent Package, four
+   Framework Bridge, eight Shared Context Bridge — were reconstructed from the
+   canonical review records and independently confirmed contained, not
+   resolved**, and remain open as deferred dependencies. A **document-metrics
+   table** (§42) was included deliberately; it caught one drafting drift
+   corrected before commit (ownership rows 25→**26**), and all 27 rows now
+   reproduce independently.
+   **Nothing implemented** — no scaffold code, module, Python package, test,
+   fixture, dependency, or configuration; no Runtime, framework adapter,
+   package loader, or provider/model integration; agents executed, model calls,
+   tool executions, provider requests, and context mutations remain **zero**;
+   empirical framework validation remains `NOT_PERFORMED`. Complete as one
+   local documentation commit on
+   `docs/mellycore-agent-runtime-scaffold-spec-001`, not pushed. Full detail:
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001.md`.
 
 ## How to Extend This File
 

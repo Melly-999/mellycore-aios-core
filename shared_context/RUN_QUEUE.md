@@ -1286,17 +1286,73 @@ implementation; `NEW-P2-01` before any component emits bridge rejection classes;
 `NEW-P2-08` before any context-validation implementation; `NEW-P2-05` before the
 durable-memory contract.
 
+At the time of that review the next plain-name item in this track was **Agent
+Runtime Scaffold (inert)**, carrying no task identifier. **That identifier has
+since been minted by explicit Operator authorization** — see the entry below.
+
+**`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001` — complete as one local
+documentation commit on `docs/mellycore-agent-runtime-scaffold-spec-001`; not
+pushed.** Defines the Agent Runtime Scaffold Specification:
+`docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` (version 1.0, **44
+sections**). Durable report:
+`docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001.md`.
+
+**The task identifier was minted by explicit Operator authorization** for the
+queued plain-name item "Agent Runtime Scaffold (inert)"; a repository-wide search
+confirmed no conflicting identifier existed.
+
+**This is a specification, not a scaffold.** It **consumes Agent Runtime §37's
+"Inert v1 boundary" unchanged** — §37 already owns what a first scaffold may and
+may not implement, including that **no execution-success outcome may be
+representable** — and adds only the structural detail §37 leaves open: the
+intended future repository boundary (explicitly labeled non-normative and not
+implemented); ten module responsibilities; one explicit composition root that
+import never invokes; twelve import-safety prohibitions and eight
+construction-safety rules; eight configuration prohibitions; explicit dependency
+injection with **no resolution through hidden global state**; **fourteen typed
+runtime ports** that imply no implementation; six distinct no-op/fail-closed
+dispositions in which a no-op never stands in for an operation whose absence
+matters; scaffold dispositions for **all sixteen** owner-defined operations,
+none performing an external side effect; twenty prohibited side-effect
+categories; ten validation layers that authorize nothing; twelve inert
+observability fields creating no Control Plane dimension; a machine-testable
+inert-mode invariant; seventeen future testing obligations; and twenty security
+threats.
+
+**Every execution request fails closed** with the owner-defined
+`EXECUTION_BLOCKED`, across all combinations of the eleven authorization facts
+including the all-eleven-satisfied case. The scaffold **defines no error class of
+its own**, emits neither `PROJECTION_UNSUPPORTED` nor
+`BRIDGE_UNSUPPORTED_BEHAVIOR`, owns no part of `normalize_result`, uses no
+cross-document capability ordinal, treats no framework profile as
+runtime-eligible, and invents no `run_state` value.
+
+**All fifteen upstream P2 findings — three Agent Package, four Framework Bridge,
+eight Shared Context Bridge — were contained, not resolved**, and remain open;
+the specification depends normatively on none of them. **No owner document was
+edited.** A **document-metrics table** (§42) caught one drift corrected before
+commit; all 27 rows reproduce independently.
+
+**Nothing implemented.** No scaffold code, module, Python package, test,
+fixture, dependency, or configuration; no Runtime, framework adapter, package
+loader, policy engine, or provider/model integration; agents executed, model
+calls, tool executions, and context mutations are **zero**; **empirical
+framework validation remains `NOT_PERFORMED`**. **The specification is unverified
+and not accepted** — no review has run.
+
 **Still blocked**, each requiring its own gate and separate explicit
-Operator authorization, in this recommended order: **Agent Runtime Scaffold**
-(inert, no framework process, no provider call, no credential, no model call, no
-tool execution, no deployment) — **the exact next plain-name item in this track,
-carrying no task identifier; none was minted, started, or authorized by the
-review**; Scaffold Review; first Agent Package;
+Operator authorization, in this recommended order:
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001` (**exact next task in this
+track — not started, not authorized**); the **Agent Runtime Scaffold
+implementation** (inert code, requiring that review to pass, separate explicit
+Operator authorization, and its own file allowlist; no framework process, no
+provider call, no credential, no model call, no tool execution, no deployment);
+Scaffold Implementation Review; first Agent Package;
 Cross-Agent Smoke (inert modes only); Integration Review; the six
 per-framework adapter specifications; and, following
-those, the twelve named follow-up contracts (§26 of the spec), each
-independently gated. None of these is authorized by this queue entry. Agent
-Runtime implementation remains blocked.
+those, the twelve named follow-up contracts (§26 of the Shared Context Bridge
+spec), each independently gated. None of these is authorized by this queue
+entry. Agent Runtime implementation remains blocked.
 
 Any task that would make an agent execution-capable additionally requires the
 Model B reconsideration of migration trigger #6 ("first execution-capable

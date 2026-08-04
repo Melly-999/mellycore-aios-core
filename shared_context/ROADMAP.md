@@ -1043,6 +1043,44 @@ place, and independently governed.
     validation remains `NOT_PERFORMED`. **Acceptance authorizes no downstream
     task.**
 
+13. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001` — **complete as one local
+    documentation commit; not pushed.** Defines the canonical **Agent Runtime
+    Scaffold Specification**:
+    `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` (version 1.0,
+    **44 sections**). Durable report:
+    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001.md`. The task
+    identifier was **minted by explicit Operator authorization** for the queued
+    plain-name item "Agent Runtime Scaffold (inert)".
+
+    **The specification consumes Agent Runtime §37's "Inert v1 boundary"
+    unchanged** — §37 already owns what a first scaffold may and may not
+    implement, including that **no execution-success outcome may be
+    representable**; this document adds only the structural detail §37 leaves
+    open. It fixes the intended future repository boundary (labeled
+    `NON-NORMATIVE FUTURE LAYOUT — NOT IMPLEMENTED`), ten module
+    responsibilities, one explicit composition root, twelve import-safety and
+    eight construction-safety rules, eight configuration prohibitions, explicit
+    dependency injection with no hidden global resolution, **fourteen typed
+    runtime ports** that imply no implementation, six distinct
+    no-op/fail-closed dispositions, scaffold dispositions for **all sixteen**
+    owner-defined operations, twenty prohibited side-effect categories, ten
+    validation layers that authorize nothing, twelve inert observability
+    fields creating no Control Plane dimension, a machine-testable inert-mode
+    invariant, seventeen future testing obligations, and twenty security
+    threats.
+
+    **Every execution request fails closed** — across all combinations of the
+    eleven authorization facts, including the all-eleven-satisfied case. The
+    scaffold defines **no error class of its own**, consuming owner-defined
+    classes instead. **All fifteen open upstream P2 findings were contained,
+    not resolved**, and remain open; **no owner document was edited**. A
+    **document-metrics table** was included deliberately and caught one drift
+    corrected before commit. **Nothing implemented** — no scaffold code,
+    module, package, test, dependency, or configuration; no Runtime, framework
+    adapter, package loader, or provider/model integration; empirical framework
+    validation remains `NOT_PERFORMED`; the specification is **unverified and
+    not accepted**.
+
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted
 `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical architectural
