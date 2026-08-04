@@ -471,6 +471,78 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_001.md`,
    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001.md`.
 
+15. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001` — `REMEDIATED`
+   (documentation only, **unverified pending Review 002**), 2026-08-04.
+   Remediated **all twelve** findings recorded by Scaffold Review 001 (P0 0 /
+   P1 0 / P2 7 / P3 5) and advanced
+   `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` from version 1.0 to
+   **version 1.1**. The pre-review specification outcome was
+   `AGENT_RUNTIME_SCAFFOLD_SPECIFIED_UNVERIFIED`; Review 001 subsequently
+   returned `PASS_WITH_NON_BLOCKING_FINDINGS`; this task addressed its
+   constraints.
+   **The inert-mode invariant was split in two.** New §31.1 defines the
+   **Baseline Inert Invariant**, scoped exactly to a *baseline inert
+   composition* — default configuration, **no live external implementation
+   injected**, only approved inert fixtures or unavailable ports — and states
+   that it makes **no claim** about injected live implementations. New §31.2
+   defines **Injected Component Eligibility**: an injected component **inherits
+   nothing from satisfying a Python interface** and requires seven separate
+   validations before participating in any future authorized mode; an
+   unvalidated component is treated as unavailable. **No live-mode invariant was
+   invented.** The one property holding regardless of injection is the §15
+   execution refusal.
+   **Queue safety was added throughout.** Queue, worker, and scheduler creation,
+   enqueueing, consumption, processors, callbacks, and scheduler-backed or
+   deferred jobs are now prohibited in import safety, construction and deferred
+   effects, the side-effect inventory, the invariant, future tests, security,
+   and non-goals — closing the omission of one of Agent Runtime Architecture
+   §37's eleven must-not items.
+   **"Zero-execution confirmation" was renamed Scaffold Zero-Execution
+   Evidence** and given eight normative properties: derived not asserted;
+   scoped to one correlation ID or validation run; explicitly non-canonical;
+   not a Control Plane dimension; limited to its own evidence boundary; not a
+   Runtime run result; not equivalent to Runtime success; and **not emitted when
+   evidence is incomplete**. It renders `unknown` whenever a port is injected,
+   and fabricates no run identifier.
+   **Configuration gained fourteen executable-content prohibitions** —
+   import-by-string paths, callbacks, serialized callables, pickled objects,
+   dynamic and template expressions, shell commands, subprocess arrays, plugin
+   entry points, auto-import directives, factory names, code snippets,
+   deserialization hooks, and secret/executable environment interpolation — with
+   **fail-closed rejection** wired into the validation model, and "declared
+   injected port names" clarified as inert metadata rather than a resolution
+   mechanism.
+   **Construction safety gained §9.1**, binding **nineteen deferred-effect
+   mechanisms** — `__post_init__`, lazy and cached properties, descriptors,
+   class-level registration, metaclass hooks, default factories, callable
+   defaults, dependency factories, finalizers, sync and async context-manager
+   entry, background and scheduled callbacks, deferred imports, deferred
+   socket/thread/process/queue creation, and first-method-call initialization —
+   to the side-effect inventory exactly as constructors are bound.
+   **Import safety separated reads from writes** and prohibited directory
+   scanning and non-importing presence probing, while permitting only metadata
+   already supplied by the import system. **Cancellation reachability** is now
+   explicit per state, with three outcomes named unreachable and mutable
+   live-operation state prohibited. **Logging and randomness** are now
+   side-effect categories in their own right.
+   Every cross-document reference to the owner's inert boundary is written in
+   full as **"Agent Runtime Architecture §37"**, with a normative convention
+   that a bare `§37` denotes this document's own §37; **Agent Runtime §37
+   remains the sole owner** and every restatement is cited and subordinate.
+   **All 30 metric rows reproduce with zero drift**; **16/16 canonical Runtime
+   operations remain covered**; **all fifteen upstream P2 findings remain open
+   and contained**; and the original task report and both Review 001 artifacts
+   are **byte-identical**.
+   **Nothing implemented** — no scaffold code, module, Python package, source
+   file, test, fixture, dependency, or configuration; no Runtime, framework
+   adapter, package loader, or provider/model integration; empirical framework,
+   provider, model, and runtime execution remains `NOT_PERFORMED`. **The
+   specification is unverified pending independent Review 002**, and scaffold
+   implementation remains blocked. Complete as one local documentation commit on
+   `docs/mellycore-agent-runtime-scaffold-spec-remediation-001`, not pushed.
+   Full detail:
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001.md`.
+
 ## How to Extend This File
 
 Append new entries under the relevant phase heading (or a new heading for a

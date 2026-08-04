@@ -1380,14 +1380,56 @@ test, package, dependency, or configuration file changed.
 `NEW-P2-01`, `NEW-P2-02`, and `NEW-P2-07` must be resolved before the inert-mode
 test can be written; `NEW-P2-04` and `NEW-P2-06` before the side-effect and
 configuration boundaries are implemented; `NEW-P2-05` before any real port
-implementation is injected.
+implementation is injected. **All seven were subsequently remediated — see the
+entry below.**
+
+**`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001` — complete as one
+local documentation commit on
+`docs/mellycore-agent-runtime-scaffold-spec-remediation-001`; not pushed.**
+Remediated **all twelve** Review 001 findings (P2 7 / P3 5) and advanced
+`docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` to **version 1.1**.
+Durable report:
+`docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001.md`.
+
+The specification run's outcome code —
+**`AGENT_RUNTIME_SCAFFOLD_SPECIFIED_UNVERIFIED`**, the pre-review state of
+version 1.0 — is now **recorded in tracked state**, superseded by Review 001's
+`PASS_WITH_NON_BLOCKING_FINDINGS`. **Review 001 evidence was not rewritten**;
+both its artifacts are byte-identical.
+
+The inert-mode invariant was **split into §31.1 Baseline Inert Invariant**
+(scoped exactly to a baseline inert composition with **no live external
+implementation injected**) and **§31.2 Injected Component Eligibility** (seven
+validations required; interface conformance confers nothing; unvalidated
+components are treated as unavailable). **No live-mode invariant was invented.**
+Queue safety now spans import, construction and deferred effects, the
+side-effect inventory, the invariant, tests, security, and non-goals.
+"Zero-execution confirmation" was **renamed Scaffold Zero-Execution Evidence**
+with eight normative properties and renders `unknown` when a port is injected.
+Configuration gained **fourteen executable-content prohibitions** with
+fail-closed rejection; construction safety gained **nineteen deferred-effect
+mechanisms**; import safety separated **reads from writes** and closed
+non-importing presence probing; cancellation reachability is explicit; and
+logging and randomness became side-effect categories.
+
+**Agent Runtime §37 remains the sole owner** — every cross-document reference is
+fully qualified as "Agent Runtime Architecture §37" and every restatement is
+cited and subordinate; **no owner document was edited**. **All 30 metric rows
+reproduce with zero drift**; **16/16 canonical Runtime operations remain
+covered**; **all fifteen upstream P2 findings remain open and contained**;
+**nothing is implemented** and empirical execution remains `NOT_PERFORMED`.
+
+**Version 1.1 is unverified** — this remediation corrected its own reviewed
+findings and no independent party has confirmed the closures.
 
 **Still blocked**, each requiring its own gate and separate explicit
-Operator authorization, in this recommended order: the **Agent Runtime Scaffold
-implementation** (inert code) — **the exact next plain-name item in this track,
-carrying no task identifier; none was minted, started, or authorized by the
-review** — requiring separate explicit Operator authorization and its own exact
-file allowlist; no framework process, no provider call, no credential, no model
+Operator authorization, in this recommended order:
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002` (**exact next task in this
+track — an independent, read-only re-review of the remediated version 1.1; not
+started, not authorized**); then the **Agent Runtime Scaffold implementation**
+(inert code) — a plain-name item carrying no task identifier — requiring Review
+002 to pass, separate explicit Operator authorization, and its own exact file
+allowlist; no framework process, no provider call, no credential, no model
 call, no tool execution, no deployment;
 Scaffold Implementation Review; first Agent Package;
 Cross-Agent Smoke (inert modes only); Integration Review; the six

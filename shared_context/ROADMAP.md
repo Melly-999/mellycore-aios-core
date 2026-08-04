@@ -1119,6 +1119,46 @@ place, and independently governed.
     **The scaffold implementation remains blocked**, requiring separate explicit
     Operator authorization and its own file allowlist.
 
+15. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001` — **complete as one
+    local documentation commit; not pushed.** Remediated **all twelve** Review
+    001 findings (P2 7 / P3 5) and advanced
+    `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` from version 1.0
+    to **version 1.1**. Durable report:
+    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001.md`.
+
+    **The inert-mode invariant was split in two.** New §31.1 **Baseline Inert
+    Invariant** is scoped exactly to a baseline inert composition — default
+    configuration, **no live external implementation injected**, only approved
+    inert fixtures or unavailable ports — and makes **no claim** about injected
+    live implementations. New §31.2 **Injected Component Eligibility** requires
+    seven separate validations before an injected component may participate in
+    any future authorized mode; interface conformance confers nothing, and an
+    unvalidated component is treated as unavailable. **No live-mode invariant
+    was invented.**
+
+    **Queue safety was added across all seven required areas** — import,
+    construction and deferred effects, the side-effect inventory, the invariant,
+    future tests, security, and non-goals — closing the omission of one of Agent
+    Runtime Architecture §37's eleven must-not items.
+    **"Zero-execution confirmation" was renamed Scaffold Zero-Execution
+    Evidence** with eight normative properties, rendering `unknown` when a port
+    is injected and never fabricating a run identifier.
+    **Configuration gained fourteen executable-content prohibitions** with
+    fail-closed rejection; **construction safety gained nineteen deferred-effect
+    mechanisms**; **import safety separated reads from writes** and closed
+    non-importing presence probing; **cancellation reachability** is explicit;
+    and **logging and randomness** became side-effect categories.
+
+    **Agent Runtime §37 remains the sole owner** — every cross-document
+    reference is fully qualified and every restatement is cited and subordinate.
+    **All 30 metric rows reproduce with zero drift**; **16/16 canonical Runtime
+    operations remain covered**; **all fifteen upstream P2 findings remain
+    open**; the original task report and both Review 001 artifacts are
+    byte-identical. **Nothing implemented** — no scaffold code, module, package,
+    test, dependency, or configuration; empirical execution remains
+    `NOT_PERFORMED`. **Version 1.1 is unverified**, pending independent Review
+    002; scaffold implementation remains blocked.
+
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted
 `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical architectural

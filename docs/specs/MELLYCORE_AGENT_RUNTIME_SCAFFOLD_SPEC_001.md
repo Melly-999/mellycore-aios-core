@@ -2,10 +2,18 @@
 
 **Task ID:** MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001
 **Contract ID:** MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001
-**Version:** 1.0 — first draft.
-**Verification status:** **Unverified.** No independent review has run. This
-document is **not accepted** until
-`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001` completes with a passing gate
+**Version:** 1.1 — remediation of Review 001 findings.
+**Amends:** version 1.0, under
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001`, resolving all seven P2
+and five P3 findings recorded by
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001`
+(`[[../research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_001]]`). Version 1.0
+held the pre-review outcome `AGENT_RUNTIME_SCAFFOLD_SPECIFIED_UNVERIFIED`; Review
+001 then returned `PASS_WITH_NON_BLOCKING_FINDINGS` (P0 0 / P1 0 / P2 7 / P3 5).
+**Verification status:** **Version 1.1 is unverified.** Review 001 accepted
+version 1.0 as documentation only under eleven constraints; this version
+remediates those constraints and **is not accepted** until
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002` completes with a passing gate
 decision, in the same sequence used for
 `[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]`,
 `[[MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001]]`,
@@ -31,23 +39,31 @@ create so that the Agent Runtime's contracts become expressible in code
 
 ### 1.1 The problem this specification solves
 
-`[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]` §37 already fixes the
+**Agent Runtime Architecture §37**
+(`[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]`) already fixes the
 **Inert v1 boundary** — what a first Agent Runtime Scaffold may and may not
 implement — and §40 item 5 sequences it behind the Agent Package, Framework
 Bridge, and Shared Context Bridge contracts plus separate Operator
 authorization. Those three contracts are now accepted as documentation, and that
 authorization has been given for this specification.
 
-What §37 does **not** fix is the *structure*: which modules exist, where the
-composition boundary sits, which dependency seams are injected rather than
-resolved, what "import-safe" means as a testable property, which side-effect
-categories are prohibited, and how a later implementation is mechanically
-checked for inertness. Without those, a code task would have to invent
-architecture while writing code.
+What Agent Runtime Architecture §37 does **not** fix is the *structure*: which
+modules exist, where the composition boundary sits, which dependency seams are
+injected rather than resolved, what "import-safe" means as a testable property,
+which side-effect categories are prohibited, and how a later implementation is
+mechanically checked for inertness. Without those, a code task would have to
+invent architecture while writing code.
 
 This specification supplies exactly that structural contract, and **nothing
-else**. It consumes §37 unchanged and never restates, extends, narrows, or
-reinterprets it.
+else**. It consumes Agent Runtime Architecture §37 unchanged: where a rule here
+expresses one of that section's requirements, it does so as an explicitly cited
+**subordinate implementation constraint** and never as an independent normative
+source.
+
+**Reference convention (normative).** Throughout this document a reference to
+the owner's inert boundary is written in full as **"Agent Runtime Architecture
+§37"**. A bare `§37` always denotes **this document's own §37 (Security
+considerations)** and never the owner's section.
 
 ### 1.2 In scope
 
@@ -121,10 +137,15 @@ this section cites the owner instead of redefining it.
 | Term | Definition |
 | --- | --- |
 | **Agent Runtime Scaffold** | The future inert, import-safe code boundary specified by this document. It is a structural shell: it expresses contracts as types and seams and holds **no** runtime authority. |
-| **Inert Runtime** | The scaffold operating under its default configuration with no externally injected implementations. Per `[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]` §37, its execution outcome set contains **no success member**. |
+| **Inert Runtime** | The scaffold operating under its default configuration with no externally injected implementations. Per Agent Runtime Architecture §37, its execution outcome set contains **no success member**. |
 | **Composition Root** | The single explicit future location where a caller assembles ports into a runtime object graph. Construction is always caller-initiated and never a side effect of import (§7). |
 | **Runtime Port** | A typed boundary declaring what the scaffold *would* require from an external capability. A port is a declaration, never an implementation, and never evidence one exists (§12). |
 | **Runtime Adapter** | A future implementation of one port, supplied by injection. This document specifies **no** adapter. |
+| **Baseline Inert Composition** | A composition using the default inert configuration, with **no live external implementation injected**, and containing only repository-approved inert fixtures or unavailable ports (§31.1). |
+| **Baseline Inert Invariant** | The scaffold's primary machine-testable safety property, scoped exactly to a baseline inert composition (§31.1). It makes **no claim** about a composition containing an injected live implementation. |
+| **Injected Component Eligibility** | The seven separate validations an externally injected component must pass before it may participate in any future authorized mode (§31.2). Interface conformance alone confers nothing. |
+| **Deferred Effect** | Any effect produced after `__init__` — by a lazy or cached property, descriptor, finalizer, default factory, context-manager entry, deferred import, or first-method-call path. Bound by §9.1 exactly as a constructor is. |
+| **Scaffold Zero-Execution Evidence** | A scaffold-owned, derived, correlation-scoped, explicitly non-canonical audit record (§27.1). It is not a Runtime result, not a status dimension, and not a global guarantee. |
 | **No-Op Adapter** | An adapter that deliberately performs nothing for an operation **whose absence does not matter**, and which reports that it did nothing (§13). |
 | **Fail-Closed Stub** | An adapter that refuses an operation **whose absence does matter**, returning a determinate refusal with an owner-defined class. Never a silent success (§13). |
 | **Runtime Service** | A future scaffold-internal component that composes ports without performing external I/O. |
@@ -151,7 +172,7 @@ No concern below is owned by more than one document. Where this specification
 
 | Concern | Canonical owner | This specification's responsibility | Explicit non-responsibility |
 | --- | --- | --- | --- |
-| **The inert v1 boundary** | `[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]` §37 | **Consumes unchanged**; adds only structural detail §37 leaves open | MUST NOT restate, extend, narrow, or reinterpret §37's may/must-not lists |
+| **The inert v1 boundary** | **Agent Runtime Architecture §37** (`[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]`) | **Consumes unchanged**; adds only subordinate structural detail Agent Runtime Architecture §37 leaves open | MUST NOT restate uncited, extend, narrow, or reinterpret Agent Runtime Architecture §37's may/must-not lists |
 | Agent identity | Agent Registry; Runtime §8.1 | References `agent_definition_id`, `installed_agent_id` | MUST NOT mint agent identity or register an agent |
 | Run identity | Agent Runtime §8.1 | References `run_id`, `attempt_id`, `step_id`, `sub_run_id`, `trace_id` | MUST NOT mint a run identity outside an injected Identifier Port |
 | Run lifecycle | Agent Runtime §12 (seventeen `run_state` values) | May represent the state machine as data | MUST NOT add, rename, alias, or extend a `run_state` value |
@@ -171,7 +192,7 @@ No concern below is owned by more than one document. Where this specification
 | Cancellation | Runtime §27 | Distinguishes inert cancellation states (§26) | MUST NOT claim cancellation of work it never started |
 | Result normalization | Framework Bridge Contract / Runtime §16 `normalize_result` | None | MUST NOT define, own, resolve, or substitute for `normalize_result` |
 | Cost attribution | Control Plane; AI Operations §5; Operations Data Contract | Declares a port only | MUST NOT define a cost schema or compute a cost |
-| Run Ledger | Runtime §25; AI Operations §5 | Declares a port only; interfaces, not persistence (§37) | MUST NOT persist a ledger record |
+| Run Ledger | Runtime §25; AI Operations §5 | Declares a port only; interfaces, not persistence (Agent Runtime Architecture §37) | MUST NOT persist a ledger record |
 | Batch Orchestration | Future Batch Orchestration contract | None (§38) | MUST NOT create worktrees, spawn agents, or execute batch plans |
 | Git and worktree ownership | Operator; `shared_context/SAFETY_CONTRACT.md`; `scripts/loop_ops` | None | MUST NOT inspect or mutate Git state |
 | Source-code layout | Repository convention (`scripts/<package>/`) | Describes a **non-normative future** layout (§5) | MUST NOT create any file |
@@ -186,7 +207,8 @@ shared_context/SAFETY_CONTRACT.md
   > Provider Registry contract
   > Integration Gateway contract
   > Shared Context Layer contracts
-  > Agent Runtime architecture (including §37's inert v1 boundary)
+  > Agent Runtime architecture (including Agent Runtime Architecture §37's
+    inert v1 boundary)
   > Agent Package Contract / Framework Bridge Contract / Shared Context Bridge
     Contract (on their own concerns)
   > this Agent Runtime Scaffold Specification (stricter only)
@@ -227,7 +249,7 @@ tests live at `tests/test_<package>.py` with in-memory fixtures at
 there is **no** root `pyproject.toml`, `setup.py`, or dependency manifest, and
 packages are **standard library only, Python 3.9 compatible**. The accepted
 `scripts/provider_adapters/` package is the repository's existing inert-scaffold
-precedent and is cited by Runtime §37.
+precedent and is cited by Agent Runtime Architecture §37.
 
 The future scaffold SHOULD follow that convention exactly. The tree below is
 descriptive only.
@@ -306,13 +328,20 @@ Importing any scaffold module MUST NOT:
 | 3 | Open a socket or perform any network operation |
 | 4 | Access a provider API |
 | 5 | Spawn a thread, process, or subprocess |
-| 6 | Mutate a file |
-| 7 | Inspect Git state |
-| 8 | Create a directory |
-| 9 | Initialize a framework or import a framework SDK |
-| 10 | Register a global hook, signal handler, or `atexit` handler |
-| 11 | Configure logging globally, including the root logger (§28) |
-| 12 | Read or mutate Shared Context |
+| 6 | **Read a file** — including a configuration file, package manifest, repository file, or Git file |
+| 7 | **Scan, enumerate, or list a directory** |
+| 8 | Mutate a file |
+| 9 | Inspect Git state |
+| 10 | Create a directory |
+| 11 | Initialize a framework or import a framework SDK |
+| 12 | **Probe for the presence of an optional SDK, package, distribution, or entry point** — by file test, metadata query, or package-manager access |
+| 13 | Register a global hook, signal handler, or `atexit` handler |
+| 14 | Configure logging globally, including the root logger (§28) |
+| 15 | Emit any logging output (§28, §32 row 20) |
+| 16 | **Create, enqueue to, consume from, or start any queue, worker, or scheduler** (§32 row 21) |
+| 17 | Access system randomness (§32 row 22) |
+| 18 | Read the system clock for a recorded value (§32 row 23) |
+| 19 | Read or mutate Shared Context |
 
 Rules:
 
@@ -321,9 +350,21 @@ Rules:
 2. Module-level code MUST be limited to imports, type definitions, immutable
    constants, and function or class definitions.
 3. A module MUST NOT read `os.environ` or equivalent at import time.
-4. **Optional third-party imports MUST NOT appear on any reachable import
-   path.** A framework SDK MUST NOT be imported to test for its presence.
-5. Import safety MUST be mechanically testable (§34 obligation 1, §35).
+4. **Per Agent Runtime Architecture §37, which prohibits "any framework SDK
+   import on any reachable path", the following subordinate implementation
+   constraint applies:** optional third-party imports MUST NOT appear on any
+   reachable import path. *Additionally, and owned by this specification:* a
+   framework SDK MUST NOT be imported **to test for its presence**, and presence
+   MUST NOT be detected by any non-importing mechanism either — including
+   `importlib.metadata`, distribution or entry-point queries, `pkgutil`
+   enumeration, or filesystem probing (row 12).
+5. **Module metadata already supplied by the import system** — for example a
+   module's own `__name__`, `__doc__`, or a constant defined in this package —
+   MAY be inspected, because doing so performs no additional filesystem,
+   package-manager, entry-point, or environment access. Any metadata access that
+   would perform such an access is prohibited by rows 6, 7, and 12.
+6. Import safety MUST be mechanically testable (§34 obligations 1, 19, 20, 22,
+   23; §35).
 
 ## 9. Construction safety
 
@@ -344,14 +385,55 @@ Constructing any scaffold object MUST remain inert.
 8. Construction MUST be side-effect free with respect to every prohibited
    category in §32.
 
+### 9.1 Deferred construction effects (normative)
+
+**Construction safety MUST NOT be bypassable by postponing a prohibited action.**
+Deferring an effect past `__init__` does not make it permitted. Every mechanism
+below is bound by rules 1–8 and by §32 exactly as a constructor is:
+
+| # | Deferred-effect mechanism |
+| --- | --- |
+| 1 | `__post_init__` and equivalent post-initialization hooks |
+| 2 | Lazy properties (`@property` performing work on first access) |
+| 3 | Cached properties (`functools.cached_property` and equivalents) |
+| 4 | Descriptors, including `__get__`, `__set__`, and `__set_name__` |
+| 5 | Class-level registration at class-body evaluation |
+| 6 | Metaclass hooks and `__init_subclass__` |
+| 7 | Default factories (`dataclasses.field(default_factory=…)`) |
+| 8 | Callable defaults in function or method signatures |
+| 9 | Dependency factories and provider callables |
+| 10 | Object finalizers and destructors (`__del__`, `weakref` callbacks) |
+| 11 | Context-manager entry (`__enter__`, `__exit__`) |
+| 12 | Async context-manager entry (`__aenter__`, `__aexit__`) |
+| 13 | Background callbacks |
+| 14 | Scheduled callbacks and timers |
+| 15 | Deferred imports performed inside a function or method body |
+| 16 | Deferred socket creation |
+| 17 | Deferred thread or process creation |
+| 18 | **Deferred queue creation, enqueueing, or consumption** |
+| 19 | First-method-call initialization |
+
+Rules:
+
+1. **No mechanism in the table above may perform any §32 prohibited category**,
+   at any time, in a baseline inert composition.
+2. A prohibited action postponed until first property access, first method call,
+   context entry, or object destruction is **the same violation** as performing
+   it in `__init__`.
+3. Deferred imports (row 15) are subject to §8 rules 4–5 exactly as
+   module-level imports are; moving an optional SDK import into a function body
+   does not remove it from a reachable path.
+4. These mechanisms MUST be covered by **§34 obligation 21**.
+
 ## 10. Runtime configuration boundary
 
 Configuration is a **logical contract**, not a file format. This specification
 mandates no serialization, file location, or loader.
 
 Configuration MAY contain: references to owner-defined records; declared inert
-mode; declared injected port names; declared validation strictness; declared
-observability verbosity; and correlation identifiers supplied by the caller.
+mode; **the names of ports that were injected, recorded as inert descriptive
+metadata only** (rule 6); declared validation strictness; declared observability
+verbosity; and correlation identifiers supplied by the caller.
 
 Configuration MUST NOT contain:
 
@@ -365,6 +447,20 @@ Configuration MUST NOT contain:
 | 6 | An auto-execute flag |
 | 7 | A destructive Git instruction |
 | 8 | Any value that would make an inert mode indistinguishable from a live mode |
+| 9 | **An import-by-string implementation path** (dotted module or attribute path intended to be resolved) |
+| 10 | **An executable Python callback or callable reference** |
+| 11 | **A serialized callable** |
+| 12 | **A pickled or otherwise deserializable executable object** |
+| 13 | **A dynamic expression** (`eval`/`exec`-style content) |
+| 14 | **A template expression capable of executing code** |
+| 15 | **A shell command** |
+| 16 | **A subprocess command array** |
+| 17 | **A plugin entry point** |
+| 18 | **A framework auto-import directive** |
+| 19 | **A module-level factory name intended to be resolved to an object** |
+| 20 | **An arbitrary code snippet in any language** |
+| 21 | **An object deserialization hook** |
+| 22 | **Environment-variable interpolation that resolves a secret or an executable target** |
 
 Rules:
 
@@ -376,6 +472,21 @@ Rules:
    `validation_only`, `dry_run`, `simulated`, and `fixture_only`. The scaffold
    MUST NOT declare `locally_executable`, `externally_connected`, or
    `production_enabled`, and MUST NOT invent a mode.
+5. **Configuration validation MUST reject executable content fail-closed** (§30
+   layer 5). Detection of any row 9–22 value denies the composition; it is never
+   sanitized, ignored, or downgraded to a warning.
+6. **"Declared injected port names" is inert descriptive metadata recording
+   which §12 ports received an implementation. It is never a resolution
+   mechanism.** Dependencies arrive only as explicit parameters to the
+   composition root (§7 rule 3); a name in configuration MUST NOT be resolved to
+   a module, attribute, class, or object.
+7. A **static symbolic reference** MAY appear in configuration only when it
+   satisfies **all five** of the following: it cannot trigger an import; it
+   cannot trigger object construction; it cannot invoke code; it remains inert
+   metadata; and it requires future explicit resolution by a separately
+   authorized owner.
+8. **Configuration parsed ≠ configuration safe**, and **static reference ≠
+   implementation resolved.**
 
 ## 11. Dependency injection
 
@@ -446,7 +557,7 @@ Rules:
 
 1. **A no-op MUST NOT produce a false success for an operation whose absence
    matters.** Dispositions 2–6 are refusals and MUST be surfaced as such.
-2. Following `[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]` §37 and the
+2. Following Agent Runtime Architecture §37 and the
    accepted Provider Adapter Scaffold precedent, **no execution-success outcome
    may be representable** in the inert scaffold. The scaffold's execution
    outcome vocabulary MUST NOT contain a success member at all — absence is
@@ -504,7 +615,8 @@ Rules:
    carrying an owner-defined class — `EXECUTION_BLOCKED` per Runtime §33, whose
    definition already names "the inert-v1 boundary" as a cause.
 3. The refusal MUST hold **regardless of configuration**, and — following
-   Runtime §37 — **across all combinations of the eleven authorization facts,
+   Agent Runtime Architecture §37 — **across all combinations of the eleven
+   authorization facts,
    including the case where all eleven are satisfied**.
 4. No configuration value, injected port, environment condition, or test hook
    may make execution succeed.
@@ -545,7 +657,10 @@ The scaffold MAY expose the Framework Bridge Port (§12 port 2).
 It MUST NOT:
 
 1. install a framework;
-2. import an optional framework SDK on any reachable import path (§8 rule 4);
+2. import an optional framework SDK on any reachable import path — prohibited by
+   **Agent Runtime Architecture §37** and expressed as a subordinate constraint
+   in §8 rule 4 — or detect its presence by any non-importing mechanism (§8
+   row 12);
 3. initialize a framework;
 4. validate framework compatibility empirically;
 5. select a Framework Adapter;
@@ -642,8 +757,8 @@ Rules:
 1. The scaffold MUST NOT invent, extend, rename, alias, or renumber any Runtime
    §12 `run_state` value.
 2. It MAY represent the seventeen owner-defined states and their allowed
-   transitions as inert data, and MAY implement the state machine as §37
-   permits.
+   transitions as inert data, and MAY implement the state machine as Agent
+   Runtime Architecture §37 permits.
 3. Because the scaffold starts nothing, the states it can legitimately reach in
    an inert composition are limited to those reachable without execution; it
    MUST NOT synthesize a live-executing state.
@@ -701,19 +816,33 @@ Rules:
 
 The scaffold creates no running work. Cancellation behavior MUST distinguish:
 
-| # | State | Meaning |
-| --- | --- | --- |
-| 1 | No active operation | Nothing was started; there is nothing to cancel |
-| 2 | Unsupported cancellation | The boundary cannot express cancellation — owner class `CANCELLATION_UNSUPPORTED` (Runtime §33) |
-| 3 | Already terminal | The referenced record is already in a terminal state |
-| 4 | Invalid handle | The handle does not resolve — owner class `INVALID_REFERENCE_SHAPE` |
-| 5 | Implementation unavailable | No Cancellation Port implementation is injected |
+| # | State | Meaning | Reachable in a baseline inert composition? |
+| --- | --- | --- | --- |
+| 1 | No active operation | Nothing was started; there is nothing to cancel | **Yes**, but **only** for an owner-supplied correlation or handle reference |
+| 2 | Unsupported cancellation | The boundary cannot express cancellation — owner class `CANCELLATION_UNSUPPORTED` (Runtime §33) | **Yes**, and only under that canonical owner condition |
+| 3 | Already terminal | The referenced record is already in a terminal state | **Only** from owner-supplied immutable test state; never derived by the scaffold |
+| 4 | Invalid handle | The reference is malformed or unknown — owner class `INVALID_REFERENCE_SHAPE` | **Yes** — a shape check, requiring no state |
+| 5 | Implementation unavailable | No Cancellation Port implementation is injected | **Yes — the default** |
+
+**Unreachable outcomes.** Because the inert scaffold creates no running work,
+the following are **unreachable and MUST NOT be represented**:
+
+1. successful cancellation of active work;
+2. cancellation of a live operation;
+3. any outcome implying that work was stopped.
 
 Rules:
 
-1. The five states MUST NOT be collapsed into one another.
+1. The five states MUST NOT be collapsed into one another. Selecting the
+   applicable state — state 5 when no implementation is injected — is a
+   selection, not a collapse.
 2. **The scaffold MUST NOT claim to have cancelled work it never started.**
-3. Cancellation honesty follows Runtime §27; the scaffold defines no competing
+3. **The scaffold MUST NOT create mutable live-operation state merely to
+   distinguish these outcomes.** State 3 is representable only from
+   owner-supplied immutable input; the scaffold maintains no operation registry,
+   no handle table, and no cancellation ledger.
+4. **Cancellation requested ≠ active work exists.**
+5. Cancellation honesty follows Runtime §27; the scaffold defines no competing
    cancellation model and never reports a local stop as an external stop.
 
 ## 27. Observability
@@ -734,7 +863,7 @@ Control Plane §7.1. **No new Control Plane status dimension is created.**
 | 9 | Canonical owner reference for each denial |
 | 10 | Correlation identifier supplied by the caller |
 | 11 | Run identifier **only** where one is owner-supplied |
-| 12 | Zero-execution confirmation |
+| 12 | **Scaffold Zero-Execution Evidence** record (§27.1) |
 
 Rules:
 
@@ -742,13 +871,52 @@ Rules:
    as a `lifecycle_status`, `evidence_state`, or `approval_state` value.
 2. No projection may synthesize a universal "healthy", "ready", or green state.
 3. `NOT_RUN` / `NOT_IMPLEMENTED` never renders as pass.
-4. Field 12 MUST be emitted truthfully: the scaffold confirms that zero
-   executions, model calls, tool invocations, provider requests, and context
-   mutations occurred.
+4. Field 12 is governed entirely by §27.1.
 5. Observability output MUST NOT contain a secret value or a full sensitive
    context payload.
 6. The scaffold MUST NOT mint a `run_id`; field 11 is populated only from an
    owner-supplied value.
+
+### 27.1 Scaffold Zero-Execution Evidence (normative)
+
+The concept previously named "zero-execution confirmation" is **renamed**,
+because that name falsely implied a global guarantee about system-wide activity.
+It is defined here narrowly.
+
+**Scaffold Zero-Execution Evidence** is a scaffold-owned **audit and validation
+evidence record**, and nothing more.
+
+| # | Required property |
+| --- | --- |
+| 1 | It is **derived** from the observed attempted operation and the relevant §32 side-effect sentinels — never asserted |
+| 2 | It is **scoped to exactly one correlation identifier or one validation run** |
+| 3 | It is **explicitly non-canonical** scaffold-domain data |
+| 4 | It is **not** a Control Plane status dimension |
+| 5 | It states **only** what its own evidence boundary covers |
+| 6 | It is **not** a Runtime run result |
+| 7 | It is **not** equivalent to Runtime success |
+| 8 | It **MUST NOT be emitted when evidence is incomplete** |
+
+Rules:
+
+1. **The record makes no claim about activity outside its evidence boundary.**
+   It states that, within one identified validation run, the scaffold's own
+   sentinels observed no execution, model call, tool invocation, provider
+   request, or Shared Context access or mutation.
+2. **When any §12 port has an injected implementation**, the record MUST render
+   its scope as `unknown` for every category that implementation could affect,
+   because the scaffold cannot observe behavior behind an injected port. It MUST
+   NOT render a confirmation in that case.
+3. **When sentinel coverage is incomplete for any category**, the record MUST
+   render `unknown` for that category and MUST NOT be emitted as a whole-run
+   confirmation (property 8).
+4. **The record MUST NOT fabricate a live run identifier.** It carries only the
+   caller-supplied correlation identifier, or an owner-supplied `run_id` where
+   one exists (§27 rule 6).
+5. **Zero-execution evidence ≠ Runtime result**, and **zero-execution evidence ≠
+   global system status.**
+6. The record MUST NOT be rendered as, or coerced into, any Control Plane §8.1
+   enum value.
 
 ## 28. Logging
 
@@ -790,12 +958,12 @@ reach a determination.
 | 2 | Dependency declaration | Declared injections | Every declared dependency is a §12 port, or invalid |
 | 3 | Port availability | Injected implementations | Per-port available or unavailable — never substituted |
 | 4 | Owner-version compatibility reference | Declared owner contract references | References resolve, or invalid |
-| 5 | Forbidden capability detection | Configuration and declared ports | No prohibited capability requested, or denied |
+| 5 | Forbidden capability detection | Configuration and declared ports | No prohibited capability requested and **no executable configuration content** (§10 rows 9–22), or denied fail-closed |
 | 6 | Import-safety policy | Module surface | Conforms to §8, or non-conforming |
 | 7 | Construction-safety policy | Constructed graph | Conforms to §9, or non-conforming |
 | 8 | Side-effect declaration | Declared side-effect categories | Only permitted categories declared (§32), or denied |
 | 9 | Observability readiness | §27 fields | Producible, or ineligible |
-| 10 | Inert-mode guarantee | The composed graph | §31's invariant holds, or the composition is rejected |
+| 10 | Inert-mode guarantee | The composed graph | §31.1's Baseline Inert Invariant holds, or the composition is rejected |
 
 ### 30.11 What scaffold validation does not do
 
@@ -813,24 +981,75 @@ Correspondingly: **`validation passed ≠ external action authorized`** and
 
 ## 31. Inert-mode invariant
 
-The following is the scaffold's single machine-testable safety property, stated
-so a later implementation can assert it directly:
+This section defines **two distinct properties**. They have different scopes and
+MUST NOT be conflated, merged, or cited interchangeably.
 
-> **Given the default configuration and no externally injected implementations,
-> the composed scaffold performs zero side effects in every prohibited category
-> of §32, and every execution request terminates in an explicit fail-closed
-> refusal carrying an owner-defined class.**
+### 31.1 The Baseline Inert Invariant
+
+The **Baseline Inert Invariant** is the scaffold's primary machine-testable
+safety property. It applies to a **baseline inert composition**, defined as a
+composition in which **all three** of the following hold:
+
+1. the default inert configuration is used;
+2. **no live external implementation is injected**; and
+3. only repository-approved inert fixtures (§35 technique 5) or unavailable
+   ports (§13 disposition 2) are present.
+
+> **In a baseline inert composition, the composed scaffold performs zero side
+> effects in every prohibited category of §32 — including network access,
+> subprocess and thread creation, **queue, worker, and scheduler creation,
+> enqueueing, or consumption**, filesystem read and mutation, Git inspection and
+> mutation, environment and secret access, logging output, system randomness,
+> and clock access; represents no execution success; terminates every execution
+> request in an explicit fail-closed refusal carrying an owner-defined class;
+> creates no live Runtime Handle; and performs no framework, provider, model,
+> package, tool, MCP, or Shared Context action.**
 
 Rules:
 
-1. The invariant MUST hold across **all** combinations of Runtime §14's eleven
-   authorization facts, **including the case in which all eleven are satisfied**
-   (Runtime §37).
-2. The invariant MUST hold regardless of configuration, injected ports,
-   environment, or test hooks.
-3. The invariant MUST be asserted by an automated test (§34 obligation 12).
-4. A composition that cannot establish the invariant MUST be rejected by §30
-   layer 10.
+1. The Baseline Inert Invariant MUST hold across **all** combinations of Runtime
+   §14's eleven authorization facts, **including the case in which all eleven
+   are satisfied** (Agent Runtime Architecture §37).
+2. **Scope is exact.** The Baseline Inert Invariant makes **no claim whatsoever**
+   about a composition containing an externally injected live implementation.
+   Such a composition is governed by §31.2, not by this invariant.
+3. The Baseline Inert Invariant MUST be asserted by **§34 obligation 18**.
+4. A composition that cannot establish the Baseline Inert Invariant MUST be
+   rejected by §30 layer 10.
+
+### 31.2 Injected Component Eligibility
+
+**An externally injected component MUST NOT inherit inert eligibility merely
+because it satisfies a Python interface.** Structural conformance to a §12 port
+is not evidence of safety, and §31.1 confers nothing on it.
+
+An injected component MAY participate only in a future, **explicitly authorized**
+test or implementation mode, and only after separate validation of **all seven**
+of the following:
+
+| # | Required validation |
+| --- | --- |
+| 1 | Side-effect declaration — which §32 categories it may perform |
+| 2 | Import safety (§8) |
+| 3 | Construction safety (§9) |
+| 4 | Capability boundary (§21) |
+| 5 | Permission boundary (§22) |
+| 6 | Fixture identity — whether it is an approved inert fixture or a live implementation |
+| 7 | Observability behavior (§27) |
+
+Rules:
+
+1. **Port injected ≠ port safe**, and **interface conformance ≠ execution
+   eligibility.**
+2. This specification defines **no live-mode invariant** and authorizes no
+   injected live implementation. Both are future, separately gated concerns
+   (§40).
+3. An unvalidated injected component MUST be treated as **unavailable** (§13
+   disposition 2), never as present.
+4. **The one property that holds regardless of configuration, injected ports,
+   environment, or test hooks is the execution refusal of §15** — no injection
+   can make execution succeed (§15 rule 4). No other conjunct of §31.1 extends
+   beyond a baseline inert composition.
 
 ## 32. Side-effect inventory
 
@@ -858,20 +1077,42 @@ the list additively but MUST NOT remove or merge a category.
 | 17 | Plugin loading | **Prohibited** |
 | 18 | MCP connection | **Prohibited** |
 | 19 | Framework initialization | **Prohibited** |
-| 20 | Telemetry export | **Prohibited** |
+| 20 | Logging output | **Prohibited** by default (§28); permitted only through a future explicitly injected inert test sink, which must be side-effect declared and observable |
+| 21 | **Queue or scheduler activity** — creating an in-process, async, or worker queue; enqueueing background work; consuming queued work; starting a queue processor; registering a queue callback; creating scheduler-backed, delayed, or deferred jobs | **Prohibited** |
+| 22 | System randomness | **Prohibited** — see rule 5 |
+| 23 | System clock access for a recorded value | **Prohibited** — values come from the injected Clock Port (§12 port 12) |
+| 24 | Telemetry export | **Prohibited** |
 
 Rules:
 
-1. **All twenty categories are prohibited in the inert scaffold.** The scaffold's
-   permitted effects are confined to in-process computation and returning values
-   to its caller.
+1. **All twenty-four categories are prohibited in a baseline inert composition**
+   (§31.1). The scaffold's permitted effects are confined to in-process
+   computation and returning values to its caller.
 2. A category becomes possible only through an explicitly injected
-   implementation supplied by a separately authorized future task — never by
-   default and never by discovery.
+   implementation supplied by a separately authorized future task and validated
+   under §31.2 — never by default and never by discovery.
 3. Prohibition MUST be mechanically checkable (§34, §35).
 4. Filesystem read is prohibited to the scaffold package itself; a **test** may
    read scaffold source for static assertions, following the existing
    `tests/test_provider_adapters.py` precedent.
+5. **Randomness (row 22).** Implicit randomness is prohibited in a baseline
+   inert composition. Random identifiers, random seeds, and nondeterministic
+   iteration or ordering are prohibited. Identifier and timestamp values MUST
+   come from the injected Identifier Port and Clock Port (§12 ports 12–13) or
+   from fixed deterministic fixtures. **Default construction MUST NOT access
+   system randomness.** **Randomness ≠ deterministic fixture.**
+6. **Logging (row 20).** Logging is a side effect and is treated as one.
+   Root-logger mutation and automatic handler creation are prohibited (§28);
+   default console, stdout, or stderr output is prohibited; output through a
+   future explicitly injected inert test sink MUST be side-effect declared and
+   observable; and no secret or sensitive payload may be logged. **Logging ≠
+   harmless side effect** — it is not exempt merely because it invokes no
+   provider.
+7. **Queues (row 21).** Queue and scheduler activity is prohibited at import
+   (§8 row 16), at construction and in every deferred-effect mechanism (§9.1
+   row 18), during default validation, and during any attempted execution. The
+   scaffold implements **no** queue inspection and **no** queue runtime
+   behavior; it neither creates nor observes a queue.
 
 ## 33. Framework identifier handling
 
@@ -907,14 +1148,26 @@ task.**
 | 13 | Fail-closed execution test | Every execution request refuses, including with all eleven facts satisfied |
 | 14 | Deterministic configuration validation | Identical configuration yields identical validation output |
 | 15 | Error-owner mapping test | Each surfaced class is owner-defined and correctly attributed |
-| 16 | Observability record test | §27's fields are produced, including zero-execution confirmation |
+| 16 | Observability record test | §27's fields are produced, including the Scaffold Zero-Execution Evidence record and its `unknown` case |
 | 17 | No-success-outcome test | No execution-success member exists in the outcome vocabulary |
+| 18 | **Baseline Inert Invariant test** | **§31.1 in full** over a baseline inert composition: zero network; zero subprocess; zero worker **or queue** creation; zero filesystem mutation; zero Git inspection or mutation; zero environment or secret access; zero provider or model access; zero framework initialization; zero package activation; zero Shared Context access or mutation; explicit fail-closed execution outcome; and absence of any success representation — each asserted with a side-effect sentinel (§35 technique 3) |
+| 19 | Zero-filesystem-read test | No file, directory listing, package manifest, or metadata file is read at import, construction, or default validation (§8 rows 6–7, §32 row 1) |
+| 20 | Logging-silence test | Default inert composition writes nothing to stdout, stderr, or any handler; the root logger is unmodified (§28) |
+| 21 | Deferred-effect test | No `__post_init__`, lazy or cached property, descriptor, metaclass or class-creation hook, default factory, callable default, dependency factory, finalizer, context-manager entry, or first-method-call path performs any §32 category (§9.1) |
+| 22 | Zero-queue test | No in-process, async, worker, or scheduler-backed queue is created, enqueued to, consumed, or processed (§32 row 21) |
+| 23 | Determinism test | Repeated composition and validation yield byte-identical output; no system randomness is accessed; identifiers and timestamps originate only from injected ports or fixed fixtures (§32 rows 22–23) |
+| 24 | Injected-component non-inheritance test | A component satisfying a §12 port but lacking §31.2's seven validations is treated as **unavailable**, not present |
 
 Rules:
 
 1. Tests MUST run fully offline.
 2. Tests MUST NOT require a framework SDK, provider, credential, or network.
 3. Obligation 13 MUST enumerate the fact combinations rather than sampling.
+4. **Obligation 18 asserts §31.1 as a whole**; obligations 2–12 and 19–23 assert
+   its individual conjuncts and do not substitute for it.
+5. No obligation may assert §31.1 over a composition containing an injected live
+   implementation; §31.2 governs that case and no such composition is authorized
+   here.
 
 ## 35. Static validation strategy
 
@@ -978,7 +1231,13 @@ files named in §5. **Naming them here authorizes nothing.**
 | 17 | False-success stubs | No execution-success outcome is representable; a no-op never stands in for a matter-ing operation (§13 rules 1–2) |
 | 18 | Test-to-production configuration drift | Test doubles are injected, never defaulted; the inert invariant is asserted under default configuration (§11 rule 4, §31) |
 | 19 | Environment-variable trust | The environment is never read, so it is never trusted (§8 row 3, §10 row 4, §32 row 9) |
-| 20 | Supply-chain substitution | No third-party dependency; no dynamic import by name; source allowlist checks (§35 technique 7, §36 rule 3) |
+| 20 | **Background work smuggled through a queue** | Queue and scheduler activity is prohibited at import, construction, deferred effects, validation, and execution (§8 row 16, §9.1 row 18, §32 row 21), and asserted by §34 obligation 22 |
+| 21 | **Executable configuration content** | §10 rows 9–22 prohibit import-by-string paths, callbacks, serialized callables, dynamic expressions, and shell commands; §30 layer 5 rejects them fail-closed; §7 rule 3 forbids resolving a name to an object |
+| 22 | **Deferred-effect bypass of construction safety** | §9.1 binds nineteen deferred mechanisms to §32 exactly as constructors are bound; asserted by §34 obligation 21 |
+| 23 | **Injected component treated as inert by interface conformance** | §31.2 requires seven separate validations; an unvalidated component is treated as unavailable; asserted by §34 obligation 24 |
+| 24 | **Nondeterminism via system randomness or clock** | §32 rows 22–23 prohibit both; identifiers and timestamps come from injected ports or fixed fixtures (§32 rule 5); asserted by §34 obligation 23 |
+| 25 | **Unscoped zero-execution claim** | §27.1 makes the evidence record derived, scoped, non-canonical, and `unknown` when a port is injected or sentinel coverage is incomplete |
+| 26 | Supply-chain substitution | No third-party dependency; no dynamic import by name; source allowlist checks (§35 technique 7, §36 rule 3) |
 
 ## 38. Batch Orchestration boundary
 
@@ -1010,9 +1269,11 @@ Orchestration contract (§40).
 16. MCP runtime.
 17. Batch Orchestration.
 18. Run Ledger persistence.
-19. Frontend.
-20. Backend.
-21. Deployment.
+19. Queues, queue processors, schedulers, and background or deferred job
+    execution of any kind.
+20. Frontend.
+21. Backend.
+22. Deployment.
 
 ## 40. Deferred dependencies
 
@@ -1055,11 +1316,13 @@ document named.
 This specification task is complete when all of the following hold:
 
 1. All 44 sections (§1–§44) are present and each required topic is addressed.
-2. Terminology (§2) defines at least the twenty-three terms the task brief named.
+2. Terminology (§2) defines all twenty-eight terms, including the five concepts
+   introduced by version 1.1.
 3. No concern is owned by more than one document (§3); every consumed concept
    cites its canonical owner.
-4. Runtime §37's inert v1 boundary is **consumed unchanged** and nowhere
-   restated, extended, or narrowed (§3 row 1).
+4. Agent Runtime Architecture §37's inert v1 boundary is **consumed unchanged**,
+   and every rule expressing one of its requirements is an explicitly cited,
+   subordinate implementation constraint (§1.1, §3 row 1, §8 rule 4).
 5. The scaffold status (§4) states plainly that no scaffold code, runtime,
    adapter, provider connection, framework integration, or package execution
    exists.
@@ -1067,11 +1330,14 @@ This specification task is complete when all of the following hold:
    IMPLEMENTED` and no file is created.
 7. Every module-inventory row (§6) has exactly one responsibility.
 8. Importing a module constructs nothing (§7 rules 2 and 4).
-9. All twelve import prohibitions (§8) are stated.
+9. All nineteen import prohibitions (§8) are stated, including filesystem read,
+   directory scanning, non-importing presence probing, logging, queue activity,
+   randomness, and clock access.
 10. All eight construction-safety rules (§9) are stated, and construction is not
     authorization.
-11. All eight configuration prohibitions (§10) are stated, and no secret may
-    appear in configuration.
+11. All twenty-two configuration prohibitions (§10) are stated; no secret may
+    appear in configuration; and **executable content is rejected fail-closed**
+    (§10 rule 5, §30 layer 5).
 12. No external dependency is resolvable through hidden global state (§11 rule 2).
 13. All fourteen ports (§12) are declared, and a declared port implies no
     implementation.
@@ -1094,11 +1360,14 @@ This specification task is complete when all of the following hold:
     that did not occur.
 24. No new Control Plane status dimension is created (§27).
 25. Logging is library-safe and never global (§28).
-26. All twenty side-effect categories (§32) are prohibited in the inert scaffold.
+26. All twenty-four side-effect categories (§32) are prohibited in a baseline
+    inert composition, including queue activity, logging output, randomness, and
+    clock access.
 27. The framework vocabulary is the canonical six with no alias (§33).
-28. All seventeen testing obligations (§34) are stated as obligations only, with
-    no test created.
-29. All twenty security threats (§37) are addressed with a section-citing
+28. All twenty-four testing obligations (§34) are stated as obligations only,
+    with no test created, and **obligation 18 asserts the Baseline Inert
+    Invariant in full**.
+29. All twenty-six security threats (§37) are addressed with a section-citing
     mitigation.
 30. **Open-finding containment holds:** all fifteen upstream P2 findings are
     recorded as deferred, none is resolved, and no normative rule depends on any
@@ -1106,6 +1375,28 @@ This specification task is complete when all of the following hold:
 31. No implementation, source file, test, package, dependency, configuration,
     execution, provider connection, credential, or deployment is created or
     claimed anywhere (§1.4, §4).
+32. **§31.1 and §31.2 are separate**: the Baseline Inert Invariant is scoped to a
+    baseline inert composition and makes no claim about injected live
+    implementations, and no rule asserts it "regardless of injected ports".
+33. **Injected components inherit nothing** from interface conformance; §31.2's
+    seven validations are required, and an unvalidated component is treated as
+    unavailable.
+34. **Queue and scheduler activity is prohibited** at import, construction,
+    deferred effects, validation, and execution, and is represented in §8, §9.1,
+    §32, §31.1, §34, §37, and §39.
+35. **Scaffold Zero-Execution Evidence** (§27.1) is derived, correlation-scoped,
+    explicitly non-canonical, never a Runtime result, never a status dimension,
+    renders `unknown` when a port is injected or evidence is incomplete, and
+    fabricates no run identifier.
+36. **Deferred effects cannot bypass construction safety**: all nineteen §9.1
+    mechanisms are bound by §32.
+37. **Cancellation reachability is explicit** (§26): unreachable outcomes are
+    named, and no mutable live-operation state is created to distinguish states.
+38. **Logging and randomness are treated as side effects** (§32 rows 20 and 22,
+    rules 5–6), not as harmless operations.
+39. Every cross-document reference to the owner's inert boundary is written in
+    full as "Agent Runtime Architecture §37"; a bare `§37` denotes only this
+    document's own §37 (§1.1).
 
 ## 42. Document metrics (normative)
 
@@ -1120,14 +1411,15 @@ this document, following the discipline of
 | Dimension | Count | Authoritative section |
 | --- | --- | --- |
 | Specification sections | 44 | §1–§44 |
-| Terminology entries | 23 | §2 |
+| Terminology entries | 28 | §2 |
 | Architectural ownership rows | 26 | §3 |
 | Scaffold status statements | 8 | §4 |
 | Module inventory rows | 10 | §6 |
 | Composition-root rules | 7 | §7 |
-| Import-safety prohibitions | 12 | §8 |
+| Import-safety prohibitions | 19 | §8 |
 | Construction-safety rules | 8 | §9 |
-| Configuration prohibitions | 8 | §10 |
+| Deferred-effect mechanisms | 19 | §9.1 |
+| Configuration prohibitions | 22 | §10 |
 | Dependency-injection rules | 6 | §11 |
 | Runtime ports | 14 | §12 |
 | No-op / fail-closed dispositions | 6 | §13 |
@@ -1137,15 +1429,17 @@ this document, following the discipline of
 | Shared Context Bridge prohibitions | 10 | §18 |
 | Cancellation states | 5 | §26 |
 | Observability fields | 12 | §27 |
+| Zero-execution evidence properties | 8 | §27.1 |
 | Logging rules | 7 | §28 |
 | Validation layers | 10 | §30 |
-| Side-effect categories | 20 | §32 |
-| Testing obligations | 17 | §34 |
+| Injected-component validations | 7 | §31.2 |
+| Side-effect categories | 24 | §32 |
+| Testing obligations | 24 | §34 |
 | Static validation techniques | 7 | §35 |
-| Security threats | 20 | §37 |
-| Non-goals | 21 | §39 |
+| Security threats | 26 | §37 |
+| Non-goals | 22 | §39 |
 | Deferred dependencies | 28 | §40 |
-| Acceptance criteria | 31 | §41 |
+| Acceptance criteria | 39 | §41 |
 
 ## 43. References
 
@@ -1186,7 +1480,7 @@ this document, following the discipline of
   `RUN_QUEUE.md`, `AGENT_HANDOFF.md`, `PROJECT_HISTORY.md`, `TASK_INDEX.md`
 - Repository convention evidence, inspected read-only and unmodified:
   `scripts/provider_adapters/` (the accepted inert-scaffold precedent cited by
-  Runtime §37), `tests/test_provider_adapters.py`,
+  Agent Runtime Architecture §37), `tests/test_provider_adapters.py`,
   `tests/provider_adapter_fixtures.py`
 
 ### 43.2 External
@@ -1210,8 +1504,9 @@ documentation was consulted or is claimed.
    level, a graph relation type, or a Control Plane dimension is **not** an
    amendment to this document — it belongs to that concept's owner and requires
    that owner's own separately reviewed amendment.
-6. **A change to Runtime §37's inert v1 boundary is not an amendment to this
-   document.** §37 is consumed unchanged; altering it requires an amendment to
+6. **A change to Agent Runtime Architecture §37's inert v1 boundary is not an
+   amendment to this document.** Agent Runtime Architecture §37 is consumed
+   unchanged; altering it requires an amendment to
    `[[MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001]]` under its own review.
 7. This document does not supersede, rename, or absorb any canonical owner
    document cited in §3 or §43.1; every citation remains that document's
