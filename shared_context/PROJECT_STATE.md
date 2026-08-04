@@ -2584,3 +2584,116 @@ specification's §40 each remain blocked behind their own gate. The global
 higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
 place, not reordered, and not reinterpreted.
+
+## Agent Runtime Scaffold Review 001 — Gate PASS_WITH_NON_BLOCKING_FINDINGS, Documentation Only
+
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001` is **complete as one local
+documentation commit on
+`docs/mellycore-agent-runtime-scaffold-spec-review-001`; not pushed.**
+Independent, read-only architecture, fail-closed, import-safety, and
+cross-contract review of the Agent Runtime Scaffold Specification (version 1.0,
+commit `f11e4c1`). Durable record:
+`docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_001.md`; task
+report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001.md`.
+
+**Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 7,
+P3 = 5.** `MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` version 1.0 is **accepted as a
+documentation contract only**, under the eleven constraints recorded in the
+review record §13.
+
+**Two verifications were performed against primary sources rather than the
+specification's own descriptions.** First, the canonical operation set was
+derived from the owner by locating every table in the Agent Runtime
+specification carrying an `Operation` header column — **exactly two exist**,
+§16's nine bridge operations and §17.1's seven context operations — which
+establishes the sixteen-operation set as **canonical, not an author-created
+aggregation**. All sixteen are named explicitly with a scaffold disposition,
+**zero invented and zero omitted**, and not one can return successful
+execution. Second, the Provider Adapter Scaffold precedent was checked against
+the actual Python source: `OperationOutcome` contains **no success member**,
+`ExecutionState` is a single-member `DISABLED` enum, `ImplementationState`,
+`NetworkBehavior`, and `CredentialSupport` are likewise single-member, the
+disabled adapter validates its static manifest at construction and returns
+`provider_request_occurred=False`, and `tests/test_provider_adapters.py`
+already patches `socket.socket.connect` and scans package source for prohibited
+tokens. **All eight precedent claims are accurate.**
+
+**Agent Runtime §37 is genuinely consumed, not duplicated.** §37 was decomposed
+into twenty-four discrete requirements and each traced into the reviewed text.
+Twenty-two are cited, structurally elaborated, or covered by a deliberately
+distinct taxonomy; §44 rule 6 — "a change to Runtime §37 is not an amendment to
+this document" — is the correct structural guard. **No second owner is
+created.** The "all eleven authorization facts" requirement was independently
+confirmed canonical against Agent Runtime §14.
+
+**All 27 document-metric rows reproduce independently, with zero
+discrepancies**, and the 44-section structure recounts exactly (numbered 1–44,
+contiguous). **No false-success path exists** — independently searched across
+the execution outcome vocabulary, the §29 data records, and the §27
+observability fields. **Zero capability ordinal citations** were found, and the
+canonical six-member framework vocabulary is used exactly, with `other`,
+`generic`, `auto`, and `custom` appearing only inside the prohibition.
+
+**Seven new P2 findings, all non-blocking and all fail-closed.** `NEW-P2-01`:
+§31 rule 2 ("regardless of … injected ports") contradicts the inert-mode
+invariant's own precondition ("no externally injected implementations"), making
+the specification's primary acceptance target self-contradictory in the
+stricter direction. `NEW-P2-02`: the invariant is asserted by no specified
+test — §31 rule 3 cites obligation 12 (zero-context-mutation), the
+specification's own task report says 13, and filesystem reads and logging have
+no obligation at all. `NEW-P2-03`: §8 rule 4 restates Runtime §37's "no
+framework SDK import on any reachable path" without citation, contradicting §3
+row 1's own prohibition on restating §37, and §17 then cites §8 rule 4 rather
+than the owner. `NEW-P2-04`: **"queues" — one of §37's eleven must-not-implement
+items — appears nowhere in the specification**, and §32 has no queue category,
+so a passive in-memory queue would trip none of the twenty categories the
+invariant is closed over. `NEW-P2-05`: §27 field 12 "zero-execution
+confirmation" is stated as an unscoped claim about the world and could become
+false once a real port implementation is injected. `NEW-P2-06`: §10's
+configuration prohibitions omit executable content — dotted import paths,
+callbacks, dynamic expressions, shell commands — while permitting "declared
+injected port names"; only §7 rule 3 currently closes the path. `NEW-P2-07`:
+§9's construction-safety rules omit deferred-effect mechanisms — lazy and
+cached properties, `__del__` finalizers, default factories, descriptors, and
+class-creation hooks. **Five P3 findings** are editorial, including that the
+specification run's outcome code
+`AGENT_RUNTIME_SCAFFOLD_SPECIFIED_UNVERIFIED` is recorded in **no tracked
+file** — a Phase 0 baseline mismatch reported before mutation, and the same
+defect class Framework Bridge Review 001 recorded as its own `NEW-P3-04`.
+
+**All fifteen upstream P2 findings remain open and contained**, none silently
+resolved, none required normatively, and none converted into a scaffold-owned
+decision. **No upstream contract or review artifact was edited.**
+
+**Nothing implemented.** Agent Runtime Scaffold code, Agent Runtime, framework
+adapters, Shared Context Bridge, package loader, Package Validator, policy
+engine, Model Router, and provider integration are all `NOT_IMPLEMENTED`.
+Runtime ports, composition roots, and no-op adapters **specified only; zero
+exist**. Agents executed, model calls, tool executions, provider requests, and
+context mutations: **zero**. Framework SDKs remain `NOT_INSTALLED` /
+`NOT_IMPORTED` / `NOT_EXECUTED`. **Empirical framework, provider, model, and
+runtime execution remains `NOT_PERFORMED`.** Migration triggers #1, #4, #5, #6,
+and #7 remain uncrossed.
+
+**Validation.** Exactly eight files changed (two new documentation artifacts,
+six bounded state-sync edits); **no source, test, Python package, dependency,
+configuration, workflow, or runtime file changed** — the aggregate digest of
+every tracked `.py` under `scripts/` and `tests/` is byte-identical before and
+after, and the tracked file count is unchanged at 71. `git diff --check` exit
+`0`; `py -3.9 scripts/validate_project_state.py` `PASS`, exit `0` — both at
+baseline and post-commit. `pytest`, black, flake8, and mypy were not run and are
+not claimed passing. The reviewed specification was **not edited** and this
+review repaired nothing.
+
+**Acceptance is of documentation only and authorizes no downstream task.** Per
+canonical `RUN_QUEUE.md`, the next item in this track is the **Agent Runtime
+Scaffold implementation (inert code)**, recorded there as a plain-name item
+carrying no task identifier. It remains **blocked** and requires this review's
+acceptance, **separate explicit Operator authorization**, and its own exact file
+allowlist; **no identifier was minted, started, or authorized by this review.**
+Scaffold Implementation Review, first Agent Package, Cross-Agent Smoke,
+Integration Review, the six per-framework adapter specifications, and every
+deferred contract of the specification's §40 each remain blocked behind their
+own gate. The global higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
+place, not reordered, and not reinterpreted.

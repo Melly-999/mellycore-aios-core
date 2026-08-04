@@ -1078,8 +1078,46 @@ place, and independently governed.
     corrected before commit. **Nothing implemented** — no scaffold code,
     module, package, test, dependency, or configuration; no Runtime, framework
     adapter, package loader, or provider/model integration; empirical framework
-    validation remains `NOT_PERFORMED`; the specification is **unverified and
-    not accepted**.
+    validation remains `NOT_PERFORMED`. The specification was **unverified and
+    not accepted** at that point; see item 14.
+
+14. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001` — **complete as one local
+    documentation commit; not pushed.** Independent, read-only architecture,
+    fail-closed, import-safety, and cross-contract review of the Agent Runtime
+    Scaffold Specification (version 1.0, commit `f11e4c1`). Durable record:
+    `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_001.md`; task
+    report:
+    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001.md`.
+
+    **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 7,
+    P3 = 5.** `MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` version 1.0 is **accepted
+    as a documentation contract only**, under eleven recorded constraints.
+
+    **The canonical operation set was derived from the owner, not accepted from
+    the specification** — exactly two tables in the Agent Runtime specification
+    carry an `Operation` header column, establishing the sixteen-operation set
+    as **canonical rather than author-created**; all sixteen are covered, zero
+    invented, zero omitted. **Agent Runtime §37 is consumed, not duplicated**:
+    twenty-four requirements traced, twenty-two cited or structurally
+    elaborated. **The Provider Adapter Scaffold precedent was verified against
+    the actual Python source** and all eight claims are accurate. **All 27
+    metric rows reproduce with zero discrepancies.** **No false-success path
+    exists.**
+
+    **Seven non-blocking P2 findings**, each fail-closed: the inert-mode
+    invariant's scope contradiction; the invariant asserted by no specified
+    test; one uncited restatement of a Runtime §37 must-not item; "queues"
+    omitted entirely; an unscoped zero-execution confirmation; configuration
+    prohibitions omitting executable content; and construction safety omitting
+    deferred-effect mechanisms. **Five P3 findings** are editorial.
+
+    **All fifteen upstream P2 findings remain open and contained**; the reviewed
+    specification was **not edited** and this review repaired nothing.
+    **Nothing implemented** — no scaffold code, module, package, test,
+    dependency, or configuration; no Runtime, framework adapter, package loader,
+    or provider/model integration; empirical execution remains `NOT_PERFORMED`.
+    **The scaffold implementation remains blocked**, requiring separate explicit
+    Operator authorization and its own file allowlist.
 
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted

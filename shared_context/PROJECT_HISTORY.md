@@ -412,6 +412,65 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    `docs/mellycore-agent-runtime-scaffold-spec-001`, not pushed. Full detail:
    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001.md`.
 
+14. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001` —
+   `PASS_WITH_NON_BLOCKING_FINDINGS` (documentation only), 2026-08-04.
+   Independent, read-only architecture, fail-closed, import-safety, and
+   cross-contract review of the Agent Runtime Scaffold Specification (version
+   1.0, commit `f11e4c1`). **P0 = 0, P1 = 0, P2 = 7, P3 = 5.**
+   `MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` version 1.0 is **accepted as a
+   documentation contract only**, under eleven recorded constraints.
+   **Two verifications were performed against primary sources rather than the
+   specification's descriptions.** The canonical operation set was derived from
+   the owner by locating every table in the Agent Runtime specification carrying
+   an `Operation` header column — **exactly two exist** (§16's nine bridge
+   operations and §17.1's seven context operations) — establishing that the
+   sixteen-operation set is **canonical, not an author-created aggregation**;
+   all sixteen are named explicitly with a disposition, **zero invented, zero
+   omitted**. The Provider Adapter Scaffold precedent was verified against the
+   actual Python source: `OperationOutcome` contains **no success member**,
+   `ExecutionState` is a single-member `DISABLED` enum, the disabled adapter
+   validates its manifest at construction and returns
+   `provider_request_occurred=False`, and the existing tests patch
+   `socket.socket.connect` and scan package source for prohibited tokens. **All
+   eight precedent claims are accurate.**
+   **Agent Runtime §37 is genuinely consumed, not duplicated.** §37 was
+   decomposed into twenty-four discrete requirements and each traced into the
+   reviewed text; twenty-two are cited, structurally elaborated, or covered by a
+   deliberately distinct taxonomy, and §44 rule 6 provides the correct
+   structural guard. **No second owner is created.**
+   **All 27 document-metric rows reproduce independently with zero
+   discrepancies**, and the 44-section structure recounts exactly.
+   **No false-success path exists** — independently searched across the outcome
+   vocabulary, data records, and observability fields.
+   **New P2 findings (all non-blocking, all fail-closed):** the inert-mode
+   invariant's §31 rule 2 contradicts its own precondition; the invariant is
+   asserted by no specified test and its sole citation points at the wrong
+   obligation; §8 rule 4 restates a Runtime §37 must-not item without citation,
+   contradicting the specification's own ownership rule; "queues" — one of
+   §37's eleven must-not items — appears nowhere and no side-effect category
+   can detect one; "zero-execution confirmation" is unscoped and could become
+   false under injection; configuration prohibitions omit executable content;
+   and construction safety omits deferred-effect mechanisms (lazy properties,
+   finalizers, default factories, class-creation hooks). **Five P3 findings**
+   are editorial, including that the specification run's outcome code is
+   recorded in no tracked file.
+   **All fifteen upstream P2 findings remain open and contained**, none silently
+   resolved; **zero capability ordinal citations**; the reviewed specification
+   was **not edited** and this review repaired nothing.
+   **Nothing implemented** — no scaffold code, module, Python package, source
+   file, test, fixture, dependency, or configuration; no Agent Runtime,
+   framework adapter, package loader, policy engine, Shared Context
+   implementation, or provider/model integration; agents executed, model calls,
+   tool executions, provider requests, and context mutations remain **zero**;
+   empirical framework, provider, model, and runtime execution remains
+   `NOT_PERFORMED`. The scaffold implementation remains **blocked**, requiring
+   separate explicit Operator authorization and its own file allowlist. Complete
+   as one local documentation commit on
+   `docs/mellycore-agent-runtime-scaffold-spec-review-001`, not pushed. Full
+   detail:
+   `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_001.md`,
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001.md`.
+
 ## How to Extend This File
 
 Append new entries under the relevant phase heading (or a new heading for a

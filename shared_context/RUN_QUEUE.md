@@ -1340,13 +1340,55 @@ calls, tool executions, and context mutations are **zero**; **empirical
 framework validation remains `NOT_PERFORMED`**. **The specification is unverified
 and not accepted** — no review has run.
 
+**`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001` — complete as one local
+documentation commit on
+`docs/mellycore-agent-runtime-scaffold-spec-review-001`; not pushed.**
+Independent, read-only review of the Agent Runtime Scaffold Specification
+(version 1.0, commit `f11e4c1`). Durable record:
+`docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_001.md`; task
+report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001.md`.
+
+**Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 7,
+P3 = 5.** The specification is **accepted as a documentation contract only**,
+under eleven recorded constraints.
+
+**The canonical operation set was derived from the owner rather than accepted
+from the specification** — exactly two tables in the Agent Runtime specification
+carry an `Operation` header column, establishing the sixteen-operation set as
+**canonical, not author-created**; all sixteen are covered with a disposition,
+zero invented and zero omitted. **Agent Runtime §37 is consumed, not
+duplicated** (twenty-four requirements traced; twenty-two cited or structurally
+elaborated). **The Provider Adapter Scaffold precedent was verified against the
+actual Python source** and all eight claims are accurate. **All 27 metric rows
+reproduce with zero discrepancies.** **No false-success path exists.**
+
+**Seven non-blocking P2 findings**, each fail-closed: the inert-mode invariant's
+§31 rule 2 contradicts its own precondition; the invariant is asserted by no
+specified test and its sole citation is wrong; §8 rule 4 restates a Runtime §37
+must-not item without citation; **"queues" — one of §37's eleven must-not items —
+appears nowhere and no side-effect category can detect one**; "zero-execution
+confirmation" is unscoped; configuration prohibitions omit executable content;
+and construction safety omits deferred-effect mechanisms. **Five P3 findings**
+are editorial, including that the specification run's outcome code is recorded
+in no tracked file.
+
+**All fifteen upstream P2 findings remain open and contained.** The reviewed
+specification was **not edited** and this review repaired nothing; no source,
+test, package, dependency, or configuration file changed.
+
+**Implementation depending on any unresolved P2 finding is not authorized.**
+`NEW-P2-01`, `NEW-P2-02`, and `NEW-P2-07` must be resolved before the inert-mode
+test can be written; `NEW-P2-04` and `NEW-P2-06` before the side-effect and
+configuration boundaries are implemented; `NEW-P2-05` before any real port
+implementation is injected.
+
 **Still blocked**, each requiring its own gate and separate explicit
-Operator authorization, in this recommended order:
-`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001` (**exact next task in this
-track — not started, not authorized**); the **Agent Runtime Scaffold
-implementation** (inert code, requiring that review to pass, separate explicit
-Operator authorization, and its own file allowlist; no framework process, no
-provider call, no credential, no model call, no tool execution, no deployment);
+Operator authorization, in this recommended order: the **Agent Runtime Scaffold
+implementation** (inert code) — **the exact next plain-name item in this track,
+carrying no task identifier; none was minted, started, or authorized by the
+review** — requiring separate explicit Operator authorization and its own exact
+file allowlist; no framework process, no provider call, no credential, no model
+call, no tool execution, no deployment;
 Scaffold Implementation Review; first Agent Package;
 Cross-Agent Smoke (inert modes only); Integration Review; the six
 per-framework adapter specifications; and, following
