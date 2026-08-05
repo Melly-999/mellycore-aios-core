@@ -1,6 +1,81 @@
 # Agent Handoff
 
-## Latest Update — Agent Runtime Scaffold Spec v1.1 independently reviewed; gate PASS_WITH_NON_BLOCKING_FINDINGS; all twelve Review 001 findings independently CLOSED; accepted as documentation only; no scaffold code, Runtime, adapter, package loader, or provider integration exists
+## Latest Update — Agent Runtime Scaffold Spec remediated to version 1.2; all seven Review 002 findings addressed; unverified pending Review 003; no scaffold code, Runtime, adapter, package loader, or provider integration exists
+
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002`
+
+- Remediated **all seven** findings recorded by Scaffold Review 002 (P0 0 / P1 0
+  / **P2 1 / P3 6**) and advanced
+  `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` from version 1.1 to
+  **version 1.2**, as one local documentation commit on
+  `docs/mellycore-agent-runtime-scaffold-spec-remediation-002`; **not pushed**.
+  Durable report:
+  `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002.md`.
+- **Findings were reconstructed from the committed Review 002 record**, not from
+  the task prompt. **Every finding has exactly one disposition; no replacement
+  ID was minted; none was deferred, waived, or partially closed.**
+- **`NEW-P2-01` — the version inconsistency is fixed structurally.** New **§44.1**
+  is an authoritative version-history table and the **single source of truth**
+  for `runtime_scaffold_spec_version`. §44 rule 1 now names `1.2`, cites §44.1,
+  and **forbids restating the current version elsewhere as a literal** — the
+  exact mechanism that produced the finding. Header, rule, history, report, and
+  state documents all read **1.2**, and no stale `1.0`/`1.1` current-version
+  claim remains.
+- **`NEW-P3-01` and `NEW-P3-02` — citations are now semantic, not positional.**
+  Threat 8 cites §8's hook-registration prohibition **by name** rather than a row
+  number; threat 19 cites **§8 rule 3**, the actual environment-access owner,
+  instead of the socket row. Beyond the two findings, **all twenty-six `row N`
+  cross-references in the document were converted to semantic references**, so a
+  future table insertion cannot break a citation again. New acceptance criterion
+  41 makes this a standing requirement.
+- **`NEW-P3-03` — the invariant obligation is complete and drift-proof.** New
+  **§31.1.1 Baseline Inert Invariant property register** enumerates **32**
+  properties — every side-effect category plus identifier generation, **registry
+  and service-locator absence**, fail-closed execution, absence of a success
+  representation, and **absence of a live Runtime handle**. §34 obligation 18
+  must assert **every** row and derive its list mechanically, so adding a row
+  without an assertion **fails** the obligation. Obligations **25, 26, 27** added;
+  testing obligations 24 → **27**.
+- **`NEW-P3-04` — zero-execution evidence is now affirmative-only.** Incomplete
+  evidence — including whenever any port is injected — yields **no zero-execution
+  record at all**; the run records the distinct non-affirmative
+  **`EVIDENCE_INCOMPLETE`** outcome instead. It is explicitly **not**
+  zero-execution evidence, not a Runtime result, not Runtime success, not a
+  Control Plane status, and **not an error class** — §24's owner-owned taxonomy
+  is unchanged. **Incomplete evidence ≠ affirmative zero-execution evidence.**
+- **`NEW-P3-05` — cancellation is deterministic.** §26 gained a **normative
+  selection order**: a malformed reference yields *invalid handle*; otherwise,
+  with no injected implementation, **implementation unavailable is the inert
+  default**; only owner-supplied input reaches the remaining states. §14's
+  disposition, §26, the outcome mapping, and obligation 27 now express the same
+  rule, and successful cancellation of active work remains unreachable.
+- **`NEW-P3-06` — the last bare owner `§37` is fully qualified** in §43.1;
+  **Agent Runtime Architecture §37 remains the sole canonical owner**, consumed
+  unchanged.
+- **Version 1.2 is a compatible corrective increment, not a major bump.** Every
+  change is a citation correction with no normative effect, a strict addition, or
+  the resolution of an internal contradiction **toward the stricter branch**. No
+  prohibition, boundary, port, disposition, category, or owner constraint is
+  removed, narrowed, or made more permissive.
+- **All twelve Review 001 closures are preserved**, four strengthened. **16/16**
+  canonical Runtime operations remain covered; **all fifteen upstream P2 findings
+  remain open and contained**; metrics recount clean (terminology 28 → 30,
+  obligations 24 → 27, criteria 39 → 41, plus two new rows). The original task
+  report, both Review 001 artifacts, the Remediation 001 report, both Review 002
+  artifacts, and every owner document are **byte-identical**.
+- **Nothing is implemented.** No scaffold code, module, Python package, test,
+  Runtime, framework adapter, package loader, policy engine, Model Router, or
+  provider integration exists. Zero agents executed, zero model calls, zero tool
+  executions, zero context mutations. **Empirical execution remains
+  `NOT_PERFORMED`.**
+- **Version 1.2 is unverified** — this remediation corrected its own reviewed
+  findings and no independent party has confirmed the closures. **Exact next
+  task: `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003`**, not started and not
+  authorized. The Agent Runtime Scaffold implementation remains a **plain-name
+  item carrying no task identifier**, blocked behind Review 003 **and** separate
+  explicit Operator authorization **and** its own exact file allowlist.
+
+## Previous Update — Agent Runtime Scaffold Spec v1.1 independently reviewed; gate PASS_WITH_NON_BLOCKING_FINDINGS; all twelve Review 001 findings independently CLOSED; accepted as documentation only; no scaffold code, Runtime, adapter, package loader, or provider integration exists
 
 `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002`
 

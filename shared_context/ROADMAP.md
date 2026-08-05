@@ -1199,6 +1199,50 @@ place, and independently governed.
     carries **no task identifier** — none was minted — and requires separate
     explicit Operator authorization and its own exact file allowlist.
 
+17. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002` — **complete as one
+    local documentation commit; not pushed.** Remediated **all seven** Review
+    002 findings (P2 1 / P3 6) and advanced
+    `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` from version 1.1
+    to **version 1.2**. Durable report:
+    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002.md`.
+
+    **The contract-version inconsistency was fixed structurally.** New **§44.1**
+    is an authoritative version-history table and the single source of truth for
+    `runtime_scaffold_spec_version`; §44 rule 1 names `1.2`, cites §44.1, and
+    forbids restating the version elsewhere as a drift-prone literal.
+
+    **Positional citations were eliminated.** Both defective threat citations
+    were corrected semantically — threat 8 names §8's hook-registration
+    prohibition, threat 19 cites §8 rule 3 — and **all twenty-six `row N`
+    cross-references were converted to semantic references**, so a future table
+    insertion cannot break a citation again.
+
+    **The invariant obligation became complete and drift-proof.** New **§31.1.1**
+    is a **Baseline Inert Invariant property register of 32 properties**, which
+    §34 obligation 18 must assert in full and derive mechanically; obligations
+    25 (registry and service-locator absence), 26 (no live Runtime handle), and
+    27 (cancellation selection order) were added.
+
+    **Scaffold Zero-Execution Evidence became affirmative-only**: incomplete
+    evidence yields no zero-execution record at all, only the distinct
+    non-affirmative `EVIDENCE_INCOMPLETE` outcome, which is not an error class
+    and leaves §24's owner-owned taxonomy unchanged. **Cancellation became
+    deterministic** with *implementation unavailable* as the inert default,
+    expressed identically in §14, §26, and the tests. The last bare owner `§37`
+    reference was fully qualified.
+
+    **Version 1.2 is a compatible corrective increment, not a major bump**: no
+    prohibition, boundary, port, disposition, category, or owner constraint was
+    removed, narrowed, or made more permissive. **All twelve Review 001 closures
+    preserved**, four strengthened; **16/16 canonical Runtime operations remain
+    covered**; **all fifteen upstream P2 findings remain open and contained**;
+    the original task report, both Review 001 artifacts, the Remediation 001
+    report, and both Review 002 artifacts are **byte-identical**. **Nothing
+    implemented**; empirical execution remains `NOT_PERFORMED`. **Version 1.2 is
+    unverified**, pending independent
+    `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003`; scaffold implementation
+    remains a plain-name item carrying no task identifier, still blocked.
+
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted
 `MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical architectural

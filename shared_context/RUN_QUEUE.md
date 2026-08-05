@@ -1448,12 +1448,54 @@ conjunct enumeration), `NEW-P3-04` (evidence-record emission conflict),
 `NEW-P3-05` (cancellation default state), and `NEW-P2-01` (before any amendment).
 **Nothing is implemented**; empirical execution remains `NOT_PERFORMED`.
 
+**`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002` — complete as one local
+documentation commit on
+`docs/mellycore-agent-runtime-scaffold-spec-remediation-002`; not pushed.**
+Remediated **all seven** Review 002 findings (P2 1 / P3 6) and advanced
+`docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` to **version 1.2**.
+Durable report:
+`docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002.md`.
+
+The contract-version inconsistency is resolved by a new **§44.1 authoritative
+version history**, now the single source of truth, with §44 rule 1 forbidding
+any other literal restatement of the current version — the exact mechanism that
+produced `NEW-P2-01`. **Every positional `row N` citation in the document was
+converted to a semantic reference**, so a future table insertion cannot break a
+citation again; the residue scan is empty. §34 obligation 18's partial
+enumeration is replaced by the new **§31.1.1 Baseline Inert Invariant property
+register — 32 enumerable properties** — which obligation 18 must assert in full
+and derive mechanically, plus new obligations 25 (registry and service-locator
+absence), 26 (no live Runtime handle), and 27 (cancellation selection order).
+**Scaffold Zero-Execution Evidence is now affirmative-only**: incomplete
+evidence — including any injected port — yields no zero-execution record at all,
+only the distinct non-affirmative `EVIDENCE_INCOMPLETE` outcome, which is not an
+error class and leaves §24's owner-owned taxonomy unchanged. **Cancellation
+gained a normative selection order** with *implementation unavailable* as the
+inert default, expressed identically in §14, §26, and the tests. The last bare
+owner `§37` reference is fully qualified.
+
+**Version 1.2 is a compatible corrective increment**, not a major bump: no
+prohibition, boundary, port, disposition, category, or owner constraint is
+removed, narrowed, or made more permissive. **All twelve Review 001 closures are
+preserved** — four strengthened — **16/16 canonical Runtime operations remain
+covered**, **all fifteen upstream P2 findings remain open and contained**, and
+the Review 001, Remediation 001, and Review 002 artifacts plus every owner
+document are **byte-identical**.
+
+**Version 1.2 is unverified** — this remediation corrected findings recorded
+against its own subject and no independent party has confirmed the closures.
+**Exact next task: `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003`** — an
+independent, read-only review of version 1.2; not started, not authorized by
+this entry. **Nothing is implemented**; empirical execution remains
+`NOT_PERFORMED`.
+
 **Still blocked**, each requiring its own gate and separate explicit
 Operator authorization, in this recommended order:
-the **Agent Runtime Scaffold implementation**
-(inert code) — **the exact next plain-name item, carrying no task identifier;
-Review 002 minted none** — now requiring separate explicit Operator
-authorization and its own exact file
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003`; then the **Agent Runtime
+Scaffold implementation**
+(inert code) — **a plain-name item carrying no task identifier; neither Review
+002 nor Remediation 002 minted one** — requiring Review 003 to pass, separate
+explicit Operator authorization, and its own exact file
 allowlist; no framework process, no provider call, no credential, no model
 call, no tool execution, no deployment;
 Scaffold Implementation Review; first Agent Package;

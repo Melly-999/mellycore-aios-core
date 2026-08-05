@@ -601,6 +601,66 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    detail: `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_002.md`,
    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002.md`.
 
+17. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002` — `REMEDIATED`
+   (documentation only, **unverified pending Review 003**), 2026-08-05.
+   Remediated **all seven** findings recorded by Scaffold Review 002 (P0 0 /
+   P1 0 / **P2 1 / P3 6**) and advanced
+   `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` from version 1.1 to
+   **version 1.2**. Findings were reconstructed from the committed Review 002
+   record rather than from the task prompt.
+   **The contract-version inconsistency was fixed structurally.** New **§44.1**
+   is an authoritative version-history table and the **single source of truth**
+   for `runtime_scaffold_spec_version`; §44 rule 1 now names `1.2`, cites §44.1,
+   and forbids restating the current version elsewhere as a drift-prone
+   literal — the precise mechanism that produced the finding.
+   **Positional citations were eliminated.** Both defective threat citations
+   were fixed at the source — threat 8 now names §8's hook-registration
+   prohibition and threat 19 cites §8 rule 3, the actual environment-access
+   owner — and, beyond the two findings, **all twenty-six `row N`
+   cross-references in the document were converted to semantic references**, so
+   a future table insertion or reordering cannot invalidate a citation again.
+   **The invariant test obligation became complete and drift-proof.** New
+   **§31.1.1** is a **Baseline Inert Invariant property register of 32
+   enumerable properties** — every side-effect category plus identifier
+   generation, registry and service-locator absence, fail-closed execution,
+   absence of a success representation, and absence of a live Runtime handle.
+   §34 obligation 18 must assert every row and derive its list mechanically, so
+   adding a register row without an assertion fails the obligation rather than
+   silently narrowing it. Obligations 25, 26, and 27 were added.
+   **Scaffold Zero-Execution Evidence became affirmative-only.** The
+   contradiction between forbidding emission under incomplete evidence and
+   requiring an `unknown` rendering was resolved in the stricter direction:
+   incomplete evidence — including whenever any port is injected — yields no
+   zero-execution record at all, and the run records the distinct
+   non-affirmative `EVIDENCE_INCOMPLETE` outcome instead, which is explicitly
+   not zero-execution evidence, not a Runtime result, not Runtime success, not a
+   Control Plane status, and **not an error class**.
+   **Cancellation became deterministic.** §26 gained a normative selection order
+   with *implementation unavailable* as the inert default, expressed identically
+   in §14's operation disposition, §26, the outcome mapping, and obligation 27.
+   The last bare owner `§37` reference was fully qualified.
+   **Version 1.2 is a compatible corrective increment, not a major bump**: every
+   change is a citation correction with no normative effect, a strict addition,
+   or the resolution of an internal contradiction toward the stricter branch,
+   and **no prohibition, boundary, port, disposition, category, or owner
+   constraint was removed, narrowed, or made more permissive**.
+   **All twelve Review 001 closures were preserved**, four strengthened;
+   **Agent Runtime Architecture §37 remains the sole owner**; **16/16 canonical
+   Runtime operations remain covered**; **all fifteen upstream P2 findings
+   remain open and contained**; and the original task report, both Review 001
+   artifacts, the Remediation 001 report, and both Review 002 artifacts are
+   byte-identical.
+   **Nothing implemented** — no scaffold code, module, Python package, source
+   file, test, fixture, dependency, or configuration; no Runtime, framework
+   adapter, package loader, or provider/model integration; empirical execution
+   remains `NOT_PERFORMED`. **The specification is unverified pending
+   independent Review 003**, and scaffold implementation remains a plain-name
+   item carrying no task identifier, still blocked. Complete as one local
+   documentation commit on
+   `docs/mellycore-agent-runtime-scaffold-spec-remediation-002`, not pushed.
+   Full detail:
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002.md`.
+
 ## How to Extend This File
 
 Append new entries under the relevant phase heading (or a new heading for a
