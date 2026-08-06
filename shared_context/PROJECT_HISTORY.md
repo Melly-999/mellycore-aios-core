@@ -613,12 +613,13 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    for `runtime_scaffold_spec_version`; §44 rule 1 now names `1.2`, cites §44.1,
    and forbids restating the current version elsewhere as a drift-prone
    literal — the precise mechanism that produced the finding.
-   **Positional citations were eliminated.** Both defective threat citations
-   were fixed at the source — threat 8 now names §8's hook-registration
+   **Most positional citations were eliminated.** Both defective threat
+   citations were fixed at the source — threat 8 now names §8's hook-registration
    prohibition and threat 19 cites §8 rule 3, the actual environment-access
-   owner — and, beyond the two findings, **all twenty-six `row N`
-   cross-references in the document were converted to semantic references**, so
-   a future table insertion or reordering cannot invalidate a citation again.
+   owner — and, beyond the two findings, twenty-six `row N` cross-references were
+   converted to semantic references. **Correction, recorded by Review 003
+   `NEW-P2-01`: this task's claim that *all* were converted is false — seven
+   positional citations remain**, two of them introduced by this remediation.
    **The invariant test obligation became complete and drift-proof.** New
    **§31.1.1** is a **Baseline Inert Invariant property register of 32
    enumerable properties** — every side-effect category plus identifier
@@ -660,6 +661,51 @@ states its actual status (`SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, `MERGED`,
    `docs/mellycore-agent-runtime-scaffold-spec-remediation-002`, not pushed.
    Full detail:
    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002.md`.
+
+18. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003` — documentation gate
+   `PASS_WITH_NON_BLOCKING_FINDINGS` (P0 0 / P1 0 / **P2 2 / P3 3**),
+   2026-08-06. Independent, read-only review of specification **version 1.2**.
+   **`MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` version 1.2 is accepted as a
+   documentation contract only**, under nine constraints.
+   **Implementation readiness was reported separately as
+   `NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`** — the two results are
+   distinct, and the passing documentation gate authorizes no implementation.
+   **All seven Review 002 findings were independently disposed `CLOSED`**, each
+   traced to committed specification text rather than accepted from the
+   remediation report; **all twelve Review 001 closures were independently
+   confirmed preserved**, four strengthened. **Agent Runtime Architecture §37
+   remains the sole canonical owner**, consumed unchanged, with all eleven
+   must-not and ten may-implement items traced. **16/16 canonical Runtime
+   operations covered** against an owner-derived list. **All 32 metric rows
+   reproduced with zero drift**, including the 32-property Baseline Inert
+   Invariant register and the 27 testing obligations. **No false-success path
+   exists**; **all fifteen upstream P2 findings remain open and contained**; and
+   the **1.1 → 1.2 increment was independently adjudicated a valid compatible
+   corrective increment** under §44's own rules.
+   **Five new non-blocking findings, three of them introduced by Remediation
+   002.** `NEW-P2-01` — §41 criterion 41's claim that no normative citation
+   depends on a mutable table row number is false; seven remain, and two were
+   added by the same commit that added the criterion; blocking for a future
+   amendment. `NEW-P2-02` — §27.1 rule 2's evidence-completeness test is
+   indeterminate for an approved inert fixture occupying a §12 port, because §26
+   treats "injected" and "approved-fixture" as distinct while §13 disposition 2
+   implies a fixture is injected; **implementation-blocking**. `NEW-P3-01` —
+   §44 rule 1 restates the version literal it forbids and omits itself from its
+   own amendment instruction. `NEW-P3-02` — §44.1 cites a nonexistent `§34.1`.
+   `NEW-P3-03` — `EVIDENCE_INCOMPLETE`'s representation is unconstrained.
+   This review also **corrected the state record** of Remediation 002's
+   overstated positional-citation claim, without editing the remediation
+   artifact.
+   **Nothing implemented** — no scaffold code, module, Python package, source
+   file, test, fixture, dependency, or configuration; no Runtime, framework
+   adapter, package loader, or provider/model integration; empirical execution
+   remains `NOT_PERFORMED`. **Documentation acceptance is not implementation
+   authorization**: scaffold implementation remains a plain-name item carrying no
+   task identifier, now additionally blocked pending resolution of `NEW-P2-02`.
+   Complete as one local documentation commit on
+   `docs/mellycore-agent-runtime-scaffold-spec-review-003`, not pushed. Full
+   detail: `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_003.md`,
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003.md`.
 
 ## How to Extend This File
 

@@ -2585,6 +2585,92 @@ higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
 place, not reordered, and not reinterpreted.
 
+## Agent Runtime Scaffold Review 003 — Documentation Gate PASS_WITH_NON_BLOCKING_FINDINGS, Version 1.2 Accepted as Documentation Only; Implementation NOT READY
+
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003` is **complete as one local
+documentation commit on `docs/mellycore-agent-runtime-scaffold-spec-review-003`;
+not pushed.** Independent, read-only review of specification **version 1.2**.
+Durable record:
+`docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_003.md`; task report:
+`docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003.md`.
+
+**Two separate results are recorded, and neither substitutes for the other.**
+
+**Documentation gate: `PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 / **P2 2**
+/ **P3 3**). Specification **version 1.2 is accepted as a documentation contract
+only**, under nine acceptance constraints recorded in review record §25.2.
+
+**Implementation readiness: `NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`.**
+**Implementation is not recommended and is not authorized.** One finding requires
+an implementer to make an architectural determination the specification does not
+supply.
+
+**All seven Review 002 findings are independently disposed `CLOSED`** — each
+traced to committed specification text, not accepted from the remediation report.
+**All twelve Review 001 closures are independently confirmed preserved**, four
+strengthened. **Agent Runtime Architecture §37 remains the sole canonical owner**
+of the inert boundary, consumed unchanged: all eleven must-not and ten
+may-implement items were traced, and every restatement is cited and subordinate.
+**16/16 canonical Runtime operations remain covered** against an owner-derived
+list. **All 32 metric rows reproduce with zero drift**, including the 32-property
+Baseline Inert Invariant register and the 27 testing obligations. **No
+false-success path exists** — the absence of a success member is structural.
+**All fifteen upstream P2 findings remain open and contained.** The **1.1 → 1.2
+increment is independently adjudicated valid** as a compatible corrective
+increment under §44's own rules; no major bump is required.
+
+**Five new non-blocking findings, three of them introduced by Remediation 002.**
+
+- **`NEW-P2-01`** — §41 criterion 41 asserts that no normative citation depends on
+  a mutable table row number. **Seven do**: §8 rule 4, §9.1 rule 3, §10 rule 5,
+  §17 item 2, §34 obligations 25 and 26, and §41 criterion 4. **Obligations 25
+  and 26 were added by the same commit that added criterion 41.** All seven
+  resolve correctly today; the defect is a false self-report plus a latent
+  fragility. **Blocking for any future amendment task.**
+- **`NEW-P2-02`** — §27.1 rule 2 makes affirmative evidence conditional on "no
+  §12 port has an injected implementation", but §26 treats "injected" and
+  "approved-fixture" as distinct alternatives while §13 disposition 2 implies a
+  fixture *is* injected. Whether a baseline inert composition containing an
+  approved fixture may emit an affirmative record is **undetermined**. Both
+  readings remain bounded by §27.1 rule 1's sentinel scoping, so no false-success
+  path is created — but the implementer cannot choose without deciding a
+  safety-relevant boundary. **Implementation-blocking.**
+- **`NEW-P3-01`** — §44 rule 1 restates the current version as a literal while
+  forbidding restatement "anywhere else", and instructs amendments to update only
+  §44.1 and the header — so a compliant amendment leaves rule 1 stale,
+  reproducing Review 002 `NEW-P2-01`. **Blocking for any future amendment task.**
+- **`NEW-P3-02`** — §44.1's change-classification paragraph cites `§34.1`, which
+  does not exist; the intended target is §31.1.1.
+- **`NEW-P3-03`** — `EVIDENCE_INCOMPLETE` uses the owner error-class lexical
+  convention, and because §27.1 rule 4 declares it not an error class, §24 rule 3
+  does not apply and no rule constrains its representation. Advisory.
+
+**Correction of record.** This review independently falsified the Remediation 002
+claim, repeated in the section below and in `RUN_QUEUE.md` and `TASK_INDEX.md`,
+that **every** positional `row N` citation was converted to a semantic reference.
+Seven live positional citations remain (`NEW-P2-01`). The remediation artifact
+itself was **not edited**; only this state record is corrected.
+
+**Nothing is implemented.** No Scaffold source, module, Python package, test, or
+fixture exists. Agent Runtime, framework adapters, Shared Context Bridge, package
+loader, Package Validator, policy engine, Model Router, and provider integration
+are all `NOT_IMPLEMENTED`. Runtime ports, composition roots, and no-op adapters
+are **specified only; zero exist**. Agents executed, model calls, tool
+executions, provider requests, and context mutations: **zero**. **Empirical
+framework, provider, model, and runtime execution remains `NOT_PERFORMED`.**
+Migration triggers #1, #4, #5, #6, and #7 remain uncrossed.
+
+**Documentation acceptance is not implementation authorization.** The **Agent
+Runtime Scaffold implementation** (inert code) remains a **plain-name item
+carrying no task identifier** — none was minted by Review 002, Remediation 002,
+or this review — and remains **blocked**, now additionally pending resolution of
+`NEW-P2-02`, and still requiring separate explicit Operator authorization **and**
+its own exact file allowlist. The recommended next step is a **bounded
+remediation of `NEW-P2-02`**, preferably carrying the other four findings with
+it; **this review neither minted nor authorized that task.** The global
+higher-priority pointer `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`
+remains unchanged, in place, not reordered, and not reinterpreted.
+
 ## Agent Runtime Scaffold Spec Remediation 002 — Version 1.2, Documentation Only, Unverified
 
 `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002` is **complete as one
@@ -2603,10 +2689,14 @@ forbids restating the current version elsewhere as a drift-prone literal — the
 exact mechanism that produced `NEW-P2-01`. Header, rule, history, report, and
 state documents all read **1.2**.
 
-**Every positional citation was made semantic.** All twenty-six `row N`
+**Most positional citations were made semantic.** Twenty-six `row N`
 cross-references were converted to reference prohibitions and categories by
-topic, so inserting or reordering a table row can no longer invalidate a
-citation. The two defective threat citations are fixed at the source: threat 8
+topic. **Correction, per Review 003 `NEW-P2-01`: this task's claim that *every*
+positional citation was converted is false — seven remain** (§8 rule 4, §9.1
+rule 3, §10 rule 5, §17 item 2, §34 obligations 25 and 26, §41 criterion 4), two
+of them introduced by this remediation. All seven resolve correctly; the residual
+fragility is recorded against a future amendment task. The two defective threat
+citations are fixed at the source: threat 8
 now cites §8's hook-registration prohibition by name, and threat 19 cites **§8
 rule 3**, the actual environment-access owner. New acceptance criterion 41 makes
 semantic referencing a standing requirement.

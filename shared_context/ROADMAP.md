@@ -1211,11 +1211,12 @@ place, and independently governed.
     `runtime_scaffold_spec_version`; §44 rule 1 names `1.2`, cites §44.1, and
     forbids restating the version elsewhere as a drift-prone literal.
 
-    **Positional citations were eliminated.** Both defective threat citations
-    were corrected semantically — threat 8 names §8's hook-registration
-    prohibition, threat 19 cites §8 rule 3 — and **all twenty-six `row N`
-    cross-references were converted to semantic references**, so a future table
-    insertion cannot break a citation again.
+    **Most positional citations were eliminated.** Both defective threat
+    citations were corrected semantically — threat 8 names §8's hook-registration
+    prohibition, threat 19 cites §8 rule 3 — and twenty-six `row N`
+    cross-references were converted to semantic references. **Correction, per
+    Review 003 `NEW-P2-01`: the claim that *all* were converted is false — seven
+    positional citations remain**, two of them introduced by this remediation.
 
     **The invariant obligation became complete and drift-proof.** New **§31.1.1**
     is a **Baseline Inert Invariant property register of 32 properties**, which
@@ -1242,6 +1243,50 @@ place, and independently governed.
     unverified**, pending independent
     `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003`; scaffold implementation
     remains a plain-name item carrying no task identifier, still blocked.
+
+18. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003` — **complete as one local
+    documentation commit; not pushed.** Independent, read-only review of
+    specification **version 1.2**. Durable record:
+    `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_003.md`; task
+    report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003.md`.
+
+    **Documentation gate `PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 /
+    **P2 2** / **P3 3**); version 1.2 **accepted as a documentation contract
+    only** under nine constraints. **Implementation readiness reported
+    separately as `NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`** — the two
+    results are distinct and the gate result does not authorize implementation.
+
+    **All seven Review 002 findings independently disposed `CLOSED`**; **all
+    twelve Review 001 closures independently confirmed preserved**, four
+    strengthened. **Agent Runtime Architecture §37 remains the sole canonical
+    owner**, consumed unchanged, with all eleven must-not and ten may-implement
+    items traced. **16/16 canonical Runtime operations covered** against an
+    owner-derived list. **All 32 metric rows reproduce with zero drift**,
+    including the 32-property register and the 27 testing obligations. **No
+    false-success path exists.** **All fifteen upstream P2 findings remain open
+    and contained.** The **1.1 → 1.2 increment is independently adjudicated a
+    valid compatible corrective increment**; no major bump required.
+
+    **Five new non-blocking findings, three introduced by Remediation 002.**
+    `NEW-P2-01`: §41 criterion 41's universal positional-reference claim is
+    false — seven live citations remain, two added by the same commit as the
+    criterion; blocking for a future amendment. `NEW-P2-02`: §27.1 rule 2's
+    evidence-completeness test is indeterminate for an approved inert fixture at
+    a §12 port, because §26 treats "injected" and "approved-fixture" as distinct
+    while §13 disposition 2 implies a fixture is injected — **implementation-
+    blocking**. `NEW-P3-01`: §44 rule 1 restates the version literal it forbids
+    and omits itself from its own amendment instruction. `NEW-P3-02`: §44.1
+    cites a nonexistent `§34.1`. `NEW-P3-03`: `EVIDENCE_INCOMPLETE`'s
+    representation is unconstrained.
+
+    **Nothing implemented**; empirical execution remains `NOT_PERFORMED`.
+    **Documentation acceptance is not implementation authorization.** Scaffold
+    implementation remains a plain-name item carrying no task identifier, now
+    additionally blocked pending resolution of `NEW-P2-02`, and still requiring
+    separate explicit Operator authorization and its own exact file allowlist.
+    The recommended next step is a **bounded remediation of `NEW-P2-02`**,
+    preferably carrying the other four findings; **this review neither minted
+    nor authorized it.**
 
 **Architecture accepted; Agent Package Contract accepted as documentation.**
 Review 002 of the Agent Runtime accepted

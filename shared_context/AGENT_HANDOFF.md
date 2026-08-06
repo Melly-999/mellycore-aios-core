@@ -1,6 +1,79 @@
 # Agent Handoff
 
-## Latest Update — Agent Runtime Scaffold Spec remediated to version 1.2; all seven Review 002 findings addressed; unverified pending Review 003; no scaffold code, Runtime, adapter, package loader, or provider integration exists
+## Latest Update — Agent Runtime Scaffold Spec v1.2 independently reviewed; documentation gate PASS_WITH_NON_BLOCKING_FINDINGS; all seven Review 002 findings independently CLOSED; implementation readiness NOT_READY; no scaffold code, Runtime, adapter, package loader, or provider integration exists
+
+`MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003`
+
+- **Documentation gate `PASS_WITH_NON_BLOCKING_FINDINGS`** — **P0 0 / P1 0 /
+  P2 2 / P3 3** — as one local documentation commit on
+  `docs/mellycore-agent-runtime-scaffold-spec-review-003`; **not pushed**.
+  Record: `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_003.md`;
+  report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003.md`.
+  **`MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` version 1.2 is accepted as a
+  documentation contract only**, under nine constraints.
+- **Implementation readiness is reported separately as
+  `NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`.** The two results are distinct;
+  **the gate result does not authorize implementation**, and implementation is
+  **not recommended** while `NEW-P2-02` requires implementer judgment.
+- **The remediation report, the task prompt, and `TASK_INDEX.md` were treated as
+  unverified claim sets.** All seven Review 002 findings were reconstructed from
+  the committed **Review 002** record and each disposition re-derived from
+  committed specification text. **Validator success was not treated as evidence
+  of correctness** — and one reported claim proved false (see the correction
+  below).
+- **All seven Review 002 findings independently disposed `CLOSED`**: the version
+  inconsistency (§44.1 now authoritative), both threat citations (semantic),
+  obligation 18's subset (§31.1.1's 32-property register, mechanically derived),
+  the evidence-record contradiction (affirmative-only), §14 row 13's cancellation
+  disagreement (state 5, with a total selection order), and the bare owner `§37`.
+- **All twelve Review 001 closures independently confirmed preserved**, four
+  strengthened. **Agent Runtime Architecture §37 remains the sole canonical
+  owner**, consumed unchanged — all eleven must-not and ten may-implement items
+  traced. **16/16** canonical Runtime operations covered against an
+  owner-derived list. **All 32 metric rows reproduce with zero drift.** **No
+  false-success path exists** — absence of a success member is structural. **All
+  fifteen upstream P2 findings remain open and contained.** **1.1 → 1.2 is
+  independently adjudicated a valid compatible corrective increment**; no major
+  bump required. Wikilinks 18/18 resolve; normative-modal and overclaim scans
+  clean.
+- **Five new non-blocking findings, three introduced by Remediation 002:**
+  - **`NEW-P2-01`** — §41 criterion 41 asserts no normative citation depends on a
+    mutable table row number; **seven do** (§8 rule 4, §9.1 rule 3, §10 rule 5,
+    §17 item 2, §34 obligations 25–26, §41 criterion 4), and **obligations 25–26
+    were added by the same commit that added the criterion**. All resolve
+    correctly today. **Blocking for any future amendment task.**
+  - **`NEW-P2-02`** — §27.1 rule 2 conditions affirmative evidence on "no §12
+    port has an injected implementation", but §26 treats "injected" and
+    "approved-fixture" as distinct alternatives while §13 disposition 2 implies a
+    fixture **is** injected. Whether a baseline inert composition containing an
+    approved fixture may emit an affirmative record is **undetermined**. Both
+    readings stay bounded by §27.1 rule 1, so no false-success path exists — but
+    the choice is safety-relevant. **Implementation-blocking.**
+  - **`NEW-P3-01`** — §44 rule 1 restates the version literal it forbids and
+    omits itself from its own amendment instruction, so a compliant amendment
+    reproduces Review 002 `NEW-P2-01`. Amendment-blocking.
+  - **`NEW-P3-02`** — §44.1's classification paragraph cites `§34.1`, which does
+    not exist; the intended target is §31.1.1.
+  - **`NEW-P3-03`** — `EVIDENCE_INCOMPLETE` uses the owner error-class lexical
+    convention and, because §27.1 rule 4 declares it not an error class, no rule
+    constrains its representation. Advisory.
+- **Correction of record.** The Remediation 002 claim below — repeated in
+  `PROJECT_STATE.md`, `ROADMAP.md`, `RUN_QUEUE.md`, and `TASK_INDEX.md` — that
+  **every** positional `row N` citation was converted and the residue scan is
+  empty **is false**; seven remain. Those state records are corrected. **The
+  remediation artifact itself was not edited.**
+- **Nothing is implemented.** No scaffold code, module, Python package, test,
+  Runtime, framework adapter, package loader, policy engine, Model Router, or
+  provider integration exists. Zero agents executed, zero model calls, zero tool
+  executions, zero context mutations. **Empirical execution remains
+  `NOT_PERFORMED`.** Migration triggers #1, #4, #5, #6, #7 remain uncrossed.
+- **Recommended next step: a bounded remediation of `NEW-P2-02`**, preferably
+  carrying the other four findings. **Review 003 neither minted nor authorized
+  it.** The Agent Runtime Scaffold implementation remains a **plain-name item
+  carrying no task identifier**, blocked pending `NEW-P2-02`'s resolution **and**
+  separate explicit Operator authorization **and** its own exact file allowlist.
+
+## Previous Update — Agent Runtime Scaffold Spec remediated to version 1.2; all seven Review 002 findings addressed; unverified pending Review 003; no scaffold code, Runtime, adapter, package loader, or provider integration exists
 
 `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002`
 
