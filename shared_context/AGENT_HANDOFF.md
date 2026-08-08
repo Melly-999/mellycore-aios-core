@@ -1,6 +1,48 @@
 # Agent Handoff
 
-## Latest Update — Agent Runtime Scaffold Spec v1.2 independently reviewed; documentation gate PASS_WITH_NON_BLOCKING_FINDINGS; all seven Review 002 findings independently CLOSED; implementation readiness NOT_READY; no scaffold code, Runtime, adapter, package loader, or provider integration exists
+## Latest Update — Cross-agent context packet established (documentation only, unverified pending review)
+
+`MELLYCORE-CROSS-AGENT-CONTEXT-PACK-002`
+
+- **Outcome `CROSS_AGENT_CONTEXT_PACK_ESTABLISHED_UNVERIFIED`** — one local,
+  unpushed documentation commit. Report:
+  `docs/tasks/MELLYCORE-CROSS-AGENT-CONTEXT-PACK-002.md`.
+- **Authorized by prompt** (no prior repository task file existed for this
+  ID — confirmed by repository-wide search before starting); repository
+  evidence supplied all factual project-state content used.
+- **`shared_context/CROSS_AGENT_CONTEXT.md` expanded in place** from its
+  prior four-fact minimal version into the full canonical cross-agent
+  bootstrap/navigation packet: identity, authority order, current phase,
+  canonical source map, accepted-architecture classification, safety
+  posture, agent preflight/mutation/validation/handoff contracts, a
+  freshness/drift rule, and an implemented-vs-specified-vs-planned
+  distinction. All four original facts (required-reading order, the
+  handoff-update obligation, the final-report content requirement, the
+  multi-agent equivalence statement) were preserved, not deleted. **No
+  second, competing "context pack" file was created** — this is the sole
+  canonical artifact for the concept.
+- **Distinct from** `MELLYCORE-CROSS-AGENT-CONTEXT-SMOKE-001`, which
+  remains a separate, still-`deferred`, not-yet-started task. This packet
+  is documentation only; it performs no smoke test.
+- **Foreign dirty state preserved untouched.**
+  `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md`'s pre-existing
+  uncommitted edits (owned by a different, unrelated task/run) were never
+  read for evidence, edited, staged, stashed, reset, or included in this
+  commit.
+- **Nothing implemented.** Documentation-only change: one packet expansion,
+  one new task report, this handoff entry. No runtime, backend, frontend,
+  provider, or configuration change.
+- Baseline `HEAD` `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5`; branch
+  `docs/mellycore-cross-agent-context-pack-002`. Full validation and
+  Git-scope evidence: the task report above.
+- **Next canonical task: not established by this task.** See
+  `shared_context/CROSS_AGENT_CONTEXT.md` §14 — two separately governed
+  threads exist elsewhere (Agent Runtime Review 003 bounded remediation,
+  `PLANNED`, no ID minted; the OpenAI Batch reconciliation thread's own
+  next task per `RUN_QUEUE.md`) — neither begun, authorized, or advanced
+  by this task.
+
+## Prior Update — Agent Runtime Scaffold Spec v1.2 independently reviewed; documentation gate PASS_WITH_NON_BLOCKING_FINDINGS; all seven Review 002 findings independently CLOSED; implementation readiness NOT_READY; no scaffold code, Runtime, adapter, package loader, or provider integration exists
 
 `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003`
 
