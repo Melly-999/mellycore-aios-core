@@ -1,5 +1,27 @@
 # Agent Handoff
 
+## Latest Update — Product Track integration plan created; no integration performed
+
+`MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001`
+
+- Created the deterministic repository-owned integration plan at
+  `docs/tasks/MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001.md`; no integration,
+  branch mutation, push, PR, merge, cherry-pick, rebase, or deployment occurred.
+- Fixed canonical baseline:
+  `clean-origin/main` at `947f33d27d5546775186e96bdc61e30db78c0b3d`.
+- Accepted Units 1-8 cutoff: the exact 40-commit stack through
+  `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5`.
+- Accepted Context Pack tail:
+  `bde76bfd704ad2f8ce6eaa76d7532212129baa38` through
+  `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`, freshness-gated after the
+  mandatory Unit 8 composed review.
+- Integration still requires separate, explicit Operator authorization and a
+  dedicated clean integration branch/worktree. Roadmap canonicalization remains
+  blocked; `MELLYCORE-ROADMAP-LOCK-001` was not minted.
+- Exact next task, not started:
+  `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REVIEW-001` (independent read-only
+  review).
+
 ## Latest Update — Cross-agent context packet status semantics remediated; F2 integration risk acknowledged, no integration performed
 
 `MELLYCORE-CROSS-AGENT-CONTEXT-PACK-REMEDIATION-001`
