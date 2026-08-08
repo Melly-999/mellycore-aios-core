@@ -268,27 +268,32 @@ establishing this packet. This packet's description of the Scaffold spec
 that fact as still true once the file is committed or the diff resolved —
 re-read the file's committed state directly.
 
-## 13. Implemented vs. Specified vs. Planned vs. Deferred
+## 13. Status Vocabularies by Layer
 
-Exact vocabulary already established by `TASK_INDEX.md` (task-level) and
-used narratively throughout `PROJECT_STATE.md` (concept-level) — not
-reinvented here:
+MellyCore uses multiple status vocabularies for different layers. Do not
+combine them into one enum.
 
-- **`COMPLETE`** (task) / **`IMPLEMENTED`** (concept) — durable evidence
-  exists that a human or independent reviewer can reproduce. `COMPLETE` may
-  still mean "local, not pushed" — check the evidence link, not the word
-  alone.
-- **`SPECIFIED`** — a specification, ADR, or contract is accepted as
-  documentation, with an explicit statement that nothing is implemented.
-  Never read `SPECIFIED` as `IMPLEMENTED`.
-- **`ELIGIBLE`** — a gate has cleared a task for Operator authorization; it
-  has not been authorized or started.
-- **`PLANNED`** — named in the roadmap or index; no gate has run yet.
+### Task-level status
+
+`TASK_INDEX.md` formally defines exactly these task-level statuses:
+
+- **`COMPLETE`** — task finished; it may still be local and unpushed, so
+  check the linked evidence.
+- **`IN_PROGRESS`** — started, not complete.
+- **`ELIGIBLE`** — a gate has cleared the task for Operator authorization;
+  it has not been authorized or started.
 - **`BLOCKED`** — not eligible; a prior gate, review, resolution, or
   Operator authorization is outstanding.
-- **`DEFERRED`** — explicitly pushed to a later, separately gated task
-  (e.g. Cross-Agent Smoke, provider/runtime integration, Holographic UI
-  implementation).
+- **`PLANNED`** — named in the roadmap; no gate has run yet.
+
+### Other project and architecture state terms
+
+Other canonical owner documents use terms such as **`SPECIFIED`**,
+**`IMPLEMENTED`**, **`ACCEPTED`**, and **`DEFERRED`** for architecture,
+product, decision, queue, or narrative state. These terms are not
+automatically members of `TASK_INDEX.md`'s task-status enum. Interpret each
+term from the canonical owner document that uses it; in particular, never
+read `SPECIFIED` or decision-level `ACCEPTED` as `IMPLEMENTED`.
 
 This packet must never read like a roadmap or marketing summary of what
 MellyCore AIOS will eventually do. Every claim in Sections 4 and 6 is

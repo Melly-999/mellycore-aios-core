@@ -1,6 +1,29 @@
 # Agent Handoff
 
-## Latest Update — Cross-agent context packet established (documentation only, unverified pending review)
+## Latest Update — Cross-agent context packet status semantics remediated; F2 integration risk acknowledged, no integration performed
+
+`MELLYCORE-CROSS-AGENT-CONTEXT-PACK-REMEDIATION-001`
+
+- Source task `MELLYCORE-CROSS-AGENT-CONTEXT-PACK-002`; accepted candidate
+  `bde76bfd704ad2f8ce6eaa76d7532212129baa38`; independent review outcome
+  `ACCEPT_MELLYCORE_CROSS_AGENT_CONTEXT_PACK_002`.
+- **F1 remediated:** `CROSS_AGENT_CONTEXT.md` §13 now states the exact five
+  formal `TASK_INDEX.md` statuses (`COMPLETE`, `IN_PROGRESS`, `ELIGIBLE`,
+  `BLOCKED`, `PLANNED`) separately from project/architecture terms including
+  `SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, and `DEFERRED`; no unified enum is
+  implied.
+- **F2 acknowledged, not executed:** the branch is 41 commits ahead / 0 behind
+  `clean-origin/main`; branch-wide integration remains prohibited without
+  explicit Operator authorization. No merge, cherry-pick, rebase, push, PR,
+  or other integration action was performed.
+- Documentation-only scope; the foreign dirty scaffold spec remained untouched
+  and unstaged. Durable report:
+  `docs/tasks/MELLYCORE-CROSS-AGENT-CONTEXT-PACK-REMEDIATION-001.md`.
+- Recommended next task, not started:
+  `MELLYCORE-PRODUCT-TRACK-INTEGRATION-DECISION-001` (read-only governance
+  decision).
+
+## Prior Update — Cross-agent context packet established (documentation only, unverified pending review)
 
 `MELLYCORE-CROSS-AGENT-CONTEXT-PACK-002`
 
