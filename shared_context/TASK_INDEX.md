@@ -52,6 +52,32 @@ task. Full narrative detail lives in `shared_context/ROADMAP.md`,
 | Cross-Agent Smoke (inert modes only) | `BLOCKED` | Separate clean-worktree task per `RUN_QUEUE.md`'s "Deferred Work". |
 | Integration Review | `BLOCKED` | Final gate of this track. |
 
+## Product Track Integration & Governance Tail
+
+Local integration only. **Remote canonical `main` has not advanced**;
+`clean-origin/main` remains `947f33d27d5546775186e96bdc61e30db78c0b3d`.
+Integration branch `integration/mellycore-product-track-001` is at
+`16da3ec2df9b52b203bb16468f90258f2d7f540c` — 44 commits, 0 merges, fast-forward
+only, zero authored commits.
+
+| Task ID | Status | Evidence |
+|---|---|---|
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001` | `COMPLETE` (local, not pushed) — plan created; authorized nothing | `docs/tasks/MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001.md` |
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REVIEW-001` | `COMPLETE` (local, not pushed) — gate `FAIL_REMEDIATION_REQUIRED` (P0 0 / P1 1 / P2 1 / P3 0) | `docs/research/MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REVIEW_001.md` |
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-001` | `COMPLETE` (local, not pushed) — both findings remediated; added the post-Unit-9 Governance Tail (not Unit 10); did not self-declare its own SHA | `docs/tasks/MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-001.md` |
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-EXECUTION-001` | `COMPLETE` (local, not pushed) — Units 1-8 integrated to `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5`; 40 commits via 8 fast-forwards; 0 merges | integration branch reflog; `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` |
+| `MELLYCORE-PRODUCT-TRACK-COMPOSED-INTEGRATION-REVIEW-001` | `COMPLETE` (local, not pushed) — `ACCEPT` (P0 0 / P1 0 / P2 0 / P3 2). New findings `CI-P3-01`, `CI-P3-02`; scaffold blockers and `NOT_READY` verified preserved | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` |
+| `MELLYCORE-PRODUCT-TRACK-UNIT-9-FRESHNESS-REVIEW-001` | `COMPLETE` (local, not pushed) — `PASS_WITH_NOTES` (P3 1: `U9-P3-01`); decision `UNIT_9_SAFE_TO_ADVANCE_TO_SEPARATE_INTEGRATION_TASK` | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` |
+| `MELLYCORE-PRODUCT-TRACK-UNIT-9-INTEGRATION-001` | `COMPLETE` (local, not pushed) — Unit 9 integrated to `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`; 42 commits; ff-only | integration branch reflog |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-FRESHNESS-REVIEW-001` | `COMPLETE` (local, not pushed) — `FAIL_REMEDIATION_REQUIRED`; blocking finding `GT-P2-01` (pin record absent); non-blocking `GT-P2-02`, `GT-P3-01`, `GT-P3-02` | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` |
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-REVIEW-001` | `COMPLETE` (local, not pushed) — `ACCEPT_MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REMEDIATION_001`; published `REVIEW_PINNED_GOVERNANCE_TAIL_SHA = 16da3ec2df9b52b203bb16468f90258f2d7f540c`; **`GT-P2-01` CLOSED**. Two non-blocking record-content P3 notes remain open | `docs/research/MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REMEDIATION_REVIEW_001.md` (record commit `fefe65a38c8855271a1dab6dcb8c7178f3fb55b9`, blob `3676e4155df8e11bce7eb7a5266f0480431a383e`) |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECORD-TIP-REVIEW-001` | `COMPLETE` (local, not pushed) — `PASS_WITH_NOTES`; both record-content gaps classified **P3 non-blocking**; `PREFERRED_INTEGRATION_TARGET = 16da3ec2df9b52b203bb16468f90258f2d7f540c` per Integration Plan §14 | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-INTEGRATION-001` | `COMPLETE` (local, not pushed) — Governance Tail integrated to `16da3ec2df9b52b203bb16468f90258f2d7f540c`; 44 commits; ff-only; record tip `fefe65a3…` deliberately **not** integrated | integration branch reflog |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001` | `COMPLETE` (local, not pushed) — durable evidence recorded and canonical state reconciled; imported the pin artifact byte-for-byte; **`GT-P2-02` and `GT-P3-01` CLOSED** | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001` | `ELIGIBLE` | Independent read-only review of the reconciliation commit. Not authorized, not started. |
+| Publication (push / PR / PR review / canonical merge) | `BLOCKED` | Plain-name item; no identifier minted. Requires separate explicit Operator authorization per Integration Plan §12. |
+| `MELLYCORE-ROADMAP-LOCK-001` | `BLOCKED` | Integration Plan §13 conditions 1-10 satisfied; condition 11 (separate explicit Operator authorization) outstanding. Not minted, drafted, or executed. |
+
 ## Developer Platform & Agent Package Ecosystem (Planned)
 
 All rows `PLANNED` unless noted. None is authorized, started, or implemented

@@ -2585,6 +2585,71 @@ higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
 place, not reordered, and not reinterpreted.
 
+## Product Track — Units 1-9 and Governance Tail Integrated Locally (Not Pushed)
+
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001`
+
+Local branch `integration/mellycore-product-track-001` is at
+`16da3ec2df9b52b203bb16468f90258f2d7f540c`. Verified against Git objects:
+**44 commits** from canonical baseline
+`947f33d27d5546775186e96bdc61e30db78c0b3d`, **0 merge commits**, every commit
+single-parent. That is the 42-commit nine-unit Product Track plus the two
+reviewed Governance Tail commits. Integration was performed **entirely by
+fast-forward** across eleven advancements; **zero commits were authored** by any
+integration task.
+
+**Remote canonical `main` has not advanced.** `clean-origin/main` remains
+`947f33d27d5546775186e96bdc61e30db78c0b3d`. No push, pull request, remote
+mutation, or deployment has occurred. This state is **local only**.
+
+| Checkpoint | SHA | Cumulative commits |
+| --- | --- | ---: |
+| Canonical baseline | `947f33d27d5546775186e96bdc61e30db78c0b3d` | 0 |
+| Unit 1 — Enterprise Provider Documentation Foundation | `b32c81fa96b9f3f7542a93101b73a4fe038b033f` | 15 |
+| Unit 2 — Provider Adapter Scaffold | `5c9616350536e614096b24a5559aa86ed59ab40f` | 17 |
+| Unit 3 — Cloudflare API Shield Read-Only Adapter | `95a31316b0c4871343637a6b414f4aaa79dee76d` | 21 |
+| Unit 4 — Agent Runtime Architecture | `bb2e216a9c3510a4dd6f37ab18eb62f8df1c374b` | 25 |
+| Unit 5 — Agent Package Contract | `7fa3d8ad2d319312cc7785c4b4ef9f89a5a04776` | 30 |
+| Unit 6 — Framework Bridge | `b26b330ccee7d9efba304ee66e6c3ccc4e1ae5e1` | 32 |
+| Unit 7 — Shared Context Bridge | `3019a2303d794d89288edcf2f2ea201fef357f09` | 34 |
+| Unit 8 — Runtime Scaffold Specification | `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5` | 40 |
+| Unit 9 — Cross-Agent Context Pack | `a0b70ae6c45c640ede4889abeb1f169e5b5a6381` | 42 |
+| Governance Tail (plan) | `14eb6c90ff3ffa7125b3f7b3ef077b17ce93d0c6` | 43 |
+| Governance Tail (remediation) — **current HEAD** | `16da3ec2df9b52b203bb16468f90258f2d7f540c` | 44 |
+
+The Governance Tail is **not Unit 10**. It does not change any Unit 1-9
+boundary, SHA, count, or fast-forward proof, and the Product Track inventory
+remains exactly 42 commits across nine logical units.
+
+**`REVIEW_PINNED_GOVERNANCE_TAIL_SHA` =
+`16da3ec2df9b52b203bb16468f90258f2d7f540c`**, published durably in
+`docs/research/MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REMEDIATION_REVIEW_001.md`
+(imported here byte-for-byte, blob `3676e4155df8e11bce7eb7a5266f0480431a383e`,
+from record commit `fefe65a38c8855271a1dab6dcb8c7178f3fb55b9`). That record
+commit is **not** an ancestor of the integration branch and was never
+cherry-picked or merged.
+
+**Validation reproduced at the integrated tree:** `git diff --check` clean;
+`py -3.9 -B scripts/validate_project_state.py` → `PASS`;
+`py -3.9 -B -m unittest discover -s tests -p 'test*.py'` → **696 tests, OK**.
+`black`, `flake8`, `mypy`, and `ruff` are **not installed** and were reported
+`NOT RUN / UNAVAILABLE`, never as passing.
+
+**Implementation state is unchanged by integration.** Integration moved
+documentation into a branch; it implemented nothing. `NEW-P2-01` remains
+amendment-affecting, `NEW-P2-02` remains **implementation-blocking**, and
+implementation readiness remains `NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`.
+No scaffold code, Runtime, framework adapter, package loader, frontend, provider
+connection, credential, or deployment exists or is authorized.
+
+**`MELLYCORE-ROADMAP-LOCK-001` remains BLOCKED.** Integration Plan §13
+conditions 1-10 are satisfied; condition 11 — a separate explicit Operator
+authorization — is not.
+
+**Open findings carried forward:** `GT-P3-02`, `CI-P3-01`, `CI-P3-02`,
+`U9-P3-01`, and the two record-content P3 notes. Closed: `GT-P2-01` (durable pin
+record), `GT-P2-02` and `GT-P3-01` (this reconciliation).
+
 ## Agent Runtime Scaffold Review 003 — Documentation Gate PASS_WITH_NON_BLOCKING_FINDINGS, Version 1.2 Accepted as Documentation Only; Implementation NOT READY
 
 `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003` is **complete as one local

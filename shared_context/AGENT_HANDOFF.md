@@ -1,6 +1,72 @@
 # Agent Handoff
 
-## Latest Update — Product Track integration plan governance remediated; no integration performed
+## Latest Update — Product Track Units 1-9 and Governance Tail integrated locally; durable evidence recorded; canonical state reconciled
+
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001`
+
+**Current verified local state.** Branch `integration/mellycore-product-track-001`
+is at `16da3ec2df9b52b203bb16468f90258f2d7f540c`: **44 commits** from canonical
+baseline `947f33d27d5546775186e96bdc61e30db78c0b3d`, **0 merge commits**, every
+commit single-parent. That is the 42-commit nine-unit Product Track plus the two
+reviewed Governance Tail commits. Integration was performed **entirely by
+fast-forward**; zero commits were authored by any integration task.
+
+**Remote canonical `main` has NOT advanced.** `clean-origin/main` remains
+`947f33d27d5546775186e96bdc61e30db78c0b3d`. Nothing has been pushed; no pull
+request exists; no deployment occurred. All work described here is **local only**.
+
+**Completed gate sequence, in order:**
+
+| Gate | Result |
+| --- | --- |
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001` | plan created |
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REVIEW-001` | `FAIL_REMEDIATION_REQUIRED` (P0 0 / P1 1 / P2 1 / P3 0) |
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-001` | both findings remediated |
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-EXECUTION-001` | Units 1-8 integrated to `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5` (40 commits, 8 fast-forwards) |
+| `MELLYCORE-PRODUCT-TRACK-COMPOSED-INTEGRATION-REVIEW-001` | `ACCEPT` (P0 0 / P1 0 / P2 0 / P3 2 — `CI-P3-01`, `CI-P3-02`) |
+| `MELLYCORE-PRODUCT-TRACK-UNIT-9-FRESHNESS-REVIEW-001` | `PASS_WITH_NOTES` (P3 1 — `U9-P3-01`) |
+| `MELLYCORE-PRODUCT-TRACK-UNIT-9-INTEGRATION-001` | Unit 9 integrated to `a0b70ae6c45c640ede4889abeb1f169e5b5a6381` (42 commits) |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-FRESHNESS-REVIEW-001` | `FAIL_REMEDIATION_REQUIRED` — blocking finding `GT-P2-01` |
+| `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-REVIEW-RECORD-001` | durable pin record created; `GT-P2-01` **CLOSED** |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECORD-TIP-REVIEW-001` | `PASS_WITH_NOTES`; target fixed at `16da3ec2…` |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-INTEGRATION-001` | Governance Tail integrated to `16da3ec2df9b52b203bb16468f90258f2d7f540c` (44 commits) |
+
+**`REVIEW_PINNED_GOVERNANCE_TAIL_SHA` =
+`16da3ec2df9b52b203bb16468f90258f2d7f540c`**, published durably in
+`docs/research/MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REMEDIATION_REVIEW_001.md`.
+That artifact is imported here **byte-for-byte** (blob
+`3676e4155df8e11bce7eb7a5266f0480431a383e`) from record commit
+`fefe65a38c8855271a1dab6dcb8c7178f3fb55b9`. The record commit itself was **not**
+cherry-picked, merged, or integrated, and is **not** an ancestor of the
+integration branch.
+
+**Finding disposition:**
+
+- `GT-P2-01` — **CLOSED** (durable pin record exists).
+- `GT-P2-02` — **CLOSED by this task**: this entry replaces the pre-integration
+  narrative that previously presented "no integration performed" as current.
+- `GT-P3-01` — **CLOSED by this task**: the top block now has exactly one
+  `## Latest Update`; the three superseded entries are demoted to `Prior Update`.
+- `GT-P3-02`, `CI-P3-01`, `CI-P3-02`, `U9-P3-01` — **remain OPEN**, non-blocking.
+- Record-content P3 notes (missing negative-identity sentence; missing durable
+  validator-execution section in the pin artifact) — **remain OPEN**, non-blocking.
+
+**Scaffold state unchanged.** `NEW-P2-01` remains amendment-affecting;
+`NEW-P2-02` remains **implementation-blocking**; implementation readiness remains
+`NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`. No scaffold, runtime, frontend,
+provider, or deployment work is authorized or performed.
+
+**`MELLYCORE-ROADMAP-LOCK-001` remains BLOCKED** and out of scope. Its §13
+conditions 1-10 are now satisfied; condition 11 — a separate explicit Operator
+authorization — is not.
+
+- The known foreign scaffold-spec modification in the source worktree remained
+  untouched and unstaged throughout.
+- Exact next task, not started:
+  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001`
+  (independent read-only review of this reconciliation commit).
+
+## Prior Update — Product Track integration plan governance remediated; no integration performed
 
 `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-001`
 
@@ -28,7 +94,7 @@
   `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-REVIEW-001`
   (independent read-only review that must pin the exact remediation commit).
 
-## Latest Update — Product Track integration plan created; no integration performed
+## Prior Update — Product Track integration plan created; no integration performed
 
 `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001`
 
@@ -50,7 +116,7 @@
   `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REVIEW-001` (independent read-only
   review).
 
-## Latest Update — Cross-agent context packet status semantics remediated; F2 integration risk acknowledged, no integration performed
+## Prior Update — Cross-agent context packet status semantics remediated; F2 integration risk acknowledged, no integration performed
 
 `MELLYCORE-CROSS-AGENT-CONTEXT-PACK-REMEDIATION-001`
 

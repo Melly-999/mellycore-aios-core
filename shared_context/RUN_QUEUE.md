@@ -124,6 +124,47 @@ policy violation remains disclosed. PR #28 remains directly untouched, open,
 unmerged, intentionally paused, and `CONFLICTING / DIRTY`; Gate B remains
 `OPEN / NOT EXECUTED`.
 
+## Product Track — Integrated Locally; Publication and Roadmap Lock Still Gated
+
+`integration/mellycore-product-track-001` is at
+`16da3ec2df9b52b203bb16468f90258f2d7f540c`: 44 commits from canonical baseline
+`947f33d27d5546775186e96bdc61e30db78c0b3d`, 0 merges, fast-forward only, zero
+authored commits. Units 1-9 (42 commits) plus the two-commit Governance Tail.
+
+This track does **not** reorder the global higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`, which remains unchanged
+and independently governed in the "Current" section above.
+
+**Completed and closed:**
+
+- `GT-P2-01` — closed by the durable pin record
+  (`REVIEW_PINNED_GOVERNANCE_TAIL_SHA = 16da3ec2df9b52b203bb16468f90258f2d7f540c`).
+- `GT-P2-02`, `GT-P3-01` — closed by
+  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001`.
+
+**Open, non-blocking:** `GT-P3-02`, `CI-P3-01`, `CI-P3-02`, `U9-P3-01`, and two
+record-content P3 notes on the pin artifact (missing negative-identity sentence;
+missing durable validator-execution section).
+
+**Exact next task, not started:**
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001` — an
+independent read-only review of the reconciliation commit. It requires separate
+Operator authorization.
+
+**Still gated, in order, each needing its own explicit Operator authorization:**
+
+1. reconciliation review (above);
+2. publication — push, PR, PR review, canonical merge. **Remote canonical
+   `main` has not advanced**; `clean-origin/main` remains
+   `947f33d27d5546775186e96bdc61e30db78c0b3d`;
+3. `MELLYCORE-ROADMAP-LOCK-001` — **BLOCKED**. Integration Plan §13 conditions
+   1-10 are satisfied; condition 11 (separate Operator authorization) is not.
+
+**Not unblocked by integration.** Scaffold implementation remains blocked behind
+`NEW-P2-02` (implementation-blocking) and readiness
+`NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`. Integration moved documentation
+into a branch; it implemented nothing.
+
 ## 3D Scene Foundation — PR #28 Paused State
 
 The durable product successor after Control Plane specification acceptance,

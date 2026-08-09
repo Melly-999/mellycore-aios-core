@@ -623,6 +623,26 @@ sequence. The global higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
 place, and independently governed.
 
+### Integration status — locally integrated, not pushed
+
+All nine units below, plus a distinct post-Unit-9 Governance Tail, are now
+integrated on the local branch `integration/mellycore-product-track-001` at
+`16da3ec2df9b52b203bb16468f90258f2d7f540c`: **44 commits** from canonical
+baseline `947f33d27d5546775186e96bdc61e30db78c0b3d`, **0 merge commits**,
+fast-forward only, **zero authored commits**. Governance is recorded in
+`docs/tasks/MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001.md` and
+`docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md`.
+
+**Remote canonical `main` has not advanced** — `clean-origin/main` remains
+`947f33d27d5546775186e96bdc61e30db78c0b3d`. Nothing is pushed, merged remotely,
+or deployed. Publication remains a separate, unauthorized step.
+
+**Integration changed no implementation state.** Every entry below that reads
+"specification only" or "documentation only" still does. `NEW-P2-02` remains
+implementation-blocking and readiness remains
+`NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`. `MELLYCORE-ROADMAP-LOCK-001`
+remains **blocked** pending separate Operator authorization.
+
 1. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **complete as one local
    documentation commit; not pushed.** Canonical specification:
    `docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md`. Durable
