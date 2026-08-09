@@ -297,6 +297,7 @@ modified.
 
 Exact next canonical action, not started:
 `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
+— READ-ONLY, requiring its own separate Operator authorization.
 
 ## 16. Subsequent review — remediation-001 failed; remediation-002 applied
 
@@ -347,5 +348,86 @@ provider execution is performed or authorized by this remediation.
 
 Exact next canonical action, not started:
 `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`
-(read-only).
 — READ-ONLY, requiring its own separate Operator authorization.
+
+## 17. Second subsequent review — remediation-002 partially failed; remediation-003 applied
+
+| Item | Value |
+| --- | --- |
+| Review task | `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002` |
+| Reviewed tip | `6ccbbed5280997bc9e1141015eb9559551976529` (resolved from Git, not supplied by the remediation) |
+| Outcome | `FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_002` |
+| Counts | P0 0 / P1 0 / **P2 1 (blocking)** / P3 3 |
+| Blocking finding | `RRR-P2-01` — `OPEN_BLOCKING` |
+| Non-blocking | `RRR-P3-01`, `RRR-P3-02`, `RRR-P3-03` |
+| Preferred target | `PREFERRED_RECONCILIATION_INTEGRATION_TARGET = AMENDMENT_REQUIRED` |
+
+**Mechanically verified at the reviewed tip.** Lineage `16da3ec2…` →
+`493dc86…` → `ea0d20ee…` → `6ccbbed…`: **3 documentation/governance descendants
+after the checkpoint, 47 cumulative commits from baseline, 0 merge commits**;
+`16da3ec2…` confirmed an ancestor of the reviewed tip, so a fast-forward is
+mechanically possible. Path scope was exactly the six authorized Markdown files
+with no adds, deletes, or mode changes, and the pin artifact was byte-identical.
+
+**`RRR-P2-01` — blocking.** Remediation-002's two *named* fixes were verified
+genuinely applied, but the semantically identical assertions in the same
+paragraphs survived: five canonical current-state locations still modelled the
+lineage as **two** descendants integrating to **46** cumulative commits, and the
+verified figure **47** appeared nowhere in the repository. Because those
+statements are present-tense and unqualified, two of them (in `ROADMAP.md`) were
+already false before any integration, and all of them would have been falsified
+by the integration this review was gating — the `RC-P2-01` / `RR-P2-01` defect
+class recurring in numeric form. `RR-P2-01` was accordingly disposed
+`PARTIALLY_CLOSED` rather than closed.
+
+**Non-blocking findings.** `RRR-P3-01`: remediation-002 orphaned §15's closing
+qualifier to end-of-file. `RRR-P3-02`: `RUN_QUEUE.md` used invalid `2a.` / `2b.`
+Markdown ordered-list markers. `RRR-P3-03`: remediation-002 and review-002 were
+produced by the same agent in the same session, so review-002 did not satisfy
+author independence.
+
+**Remediation applied:** `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-003`
+— one additive commit on a new branch created from
+`6ccbbed5280997bc9e1141015eb9559551976529`. It corrects the lineage cardinality
+to three reviewed descendants across `PROJECT_STATE`, `ROADMAP`, `RUN_QUEUE`,
+and `TASK_INDEX`, and adds the remediation-002 row to the Distinct-states table.
+`RRR-P3-01` and `RRR-P3-02` are repaired.
+
+**The count model, and why no final total is stated.** Every count is now
+expressed as an **immutable property of a named commit** — "N cumulative commits
+from baseline to `X`" stays true regardless of what is committed after `X`. The
+checkpoint carries 44; the reviewed remediation-002 tip carries 47. No document
+states a final integrated total, because remediation-003 itself adds a further
+descendant: any fixed total written here would be falsified by the commit that
+writes it. That is precisely the loop this remediation chain has been closing,
+and repeating `46 → 47` as an unconditional forecast would have opened a fourth
+iteration of it. The integrating task must instead resolve the exact target SHA,
+descendant count, cumulative count, and merge count from Git at authorization
+time.
+
+**Finding disposition after remediation-003:** `RRR-P2-01` =
+`REMEDIATED_PENDING_INDEPENDENT_REVIEW`; `RRR-P3-01` and `RRR-P3-02` =
+`REMEDIATED_PENDING_INDEPENDENT_REVIEW`; `RRR-P3-03` remains **OPEN** and cannot
+be closed by editing repository content — it is a process requirement binding on
+review-003. `RR-P2-01` remains `PARTIALLY_CLOSED` pending confirmation that its
+residual class is now fully addressed. `RC-P2-01` = `CLOSED_BY_REMEDIATION_LINEAGE`;
+`RC-P3-01` = `CLOSED`; `RC-P3-02` = `OPEN_NONBLOCKING`. This remediation cannot
+declare its own findings finally closed, and **cannot declare its own SHA,
+descendant count, or cumulative count** — the next independent review must
+resolve all of them from Git.
+
+**Unchanged:** `MELLYCORE-ROADMAP-LOCK-001` remains `BLOCKED` and out of scope;
+implementation readiness remains `NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`;
+`NEW-P2-01` remains amendment-affecting and `NEW-P2-02` implementation-blocking;
+frontend remains **not** unlocked; `REVIEW_PINNED_GOVERNANCE_TAIL_SHA =
+16da3ec2df9b52b203bb16468f90258f2d7f540c` with `PIN_EQUALITY_SCOPE =
+GOVERNANCE_TAIL_ADMISSION_ONLY`; the imported pin artifact
+(`docs/research/MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REMEDIATION_REVIEW_001.md`,
+blob `3676e4155df8e11bce7eb7a5266f0480431a383e`) remains byte-identical and was
+not modified. No integration, merge, push, pull request, deployment, or provider
+execution is performed or authorized by this remediation.
+
+Exact next canonical action, not started:
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003`
+— READ-ONLY, requiring its own separate Operator authorization, and per
+`RRR-P3-03` performed in a fresh session or by a different agent.

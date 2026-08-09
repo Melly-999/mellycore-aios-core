@@ -1,6 +1,43 @@
 # Agent Handoff
 
-## Latest Update — Remediation-001 review failed on residual self-staleness; remediation-002 applied
+## Latest Update — Remediation-002 review failed on lineage cardinality; remediation-003 applied
+
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`
+resolved the remediation-002 tip from Git as
+`6ccbbed5280997bc9e1141015eb9559551976529` and returned
+`FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_002`
+(P0 0 / P1 0 / **P2 1 blocking** / P3 3). It confirmed remediation-002's two
+named fixes were genuinely applied, but found blocking `RRR-P2-01`: the canonical
+documents still modelled the lineage as **two** descendants / **46** cumulative
+commits, while the verified shape through `6ccbbed…` is **three descendants, 47
+cumulative commits from baseline, 0 merges**. `RR-P2-01` was therefore disposed
+`PARTIALLY_CLOSED`.
+
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-003`
+(one additive commit from `6ccbbed…`) corrects the cardinality and repairs
+non-blocking `RRR-P3-01` and `RRR-P3-02`. Full detail: §17 of
+`docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md`.
+
+**Count model.** Counts are now stated only as immutable properties of named
+commits — checkpoint `16da3ec2…` carries **44**, reviewed tip `6ccbbed…` carries
+**47**. **No final integrated total is published anywhere**, because
+remediation-003 adds a further descendant and any fixed total would be falsified
+by the commit stating it. The integrating task resolves the exact target SHA and
+all graph counts from Git at authorization time. Remediation-003 does not
+self-declare its own SHA or counts.
+
+**Findings.** `RRR-P2-01`, `RRR-P3-01`, `RRR-P3-02` =
+`REMEDIATED_PENDING_INDEPENDENT_REVIEW`. `RRR-P3-03` (author independence)
+remains **OPEN** and cannot be closed by editing repository content.
+
+- Exact next task, not started:
+  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003`
+  — independent read-only review that must resolve the remediation-003 tip and
+  derive its descendant/cumulative/merge counts from Git. Per `RRR-P3-03` it
+  must run in a **fresh session or by a different agent**. No integration,
+  Roadmap Lock, or implementation work is queued ahead of it.
+
+## Prior Update — Remediation-001 review failed on residual self-staleness; remediation-002 applied
 
 `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
 returned `FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_001`
@@ -21,11 +58,10 @@ until the next independent review passes.
 The canonical state model below (from remediation-001) is otherwise
 unchanged and remains in force.
 
-- Exact next task, not started:
-  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`
-  (independent read-only review that must resolve and pin the remediation-002
-  commit's exact SHA). No integration, Roadmap Lock, or implementation work is
-  queued ahead of it.
+- At the time this entry was authored, the exact next task was
+  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`.
+  That review has since completed (`FAIL_REMEDIATION_REQUIRED`) — see "Latest
+  Update" above for its outcome and the current next task.
 
 ## Prior Update — Reconciliation state semantics remediated; integration-invariant checkpoint model adopted
 
@@ -60,6 +96,10 @@ by a separately authorized publication sequence. Everything recorded here is
 **local**.
 
 ### Expected effect of a future authorized integration
+
+*Superseded — historical, scoped to the remediation-001 lineage only. The
+lineage has since grown; see "Latest Update" above for the current model and the
+Git-resolution rule. Do not read the count below as a current or final total.*
 
 If the exact reconciliation lineage
 `16da3ec2…` → `493dc86…` → *this remediation commit* passes independent review

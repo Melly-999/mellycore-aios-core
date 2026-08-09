@@ -135,10 +135,19 @@ That is a permanent property of the checkpoint commit. **Resolve the live tip of
 identity matters.
 
 **Reconciliation lineage (documentation-only, on separate local branches):**
-checkpoint → `493dc86ba1f56d854876e7d2a741253d52283bef` → remediation tip
-(SHA not self-declared; the next review resolves and pins it). Integrating that
-lineage would give 46 cumulative commits, 0 merges, subject to fresh
-verification by the integrating task.
+checkpoint → `493dc86ba1f56d854876e7d2a741253d52283bef` →
+`ea0d20ee7533b99360c76d1c5cee609dd2ce2aa1` →
+`6ccbbed5280997bc9e1141015eb9559551976529`. Through that independently reviewed
+remediation-002 tip the shape is **3 descendants after the checkpoint, 47
+cumulative commits from baseline, 0 merges** — immutable properties of the
+commit `6ccbbed…`, verified by remediation review 002.
+
+A further remediation descendant exists beyond that reviewed tip (SHA not
+self-declared; the next review resolves and pins it). **No final integrated
+total is stated here**, because each remediation adds a descendant and any fixed
+total would be stale on arrival. The integrating task must resolve the exact
+target SHA, descendant count, cumulative count, and merge count from Git at
+authorization time.
 
 This track does **not** reorder the global higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`, which remains unchanged
@@ -157,37 +166,57 @@ and independently governed in the "Current" section above.
 independently confirmed by
 `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`.
 
-**Remediated, pending independent review:** `RR-P2-01` — that same review
-also found two residual State-B-stale assertions (`PROJECT_STATE.md`'s
-checkpoint-table "current HEAD" label; `ROADMAP.md`'s unconditional "Neither
-is integrated"), returning
+**Partially closed:** `RR-P2-01` — remediation review 001 also found two
+residual State-B-stale assertions (`PROJECT_STATE.md`'s checkpoint-table
+"current HEAD" label; `ROADMAP.md`'s unconditional "Neither is integrated"),
+returning
 `FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_001`.
 `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-002` fixed
-both with integration-invariant/time-anchored wording; `RR-P2-01` =
-`REMEDIATED_PENDING_INDEPENDENT_REVIEW`.
+both named assertions; remediation review 002 independently confirmed those two
+fixes but disposed `RR-P2-01` as `PARTIALLY_CLOSED`, because the equivalent
+lineage-cardinality and future-count assertions in the same paragraphs survived.
+
+**Remediated, pending independent review:** `RRR-P2-01` — remediation review 002
+returned
+`FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_002`
+on canonical documents still modelling the lineage as two descendants / 46
+cumulative commits when the mechanically verified reviewed shape through
+`6ccbbed…` is three descendants / 47 cumulative / 0 merges.
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-003`
+corrected the cardinality and replaced fixed future-total projections with
+commit-relative counts plus a Git-resolution rule.
 
 **Open, non-blocking:** `GT-P3-02`, `CI-P3-01`, `CI-P3-02`, `U9-P3-01`,
-`RC-P3-02`, and two record-content P3 notes on the pin artifact (missing
-negative-identity sentence; missing durable validator-execution section).
+`RC-P3-02`, `RRR-P3-03` (author-independence: the next review must run in a
+fresh session or by a different agent — it cannot be closed by editing
+repository content), and two record-content P3 notes on the pin artifact
+(missing negative-identity sentence; missing durable validator-execution
+section).
 
 **Bounded sequence, each step needing its own explicit Operator authorization:**
 
-1. reconciliation remediation — **complete**;
+1. reconciliation remediation 001 — **complete**;
 2. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
    — **complete**, `FAIL_REMEDIATION_REQUIRED` on `RR-P2-01`;
-2a. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-002`
+3. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-002`
+   — **complete**;
+4. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`
+   — **complete**, `FAIL_REMEDIATION_REQUIRED` on `RRR-P2-01`;
+5. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-003`
    — **complete** (this entry);
-2b. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`
-   — **the immediate next task**, READ-ONLY, not started;
-3. if PASS, separately authorized exact-tip reconciliation integration
+6. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003`
+   — **the immediate next task**, READ-ONLY, not started. Per `RRR-P3-03` it
+   must be performed in a fresh session or by a different agent, and must
+   resolve the remediation-003 tip and its exact graph counts from Git;
+7. if PASS, separately authorized exact-tip reconciliation integration
    (ff-only) naming the reviewed remediation SHA;
-4. post-integration verification;
-5. publication — push, PR, PR review, canonical merge. Remote canonical `main`
+8. post-integration verification;
+9. publication — push, PR, PR review, canonical merge. Remote canonical `main`
    was `947f33d27d5546775186e96bdc61e30db78c0b3d` at authoring time and advances
    only under its own authorization;
-6. `MELLYCORE-ROADMAP-LOCK-001` — **BLOCKED**. Integration Plan §13 conditions
-   1-10 are satisfied; conditions relating to the reconciled tail head and
-   condition 11 (separate Operator authorization) are not.
+10. `MELLYCORE-ROADMAP-LOCK-001` — **BLOCKED**. Integration Plan §13 conditions
+    1-10 are satisfied; conditions relating to the reconciled tail head and
+    condition 11 (separate Operator authorization) are not.
 
 **Foreign source-worktree state is volatile** and outside this track's
 authority. Any mutation task must take a fresh read-only snapshot rather than

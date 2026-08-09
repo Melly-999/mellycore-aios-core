@@ -63,10 +63,16 @@ under its own authorization.
 fast-forward only, zero authored commits. That is a permanent property of the
 checkpoint commit; **resolve the live tip of
 `integration/mellycore-product-track-001` from Git** when current tip identity
-matters. Two documentation-only descendants exist on separate local branches
-(reconciliation candidate `493dc86ba1f56d854876e7d2a741253d52283bef` and a
-remediation tip whose SHA the next review resolves and pins); neither was
-integrated at authoring time.
+matters. Documentation-only descendants exist on separate local branches.
+Through the independently reviewed remediation-002 tip
+`6ccbbed5280997bc9e1141015eb9559551976529` the lineage is
+`16da3ec2…` → `493dc86ba1f56d854876e7d2a741253d52283bef` →
+`ea0d20ee7533b99360c76d1c5cee609dd2ce2aa1` → `6ccbbed…` — **three descendants
+after the checkpoint, 47 cumulative commits from baseline, 0 merges**, immutable
+properties of `6ccbbed…`. A further remediation descendant exists beyond that
+reviewed tip; its SHA and resulting graph counts are resolved from Git by the
+next independent review and are deliberately not predicted here. No
+reconciliation-lineage descendant was integrated at authoring time.
 
 | Task ID | Status | Evidence |
 |---|---|---|
@@ -86,7 +92,9 @@ integrated at authoring time.
 | `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-001` | `COMPLETE` (local, not pushed) — replaced live-tip assertions with integration-invariant checkpoint semantics across the five canonical documents; corrected this index's stale review row; imported pin artifact left byte-identical. `RC-P2-01` and `RC-P3-01` `CLOSED_PENDING_INDEPENDENT_REVIEW`; commit SHA deliberately not self-declared | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` (§ Subsequent independent review / remediation) |
 | `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001` | `COMPLETE` (local, not pushed) — gate `FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_001`; blocking `RR-P2-01` (two residual State-B-stale assertions: `PROJECT_STATE.md` "current HEAD" label, `ROADMAP.md` unconditional "Neither is integrated"); `RC-P3-01` `CLOSED`, `RC-P3-02` `OPEN_NONBLOCKING` | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` (§16) |
 | `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-002` | `COMPLETE` (local, not pushed) — fixed both `RR-P2-01` assertions with integration-invariant/time-anchored wording; `RR-P2-01` = `REMEDIATED_PENDING_INDEPENDENT_REVIEW`; commit SHA deliberately not self-declared | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` (§16) |
-| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002` | `ELIGIBLE` | Independent read-only review of the remediation-002 tip; must resolve and pin its exact SHA from Git. Not authorized, not started. |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002` | `COMPLETE` (local, not pushed) — gate `FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_002` (P0 0 / P1 0 / **P2 1 blocking** / P3 3); `PREFERRED_RECONCILIATION_INTEGRATION_TARGET = AMENDMENT_REQUIRED`. Resolved the remediation-002 tip as `6ccbbed5280997bc9e1141015eb9559551976529` and verified 3 descendants / 47 cumulative / 0 merges. Blocking `RRR-P2-01` (canonical docs still modelled two descendants / 46 commits); non-blocking `RRR-P3-01`, `RRR-P3-02`, `RRR-P3-03`. Confirmed both `RR-P2-01` named fixes genuinely applied but disposed `RR-P2-01` `PARTIALLY_CLOSED`; `RC-P2-01` `CLOSED_BY_REMEDIATION_LINEAGE`, `RC-P3-01` `CLOSED` | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` (§17) |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-003` | `COMPLETE` (local, not pushed) — corrected lineage cardinality to three reviewed descendants, replaced fixed future-total projections with commit-relative counts plus a Git-resolution rule, repaired `RRR-P3-01` and `RRR-P3-02`; `RRR-P2-01` = `REMEDIATED_PENDING_INDEPENDENT_REVIEW`; commit SHA deliberately not self-declared | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` (§17) |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003` | `ELIGIBLE` | Independent read-only review of the remediation-003 tip; must resolve its exact SHA and mechanically derive descendant, cumulative, and merge counts from Git. Per `RRR-P3-03` it must run in a fresh session or by a different agent. Not authorized, not started. |
 | Reconciliation-lineage integration (exact reviewed tip, ff-only) | `BLOCKED` | Plain-name item; no identifier minted. Requires a passing remediation review and separate explicit Operator authorization naming the exact SHA. |
 | Publication (push / PR / PR review / canonical merge) | `BLOCKED` | Plain-name item; no identifier minted. Requires separate explicit Operator authorization per Integration Plan §12. |
 | `MELLYCORE-ROADMAP-LOCK-001` | `BLOCKED` | Integration Plan §13 conditions 1-10 satisfied; condition 11 (separate explicit Operator authorization) outstanding. Not minted, drafted, or executed. |

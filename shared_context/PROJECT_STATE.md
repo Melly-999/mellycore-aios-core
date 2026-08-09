@@ -2609,14 +2609,21 @@ identity matters, resolve it from Git:**
 | Concept | Value |
 | --- | --- |
 | Canonical baseline (remote `clean-origin/main`) | `947f33d27d5546775186e96bdc61e30db78c0b3d` |
-| Verified Governance-Tail integration checkpoint | `16da3ec2df9b52b203bb16468f90258f2d7f540c` (44 commits, 0 merges) |
-| Reconciliation candidate (documentation-only descendant) | `493dc86ba1f56d854876e7d2a741253d52283bef` |
-| Remediation tip (documentation-only descendant) | *not self-declared; resolved and pinned by the next independent review* |
+| Verified Governance-Tail integration checkpoint | `16da3ec2df9b52b203bb16468f90258f2d7f540c` — 44 cumulative commits, 0 merges |
+| Reconciliation candidate — 1st documentation-only descendant | `493dc86ba1f56d854876e7d2a741253d52283bef` |
+| Remediation-001 — 2nd documentation-only descendant | `ea0d20ee7533b99360c76d1c5cee609dd2ce2aa1` |
+| Remediation-002 — 3rd documentation-only descendant, independently reviewed | `6ccbbed5280997bc9e1141015eb9559551976529` — 47 cumulative commits, 0 merges |
+| Remediation-003 — subsequent documentation-only descendant | *not self-declared; exact SHA and graph shape resolved from Git by the next independent review* |
 | Live integration branch tip | *resolve from Git* |
 
+Every cumulative count in that table is an **immutable property of the named
+commit**: "N cumulative commits from baseline to `X`" remains true no matter what
+is committed after `X`. None of those counts is a claim about where any branch
+currently points, and none is a prediction of a final integrated total.
+
 **At the time this section was last written**,
-`integration/mellycore-product-track-001` pointed at the verified checkpoint, and
-neither reconciliation-lineage commit was integrated — each sat on its own
+`integration/mellycore-product-track-001` pointed at the verified checkpoint and
+no reconciliation-lineage descendant had been integrated — each sat on its own
 separate local branch.
 
 **Remote canonical `main` is separately gated.** `clean-origin/main` was
@@ -2625,12 +2632,28 @@ under a separately authorized publication sequence. No push, pull request,
 remote mutation, or deployment has been performed by any task in this lineage.
 This state is **local**.
 
-**Expected effect of a future authorized integration.** If the exact lineage
-`16da3ec2…` → `493dc86…` → *remediation tip* passes independent review and
-receives separate Operator authorization, a bounded fast-forward adds exactly
-**two** documentation/governance commits after the checkpoint — **46 cumulative
-commits, 0 merge commits** — subject to fresh graph verification by that task.
-No integration is authorized by this record.
+**Mechanically verified reviewed lineage shape.** The lineage `16da3ec2…` →
+`493dc86…` → `ea0d20ee…` → `6ccbbed…` was verified from Git objects by
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`:
+**3 documentation/governance descendants after the checkpoint, 47 cumulative
+commits from baseline, 0 merge commits.** That is a fact about the commit
+`6ccbbed…` — not a forecast, and not a statement that any branch points there.
+
+**Effect of a future authorized integration — total deliberately not predicted
+here.** Remediation-003 adds a further descendant to this lineage, so any fixed
+final total written into this document would be falsified by the very act of
+writing it. The integrating task must therefore resolve the exact target SHA,
+descendant count, cumulative count, and merge count **from Git at authorization
+time**:
+
+```
+git rev-list --count        947f33d27d5546775186e96bdc61e30db78c0b3d..<target>
+git rev-list --merges --count 947f33d27d5546775186e96bdc61e30db78c0b3d..<target>
+git rev-list --count        16da3ec2df9b52b203bb16468f90258f2d7f540c..<target>
+```
+
+Integration remains ff-only, bounded, and separately authorized. No integration
+is authorized by this record.
 
 | Checkpoint | SHA | Cumulative commits |
 | --- | --- | ---: |

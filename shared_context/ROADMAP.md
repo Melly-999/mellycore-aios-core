@@ -635,17 +635,28 @@ branch tip; **resolve the live tip from Git when it matters**. Governance is
 recorded in `docs/tasks/MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001.md` and
 `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md`.
 
-**Next governance sequence — reconciliation lineage.** Two documentation-only
-descendants of the checkpoint exist on separate local branches: reconciliation
-candidate `493dc86ba1f56d854876e7d2a741253d52283bef` and a remediation tip whose
-SHA is deliberately not self-declared. At the time this section was last
-written, neither descendant had been integrated into the Product Track
-integration branch; live branch-tip identity must be resolved from Git
-(`git rev-parse integration/mellycore-product-track-001`), not assumed from
-this sentence. The sequence is: remediation → independent remediation review
-→ (if PASS) separately authorized exact-tip integration → post-integration
-verification. A bounded fast-forward of that lineage would yield **46
-cumulative commits, 0 merges**, subject to fresh verification by that task.
+**Next governance sequence — reconciliation lineage.** Documentation-only
+descendants of the checkpoint exist on separate local branches. Through the
+independently reviewed remediation-002 tip
+`6ccbbed5280997bc9e1141015eb9559551976529`, the lineage is exactly
+`16da3ec2…` → `493dc86ba1f56d854876e7d2a741253d52283bef` →
+`ea0d20ee7533b99360c76d1c5cee609dd2ce2aa1` → `6ccbbed…` — **three
+documentation-only descendants after the checkpoint, 47 cumulative commits from
+baseline, 0 merges**, mechanically verified by
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`.
+Those counts are immutable properties of the commit `6ccbbed…`, not a forecast.
+
+A further remediation descendant exists beyond that reviewed tip; its SHA is
+deliberately not self-declared here, and **its resulting lineage shape is not
+predicted in this document** — a fixed total stated here would be falsified by
+the commit that states it. At the time this section was last written, no
+reconciliation-lineage descendant had been integrated into the Product Track
+integration branch; live branch-tip identity and the exact integrated totals
+must be resolved from Git
+(`git rev-parse integration/mellycore-product-track-001`;
+`git rev-list --count 947f33d2…..<target>`), not assumed from this sentence.
+The sequence is: remediation → independent remediation review → (if PASS)
+separately authorized exact-tip integration → post-integration verification.
 
 **Remote canonical `main` is separately gated** — `clean-origin/main` was
 `947f33d27d5546775186e96bdc61e30db78c0b3d` at authoring time. Nothing is pushed,
