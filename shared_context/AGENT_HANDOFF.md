@@ -1,6 +1,100 @@
 # Agent Handoff
 
-## Latest Update — Batch authorization publication state synchronized in living documents (local commit; not yet pushed)
+## PR #35 living-state reconciliation handoff
+
+`MELLYCORE-OPENAI-BATCH-PR35-LIVING-STATE-RECONCILIATION-REMEDIATION-001`
+
+This handoff uses three semantic layers. Recorded observations are immutable,
+time-scoped evidence; gate ordering is durable governance; operational state
+must be re-derived before action. Tracked Markdown does not permanently
+establish a remote head, review count, thread state, publication state, or
+active task.
+
+### Recorded historical snapshot — verified 2026-08-09T17:01:21Z
+
+Read every value in this subsection as an observation at the timestamp above,
+not as a promise about later GitHub state.
+
+- PR #35 was `OPEN`, base `main` at
+  `947f33d27d5546775186e96bdc61e30db78c0b3d`, published head
+  `08709ede7e32ec75c5e3ef7aaec724c2b68b1e35`, with 5 published commits and
+  5 changed files.
+- GitHub reported 3/3 successful checks and 4 `COMMENTED` reviews.
+- Target thread `PRRT_kwDOTQjWMs6VhoHo` was `RESOLVED`; the PR had 0
+  unresolved review threads.
+- Durable acceptance review `4891742878`
+  (`PRR_kwDOTQjWMs8AAAABI5ISng`) recorded
+  `RESULT: PASS_EXACT_HEAD_ACCEPTED` for exact head `08709ede…`, submitted
+  `2026-08-09T15:37:01Z` while the target thread was unresolved.
+- The auditable acceptance-to-resolution sequence was complete: thread
+  reopen; independent exact-head acceptance; durable acceptance evidence;
+  and separate re-resolution. The thread was observed unresolved at
+  `2026-08-09T15:50:29Z`; re-resolution was verified at
+  `2026-08-09T15:53:31Z`. `PR35-P2-02` was therefore `REMEDIATED`.
+- `DAI-P2-01` remained a `KNOWN_NONBLOCKING_AUDIT_FINDING`: the earlier
+  durable-review task exceeded its literal mutation contract while recovering
+  from a malformed pending review, but the final durable acceptance artifact
+  remains valid. No cleanup is requested by this record.
+- `MELLYCORE-OPENAI-BATCH-PR35-FINAL-PREMERGE-VERIFICATION-002` had returned
+  `FAIL_REMEDIATION_REQUIRED` for `PR35-P2-03` (live PR-body contradiction)
+  and `PR35-P2-04` (published-head living-document contradictions).
+
+### Durable living-state contract
+
+1. Historical facts stay attached to their task, timestamp, and exact SHA.
+2. Before any state-changing task, re-derive the live PR state, base and head,
+   commit/file counts, checks, reviews, target-thread state, unresolved-thread
+   count, publication state, and latest accepted governance evidence from
+   canonical `clean-origin` and GitHub.
+3. Local commit existence is not remote publication. Publication is not
+   independent acceptance. Acceptance is not thread resolution. Resolution is
+   not merge authorization. Merge authorization is not provider, live-smoke,
+   Batch, spend, or deployment authority.
+4. Ordered gates remain binding even as completion state changes. Select an
+   executable task only after live re-derivation; do not infer it from an old
+   `CURRENT` or `NEXT` label in tracked prose.
+
+### Durable forward gate order
+
+1. Independently review the fresh living-state remediation.
+2. Only after review PASS, separately authorize publication of the exact
+   reviewed remediation head to PR #35.
+3. After publication, separately reconcile the live PR body for `PR35-P2-03`
+   against the actual published head.
+4. Re-run exact-head checks and independent-acceptance governance required by
+   the changed PR head.
+5. Perform a fresh final pre-merge verification.
+6. Only after that verification PASS may a separate merge task be considered.
+
+This order does not assert which gate is live or complete when read. Re-derive
+that status before choosing an action.
+
+### Scope and safety boundary
+
+This repository-document remediation addresses `PR35-P2-04` locally and
+requires independent review. `PR35-P2-03` remains separate and open: this
+task does not edit or reconcile the live PR body. That finding can be
+remediated only by a separately authorized GitHub PR-body mutation after the
+correct reviewed and published head is known.
+
+`PROVIDER_AUTHORIZATION = NO`; `MIGRATION_TRIGGER_5 = NOT_CROSSED`;
+`POLICY_TRANSITION = SPECIFIED_ONLY`;
+`POLICY_TRANSITION_IMPLEMENTATION = NOT_AUTHORIZED`;
+`LIVE_PROVIDER_ACCESS = NO`; `LIVE_SMOKE_EXECUTION = NO`;
+`BATCH_EXECUTION = NO`; `SPEND_AUTHORIZATION = NO`;
+`MERGE_AUTHORIZATION = NO`; `DEPLOYMENT_AUTHORIZATION = NO`.
+
+No statement in this section authorizes push, PR mutation, review or thread
+mutation, merge, deployment, provider access, Batch execution, live smoke,
+migration, or spend.
+
+## Historical record — remediation 003 creation snapshot
+
+The subsection below is retained as time-scoped provenance of
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-LIVING-DOCUMENT-PUBLICATION-STATE-SYNC-001`
+at its creation. Its head, thread, publication, and task-pointer statements
+are not live operational instructions; the reconciliation handoff above
+supersedes them for governance navigation.
 
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-LIVING-DOCUMENT-PUBLICATION-STATE-SYNC-001`
 
@@ -50,7 +144,7 @@
 - This task does not push, edit the PR body, comment, submit a review,
   reply to or resolve the P1 thread, merge, deploy, connect to a provider,
   or spend.
-- Exact next task:
+- Exact next task at that historical task-creation point:
   `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-PR-REVIEW-001`
   — after this commit is separately authorized and pushed, an independent
   PR-level review of the newly published head must confirm F-01 is
@@ -59,7 +153,7 @@
   blocked. P1 resolution, merge, provider access, and execution remain
   separately gated and are not authorized by this task.
 
-### Safety state
+### Safety state at that historical task-creation point
 
 `PR_35_LIVING_DOCUMENT_SYNC_LOCAL_NOT_PUSHED`,
 `PR_35_PR_LEVEL_REVIEW_RETURNED_REMEDIATION_REQUIRED_ON_F01`,
@@ -71,9 +165,13 @@ Stage C execution, P1 reply, thread resolution, comment, review, or merge
 occurred during this task. PR #28 remains directly untouched and Gate B
 remains `OPEN / NOT EXECUTED`.
 
-## Previous Update — Batch execution-baseline supersession and future test contract remediated (published; PR-level review found living-document staleness only)
+## Historical Record — Batch execution-baseline supersession and future test contract remediation
 
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-002`
+
+This entire record is time-scoped to that remediation and its immediate
+reviews. Present-tense wording inside it describes the state observed then,
+not live PR #35 state; use the reconciliation handoff above before action.
 
 ### First remediation independently rejected
 
@@ -132,7 +230,7 @@ remains `OPEN / NOT EXECUTED`.
   unreviewed, and unpushed; that was a time-scoped creation fact. It was
   subsequently pushed to `docs/mellycore-openai-batch-live-smoke-authorization-001`
   as commit `159701e045abcce104e3037bb2ba97aa571761f0` and published as the
-  current PR #35 head.
+  then-current PR #35 head at that recorded step.
 - The independent local review that followed returned
   `PASS_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_002_REVIEW_001`.
   A published evidence reply (`PRRC_kwDOTQjWMs7cRJKy`) recorded that result
@@ -152,9 +250,12 @@ provider connection, upload, Batch operation, spending, trigger crossing, or
 Stage C execution occurred. PR #28 remains directly untouched and Gate B
 remains `OPEN / NOT EXECUTED`.
 
-## Previous Update — PR #35 P1 policy-transition finding assessed valid/blocking; documentation remediation created (subsequently published — see "Latest Update" above)
+## Historical Record — PR #35 P1 policy-transition finding and remediation 001
 
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-001`
+
+This entire record is time-scoped to remediation 001. Its head, thread, and
+publication statements describe that historical task point only.
 
 ### PR #35 merge preflight stopped on a new unresolved P1 finding
 
@@ -169,7 +270,8 @@ remains `OPEN / NOT EXECUTED`.
   `2026-07-31T20:15:18Z`, "Permit the required policy transition") was found
   during Phase 4 review-thread inspection, outside the two non-blocking notes
   the prior independent PR review had already accounted for. No merge
-  occurred; PR #35 remains open and unmerged at that same head.
+  occurred; at that historical point PR #35 remained open and unmerged at
+  that same head.
 - A dedicated, read-only independent assessment task then returned
   `VALID_BLOCKING_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_FINDING_ASSESSMENT_001`.
   It confirmed from actual source: `scripts/mellycore_batch/policy.py`
@@ -221,8 +323,9 @@ remains `OPEN / NOT EXECUTED`.
 - This remediation's own review returned
   `REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_REVIEW_001`
   (B-01/B-02, see above); remediation 002 repaired both — see "Latest
-  Update" above for the currently verified state. The P1 thread remains
-  unresolved and was not replied to or resolved by this task.
+  reconciliation handoff above for the later time-scoped snapshot. At this
+  historical task point the P1 thread remained unresolved and was not replied
+  to or resolved by this task.
 
 ### Safety state (historical, at this task's creation)
 

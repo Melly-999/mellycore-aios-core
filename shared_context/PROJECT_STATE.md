@@ -756,12 +756,85 @@ immediate post-smoke restoration of the fail-closed policy afterward.
 `STAGE_C_ONE_EXACT_LIVE_BATCH_SMOKE_AUTHORIZATION_PROPOSED_NOT_EXECUTED`,
 `USD_0_01_MAXIMUM_SPEND_PROPOSED_NOT_SPENT`,
 `MIGRATION_TRIGGER_5_EXACT_CROSSING_PROPOSED_NOT_CROSSED`, and
-`PROVIDER_CONNECTION_NOT_EXECUTED` all hold. The exact immediate next task is
+`PROVIDER_CONNECTION_NOT_EXECUTED` all held at that decision snapshot. Its
+then-immediate next task was
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh
 independent review of this authorization record, required before
 publication, PR review, merge, or any execution attempt. Task-record
 next-task fields remain creation-time historical snapshots, superseded by
 this file, `AGENT_HANDOFF.md`, and `RUN_QUEUE.md`.
+
+### PR #35 living-state reconciliation contract
+
+`MELLYCORE-OPENAI-BATCH-PR35-LIVING-STATE-RECONCILIATION-REMEDIATION-001`
+separates durable project truth into three layers:
+
+- **Recorded history:** facts bound to an exact task, timestamp, and SHA remain
+  valid as historical evidence.
+- **Durable governance:** required gate order remains binding without
+  asserting which gate is presently active.
+- **Live operations:** before any state-changing task, re-derive PR state,
+  base/head, counts, checks, reviews, thread state, unresolved-thread count,
+  publication state, and the latest accepted governance evidence from
+  canonical `clean-origin` and GitHub. Tracked Markdown is not a live-state
+  oracle.
+
+Local commit existence is distinct from remote publication; publication from
+independent acceptance; acceptance from thread resolution; resolution from
+merge authorization; and merge authorization from provider, live-smoke,
+Batch, spend, or deployment authorization.
+
+**Time-scoped PR #35 snapshot — verified 2026-08-09T17:01:21Z.** At that
+verification point, PR #35 was `OPEN`, base `main` at
+`947f33d27d5546775186e96bdc61e30db78c0b3d`, published head
+`08709ede7e32ec75c5e3ef7aaec724c2b68b1e35`, 5 published commits, 5 changed
+files, 3/3 successful checks, and 4 `COMMENTED` reviews. Target thread
+`PRRT_kwDOTQjWMs6VhoHo` was `RESOLVED`; unresolved-thread count was 0.
+
+Durable review `4891742878` (`PRR_kwDOTQjWMs8AAAABI5ISng`) submitted
+`2026-08-09T15:37:01Z` recorded `RESULT: PASS_EXACT_HEAD_ACCEPTED` for exact
+head `08709ede…` while the target thread was unresolved. The subsequent
+acceptance-to-resolution sequence was valid: reopen, independent exact-head
+acceptance, durable evidence, then separate re-resolution. The thread was
+observed unresolved at `2026-08-09T15:50:29Z` and re-resolution was verified
+at `2026-08-09T15:53:31Z`; `PR35-P2-02` is recorded as `REMEDIATED`.
+
+`DAI-P2-01` is retained as a `KNOWN_NONBLOCKING_AUDIT_FINDING`: recovery from
+a malformed pending review exceeded the earlier task's literal mutation
+contract, while the final durable acceptance artifact remains valid. This
+record requests no cleanup.
+
+At the same snapshot point,
+`MELLYCORE-OPENAI-BATCH-PR35-FINAL-PREMERGE-VERIFICATION-002` had returned
+`FAIL_REMEDIATION_REQUIRED` for `PR35-P2-03` and `PR35-P2-04`. This
+repository-document remediation addresses `PR35-P2-04` locally, subject to
+fresh independent review. `PR35-P2-03` remains separate and open: no live PR
+body was edited or reconciled, and only a separately authorized GitHub
+PR-body mutation after the correct reviewed/published head is known can
+remediate it.
+
+**Durable forward order:** independently review this fresh remediation; only
+after PASS separately authorize publication of its exact reviewed head; after
+publication reconcile the live PR body for `PR35-P2-03`; re-run exact-head
+checks and independent-acceptance governance required by the changed head;
+perform fresh final pre-merge verification; only after PASS may a separate
+merge task be considered. This is ordering, not a permanent completion ledger
+or `NEXT` pointer; live state must be re-derived before task selection.
+
+The safety boundary remains fail-closed:
+`PROVIDER_AUTHORIZATION = NO`; `MIGRATION_TRIGGER_5 = NOT_CROSSED`;
+`POLICY_TRANSITION = SPECIFIED_ONLY`;
+`POLICY_TRANSITION_IMPLEMENTATION = NOT_AUTHORIZED`;
+`LIVE_PROVIDER_ACCESS = NO`; `LIVE_SMOKE_EXECUTION = NO`;
+`BATCH_EXECUTION = NO`; `SPEND_AUTHORIZATION = NO`;
+`MERGE_AUTHORIZATION = NO`; `DEPLOYMENT_AUTHORIZATION = NO`.
+
+### Historical PR #35 remediation snapshots
+
+Everything below this heading is retained as time-scoped provenance of the
+earlier P1/remediation sequence. Its old head, thread, publication, and
+task-pointer statements are not live operational state and do not supersede
+the reconciliation contract above.
 
 **PR #35 blocked pre-merge by an unresolved P1 policy-transition finding
 (historical) — documentation remediation created, subsequently published.**
@@ -814,8 +887,9 @@ hard fail-closed and PR #35 publication alone remains non-executable.
 Remediation 002 created one local documentation commit on top of
 `b611fc08f1a105bcc15a90935a7df2d76337798f` across exactly the task record and
 four living documents. It was subsequently published as
-`159701e045abcce104e3037bb2ba97aa571761f0` — the current PR #35 remote head
-(4 commits, 5 files, tree `4003dd8ca2fab8256485573e80da7546bf6c149b`). A
+`159701e045abcce104e3037bb2ba97aa571761f0` — the then-current PR #35 remote
+head at that historical review point (4 commits, 5 files, tree
+`4003dd8ca2fab8256485573e80da7546bf6c149b`). A
 local independent review returned
 `PASS_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_002_REVIEW_001`,
 and a published evidence reply (`PRRC_kwDOTQjWMs7cRJKy`) recorded that
@@ -835,7 +909,7 @@ head `1a379954…`, remediations "local-only and unpushed", P1 thread
 "non-outdated") rather than the true published state above.
 
 **Remediation 003 — living-document publication state synchronization
-(this update).** This task corrects exactly the F-01 stale claims in
+(historical creation snapshot).** This task corrected exactly the F-01 stale claims in
 `AGENT_HANDOFF.md`, this file, `ROADMAP.md`, and `RUN_QUEUE.md`. It changes
 no code, test, task-record, or policy content and does not touch the P1
 thread. This commit is created locally, with exactly one parent, directly
@@ -848,5 +922,6 @@ be read fresh from GitHub rather than assumed to remain `159701e…`.
 `PROVIDER_CONNECTION_NOT_EXECUTED`, `MIGRATION_TRIGGER_5_NOT_CROSSED`,
 `USD_0_01_NOT_SPENT`, and `STAGE_C_LIVE_SMOKE_NOT_EXECUTED` hold. No provider
 operation or spending occurred; PR #28 remains directly untouched and Gate B
-remains `OPEN / NOT EXECUTED`. Exact next task:
+remains `OPEN / NOT EXECUTED`. The recorded next-task pointer at that
+historical creation point was:
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-PR-REVIEW-001`.

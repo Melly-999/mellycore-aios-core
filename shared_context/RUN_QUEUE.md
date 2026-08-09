@@ -44,7 +44,7 @@ or 3D implementation. A successful merge does not automatically require a
 post-merge synchronization task; another sync is warranted only if a concrete
 live canonical statement becomes false.
 
-## Historical — OpenAI Batch Final Canonical State Reconciliation (merged; see "Current" gate below)
+## Historical — OpenAI Batch Final Canonical State Reconciliation (merged)
 
 Completed:
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-MERGE-001`. PR #32 merged
@@ -100,7 +100,76 @@ the final reconciled Stage B governance baseline
 (`FINAL_RECONCILED_STAGE_B_GOVERNANCE_BASELINE_ESTABLISHED`)** — no further
 state-sync task is required solely to restate this merge.
 
-## Current — Bounded OpenAI Batch Live-Smoke Authorization Gate
+## PR #35 durable living-state gate
+
+This queue defines ordering; it is not a durable claim that one named task is
+permanently `CURRENT` or `NEXT`. Before selecting or executing any
+state-changing task, re-derive from canonical `clean-origin`, live GitHub, and
+the latest accepted governance evidence: PR state; base and head; commit and
+file counts; checks and reviews; target-thread and unresolved-thread state;
+publication state; and exact-head acceptance state.
+
+### Recorded snapshot — verified 2026-08-09T17:01:21Z
+
+This subsection is historical evidence at the stated timestamp only.
+
+- PR #35: `OPEN`; base `main` at
+  `947f33d27d5546775186e96bdc61e30db78c0b3d`; published head
+  `08709ede7e32ec75c5e3ef7aaec724c2b68b1e35`; 5 published commits; 5
+  changed files.
+- Checks: 3/3 successful. Reviews: 4, all `COMMENTED`.
+- Target thread `PRRT_kwDOTQjWMs6VhoHo`: `RESOLVED`. Unresolved-thread
+  count: 0.
+- Durable acceptance: review `4891742878`
+  (`PRR_kwDOTQjWMs8AAAABI5ISng`), submitted
+  `2026-08-09T15:37:01Z`, exact head `08709ede…`, result marker
+  `PASS_EXACT_HEAD_ACCEPTED` while the target thread was unresolved.
+- Acceptance-to-resolution sequence: valid and complete. The thread was
+  observed unresolved at `2026-08-09T15:50:29Z`; re-resolution was verified
+  at `2026-08-09T15:53:31Z`. `PR35-P2-02`: `REMEDIATED`.
+- `DAI-P2-01`: historical `KNOWN_NONBLOCKING_AUDIT_FINDING`; the final durable
+  acceptance artifact remains valid; no cleanup is queued.
+- Final-premerge verification 002: `FAIL_REMEDIATION_REQUIRED` for
+  `PR35-P2-03` and `PR35-P2-04`.
+
+### Required gate order
+
+1. Independently review the fresh living-state remediation.
+2. Only after PASS, separately authorize publication of its exact reviewed
+   head to PR #35.
+3. After publication, separately reconcile the live PR body for
+   `PR35-P2-03` against the actual published head.
+4. Re-run exact-head checks and independent-acceptance governance required by
+   the changed PR head.
+5. Perform fresh final pre-merge verification.
+6. Only after PASS may a separate merge task be considered.
+
+This list defines ordering, not present completion. Re-derive live state before
+choosing the executable gate. Local commit existence, publication, independent
+acceptance, thread resolution, merge authorization, and provider/live-smoke
+authority remain distinct.
+
+The fresh repository-document remediation addresses `PR35-P2-04` locally and
+requires independent review. `PR35-P2-03` remains separate and open: this
+queue change neither edits nor reconciles the live PR body. A separately
+authorized GitHub PR-body mutation is required after the correct reviewed and
+published head is known.
+
+### Fail-closed safety state
+
+`PROVIDER_AUTHORIZATION = NO`; `MIGRATION_TRIGGER_5 = NOT_CROSSED`;
+`POLICY_TRANSITION = SPECIFIED_ONLY`;
+`POLICY_TRANSITION_IMPLEMENTATION = NOT_AUTHORIZED`;
+`LIVE_PROVIDER_ACCESS = NO`; `LIVE_SMOKE_EXECUTION = NO`;
+`BATCH_EXECUTION = NO`; `SPEND_AUTHORIZATION = NO`;
+`MERGE_AUTHORIZATION = NO`; `DEPLOYMENT_AUTHORIZATION = NO`.
+
+## Historical — bounded OpenAI Batch live-smoke authorization gate snapshots
+
+The section below is retained as time-scoped provenance of earlier task
+states. Its `current`, `next`, head/count, thread, and publication statements
+are historical observations or old instructions, not live queue pointers;
+they do not supersede the durable gate above.
 
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` recorded decision
 `AUTHORIZED_FOR_ONE_EXACT_FUTURE_LIVE_SMOKE_NOT_EXECUTED` in
@@ -153,8 +222,8 @@ review-thread inspection found an unresolved, then-current
 `docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md:363`,
 "Permit the required policy transition") outside the scope of those two
 notes. No merge occurred; PR #35 was open and unmerged at
-`1a379954393de0c95b91e554797d96bf80108c84` at that time — see "Current" gate
-below for the verified current state.
+`1a379954393de0c95b91e554797d96bf80108c84` at that time. See the durable
+gate above for the later time-scoped snapshot and live re-derivation rule.
 
 An independent, read-only assessment then returned
 `VALID_BLOCKING_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_FINDING_ASSESSMENT_001`:
@@ -214,7 +283,7 @@ exceptions, complete 40-case contract, unchanged immutable envelope,
 truthful PR body) sound, with the **sole blocker (F-01)** being that these
 living documents still described an obsolete pre-push state.
 
-**CURRENT:**
+**HISTORICAL TASK-POINT LABEL (`CURRENT` in the original snapshot):**
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-LIVING-DOCUMENT-PUBLICATION-STATE-SYNC-001`
 — correct exactly the F-01 stale claims in `AGENT_HANDOFF.md`,
 `PROJECT_STATE.md`, `ROADMAP.md`, and this file. No code, test, task-record,
@@ -223,7 +292,7 @@ created locally, with exactly one parent, directly on top of published head
 `159701e045abcce104e3037bb2ba97aa571761f0`; at creation it is local and not
 yet pushed.
 
-**NEXT AFTER PUBLICATION:**
+**HISTORICAL GATE POINTER (`NEXT AFTER PUBLICATION` in the original snapshot):**
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-PR-REVIEW-001`
 — after the remediation-003 commit is separately authorized and pushed, an
 independent PR-level review must inspect the newly published remote head,

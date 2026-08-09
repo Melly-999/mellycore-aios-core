@@ -388,6 +388,71 @@ this roadmap entry.
   section. Exact next task at this historical point:
   `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh
   independent review required before publication, merge, or execution.
+### PR #35 durable living-state gate
+
+The roadmap records gate order, not an eternal active-task pointer. Recorded
+observations are time-scoped history; before any state-changing action,
+re-derive live PR/base/head, counts, checks, reviews, target-thread and
+unresolved-thread state, publication state, and latest accepted governance
+evidence from canonical `clean-origin` and GitHub.
+
+**Historical snapshot — verified 2026-08-09T17:01:21Z:** PR #35 was `OPEN`,
+base `main` at `947f33d27d5546775186e96bdc61e30db78c0b3d`, published head
+`08709ede7e32ec75c5e3ef7aaec724c2b68b1e35`, with 5 published commits,
+5 changed files, 3/3 successful checks, and 4 `COMMENTED` reviews. Target
+thread `PRRT_kwDOTQjWMs6VhoHo` was `RESOLVED`; unresolved-thread count was 0.
+These values describe that verification point only.
+
+Durable acceptance review `4891742878` submitted
+`2026-08-09T15:37:01Z` records `RESULT: PASS_EXACT_HEAD_ACCEPTED` for exact
+head `08709ede…` while the thread was unresolved. The recorded sequence—thread
+reopen, independent exact-head acceptance, durable evidence, then separate
+re-resolution—was valid; the thread was observed unresolved at
+`2026-08-09T15:50:29Z` and re-resolution was verified at
+`2026-08-09T15:53:31Z`. `PR35-P2-02` is `REMEDIATED`.
+
+`DAI-P2-01` remains a historical `KNOWN_NONBLOCKING_AUDIT_FINDING`; its
+malformed-pending-review recovery exceeded the earlier literal mutation
+contract, while the final durable acceptance artifact remains valid. No
+cleanup is part of this roadmap gate.
+
+Final-premerge verification 002 recorded `FAIL_REMEDIATION_REQUIRED` for
+`PR35-P2-03` and `PR35-P2-04`. The fresh repository-document reconciliation
+addresses `PR35-P2-04` locally and requires independent review before
+acceptance. `PR35-P2-03`
+remains separate and open: no live PR-body mutation is included, and that
+finding requires a separately authorized GitHub PR-body reconciliation after
+the correct reviewed and published head is known.
+
+Durable required order:
+
+1. independently review the fresh living-state remediation;
+2. after PASS, separately authorize publication of its exact reviewed head;
+3. after publication, reconcile the live PR body for `PR35-P2-03`;
+4. re-run exact-head checks and independent-acceptance governance required by
+   the changed head;
+5. run fresh final pre-merge verification;
+6. only after PASS may a separate merge task be considered.
+
+Local commit, remote publication, independent acceptance, thread resolution,
+merge authorization, and provider/live-smoke authority are distinct gates.
+Live re-derivation determines which action is executable; this list asserts
+ordering only.
+
+Safety remains fail-closed: `PROVIDER_AUTHORIZATION = NO`;
+`MIGRATION_TRIGGER_5 = NOT_CROSSED`; `POLICY_TRANSITION = SPECIFIED_ONLY`;
+`POLICY_TRANSITION_IMPLEMENTATION = NOT_AUTHORIZED`;
+`LIVE_PROVIDER_ACCESS = NO`; `LIVE_SMOKE_EXECUTION = NO`;
+`BATCH_EXECUTION = NO`; `SPEND_AUTHORIZATION = NO`;
+`MERGE_AUTHORIZATION = NO`; `DEPLOYMENT_AUTHORIZATION = NO`.
+
+### Historical PR #35 policy-transition and remediation record
+
+The older bullets below are retained as explicitly time-scoped provenance.
+Their head, count, thread, publication, `current`, and `next` language does
+not describe live operational state after its recorded task point and does
+not supersede the durable gate above.
+
 - **PR #35 blocked pre-merge by a P1 policy-transition finding (historical)
   — documentation remediation created, subsequently published.** A
   merge-preflight task correctly stopped on an unresolved, then-current
@@ -406,7 +471,8 @@ this roadmap entry.
   B-01 left the implementation merge invalidating under canonical-main drift,
   and B-02 left the future implementation test contract incomplete.
 - **Execution-baseline supersession and test-contract remediation 002 —
-  published; current PR #35 head.** The task record defines seven explicit
+  published (historical then-current PR #35 head).** The task record defines
+  seven explicit
   governance states. Before the implementation transition, `main` must equal
   the authorization-publication baseline exactly and the separately
   authorized, independently reviewed Model B branch must be based directly
@@ -421,8 +487,8 @@ this roadmap entry.
   invalidating; ancestry alone is insufficient; no other drift is exempt.
   No implementation exists and provider policy remains fail-closed.
   Both remediation commits (`b611fc08…` and `159701e0…`) are pushed and
-  published; `159701e045abcce104e3037bb2ba97aa571761f0` is the current PR
-  #35 remote head (4 commits, 5 files). A local independent review returned
+  published; `159701e045abcce104e3037bb2ba97aa571761f0` was the then-current
+  PR #35 remote head (4 commits, 5 files). A local independent review returned
   `PASS_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_002_REVIEW_001`,
   and a published evidence reply recorded it on the P1 thread without
   resolving it. PR #35 remains open/unmerged, and P1 thread
@@ -438,7 +504,7 @@ this roadmap entry.
   (stale remote head, "local-only/unpushed" remediations, "non-outdated" P1
   thread) despite the true published state above.
 - **Remediation 003 — living-document publication state synchronization
-  (current).** Corrects exactly the F-01 stale claims in
+  (historical creation snapshot).** Corrected exactly the F-01 stale claims in
   `AGENT_HANDOFF.md`, `PROJECT_STATE.md`, this roadmap, and `RUN_QUEUE.md`.
   Changes no code, test, task-record, or policy content; does not touch the
   P1 thread. States
@@ -446,8 +512,8 @@ this roadmap entry.
   `POLICY_TRANSITION_IMPLEMENTATION_NOT_AUTHORIZED`,
   `PROVIDER_CONNECTION_NOT_EXECUTED`, `MIGRATION_TRIGGER_5_NOT_CROSSED`,
   `USD_0_01_NOT_SPENT`, and `STAGE_C_LIVE_SMOKE_NOT_EXECUTED` hold. No
-  provider operation or spending occurred. Exact next task after this commit
-  is separately authorized and pushed:
+  provider operation or spending occurred. The recorded gate pointer after a
+  separately authorized push was:
   `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-PR-REVIEW-001`
   — a fresh independent PR-level review of the newly published head. P1
   resolution, merge, provider access, and Stage C execution remain
