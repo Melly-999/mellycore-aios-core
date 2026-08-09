@@ -1,6 +1,33 @@
 # Agent Handoff
 
-## Latest Update — Reconciliation state semantics remediated; integration-invariant checkpoint model adopted
+## Latest Update — Remediation-001 review failed on residual self-staleness; remediation-002 applied
+
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
+returned `FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_001`
+against reviewed tip `ea0d20ee7533b99360c76d1c5cee609dd2ce2aa1`: finding
+`RR-P2-01` (blocking) — `PROJECT_STATE.md`'s checkpoint table labeled
+`16da3ec2df9b52b203bb16468f90258f2d7f540c` as "current HEAD", and
+`ROADMAP.md` stated unconditionally "Neither is integrated" — both would
+become false under a later authorized integration. `RC-P3-01` closed;
+`RC-P3-02` remained open non-blocking.
+
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-002`
+(one additive commit from `ea0d20ee…`) fixed both `RR-P2-01` assertions with
+integration-invariant/time-anchored wording. Full detail: §16 of
+`docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md`.
+`RR-P2-01` = `REMEDIATED_PENDING_INDEPENDENT_REVIEW` — not finally closed
+until the next independent review passes.
+
+The canonical state model below (from remediation-001) is otherwise
+unchanged and remains in force.
+
+- Exact next task, not started:
+  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`
+  (independent read-only review that must resolve and pin the remediation-002
+  commit's exact SHA). No integration, Roadmap Lock, or implementation work is
+  queued ahead of it.
+
+## Prior Update — Reconciliation state semantics remediated; integration-invariant checkpoint model adopted
 
 `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-001`
 
@@ -65,9 +92,10 @@ record-content P3 notes remain **OPEN**, non-blocking.
 It was not touched. Future mutation tasks must take a **fresh read-only
 snapshot** rather than assuming any previously recorded path list or count.
 
-- Exact next task, not started:
-  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
-  (independent read-only review that must resolve and pin this commit's exact SHA).
+- At the time this entry was authored, the exact next task was
+  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`.
+  That review has since completed (`FAIL_REMEDIATION_REQUIRED`) — see "Latest
+  Update" above for its outcome and the current next task.
 
 ## Prior Update — Product Track Units 1-9 and Governance Tail integrated locally; durable evidence recorded; canonical state reconciled
 

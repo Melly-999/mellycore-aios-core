@@ -297,4 +297,55 @@ modified.
 
 Exact next canonical action, not started:
 `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
+
+## 16. Subsequent review — remediation-001 failed; remediation-002 applied
+
+| Item | Value |
+| --- | --- |
+| Review task | `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001` |
+| Reviewed tip | `ea0d20ee7533b99360c76d1c5cee609dd2ce2aa1` |
+| Outcome | `FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_001` |
+| Finding | `RR-P2-01` — `OPEN_BLOCKING` |
+| `RC-P3-01` | `CLOSED` |
+| `RC-P3-02` | `OPEN_NONBLOCKING` |
+
+**`RR-P2-01` — blocking.** Two residual State-B-stale assertions survived
+remediation-001: `PROJECT_STATE.md`'s checkpoint table labeled
+`16da3ec2df9b52b203bb16468f90258f2d7f540c` as "current HEAD" instead of an
+immutable checkpoint, and `ROADMAP.md`'s reconciliation-lineage paragraph
+stated unconditionally that "Neither is integrated" without time-anchoring —
+both would become false the moment a later, separately authorized integration
+advances the lineage.
+
+**Remediation applied:** `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-002`
+— one additive commit on a new branch created from `ea0d20ee7533b99360c76d1c5cee609dd2ce2aa1`.
+`PROJECT_STATE.md`'s checkpoint-table row now reads "Governance Tail
+(remediation) — **integration checkpoint**", consistent with the immutable-
+checkpoint framing already used earlier in the same section.
+`ROADMAP.md`'s reconciliation-lineage paragraph now reads "At the time this
+section was last written, neither descendant had been integrated into the
+Product Track integration branch; live branch-tip identity must be resolved
+from Git (`git rev-parse integration/mellycore-product-track-001`), not
+assumed from this sentence."
+
+**Finding disposition after remediation-002:** `RR-P2-01` =
+`REMEDIATED_PENDING_INDEPENDENT_REVIEW`; `RC-P3-01` remains `CLOSED`;
+`RC-P3-02` remains `OPEN_NONBLOCKING` (no exact foreign-worktree dirty-path
+count is encoded as a durable invariant). This remediation cannot declare
+`RR-P2-01` finally closed; only the next independent review can. This
+remediation-002 commit cannot declare its own final SHA; the next independent
+review must resolve and pin it.
+
+**Unchanged:** `MELLYCORE-ROADMAP-LOCK-001` remains `BLOCKED` and out of
+scope; implementation readiness remains
+`NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`; frontend remains **not**
+unlocked; the imported pin artifact
+(`docs/research/MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REMEDIATION_REVIEW_001.md`,
+blob `3676e4155df8e11bce7eb7a5266f0480431a383e`) remains byte-identical and was
+not modified. No integration, merge, push, pull request, deployment, or
+provider execution is performed or authorized by this remediation.
+
+Exact next canonical action, not started:
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`
+(read-only).
 — READ-ONLY, requiring its own separate Operator authorization.

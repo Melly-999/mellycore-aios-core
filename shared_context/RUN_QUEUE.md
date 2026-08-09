@@ -152,8 +152,19 @@ and independently governed in the "Current" section above.
 - `GT-P2-02`, `GT-P3-01` — closed by
   `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001`.
 
-**Closed pending independent review:** `RC-P2-01`, `RC-P3-01` — remediated by
-`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-001`.
+**Closed:** `RC-P2-01`, `RC-P3-01` — remediated by
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-001` and
+independently confirmed by
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`.
+
+**Remediated, pending independent review:** `RR-P2-01` — that same review
+also found two residual State-B-stale assertions (`PROJECT_STATE.md`'s
+checkpoint-table "current HEAD" label; `ROADMAP.md`'s unconditional "Neither
+is integrated"), returning
+`FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REMEDIATION_REVIEW_001`.
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-002` fixed
+both with integration-invariant/time-anchored wording; `RR-P2-01` =
+`REMEDIATED_PENDING_INDEPENDENT_REVIEW`.
 
 **Open, non-blocking:** `GT-P3-02`, `CI-P3-01`, `CI-P3-02`, `U9-P3-01`,
 `RC-P3-02`, and two record-content P3 notes on the pin artifact (missing
@@ -161,8 +172,12 @@ negative-identity sentence; missing durable validator-execution section).
 
 **Bounded sequence, each step needing its own explicit Operator authorization:**
 
-1. reconciliation remediation — **complete** (this entry);
+1. reconciliation remediation — **complete**;
 2. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
+   — **complete**, `FAIL_REMEDIATION_REQUIRED` on `RR-P2-01`;
+2a. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-002`
+   — **complete** (this entry);
+2b. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`
    — **the immediate next task**, READ-ONLY, not started;
 3. if PASS, separately authorized exact-tip reconciliation integration
    (ff-only) naming the reviewed remediation SHA;

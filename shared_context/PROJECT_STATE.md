@@ -2645,7 +2645,7 @@ No integration is authorized by this record.
 | Unit 8 — Runtime Scaffold Specification | `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5` | 40 |
 | Unit 9 — Cross-Agent Context Pack | `a0b70ae6c45c640ede4889abeb1f169e5b5a6381` | 42 |
 | Governance Tail (plan) | `14eb6c90ff3ffa7125b3f7b3ef077b17ce93d0c6` | 43 |
-| Governance Tail (remediation) — **current HEAD** | `16da3ec2df9b52b203bb16468f90258f2d7f540c` | 44 |
+| Governance Tail (remediation) — **integration checkpoint** | `16da3ec2df9b52b203bb16468f90258f2d7f540c` | 44 |
 
 The Governance Tail is **not Unit 10**. It does not change any Unit 1-9
 boundary, SHA, count, or fast-forward proof, and the Product Track inventory
