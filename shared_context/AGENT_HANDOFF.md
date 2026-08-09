@@ -1,5 +1,33 @@
 # Agent Handoff
 
+## Latest Update — Product Track integration plan governance remediated; no integration performed
+
+`MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-001`
+
+- Remediated both findings from
+  `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REVIEW-001`
+  (`FAIL_REMEDIATION_REQUIRED`; P0 0 / P1 1 / P2 1 / P3 0).
+- Preserved the exact Product Track: 42 unique linear commits, nine unchanged
+  logical units, and all nine `FF_ONLY_GRAPH_VALID` boundaries through Unit 9
+  endpoint `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`.
+- Added a distinct post-Unit-9 Governance Tail. It is not Unit 10, changes no
+  Product Track boundary, and requires a future independent review to pin the
+  exact remediation commit as `REVIEW_PINNED_GOVERNANCE_TAIL_SHA`; this task
+  does not self-declare its own SHA.
+- Recorded the previously completed Context Pack remediation review durably at
+  `docs/research/MELLYCORE_CROSS_AGENT_CONTEXT_PACK_REMEDIATION_REVIEW_001.md`
+  with explicit Operator-supplied/subsequently-recorded provenance. Content
+  result: `ACCEPT_MELLYCORE_CROSS_AGENT_CONTEXT_PACK_REMEDIATION_001`; F1
+  `CLOSED`; F2 `OPEN_GOVERNANCE_ITEM`; P0 0 / P1 0 / P2 0 / P3 1.
+- Recorded the source Integration Plan Review durably at
+  `docs/research/MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REVIEW_001.md` and
+  created the remediation task record. Unit 8 `NEW-P2-02` remains
+  implementation-blocking; integration and Roadmap Lock remain unauthorized.
+- The known foreign scaffold-spec modification remained untouched and unstaged.
+- Exact next task, not started:
+  `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-REVIEW-001`
+  (independent read-only review that must pin the exact remediation commit).
+
 ## Latest Update — Product Track integration plan created; no integration performed
 
 `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001`
@@ -34,10 +62,11 @@
   `BLOCKED`, `PLANNED`) separately from project/architecture terms including
   `SPECIFIED`, `IMPLEMENTED`, `ACCEPTED`, and `DEFERRED`; no unified enum is
   implied.
-- **F2 acknowledged, not executed:** the branch is 41 commits ahead / 0 behind
-  `clean-origin/main`; branch-wide integration remains prohibited without
-  explicit Operator authorization. No merge, cherry-pick, rebase, push, PR,
-  or other integration action was performed.
+- **F2 acknowledged, not executed:** source Context Pack commit `bde76bfd...`
+  was 41 commits ahead / 0 behind `clean-origin/main`; final remediation commit
+  `a0b70ae6...` was 42 commits ahead / 0 behind. Branch-wide integration
+  remains prohibited without explicit Operator authorization. No merge,
+  cherry-pick, rebase, push, PR, or other integration action was performed.
 - Documentation-only scope; the foreign dirty scaffold spec remained untouched
   and unstaged. Durable report:
   `docs/tasks/MELLYCORE-CROSS-AGENT-CONTEXT-PACK-REMEDIATION-001.md`.

@@ -2,16 +2,23 @@
 
 Task ID: `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001`
 
-Status: `PLAN_COMPLETE_INTEGRATION_NOT_AUTHORIZED`
+Status: `PLAN_REMEDIATED_UNVERIFIED_INTEGRATION_NOT_AUTHORIZED`
+
+Remediation: `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-001`
+resolves the P1/P2 findings recorded durably in
+`docs/research/MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REVIEW_001.md` without
+changing the 42-commit Product Track or any of its nine unit boundaries.
 
 ## 1. Purpose and authority boundary
 
 This repository-owned plan converts the completed read-only Product Track
 integration decision into a deterministic execution contract. It maps the exact
-committed history from canonical baseline
+committed Product Track history from canonical baseline
 `947f33d27d5546775186e96bdc61e30db78c0b3d` through local Product Track tip
 `a0b70ae6c45c640ede4889abeb1f169e5b5a6381` into nine ordered integration
-units.
+units, then defines a distinct post-Unit-9 Governance Tail for the plan and its
+durable governance evidence. The Governance Tail is not Unit 10 and does not
+increase the Product Track above 42 commits or nine logical units.
 
 Source decision/audit: `MELLYCORE-PRODUCT-TRACK-INTEGRATION-DECISION-001`, a
 completed read-only governance exercise supplied as current-session evidence.
@@ -25,8 +32,16 @@ creation, worktree creation, fetch, merge, fast-forward, cherry-pick, rebase,
 push, pull request creation, canonical merge, deployment, provider access,
 runtime execution, scaffold implementation, or Roadmap Lock creation.
 
+The exact SHA of the remediation commit that carries this amended plan cannot
+be embedded in that same commit without unsafe self-reference. After Git creates
+the remediation commit, the independent
+`MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-REVIEW-001` must verify
+and pin it as `REVIEW_PINNED_GOVERNANCE_TAIL_SHA`. Any future integration
+authorization must pin the same accepted full SHA again before mutation.
+
 The later integration run requires new, explicit Operator authorization naming
-this plan, the exact baseline, the exact final eligible tip, the permitted Git
+this plan, the exact baseline, the Product Track checkpoints, the exact accepted
+`REVIEW_PINNED_GOVERNANCE_TAIL_SHA`, the separately bounded permitted Git
 mutations, and the exact file/worktree boundary. Publication requires separate
 authorization as defined in §12.
 
@@ -58,6 +73,11 @@ plan was written:
 - Context Pack tail: exactly two commits, ending at
   `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`.
 
+Plan Remediation 001 reverified the live and local canonical baseline, Product
+Track endpoint, 42 unique linear commits, nine-unit partition, and all nine
+FF-only graph proofs on 2026-08-09 before editing this plan. No fixed Product
+Track fact changed.
+
 The baseline is immutable for this plan. Before any future mutation, the
 integration agent MUST verify `clean-origin/main` by a fresh, read-only remote
 query. If it is not exactly
@@ -87,12 +107,21 @@ remain required ancestry and evidence. They are not independently selectable
 targets and MUST NOT be omitted merely because a later review closed their
 findings.
 
+The Product Track eligibility boundary ends at
+`a0b70ae6c45c640ede4889abeb1f169e5b5a6381`. Descendant governance commits may
+be admitted only through the separate Governance Tail contract in §6A. They are
+never Product Track commits, never Unit 10, and never alter the nine unit
+boundaries.
+
 ### 3.2 Not eligible
 
 The following are not eligible:
 
-- any commit after `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`;
-- any commit not listed in §6;
+- any commit after `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`
+  **as Product Track history**; the only descendant-history exception is a
+  full-SHA-pinned, independently reviewed Governance Tail under §6A;
+- any commit presented as Product Track history but not listed in §6; descendant
+  Governance Tail history is governed exclusively by §6A;
 - any worktree-only or index-only content;
 - the current uncommitted delta in
   `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md`;
@@ -114,6 +143,14 @@ The integration order is fixed:
 
 `UNIT-01 → UNIT-02 → UNIT-03 → UNIT-04 → UNIT-05 → UNIT-06 → UNIT-07 → UNIT-08 → composed review → UNIT-09`
 
+That line is the complete Product Track order. After Unit 9, a separate
+governance-layer transition is required:
+
+`a0b70ae6 → REVIEW_PINNED_GOVERNANCE_TAIL_SHA → durable completion evidence → canonical state reconciliation`
+
+The transition is not Product Track Unit 10. No governance commit may be
+inserted between Units 1-9.
+
 No unit may be skipped, reordered, split, or partially selected. A later unit
 depends on the complete checkpoint immediately before it. A failure at any
 checkpoint freezes the dedicated integration branch at the last passing
@@ -129,7 +166,7 @@ checkpoint; no later unit may enter.
 | UNIT-06 | Framework Bridge Contract | `7fa3d8ad2d319312cc7785c4b4ef9f89a5a04776` | `278eae0c47af31c67c69417d447ee4f9bdb7e049` | `b26b330ccee7d9efba304ee66e6c3ccc4e1ae5e1` | 2 | Documentation gate passed with non-blocking findings |
 | UNIT-07 | Shared Context Bridge Contract | `b26b330ccee7d9efba304ee66e6c3ccc4e1ae5e1` | `d3f8b737e67dd3e0afed76f15b1e50be41f2db61` | `3019a2303d794d89288edcf2f2ea201fef357f09` | 2 | Documentation gate passed with non-blocking findings |
 | UNIT-08 | Runtime Scaffold Specification | `3019a2303d794d89288edcf2f2ea201fef357f09` | `f11e4c1a5fbe27c1275116d5f38565eb29afb738` | `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5` | 6 | Documentation accepted; implementation `NOT_READY` |
-| UNIT-09 | Cross-Agent Context Pack | `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5` | `bde76bfd704ad2f8ce6eaa76d7532212129baa38` | `a0b70ae6c45c640ede4889abeb1f169e5b5a6381` | 2 | Locally accepted; freshness-gated |
+| UNIT-09 | Cross-Agent Context Pack | `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5` | `bde76bfd704ad2f8ce6eaa76d7532212129baa38` | `a0b70ae6c45c640ede4889abeb1f169e5b5a6381` | 2 | Content accepted; durable post-remediation review present; freshness-gated; integration unauthorized |
 
 ## 5. Common integration-unit contract
 
@@ -449,16 +486,18 @@ Every unit contract in §6 inherits these rules:
   composed review, and exact Context Pack freshness under §11.
 - **Accepted review evidence:** the original candidate review outcome
   `ACCEPT_MELLYCORE_CROSS_AGENT_CONTEXT_PACK_002` is recorded in
-  `docs/tasks/MELLYCORE-CROSS-AGENT-CONTEXT-PACK-REMEDIATION-001.md`. The
-  post-remediation outcome
+  `docs/tasks/MELLYCORE-CROSS-AGENT-CONTEXT-PACK-REMEDIATION-001.md`. The final
+  remediation outcome
   `ACCEPT_MELLYCORE_CROSS_AGENT_CONTEXT_PACK_REMEDIATION_001` with P0 0 / P1 0 /
-  P2 0 / P3 1 is Operator-supplied current-session evidence for this plan; no
-  separate repository-owned post-remediation review artifact existed at plan
-  creation. This provenance MUST remain explicit.
-- **Unresolved non-blocking findings:** one P3 observation is reported by the
-  post-remediation acceptance evidence. The future independent plan review MUST
-  verify that the underlying acceptance record and P3 detail are available and
-  linked accurately; it MUST NOT invent an identifier or finding text.
+  P2 0 / P3 1 is now recorded durably in
+  `docs/research/MELLYCORE_CROSS_AGENT_CONTEXT_PACK_REMEDIATION_REVIEW_001.md`.
+  That record explicitly states that the independent result was Operator-
+  supplied and subsequently recorded by the Plan Remediation task; it does not
+  falsely claim contemporaneous repository origin.
+- **Unresolved non-blocking findings:** R1/P3 records the ancestry-count
+  qualification: source Context Pack commit `bde76bfd...` was 41 ahead / 0
+  behind, while final remediation commit `a0b70ae6...` was 42 ahead / 0 behind.
+  F1 is `CLOSED`; F2 remains `OPEN_GOVERNANCE_ITEM`.
 - **Implementation blockers:** none created by Context Pack documentation
   acceptance; every implementation block from Units 1-8 remains in force.
 - **Excluded content:** any refreshed, generated, or worktree-only Context Pack
@@ -471,6 +510,80 @@ Every unit contract in §6 inherits these rules:
   `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`. Any stale fact requires a
   separately authorized refresh and independent review; do not integrate stale
   Context Pack content.
+
+## 6A. Post-Unit-9 Governance Tail checkpoint
+
+The Product Track ends exactly at Unit 9 commit
+`a0b70ae6c45c640ede4889abeb1f169e5b5a6381`: 42 commits, nine logical units,
+zero merges, and no governance commit inserted between unit boundaries.
+
+The **Governance Tail** is a separate descendant layer after that endpoint. It
+is **not Unit 10**, is not counted in the Product Track inventory, and does not
+change any Unit 1-9 first SHA, last SHA, predecessor, count, or FF-only proof.
+
+Conceptually:
+
+- Product Track: `clean-origin/main → Units 1-9 → a0b70ae6`
+- Governance Tail: `a0b70ae6 → reviewed Governance Tail candidate → durable completion evidence → reconciled canonical state`
+
+### 6A.1 `GOVERNANCE_TAIL_CANDIDATE`
+
+The current `GOVERNANCE_TAIL_CANDIDATE` must be a linear descendant of
+`a0b70ae6c45c640ede4889abeb1f169e5b5a6381` and contain, at minimum:
+
+1. plan commit `14eb6c90ff3ffa7125b3f7b3ef077b17ce93d0c6`;
+2. this remediated integration plan;
+3. durable Context Pack remediation review evidence;
+4. durable Integration Plan Review 001 evidence;
+5. the Plan Remediation 001 task record;
+6. the latest task-owned handoff update.
+
+The remediation commit cannot reliably declare its own SHA because its hash
+depends on this content. Therefore this document intentionally contains no
+claimed final remediation SHA. After the commit exists, the independent
+`MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-REVIEW-001` MUST:
+
+- verify the candidate is a linear descendant of Unit 9;
+- verify its exact changed-path scope and provenance;
+- verify the two source findings are closed without changing Units 1-9;
+- publish its full SHA as `REVIEW_PINNED_GOVERNANCE_TAIL_SHA`.
+
+Any future integration authorization MUST name that same accepted full SHA.
+The executor MUST reject a branch name, tag, inferred `HEAD`, abbreviated SHA,
+or candidate SHA supplied only by this remediation task.
+
+### 6A.2 Governance Tail completion evidence
+
+The review-pinned candidate preserves the plan and remediation evidence, but
+the governance workflow is not complete until the tail also durably preserves:
+
+- the accepted Plan Remediation Review outcome and exact candidate pin;
+- the Unit 8 composed-review result;
+- the integration execution/checkpoint report;
+- the latest handoff and canonical governance/state reconciliation.
+
+The Unit 8 composed review may occur read-only before Unit 9. Its result is
+recorded afterward in the Governance Tail; no evidence commit is inserted
+between Units 8 and 9. Any commit that records these later outcomes requires its
+own explicit scope and authority. Before publication or Roadmap Lock, the exact
+final reconciled Governance Tail head must itself be verified and pinned.
+
+### 6A.3 Governance Tail admission gate
+
+Before any advance beyond Unit 9, all of the following are mandatory:
+
+1. Unit 9 freshness and integration gates passed at the exact Product Track
+   endpoint;
+2. `REVIEW_PINNED_GOVERNANCE_TAIL_SHA` exists in an accepted independent
+   remediation-review record;
+3. explicit Operator authorization names that exact SHA and permits only the
+   bounded Governance Tail advance;
+4. the candidate range is linear, conflict-free, and contains no Product Track
+   rewrite, foreign worktree content, implementation, provider, or deployment
+   change;
+5. the dedicated integration worktree is clean.
+
+Failure of any condition is `GOVERNANCE_TAIL_NOT_ADMISSIBLE_STOP`.
 
 ## 7. Foreign dirty-state isolation contract
 
@@ -517,8 +630,20 @@ use this architecture:
    sequence checks in §§5-6 must pass before each command.
 4. Validate and record every checkpoint before advancing.
 5. Stop after UNIT-08 for the mandatory independent composed review.
-6. Advance to UNIT-09 only if §§10-11 pass, then perform final context/state
-   verification.
+6. If the composed review passes, recheck Context Pack freshness against the
+   exact composed Units 1-8 tree and advance to UNIT-09 only if §§10-11 pass.
+7. Verify the Unit 9 endpoint is exactly
+   `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`; no governance commit may have
+   entered the Product Track range.
+8. Resolve `REVIEW_PINNED_GOVERNANCE_TAIL_SHA` only from the accepted Plan
+   Remediation Review and exact Operator authorization. Reproduce §6A's
+   descendant, path-scope, and safety gates before any advance to it.
+9. Advance to that exact review-pinned candidate only under the separately
+   authorized Governance Tail scope, then durably record the composed-review,
+   integration-execution, remediation-review, handoff, and canonical state-
+   reconciliation evidence required by §6A.2.
+10. Treat integration as incomplete until the reconciled Governance Tail head
+    is verified and pinned. Roadmap Lock remains blocked throughout.
 
 This method preserves every original commit and reviewed checkpoint. It is not
 permission to run the commands now.
@@ -533,6 +658,11 @@ Explicitly rejected:
 - one full current-tip fast-forward from baseline to
   `a0b70ae6c45c640ede4889abeb1f169e5b5a6381` without
   unit checkpoints;
+- treating the Governance Tail as Unit 10 or counting its commits in the
+  42-commit Product Track;
+- inserting a governance-evidence commit between Product Track units;
+- advancing beyond Unit 9 using an unreviewed SHA, branch name, tag, inferred
+  `HEAD`, or self-declared remediation SHA;
 - rebase, squash, commit rewriting, conflict resolution, or force operations;
 - integrating any unreviewed future commit.
 
@@ -562,6 +692,12 @@ After every unit, record all of the following before proceeding:
 - confirmation that inert code remains inert and documentation remains distinct
   from implementation readiness;
 - secret/config and prohibited-scope scans over the exact newly included range.
+
+After Unit 9, §6A adds separate Governance Tail checks: exact review-pinned
+candidate SHA, linear ancestry from `a0b70ae6...`, no Unit 1-9 boundary change,
+candidate path allowlist, durable evidence presence, clean integration worktree,
+and no foreign content. Governance Tail commits are never included in a Product
+Track checkpoint count.
 
 Any validator that writes, formats, generates, or otherwise changes the tree is
 unsuitable unless separately authorized. A validator failure may be diagnosed
@@ -598,6 +734,13 @@ SHA, unexpected path, validation failure, implementation enablement, or hidden /
 reclassified blocker yields `COMPOSED_REVIEW_FAILED_STOP`. UNIT-09 must not
 begin.
 
+The composed review may remain read-only at this checkpoint so that the proven
+Unit 8 → Unit 9 ancestry is not altered. Before the overall integration workflow
+is complete, its exact outcome, reviewed Unit 8 SHA, evidence, and disposition
+MUST be committed durably in the Governance Tail under separate authorization.
+An ephemeral-only composed-review result cannot satisfy §6A.2 or the Roadmap
+Lock gate.
+
 ## 11. Context Pack freshness and integration gate
 
 UNIT-09 may advance only when all are true:
@@ -606,14 +749,21 @@ UNIT-09 may advance only when all are true:
 - the composed review in §10 passes;
 - the canonical state at that checkpoint matches every fact summarized by the
   Context Pack;
-- the original acceptance and remediation task record are present;
+- the original acceptance, remediation task record, and durable post-
+  remediation review record are present;
 - the post-remediation acceptance outcome
-  `ACCEPT_MELLYCORE_CROSS_AGENT_CONTEXT_PACK_REMEDIATION_001` is recorded as
-  Operator-supplied evidence with P0 0 / P1 0 / P2 0 / P3 1 and is confirmed by
-  the independent plan reviewer;
+  `ACCEPT_MELLYCORE_CROSS_AGENT_CONTEXT_PACK_REMEDIATION_001` is recorded in
+  `docs/research/MELLYCORE_CROSS_AGENT_CONTEXT_PACK_REMEDIATION_REVIEW_001.md`
+  as Operator-supplied, subsequently committed evidence with P0 0 / P1 0 / P2 0
+  / P3 1;
 - the Context Pack still distinguishes formal `TASK_INDEX.md` statuses from
   broader architecture/project terms;
 - F2's integration-risk warning remains truthful.
+
+The durable review record establishes **content acceptance only**. Integration
+is still unauthorized, and freshness MUST be rechecked immediately before Unit
+9 against the exact composed Units 1-8 tree. The record does not make Unit 9
+automatically eligible.
 
 If integration, conflict handling, canonical drift, a later review, or any
 other event changes a fact summarized by the Context Pack, UNIT-09 becomes
@@ -634,9 +784,14 @@ The first future authorization must explicitly name:
 - baseline `947f33d27d5546775186e96bdc61e30db78c0b3d`;
 - eligible endpoints `fb63f2f3c82fdb2c94ea12f9501c0109089f17f5` and,
   conditionally, `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`;
+- the exact accepted `REVIEW_PINNED_GOVERNANCE_TAIL_SHA` from
+  `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-REVIEW-001`, with an
+  explicit statement that it is a separate post-Unit-9 governance layer and not
+  Product Track Unit 10;
 - the dedicated branch/worktree name and location;
 - permission to create that local branch/worktree and perform only the nine
-  per-unit `--ff-only` advancements;
+  per-unit `--ff-only` advancements plus the separately bounded, exact-SHA
+  Governance Tail advance;
 - required validation and stop boundaries;
 - an explicit statement that no push, PR, canonical merge, deployment, rebase,
   squash, force, or destructive operation is authorized.
@@ -662,23 +817,30 @@ this task. It may not be canonically minted or executed until all of the
 following are true:
 
 1. this integration plan passes
-   `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REVIEW-001`;
-2. the Product Track is integrated on the explicitly authorized dedicated
-   branch through the accepted final endpoint;
-3. the UNIT-08 composed review passes;
-4. the Context Pack is integrated and freshness-verified, or a refreshed pack
-   is separately reviewed and this plan is updated with its exact SHAs;
-5. canonical governance documents are reconciled against the integrated tree;
-6. the foreign scaffold work is either resolved under its own task or remains
-   demonstrably isolated outside the canonical/integration worktree;
-7. Scaffold `NEW-P2-02` remains visible as an implementation blocker, and
-   future-amendment blockers remain preserved;
-8. no unreviewed 68-task roadmap has been introduced;
-9. a separate, explicit Operator authorization names the Roadmap Lock task,
-   scope, evidence, and permitted files.
+   `MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-REVIEW-001`, which pins
+   the exact `REVIEW_PINNED_GOVERNANCE_TAIL_SHA`;
+2. Product Track Units 1-8 are integrated on the explicitly authorized
+   dedicated branch with their exact boundaries;
+3. the Unit 8 independent composed review passes;
+4. Unit 9 freshness is checked against the accepted composed Units 1-8 tree;
+5. Unit 9 is integrated at exact endpoint
+   `a0b70ae6c45c640ede4889abeb1f169e5b5a6381`;
+6. the exact reviewed Governance Tail candidate is integrated under separate
+   Operator authorization;
+7. the composed-review result and integration execution/checkpoint evidence are
+   recorded durably in the Governance Tail;
+8. the latest canonical governance, handoff, and state documents are reconciled
+   against the integrated tree and the exact reconciled tail head is verified;
+9. the foreign scaffold work is either resolved under its own task or remains
+   demonstrably isolated outside canonical and integration worktrees;
+10. Scaffold `NEW-P2-02` remains visible as an implementation blocker, all
+    future-amendment blockers remain preserved, and no unreviewed 68-task
+    roadmap has been introduced;
+11. a separate, explicit Operator authorization names the Roadmap Lock task,
+    scope, evidence, and permitted files.
 
 Drafting is not authorized by this plan. Canonicalization is blocked until all
-nine conditions are independently verified.
+eleven conditions are independently verified.
 
 ## 14. Global STOP conditions
 
@@ -689,11 +851,20 @@ of the following occurs:
 - live `clean-origin/main` differs from the fixed baseline;
 - any commit, parent, subject, path manifest, order, or count differs;
 - any of the 42 commits is unclassified, duplicated, or absent;
+- any Governance Tail commit is counted as Product Track Unit 10 or inserted
+  between Units 1-9;
 - the dedicated worktree is dirty or the current dirty Product Track worktree
   would need to be used;
 - a conflict or manual edit would be required;
 - a canonical owner document materially contradicts the accepted audit;
-- post-remediation Context Pack acceptance cannot be substantiated;
+- the durable post-remediation Context Pack review record is absent, its
+  subsequent-recording provenance is obscured, or Unit 9 freshness fails;
+- `REVIEW_PINNED_GOVERNANCE_TAIL_SHA` is absent, abbreviated, inferred from a
+  floating ref, not reproduced from the accepted remediation review, or differs
+  from the exact SHA in Operator authorization;
+- the remediation plan attempts to self-declare its own commit SHA;
+- composed-review, execution, remediation-review, or reconciliation evidence
+  would remain ephemeral after Governance Tail completion;
 - a required validator fails or changes the tree;
 - provider/live/runtime/context-write enablement appears;
 - `NEW-P2-02` is hidden, downgraded, or treated as resolved;
@@ -707,11 +878,15 @@ The repository now has a complete unit map for all 42 commits. The preferred
 future method is a dedicated clean integration branch from the fixed canonical
 baseline, advanced by exact per-unit fast-forward checkpoints, with mandatory
 validation after every unit, an independent composed review after UNIT-08, and
-a freshness gate before UNIT-09. The current dirty Product Track branch is an
-evidence source for commit objects only and is never a direct integration
-source.
+a freshness gate before UNIT-09. After Unit 9, the integration must advance only
+to the exact independently reviewed `REVIEW_PINNED_GOVERNANCE_TAIL_SHA`, then
+durably record the composed-review, integration-execution, review, handoff, and
+state-reconciliation evidence before the workflow is complete. The Governance
+Tail is not Unit 10 and changes none of the 42 Product Track commits. The current
+dirty Product Track branch is an evidence source for commit objects only and is
+never a direct integration source.
 
 No integration or publication action is authorized. The exact next canonical
-action is an independent, read-only review:
+action after the remediation commit exists is an independent, read-only review:
 
-`MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REVIEW-001`
+`MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-REMEDIATION-REVIEW-001`
