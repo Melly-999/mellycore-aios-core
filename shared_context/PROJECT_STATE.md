@@ -2587,20 +2587,50 @@ place, not reordered, and not reinterpreted.
 
 ## Product Track — Units 1-9 and Governance Tail Integrated Locally (Not Pushed)
 
-`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001`
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001`,
+state semantics remediated by
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-001`.
 
-Local branch `integration/mellycore-product-track-001` is at
-`16da3ec2df9b52b203bb16468f90258f2d7f540c`. Verified against Git objects:
+**Verified Governance-Tail integration checkpoint —
+`16da3ec2df9b52b203bb16468f90258f2d7f540c`.** Verified against Git objects:
 **44 commits** from canonical baseline
 `947f33d27d5546775186e96bdc61e30db78c0b3d`, **0 merge commits**, every commit
 single-parent. That is the 42-commit nine-unit Product Track plus the two
-reviewed Governance Tail commits. Integration was performed **entirely by
-fast-forward** across eleven advancements; **zero commits were authored** by any
-integration task.
+reviewed Governance Tail commits, reached **entirely by fast-forward** across
+eleven advancements with **zero commits authored** by any integration task.
 
-**Remote canonical `main` has not advanced.** `clean-origin/main` remains
-`947f33d27d5546775186e96bdc61e30db78c0b3d`. No push, pull request, remote
-mutation, or deployment has occurred. This state is **local only**.
+This is an **immutable property of that commit**, not a claim about where
+`integration/mellycore-product-track-001` currently points. **When live tip
+identity matters, resolve it from Git:**
+`git rev-parse integration/mellycore-product-track-001`.
+
+**Distinct states, not to be collapsed:**
+
+| Concept | Value |
+| --- | --- |
+| Canonical baseline (remote `clean-origin/main`) | `947f33d27d5546775186e96bdc61e30db78c0b3d` |
+| Verified Governance-Tail integration checkpoint | `16da3ec2df9b52b203bb16468f90258f2d7f540c` (44 commits, 0 merges) |
+| Reconciliation candidate (documentation-only descendant) | `493dc86ba1f56d854876e7d2a741253d52283bef` |
+| Remediation tip (documentation-only descendant) | *not self-declared; resolved and pinned by the next independent review* |
+| Live integration branch tip | *resolve from Git* |
+
+**At the time this section was last written**,
+`integration/mellycore-product-track-001` pointed at the verified checkpoint, and
+neither reconciliation-lineage commit was integrated — each sat on its own
+separate local branch.
+
+**Remote canonical `main` is separately gated.** `clean-origin/main` was
+`947f33d27d5546775186e96bdc61e30db78c0b3d` at authoring time; it advances only
+under a separately authorized publication sequence. No push, pull request,
+remote mutation, or deployment has been performed by any task in this lineage.
+This state is **local**.
+
+**Expected effect of a future authorized integration.** If the exact lineage
+`16da3ec2…` → `493dc86…` → *remediation tip* passes independent review and
+receives separate Operator authorization, a bounded fast-forward adds exactly
+**two** documentation/governance commits after the checkpoint — **46 cumulative
+commits, 0 merge commits** — subject to fresh graph verification by that task.
+No integration is authorized by this record.
 
 | Checkpoint | SHA | Cumulative commits |
 | --- | --- | ---: |

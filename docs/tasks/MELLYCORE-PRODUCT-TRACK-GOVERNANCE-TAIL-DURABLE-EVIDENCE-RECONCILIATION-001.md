@@ -184,3 +184,117 @@ It is **unverified**. The exact next canonical action is an independent
 read-only review, `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001`,
 which requires its own separate Operator authorization and is not started by
 this task.
+
+---
+
+# Subsequent independent review / remediation
+
+**Everything above is the original task record, written before the independent
+review existed. It is preserved unrewritten.** This section was appended by a
+later task and claims no contemporaneous provenance.
+
+## 12. Independent review outcome
+
+| Item | Value |
+| --- | --- |
+| Review task | `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001` |
+| Reviewed candidate | `493dc86ba1f56d854876e7d2a741253d52283bef` |
+| Outcome | `FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REVIEW_001` |
+| Counts | P0 0 / P1 0 / **P2 1 (blocking)** / P3 2 |
+| Preferred target | `PREFERRED_RECONCILIATION_INTEGRATION_TARGET = AMENDMENT_REQUIRED` |
+| Pin scope | `PIN_EQUALITY_SCOPE = GOVERNANCE_TAIL_ADMISSION_ONLY` |
+
+The review independently recomputed all eleven checkpoint SHAs and cumulative
+counts (11/11 exact), confirmed the pin artifact byte-identical, confirmed
+`GT-P2-02` and `GT-P3-01` genuinely closed, and confirmed every other finding,
+both scaffold blockers, and the Roadmap Lock block preserved. It failed the
+candidate on one defect.
+
+**`RC-P2-01` — blocking.** Five canonical current-state documents
+(`AGENT_HANDOFF`, `PROJECT_STATE`, `ROADMAP`, `RUN_QUEUE`, `TASK_INDEX`)
+asserted unconditionally that `integration/mellycore-product-track-001` **is at**
+`16da3ec2…` with **44 commits**. Integrating the reconciliation lineage would
+falsify all five simultaneously — re-creating, one level up, the defect class
+`GT-P2-02` exists to prevent.
+
+**`RC-P3-01` — non-blocking, same root cause.** The handoff top entry omitted any
+statement that the reconciliation lineage sat on a separate branch, unintegrated.
+
+**`RC-P3-02` — non-blocking.** Governance documents described the foreign source
+worktree by an exact dirty-path list that had since changed through activity
+outside any task's authority.
+
+**Pin scope, read in context.** Integration Plan §6A.3 scopes the pin to "the
+bounded Governance Tail advance"; §15 has the integration advance to the pinned
+SHA "**then durably record**" later evidence; §6A.2 requires "the exact **final
+reconciled Governance Tail head**" to be separately "verified and pinned." The
+pin therefore governs Governance Tail admission only and does not require later
+reconciliation commits to carry the same SHA. It is unchanged.
+
+## 13. Remediation applied
+
+Task: `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-001`
+— one additive commit on a separate branch created from
+`493dc86ba1f56d854876e7d2a741253d52283bef`.
+
+All five canonical documents now use one integration-invariant state model:
+
+| Concept | Value |
+| --- | --- |
+| Canonical baseline | `947f33d27d5546775186e96bdc61e30db78c0b3d` |
+| **Verified Governance-Tail integration checkpoint** | `16da3ec2df9b52b203bb16468f90258f2d7f540c` — 44 commits, 0 merges (immutable property of that commit) |
+| Reconciliation candidate | `493dc86ba1f56d854876e7d2a741253d52283bef` |
+| Remediation tip | *this commit — SHA intentionally not self-declared* |
+| Live integration branch tip | *resolve from Git* |
+
+Checkpoint statements are facts about a **commit**, never about where a branch
+currently points, so they remain true after any later advance. Time-anchored
+phrasing ("at the time this record was authored") replaces present-tense
+live-tip claims.
+
+**Expected effect of a future authorized integration.** If the exact lineage
+`16da3ec2…` → `493dc86…` → *remediation tip* passes independent review and
+receives separate Operator authorization, a bounded fast-forward adds exactly
+**two** documentation/governance commits after the checkpoint — **46 cumulative
+commits, 0 merge commits** — subject to fresh graph verification by that task.
+
+**Self-reference constraint.** This remediation commit cannot declare its own
+SHA. The next independent review must resolve it from Git and pin it.
+
+**Foreign source-worktree semantics.** That worktree is volatile state outside
+this lineage's authority. Governance documents no longer treat any exact
+dirty-path list or count as a durable invariant; future mutation tasks must take
+a fresh read-only snapshot.
+
+## 14. Finding disposition after remediation
+
+| Finding | Disposition |
+| --- | --- |
+| `RC-P2-01` | **`CLOSED_PENDING_INDEPENDENT_REVIEW`** |
+| `RC-P3-01` | **`CLOSED_PENDING_INDEPENDENT_REVIEW`** |
+| `RC-P3-02` | `OPEN`, non-blocking — semantics clarified; underlying defect not asserted removed |
+| `GT-P2-01`, `GT-P2-02`, `GT-P3-01` | remain `CLOSED` |
+| `GT-P3-02`, `CI-P3-01`, `CI-P3-02`, `U9-P3-01` | remain `OPEN`, non-blocking |
+| Record-content P3 notes (×2) | remain `OPEN`, non-blocking |
+
+This task cannot declare its own remediation finally closed; only the next
+independent review can.
+
+**Unchanged:** `NEW-P2-01` amendment-affecting; `NEW-P2-02`
+**implementation-blocking**; readiness `NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`;
+frontend **not** unlocked; `MELLYCORE-ROADMAP-LOCK-001` **BLOCKED** and out of
+scope. The imported pin artifact
+(`docs/research/MELLYCORE_PRODUCT_TRACK_INTEGRATION_PLAN_REMEDIATION_REVIEW_001.md`,
+blob `3676e4155df8e11bce7eb7a5266f0480431a383e`) is **byte-identical** and was
+not modified.
+
+## 15. Authority boundary of this remediation
+
+No integration, fast-forward, merge, push, pull request, remote mutation,
+deployment, provider access, runtime/frontend/scaffold implementation, or
+Roadmap Lock is performed or authorized. The integration branch was not
+modified.
+
+Exact next canonical action, not started:
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
+— READ-ONLY, requiring its own separate Operator authorization.

@@ -126,39 +126,57 @@ unmerged, intentionally paused, and `CONFLICTING / DIRTY`; Gate B remains
 
 ## Product Track — Integrated Locally; Publication and Roadmap Lock Still Gated
 
-`integration/mellycore-product-track-001` is at
-`16da3ec2df9b52b203bb16468f90258f2d7f540c`: 44 commits from canonical baseline
+**Verified Governance-Tail integration checkpoint:**
+`16da3ec2df9b52b203bb16468f90258f2d7f540c` — 44 commits from canonical baseline
 `947f33d27d5546775186e96bdc61e30db78c0b3d`, 0 merges, fast-forward only, zero
-authored commits. Units 1-9 (42 commits) plus the two-commit Governance Tail.
+authored commits; Units 1-9 (42 commits) plus the two-commit Governance Tail.
+That is a permanent property of the checkpoint commit. **Resolve the live tip of
+`integration/mellycore-product-track-001` from Git** whenever current tip
+identity matters.
+
+**Reconciliation lineage (documentation-only, on separate local branches):**
+checkpoint → `493dc86ba1f56d854876e7d2a741253d52283bef` → remediation tip
+(SHA not self-declared; the next review resolves and pins it). Integrating that
+lineage would give 46 cumulative commits, 0 merges, subject to fresh
+verification by the integrating task.
 
 This track does **not** reorder the global higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`, which remains unchanged
 and independently governed in the "Current" section above.
 
-**Completed and closed:**
+**Closed:**
 
 - `GT-P2-01` — closed by the durable pin record
-  (`REVIEW_PINNED_GOVERNANCE_TAIL_SHA = 16da3ec2df9b52b203bb16468f90258f2d7f540c`).
+  (`REVIEW_PINNED_GOVERNANCE_TAIL_SHA = 16da3ec2df9b52b203bb16468f90258f2d7f540c`;
+  `PIN_EQUALITY_SCOPE = GOVERNANCE_TAIL_ADMISSION_ONLY`).
 - `GT-P2-02`, `GT-P3-01` — closed by
   `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001`.
 
-**Open, non-blocking:** `GT-P3-02`, `CI-P3-01`, `CI-P3-02`, `U9-P3-01`, and two
-record-content P3 notes on the pin artifact (missing negative-identity sentence;
-missing durable validator-execution section).
+**Closed pending independent review:** `RC-P2-01`, `RC-P3-01` — remediated by
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-001`.
 
-**Exact next task, not started:**
-`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001` — an
-independent read-only review of the reconciliation commit. It requires separate
-Operator authorization.
+**Open, non-blocking:** `GT-P3-02`, `CI-P3-01`, `CI-P3-02`, `U9-P3-01`,
+`RC-P3-02`, and two record-content P3 notes on the pin artifact (missing
+negative-identity sentence; missing durable validator-execution section).
 
-**Still gated, in order, each needing its own explicit Operator authorization:**
+**Bounded sequence, each step needing its own explicit Operator authorization:**
 
-1. reconciliation review (above);
-2. publication — push, PR, PR review, canonical merge. **Remote canonical
-   `main` has not advanced**; `clean-origin/main` remains
-   `947f33d27d5546775186e96bdc61e30db78c0b3d`;
-3. `MELLYCORE-ROADMAP-LOCK-001` — **BLOCKED**. Integration Plan §13 conditions
-   1-10 are satisfied; condition 11 (separate Operator authorization) is not.
+1. reconciliation remediation — **complete** (this entry);
+2. `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
+   — **the immediate next task**, READ-ONLY, not started;
+3. if PASS, separately authorized exact-tip reconciliation integration
+   (ff-only) naming the reviewed remediation SHA;
+4. post-integration verification;
+5. publication — push, PR, PR review, canonical merge. Remote canonical `main`
+   was `947f33d27d5546775186e96bdc61e30db78c0b3d` at authoring time and advances
+   only under its own authorization;
+6. `MELLYCORE-ROADMAP-LOCK-001` — **BLOCKED**. Integration Plan §13 conditions
+   1-10 are satisfied; conditions relating to the reconciled tail head and
+   condition 11 (separate Operator authorization) are not.
+
+**Foreign source-worktree state is volatile** and outside this track's
+authority. Any mutation task must take a fresh read-only snapshot rather than
+relying on a previously recorded path list or count.
 
 **Not unblocked by integration.** Scaffold implementation remains blocked behind
 `NEW-P2-02` (implementation-blocking) and readiness

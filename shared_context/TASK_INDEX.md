@@ -54,11 +54,19 @@ task. Full narrative detail lives in `shared_context/ROADMAP.md`,
 
 ## Product Track Integration & Governance Tail
 
-Local integration only. **Remote canonical `main` has not advanced**;
-`clean-origin/main` remains `947f33d27d5546775186e96bdc61e30db78c0b3d`.
-Integration branch `integration/mellycore-product-track-001` is at
-`16da3ec2df9b52b203bb16468f90258f2d7f540c` — 44 commits, 0 merges, fast-forward
-only, zero authored commits.
+Local only. Remote canonical `main` (`clean-origin/main`) was
+`947f33d27d5546775186e96bdc61e30db78c0b3d` at authoring time and advances only
+under its own authorization.
+
+**Verified Governance-Tail integration checkpoint:**
+`16da3ec2df9b52b203bb16468f90258f2d7f540c` — 44 commits from baseline, 0 merges,
+fast-forward only, zero authored commits. That is a permanent property of the
+checkpoint commit; **resolve the live tip of
+`integration/mellycore-product-track-001` from Git** when current tip identity
+matters. Two documentation-only descendants exist on separate local branches
+(reconciliation candidate `493dc86ba1f56d854876e7d2a741253d52283bef` and a
+remediation tip whose SHA the next review resolves and pins); neither was
+integrated at authoring time.
 
 | Task ID | Status | Evidence |
 |---|---|---|
@@ -74,7 +82,10 @@ only, zero authored commits.
 | `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECORD-TIP-REVIEW-001` | `COMPLETE` (local, not pushed) — `PASS_WITH_NOTES`; both record-content gaps classified **P3 non-blocking**; `PREFERRED_INTEGRATION_TARGET = 16da3ec2df9b52b203bb16468f90258f2d7f540c` per Integration Plan §14 | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` |
 | `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-INTEGRATION-001` | `COMPLETE` (local, not pushed) — Governance Tail integrated to `16da3ec2df9b52b203bb16468f90258f2d7f540c`; 44 commits; ff-only; record tip `fefe65a3…` deliberately **not** integrated | integration branch reflog |
 | `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001` | `COMPLETE` (local, not pushed) — durable evidence recorded and canonical state reconciled; imported the pin artifact byte-for-byte; **`GT-P2-02` and `GT-P3-01` CLOSED** | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` |
-| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001` | `ELIGIBLE` | Independent read-only review of the reconciliation commit. Not authorized, not started. |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001` | `COMPLETE` (local, not pushed) — gate `FAIL_REMEDIATION_REQUIRED` (P0 0 / P1 0 / **P2 1 blocking** / P3 2); `PREFERRED_RECONCILIATION_INTEGRATION_TARGET = AMENDMENT_REQUIRED`; established `PIN_EQUALITY_SCOPE = GOVERNANCE_TAIL_ADMISSION_ONLY`. Blocking `RC-P2-01` (integrating the candidate would falsify five canonical current-state assertions); non-blocking `RC-P3-01`, `RC-P3-02`. Confirmed `GT-P2-02` and `GT-P3-01` genuinely closed and all other findings preserved | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` (§ Subsequent independent review / remediation) |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-001` | `COMPLETE` (local, not pushed) — replaced live-tip assertions with integration-invariant checkpoint semantics across the five canonical documents; corrected this index's stale review row; imported pin artifact left byte-identical. `RC-P2-01` and `RC-P3-01` `CLOSED_PENDING_INDEPENDENT_REVIEW`; commit SHA deliberately not self-declared | `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md` (§ Subsequent independent review / remediation) |
+| `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001` | `ELIGIBLE` | Independent read-only review of the remediation tip; must resolve and pin its exact SHA from Git. Not authorized, not started. |
+| Reconciliation-lineage integration (exact reviewed tip, ff-only) | `BLOCKED` | Plain-name item; no identifier minted. Requires a passing remediation review and separate explicit Operator authorization naming the exact SHA. |
 | Publication (push / PR / PR review / canonical merge) | `BLOCKED` | Plain-name item; no identifier minted. Requires separate explicit Operator authorization per Integration Plan §12. |
 | `MELLYCORE-ROADMAP-LOCK-001` | `BLOCKED` | Integration Plan §13 conditions 1-10 satisfied; condition 11 (separate explicit Operator authorization) outstanding. Not minted, drafted, or executed. |
 

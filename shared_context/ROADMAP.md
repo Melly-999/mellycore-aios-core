@@ -623,19 +623,30 @@ sequence. The global higher-priority pointer
 `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
 place, and independently governed.
 
-### Integration status — locally integrated, not pushed
+### Integration status — locally integrated to a verified checkpoint, not pushed
 
-All nine units below, plus a distinct post-Unit-9 Governance Tail, are now
-integrated on the local branch `integration/mellycore-product-track-001` at
-`16da3ec2df9b52b203bb16468f90258f2d7f540c`: **44 commits** from canonical
-baseline `947f33d27d5546775186e96bdc61e30db78c0b3d`, **0 merge commits**,
-fast-forward only, **zero authored commits**. Governance is recorded in
-`docs/tasks/MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001.md` and
+**Completed gate: Governance Tail integration.** All nine units below, plus a
+distinct post-Unit-9 Governance Tail, are integrated as of the **verified
+integration checkpoint `16da3ec2df9b52b203bb16468f90258f2d7f540c`** — **44
+commits** from canonical baseline `947f33d27d5546775186e96bdc61e30db78c0b3d`,
+**0 merge commits**, fast-forward only, **zero authored commits**. That is a
+permanent property of the checkpoint commit, not a statement about the live
+branch tip; **resolve the live tip from Git when it matters**. Governance is
+recorded in `docs/tasks/MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001.md` and
 `docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md`.
 
-**Remote canonical `main` has not advanced** — `clean-origin/main` remains
-`947f33d27d5546775186e96bdc61e30db78c0b3d`. Nothing is pushed, merged remotely,
-or deployed. Publication remains a separate, unauthorized step.
+**Next governance sequence — reconciliation lineage.** Two documentation-only
+descendants of the checkpoint exist on separate local branches: reconciliation
+candidate `493dc86ba1f56d854876e7d2a741253d52283bef` and a remediation tip whose
+SHA is deliberately not self-declared. Neither is integrated. The sequence is:
+remediation → independent remediation review → (if PASS) separately authorized
+exact-tip integration → post-integration verification. A bounded fast-forward of
+that lineage would yield **46 cumulative commits, 0 merges**, subject to fresh
+verification by that task.
+
+**Remote canonical `main` is separately gated** — `clean-origin/main` was
+`947f33d27d5546775186e96bdc61e30db78c0b3d` at authoring time. Nothing is pushed,
+merged remotely, or deployed. Publication remains a separate, unauthorized step.
 
 **Integration changed no implementation state.** Every entry below that reads
 "specification only" or "documentation only" still does. `NEW-P2-02` remains

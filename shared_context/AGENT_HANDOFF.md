@@ -1,19 +1,90 @@
 # Agent Handoff
 
-## Latest Update — Product Track Units 1-9 and Governance Tail integrated locally; durable evidence recorded; canonical state reconciled
+## Latest Update — Reconciliation state semantics remediated; integration-invariant checkpoint model adopted
+
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-001`
+
+### Canonical state model
+
+These four concepts are distinct and must not be collapsed. Every state
+statement in the canonical documents now uses them.
+
+| Concept | Value | Nature |
+| --- | --- | --- |
+| **Canonical baseline** | `947f33d27d5546775186e96bdc61e30db78c0b3d` | Fixed remote `clean-origin/main` |
+| **Verified Governance-Tail integration checkpoint** | `16da3ec2df9b52b203bb16468f90258f2d7f540c` | **Immutable verified fact**: 44 cumulative commits from baseline, 0 merge commits, every commit single-parent — 42-commit nine-unit Product Track plus the two reviewed Governance Tail commits, reached entirely by fast-forward with zero authored commits |
+| **Reconciliation candidate** | `493dc86ba1f56d854876e7d2a741253d52283bef` | First documentation-only descendant of the checkpoint |
+| **Remediation tip** | *this commit — SHA intentionally not self-declared* | Second documentation-only descendant; must be resolved from Git and pinned by the next independent review |
+| **Live integration branch tip** | *resolve from Git* | `git -C <repo> rev-parse integration/mellycore-product-track-001` |
+
+The checkpoint is a statement about a **commit**, not about where the branch
+currently points. **When live tip identity matters, resolve it from Git** — do
+not read a checkpoint SHA as a live-tip claim.
+
+**At the time this remediation record was authored:**
+`integration/mellycore-product-track-001` pointed at the verified checkpoint
+`16da3ec2…`; the reconciliation candidate and this remediation commit both sat on
+**separate local branches** and **neither was integrated**; and no push, pull
+request, remote-main mutation, or deployment had occurred.
+
+**Remote canonical `main` is separately gated.** `clean-origin/main` was
+`947f33d27d5546775186e96bdc61e30db78c0b3d` at authoring time and is advanced only
+by a separately authorized publication sequence. Everything recorded here is
+**local**.
+
+### Expected effect of a future authorized integration
+
+If the exact reconciliation lineage
+`16da3ec2…` → `493dc86…` → *this remediation commit* passes independent review
+and receives separate Operator authorization, a bounded fast-forward would add
+exactly **two** documentation/governance commits after the 44-commit checkpoint,
+giving **46 cumulative commits, 0 merge commits** — subject to fresh graph
+verification by that later task. No such integration is authorized here.
+
+### This remediation
+
+Closes review findings `RC-P2-01` (blocking) and `RC-P3-01` from
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001`
+(`FAIL_REMEDIATION_REQUIRED`), which found that the reconciliation candidate's
+canonical documents asserted a live branch tip that its own integration would
+falsify. Both are **`CLOSED_PENDING_INDEPENDENT_REVIEW`** — this task cannot
+declare its own work finally closed.
+
+`PIN_EQUALITY_SCOPE = GOVERNANCE_TAIL_ADMISSION_ONLY`. The published
+`REVIEW_PINNED_GOVERNANCE_TAIL_SHA = 16da3ec2df9b52b203bb16468f90258f2d7f540c`
+governs Governance Tail admission only; it does **not** require later
+reconciliation commits to carry the same SHA, and it is unchanged by this task.
+
+**Unchanged:** `NEW-P2-01` amendment-affecting; `NEW-P2-02`
+**implementation-blocking**; readiness `NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`;
+frontend **not** unlocked; `MELLYCORE-ROADMAP-LOCK-001` **BLOCKED**.
+`GT-P3-02`, `CI-P3-01`, `CI-P3-02`, `U9-P3-01`, `RC-P3-02`, and the two
+record-content P3 notes remain **OPEN**, non-blocking.
+
+**Foreign source-worktree state is volatile** and outside this task's authority.
+It was not touched. Future mutation tasks must take a **fresh read-only
+snapshot** rather than assuming any previously recorded path list or count.
+
+- Exact next task, not started:
+  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-001`
+  (independent read-only review that must resolve and pin this commit's exact SHA).
+
+## Prior Update — Product Track Units 1-9 and Governance Tail integrated locally; durable evidence recorded; canonical state reconciled
 
 `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001`
 
-**Current verified local state.** Branch `integration/mellycore-product-track-001`
-is at `16da3ec2df9b52b203bb16468f90258f2d7f540c`: **44 commits** from canonical
+**Verified Governance-Tail integration checkpoint.**
+`16da3ec2df9b52b203bb16468f90258f2d7f540c` records **44 commits** from canonical
 baseline `947f33d27d5546775186e96bdc61e30db78c0b3d`, **0 merge commits**, every
-commit single-parent. That is the 42-commit nine-unit Product Track plus the two
-reviewed Governance Tail commits. Integration was performed **entirely by
-fast-forward**; zero commits were authored by any integration task.
+commit single-parent — the 42-commit nine-unit Product Track plus the two
+reviewed Governance Tail commits, reached **entirely by fast-forward** with zero
+commits authored by any integration task. **At the time this task ran**,
+`integration/mellycore-product-track-001` pointed at that checkpoint.
 
-**Remote canonical `main` has NOT advanced.** `clean-origin/main` remains
-`947f33d27d5546775186e96bdc61e30db78c0b3d`. Nothing has been pushed; no pull
-request exists; no deployment occurred. All work described here is **local only**.
+**Remote canonical `main` had not advanced** when this task ran:
+`clean-origin/main` was `947f33d27d5546775186e96bdc61e30db78c0b3d`. Nothing was
+pushed; no pull request was created; no deployment occurred. All work recorded
+in this entry is **local**.
 
 **Completed gate sequence, in order:**
 
@@ -60,11 +131,13 @@ provider, or deployment work is authorized or performed.
 conditions 1-10 are now satisfied; condition 11 — a separate explicit Operator
 authorization — is not.
 
-- The known foreign scaffold-spec modification in the source worktree remained
-  untouched and unstaged throughout.
-- Exact next task, not started:
-  `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001`
-  (independent read-only review of this reconciliation commit).
+- Foreign source-worktree state was not touched by that task. It is volatile;
+  any later task must snapshot it fresh rather than relying on a recorded list.
+- Next task named by that task: `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REVIEW-001`.
+  **That review has since completed** with
+  `FAIL_REMEDIATION_REQUIRED_MELLYCORE_PRODUCT_TRACK_GOVERNANCE_TAIL_RECONCILIATION_REVIEW_001`
+  (P0 0 / P1 0 / P2 1 blocking / P3 2), which is what the current top entry
+  remediates. See that entry for live sequencing.
 
 ## Prior Update — Product Track integration plan governance remediated; no integration performed
 
