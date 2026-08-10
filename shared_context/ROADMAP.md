@@ -2,10 +2,20 @@
 
 ## Canonical Direction
 
-MellyCore AIOS is a local-first, operator-controlled **AI Operations
-Observatory**. It makes models, agents, runs, context, memory, recommendations,
-and approvals visible and auditable while keeping consequential action behind an
-explicit operator gate.
+MellyCore is a local-first, operator-controlled **AI Operating System**. Its
+Command Center presents a cinematic AI Operations Observatory and visually
+compelling AI Workspaces, while its runtime, provider, tool, context,
+persistence, evidence, governance and safety planes remain vendor-neutral,
+explicit, provenance-bearing and fail-closed.
+
+This reconciled thesis (locked by `MELLYCORE-ROADMAP-LOCK-001B`; full product
+structure in `shared_context/PROJECT_STATE.md`'s "Cinematic AIOS Product
+Structure" section) extends the accepted AI Operations Observatory / Control
+Plane identity rather than replacing it: the Command Center is the product/
+navigation manifestation of the existing control, observability, context,
+routing, and governance systems. The Observatory continues to make models,
+agents, runs, context, memory, recommendations, and approvals visible and
+auditable while keeping consequential action behind an explicit operator gate.
 
 Controlled improvement loop:
 
@@ -1455,6 +1465,171 @@ a reserved name:
 `/route`, `/provider`, `/skills`, `/hooks`, `/plugins`, `/packages`,
 `/agents`, `/batch`, `/status`, `/validate`, `/security`, `/memory`,
 `/history`, `/report`, `/docs`.
+
+## Cinematic AIOS Product Vision & Commercial Showcase Roadmap — Locked by MELLYCORE-ROADMAP-LOCK-001B
+
+This section records reconciled product direction and milestone structure
+only. It authorizes, implements, connects, deploys, and executes nothing. It
+mints no downstream task identifiers — those are owned by
+`shared_context/TASK_INDEX.md` and materialized by a later, separately
+authorized reconciliation task. Nothing here converts roadmap intent into
+implementation truth; every named surface, workspace, and concept remains
+**planned** unless separately evidenced.
+
+### Product structure (locked)
+
+Exactly two top-level product layers (`TOP_LEVEL_LAYER_COUNT = 2`):
+
+1. **Command Center** — the product/navigation manifestation of the existing
+   Control Plane / AI Operations Observatory, Shared Context, routing, and
+   governance systems. Its surfaces (Overview / Mission Control, Knowledge &
+   Operations Graph, Context Management, Runtime Constellation, Agents, Runs,
+   Models, Providers, Model Routing, Tools / MCP, Shared Context, Memory,
+   Artifacts, Cost / Usage, Observability, Governance / Approvals, Hardware /
+   Local AI) are product/UI surfaces, not new canonical data owners.
+2. **AI Workspaces** — exactly ten planned workspaces
+   (`WORKSPACE_COUNT = 10`): Deep Research, Compare Arena, Multi-Agent Crew,
+   Email AI, Voice, Video Intelligence, Image Studio, Model Downloader,
+   Ollama Manager, and Coding / Runtime Studio. Obsidian, Knowledge &
+   Operations Graph, Runtime Constellation, Source Arena, Model Arena, Local
+   AI Hub, Shared Context, and Mission Control are **not** additional
+   workspaces (`OBSIDIAN_WORKSPACE_COUNT_IMPACT = 0`); Local AI Hub is a
+   presentation grouping of Model Downloader and Ollama Manager only.
+
+Full product-structure detail, workspace directions, flagship-concept
+boundaries (Runtime Constellation as projection, Knowledge & Operations Graph
+as derived view), Obsidian context-source phases, model-economics ownership,
+and the Capability View / Hardware Capability Service research directions are
+recorded in `shared_context/PROJECT_STATE.md`'s "Cinematic AIOS Product
+Structure — Locked" section, which is the Product Vision owner. This roadmap
+does not duplicate them.
+
+### Workspace direction highlights (planned, not implemented)
+
+- **Deep Research** — future flagship workflow PLAN → SEARCH → READ → ANALYZE
+  → SYNTHESIZE → REPORT, with future visibility of sources, citations,
+  progress, runtime, model, tools, artifacts, cost, and provenance. No
+  separate Research control plane.
+- **Compare Arena** — one prompt across models, parallel comparison, blind
+  mode, reveal, latency/tokens/cost, human winner, evidence — on canonical
+  Model Router / Provider / Run / Evidence ownership.
+- **Multi-Agent Crew** — future roles (Supervisor, Planner, Researcher,
+  Analyst, Coder, Reviewer, Custom Role) over the accepted framework
+  ecosystem concepts (Claude Code, OpenAI Agents SDK, LangGraph, CrewAI,
+  AutoGen, MellyCore Custom); no unsupported runtime identifiers invented.
+- **Email AI** — future B2B triage, classification, summaries, priorities,
+  lead/invoice detection, action extraction, reply drafts, approval queue.
+  READ / DRAFT / SEND stay distinct; SEND remains consequential.
+- **Voice** — an interface, not an authority owner: Voice → STT → Intent →
+  Control Plane → Runtime / Tool → Approval if required → Result → TTS.
+- **Video Intelligence** — transcription, scene/topic extraction, summaries,
+  highlights, meetings, sales-call analysis, repurposing, artifacts.
+- **Image Studio** — AI image orchestration (provider/model, generation,
+  variants, comparison, controlled editing, lineage, versions, artifacts,
+  cost); not a Photoshop clone.
+- **Model Downloader** — model discovery, artifacts, quantization,
+  provenance, licensing, storage requirements, hardware fit, progress,
+  lifecycle. No downloads performed by this lock.
+- **Ollama Manager** — runtime status, endpoint health, installed/loaded
+  models, RAM/VRAM, load/unload, local model state. "Manager" grants no
+  mutation authority.
+- **Coding / Runtime Studio** — flagship technical workspace projecting
+  runtime/framework, model, run, attempt, state, tools, context, artifacts,
+  timeline, tokens, cost, Attach, and Stop Request. Operational state remains
+  evidence-based.
+
+### Routing experience (product-direction labels only)
+
+Future human-facing routing concepts may include: Balanced, Zero-Cost First,
+Zero-Cost Only, Local First, Privacy First, Quality First, Manual. These are
+product-direction labels, not production enums, and none is minted here.
+Future routing explanations may reference Capability Fit, Privacy,
+Availability, Quota, Cost, Latency, Quality, and Hardware Fit. Capability
+compatibility precedes price preference; zero-cost-only routing never
+silently escalates to paid inference.
+
+### Commercial showcase acceleration
+
+The fastest **truthful** frontend showcase is a first-class product
+objective. The repository already contains a real static frontend under
+`site/`; MellyCore does **not** need a greenfield frontend scaffold. The
+correct path is evolution of the existing static showcase:
+
+```
+EXISTING STATIC SHOWCASE
+        ↓
+CINEMATIC AIOS EVOLUTION
+        ↓
+FIRST COMMERCIAL SHOWCASE
+        ↓
+FLAGSHIP COMMAND CENTER
+        ↓
+FULL STATIC AIOS
+        ↓
+PRODUCTION POLISH
+```
+
+The visual showcase is intended to help attract B2B clients, freelance leads,
+recruiters, GitHub visitors, collaborators, and future product users. Live
+Gate C infrastructure is **not** required merely to render truthful
+planned/static surfaces — but no live capability may be faked to accelerate
+delivery. Visibility and activation remain separate. Commercial urgency never
+overrides evidence, safety, or governance.
+
+### Milestones M0–M5
+
+Milestone direction only; downstream task IDs are minted by Task Index work,
+not here.
+
+- **M0 — Cinematic AIOS Vision Lock.** Product Vision + Roadmap updated
+  (this lock, `MELLYCORE-ROADMAP-LOCK-001B`).
+- **M1 — Docs / Spec Amendment Gate.** Downstream: Task Index / Run Queue
+  reconciliation; Safety/static-truth amendment; Design System amendment;
+  Homepage Spec amendment; independent Docs Integration Review.
+- **M2 — First Commercial Design Showcase.** Evolve existing `site/`:
+  cinematic landing, premium hero, Command Center preview, Knowledge &
+  Operations Graph preview, Runtime Constellation preview, exactly ten
+  planned workspaces, Obsidian / Shared Context story, Local / Free Remote /
+  Paid Remote model story, governance/safety proof, commercial CTA. The 001A
+  planning estimate is approximately 5–7 downstream agent runs, subject to
+  Task Index materialization — a planning estimate, not execution evidence.
+- **M3 — Flagship Command Center Showcase.** Command Center shell, Knowledge
+  & Operations Graph, Runtime Constellation, context / Obsidian planned
+  visualization, routing explanation, run/agent HUD, governance/approval
+  visualization.
+- **M4 — Complete Static AIOS Showcase.** Coherent static surfaces for
+  exactly ten workspaces, navigation, Local AI grouping, demo/static/
+  loading/unavailable states, responsive quality, accessibility, reduced
+  motion.
+- **M5 — Public Production Showcase.** Visual integration review, responsive
+  acceptance, accessibility, reduced motion, performance review, production
+  build readiness, truthful static/live review, separately authorized
+  merge/deploy, post-deploy validation. No deployment is performed or
+  authorized by this lock.
+
+### Claude Design parallel lane
+
+After successful 001B, a **Claude Design Exploration Lane** is
+`READY_TO_START` in parallel with later canonical documentation work (Task
+Index work, Safety/static-truth work, early design exploration). Its purpose
+is to reduce time to a high-quality showcase by exploring cinematic hero,
+orbital core, the Source Arena relationship, Command Center cockpit,
+Knowledge & Operations Graph, Runtime Constellation, workspace visual
+families, HUD, typography, information density, motion, and desktop/tablet/
+mobile compositions. Claude Design output is **design input** — not canonical
+product truth, not the canonical Design System, not implemented, validated,
+or live frontend state. Final design adoption belongs to the Design System
+amendment and the Homepage Spec amendment.
+
+### Source Arena / hero decision
+
+Source Arena's existing canonical hero importance is **not** removed. This
+lock records only that: (1) Source Arena remains an important flagship
+proof/exploration surface; (2) the expanded AIOS direction permits exploring
+a Source-Arena-led hero, an Orbital-Core / Command-Center-led hero, or a
+hybrid hero; (3) final hero hierarchy belongs to the Design System amendment
+and the Homepage Spec amendment; (4) Claude Design should explicitly compare
+these directions. No final pixel/layout hierarchy is decided here.
 
 ## Safety Gates
 

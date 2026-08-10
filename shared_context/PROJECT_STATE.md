@@ -4,10 +4,27 @@ Project name: MellyCore AIOS
 
 ## Canonical Product Identity
 
-MellyCore AIOS is a local-first, operator-controlled **AI Operations
-Observatory**. It exists to make models, agents, runs, context, memory,
+MellyCore is a local-first, operator-controlled **AI Operating System**.
+
+Its Command Center presents a cinematic AI Operations Observatory and
+visually compelling AI Workspaces, while its runtime, provider, tool,
+context, persistence, evidence, governance and safety planes remain
+vendor-neutral, explicit, provenance-bearing and fail-closed.
+
+This thesis (locked by `MELLYCORE-ROADMAP-LOCK-001B`) extends — it does not
+reject — the accepted AI Operations Observatory / Control Plane identity. The
+relationship is:
+
+```
+CONTROL PLANE / AI OPERATIONS OBSERVATORY
+                ↓
+        COMMAND CENTER UX
+```
+
+The Observatory continues to make models, agents, runs, context, memory,
 recommendations, and approvals visible, inspectable, approval-gated, and
-auditable.
+auditable. The Command Center is its product/navigation manifestation, not a
+replacement architecture.
 
 The controlled improvement loop is:
 
@@ -16,6 +33,127 @@ The controlled improvement loop is:
 Consequential action requires explicit operator approval. The system does not
 autonomously change safety rules, merge, deploy, execute recommendations, or
 store provider secrets.
+
+## Cinematic AIOS Product Structure — Locked (Product Vision, Not Implementation)
+
+Locked by `MELLYCORE-ROADMAP-LOCK-001B`. Everything in this section is
+**product vision and planned product structure**: it authorizes, implements,
+connects, and executes nothing, mints no new canonical data owner, and changes
+no accepted architectural contract. Existing Agent Runtime, Framework Bridge,
+Provider Registry, Integration Gateway, and Shared Context contracts remain
+authoritative.
+
+There are exactly **two top-level product layers**
+(`TOP_LEVEL_LAYER_COUNT = 2`):
+
+### Layer 1 — Command Center
+
+The Command Center is the product/navigation manifestation of the existing
+control, observability, context, routing, and governance systems. Expected
+product surfaces include: Overview / Mission Control, Knowledge & Operations
+Graph, Context Management, Runtime Constellation, Agents, Runs, Models,
+Providers, Model Routing, Tools / MCP, Shared Context, Memory, Artifacts,
+Cost / Usage, Observability, Governance / Approvals, and Hardware / Local AI.
+
+These are product/UI surfaces. They project canonical state; they do **not**
+become new canonical data owners.
+
+### Layer 2 — AI Workspaces
+
+Exactly **ten planned AI Workspaces** (`WORKSPACE_COUNT = 10`), all
+**planned**, none implemented:
+
+1. Deep Research
+2. Compare Arena
+3. Multi-Agent Crew
+4. Email AI
+5. Voice
+6. Video Intelligence
+7. Image Studio
+8. Model Downloader
+9. Ollama Manager
+10. Coding / Runtime Studio
+
+The following are **not** additional workspaces: Obsidian, Knowledge &
+Operations Graph, Runtime Constellation, Source Arena, Model Arena, Local AI
+Hub, Shared Context, and Mission Control. **Local AI Hub** may exist as a
+presentation grouping containing Model Downloader and Ollama Manager; it is
+not an eleventh workspace and not a new canonical service.
+
+### Status truth
+
+Workspace and surface status uses existing state semantics; no new universal
+status enum is minted. The following distinctions are preserved and must not
+be collapsed: visual != implemented; planned != implemented; implemented !=
+tested; tested != connected; connected != authorized; supported != connected;
+static demo != live telemetry; available != reliable; zero-cost != private.
+
+### Flagship Command Center concepts (projections, not owners)
+
+- **Runtime Constellation** — a flagship visual/product concept projecting the
+  agent-runtime ecosystem (possible nodes include Claude Code, OpenAI Agents
+  SDK, LangGraph, CrewAI, AutoGen, MellyCore Custom, the Codex ecosystem, and
+  local execution). It is **not** a canonical runtime owner: Agent Runtime
+  owns run/attempt lifecycle, Framework Bridge owns framework-neutral
+  projection, and future Framework Adapters own framework-specific
+  implementation. Displayed does not mean installed, supported, connected, or
+  running.
+- **Knowledge & Operations Graph** — a flagship Command Center surface
+  extending the existing Living Context Graph, Shared Context, AI Operations,
+  Run Ledger, and provider/tool/artifact projections. It is a **derived
+  view** that may combine source knowledge, MellyCore system topology, and
+  MellyCore operations topology; projected relationships preserve or
+  reference SOURCE, AUTHORITY, PROVENANCE, REVISION, CONFIDENCE, and STATUS.
+  It must not become a competing canonical graph truth owner, and the graph
+  schema is unchanged by this lock.
+
+### Obsidian — external context source (workspace impact: zero)
+
+Obsidian is locked as a first-class **external context-source direction**,
+not an AI Workspace (`OBSIDIAN_WORKSPACE_COUNT_IMPACT = 0`). No new Context
+Gateway is introduced. The preferred conceptual boundary is: Obsidian Vault →
+Obsidian Context Adapter → Shared Context Bridge / accepted exchange boundary
+→ Context Gate → provenance + sensitivity + admission → canonical Shared
+Context → Knowledge & Operations Graph / authorized consumers. Future phases:
+O1 bounded read-only local Vault integration; O2 optional live plugin bridge;
+O3 optional controlled writeback, which must remain
+PROPOSE → DIFF → HUMAN APPROVAL → WRITE → VERIFY → AUDIT / EVIDENCE. No
+Obsidian implementation exists or is authorized.
+
+### Model economics and routing (direction, not enums)
+
+The product direction supports multiple inference classes: **LOCAL**,
+**ZERO-COST REMOTE**, **PAID REMOTE**, and **TRIAL / CREDIT**. No single
+universal production enum is minted; canonical ownership remains separated —
+Provider Registry (provider/model evidence: identity, credential
+requirements, capabilities, availability, health, rate limits, quotas,
+provider-side pricing evidence), Model Router (capability-first filtering,
+policy precedence, selection, fallback, paid escalation), AI Operations /
+Cost Observatory (cost class, estimates, actual cost, source, revision,
+freshness), Integration Gateway (credential use, authorization,
+provider-bound execution, data-handling controls). The Command Center owns
+projection and explanation only.
+
+Invariants: FREE IS NOT A PROVIDER. FREE IS NOT LOCAL. FREE IS NOT PRIVATE.
+FREE IS NOT RELIABLE BY DEFINITION. FREE IS NOT NECESSARILY PERMANENT. TRIAL
+CREDIT IS NOT PERMANENT FREE ACCESS. Capability compatibility precedes price
+preference. Zero-cost-only routing must never silently escalate to paid
+inference. Workspace code must not hard-code provider-specific routing.
+LOCAL AI is distinct from ZERO-COST REMOTE AI even where monetary cost is
+zero.
+
+### Capability View and Hardware Capability Service (research directions)
+
+No new universal canonical Capability Registry is created. The locked
+requirement is a **federated, provenance-bearing Capability View** — a
+derived view / platform-research direction referencing authoritative
+capability owners (Provider Registry, Agent Runtime, Framework Bridge, future
+Tool Gateway, Integration Gateway, Agent Package contracts, and a future
+Hardware Capability Service). The **Hardware Capability Service** is a future
+platform-research direction (hardware snapshots, runtime capabilities, model
+requirements, hardware/model fit, estimator adapters, platform constraints,
+measured benchmarks, recommendation explanations); it is not implemented, and
+MellyCore is not hard-coupled to NVIDIA, Windows, Ollama, or llmfit.
 
 ## Durable Implemented State
 

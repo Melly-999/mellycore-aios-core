@@ -1,6 +1,57 @@
 # Agent Handoff
 
-## Latest Update — Remediation-002 review failed on lineage cardinality; remediation-003 applied
+## Latest Update — Cinematic AIOS Product Vision & Roadmap locked (MELLYCORE-ROADMAP-LOCK-001B)
+
+`MELLYCORE-ROADMAP-LOCK-001B` performed the authorized narrow Product Vision +
+Roadmap mutation on scoped local branch `docs/mellycore-roadmap-lock-001b`,
+created from the preflight-pinned baseline
+`3da737fbc241cd28ed29a350652c34cf64c66420` (the tip of
+`integration/mellycore-product-track-001`, which was not advanced). It was
+authorized by the completed read-only sequence `MELLYCORE-ROADMAP-LOCK-001A` →
+`MELLYCORE-ROADMAP-LOCK-001B-PREFLIGHT` (result `BASELINE_GO`), which
+explicitly selected this baseline; that Operator sequencing supersedes the
+prior entry's "no Roadmap Lock work is queued" note without affecting
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003`,
+which remains `ELIGIBLE` in `shared_context/TASK_INDEX.md`.
+
+Locked (product vision / roadmap direction only — nothing implemented,
+connected, authorized, deployed, pushed, or merged):
+
+- Reconciled thesis: MellyCore is a local-first, operator-controlled **AI
+  Operating System**; the **Command Center** is the product/navigation
+  manifestation of the accepted Control Plane / AI Operations Observatory
+  (extension, not replacement).
+- Exactly **two top-level product layers** (Command Center, AI Workspaces)
+  and exactly **ten planned AI Workspaces** (Deep Research, Compare Arena,
+  Multi-Agent Crew, Email AI, Voice, Video Intelligence, Image Studio, Model
+  Downloader, Ollama Manager, Coding / Runtime Studio).
+  `OBSIDIAN_WORKSPACE_COUNT_IMPACT = 0`; Local AI Hub is a presentation
+  grouping, not an eleventh workspace.
+- Runtime Constellation = product projection (not a runtime owner); Knowledge
+  & Operations Graph = derived view (schema unchanged); Obsidian = external
+  context-source direction through the accepted Context Gate boundary (no new
+  Context Gateway); model economics = LOCAL / ZERO-COST REMOTE / PAID REMOTE
+  / TRIAL-CREDIT with separated canonical ownership and no silent paid
+  escalation; Capability View = federated derived view; Hardware Capability
+  Service = platform research.
+- Commercial showcase milestones **M0–M5**, evolving the existing `site/`
+  static showcase (no greenfield scaffold, no faked live capability).
+- `CLAUDE_DESIGN_PARALLEL_LANE: READY_TO_START` — output is design input
+  only; final adoption belongs to Design System + Homepage Spec amendments.
+- Source Arena keeps flagship hero importance; Source-Arena-led vs
+  Orbital-Core/Command-Center-led vs hybrid hero comparison is downstream.
+
+Files changed (exactly four): `shared_context/PROJECT_STATE.md`,
+`shared_context/ROADMAP.md`, `docs/tasks/MELLYCORE-ROADMAP-LOCK-001B.md`
+(new), this file. Task Index, Run Queue, Safety Contract, Design System,
+Homepage Spec, `site/**`, and all architectural contracts are unchanged.
+
+- Recommended next canonical task, not started, not minted here:
+  `MELLYCORE-TASK-INDEX-001` — Cinematic AIOS Roadmap Materialization
+  (requires its own Operator authorization; Task Index owns identifiers).
+  The Claude Design Exploration Lane may run in parallel after this lock.
+
+## Prior Update — Remediation-002 review failed on lineage cardinality; remediation-003 applied
 
 `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`
 resolved the remediation-002 tip from Git as
