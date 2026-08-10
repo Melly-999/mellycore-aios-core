@@ -23,6 +23,70 @@ task. Full narrative detail lives in `shared_context/ROADMAP.md`,
 |---|---|---|
 | `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` | `IN_PROGRESS` | Global higher-priority pointer; independently governed; not reordered by any track below. See `RUN_QUEUE.md`'s "Current" section. |
 
+## Cinematic AIOS Roadmap — M0-M5 (MELLYCORE-TASK-INDEX-001)
+
+Materializes the product-vision lock (`MELLYCORE-ROADMAP-LOCK-001B`, pinned
+commit `8f72b66dc96031d046e4e88e4aaebdd35d756fb9`) into an executable
+milestone sequence. This section is a **sequencing overlay**: it mints new
+task IDs only where the roadmap names a concept with no existing identifier,
+and otherwise points at the tracks already indexed above/below. It does not
+reorder the Global Pointer row, the Agent Runtime Product Track, or the
+Enterprise Provider Integration track — all three remain independently
+governed. Full milestone narrative: `shared_context/RUN_QUEUE.md`'s
+"Cinematic AIOS Roadmap Materialization" section.
+
+| Task ID | Milestone | Status | Notes |
+|---|---|---|---|
+| `MELLYCORE-ROADMAP-LOCK-001B` | M0 | `COMPLETE` | Locked cinematic AIOS product vision; commit `8f72b66dc9…`. Not reopened. |
+| `MELLYCORE-TASK-INDEX-001` | M1 | `COMPLETE` (this task; local, isolated worktree, not pushed) | This materialization. Evidence: this file, `RUN_QUEUE.md`, `docs/tasks/MELLYCORE-TASK-INDEX-001.md`. |
+| `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` | M1 | `PLANNED` | Reviews/canonicalizes the externally generated Claude Design System handoff (tokens, components, site/cockpit UI kits, `SKILL.md`) currently observed as untracked/foreign state (`.agents/`, `.claude/skills/`, `skills-lock.json`) on `design/mellycore-claude-design-sync-001`. Design input only until reviewed; not canonical, not implemented. Task ID newly minted by this materialization; no conflicting identifier found. |
+| `MELLYCORE-HERO-DIRECTION-DECISION-001` | M1 | `PLANNED`, `BLOCKED` on `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` | Decision gate comparing hero directions A (Source Arena-led), B (Orbital Command Center-led), C (Hybrid), D (Instrument/Calibration Plate — existing Claude Design candidate). Does not select a winner by naming it here. Task ID newly minted. |
+| `MELLYCORE-DESIGN-SYSTEM-CINEMATIC-AMENDMENT-001` | M1 | `PLANNED`, `BLOCKED` on `MELLYCORE-HERO-DIRECTION-DECISION-001` | Amends `shared_context/DESIGN_SYSTEM.md` (protected owner; not touched by this task) with the selected hero direction and any accepted Claude Design tokens/components. Task ID newly minted. |
+| `MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001` | M1 | `PLANNED` | Reconciles the existing `docs/tasks/MELLYCORE-HOMEPAGE-SPEC-001.md` / `docs/specs/MELLYCORE_HOMEPAGE_SPEC_001.md` (Complete, but predates the locked two-layer/ten-workspace Cinematic AIOS structure and does not model Command Center vs. AI Workspaces or Runtime Constellation/Knowledge & Operations Graph) against `MELLYCORE-ROADMAP-LOCK-001B`. Not itself an M2 implementation gate. Task ID newly minted. |
+| `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` | M1 | `PLANNED`/`ELIGIBLE` | Named as the exact next task by the Source Arena Hybrid Renderer ADR closeout (`RUN_QUEUE.md` item 2u) but never independently executed as its own task record (absent from `docs/tasks/` and this index prior to this row). Docs/spec-scope review across the Cinematic AIOS lock, the Claude Design handoff review outcome, and the reconciled homepage spec. Existing identifier reused, not newly minted. |
+| M2 critical-path implementation slice(s) | M2 | `PLANNED`, `BLOCKED` on `MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001` | No task ID minted yet — the reconciliation task above must define exact slice boundaries first. Builds on the existing canonical `site/` foundation (cinematic showcase, Source Arena static renderer slice, OpenRouter Observatory Level 1 — all merged to `main`), not a greenfield scaffold. See `RUN_QUEUE.md` "M2 — First Commercial Showcase" for the candidate-slice list and explicit non-requirements. |
+| M3 Flagship Command Center product-surface tasks | M3 | `PLANNED` | Sixteen product/UI projection surfaces (Mission Control/Overview, Knowledge & Operations Graph, Context Management, Runtime Constellation, Agents, Runs, Models, Providers, Model Routing, Tools/MCP, Shared Context, Memory, Artifacts, Cost/Usage, Observability, Governance/Approvals, Hardware/Local AI). No task IDs minted; each requires its own spec/review pass after M2. |
+| M4 static-showcase completion for all ten workspaces | M4 | `PLANNED` | See "Ten AI Workspaces — Static Showcase Plan" below. No task IDs minted. |
+| M5 public-production gates | M5 | `PLANNED` | Responsive, mobile, accessibility, reduced-motion, truthfulness, performance, security/privacy, production-build-readiness, merge-authorization, and deployment-authorization gates. No task IDs minted; none authorizes merge or deployment by naming it here. |
+
+### Ten AI Workspaces — Static Showcase Plan
+
+Exactly ten workspaces (`WORKSPACE_COUNT = 10`, locked by
+`MELLYCORE-ROADMAP-LOCK-001B`); no eleventh. All rows `PLANNED` — none
+implemented, connected, or authorized by this table.
+
+| Workspace | Static-showcase stage (M4) | Activation wave (`RUN_QUEUE.md`) | Major dependencies |
+|---|---|---|---|
+| Coding / Runtime Studio | Planned | Wave 1 | M2 showcase foundation; Agent Runtime Product Track (spec-only; scaffold implementation still `BLOCKED`) |
+| Deep Research | Planned | Wave 1 | M2 showcase foundation; Model Router direction (`PROJECT_STATE.md` model-economics section) |
+| Compare Arena | Planned | Wave 1 | M2 showcase foundation; OpenRouter Observatory Level 1 (existing, canonical) |
+| Multi-Agent Crew | Planned | Wave 1 | M2 showcase foundation; Agent Runtime handoff model (spec-only) |
+| Email AI | Planned | Wave 2 | M2 showcase foundation; Marketing/Enterprise Provider Pack specs (docs-only, not connected) |
+| Video Intelligence | Planned | Wave 2 | M2 showcase foundation |
+| Voice | Planned | Wave 2 | M2 showcase foundation |
+| Image Studio | Planned | Wave 3 | M2 showcase foundation |
+| Model Downloader | Planned | Wave 3 | M2 showcase foundation; Hardware Capability Service (future research direction, not implemented) |
+| Ollama Manager | Planned | Wave 3 | M2 showcase foundation; Hardware Capability Service (future research direction, not implemented) |
+
+Activation priority (Wave 1/2/3) governs the order workspaces receive deeper
+static product surfaces after M2; it is independent of, and does not imply,
+implementation order. `Local AI Hub` is a presentation grouping over Model
+Downloader + Ollama Manager, not an eleventh workspace.
+
+### Parallel Lanes (safe concurrency)
+
+These lanes touch disjoint canonical owners and may proceed simultaneously;
+none blocks another unless stated:
+
+- **GOVERNANCE** — `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003` (Agent Runtime Product Track, below) and the OpenAI Batch reconciliation chain (`RUN_QUEUE.md` "Current" section). Owns `docs/decisions/`, `docs/research/`, and the reconciliation-lineage branches only.
+- **DESIGN** — `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` → `MELLYCORE-HERO-DIRECTION-DECISION-001` → `MELLYCORE-DESIGN-SYSTEM-CINEMATIC-AMENDMENT-001`. Owns `shared_context/DESIGN_SYSTEM.md` (future amendment only) and the design-handoff worktree/branch it reviews — not this task's worktree or the primary checkout.
+- **IMPLEMENTATION** — M2 critical-path slice(s), once unblocked by `MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001`. Owns `site/`.
+- **PLATFORM / RESEARCH** — Enterprise Provider Integration parallel track (below) and 3D Scene Foundation PR #28 (blocked on physical Gate B). Owns their respective spec/decision documents and paused PR only; neither is required for M2.
+
+GOVERNANCE, DESIGN, and PLATFORM/RESEARCH may run concurrently today.
+IMPLEMENTATION is gated on one DESIGN-track output (the reconciled homepage
+spec) but not on GOVERNANCE or PLATFORM/RESEARCH completing first.
+
 ## Agent Runtime Product Track
 
 | Task ID | Status | Evidence |

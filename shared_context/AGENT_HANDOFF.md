@@ -1,6 +1,53 @@
 # Agent Handoff
 
-## Latest Update — Cinematic AIOS Product Vision & Roadmap locked (MELLYCORE-ROADMAP-LOCK-001B)
+## Latest Update — Cinematic AIOS Roadmap Materialization (MELLYCORE-TASK-INDEX-001)
+
+`MELLYCORE-TASK-INDEX-001` materialized the locked Cinematic AIOS product
+vision (`MELLYCORE-ROADMAP-LOCK-001B`, pinned commit
+`8f72b66dc96031d046e4e88e4aaebdd35d756fb9`) into an executable M0-M5
+milestone sequence, in an isolated worktree created directly from that
+pinned SHA (`C:\AI\MellyCore_Workspace\02_Worktrees\mellycore-task-index-001`,
+branch `docs/mellycore-task-index-001`) — no existing worktree was reused,
+switched, or mutated, including the primary checkout and the Claude Design
+source/former-source worktrees, both of which were left untouched.
+
+This was a **retry** of a prior run that made zero repository mutations
+(`PRE-FLIGHT-ONLY` block on a since-superseded dependency on a specific
+worktree's checked-out branch). This retry verified the pinned branch ref
+independently instead of depending on any worktree's live checkout state.
+
+Added (exactly two files changed; nothing else): a "Cinematic AIOS Roadmap —
+M0-M5" section in `shared_context/TASK_INDEX.md` (milestone task table, the
+ten-workspace static-showcase plan, and the four parallel lanes) and a
+"Cinematic AIOS Roadmap Materialization — M0-M5 Sequencing" section in
+`shared_context/RUN_QUEUE.md` (next-canonical-task, next-design-task, safe
+parallel tasks, M2 critical path, post-showcase platform work, and
+future/optional research). Five new task identifiers were minted only where
+no existing identifier covered the concept
+(`MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001`,
+`MELLYCORE-HERO-DIRECTION-DECISION-001`,
+`MELLYCORE-DESIGN-SYSTEM-CINEMATIC-AMENDMENT-001`,
+`MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001`); everything else
+points at an identifier or document that already existed
+(`MELLYCORE-DOCS-INTEGRATION-REVIEW-001`, reused from the Hybrid Renderer ADR
+closeout; `docs/tasks/MELLYCORE-HOMEPAGE-SPEC-001.md`, flagged as predating
+the locked two-layer/ten-workspace structure and requiring reconciliation,
+not treated as an M2-ready spec).
+
+`shared_context/PROJECT_STATE.md`, `ROADMAP.md`, `SAFETY_CONTRACT.md`,
+`DESIGN_SYSTEM.md`, and `site/**` are unchanged. No implementation,
+connection, credential, provider call, merge, push, or deployment occurred.
+Full detail: `docs/tasks/MELLYCORE-TASK-INDEX-001.md`.
+
+- Recommended next canonical task (repository-wide, unaffected by this
+  materialization), not started here:
+  `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-REVIEW-001`.
+- Recommended next design-lane task, not started here:
+  `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001`.
+- `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003`
+  remains `ELIGIBLE` and unaffected, per `shared_context/TASK_INDEX.md`.
+
+## Prior Update — Cinematic AIOS Product Vision & Roadmap locked (MELLYCORE-ROADMAP-LOCK-001B)
 
 `MELLYCORE-ROADMAP-LOCK-001B` performed the authorized narrow Product Vision +
 Roadmap mutation on scoped local branch `docs/mellycore-roadmap-lock-001b`,

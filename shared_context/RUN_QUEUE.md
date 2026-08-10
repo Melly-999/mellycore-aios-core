@@ -3,6 +3,86 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
+## Cinematic AIOS Roadmap Materialization — M0-M5 Sequencing
+
+Produced by `MELLYCORE-TASK-INDEX-001` (isolated worktree
+`C:\AI\MellyCore_Workspace\02_Worktrees\mellycore-task-index-001`, branch
+`docs/mellycore-task-index-001`, from pinned commit
+`8f72b66dc96031d046e4e88e4aaebdd35d756fb9` on
+`docs/mellycore-roadmap-lock-001b`). This section overlays the locked
+Cinematic AIOS product vision (`MELLYCORE-ROADMAP-LOCK-001B`) onto the
+existing task graph. It is **independent of, and does not reorder**, the
+"Current" section immediately below, the Product Track (Agent Runtime)
+reconciliation sequence, or the Enterprise Provider Integration track —
+each keeps its own gates and gets there on its own authorization.
+
+**NEXT EXECUTABLE CANONICAL TASK** (repository-wide, unaffected by this
+overlay): `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-REVIEW-001`
+— see "Current — OpenAI Batch Final Canonical State Reconciliation Gate"
+below. (The Task Index's Global Pointer row separately names
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`; that decision task is
+only reachable after this review and its full publication chain complete —
+it is not itself the next actionable step today.)
+
+**NEXT DESIGN TASK**: `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` — review
+and canonicalize (or reject) the externally generated Claude Design System
+handoff currently sitting as untracked/foreign state on
+`design/mellycore-claude-design-sync-001` (`.agents/`, `.claude/skills/`,
+`skills-lock.json`). Treat that worktree and its untracked content as
+foreign and volatile per `RUN_QUEUE.md`'s existing "Foreign source-worktree
+state is volatile" rule (Product Track section) — this materialization did
+not touch it and the review task must take its own fresh read-only snapshot.
+
+**SAFE PARALLEL TASKS** (may run concurrently with each other and with the
+canonical/design tasks above): `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003`
+(Agent Runtime Product Track, read-only, fresh session required); any
+Enterprise Provider Integration documentation-sequence item not yet started;
+`MELLYCORE-DOCS-INTEGRATION-REVIEW-001` (see Task Index). None of these
+shares a canonical owner with the design lane or with `site/`.
+
+**M2 CRITICAL PATH** (shortest responsible path to first commercial
+showcase): `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` →
+`MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001` (reconciles the
+existing, pre-lock `docs/tasks/MELLYCORE-HOMEPAGE-SPEC-001.md` against the
+two-layer/ten-workspace structure) → M2 implementation slice(s), scoped by
+that reconciliation, layered onto the existing canonical `site/` foundation
+(cinematic showcase + Source Arena static renderer slice + OpenRouter
+Observatory Level 1, all already merged to `main` and Production-verified)
+→ M2 slice review → responsive/accessibility/reduced-motion/truthfulness
+checks → M2 complete. `MELLYCORE-HERO-DIRECTION-DECISION-001` and
+`MELLYCORE-DESIGN-SYSTEM-CINEMATIC-AMENDMENT-001` are **not** on this
+critical path: the existing Source Arena hero is already canonical, so M2
+does not require the future-hero-direction decision to proceed. No live
+platform integration, provider connection, or backend is required for M2.
+
+**POST-SHOWCASE PLATFORM WORK** (explicitly kept off the M2 critical path):
+Agent Runtime Product Track scaffold implementation (`BLOCKED` behind
+`NEW-P2-02` and separate Operator authorization regardless of M2);
+Enterprise Provider Integration connector/credential work (specification-only
+today, no connection authorized); 3D Scene Foundation PR #28 (paused on
+physical Android Chromium Gate B, independent of M2); Hardware Capability
+Service research; M3 Flagship Command Center product-surface tasks; M4
+per-workspace static-surface deepening beyond the M2 slice; all M5
+public-production gates.
+
+**FUTURE / OPTIONAL RESEARCH** (no authorization created by naming it here):
+Higgsfield (future Image Studio/Video Intelligence provider or tool
+research; CLI vs. MCP comparison undecided); SkillsMP (discovery source
+only, never trusted automatically); MotionSites.ai / MotionSite.ai (visual
+and motion inspiration only, not a runtime dependency); Wispr Flow (operator
+tool only); Expo (future mobile/operator-client research only); Obsidian
+phases O2 (optional live plugin bridge) and O3 (optional controlled
+writeback, must remain PROPOSE → DIFF → HUMAN APPROVAL → WRITE → VERIFY →
+AUDIT/EVIDENCE) — O1 (bounded read-only local Vault integration) is the
+nearest-term Obsidian phase and still requires its own specification and
+authorization; it is not started.
+
+This section authorizes no implementation, connection, credential,
+provider call, merge, or deployment. It mints new task identifiers only
+where `shared_context/TASK_INDEX.md`'s "Cinematic AIOS Roadmap" section
+records them as newly minted; every other reference above points at an
+existing identifier or an existing document.
+
 ## Vercel Static Root — Accepted, Verified, Published, State-Synced, Merged
 
 `https://mellycore-aios-core.vercel.app` is the accepted production static
