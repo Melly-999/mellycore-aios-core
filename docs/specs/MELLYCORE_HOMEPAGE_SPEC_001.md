@@ -1,577 +1,537 @@
-# MellyCore AIOS — Homepage Specification
+# MellyCore AIOS — Commercial Showcase Homepage Specification
 
-**Task ID:** MELLYCORE-HOMEPAGE-SPEC-001
-**Version:** 1.0
-**Status:** Complete
-**Scope:** Complete homepage section-by-section specification for the MellyCore AIOS command center website
-
----
-
-## Section 1: Hero — MellyCore AIOS Command Center
-
-### Section Purpose
-Establish immediate understanding of what MellyCore AIOS is: a coordinated AI command center that unifies multiple agents, models, and tools under one supervised architecture. Set the prototype tone honestly.
-
-### User Message
-"You are looking at the architectural preview of MellyCore AIOS — the shared coordination layer for supervised multi-agent AI. This is not live. This is the blueprint."
-
-### Content / Copy Direction
-- **Headline:** "MellyCore AIOS" — large, commanding, cold white with optional orbital violet glow.
-- **Subtitle:** "The shared command center for supervised multi-agent AI coordination." One sentence. Clear. No hype.
-- **Prototype tag:** "Static Prototype — Docs & Spec Phase" displayed as a HUD label or static preview notice.
-- **One-liner:** "One shared context layer. Many supervised agents. OmniRouter at the center."
-- **Description paragraph (optional, 2-3 sentences):** MellyCore AIOS coordinates ChatGPT, Claude, Codex, GLM, Grok, and developer tools through a shared context layer, model routing constellation, and safety-first architecture. Currently in documentation and specification phase. No live provider connections.
-
-### Visual Behavior
-- Full-viewport hero section with void black background and subtle star field.
-- Orbital cube as the primary visual element — static, with soft nebula glow, positioned beside or behind headline text.
-- No animation, no pulse, no live-data indicators.
-- OmniRouter referenced visually as the central routing anchor in any diagrammatic elements.
-- Safety badges visible: "No Secrets Loaded", "Static Preview", "Supervised Only".
-
-### UI Components
-- `<CommandCenterShell>` — outer container.
-- `<SectionHeaderCluster>` — headline + subtitle + HUD labels.
-- `<StaticPreviewNotice>` — prototype status badge.
-- `<SafetyBadge>` — 2-3 safety status indicators.
-- Orbital cube visual (CSS or static image — no 3D library required in prototype).
-
-### Interaction Notes
-- CTAs are anchor links to page sections — no external navigation, no form submissions.
-- No hover effects required for comprehension.
-- Scroll indicator (subtle down arrow or line) optional.
-
-### Responsive Behavior
-- Desktop: headline left, orbital cube right, or headline centered over cube.
-- Tablet: headline centered, cube scaled down below.
-- Mobile: headline centered, cube hidden or reduced to small decorative element. CTAs stack vertically.
-
-### Safety Notes
-- Hero must never imply live connectivity. No "connected" indicators. No pulsing dots.
-- All CTAs are safe: navigate to page sections or documentation.
-- Prototype status is visible before any CTA.
-
-### Static / Dynamic Guidance
-- Entirely static. All content authored in markup.
-- No data fetching, no API calls, no dynamic rendering.
-
-### Forbidden CTAs
-- "Connect Live", "Add API Key", "Execute", "Deploy Now", "Launch", "Start Trading", "Go Live".
-
-### Allowed CTAs
-- "View Roadmap" (anchor to Section 5)
-- "Review Context Packet" (anchor to Section 4)
-- "Explore Design System" (anchor to design system documentation)
-
-### Future Component Candidates
-- `HeroSection`, `OrbitalCubeVisual`, `HeroCtaGroup`, `PrototypeStatusBanner`
-
-### Acceptance Criteria
-- [ ] Headline, subtitle, and prototype tag are visible and readable.
-- [ ] Orbital cube is present but static.
-- [ ] At least 2 safety badges are visible.
-- [ ] All CTAs are anchor links to page sections.
-- [ ] No forbidden CTAs exist.
-- [ ] Hero renders correctly without JavaScript.
-- [ ] Mobile layout stacks correctly without horizontal scroll.
+**Canonical owner:** MELLYCORE-HOMEPAGE-SPEC-001
+**Reconciled by:** MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001
+**Version:** 2.0
+**Status:** Complete specification; implementation not claimed
+**Implementation foundation:** Existing static HTML/CSS/JavaScript under site/
 
 ---
 
-## Section 2: Agent Constellation
-
-### Section Purpose
-Visualize the supervised multi-agent fleet. Show that MellyCore AIOS coordinates many AI agents and tools — not as independent services, but as supervised nodes in a constellation with OmniRouter as the central routing hub.
-
-### User Message
-"MellyCore AIOS coordinates multiple AI agents and developer tools through a shared constellation. Every agent is supervised. OmniRouter routes between them."
-
-### Content / Copy Direction
-- **Section title:** "Agent Constellation"
-- **Subtitle:** "Supervised AI agents and tools coordinated through OmniRouter."
-- **Agent nodes:** ChatGPT (strategy, context synthesis, planning), Claude / Claude Code (architecture, reasoning, documentation), Codex (implementation, validation), GLM 5.2 / Z.ai (drafting, iteration, exploration), Grok / xAI (critique, adversarial review), OmniRouter (central routing hub).
-- **Tool nodes:** Warp (terminal workflows), Zed (editor-agent workspace), VS Code (editor workspace), GitHub (source control, PRs, review trail).
-- **Each node:** Name, 2-3 word role label, status chip ("supervised").
-
-### Visual Behavior
-- Constellation diagram: nodes arranged in a radial pattern with OmniRouter at the center.
-- Route lines connect each agent node to OmniRouter — not directly to each other.
-- OmniRouter node is larger or more prominent — it is the routing hub.
-- All agent nodes show "supervised" status chip.
-- No animation. Static constellation.
-
-### UI Components
-- `<SectionHeaderCluster>` — title + subtitle.
-- `<ConstellationNode>` — one per agent/tool (10 nodes).
-- `<RouteLine>` — connections through OmniRouter.
-- `<StatusChip>` — "supervised" for each node.
-- `<HudLabel>` — role labels.
-
-### Interaction Notes
-- Hover on node may highlight its route lines (optional, progressive enhancement).
-- No click actions required — informational section.
-- On mobile, constellation converts to a vertical card list.
-
-### Responsive Behavior
-- Desktop: full radial constellation with OmniRouter at center.
-- Tablet: simplified constellation (fewer nodes visible, or 2-column layout).
-- Mobile: stacked agent cards in a single column. OmniRouter card at top as the routing hub.
-
-### Safety Notes
-- Every agent node shows "supervised" — no autonomous agents implied.
-- No "running" or "active" status indicators.
-- No connection to live provider status.
-
-### Static / Dynamic Guidance
-- Entirely static. Node positions and labels are authored in markup/CSS.
-- No real-time agent status. No live connectivity indicators.
-
-### Future Component Candidates
-- `AgentConstellationSection`, `ConstellationMap`, `AgentCardList` (mobile)
-
-### Acceptance Criteria
-- [ ] All 10 agents/tools are represented as nodes.
-- [ ] OmniRouter is visually the central hub.
-- [ ] All nodes show "supervised" status.
-- [ ] Route lines connect to OmniRouter, not directly between agents.
-- [ ] Mobile layout converts to card list.
-- [ ] No live status indicators present.
-
----
-
-## Section 3: OmniRouter / Model Router Panel
-
-### Section Purpose
-Show model and provider routing at a high architectural level. Communicate that OmniRouter is the preferred gateway for model routing — without implying live connectivity, loaded keys, or active provider sessions.
-
-### User Message
-"OmniRouter is the central routing layer. It coordinates which model handles which task. This is an architectural preview — no providers are currently connected."
-
-### Content / Copy Direction
-- **Section title:** "Model Router"
-- **Subtitle:** "OmniRouter coordinates model and provider routing at the architecture level."
-- **HUD label:** "ARCHITECTURE PREVIEW — NO LIVE ROUTING"
-- **Provider placeholders:** ChatGPT, Claude, Codex, GLM 5.2, Grok — shown as routing targets, not connected providers.
-- **Routing roles:** Each provider shows its routing purpose (strategy, architecture, implementation, drafting, critique).
-- **Central hub note:** "OmniRouter serves as the preferred gateway when available. Provider API keys stay outside the repo."
-
-### Visual Behavior
-- Control-panel style layout: OmniRouter as central element with provider targets branching outward.
-- Provider targets shown as placeholder cards with role labels and "placeholder" status chips.
-- No live routing indicators. No "connected" badges. No active data flow visualization.
-- Dormant node gray for provider cards — they are architectural placeholders.
-
-### UI Components
-- `<SectionHeaderCluster>` — title + subtitle + HUD label.
-- `<GlassPanel>` — router panel container.
-- `<ConstellationNode>` or `<RouterNode>` — OmniRouter center.
-- `<StatusChip>` — "placeholder" for each provider.
-- `<HudLabel>` — routing role per provider.
-
-### Interaction Notes
-- Informational only. No click actions.
-- No provider selection, no routing simulation, no key input.
-
-### Responsive Behavior
-- Desktop: radial or horizontal layout with OmniRouter center.
-- Tablet: 2-column with OmniRouter spanning top.
-- Mobile: vertical stack with OmniRouter card first.
-
-### Safety Notes
-- No API key inputs. No provider connection forms. No "add provider" buttons.
-- Explicit "no live routing" notice visible.
-- Provider keys stated as "outside the repo."
-
-### Static / Dynamic Guidance
-- Entirely static. Provider list and roles are authored content.
-- No runtime routing. No model selection. No provider health checks.
-
-### Future Component Candidates
-- `ModelRouterPanel`, `ProviderPlaceholderCard`, `OmniRouterHub`
-
-### Acceptance Criteria
-- [ ] OmniRouter shown as central routing element.
-- [ ] All placeholder providers visible with role labels.
-- [ ] "No live routing" notice present.
-- [ ] No API key inputs or connection forms.
-- [ ] All providers show "placeholder" status.
-
----
-
-## Section 4: Shared Context / Memory Layer
-
-### Section Purpose
-Show that MellyCore AIOS uses a unified shared context layer — a set of coordination memory files that all agents read from and write to. This is the "memory" that makes multi-agent coordination possible.
-
-### User Message
-"All agents share context through a unified memory layer. These files are the coordination backbone — readable by every agent in the constellation."
-
-### Content / Copy Direction
-- **Section title:** "Shared Context / Memory Layer"
-- **Subtitle:** "Unified coordination memory that every agent reads from."
-- **Memory cards (one per context file):**
-  - `shared_context` — The root coordination memory directory.
-  - `AGENT_HANDOFF.md` — Cross-agent handoff protocol and state transfer.
-  - `RUN_QUEUE.md` — Prioritized task queue for all agents.
-  - `SAFETY_CONTRACT.md` — Safety rules: no secrets, no keys, no live execution.
-  - `ROADMAP.md` — Project phases: 7-day, 30-day, 90-day, 180-day.
-  - `MODEL_ROUTING.md` — Agent roles and OmniRouter routing matrix.
-  - `DESIGN_SYSTEM.md` — Visual direction and design constraints.
-  - `PROJECT_STATE.md` — Current project status and next tasks.
-  - `VALIDATION.md` — Baseline validation commands and checks.
-  - `TOOLING.md` — Tool and workspace definitions.
-- **HUD label:** "STATIC FILE LIST — NO RUNTIME ACCESS"
-
-### Visual Behavior
-- Grid of memory cards (2-3 columns on desktop).
-- Each card shows file name, one-line description, and type badge (contract, routing, roadmap, state, validation, tooling).
-- Cards use glass panel styling with subtle borders.
-- No file contents displayed — only metadata.
-
-### UI Components
-- `<SectionHeaderCluster>` — title + subtitle.
-- `<MemoryCard>` — one per context file (10 cards).
-- `<HudLabel>` — type badge per card.
-- `<GlassPanel>` — section container.
-
-### Interaction Notes
-- Informational only. No file browsing, no content preview, no download.
-- Hover on card may subtly brighten border (optional).
-
-### Responsive Behavior
-- Desktop: 3-column grid.
-- Tablet: 2-column grid.
-- Mobile: single-column stack.
-
-### Safety Notes
-- No actual file contents displayed. Only file names and descriptions.
-- No secrets, no keys, no real values in any card.
-- "Static file list" notice visible.
-
-### Static / Dynamic Guidance
-- Entirely static. File metadata is authored in markup.
-- No filesystem access. No dynamic file listing.
-
-### Future Component Candidates
-- `SharedContextSection`, `MemoryCardGrid`, `ContextFileCard`
-
-### Acceptance Criteria
-- [ ] All 10 context files represented as cards.
-- [ ] Each card shows file name, description, and type badge.
-- [ ] No file contents displayed.
-- [ ] "Static file list" notice present.
-- [ ] Grid responds correctly to viewport changes.
-
----
-
-## Section 5: Roadmap Orbit Map
-
-### Section Purpose
-Visualize the project roadmap as an orbital system. Show completed phases as inner orbits, future phases as outer orbits, and blocked/deferred phases as dimmed. Honest representation of project state.
-
-### User Message
-"The MellyCore AIOS roadmap progresses through phases. Here is where we are — and what comes next."
-
-### Content / Copy Direction
-- **Section title:** "Roadmap Orbit Map"
-- **Subtitle:** "Project phases as orbital progression."
-- **Phases:**
-  - **Bootstrap** (inner orbit, complete) — Repo scaffold, shared context files, safety contract.
-  - **Cross-agent smoke** (mid orbit, pending) — Verify context works across Codex, Claude, ChatGPT, GLM, Grok, Warp, Zed, VS Code, GitHub. Not yet run; tracked in `shared_context/RUN_QUEUE.md`. No implied progress beyond this pending state.
-  - **Context / Roadmap / Safety / Design specs** (mid orbit, active) — Documentation architecture, design system, homepage spec, safety contract.
-  - **Static website** (outer orbit, planned) — HTML/CSS prototype of command center homepage.
-  - **MVP demo** (outer orbit, planned) — Interactive prototype with navigation and visual polish.
-  - **Runtime / Provider integrations** (outermost orbit, blocked/later) — Live provider routing, API integration, runtime orchestration. Explicitly marked "later — requires explicit approval."
-- **HUD label:** "STATIC ROADMAP — UPDATED MANUALLY"
-
-### Visual Behavior
-- Concentric orbital rings with phase markers.
-- Inner rings (complete): safe status green accents.
-- Mid rings (active): plasma blue accents.
-- Outer rings (planned): muted lavender accents.
-- Outermost ring (blocked/later): dormant node gray, amber "later" badge.
-- Current phase highlighted with slightly brighter glow.
-
-### UI Components
-- `<SectionHeaderCluster>` — title + subtitle.
-- `<OrbitNode>` — one per phase (6 phases).
-- `<StatusChip>` — complete, active, planned, blocked/later.
-- `<RoadmapPhaseMarker>` — expandable phase detail (optional).
-- `<HudLabel>` — "STATIC ROADMAP" notice.
-
-### Interaction Notes
-- Click/hover on phase marker may show expandable detail (optional progressive enhancement).
-- No timeline animation. Static orbital positions.
-
-### Responsive Behavior
-- Desktop: full radial orbit map.
-- Tablet: simplified orbit (fewer rings visible, or semi-circular layout).
-- Mobile: vertical timeline list. Each phase is a list item with status chip.
-
-### Safety Notes
-- Blocked/later phases are visible and honestly labeled — not hidden.
-- Runtime phase explicitly notes "requires explicit approval before activation."
-- No implied progress beyond actual state.
-
-### Static / Dynamic Guidance
-- Entirely static. Phase data authored in markup.
-- No real-time project tracking. No integration with GitHub issues or project boards.
-
-### Future Component Candidates
-- `RoadmapOrbitMap`, `OrbitRing`, `PhaseMarkerDetail`, `RoadmapTimeline` (mobile)
-
-### Acceptance Criteria
-- [ ] All 6 phases visible with correct status.
-- [ ] Inner orbits = complete, outer = future, outermost = blocked/later.
-- [ ] Blocked/later phase is dimmed but visible.
-- [ ] Runtime phase shows "requires explicit approval" note.
-- [ ] Mobile converts to vertical timeline.
-
----
-
-## Section 6: Safety / Control Layer
-
-### Section Purpose
-Make the safety architecture visible and prominent. This is not a legal footer — it is a first-class section showing that MellyCore AIOS has explicit, documented safety constraints.
-
-### User Message
-"MellyCore AIOS has explicit safety constraints. No secrets, no keys, no live execution, no copied workspaces. Safety is architectural, not decorative."
-
-### Content / Copy Direction
-- **Section title:** "Safety / Control Layer"
-- **Subtitle:** "Explicit safety constraints, visible at every layer."
-- **Safety rules (displayed as safety badges or panel items):**
-  - No secrets in the repository.
-  - No real API keys committed.
-  - No provider tokens in tracked files.
-  - No `.env` values in version control.
-  - No destructive git operations without explicit approval.
-  - No deploy without explicit approval.
-  - No MellyTrade mutation from MellyCore AIOS.
-  - No wholesale import of the GLM workspace — reference only.
-  - No `.git` import from reference workspaces.
-  - No database files committed.
-  - No local runtime state committed.
-  - Static-first before any runtime integration.
-  - Honest validation — no fake live status indicators.
-- **GLM reference note:** "The GLM/Z.ai workspace is reference only. No GLM files have been copied into this repository. Visual inspiration is acknowledged; wholesale import is forbidden."
-- **HUD label:** "SAFETY CONTRACT ACTIVE — ALL RULES ENFORCED"
-
-### Visual Behavior
-- Safety panel with prominent green/cyan accents.
-- Each rule displayed as a checklist item with check icon and label.
-- Safety badges for key constraints ("No Secrets", "No Keys", "No Live Execution", "No Copied Workspace").
-- Panel uses glass panel styling with slightly brighter border to draw attention.
-
-### UI Components
-- `<SectionHeaderCluster>` — title + subtitle.
-- `<GlassPanel>` — safety panel container with accent border.
-- `<SafetyBadge>` — 4 primary safety badges.
-- Safety checklist items (styled list with check icons).
-- `<HudLabel>` — "SAFETY CONTRACT ACTIVE" notice.
-- `<StaticPreviewNotice>` — "No live status indicators" confirmation.
-
-### Interaction Notes
-- Informational only. No toggle, no dismiss, no edit.
-- Safety rules are always visible — not collapsible.
-
-### Responsive Behavior
-- Desktop: 2-column checklist or single panel with badges above.
-- Tablet: single column checklist.
-- Mobile: single column, badges stack vertically.
-
-### Safety Notes
-- This section IS the safety section. It must be accurate and honest.
-- If any safety rule is violated in the actual repo, this section must reflect that honestly.
-- No fake safety badges — every badge must correspond to an actually enforced constraint.
-
-### Static / Dynamic Guidance
-- Entirely static. Safety rules are authored in markup.
-- No runtime safety checking. No live validation display.
-
-### Future Component Candidates
-- `SafetyControlSection`, `SafetyChecklist`, `SafetyBadgeGroup`, `GlmReferenceNotice`
-
-### Acceptance Criteria
-- [ ] All safety rules visible as checklist items.
-- [ ] At least 4 safety badges present.
-- [ ] GLM reference note explicitly states no files copied.
-- [ ] No fake safety indicators.
-- [ ] Section is prominent — not buried in footer.
-
----
-
-## Section 7: Tooling Layer
-
-### Section Purpose
-Show the developer tools and surfaces that MellyCore AIOS coordinates with. These are controlled workflow surfaces — not autonomous agents, not live integrations.
-
-### User Message
-"MellyCore AIOS works with established developer tools as controlled workflow surfaces. Each tool has a defined role in the coordination architecture."
-
-### Content / Copy Direction
-- **Section title:** "Tooling Layer"
-- **Subtitle:** "Controlled workflow surfaces for the multi-agent architecture."
-- **Tool cards:**
-  - **Warp** — Safe terminal workflows, operator prompts, repeatable runbooks.
-  - **Zed** — Editor-agent workspace, fast code navigation, local editing ergonomics.
-  - **VS Code** — Broadly compatible editor workspace, settings examples, extension-compatible docs.
-  - **GitHub** — Remote source control, issues, PRs, review trail, collaboration history.
-  - **Claude Code** — Architecture, reasoning, documentation, review workflows.
-  - **Codex** — Implementation, validation, local git hygiene, PR preparation.
-  - **GLM 5.2** — Drafting, iteration, exploration, reference implementation ideas.
-  - **ChatGPT** — Strategy, context synthesis, prompt generation, planning, memory.
-- **HUD label:** "CONTROLLED SURFACES — NO AUTONOMOUS EXECUTION"
-
-### Visual Behavior
-- Card grid (2-4 columns on desktop).
-- Each card shows tool name, role description, and "controlled" status chip.
-- Cards use glass panel styling.
-- No tool logos in prototype — geometric placeholder icons with initials.
-
-### UI Components
-- `<SectionHeaderCluster>` — title + subtitle.
-- `<GlassPanel>` — section container.
-- Tool cards (reusing `<MemoryCard>` or dedicated `<ToolCard>` primitive).
-- `<StatusChip>` — "controlled" per tool.
-- `<HudLabel>` — "CONTROLLED SURFACES" notice.
-
-### Interaction Notes
-- Informational only. No tool launching, no configuration, no linking.
-
-### Responsive Behavior
-- Desktop: 4-column grid.
-- Tablet: 2-column grid.
-- Mobile: single-column stack.
-
-### Safety Notes
-- All tools shown as "controlled" — no autonomous execution implied.
-- No "open in [tool]" buttons. No deep links to tool instances.
-- No live tool status indicators.
-
-### Static / Dynamic Guidance
-- Entirely static. Tool metadata authored in markup.
-- No tool detection, no IDE integration, no live status.
-
-### Future Component Candidates
-- `ToolingLayerSection`, `ToolCard`, `ToolGrid`
-
-### Acceptance Criteria
-- [ ] All 8 tools represented as cards.
-- [ ] Each card shows name, role, and "controlled" status.
-- [ ] No "open" or "launch" buttons.
-- [ ] No live tool status indicators.
-
----
-
-## Section 8: CTA / Next Actions
-
-### Section Purpose
-Provide clear, safe next actions for the user. All CTAs navigate within the page or to documentation — no external services, no forms, no live actions.
-
-### User Message
-"Here is what you can explore next — all within this architectural preview."
-
-### Content / Copy Direction
-- **Section title:** "Next Actions"
-- **Subtitle:** "Explore the MellyCore AIOS architecture."
-- **CTA buttons (safe only):**
-  - "View Roadmap" — anchor to Section 5.
-  - "Review Context Packet" — anchor to Section 4.
-  - "Explore Design System" — anchor to design system documentation.
-  - "Review Safety Contract" — anchor to Section 6.
-  - "View Agent Constellation" — anchor to Section 2.
-
-### Visual Behavior
-- Compact section with centered or left-aligned CTA group.
-- Buttons use glass panel styling with orbital violet border on hover.
-- No aggressive styling — CTAs are calm, inviting, not pushy.
-
-### UI Components
-- `<SectionHeaderCluster>` — title + subtitle.
-- CTA button group (styled buttons, not `<CtaButton>` primitive — simple anchor elements).
-
-### Forbidden CTAs
-- "Connect Live", "Add API Key", "Execute", "Deploy Now", "Launch", "Start Trading", "Sign Up", "Get Started Free".
-
-### Responsive Behavior
-- Desktop: horizontal button row.
-- Tablet: 2-column button grid.
-- Mobile: vertical button stack.
-
-### Safety Notes
-- Every CTA is an anchor link or documentation link.
-- No form submissions. No external service redirects.
-- No CTAs that imply system activation.
-
-### Acceptance Criteria
-- [ ] At least 4 safe CTAs present.
-- [ ] Zero forbidden CTAs.
-- [ ] All CTAs are anchor links or documentation links.
-- [ ] No form elements present.
-
----
-
-## Section 9: Footer / Project Status
-
-### Section Purpose
-Reinforce project state honestly. Confirm that this is a prototype in documentation phase. Provide transparent project metadata.
-
-### User Message
-"This project is in documentation and specification phase. No live connections, no secrets, no runtime. Here is the honest project state."
-
-### Content / Copy Direction
-- **Project name:** MellyCore AIOS
-- **Status:** "Prototype — Docs & Spec Phase"
-- **Status confirmations:**
-  - "No live provider connections."
-  - "No secrets or API keys loaded."
-  - "No runtime code in this repository."
-  - "GLM reference workspace not copied."
-  - "Static preview planned — not yet deployed."
-- **Repo info:** Branch name (if available), last commit date (if available), or "Static content" if no git data.
-- **Links:** Link to shared context files (if published), link to design system doc.
-- **Copyright/attribution:** "MellyCore AIOS — MellyGenix AI Coordination Layer"
-
-### Visual Behavior
-- Footer status panel with glass panel styling.
-- Status confirmations as a compact checklist (smaller than Section 6 safety panel).
-- Muted colors — footer is informational, not attention-grabbing.
-- Project metadata in HUD label style.
-
-### UI Components
-- `<GlassPanel>` — footer container.
-- `<StatusChip>` — "Prototype" status.
-- Status checklist (compact).
-- `<HudLabel>` — project metadata labels.
-- Footer links (simple anchor elements).
-
-### Interaction Notes
-- Informational only. Links navigate to documentation or page sections.
-
-### Responsive Behavior
-- Desktop: 2-column footer (status left, links right).
-- Tablet: stacked.
-- Mobile: single column, compact.
-
-### Safety Notes
-- Footer honestly states project phase.
-- "GLM reference not copied" explicitly confirmed.
-- No misleading copyright dates or production claims.
-
-### Static / Dynamic Guidance
-- Entirely static. Footer content authored in markup.
-- No dynamic git data fetching in prototype.
-
-### Future Component Candidates
-- `FooterStatusPanel`, `ProjectStatusChecklist`, `FooterLinks`
-
-### Acceptance Criteria
-- [ ] Project name and status visible.
-- [ ] All 5 status confirmations present.
-- [ ] "GLM reference not copied" explicitly stated.
-- [ ] No misleading production claims.
-- [ ] Footer renders correctly without JavaScript.
-
----
-
-*This homepage specification defines the complete section-by-section architecture for the MellyCore AIOS command center website. All sections are designed for static-first implementation with progressive enhancement for future interactivity.*
+## 1. Page purpose
+
+The homepage is the first client-ready MellyCore commercial showcase. It must
+let a visitor understand the product, see credible product surfaces, verify
+the honesty of the preview, and choose a useful next action within roughly
+15–30 seconds.
+
+The page is product-led. It is not a personal CV, a generic AI agency page, a
+runtime console, or evidence that planned capabilities are active.
+
+The first-view questions are:
+
+1. What is MellyCore?
+2. Why is it different?
+3. What can I see?
+4. Why should I trust it?
+5. What should I click next?
+
+## 2. Audience
+
+Primary audiences are B2B clients, founders, recruiters, technical
+collaborators, and AI engineers. The page must balance commercial clarity with
+enough architectural evidence to withstand technical scrutiny.
+
+The default reading path must work for a scanning visitor. Deeper technical
+detail belongs behind progressive disclosure or in linked documentation.
+
+## 3. Product thesis and product structure
+
+The homepage must derive its story from the canonical Product Vision:
+
+> MellyCore is a local-first, operator-controlled **AI Operating System**.
+>
+> Its Command Center presents a cinematic AI Operations Observatory and
+> visually compelling AI Workspaces, while its runtime, provider, tool,
+> context, persistence, evidence, governance and safety planes remain
+> vendor-neutral, explicit, provenance-bearing and fail-closed.
+
+The page must preserve those terms. They are product requirements, not generic
+marketing adjectives.
+
+The product has exactly two top-level layers:
+
+1. **Command Center** — the product and navigation manifestation of the
+   accepted Control Plane / AI Operations Observatory. It projects canonical
+   context, routing, runtime, evidence, governance, and safety state; it does
+   not own replacement truth.
+2. **AI Workspaces** — a planned ecosystem of exactly ten product workspaces.
+   Visual presence on the homepage does not establish implementation,
+   connection, execution, or authorization.
+
+The controlled improvement loop may appear as supporting proof:
+
+**observe → analyze → recommend → approve → implement → validate → record**
+
+The primary story must not be centered on a gateway, model name, vendor list,
+or another MellyGenix product family.
+
+## 4. Page information architecture
+
+The required M2 narrative is:
+
+1. **Hero / product thesis**
+2. **Command Center preview**
+3. **Knowledge & Operations Graph preview**
+4. **Runtime Constellation preview**
+5. **AI Workspaces ecosystem**
+6. **Governance, evidence, and safety proof**
+7. **Commercial next action**
+8. **Honest project-status footer**
+
+This sequence is a hierarchy, not a requirement to make every Command Center
+surface a full homepage section. Existing context, routing, tooling, roadmap,
+and Source Arena material may be reused inside the appropriate preview or
+linked as secondary detail. M2 must avoid a long catalogue of equal-weight
+technical sections.
+
+## 5. Hero structure
+
+### Required composition
+
+The hero must remain valid regardless of a later hero-direction decision:
+
+1. identity kicker;
+2. strong H1;
+3. one-line commercial proposition;
+4. concise supporting description;
+5. visible static-preview disclosure;
+6. selected factual safety or provenance badges;
+7. primary and secondary CTA;
+8. optional supporting visual stage.
+
+The hero must not contain a giant explanatory paragraph. Supporting copy
+should normally remain within two short sentences and approximately 45 words.
+
+### Preferred production-spec copy
+
+- **Kicker:** MellyCore AIOS / Local-first AI Operating System
+- **H1:** One command center. Every AI plane under operator control.
+- **One-line proposition:** Explore models, agents, tools, context, and
+  workspaces through one cinematic, provenance-bearing AI operations
+  experience.
+- **Supporting copy:** MellyCore keeps provider and runtime choices
+  vendor-neutral while evidence, approvals, and safety boundaries stay
+  explicit. This showcase is a static product preview, not a live control
+  surface.
+- **Primary CTA:** Explore Command Center
+- **Secondary CTA:** Explore AI Workspaces
+
+Approved alternative H1:
+
+- **A local-first AI operating system for serious, supervised work.**
+
+The copy must not use an OmniRouter-centered thesis, “many models at the
+center,” or shared-coordination-layer wording tied to MellyGenix.
+
+### Honesty treatment
+
+A non-dismissable StaticPreviewNotice must appear before or adjacent to the
+first CTA:
+
+**Static product preview — no live telemetry, provider calls, or execution.**
+
+Up to three SafetyBadges may reinforce supportable facts such as
+**Static preview**, **Operator-controlled**, and **Local-first**. A badge must
+not claim that a future capability is verified, connected, or available.
+
+### Structural requirements and allowed visual variation
+
+The copy, disclosure, and CTA hierarchy are fixed structural requirements.
+The supporting stage may use a Source Arena-led, orbital Command Center-led,
+hybrid, or instrument/calibration treatment. It must remain subordinate to
+the message, work without animation, and preserve the same truth labels.
+
+The future hero bake-off is not an M2 dependency. No direction may block the
+first commercial showcase.
+
+## 6. Command Center preview
+
+The homepage needs one legible, high-impact preview of the Command Center,
+not the complete M3 shell.
+
+The composition may use:
+
+- **Left:** context management and routing;
+- **Center:** Knowledge & Operations Graph;
+- **Right:** agents, runtimes, observability, and approvals;
+- **Bottom evidence rail:** context → routing → runtime → tools → approval →
+  execution → evidence.
+
+Required behavior:
+
+- communicate that the Command Center is a projection over accepted canonical
+  owners;
+- make operator gates and evidence visible;
+- prefer a few readable panels over dense dashboard chrome;
+- label fixture, snapshot, simulated, and planned content at point of use;
+- expose no operational controls that imply execution;
+- keep major content visible in semantic HTML without JavaScript.
+
+Source Arena may appear as a flagship proof surface or linked exploration. It
+must not collapse the full product identity into a single provider or routing
+story.
+
+## 7. Knowledge & Operations Graph preview
+
+The graph is a derived product visualization. It is not canonical truth and
+must not be presented as one.
+
+The preview may show relationships among context, documents, systems,
+runtimes, agents, tools, runs, and evidence. Every relationship that is not
+observed from accepted current evidence must be explicitly labeled as a
+fixture, example, simulation, or planned projection.
+
+Required content:
+
+- a readable text summary outside the visual;
+- visible provenance or DataOrigin treatment;
+- a representative evidence/source strip;
+- a legend that explains relationship types and status in text;
+- a clear statement that the graph projects source records and does not own
+  them.
+
+On mobile, replace the dense graph with a simplified relationship path,
+cluster summary, or ordered evidence list. Do not shrink desktop labels into
+unreadable decoration.
+
+## 8. Runtime Constellation preview
+
+Runtime Constellation is a product projection, not a runtime owner or an
+inventory assertion.
+
+The preview may demonstrate how frameworks, agents, models, tools, and local
+execution could be understood together, but a displayed name must never imply
+that it is installed, supported, connected, running, or authorized.
+
+Required behavior:
+
+- show status with text and semantic treatment;
+- pair the visual with a StaticPreviewNotice when misinterpretation is
+  plausible;
+- reserve motion for explaining relationships, never for fake activity;
+- avoid pulsing “online” nodes or animated traffic;
+- collapse to a compact, ordered list or relationship diagram on mobile;
+- keep provider/framework examples subordinate to the vendor-neutral product
+  contract.
+
+## 9. Ten AI Workspaces presentation
+
+The homepage must present one ecosystem with hierarchy, not ten identical
+feature cards. Recommended treatment: a strong Wave 1 feature cluster, a
+compact Wave 2 rail, and a restrained Wave 3/local-AI grouping. Each entry
+uses existing planned/static-demo vocabulary and includes a short outcome,
+not a fabricated operational state.
+
+The canonical enumeration is exactly:
+
+| # | Workspace | Activation wave | M2 presentation |
+|---:|---|---:|---|
+| 1 | Deep Research | 1 | Featured planned workflow |
+| 2 | Compare Arena | 1 | Featured planned workflow |
+| 3 | Multi-Agent Crew | 1 | Featured planned workflow |
+| 4 | Email AI | 2 | Compact planned preview |
+| 5 | Voice | 2 | Compact planned preview |
+| 6 | Video Intelligence | 2 | Compact planned preview |
+| 7 | Image Studio | 3 | Compact planned preview |
+| 8 | Model Downloader | 3 | Local-AI planned preview |
+| 9 | Ollama Manager | 3 | Local-AI planned preview |
+| 10 | Coding / Runtime Studio | 1 | Featured planned workflow |
+
+No other homepage concept is a workspace. In particular, graph, routing,
+runtime, context, arena, hub, and mission-control concepts remain Command
+Center surfaces or presentation groupings.
+
+All ten remain planned at the pinned baseline. The page must state that
+workspace visuals do not imply active backends, provider access, sends,
+downloads, synchronization, or execution.
+
+## 10. Governance, evidence, and safety proof
+
+Trust must be demonstrated before the final CTA with a concise proof block,
+not a wall of policy copy.
+
+Required proof:
+
+- local-first and operator-controlled posture;
+- consequential actions require explicit approval;
+- provenance and evidence remain visible;
+- vendor and runtime choices remain explicit and replaceable;
+- static and planned surfaces are labeled;
+- fail-closed boundaries are described in plain language;
+- no secrets, credential inputs, provider controls, or execution controls on
+  the homepage.
+
+The block may visualize the controlled improvement loop and link to
+architecture or safety documentation. It must distinguish design claims from
+current implementation evidence.
+
+## 11. Prototype honesty system
+
+These distinctions are mandatory:
+
+**visual ≠ implemented; planned ≠ implemented; implemented ≠ tested; tested ≠
+connected; connected ≠ authorized; static demo ≠ live telemetry; supported ≠
+connected.**
+
+### DataOrigin
+
+DataOrigin is a UI provenance projection, not a new universal product status
+enum. Allowed M2 labels include:
+
+- **Committed local data**
+- **Audit snapshot**
+- **Simulated**
+
+Planned content uses an explicit planned-state treatment separate from
+DataOrigin. A provenance label must appear next to the data or visual it
+qualifies.
+
+### StatusChip
+
+StatusChip always combines text with semantic visual treatment. Color alone
+is insufficient. Labels must use current repository vocabulary and must not
+invent a universal enum.
+
+### StaticPreviewNotice
+
+StaticPreviewNotice is visible in the hero and within any telemetry-like,
+graph, constellation, workspace, or dashboard preview that could reasonably
+be mistaken for live operation. It is non-dismissable and not relegated to
+the footer.
+
+### SafetyBadge
+
+SafetyBadge communicates only concise, factual claims supported at the
+baseline. It cannot turn a policy aspiration into verified runtime state.
+
+### Prohibited implications
+
+The page must not imply live providers, model calls, runtime execution,
+fixture telemetry, active synchronization, email sending, model downloads,
+implemented workspace backends, or autonomous action.
+
+## 12. CTA strategy
+
+CTA priority is:
+
+1. **Explore Command Center** — primary product-exploration anchor.
+2. **Explore AI Workspaces** — secondary ecosystem anchor.
+3. **View Architecture** — supporting technical-documentation link.
+4. **Discuss an AI Project** — commercial conversion only when a real,
+   reviewed destination exists; do not add a non-functional form.
+
+The page must not behave like a freelancer profile. Commercial conversion is
+framed around the product and its architecture.
+
+Forbidden CTA families include connect, execute, deploy, send, download,
+activate, add credentials, or any action that implies a backend or provider
+capability not present.
+
+## 13. Visual direction and semantic color
+
+The direction is cinematic, premium, technical, spatial, AI-native, and
+operator-controlled. Use near-black/deep-navy foundations, restrained violet
+and cobalt structure, cyan signal accents, deliberate whitespace, structured
+panels, and purposeful depth.
+
+Semantic color rules:
+
+| Color family | Meaning |
+|---|---|
+| Violet | Primary structure and identity |
+| Blue / cyan | Data, signal, and routing accents |
+| Magenta | Interaction emphasis only |
+| Amber | Safety, approval, and caution |
+| Green | Verified real/current state only |
+| Red | Blocked or error |
+
+Color is never the only status carrier. Green must not be used as generic
+decorative success.
+
+Avoid generic SaaS composition, random particles, glowing borders on every
+surface, excessive glass blur, gaming-HUD density, ubiquitous purple
+gradients, repeated identical cards, meaningless graphs, and unreadable
+sci-fi labels.
+
+## 14. Typography delivery
+
+The visual family direction may reference Inter and JetBrains Mono, but M2
+must not require Google Fonts or another external font CDN.
+
+The implementation baseline is local-first:
+
+- body: Segoe UI, system-ui, sans-serif;
+- technical text: Cascadia Mono, Consolas, monospace.
+
+Existing token stacks may retain preferred family names only as optional
+first choices when those fonts are already installed locally; the page must
+remain intentional and metrically robust with system fallbacks.
+
+Self-hosted licensed font assets are a non-blocking later decision. This task
+adds no font files and authorizes no download.
+
+## 15. Motion
+
+Motion is progressive enhancement:
+
+- all critical content is visible without JavaScript;
+- no content starts hidden behind entry-animation opacity;
+- no animation is required for comprehension or navigation;
+- no fake pulsing live indicators;
+- reduced-motion mode removes non-essential motion;
+- relationship motion, if later added, must clarify hierarchy and stop
+  cleanly without changing meaning.
+
+If a timeline or script stalls, the complete static reading state must remain
+visible. The static state is the acceptance baseline.
+
+## 16. Responsive behavior
+
+Mobile is an intentional composition, not compressed desktop.
+
+| Surface | Desktop / wide | Mobile / narrow |
+|---|---|---|
+| Hero | Copy plus optional visual stage | Copy-first stack; decorative stage simplified or removed |
+| Command Center | Structured multi-panel preview | Ordered proof cards with lower HUD density |
+| Graph | Spatial clusters and evidence rail | Simplified path, cluster summary, or evidence list |
+| Constellation | Spatial relationships | Compact ordered relationship list |
+| Workspaces | Hierarchical feature cluster and rails | One-column prioritized groups; no accidental horizontal scroll |
+| Governance / CTA | Side-by-side proof and actions where space permits | Proof before full-width touch targets |
+
+Touch targets must be comfortably operable, body text remains legible, and
+horizontal rails are used only when deliberate, discoverable, and keyboard
+accessible.
+
+## 17. Accessibility requirements
+
+The future implementation must provide:
+
+- semantic landmarks and heading hierarchy;
+- a usable skip link;
+- keyboard-operable links and controls;
+- visible focus;
+- sufficient tested contrast;
+- text labels for every status;
+- reduced-motion support;
+- meaningful text alternatives and summaries for complex visuals;
+- no critical information only on hover;
+- readable minimum typography and resilient 200% zoom;
+- decorative visuals hidden from assistive technology where appropriate.
+
+This specification does not claim WCAG conformance. Conformance requires
+implementation-level validation.
+
+## 18. Static implementation constraints
+
+M2 evolves the existing site/ HTML/CSS/JavaScript foundation. It does not
+authorize a framework rewrite or generated JSX architecture.
+
+Requirements:
+
+- semantic content renders without JavaScript;
+- JavaScript is limited to progressive enhancement;
+- no provider SDK, API request, credential field, database, backend, serverless
+  route, runtime adapter, or execution path;
+- reuse current tokens, responsive primitives, focus treatment, reduced-motion
+  handling, and static honesty components where they remain compatible;
+- preserve or migrate stable section anchors deliberately so existing local
+  navigation does not fail silently;
+- fixture data is committed, inspectable, and labeled at point of use;
+- no required external network dependency for fonts or critical content.
+
+## 19. M2 implementation slices
+
+These are scope boundaries, not newly minted task identifiers:
+
+1. **Foundation and first viewport** — reconcile navigation, hero, copy,
+   disclosure, CTA hierarchy, and Command Center preview shell.
+2. **Technical product proof** — evolve the existing context graph into the
+   Knowledge & Operations Graph preview and add the Runtime Constellation
+   preview with point-of-use provenance.
+3. **Ecosystem and conversion** — add the hierarchical ten-workspace
+   presentation, governance/evidence proof, commercial CTA, and honest footer.
+4. **Acceptance pass** — responsive, keyboard/focus, contrast, reduced-motion,
+   no-JS visibility, truthfulness, performance, and exact-workspace-count
+   validation.
+
+Each slice requires its own authorization and review scope. No slice requires
+the hero bake-off, full cinematic Design System amendment, provider
+integration, runtime integration, or backend work.
+
+## 20. Explicitly out of scope
+
+- homepage HTML, CSS, or JavaScript implementation;
+- changes under site/;
+- Hero Bake-off or final hero metaphor selection;
+- full Design System Cinematic Amendment;
+- changes to the older design-system document;
+- providers, runtimes, models, tools, MCP servers, credentials, or live calls;
+- Obsidian or workspace backend integration;
+- graph schema or canonical architecture ownership changes;
+- framework migration or generated JSX adoption;
+- font downloads or binaries;
+- push, merge, deployment, or production-state claims.
+
+The future hero decision and full Design System amendment are non-blocking
+follow-ups, not M2 prerequisites.
+
+## 21. M2 acceptance criteria
+
+These criteria apply to future implementation and are not claims about the
+current site:
+
+- [ ] Existing static site architecture is retained unless separately changed.
+- [ ] The first viewport communicates the product within roughly 15–30 seconds.
+- [ ] The two-layer product structure is clear.
+- [ ] The workspace ecosystem contains exactly the canonical count.
+- [ ] No visual or copy implies fake-live capability.
+- [ ] Provenance labels appear at point of use where needed.
+- [ ] Static/demo and planned surfaces are explicit.
+- [ ] The page feels cinematic, premium, technical, and commercially relevant.
+- [ ] Command Center, graph, runtime, and workspace previews form one story.
+- [ ] Mobile is intentionally composed and has no accidental horizontal scroll.
+- [ ] Keyboard and visible-focus paths are viable.
+- [ ] Reduced motion is supported.
+- [ ] Critical content remains visible without JavaScript or animation.
+- [ ] A product-led commercial CTA is present and functional.
+- [ ] No external font CDN is required.
+- [ ] Primary positioning contains no stale MellyGenix or gateway-centered story.
+- [ ] No unauthorized provider, runtime, tool, workspace, or data integration exists.
+- [ ] Complex visuals provide equivalent readable text.
+- [ ] Status and provenance never rely on color alone.
+
+## 22. Canonical ownership and reconciliation record
+
+This file is the canonical homepage behavior and content specification.
+docs/specs/MELLYCORE_UI_SECTIONS.md is its subordinate implementation
+projection and must not create conflicting product truth.
+
+Still-valid prior decisions retained:
+
+- static-first delivery;
+- prototype honesty before action;
+- semantic status labels;
+- safety as visible product proof;
+- cinematic deep-space restraint;
+- mobile transformations rather than desktop compression;
+- anchor/documentation navigation until a real destination exists.
+
+Superseded assumptions:
+
+- OmniRouter as homepage identity or hero center;
+- provider/model-name lists as the product thesis;
+- MellyGenix coordination-layer positioning;
+- the orbital cube as a mandatory hero;
+- nine equal legacy sections as the M2 narrative;
+- roadmap and tooling catalogues as primary commercial-story sections;
+- a documentation-only CTA hierarchy;
+- footer claims that predate the current static implementation state.
+
+Where older design narrative conflicts, authority is:
+
+**PROJECT_STATE → ROADMAP / TASK_INDEX → shared DESIGN_SYSTEM → older design
+documentation.**
+
+The full cinematic Design System amendment and hero-direction decision remain
+future work and do not block this specification or M2.

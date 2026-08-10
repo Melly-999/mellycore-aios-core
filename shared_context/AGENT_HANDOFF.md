@@ -1,6 +1,55 @@
 # Agent Handoff
 
-## Latest Update — Cinematic AIOS Roadmap Materialization (MELLYCORE-TASK-INDEX-001)
+## Latest Update — Commercial Showcase Homepage Specification Reconciliation (MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001)
+
+MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001 completed the
+specification-only reconciliation needed to unblock bounded M2 homepage
+implementation planning. It ran in a new isolated worktree created directly
+from pinned Task Index commit
+5809062e7f6f288beecc538e64c05c6bf384f7ef on branch
+docs/mellycore-cinematic-homepage-spec-reconciliation-001. No existing
+worktree, including the dirty primary checkout, was modified.
+
+The canonical Homepage Specification is now version 2.0 and derives its
+product story from the locked local-first, operator-controlled AI Operating
+System identity. It defines exactly two product layers, the canonical
+ten-workspace ecosystem, a commercial 15–30-second reading path, a
+direction-neutral hero structure, Command Center / Knowledge & Operations
+Graph / Runtime Constellation previews, point-of-use provenance and
+static-demo honesty, governance/evidence proof, local-first font delivery,
+responsive/mobile transformations, accessibility, no-JS visibility,
+reduced-motion behavior, and four bounded M2 implementation slices.
+
+The subordinate UI Sections brief was reconciled because its old
+gateway-centered section registry would otherwise have remained a competing
+implementation truth. The useful static primitives and existing site
+foundation remain the implementation target. The historical homepage task
+record and older design-system document remain unchanged.
+
+Files changed exactly:
+
+1. docs/specs/MELLYCORE_HOMEPAGE_SPEC_001.md
+2. docs/specs/MELLYCORE_UI_SECTIONS.md
+3. docs/tasks/MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001.md
+4. shared_context/AGENT_HANDOFF.md
+
+Validation passed: project validator, git diff check, changed-file allowlist,
+exact ten-name/count check, no-eleventh-workspace check, stale primary-story
+scan, prototype-honesty requirements, non-blocking hero/design-amendment
+checks, static-architecture target, and responsive/accessibility/no-JS/
+reduced-motion presence. Runtime tests were not required for this docs-only
+task and were not run.
+
+No site implementation, provider/runtime/tool integration, credential
+access, push, merge, or deployment occurred. Full evidence:
+docs/tasks/MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001.md.
+
+Recommended exact next task, not started:
+MELLYCORE-DOCS-INTEGRATION-REVIEW-001. The Task Index has not minted an M2
+implementation-slice identifier; the first site/ slice still requires
+separate Operator authorization and an exact allowlist.
+
+## Prior Update — Cinematic AIOS Roadmap Materialization (MELLYCORE-TASK-INDEX-001)
 
 `MELLYCORE-TASK-INDEX-001` materialized the locked Cinematic AIOS product
 vision (`MELLYCORE-ROADMAP-LOCK-001B`, pinned commit
