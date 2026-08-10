@@ -692,25 +692,236 @@ reconciliation task (no authenticated Vercel CLI/API access in that
 environment); it is recorded as not independently verified rather than
 invented.
 
-**Final canonical reconciliation.** This record
+**Final canonical reconciliation — merged.** The reconciliation record
 (`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`)
-is the durable Stage B governance baseline reflecting the merged, deployed
-state above. At the creation of its local documentation commit
-(`docs: reconcile final Batch activation state`, parent
-`f118110181fe5428940ac86256dedc63f52282a6`), that commit is local-only and
-unreviewed — a time-scoped creation-time fact, not a permanent claim about
-this file's own content. The exact immediate next task at creation time is
-`MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-REVIEW-001`.
-Only a PASS there may advance to
-`-RECONCILIATION-PUSH-001`, then `-RECONCILIATION-PR-CREATION-001`, then
-`-RECONCILIATION-PR-REVIEW-001`, then `-RECONCILIATION-MERGE-001`. Once that
-chain independently reviews, merges, and Production-verifies this
-reconciliation content into canonical `main`, the canonical state it
-describes is the final reconciled Stage B governance baseline and no further
-state-sync task is required solely to restate the PR #33 merge recorded
-above. The next eligible task then becomes
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` — a separate decision
-task, not live execution authorization. None of this authorizes Stage C,
-provider connection, migration trigger #5, or USD 0.01 spend. Task-record
+was independently reviewed
+(`PASS_MELLYCORE_OPENAI_BATCH_API_CONTROLLED_ACTIVATION_FINAL_CANONICAL_STATE_RECONCILIATION_PR_REVIEW_002`)
+and merged as [PR #34](https://github.com/Melly-999/mellycore-aios-core/pull/34)
+at `2026-07-31T18:30:57Z` via GitHub merge commit
+`947f33d27d5546775186e96bdc61e30db78c0b3d` (first parent
+`f118110181fe5428940ac86256dedc63f52282a6`, second parent exact reviewed head
+`05e3f143116dda1d28192f8ec994e65d991bf713`; merge tree
+`037a530d7b6f1e0502d404103ed32b666430c4c8`, identical to the reviewed-head
+tree). PR #34's exact two-commit, five-file
+documentation-only scope is now canonical on `main`; the static `site` tree
+remained unchanged at `5df8bb686ebeb5b13bcf1fe2ad2ef6bc796bfc5d`. The Codex
+thread (`PRRT_kwDOTQjWMs6VfKuy`) is resolved with a published evidence reply.
+The automatic Vercel Production deployment succeeded for the exact merge
+commit (GitHub deployment `5696334358`, SHA
+`947f33d27d5546775186e96bdc61e30db78c0b3d`, `success`); the accepted host
+`https://mellycore-aios-core.vercel.app` returned HTTP 200 (reachability
+only; no page-level visual acceptance claimed). **This is now the final
+reconciled Stage B governance baseline
+(`FINAL_RECONCILED_STAGE_B_GOVERNANCE_BASELINE_ESTABLISHED`).** No further
+state-sync task is required solely to restate this merge.
+
+**Bounded OpenAI Batch live-smoke authorization — proposed, not executed.**
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` recorded decision
+`AUTHORIZED_FOR_ONE_EXACT_FUTURE_LIVE_SMOKE_NOT_EXECUTED` in
+`docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md`: exactly
+one future Batch, one request, one input file, model
+`gpt-5.4-nano-2026-03-17`, endpoint `/v1/responses`, `max_output_tokens: 16`,
+a 238-byte input payload (SHA-256
+`a3794dd08e07124f522d56a2a4950e3c5011bc9b90affc0d2dd37a23ad344a6b`), and a
+reproducible worst-case cost of `USD 0.0000338` against the `USD 0.01` hard
+cap (`STAGE_B_HARD_COST_CAP_USD`) — a safety margin of `USD 0.0099662`
+(approximately 99.66%). The proposal reuses the already-canonical, current
+pricing evidence (`verified_at 2026-07-28T22:00:34Z`,
+`valid_until 2026-08-27T22:00:34Z`) and the existing dual-locked Stage B
+constants in `scripts/mellycore_batch/activation.py`; it changes no code,
+policy, or pricing value.
+
+This authorization is single-use, exact-scope, and expires automatically at
+or after `2026-08-27T22:00:34Z`, on any model/pricing/policy drift, or on any
+change to the exact recorded payload. The separately authorized publication
+merge of this exact reviewed commit into canonical `main` is an explicitly
+sanctioned transition, not invalidating drift, even though it necessarily
+advances `main` beyond the pre-publication base
+`947f33d27d5546775186e96bdc61e30db78c0b3d` (that base is only a branch-origin
+evidence anchor). That publication merge commit instead becomes the
+**authorization-publication baseline**. It governs canonical identity until
+the exact separately authorized and independently reviewed Model B
+implementation transition described in the remediation 002 state machine
+below; unrelated canonical advancement remains invalidating and ancestry
+alone remains insufficient. See the task record's "Canonical publication,
+activation, and drift" section for the full phase-specific mechanism. It does
+**not**
+authorize provider connection, credential access, file upload, Batch
+submission, status polling against a live Batch, download, cancellation, or
+spend — none of those occurred while producing this record. It does not
+itself construct or consume a runtime one-time-use authorization artifact;
+that must be freshly built by a separately authorized future execution task,
+after its own fresh preflight and explicit operator confirmation, with
+immediate post-smoke restoration of the fail-closed policy afterward.
+`STAGE_C_ONE_EXACT_LIVE_BATCH_SMOKE_AUTHORIZATION_PROPOSED_NOT_EXECUTED`,
+`USD_0_01_MAXIMUM_SPEND_PROPOSED_NOT_SPENT`,
+`MIGRATION_TRIGGER_5_EXACT_CROSSING_PROPOSED_NOT_CROSSED`, and
+`PROVIDER_CONNECTION_NOT_EXECUTED` all held at that decision snapshot. Its
+then-immediate next task was
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-REVIEW-001` — a fresh
+independent review of this authorization record, required before
+publication, PR review, merge, or any execution attempt. Task-record
 next-task fields remain creation-time historical snapshots, superseded by
 this file, `AGENT_HANDOFF.md`, and `RUN_QUEUE.md`.
+
+### PR #35 living-state reconciliation contract
+
+`MELLYCORE-OPENAI-BATCH-PR35-LIVING-STATE-RECONCILIATION-REMEDIATION-001`
+separates durable project truth into three layers:
+
+- **Recorded history:** facts bound to an exact task, timestamp, and SHA remain
+  valid as historical evidence.
+- **Durable governance:** required gate order remains binding without
+  asserting which gate is presently active.
+- **Live operations:** before any state-changing task, re-derive PR state,
+  base/head, counts, checks, reviews, thread state, unresolved-thread count,
+  publication state, and the latest accepted governance evidence from
+  canonical `clean-origin` and GitHub. Tracked Markdown is not a live-state
+  oracle.
+
+Local commit existence is distinct from remote publication; publication from
+independent acceptance; acceptance from thread resolution; resolution from
+merge authorization; and merge authorization from provider, live-smoke,
+Batch, spend, or deployment authorization.
+
+**Time-scoped PR #35 snapshot — verified 2026-08-09T17:01:21Z.** At that
+verification point, PR #35 was `OPEN`, base `main` at
+`947f33d27d5546775186e96bdc61e30db78c0b3d`, published head
+`08709ede7e32ec75c5e3ef7aaec724c2b68b1e35`, 5 published commits, 5 changed
+files, 3/3 successful checks, and 4 `COMMENTED` reviews. Target thread
+`PRRT_kwDOTQjWMs6VhoHo` was `RESOLVED`; unresolved-thread count was 0.
+
+Durable review `4891742878` (`PRR_kwDOTQjWMs8AAAABI5ISng`) submitted
+`2026-08-09T15:37:01Z` recorded `RESULT: PASS_EXACT_HEAD_ACCEPTED` for exact
+head `08709ede…` while the target thread was unresolved. The subsequent
+acceptance-to-resolution sequence was valid: reopen, independent exact-head
+acceptance, durable evidence, then separate re-resolution. The thread was
+observed unresolved at `2026-08-09T15:50:29Z` and re-resolution was verified
+at `2026-08-09T15:53:31Z`; `PR35-P2-02` is recorded as `REMEDIATED`.
+
+`DAI-P2-01` is retained as a `KNOWN_NONBLOCKING_AUDIT_FINDING`: recovery from
+a malformed pending review exceeded the earlier task's literal mutation
+contract, while the final durable acceptance artifact remains valid. This
+record requests no cleanup.
+
+At the same snapshot point,
+`MELLYCORE-OPENAI-BATCH-PR35-FINAL-PREMERGE-VERIFICATION-002` had returned
+`FAIL_REMEDIATION_REQUIRED` for `PR35-P2-03` and `PR35-P2-04`. This
+repository-document remediation addresses `PR35-P2-04` locally, subject to
+fresh independent review. `PR35-P2-03` remains separate and open: no live PR
+body was edited or reconciled, and only a separately authorized GitHub
+PR-body mutation after the correct reviewed/published head is known can
+remediate it.
+
+**Durable forward order:** independently review this fresh remediation; only
+after PASS separately authorize publication of its exact reviewed head; after
+publication reconcile the live PR body for `PR35-P2-03`; re-run exact-head
+checks and independent-acceptance governance required by the changed head;
+perform fresh final pre-merge verification; only after PASS may a separate
+merge task be considered. This is ordering, not a permanent completion ledger
+or `NEXT` pointer; live state must be re-derived before task selection.
+
+The safety boundary remains fail-closed:
+`PROVIDER_AUTHORIZATION = NO`; `MIGRATION_TRIGGER_5 = NOT_CROSSED`;
+`POLICY_TRANSITION = SPECIFIED_ONLY`;
+`POLICY_TRANSITION_IMPLEMENTATION = NOT_AUTHORIZED`;
+`LIVE_PROVIDER_ACCESS = NO`; `LIVE_SMOKE_EXECUTION = NO`;
+`BATCH_EXECUTION = NO`; `SPEND_AUTHORIZATION = NO`;
+`MERGE_AUTHORIZATION = NO`; `DEPLOYMENT_AUTHORIZATION = NO`.
+
+### Historical PR #35 remediation snapshots
+
+Everything below this heading is retained as time-scoped provenance of the
+earlier P1/remediation sequence. Its old head, thread, publication, and
+task-pointer statements are not live operational state and do not supersede
+the reconciliation contract above.
+
+**PR #35 blocked pre-merge by an unresolved P1 policy-transition finding
+(historical) — documentation remediation created, subsequently published.**
+A merge-preflight task for PR #35 correctly stopped after finding an
+unresolved, then-current `chatgpt-codex-connector` review thread (thread
+`PRRT_kwDOTQjWMs6VhoHo`,
+`docs/tasks/MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001.md:363`,
+"Permit the required policy transition"). No merge occurred. An independent
+read-only assessment then returned
+`VALID_BLOCKING_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_FINDING_ASSESSMENT_001`:
+`scripts/mellycore_batch/policy.py` hardcodes `allowed=False` with no
+runtime override of any kind, so the only way to ever permit a live
+connection is a tracked-file edit — yet the authorization record listed any
+change to that hardcoded policy as invalidating drift, an operationally
+self-invalidating contradiction confirmed against actual source and via
+fresh fail-closed re-verification (all five provider commands still exit
+`78` with `LIVE_PROVIDER_CONNECTION_BLOCKED_BY_MIGRATION_TRIGGER_5`).
+
+First remediation commit `b611fc08f1a105bcc15a90935a7df2d76337798f`
+(`docs: define bounded Batch policy transition`) attempted a documentation
+repair but was independently rejected with
+`REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_REVIEW_001`.
+B-01 found that the implementation merge was exempted from policy drift but
+not canonical-main drift, so it would still invalidate the authorization.
+B-02 found that the future implementation test contract was incomplete.
+
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-002`
+repairs both documentation defects. The task record now defines a seven-state
+governance sequence from proposal through consumed-or-blocked. The verified
+PR #35 merge becomes the authorization-publication baseline but remains
+non-executable. Until the implementation transition, canonical `main` must
+equal that baseline exactly and a separately authorized, independently
+reviewed Model B implementation branch must be based directly on it. The
+exact implementation merge must have exactly two parents (first: publication
+baseline; second: reviewed implementation head), tree equality with that
+head, only reviewed scope, preserved default denial, the complete future test
+contract passing, and successful automatic Production verification.
+
+Only that exact verified implementation merge is exempt from both
+canonical-main drift and provider-policy drift. It preserves the bounded
+authorization, supersedes the publication baseline solely for execution
+eligibility, and becomes the execution baseline; simultaneous equality to
+both baselines is not required. Unrelated advancement before the transition
+and every later advancement after it remain invalidating, and ancestry alone
+is insufficient. No other canonical or policy change receives an exception.
+The task record explicitly enumerates all 40 mandatory future implementation
+test cases. No policy implementation currently exists; the provider remains
+hard fail-closed and PR #35 publication alone remains non-executable.
+
+Remediation 002 created one local documentation commit on top of
+`b611fc08f1a105bcc15a90935a7df2d76337798f` across exactly the task record and
+four living documents. It was subsequently published as
+`159701e045abcce104e3037bb2ba97aa571761f0` — the then-current PR #35 remote
+head at that historical review point (4 commits, 5 files, tree
+`4003dd8ca2fab8256485573e80da7546bf6c149b`). A
+local independent review returned
+`PASS_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_002_REVIEW_001`,
+and a published evidence reply (`PRRC_kwDOTQjWMs7cRJKy`) recorded that
+result on the P1 thread. PR #35 remains open and unmerged, and P1 thread
+`PRRT_kwDOTQjWMs6VhoHo` remains unresolved and **outdated**.
+
+**Independent PR-level review of published head `159701e…`.** A fresh,
+independent PR-level review of that exact published head returned
+`REMEDIATION_REQUIRED_MELLYCORE_OPENAI_BATCH_LIVE_SMOKE_AUTHORIZATION_POLICY_TRANSITION_REMEDIATION_002_PR_REVIEW_001`.
+It independently reproduced the original P1 and both B-01/B-02 blockers,
+confirmed remediation 002 repairs both, validated the seven-state
+governance machine and both narrow drift exceptions, confirmed the 40-case
+test contract complete and the immutable envelope unchanged, and confirmed
+the PR body truthful. **The sole blocking finding (F-01)** was that these
+four living documents still described an obsolete pre-push state (remote
+head `1a379954…`, remediations "local-only and unpushed", P1 thread
+"non-outdated") rather than the true published state above.
+
+**Remediation 003 — living-document publication state synchronization
+(historical creation snapshot).** This task corrected exactly the F-01 stale claims in
+`AGENT_HANDOFF.md`, this file, `ROADMAP.md`, and `RUN_QUEUE.md`. It changes
+no code, test, task-record, or policy content and does not touch the P1
+thread. This commit is created locally, with exactly one parent, directly
+on top of published head `159701e045abcce104e3037bb2ba97aa571761f0`; at
+creation it is local and not yet pushed — a time-scoped creation fact. After
+it is separately authorized and pushed, the exact current PR #35 head must
+be read fresh from GitHub rather than assumed to remain `159701e…`.
+`PR_35_LIVING_DOCUMENT_SYNC_LOCAL_NOT_PUSHED`,
+`POLICY_TRANSITION_IMPLEMENTATION_NOT_AUTHORIZED`,
+`PROVIDER_CONNECTION_NOT_EXECUTED`, `MIGRATION_TRIGGER_5_NOT_CROSSED`,
+`USD_0_01_NOT_SPENT`, and `STAGE_C_LIVE_SMOKE_NOT_EXECUTED` hold. No provider
+operation or spending occurred; PR #28 remains directly untouched and Gate B
+remains `OPEN / NOT EXECUTED`. The recorded next-task pointer at that
+historical creation point was:
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-POLICY-TRANSITION-REMEDIATION-003-PR-REVIEW-001`.
