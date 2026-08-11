@@ -1,6 +1,45 @@
 # Agent Handoff
 
-## Latest Update — M2 Showcase Acceptance rejected (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001)
+## Latest Update — M2 mobile navigation containment remediated (MELLYCORE-M2-MOBILE-NAV-REMEDIATION-001)
+
+`MELLYCORE-M2-MOBILE-NAV-REMEDIATION-001` completed the single bounded
+remediation required by rejected Showcase Acceptance finding `M2-ACCEPT-01`.
+It ran on isolated branch `fix/mellycore-m2-mobile-nav-remediation-001` from
+pinned acceptance-record commit
+`8be96f691691e4e527a666d019a994b00d526173` (`docs: record M2 showcase
+rejection`). The completed acceptance worktree remained clean and untouched.
+
+At the unmodified 375 px baseline, keyboard focus reached `Static dashboard`
+but the horizontal navigation rail stayed at `scrollLeft = 0`; the link ended
+at x=428.80 while the rail ended at x=351, clipping both the label and its
+2 px outline with 2 px offset. The rail already had 32 px physical end padding
+and a valid 110 px end-scroll position. The root cause was the missing
+focus-aware end scroll padding, which left Chromium treating the partially
+visible final link as sufficiently exposed.
+
+The implementation adds only `scroll-padding-inline-end: 32px` to the existing
+mobile `.command-bar nav` rule in `site/css/sections.css`. At 375 px, the fifth
+Tab now focuses `Static dashboard`, moves the rail to its 110 px end position,
+and places the link at x=215.59..318.80 inside the x=24..351 rail. Its complete
+cyan focus treatment is visible and document width remains 375 px. The
+horizontal-rail model, semantic link order, HTML, copy, tokens, JavaScript-free
+posture, exact ten-workspace set, and 4 / 3 / 3 waves are unchanged.
+
+Regression rendering covered 1440, 1024, 768, and 375 px plus the prior
+720-CSS-pixel approximate 200% reflow check. Reduced-motion behavior, local
+links, duplicate-ID checks, zero-script posture, local-only requests, and
+project-state validation passed. The pre-existing favicon 404 and all other
+non-blocking acceptance findings remain out of scope and unchanged.
+
+This remediation does **not** mark M2 complete, accept the Showcase, publish,
+merge, deploy, or activate any runtime, provider, or workspace backend. Formal
+Acceptance must be rerun independently.
+
+Exact next bounded task, not started:
+
+`MELLYCORE-M2-SHOWCASE-ACCEPTANCE-002`
+
+## Prior Update — M2 Showcase Acceptance rejected (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001)
 
 `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001` independently reviewed the complete
 rendered homepage from pinned pre-acceptance commit

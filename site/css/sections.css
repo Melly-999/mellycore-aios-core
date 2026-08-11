@@ -47,6 +47,7 @@
     width: 100%;
     overflow-x: auto;
     padding-right: 32px;
+    scroll-padding-inline-end: 32px;
     scrollbar-width: thin;
   }
 
