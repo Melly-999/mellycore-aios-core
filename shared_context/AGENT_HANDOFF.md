@@ -1,6 +1,50 @@
 # Agent Handoff
 
-## Latest Update — M2 mobile navigation containment remediated (MELLYCORE-M2-MOBILE-NAV-REMEDIATION-001)
+## Latest Update — M2 Showcase Acceptance rerun rejected (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-002)
+
+`MELLYCORE-M2-SHOWCASE-ACCEPTANCE-002` independently reviewed candidate
+`24312daa8f9c204faa42f9d5ca357834c1b10e81` (`fix: correct M2 mobile
+navigation containment`) in a clean isolated worktree. The verdict is
+**`REJECTED`**. M2 remains incomplete and the Showcase is not accepted.
+
+The original blocker `M2-ACCEPT-01` is resolved at the required 375 px
+viewport. Starting from an untouched page load, the fifth Tab reaches
+`Static dashboard`, advances the mobile rail to its 110 px end position, and
+fully contains the link and its 2 px cyan outline with 2 px offset. Document
+client and scroll widths both remain 375 px.
+
+The rerun found a separate acceptance blocker, `M2-ACCEPT-02`. At the 390 and
+430 px mobile sanity widths, ordinary keyboard focus reaches `Static
+dashboard` but the rail remains at `scrollLeft = 0`; the label and complete
+focus indicator stay clipped despite valid 95 px and 55 px end-scroll ranges.
+Manually moving each rail to its end fully reveals the target. Repeating the
+test with the candidate's only implementation declaration disabled reproduces
+the same behavior, so this is inherited behavior, not a remediation
+regression. It nevertheless violates the existing homepage contract that
+deliberate mobile rails be keyboard accessible with viable visible focus.
+
+Required 1440, 1024, 768, 375, and 720-CSS-pixel reflow checks otherwise pass.
+No material regression was found in the hero, Command Center, Runtime
+Constellation, workspace ecosystem, Knowledge & Operations Graph, safety,
+tooling, or Operator Channel. The canonical H1, two-layer product model,
+exact ten-workspace set, 4 / 3 / 3 waves, static/planned truth labels,
+zero-script posture, local-only resource posture, and reduced-motion behavior
+remain intact. Previously disclosed non-blocking debt is unchanged.
+
+Acceptance made no implementation change and does not authorize push, merge,
+deployment, public release, provider/runtime activation, or workspace backend
+activation. The durable review record is
+`docs/tasks/MELLYCORE-M2-SHOWCASE-ACCEPTANCE-002.md`.
+
+Exact next bounded task, not started:
+
+`MELLYCORE-M2-MOBILE-NAV-REMEDIATION-002`
+
+Its scope should be a range-safe focus-containment correction for the existing
+mobile horizontal rail, followed by another independent Showcase Acceptance
+rerun.
+
+## Prior Update — M2 mobile navigation containment remediated (MELLYCORE-M2-MOBILE-NAV-REMEDIATION-001)
 
 `MELLYCORE-M2-MOBILE-NAV-REMEDIATION-001` completed the single bounded
 remediation required by rejected Showcase Acceptance finding `M2-ACCEPT-01`.
