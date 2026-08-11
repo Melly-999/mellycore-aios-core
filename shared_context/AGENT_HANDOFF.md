@@ -1,6 +1,49 @@
 # Agent Handoff
 
-## Latest Update — M2 Pre-Acceptance Canonical State Reconciliation (MELLYCORE-M2-PRE-ACCEPTANCE-STATE-RECONCILIATION-001)
+## Latest Update — M2 Showcase Acceptance rejected (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001)
+
+`MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001` independently reviewed the complete
+rendered homepage from pinned pre-acceptance commit
+`751556faf30622733aa5548cfcf4e43cdda2a225` on isolated branch
+`docs/mellycore-m2-showcase-acceptance-001`. The decision is **`REJECTED`**;
+M2 remains not complete and `SHOWCASE_READY` remains false.
+
+The acceptance-blocking defect is a reproducible 375 px mobile-header
+containment failure. The navigation row is wider than the viewport and the
+last `Static dashboard` link renders from x=326 to x=429 in a 375 px viewport.
+The document itself does not horizontally scroll, so the header clips roughly
+half of the link. Keyboard traversal reaches the link in logical order, but its
+text and focus outline remain clipped. This fails the canonical M2 requirements
+for an intentionally composed mobile view and a viable visible-focus path.
+
+The rest of the static showcase was rendered at 1440, 1024, 768, and 375 px,
+plus an approximate 200% reflow check. The two-layer model, exact ten-workspace
+set and 4 / 3 / 3 waves, static/planned boundaries, Source Arena, Command
+Center, graph, runtime, safety, tooling, and Operator Channel remained
+truthful. No body overflow, panel collisions, external requests, scripts, or
+mandatory external dependencies were observed. Minor non-blocking findings
+were the known tablet Shared Context orphan, unused `.card-grid--4`, a missing
+`/favicon.ico` console 404, a skip link that scrolls without transferring focus
+to `main`, long mobile page depth, and an `MVP demo — Planned` roadmap label
+whose relationship to canonical M0–M5 terminology is ambiguous but does not
+promote a live or connected capability.
+
+Acceptance did not repair its own evidence. `site/**`, Product Vision,
+Roadmap, Task Index, Run Queue, runtime/provider/workspace implementations,
+dependencies, deployment, and release state are unchanged. No push, merge,
+deployment, provider/runtime activation, workspace backend activation, or
+public release occurred. The durable decision record is
+`docs/tasks/MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001.md`.
+
+Exact next bounded task, not started:
+
+`MELLYCORE-M2-MOBILE-NAV-REMEDIATION-001`
+
+Its scope is only the 375 px header/navigation containment and visible-focus
+defect, followed by a fresh independent rerun of
+`MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001`.
+
+## Prior Update — M2 Pre-Acceptance Canonical State Reconciliation (MELLYCORE-M2-PRE-ACCEPTANCE-STATE-RECONCILIATION-001)
 
 This governance-only reconciliation records the completed local M2 visual
 implementation chain without modifying `site/**`. It ran on branch
