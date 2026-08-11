@@ -455,7 +455,107 @@
   .constellation-list .sat-9 { left: 26%; top: 20%; }
 }
 
-/* ── CommandSurfacePreview (model router) ──────────────────── */
+/* ── M2 technical product proof ────────────────────────────── */
+.command-center-proof {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid rgba(124, 58, 237, 0.28);
+  border-radius: calc(var(--radius-panel) + 4px);
+  background: linear-gradient(145deg, rgba(14, 15, 34, 0.9), rgba(5, 5, 8, 0.8));
+  box-shadow: var(--shadow-panel);
+}
+
+.proof-panel,
+.proof-core {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--border-command-soft);
+  border-radius: var(--radius-panel);
+  background: rgba(5, 5, 8, 0.5);
+}
+
+.proof-panel h3,
+.proof-core h3 {
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+}
+
+.proof-panel p,
+.proof-core p,
+.proof-disclosure { font-size: var(--text-small); color: var(--color-muted-lavender); }
+
+.proof-core {
+  position: relative;
+  min-height: 230px;
+  place-items: center;
+  align-content: center;
+  overflow: hidden;
+  border-color: rgba(6, 182, 212, 0.36);
+  text-align: center;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.22), rgba(6, 182, 212, 0.07) 54%, transparent 72%);
+}
+
+.proof-core-ring {
+  position: absolute;
+  width: 210px;
+  height: 96px;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 50%;
+  transform: rotate(-24deg);
+}
+
+.proof-core-ring::after { content: ""; position: absolute; inset: -35px 28px; border: 1px solid rgba(124, 58, 237, 0.28); border-radius: 50%; }
+.proof-core > *:not(.proof-core-ring) { position: relative; z-index: 1; }
+
+.proof-item-list { display: grid; gap: var(--space-1); }
+.proof-item-list li { display: flex; justify-content: space-between; gap: var(--space-2); padding-top: var(--space-1); border-top: 1px solid var(--border-command-soft); font-size: var(--text-caption); }
+.proof-item-list li > span { font-family: var(--font-mono); color: var(--color-signal-cyan); }
+.proof-item-list li > strong { text-align: right; font-weight: 600; }
+
+.proof-flow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-1); padding-top: var(--space-1); }
+.proof-flow li { min-width: 0; padding: 8px 10px; border: 1px solid rgba(59, 130, 246, 0.26); border-radius: var(--radius-card); font-family: var(--font-mono); font-size: var(--text-chip); color: var(--color-cold-white); background: rgba(59, 130, 246, 0.06); text-align: center; }
+.proof-flow li:nth-child(5) { border-color: rgba(245, 158, 11, 0.4); color: var(--color-warning-amber); }
+.proof-disclosure { grid-column: 1 / -1; border-top: 1px solid var(--border-command-soft); padding-top: var(--space-2); }
+.proof-disclosure strong { color: var(--color-warning-amber); }
+
+.runtime-constellation {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid rgba(6, 182, 212, 0.24);
+  border-radius: var(--radius-panel);
+  background: radial-gradient(circle at 50% 42%, rgba(124, 58, 237, 0.16), transparent 38%), rgba(5, 5, 8, 0.46);
+}
+
+.runtime-center { display: grid; justify-items: center; gap: var(--space-1); padding: var(--space-3); border: 1px solid rgba(124, 58, 237, 0.5); border-radius: 50%; aspect-ratio: 1; width: min(100%, 220px); margin-inline: auto; align-content: center; text-align: center; box-shadow: var(--glow-violet); }
+.runtime-center strong { font-size: 1.35rem; }
+.runtime-center > span:last-child { max-width: 14ch; font-size: var(--text-caption); color: var(--color-muted-lavender); }
+.runtime-orbit-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.runtime-orbit-list li { display: grid; gap: 3px; min-width: 0; padding: var(--space-2); border: 1px solid rgba(196, 181, 253, 0.2); border-radius: var(--radius-card); background: rgba(10, 11, 20, 0.68); }
+.runtime-orbit-list strong { overflow-wrap: anywhere; font-size: var(--text-small); }
+.runtime-orbit-list span { font-family: var(--font-mono); font-size: var(--text-chip); color: var(--color-muted-lavender); }
+
+@media (min-width: 768px) {
+  .command-center-proof { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr); align-items: stretch; }
+  .proof-flow { grid-column: 1 / -1; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .runtime-constellation { grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.5fr); align-items: center; }
+  .runtime-orbit-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .runtime-constellation .router-hub-note { grid-column: 1 / -1; }
+}
+
+@media (max-width: 767px) {
+  .command-center-proof { padding: var(--space-2); }
+  .proof-panel, .proof-core { padding: var(--space-2); }
+  .proof-flow li:last-child { grid-column: 1 / -1; }
+  .knowledge-graph-canvas .graph-map { display: none; }
+  .graph-text-fallback { margin-top: 0; padding: var(--space-2); border: 1px solid rgba(6, 182, 212, 0.24); border-radius: var(--radius-card); background: rgba(6, 182, 212, 0.04); }
+  .knowledge-cluster-rail .cluster-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── Runtime Constellation ─────────────────────────────────── */
 .router-layout {
   display: grid;
   gap: var(--space-3);
@@ -592,8 +692,8 @@
 .graph-cluster--foundation { border-color: rgba(124, 58, 237, 0.38); }
 .graph-cluster--context { border-color: rgba(6, 182, 212, 0.34); }
 .graph-cluster--knowledge { border-color: rgba(124, 58, 237, 0.52); box-shadow: var(--glow-violet); }
-.graph-cluster--safety { border-color: rgba(16, 185, 129, 0.36); }
-.graph-cluster--repo { border-color: rgba(245, 158, 11, 0.3); }
+.graph-cluster--safety { border-color: rgba(245, 158, 11, 0.4); }
+.graph-cluster--repo { border-color: rgba(6, 182, 212, 0.32); }
 
 .graph-line {
   display: none;
