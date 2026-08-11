@@ -36,10 +36,12 @@ store provider secrets.
 
 ## Cinematic AIOS Product Structure — Locked (Product Vision, Not Implementation)
 
-Locked by `MELLYCORE-ROADMAP-LOCK-001B`. Everything in this section is
-**product vision and planned product structure**: it authorizes, implements,
-connects, and executes nothing, mints no new canonical data owner, and changes
-no accepted architectural contract. Existing Agent Runtime, Framework Bridge,
+Locked by `MELLYCORE-ROADMAP-LOCK-001B`. The architecture and product inventory
+in this section remain the locked **product vision and planned product
+structure**. Their static M2 showcase representation does not implement a
+workspace backend, connect a provider or runtime, authorize execution, mint a
+new canonical data owner, or change an accepted architectural contract.
+Existing Agent Runtime, Framework Bridge,
 Provider Registry, Integration Gateway, and Shared Context contracts remain
 authoritative.
 
@@ -60,8 +62,11 @@ become new canonical data owners.
 
 ### Layer 2 — AI Workspaces
 
-Exactly **ten planned AI Workspaces** (`WORKSPACE_COUNT = 10`), all
-**planned**, none implemented:
+Exactly **ten canonical AI Workspaces** (`WORKSPACE_COUNT = 10`). Each now has
+a truthful static M2 showcase representation in `site/index.html`; the
+workspace product surfaces themselves remain **planned**, and none has a
+workspace backend, provider/account connection, runtime activation, download,
+or execution capability:
 
 1. Deep Research
 2. Compare Arena
@@ -158,6 +163,14 @@ MellyCore is not hard-coupled to NVIDIA, Windows, Ollama, or llmfit.
 ## Durable Implemented State
 
 - Static local homepage and Live Cockpit V2 prototype.
+- Local M2 static-showcase implementation/polish chain through
+  `b6e10a935f358582a02e5f43e19b0c9ec3f37ab5` (`feat: polish MellyCore
+  showcase rhythm`), ready for formal Showcase Acceptance but not yet formally
+  accepted. The six-commit linear chain materializes the first viewport,
+  technical product proof, instrument language, signature surfaces, the exact
+  ten-workspace ecosystem, and global rhythm in `site/`. It is local and
+  unpushed in this lineage; it claims no merge, deployment, public release,
+  provider connection, workspace backend, or runtime activation.
 - Report-only Loop Operations Foundation: 9 registered loops, 1 exercised loop,
   0 production-enabled loops, and two human-invoked `project-health` runs.
 - Context Gate through I4: guarded admission, 7 validated canonical records,

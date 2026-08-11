@@ -40,20 +40,29 @@ Enterprise Provider Integration documentation-sequence item not yet started;
 `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` (see Task Index). None of these
 shares a canonical owner with the design lane or with `site/`.
 
-**M2 CRITICAL PATH** (shortest responsible path to first commercial
-showcase): `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` →
-`MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001` (reconciles the
-existing, pre-lock `docs/tasks/MELLYCORE-HOMEPAGE-SPEC-001.md` against the
-two-layer/ten-workspace structure) → M2 implementation slice(s), scoped by
-that reconciliation, layered onto the existing canonical `site/` foundation
-(cinematic showcase + Source Arena static renderer slice + OpenRouter
-Observatory Level 1, all already merged to `main` and Production-verified)
-→ M2 slice review → responsive/accessibility/reduced-motion/truthfulness
-checks → M2 complete. `MELLYCORE-HERO-DIRECTION-DECISION-001` and
-`MELLYCORE-DESIGN-SYSTEM-CINEMATIC-AMENDMENT-001` are **not** on this
-critical path: the existing Source Arena hero is already canonical, so M2
-does not require the future-hero-direction decision to proceed. No live
-platform integration, provider connection, or backend is required for M2.
+**M2 CRITICAL PATH / CURRENT COMMERCIAL-LANE STATE:** the prerequisite
+`MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001` completed at
+`053850f2946f6a18bc4f3eb733d4b396479ed5d8`. A verified linear local Git
+chain then completed the bounded M2 implementation/polish sequence:
+
+1. `MELLYCORE-M2-FOUNDATION-FIRST-VIEWPORT-001` — `5685d4c30701126adcf73cd92da5b6305d39dde4`
+2. `MELLYCORE-M2-TECHNICAL-PRODUCT-PROOF-001` — `9f022cecaf6f12825e42208515c0fd8bdbe6a5a1`
+3. `MELLYCORE-M2-INSTRUMENT-LANGUAGE-POLISH-001` — `fe63741defac857311dc5d9a521ebf0c76771408`
+4. `MELLYCORE-M2-SIGNATURE-SURFACES-POLISH-001` — `62d3531fcad885ce3f7c25f18ce1ecc6ef0c2387`
+5. `MELLYCORE-M2-ECOSYSTEM-CONVERSION-001` — `b8b5c2fe3706d923c03660262be63afaacbcd71c`
+6. `MELLYCORE-M2-GLOBAL-RHYTHM-POLISH-001` — `b6e10a935f358582a02e5f43e19b0c9ec3f37ab5`
+
+The last task reported `PASS_WITH_LIMITATIONS`; its review found no further
+visual polish required before formal Acceptance. The M2 implementation/polish
+state is therefore ready for, but has not received, formal acceptance.
+
+**NEXT M2 COMMERCIAL-LANE TASK:**
+`MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001`. This is the next M2 task, not a
+replacement for the repository-wide Global Pointer or any independently
+governed parallel lane above. Formal acceptance must decide whether M2 may be
+marked complete. No push, merge, deployment, public release, provider/runtime
+activation, workspace backend, or live connection is claimed by this local
+chain or by this reconciliation.
 
 **POST-SHOWCASE PLATFORM WORK** (explicitly kept off the M2 critical path):
 Agent Runtime Product Track scaffold implementation (`BLOCKED` behind

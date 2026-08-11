@@ -1,6 +1,57 @@
 # Agent Handoff
 
-## Latest Update — Commercial Showcase Homepage Specification Reconciliation (MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001)
+## Latest Update — M2 Pre-Acceptance Canonical State Reconciliation (MELLYCORE-M2-PRE-ACCEPTANCE-STATE-RECONCILIATION-001)
+
+This governance-only reconciliation records the completed local M2 visual
+implementation chain without modifying `site/**`. It ran on branch
+`docs/mellycore-m2-pre-acceptance-state-reconciliation-001` in isolated
+worktree
+`C:\AI\MellyCore_Workspace\02_Worktrees\mellycore-m2-pre-acceptance-state-reconciliation-001`,
+created directly from pinned commit
+`b6e10a935f358582a02e5f43e19b0c9ec3f37ab5`. The completed source worktree
+remained clean and untouched.
+
+The immediately completed task is
+`MELLYCORE-M2-GLOBAL-RHYTHM-POLISH-001`:
+
+- result: `PASS_WITH_LIMITATIONS`;
+- final implementation commit:
+  `b6e10a935f358582a02e5f43e19b0c9ec3f37ab5` (`feat: polish MellyCore
+  showcase rhythm`);
+- visual implementation state: no further visual polish was required before
+  formal Acceptance according to the completed task review;
+- publication state: local only in this lineage; no push, merge, deployment,
+  provider/runtime activation, workspace backend activation, or public release
+  occurred.
+
+The review disclosed two minor, non-blocking visual limitations: the tablet
+Shared Context orphan trade-off and an unused `.card-grid--4` CSS rule. This
+reconciliation does not fix or elevate either item. The prior handoff update
+was intentionally deferred because that implementation task prohibited
+`shared_context/**`; the required handoff debt is resolved by this entry.
+
+Canonical state now distinguishes the completed M2 static-showcase
+implementation/polish chain from formal milestone acceptance. All ten
+workspace representations are present as truthful static previews, while the
+workspace products remain planned and unconnected. M2 is not marked complete,
+and no live, connected, authorized, merged, deployed, or released state is
+claimed.
+
+The repository-wide Global Pointer and independently governed parallel lanes
+remain unchanged. The exact next **M2 commercial-lane** task, not started here,
+is:
+
+`MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001`
+
+Files changed by this reconciliation are limited to
+`shared_context/PROJECT_STATE.md`, `shared_context/TASK_INDEX.md`,
+`shared_context/RUN_QUEUE.md`, this handoff, and
+`docs/tasks/MELLYCORE-M2-PRE-ACCEPTANCE-STATE-RECONCILIATION-001.md`.
+`shared_context/ROADMAP.md`, Product Vision architecture, `site/**`, runtime,
+provider, deployment, dependencies, assets, and credentials remain unchanged.
+Validation evidence is recorded in the task report.
+
+## Prior Update — Commercial Showcase Homepage Specification Reconciliation (MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001)
 
 MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001 completed the
 specification-only reconciliation needed to unblock bounded M2 homepage
