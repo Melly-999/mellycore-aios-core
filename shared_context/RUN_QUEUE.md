@@ -16,13 +16,21 @@ existing task graph. It is **independent of, and does not reorder**, the
 reconciliation sequence, or the Enterprise Provider Integration track —
 each keeps its own gates and gets there on its own authorization.
 
-**NEXT EXECUTABLE CANONICAL TASK** (repository-wide, unaffected by this
-overlay): `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-REVIEW-001`
-— see "Current — OpenAI Batch Final Canonical State Reconciliation Gate"
-below. (The Task Index's Global Pointer row separately names
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`; that decision task is
-only reachable after this review and its full publication chain complete —
-it is not itself the next actionable step today.)
+**REPOSITORY-WIDE GLOBAL POINTER** (priority umbrella, not execution
+authorization): `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains
+`IN_PROGRESS` and independently governed. PR #34 already merged the preceding
+final canonical-state reconciliation into `main` at
+`947f33d27d5546775186e96bdc61e30db78c0b3d`. The live-smoke umbrella does not
+authorize Stage C, a provider connection, or spend; its internal current gate
+must be verified from its separate lineage and newest task/Git/GitHub evidence.
+
+**CURRENT AUTHORIZED EXECUTABLE TASK:**
+`MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001` is the bounded
+governance-only remediation for PR #36. This record completes that local
+remediation; the next executable M2/public-release lane task is independent
+`MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`. This lane does
+not reorder the repository-wide Batch pointer or any independently governed
+parallel lane.
 
 **NEXT DESIGN TASK**: `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` — review
 and canonicalize (or reject) the externally generated Claude Design System
@@ -56,15 +64,25 @@ The last implementation task reported `PASS_WITH_LIMITATIONS`; its review found
 no further visual polish required before formal Acceptance. Independent final
 rerun `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003` accepted candidate
 `8264d29712396fa71101aedb578f5d5a13f33d8d` with non-blocking limitations.
-M2 is therefore complete and `SHOWCASE_READY = YES` for the local candidate
-lineage. This acceptance does not authorize push, merge, deployment, public
-release, provider/runtime activation, workspace backend, or live connection.
+M2 is therefore complete and `SHOWCASE_READY = YES`. Accepted release SHA
+`a71846f1800b921b509995ac2b65b317fcf290bf` is pushed to remote branch
+`review/mellycore-m2-showcase-acceptance-003`; non-draft PR #36 is open against
+canonical base `947f33d27d5546775186e96bdc61e30db78c0b3d`.
 
-**NEXT M2 COMMERCIAL-LANE TASK:**
-`MELLYCORE-M2-PUBLIC-SHOWCASE-RELEASE-001` is recommended only as a separate,
-explicitly authorized release task. It is not started or authorized here and
-does not replace the repository-wide Global Pointer or independently governed
-parallel lanes.
+`MELLYCORE-M2-PUBLIC-SHOWCASE-RELEASE-001` completed only its authorized push
+and PR-creation scope. `MELLYCORE-PR36-COMPOSED-INTEGRATION-REVIEW-001` then
+returned `NEEDS_REMEDIATION` on P1 finding `PR36-INT-001`. The current local
+remediation is `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001`; its exact
+next gate is
+`MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`.
+
+PR #36 is not merged, merge is not authorized, `PUBLIC_SHOWCASE =
+NOT_RELEASED` for this M2 release, Production verification is not performed,
+and provider/runtime activation remains `NO`. Because a merge to `main`
+immediately publishes to
+Vercel Production, production-impacting merge remains blocked pending the
+independent remediation review and a later exact-head, explicit Operator
+authorization.
 
 **POST-SHOWCASE PLATFORM WORK** (explicitly kept off the M2 critical path):
 Agent Runtime Product Track scaffold implementation (`BLOCKED` behind
@@ -135,7 +153,7 @@ or 3D implementation. A successful merge does not automatically require a
 post-merge synchronization task; another sync is warranted only if a concrete
 live canonical statement becomes false.
 
-## Current — OpenAI Batch Final Canonical State Reconciliation Gate
+## Historical — OpenAI Batch Final Canonical State Reconciliation Gate
 
 Completed:
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-MERGE-001`. PR #32 merged
@@ -168,7 +186,7 @@ succeeded for the exact merge commit (GitHub deployment `5694313001`,
 returned HTTP 200; no manual deployment action or page-level visual
 acceptance occurred.
 
-**Current gate:**
+**Historical creation-time gate:**
 `MELLYCORE-OPENAI-BATCH-API-CONTROLLED-ACTIVATION-FINAL-CANONICAL-STATE-RECONCILIATION-001`
 records the merged, Production-verified state above as the durable Stage B
 governance baseline across this queue, `PROJECT_STATE.md`, `AGENT_HANDOFF.md`,
@@ -194,13 +212,13 @@ merge identity, deployment verification) does not match the actual live
 state; a mismatch must produce a partial or blocked outcome and must not
 advance to the next step.
 
-Once this reconciliation content is independently reviewed, merged into
-canonical `main`, and its automatic Production deployment is verified, the
-canonical state it describes is the final reconciled Stage B governance
-baseline. No further state-sync task is required solely to restate the PR
-#33 merge already recorded above. Only then may
-`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` be considered as a
-separate decision task, not live execution authorization.
+That reconciliation content was subsequently independently reviewed and merged
+through PR #34 as canonical commit
+`947f33d27d5546775186e96bdc61e30db78c0b3d`; the automatic Production
+deployment was verified. It is the final reconciled Stage B governance
+baseline. The repository-wide priority umbrella therefore advances to
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001`, which remains a separate
+decision/governance track and not live execution authorization.
 
 Task-record next-task fields are creation-time historical snapshots,
 superseded by this queue and `AGENT_HANDOFF.md`.

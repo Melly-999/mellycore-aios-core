@@ -163,17 +163,30 @@ MellyCore is not hard-coupled to NVIDIA, Windows, Ollama, or llmfit.
 ## Durable Implemented State
 
 - Static local homepage and Live Cockpit V2 prototype.
-- Local M2 static-showcase implementation/polish chain through
+- M2 static-showcase implementation/polish chain through
   `b6e10a935f358582a02e5f43e19b0c9ec3f37ab5` (`feat: polish MellyCore
   showcase rhythm`), formally accepted with non-blocking limitations by
   `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003` on candidate
   `8264d29712396fa71101aedb578f5d5a13f33d8d`. M2 is complete and
-  `SHOWCASE_READY = YES` for this local candidate lineage. The six-commit
+  `SHOWCASE_READY = YES`. Accepted release SHA
+  `a71846f1800b921b509995ac2b65b317fcf290bf` is pushed to remote branch
+  `review/mellycore-m2-showcase-acceptance-003`; PR #36 is open against
+  canonical base `947f33d27d5546775186e96bdc61e30db78c0b3d`. The six-commit
   linear chain materializes the first viewport, technical product proof,
   instrument language, signature surfaces, the exact ten-workspace ecosystem,
-  and global rhythm in `site/`. It is local and unpushed in this lineage; it
-  claims no merge, deployment, public release, provider connection, workspace
-  backend, or runtime activation.
+  and global rhythm in `site/`. Merge is not performed or authorized;
+  `PUBLIC_SHOWCASE = NOT_RELEASED` for this M2 release; Production verification
+  is not performed for PR #36. No provider connection, workspace backend, or
+  runtime activation exists.
+- PR #36 composed integration review
+  `MELLYCORE-PR36-COMPOSED-INTEGRATION-REVIEW-001` returned
+  `NEEDS_REMEDIATION` on finding `PR36-INT-001` (P1 living canonical-state
+  truth drift). `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001` is the
+  bounded governance remediation recorded by this lineage. The next gate is
+  independent task
+  `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`.
+  Production-impacting merge remains blocked pending that review and a later
+  exact-head, explicit Operator authorization.
 - Report-only Loop Operations Foundation: 9 registered loops, 1 exercised loop,
   0 production-enabled loops, and two human-invoked `project-health` runs.
 - Context Gate through I4: guarded admission, 7 validated canonical records,

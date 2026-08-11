@@ -1,5 +1,42 @@
 # Agent Handoff
 
+## Latest Update — PR #36 composed integration living-state remediation (MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001)
+
+`MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001` completed one local,
+governance-only remediation commit from exact PR #36 head
+`a71846f1800b921b509995ac2b65b317fcf290bf` in isolated worktree
+`C:\AI\MellyCore_Workspace\02_Worktrees\mellycore-pr36-composed-integration-remediation-001`.
+It resolves only composed-review finding `PR36-INT-001` (P1 living
+canonical-state truth drift) across `PROJECT_STATE.md`, `TASK_INDEX.md`,
+`RUN_QUEUE.md`, and this handoff, with durable evidence in
+`docs/tasks/MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001.md`.
+
+Current release truth: M2 is `COMPLETE`; M2 Acceptance is
+`ACCEPTED_WITH_NON_BLOCKING_LIMITATIONS`; `SHOWCASE_READY = YES`; accepted
+release SHA `a71846f1800b921b509995ac2b65b317fcf290bf` is pushed to
+`review/mellycore-m2-showcase-acceptance-003`; and non-draft PR #36 is open
+against canonical base `947f33d27d5546775186e96bdc61e30db78c0b3d`.
+The push and PR creation are complete. Merge is not performed or authorized;
+`PUBLIC_SHOWCASE = NOT_RELEASED` for this M2 release; Production verification
+is not performed for PR #36. Provider/runtime activation remains `NO`.
+
+The full composed integration review returned `NEEDS_REMEDIATION`. This local
+remediation reconciles the living owner files and distinguishes the
+repository-wide OpenAI Batch priority umbrella from the currently authorized
+PR #36 executable lane. It does not claim that the Batch live smoke, Stage C,
+a provider connection, or spend is authorized. It changes no `site/**`, code,
+test, Roadmap, Product Vision, design, provider/runtime implementation, M3, 3D,
+or Drift implementation file.
+
+Exact next task, not started or authorized by this record:
+
+`MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`
+
+Production-impacting merge remains blocked pending that independent review and
+a later exact-head, explicit Operator authorization. No push, PR update, merge,
+deployment, Production verification, provider call, or runtime execution
+occurred in this remediation task.
+
 ## Latest Update — M2 Showcase accepted with non-blocking limitations (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003)
 
 Independent final acceptance rerun `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003`
