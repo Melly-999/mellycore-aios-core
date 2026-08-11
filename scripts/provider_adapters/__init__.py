@@ -1,0 +1,81 @@
+"""Inert, provider-neutral adapter contracts for MellyCore AIOS.
+
+Standard library only, Python 3.9 compatible.  Importing or constructing these
+types performs no I/O and does not register, authenticate, credential, enable,
+or authorize any provider.
+"""
+
+from __future__ import annotations
+
+from .adapters import DisabledProviderAdapter, ProviderAdapter
+from .contracts import (
+    ActingIdentityType,
+    AdapterErrorCode,
+    AdapterKind,
+    AdapterValidationError,
+    ApprovalRequirement,
+    AuthenticationTarget,
+    AuthorizationFacts,
+    AuthorizationFactStatus,
+    CapabilityClassification,
+    CapabilityDescriptor,
+    CapabilityId,
+    ContractScopeDimension,
+    CredentialProfileClass,
+    CredentialSupport,
+    ErrorPhase,
+    ExecutionState,
+    ExternalContentExposure,
+    ImplementationState,
+    NetworkBehavior,
+    NormalizedAdapterError,
+    NormalizedOperationResult,
+    OperationOutcome,
+    ProviderDescriptor,
+    ProviderId,
+    ResolvedExecutionEnvelope,
+    RiskTier,
+    ScopeApplicability,
+    ScopeApplicabilityEntry,
+    ScopeFamily,
+    ScopeReference,
+)
+from .validation import parse_canonical_value, validate_envelope, validate_manifest
+
+__all__ = [
+    "ActingIdentityType",
+    "AdapterErrorCode",
+    "AdapterKind",
+    "AdapterValidationError",
+    "ApprovalRequirement",
+    "AuthenticationTarget",
+    "AuthorizationFacts",
+    "AuthorizationFactStatus",
+    "CapabilityClassification",
+    "CapabilityDescriptor",
+    "CapabilityId",
+    "ContractScopeDimension",
+    "CredentialProfileClass",
+    "CredentialSupport",
+    "DisabledProviderAdapter",
+    "ErrorPhase",
+    "ExecutionState",
+    "ExternalContentExposure",
+    "ImplementationState",
+    "NetworkBehavior",
+    "NormalizedAdapterError",
+    "NormalizedOperationResult",
+    "OperationOutcome",
+    "ProviderAdapter",
+    "ProviderDescriptor",
+    "ProviderId",
+    "ResolvedExecutionEnvelope",
+    "RiskTier",
+    "ScopeApplicability",
+    "ScopeApplicabilityEntry",
+    "ScopeFamily",
+    "ScopeReference",
+    "parse_canonical_value",
+    "validate_envelope",
+    "validate_manifest",
+]

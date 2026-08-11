@@ -2,10 +2,20 @@
 
 ## Canonical Direction
 
-MellyCore AIOS is a local-first, operator-controlled **AI Operations
-Observatory**. It makes models, agents, runs, context, memory, recommendations,
-and approvals visible and auditable while keeping consequential action behind an
-explicit operator gate.
+MellyCore is a local-first, operator-controlled **AI Operating System**. Its
+Command Center presents a cinematic AI Operations Observatory and visually
+compelling AI Workspaces, while its runtime, provider, tool, context,
+persistence, evidence, governance and safety planes remain vendor-neutral,
+explicit, provenance-bearing and fail-closed.
+
+This reconciled thesis (locked by `MELLYCORE-ROADMAP-LOCK-001B`; full product
+structure in `shared_context/PROJECT_STATE.md`'s "Cinematic AIOS Product
+Structure" section) extends the accepted AI Operations Observatory / Control
+Plane identity rather than replacing it: the Command Center is the product/
+navigation manifestation of the existing control, observability, context,
+routing, and governance systems. The Observatory continues to make models,
+agents, runs, context, memory, recommendations, and approvals visible and
+auditable while keeping consequential action behind an explicit operator gate.
 
 Controlled improvement loop:
 
@@ -376,6 +386,1250 @@ remains unavailable until separately authorized; migration trigger #5
 remains uncrossed; provider policy remains fail-closed. Neither the PR #32
 merge nor the PR #33 merge changed any `site/**` file; both automatic
 Production deployments published the unchanged static tree only.
+
+## Enterprise Provider Integration — Research Direction (Proposed, Parallel Track)
+
+This section records architectural research and a proposed direction for
+future enterprise integration-fabric, cybersecurity-provider, and
+marketing-provider work. It is **independent of, and does not reorder,**
+the OpenAI Batch Controlled Activation sequence above or any other active
+gate in this roadmap — analogous to the "Parallel Decision Track — Source
+Arena Renderer" pattern in `shared_context/RUN_QUEUE.md`. Naming a
+candidate here does not authorize its selection, connection, or
+implementation.
+
+**Integration fabrics evaluated:** Composio, n8n, Pipedream Connect, Tray.ai
+Agent Gateway, Workato, Zapier MCP, and OpenClaw (architectural reference
+only, not a runtime dependency — full findings in `PROJECT_STATE.md`'s
+"Enterprise Provider Integration" entry). **Accepted architecture
+direction**, per
+`docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`
+(`MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001`, decision/
+specification level only — no fabric is configured, credentialed, or
+connected by that ADR): Composio (managed
+auth / agent-tool layer), private self-hosted n8n (deterministic workflow
+layer), Pipedream (long-tail fallback), Tray.ai/Workato (later
+enterprise-governance options), Zapier MCP (broad marketing/business
+integration, not the cybersecurity execution boundary), and direct native
+adapters for deterministic high-trust cybersecurity operations.
+
+**Cybersecurity provider candidates** — P0: Microsoft Defender XDR /
+Microsoft Graph Security, GitHub Advanced Security, Cloudflare, Okta.
+P1/P2: Splunk, CrowdStrike Falcon, Snyk.
+
+**Marketing provider candidates** — P0: HubSpot, Google Ads, Google
+Analytics 4, Meta Marketing API, LinkedIn Marketing API, Twilio Segment.
+Later/vertical: Salesforce Marketing Cloud, Braze, Klaviyo, Adobe Experience
+Platform.
+
+**Cloudflare** is proposed as a P0 cybersecurity-provider candidate under a
+future `Cloudflare Application & API Security Provider` (API Shield, API
+Discovery, Endpoint Management, Authentication Posture, Schema Validation
+2.0, WAF Rulesets, audit events). The deprecated Firewall Rules API and
+`/api_gateway/user_schemas/hosts` are excluded from any new integration;
+the Rulesets API and Schema Validation 2.0 are the recorded future
+direction. Full detail, legacy exclusions, and safety boundaries:
+`PROJECT_STATE.md`'s "Enterprise Provider Integration — Architectural
+Research Recorded (Not Implemented)". The canonical connector contract —
+capabilities, risk tiers, approvals, credential profiles, rollout staging,
+and verified legacy exclusions — is
+`docs/specs/MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001.md`
+(item 3 below).
+
+**Documentation sequence** (reconciled against current canonical ordering at
+the time each task starts; each item records its current state below):
+
+1. `MELLYCORE-ENTERPRISE-PROVIDER-ROADMAP-SYNC-001` — this entry.
+   **Complete as a local, unpushed documentation commit.**
+2. `MELLYCORE-ENTERPRISE-PROVIDER-DECISION-RECORD-001` — canonical
+   provider-selection and integration-fabric decision record. **Complete
+   as a local, unpushed documentation commit.** Canonical decision:
+   `docs/decisions/MELLYCORE_ENTERPRISE_PROVIDER_ARCHITECTURE_ADR_001.md`.
+3. `MELLYCORE-CLOUDFLARE-API-SHIELD-CONNECTOR-CONTRACT-001` — Cloudflare
+   capability, authorization, approval, audit, rollout, and
+   legacy-exclusion contract. **Complete as a local, unpushed
+   documentation commit.** Canonical contract:
+   `docs/specs/MELLYCORE_CLOUDFLARE_API_SHIELD_CONNECTOR_CONTRACT_SPEC_001.md`
+   — specification-level acceptance only, authorizing no implementation,
+   credential, provider authentication, Cloudflare API call (including
+   read-only), MCP connection, or deployment.
+4. `MELLYCORE-PROVIDER-REGISTRY-CONTRACT-EXTENSION-001` — extends the
+   Provider Registry contract for enterprise SaaS, marketing, and
+   cybersecurity systems (tenant identity, credentials, scopes, risk tiers,
+   approvals, audit, data classification). **Complete as a local, unpushed
+   documentation commit.** Canonical contract:
+   `docs/specs/MELLYCORE_PROVIDER_REGISTRY_CONTRACT_EXTENSION_SPEC_001.md`
+   — specification-level acceptance only, authorizing no registry
+   implementation, adapter, credential, provider authentication, provider
+   API call (including read-only), MCP or fabric connection, or deployment.
+5. `MELLYCORE-INTEGRATION-GATEWAY-SECURITY-CONTRACT-001` — trust boundary
+   between MellyCore, direct adapters, MCP servers, integration fabrics,
+   and delegated/service credentials. **Specification complete after
+   recovery remediation and validation.** Canonical contract:
+   `docs/specs/MELLYCORE_INTEGRATION_GATEWAY_SECURITY_CONTRACT_SPEC_001.md`
+   — specification-level acceptance only, authorizing no Gateway
+   implementation, adapter, credential, provider authentication, provider
+   API call (including read-only), MCP or fabric connection, webhook
+   registration, or deployment.
+6. `MELLYCORE-CYBERSECURITY-PROVIDER-PACK-SPEC-001` — first read-only
+   cybersecurity provider pack. **Specification complete as a local,
+   unpushed documentation commit.** Canonical specification:
+   `docs/specs/MELLYCORE_CYBERSECURITY_PROVIDER_PACK_SPEC_001.md` — P0
+   Microsoft Defender XDR / Microsoft Graph Security, GitHub Advanced
+   Security, Cloudflare, and Okta; P1 Splunk and CrowdStrike Falcon; P2
+   Snyk; R0-R2 only, with R3-R5 deferred. This acceptance authorizes no
+   provider connection, credential, adapter, runtime, API call, MCP/fabric
+   connection, webhook registration, or deployment.
+7. `MELLYCORE-MARKETING-PROVIDER-PACK-SPEC-001` — first read-only
+   marketing analytics/CRM provider pack. **Specification complete as a
+   local, unpushed documentation commit.** Canonical specification:
+   `docs/specs/MELLYCORE_MARKETING_PROVIDER_PACK_SPEC_001.md` — P0 HubSpot,
+   Google Analytics 4, Google Ads, Meta Marketing API, LinkedIn Marketing
+   API, and Twilio Segment; P1 Salesforce Marketing Cloud, Braze, and
+   Klaviyo; P2 Adobe Experience Platform; R0-R2 only, with R3-R5 deferred.
+   This acceptance authorizes no provider connection, credential, adapter,
+   runtime, tracking, audience/campaign operation, API call, MCP/fabric
+   connection, webhook registration, or deployment.
+8. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-001` — final
+   integration review across 25 documents, 26 dimensions, and 12 scenarios.
+   **Complete; `FAIL_REMEDIATION_REQUIRED` (P0 = 0, P1 = 4, P2 = 2,
+   P3 = 3).** Canonical review:
+   `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_001.md`.
+   Remediated by
+   `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REMEDIATION-001`, which
+   closes all nine findings and adds
+   `docs/specs/MELLYCORE_INTEGRATION_FABRIC_COMPARISON_SPEC_001.md`.
+9. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-002` — independent
+   post-remediation gate across 19 documents and 16 scenarios. **Complete;
+   `FAIL_REMEDIATION_REQUIRED` (P0 = 0, P1 = 1, P2 = 0, P3 = 3).** Eight of the
+   nine review-001 findings are independently verified closed; review-001
+   `P1-003` is `PARTIALLY_CLOSED`. Blocking finding `P1-201`: Registry §13.2's
+   closed eight-class credential catalogue cannot express the accepted
+   Cloudflare contract's `CF_MCP_OPERATOR` profile, and Gateway §§34.1–34.6
+   contradict Gateway §14.2. Canonical review:
+   `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_002.md`.
+   The documentation gate has not passed.
+10. `MELLYCORE-ENTERPRISE-PROVIDER-CREDENTIAL-CLASS-CONFORMANCE-REMEDIATION-001`
+    — **complete as one local documentation remediation; not a gate PASS.**
+    Publishes a deterministic projection from Cloudflare requirement labels to
+    nine canonical Registry classes, binds every concrete registration to one
+    class before Gateway resolution, and routes the three P3 findings.
+    `P1-201` closure remains unverified.
+11. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-003` — **complete;
+    gate failed.** `FAIL_REMEDIATION_REQUIRED` (P0 = 0, P1 = 2, P2 = 1,
+    P3 = 2) across 17 documents and 16 determinism scenarios. `P1-201` is
+    `PARTIALLY_CLOSED`: the ninth canonical class, the one-class D4 binding,
+    the derived non-normative `credential_class: investigation` value, and the
+    `CF_READ` projection are independently verified closed; the operator-bound
+    restricted-tool path is not expressible in the Gateway acting-identity
+    model (`P1-301`) or under the Cloudflare provider record's required scope
+    dimensions (`P1-302`). Both fail in the deny direction, and no safety
+    regression was found. Canonical review:
+    `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_003.md`.
+    The documentation gate has not passed.
+12. `MELLYCORE-ENTERPRISE-PROVIDER-RESTRICTED-TOOL-PATH-CONFORMANCE-REMEDIATION-001`
+    — **complete as one local documentation remediation; not a gate PASS.**
+    Defines the Registry-owned three-value acting-identity vocabulary,
+    `required_acting_identity_type`, capability-level scope applicability,
+    authentication targets, and exact restricted-tool registration/scope.
+    Gateway, Cloudflare D4, and the Cybersecurity Pack now consume the same
+    contract. `P1-301` and `P1-302` closure remains unverified.
+13. `MELLYCORE-ENTERPRISE-PROVIDER-DOCS-INTEGRATION-REVIEW-004` — **complete;
+    documentation gate passed with non-blocking findings.**
+    `PASS_WITH_NON_BLOCKING_FINDINGS` (P0 = 0, P1 = 0, P2 = 0, P3 = 3) across
+    20 documents and 24 determinism scenarios, all 24 deterministic. All five
+    Review 003 findings — `P1-301`, `P1-302`, `P2-301`, `P3-301`, `P3-302` —
+    are independently verified `CLOSED`. Verified from contract text: one
+    Registry-owned three-value acting-identity vocabulary; one canonical
+    `required_acting_identity_type` selector bound before credential
+    resolution; three authentication targets with mode and target separate;
+    capability-level scope applicability whose `not_applicable` is permitted
+    only where a provider contract explicitly allows it (Cloudflare: D4 only);
+    `mellycore_operator` neither provider-account nor provider-API eligible and
+    never a fallback; restricted-tool OAuth that cannot become provider OAuth;
+    and Cloudflare's 58 capability and 13 prohibition rows byte-identical to
+    the pre-remediation commit with D4 unchanged at three R0 capabilities.
+    Three non-blocking P3 observations remain (`P3-401`, `P3-402`, `P3-403`);
+    none changes a runtime decision. Canonical review:
+    `docs/research/MELLYCORE_ENTERPRISE_PROVIDER_DOCS_INTEGRATION_REVIEW_004.md`.
+14. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-001` — **complete as one inert,
+    provider-neutral local scaffold; not pushed.** Standard-library Python 3.9
+    contracts now represent the canonical provider ID grammar, nine credential
+    classes, three acting identities, three authentication targets, three scope
+    applicability values, R0-R5, immutable descriptors/envelopes, and all eight
+    independent authorization facts. Static validation, sanitized typed errors,
+    a disabled adapter, and fixture-only in-memory tests exist. No real provider,
+    transport, credential, OAuth, MCP/fabric, registration, runtime enablement,
+    or execution-success path exists.
+15. `MELLYCORE-PROVIDER-ADAPTER-SCAFFOLD-REVIEW-001` — **complete; scaffold gate
+    passed with non-blocking findings.** Independent review of scaffold commit
+    `311ee3f…` against the accepted Registry, Gateway, provider contracts/packs,
+    Review 004 §36, and the scaffold's own tests. Outcome:
+    `PASS_WITH_NON_BLOCKING_FINDINGS`; P0 = 0, P1 = 0, P2 = 6, P3 = 5. Canonical
+    vocabularies are exact and closed, validation fails closed with stable typed
+    codes, every model is meaningfully immutable, no network/credential/
+    environment/SDK/OAuth/MCP/fabric behavior exists, and no execution-success
+    outcome is representable. Both claimed test counts reproduce (62 focused,
+    636 full). Canonical review:
+    `docs/research/MELLYCORE_PROVIDER_ADAPTER_SCAFFOLD_REVIEW_001.md`.
+16. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-001` — **complete in one
+    local implementation commit; not pushed.** Added a transportless,
+    credentialless, execution-disabled Cloudflare descriptor; separate delegated
+    and service 16-entry D1 manifests; immutable read-operation plans; explicit
+    scope projection; a complete 58-row classification; and bounded synthetic
+    API Shield fixture normalization. Excluded all proposal, mutation,
+    containment, D4 restricted-tool, MCP, webhook, and event-verification paths.
+    No provider was contacted or authenticated and no runtime was enabled.
+17. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-001` — **exact
+    review completed; gate failed and remediation is required.** Outcome:
+    `FAIL_REMEDIATION_REQUIRED`; P0 = 0, P1 = 1, P2 = 2, P3 = 0. The complete
+    58-row classification and inert execution posture passed review, but the
+    concrete capability/profile authentication mode required by the Registry is
+    absent. Endpoint-URL-shaped fixture host text is also accepted unflagged,
+    and focused tests are not a complete independent contract oracle. The
+    provider-foundation checkpoint remains incomplete.
+18. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REMEDIATION-001` — **exact
+    remediation completed in one local implementation commit; not pushed.**
+    Concrete delegated/service entries now bind exact compatible non-runtime
+    modes; global metadata no longer conflates variants; fixture hosts use a
+    closed synthetic grammar; and focused tests include a literal 58-row
+    contract oracle plus expanded adversarial coverage. No generic scaffold,
+    transport, credential, authentication, provider, or runtime path changed.
+    Remediation claims remain unverified pending Review 002.
+19. `MELLYCORE-CLOUDFLARE-API-SHIELD-READ-ONLY-ADAPTER-REVIEW-002` — **complete in
+    one local documentation commit; not pushed.** Outcome
+    `PASS_WITH_NON_BLOCKING_FINDINGS`: P0 = 0, P1 = 0, P2 = 2, P3 = 1. Review
+    001's `P1-01`, `P2-01` and `P2-02` are each independently verified `CLOSED`
+    against the canonical contracts, the implementation, the tests, and direct
+    probes; no capability classification, scope, manifest, plan, fixture or
+    execution-disabled regression was found; and the neutral scaffold,
+    canonical contracts and prior reviews are byte-identical. New non-blocking
+    findings `P2-03`, `P2-04` and `P3-01` are recorded in
+    `docs/research/MELLYCORE_CLOUDFLARE_API_SHIELD_READ_ONLY_ADAPTER_REVIEW_002.md`.
+    The offline Cloudflare adapter checkpoint is accepted and the
+    provider-foundation checkpoint is complete for this milestone under those
+    findings' constraints. Live Cloudflare work remains blocked and
+    unauthorized.
+20. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **complete as one local
+    documentation commit; not pushed.** It was the exact next main product task
+    at the close of Review 002 and has since been executed as an
+    architecture-specification task only. Its architecture depends on no
+    unresolved Cloudflare provider behaviour, because the adapter exposes no
+    runtime, transport, credential or authentication path; Review 002's `P2-04`
+    is carried forward unchanged as a provider-registration constraint rather
+    than adjudicated. This item belongs to a separate product track — see
+    "Agent Runtime — Product Track" below.
+
+No credentials, provider runtime, restricted-tool or MCP connection,
+MCP execution, Cloudflare API call,
+marketing action, or cybersecurity remediation is authorized by this
+section. Live sequencing for this track: `shared_context/RUN_QUEUE.md`'s
+"Parallel Decision Track — Enterprise Provider Integration".
+
+## Agent Runtime — Product Track
+
+This track is **independent of, and does not reorder,** the primary live
+sequence. The global higher-priority pointer
+`MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` remains unchanged, in
+place, and independently governed.
+
+### Integration status — locally integrated to a verified checkpoint, not pushed
+
+**Completed gate: Governance Tail integration.** All nine units below, plus a
+distinct post-Unit-9 Governance Tail, are integrated as of the **verified
+integration checkpoint `16da3ec2df9b52b203bb16468f90258f2d7f540c`** — **44
+commits** from canonical baseline `947f33d27d5546775186e96bdc61e30db78c0b3d`,
+**0 merge commits**, fast-forward only, **zero authored commits**. That is a
+permanent property of the checkpoint commit, not a statement about the live
+branch tip; **resolve the live tip from Git when it matters**. Governance is
+recorded in `docs/tasks/MELLYCORE-PRODUCT-TRACK-INTEGRATION-PLAN-001.md` and
+`docs/tasks/MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-DURABLE-EVIDENCE-RECONCILIATION-001.md`.
+
+**Next governance sequence — reconciliation lineage.** Documentation-only
+descendants of the checkpoint exist on separate local branches. Through the
+independently reviewed remediation-002 tip
+`6ccbbed5280997bc9e1141015eb9559551976529`, the lineage is exactly
+`16da3ec2…` → `493dc86ba1f56d854876e7d2a741253d52283bef` →
+`ea0d20ee7533b99360c76d1c5cee609dd2ce2aa1` → `6ccbbed…` — **three
+documentation-only descendants after the checkpoint, 47 cumulative commits from
+baseline, 0 merges**, mechanically verified by
+`MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-002`.
+Those counts are immutable properties of the commit `6ccbbed…`, not a forecast.
+
+A further remediation descendant exists beyond that reviewed tip; its SHA is
+deliberately not self-declared here, and **its resulting lineage shape is not
+predicted in this document** — a fixed total stated here would be falsified by
+the commit that states it. At the time this section was last written, no
+reconciliation-lineage descendant had been integrated into the Product Track
+integration branch; live branch-tip identity and the exact integrated totals
+must be resolved from Git
+(`git rev-parse integration/mellycore-product-track-001`;
+`git rev-list --count 947f33d2…..<target>`), not assumed from this sentence.
+The sequence is: remediation → independent remediation review → (if PASS)
+separately authorized exact-tip integration → post-integration verification.
+
+**Remote canonical `main` is separately gated** — `clean-origin/main` was
+`947f33d27d5546775186e96bdc61e30db78c0b3d` at authoring time. Nothing is pushed,
+merged remotely, or deployed. Publication remains a separate, unauthorized step.
+
+**Integration changed no implementation state.** Every entry below that reads
+"specification only" or "documentation only" still does. `NEW-P2-02` remains
+implementation-blocking and readiness remains
+`NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`. `MELLYCORE-ROADMAP-LOCK-001`
+remains **blocked** pending separate Operator authorization.
+
+1. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001` — **complete as one local
+   documentation commit; not pushed.** Canonical specification:
+   `docs/specs/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_001.md`. Durable
+   report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-001.md`.
+
+   Defines the Agent Runtime as a control and coordination layer across 43
+   sections and six frameworks (Claude Code, OpenAI Agents SDK, LangGraph,
+   CrewAI, AutoGen, custom MellyCore-compatible agents): fifteen canonical
+   identifiers with `repr()`-independent canonical serialization and digest
+   rules; nine separated definition-to-instance states; expected Agent Package
+   Contract metadata; one framework-neutral bridge boundary that no
+   framework-native convenience API may bypass; seventeen `run_state` values
+   with allowed, forbidden, and evidence-bearing transitions; separated run,
+   attempt, step, sub-run, retry, and replay semantics; eleven conjunctive
+   authorization facts; an immutable digest-bound execution envelope carrying
+   no credential or secret; seven Shared Context operations with no direct
+   canonical write; six memory categories; context-flow tracing; six handoff
+   kinds requiring explicit acceptance; seven tool stages; one governed
+   provider path; the Model Router boundary with no automatic
+   sensitivity/provider/quality/cost/approved-set-crossing fallback; separated
+   cost estimates and actuals; the Run Ledger producer relationship; twelve
+   event categories; honest cancellation and timeout semantics; retry and
+   reconciliation rules; eight isolation boundaries; human-in-the-loop
+   requirements; sixteen threats; the external-content posture; 38 Agent
+   Runtime-layer error classes; operator observability information
+   architecture; a 6 × 13 framework compatibility matrix; seven runtime modes;
+   the inert v1 scaffold boundary; and 32 deterministic scenarios.
+
+   **Specification-level acceptance only.** No Agent Runtime, agent registry,
+   agent package, framework bridge, or scaffold is implemented. No agent
+   framework is installed, imported, connected, or executed. No agent has been
+   executed. No model provider, tool, or provider is connected. No credential
+   is configured. No context or memory backend, queue, or frontend is
+   implemented. No deployment occurred.
+
+2. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001` — **complete as one
+   local documentation commit; not pushed.** Independent, read-only
+   architecture, security, consistency, and implementability review of item 1.
+   Review record:
+   `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_001.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-001.md`.
+
+   **Gate decision: `FAIL_REMEDIATION_REQUIRED`. P0 = 0, P1 = 4, P2 = 5,
+   P3 = 5.** Twenty ownership concerns assessed independently: 13
+   `CONSISTENT`, 2 `COMPLEMENTARY`, 2 `AMBIGUOUS`, 3 `CONFLICTING`. All 17
+   lifecycle states, 11 authorization facts, and 6 frameworks accounted for;
+   32 original and 10 additional scenarios replayed, of which 30 and 9
+   respectively resolve deterministically.
+
+   Blocking findings: `P1-01` the `lifecycle_status:active` projection
+   conflicts with Control Plane §8.2 and the Run lifecycle sets in §9.5/§9.7;
+   `P1-02` authorization facts 5 and 6 duplicate Provider Registry facts 5 and
+   6, whose §21.3 record types are provider-scoped, with undefined scope and
+   capability vocabulary; `P1-03` per-attempt ledger evidence contradicts AI
+   Operations Intelligence §5.9 deduplication by `run_id` and §5.1's single
+   `outcome`/`model`/`provider` per run; `P1-04` the lifecycle cannot express
+   the `waiting_for_operator` outcome §23.6 mandates for an unresolved routing
+   tie. Non-blocking: `P2-01`–`P2-05` and `P3-01`–`P3-05`.
+
+   **No P0 exists.** No direct credential or provider path, cross-tenant
+   execution possibility, canonical-context mutation bypass, authorization or
+   approval bypass, secret exposure, or unsafe consequential retry was found.
+   Canonical serialization and digests, package/runtime separation, bridge
+   prohibitions, memory categories, handoff acceptance, the single provider
+   path, cancellation honesty, retry and reconciliation, isolation, approvals,
+   the security model, external content, runtime modes, and the inert v1
+   boundary all passed without a finding. Cloudflare `P2-03`, `P2-04`, and
+   `P3-01` are unchanged by the review and remain carried forward, with `P2-04`
+   explicitly not adjudicated.
+
+   Nothing was implemented, connected, or executed. Exactly one network
+   operation occurred: one authorized read-only `git fetch clean-origin`.
+
+3. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001` — **complete as
+   one local documentation commit; not pushed.** Remediates all fourteen
+   Review 001 findings. Canonical seam-decision record, written **before** any
+   owner document was edited:
+   `docs/decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REMEDIATION-001.md`.
+
+   Three of the four blocking findings were seam conflicts across three owners.
+   Rule applied throughout: the existing owner wins unless it provably cannot
+   represent the required semantics, and no seam is hidden by redefining another
+   subsystem's vocabulary inside the Agent Runtime document.
+
+   `P1-01` — the Control Plane lifecycle enum had no member meaning "executing"
+   and forbids `active` for a running agent, so it was **minimally amended**
+   (one additive member `running`, one §8.2 clause, three module Run lifecycle
+   sets extended) with the `active` prohibition preserved verbatim; the Agent
+   Runtime now publishes a complete 17-row projection in which no state projects
+   to `active`. `P1-02` — resolved **entirely inside the Agent Runtime**; the
+   Provider Registry is **byte-identical** and its eight facts remain exactly
+   eight; runtime facts 5 and 6 became runtime-scoped records over a disjoint
+   agent capability vocabulary, and fact evaluation points were fixed (1–8
+   run-admission, 9–11 per-invocation). `P1-03` — AI Operations Intelligence §5
+   was **minimally amended** with `ledger_record_id`, optional `attempt_id`, and
+   optional `run_kind`, plus a §5.9 rule that attempts are never deduplicated
+   and logical-run summaries are derived rather than substituted; existing loop
+   ledgers remain conforming unmodified. `P1-04` — the three in-flight waiting
+   states may now escalate to `waiting_for_operator`, the transition table is
+   closed, and new §12.3.1 fixes predecessors, triggers, evidence, and release.
+
+   P2 closures: deterministic six-condition stale-snapshot policy; immutable
+   envelope revision chain with an 8-step authorization sequence; `run_kind`
+   identity namespacing that keeps agent runs and loop runs unconfusable without
+   renaming or absorbing Loop Operations; single-winner atomic broadcast
+   acceptance where racing grants no scope; and a 16-row restart-recovery matrix
+   in which no unknown attempt is blindly redispatched. P3 closures: all counts
+   recalculated from the document's own tables and fixed as normative metrics —
+   trace **17** fields, handoff contents **12**, error taxonomy **49 rows / 49
+   classes** under a one-class-per-row invariant, and **42** deterministic
+   scenarios.
+
+   **Owner documents amended: two, both additively** — Control Plane and AI
+   Operations Intelligence. Provider Registry, Integration Gateway, Operations
+   Data Contract, Loop Operations, all loop schemas, all Shared Context
+   contracts, the Safety Contract, the Enterprise Provider ADR, both prior
+   reviews, and both original task reports are **byte-identical**.
+
+   **Remediation claims are unverified**, and this task does **not** re-open the
+   architecture gate. Nothing was implemented, connected, or executed; exactly
+   one authorized read-only `git fetch clean-origin` used the network.
+
+4. `MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002` — **complete as one
+   local documentation commit; not pushed.** An independent, read-only re-review
+   of remediation commit `ca221df3…`, the seam-decision record, and both owner
+   amendments, by a party that did not author the remediation. Outcome:
+   **`PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 = 0, P1 = 0, P2 = 0, P3 = 1 new).
+
+   **All fourteen Review 001 findings independently `CLOSED`** — none partially
+   closed, none reopened, no regression introduced. Both owner amendments are
+   minimal, additive, and bounded: the Control Plane gains exactly one lifecycle
+   member `running` with the `active` prohibition preserved verbatim, and §9.8
+   correctly did not receive it because it carries no `Run` entity. Provider
+   Registry is **byte-identical** and remains the sole owner of provider
+   authorization. Loop behavior is unchanged and required no schema edit. Counts
+   were recalculated mechanically — 17 lifecycle states and projections, 11
+   authorization facts, 49 error rows and 49 distinct classes, **42** scenarios,
+   all resolving without interpretation.
+
+   One new non-blocking finding, **`NEW-P3-01`**: §12.2 projection note 5
+   overstates renderability in Control Plane §9.10, whose lifecycle set omits
+   `draft` and `cancelled`. An inaccurate completeness claim in a non-normative
+   note, not a semantic incompatibility. Recorded, not repaired.
+
+   Durable evidence:
+   `docs/research/MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_SPEC_REVIEW_002.md`,
+   `docs/tasks/MELLYCORE-AGENT-RUNTIME-ARCHITECTURE-SPEC-REVIEW-002.md`.
+
+5. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` — **specification drafted;
+   unverified; pending independent review.** Operator-authorized in chat
+   session 2026-08-03 under the `NEW-P3-01` eligibility constraint. Canonical
+   specification: `docs/specs/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_001.md`
+   (29 sections). Durable report:
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001.md`. Full detail:
+   `shared_context/PROJECT_STATE.md`'s "Agent Package Contract Spec 001 —
+   Specification Drafted" section.
+
+   Defines the Agent Package as the provider-agnostic, portable package
+   boundary: identity (reusing Runtime §8.1's identifiers and §10.1's
+   eighteen required fields verbatim); a permitted/prohibited content
+   boundary; a nine-category asset layout; manifest relationships to a
+   future Agent Manifest and to Skill/Command/Hook/Plugin/MCP declarations
+   (each bounded, not fully specified); a five-state capability separation
+   (declared → runtime-supported → policy-allowed → operator-approved →
+   active); a twelve-category default-deny permission/approval model; a
+   dependency model; a six-framework compatibility projection naming no
+   framework canonical owner; an eight-rule Shared Context interaction
+   boundary that leaves the existing Context Gate unweakened; a nine-stage
+   Runtime interaction contract; an eleven-state package lifecycle
+   (distinct from Runtime's seventeen `run_state` values and Control
+   Plane's six status dimensions, projecting onto them one-directionally
+   without creating a seventh); a nine-layer validation model in which
+   validation success is explicitly not execution authorization; a
+   seven-category trust vocabulary claiming no signing mechanism; eleven
+   observability projections; a fifteen-class error taxonomy; Batch
+   Orchestration eligibility declarations; twelve security-threat
+   mitigation postures; and twelve named follow-up contracts (Agent
+   Manifest, Capability Contract, Skill/Hook/Command/Plugin/MCP Registries,
+   Package Validation, Package Lifecycle, Package Distribution, Package
+   Repository, and a Batch Orchestration compatibility review).
+
+   **Specification-level only, unverified.** No Agent Package Store, Package
+   Registry, Package Validator, loader, registry, or signing mechanism is
+   implemented. No package, manifest, or artifact exists. No agent
+   framework is installed, imported, connected, or executed. No provider is
+   connected, no credential configured. No deployment, push, pull request,
+   or merge occurred; complete as one local documentation commit on
+   `docs/mellycore-agent-package-contract-spec-001`, not pushed.
+
+   Exact next task: `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` — an
+   independent, read-only review, in the same review/remediation/review
+   sequence already applied to the Agent Runtime architecture. Not started,
+   not authorized by this item.
+
+6. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001` — **complete as one
+   local documentation commit; not pushed.** Independent, read-only
+   architecture, ownership, and consistency review of item 5. Review
+   record: `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_001.md`.
+   Durable report:
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+   **Gate decision: `FAIL_REMEDIATION_REQUIRED`. P0 = 0, P1 = 1, P2 = 3,
+   P3 = 3.** Every one of the specification's 24 self-reported metrics
+   independently recounts correctly. Twelve of thirteen ownership rows
+   independently confirm.
+
+   Blocking finding: `P1-01` — the package-lifecycle (§17) and trust-state
+   (§19) sections each claim a one-directional projection onto Control
+   Plane's six status dimensions "exactly as `run_state` already does," but
+   provide no row-complete mapping table and no Control Plane amendment,
+   unlike the verified precedent that actually closed this seam for
+   `run_state`. Four of eleven lifecycle states and five of seven
+   trust-state categories have no legal target value in Control Plane
+   §8.1's closed enum sets. Non-blocking: `P2-01`–`P2-03`, `P3-01`–`P3-03`.
+
+   **No P0 exists.** The reviewed specification itself was not edited by
+   this review; every canonical cross-check source remained byte-identical
+   after the review commit.
+
+7. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001` — **complete as
+   one local documentation commit; not pushed.** Remediates all seven
+   findings of item 6 (`P1-01`; `P2-01`–`P2-03`; `P3-01`–`P3-03`),
+   advancing the specification to **version 1.1**. Durable report:
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REMEDIATION-001.md`.
+
+   `P1-01` closed by **removing** the unsupported Control Plane projection
+   claim — package lifecycle state and Package Trust State are now stated
+   as Agent Package domain concepts under Control Plane §7.1's typed-field
+   allowance, with no projection defined onto any Control Plane dimension.
+   No Control Plane amendment was made or needed; Control Plane remains
+   byte-identical. `P2-01`–`P2-03` and `P3-01`–`P3-03` each closed with a
+   targeted correction (non-normative Provider Registry citations; a
+   deterministic `DEPENDENCY_UNRESOLVED` evaluation boundary; a new
+   normative command-namespace-collision subsection with a dedicated error
+   class; two editorial fixes).
+
+   **Remediation claims were unverified at the time of that commit.** This
+   task remediated its own reviewed findings; the gate was not re-opened by
+   it, and Review 001's `FAIL_REMEDIATION_REQUIRED` decision remains
+   historically recorded as failed. Nothing implemented; every canonical
+   cross-check source, including both Review 001 artifacts, remained
+   byte-identical after this commit.
+
+8. `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002` — **complete as one
+   local documentation commit; not pushed.** An independent, read-only
+   re-review of the remediated specification (version 1.1, commit
+   `ad1d1fc`). Durable record:
+   `docs/research/MELLYCORE_AGENT_PACKAGE_CONTRACT_SPEC_REVIEW_002.md`;
+   task report:
+   `docs/tasks/MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-REVIEW-002.md`.
+
+   **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 /
+   P2 3 / P3 4). All seven Review 001 findings independently `CLOSED`, the
+   single P1 closed in full. `P1-01` was verified by auditing every Control
+   Plane status-dimension reference in the specification: each is an
+   explicit denial of projection or a non-collision statement, with zero
+   surviving projection claims and no invented enum member. **Every
+   canonical owner document is byte-identical to the baseline Review 001
+   recorded before the remediation ran**, proving by blob ID that no owner
+   contract was edited to make the specification pass. Seven new
+   non-blocking findings were recorded and none discarded: `NEW-P2-01`
+   (§20.1 defines no package-lifecycle rendering field that §16 stage 7 and
+   §17.1 both require), `NEW-P2-02` (§22 still declares the contract version
+   "currently `1.0`" at document version 1.1), `NEW-P2-03` (§14.1 rule 6's
+   "protected command classes" are unenumerated), and `NEW-P3-01`–
+   `NEW-P3-04`. Each P2 must be corrected before the follow-up contract that
+   depends on its section.
+
+9. `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001` — **complete as one local
+   documentation commit; not pushed.** Defines the provider-agnostic
+   **Framework Bridge Contract**:
+   `docs/specs/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_001.md` (version 1.0,
+   39 sections). Durable report:
+   `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-001.md`. The task
+   identifier was **minted by explicit Operator authorization**, because the
+   queue previously carried only the plain name "Framework Bridge Contract"
+   with no identifier anywhere in the repository.
+
+   Fixes the one-directional projection chain — MellyCore canonical contract →
+   framework-neutral bridge semantics → framework-specific adapter projection
+   — and prohibits the inverse. No framework may redefine agent identity,
+   package identity, capability states, permissions, approvals, trust,
+   provenance, lifecycle, run state, Shared Context ownership, observability
+   ownership, error taxonomy, or Operator authority. Adds a sixth
+   **framework-supported** capability state that never implies MellyCore
+   authorization, keeps thirteen permission categories deny-by-default against
+   framework defaults, routes every framework model request through the Model
+   Router, fails closed on safety-relevant projection loss, and defines six
+   bounded per-framework profiles for `claude_code`, `openai_agents_sdk`,
+   `langgraph`, `crewai`, `autogen`, and `mellycore_custom` — the canonical
+   closed set, with no seventh identifier added.
+
+   **All three open Agent Package P2 findings were contained, not resolved**
+   (no lifecycle rendering field defined; neither package contract version
+   declared canonically current; no protected command classes defined), and
+   each is recorded as a deferred dependency. **No owner document was edited.**
+   Agent Runtime §11.3/§35 per-framework cells remain **unvalidated planning
+   positions**, with the validation obligation assigned to each future
+   per-framework adapter specification. **Nothing implemented, integrated, or
+   installed**; at the time of that entry the specification was **unverified**.
+
+10. `MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001` — **complete as one
+    local documentation commit; not pushed.** Independent, read-only review of
+    specification version 1.0 (commit `278eae0`). Durable record:
+    `docs/research/MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`;
+    task report:
+    `docs/tasks/MELLYCORE-FRAMEWORK-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+    **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 / P2 4 /
+    P3 4). Owner lists were reconstructed mechanically from Agent Runtime
+    §11.1, §11.2, §16, §33 and Agent Package §10.1 and tested against the
+    reviewed text rather than accepted from its claims; every canonical owner
+    document was verified byte-identical before and after. Verified: the closed
+    six-member framework set is exact with no alias for `mellycore_custom`; all
+    six Runtime §11.2 rules preserved; permissions stay deny-by-default against
+    framework defaults with flattening prohibited; Shared Context writes are
+    proposal-only with mandatory return-path re-validation; routing is not
+    bypassable; safety-relevant projection loss fails closed; validation does
+    not authorize execution; and all six framework profiles are conceptual with
+    zero overclaim. The Runtime §11.3/§35 validation obligation was judged
+    **honest and owner-correct as a documentation-only deferral** — not a P1
+    failure — with **empirical framework validation `NOT_PERFORMED`**. Eight
+    new non-blocking findings were recorded and none discarded, the sharpest
+    being that four of Runtime §16's nine bridge operations are never named and
+    `normalize_result` has no counterpart rule. All three open Agent Package P2
+    findings remain **contained and open**; the Agent Package Contract was not
+    edited.
+
+    `MELLYCORE_FRAMEWORK_BRIDGE_CONTRACT_001` version 1.0 is **accepted as a
+    documentation contract only**, under those eight constraints. **No
+    implementation of any kind exists** — no Framework Bridge, no Framework
+    Adapter for any framework, no installed or imported SDK, no framework
+    session, no runtime handle, no runtime, no provider connection, no
+    credential, and no deployment.
+
+11. `MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001` — **complete as one
+    local documentation commit; not pushed.** Defines the canonical **Shared
+    Context Bridge Contract**:
+    `docs/specs/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_001.md` (version
+    1.0, 50 sections). Durable report:
+    `docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-001.md`. The task
+    identifier was **minted by explicit Operator authorization** for the queued
+    plain-name item "Shared Context Bridge".
+
+    Fixes the one-directional exchange chain — canonical Shared Context →
+    bounded selection → validated projection → execution-local or
+    framework-local context → returned proposal → validation, provenance,
+    policy and approval gates → optional canonical mutation **by the canonical
+    owner alone** — and prohibits the inverse. **No framework, agent, package,
+    provider, tool, plugin, hook, command, MCP server, adapter, or batch worker
+    may independently mutate canonical Shared Context.** All returned context
+    is untrusted and traverses thirteen mandatory return-path checks;
+    provenance never collapses to the latest producer; ten namespaces are never
+    flattened; safety- and authority-relevant context loss fails closed; and
+    thirteen validation layers authorize nothing. Memory scopes are mapped **by
+    semantic name** onto Agent Runtime §18's six owner categories, creating no
+    seventh category and renumbering nothing.
+
+    **All seven upstream P2 findings were contained, not resolved**, and remain
+    open; **no owner document was edited**. A **document-metrics table** was
+    included deliberately, addressing Framework Bridge Review 001's
+    `NEW-P3-01`. **Nothing implemented** — no bridge, mutation engine, storage,
+    memory service, compression, or validation runtime exists; empirical
+    framework validation remains `NOT_PERFORMED`. The specification was
+    **unverified and not accepted** at that point; see item 12.
+
+12. `MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001` — **complete as
+    one local documentation commit; not pushed.** Independent, read-only
+    architecture, ownership, memory, security, and consistency review of the
+    Shared Context Bridge Contract (version 1.0, commit `d3f8b73`). Durable
+    record:
+    `docs/research/MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_SPEC_REVIEW_001.md`;
+    task report:
+    `docs/tasks/MELLYCORE-SHARED-CONTEXT-BRIDGE-CONTRACT-SPEC-REVIEW-001.md`.
+
+    **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 8,
+    P3 = 2.** `MELLYCORE_SHARED_CONTEXT_BRIDGE_CONTRACT_001` version 1.0 is
+    **accepted as a documentation contract only**, under ten recorded
+    constraints.
+
+    **Owner lists were reconstructed mechanically, not accepted from the
+    specification's claims** — Agent Runtime §17.1/§17.2/§17.4/§18/§19/§33,
+    `CONTEXT_GRAPH_SCHEMA.md` §5, Control Plane §7.1/§7.2/§8.1/§9.3, Integration
+    Gateway §25.2, Agent Package §21, Framework Bridge §23, and the Context
+    Ingestion Gate's five outcomes and nine refusal codes were each extracted
+    from the owner document and tested against the reviewed text. **All
+    twenty-five immutable review subjects are byte-identical before and after.**
+    **All 34 document-metric rows reproduce independently with zero
+    discrepancies**, and the 50-section structure recounts exactly.
+
+    **Verified `PASS` on the load-bearing properties:** **no direct or ambiguous
+    canonical-write path exists anywhere in the document**; returned context
+    stays untrusted even when byte-identical; provenance never collapses to the
+    latest producer; ten namespaces are never flattened; sensitivity does not
+    decay; the secret boundary holds; safety- and authority-relevant loss fails
+    closed with ambiguity resolving to loss; conflicts are surfaced, never
+    adjudicated; thirteen validation layers authorize nothing; no new Control
+    Plane status dimension is created; and the overclaim scan is clean.
+
+    **Eight non-blocking P2 findings**, each fail-closed: four unreconciled
+    owner-defined error neighbours; one consumed class attributed to the wrong
+    owner; proposal-lifecycle and reason-code overlap with the Context Ingestion
+    Gate; missing quarantine-versus-rejection precedence; two memory scopes
+    mapping to no Agent Runtime §18 category; a context envelope overlapping
+    Control Plane's `ContextPacket`; a proposal-replay mitigation citing a
+    projection-only mechanism; and an unmeasured "subtractive or equal"
+    property. **Two P3 findings** are editorial.
+
+    **All seven upstream P2 findings remain open and contained**; neither
+    upstream contract was edited; the reviewed specification was **not edited**
+    and this review repaired nothing. **Nothing implemented** — no bridge,
+    mutation engine, storage, database, vector store, memory service,
+    compression, validation, or proposal-lifecycle runtime; envelopes,
+    proposals, and canonical mutations remain **zero**; empirical framework
+    validation remains `NOT_PERFORMED`. **Acceptance authorizes no downstream
+    task.**
+
+13. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001` — **complete as one local
+    documentation commit; not pushed.** Defines the canonical **Agent Runtime
+    Scaffold Specification**:
+    `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` (version 1.0,
+    **44 sections**). Durable report:
+    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-001.md`. The task
+    identifier was **minted by explicit Operator authorization** for the queued
+    plain-name item "Agent Runtime Scaffold (inert)".
+
+    **The specification consumes Agent Runtime §37's "Inert v1 boundary"
+    unchanged** — §37 already owns what a first scaffold may and may not
+    implement, including that **no execution-success outcome may be
+    representable**; this document adds only the structural detail §37 leaves
+    open. It fixes the intended future repository boundary (labeled
+    `NON-NORMATIVE FUTURE LAYOUT — NOT IMPLEMENTED`), ten module
+    responsibilities, one explicit composition root, twelve import-safety and
+    eight construction-safety rules, eight configuration prohibitions, explicit
+    dependency injection with no hidden global resolution, **fourteen typed
+    runtime ports** that imply no implementation, six distinct
+    no-op/fail-closed dispositions, scaffold dispositions for **all sixteen**
+    owner-defined operations, twenty prohibited side-effect categories, ten
+    validation layers that authorize nothing, twelve inert observability
+    fields creating no Control Plane dimension, a machine-testable inert-mode
+    invariant, seventeen future testing obligations, and twenty security
+    threats.
+
+    **Every execution request fails closed** — across all combinations of the
+    eleven authorization facts, including the all-eleven-satisfied case. The
+    scaffold defines **no error class of its own**, consuming owner-defined
+    classes instead. **All fifteen open upstream P2 findings were contained,
+    not resolved**, and remain open; **no owner document was edited**. A
+    **document-metrics table** was included deliberately and caught one drift
+    corrected before commit. **Nothing implemented** — no scaffold code,
+    module, package, test, dependency, or configuration; no Runtime, framework
+    adapter, package loader, or provider/model integration; empirical framework
+    validation remains `NOT_PERFORMED`. The specification was **unverified and
+    not accepted** at that point; see item 14.
+
+14. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001` — **complete as one local
+    documentation commit; not pushed.** Independent, read-only architecture,
+    fail-closed, import-safety, and cross-contract review of the Agent Runtime
+    Scaffold Specification (version 1.0, commit `f11e4c1`). Durable record:
+    `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_001.md`; task
+    report:
+    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-001.md`.
+
+    **Gate decision: `PASS_WITH_NON_BLOCKING_FINDINGS`. P0 = 0, P1 = 0, P2 = 7,
+    P3 = 5.** `MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` version 1.0 is **accepted
+    as a documentation contract only**, under eleven recorded constraints.
+
+    **The canonical operation set was derived from the owner, not accepted from
+    the specification** — exactly two tables in the Agent Runtime specification
+    carry an `Operation` header column, establishing the sixteen-operation set
+    as **canonical rather than author-created**; all sixteen are covered, zero
+    invented, zero omitted. **Agent Runtime §37 is consumed, not duplicated**:
+    twenty-four requirements traced, twenty-two cited or structurally
+    elaborated. **The Provider Adapter Scaffold precedent was verified against
+    the actual Python source** and all eight claims are accurate. **All 27
+    metric rows reproduce with zero discrepancies.** **No false-success path
+    exists.**
+
+    **Seven non-blocking P2 findings**, each fail-closed: the inert-mode
+    invariant's scope contradiction; the invariant asserted by no specified
+    test; one uncited restatement of a Runtime §37 must-not item; "queues"
+    omitted entirely; an unscoped zero-execution confirmation; configuration
+    prohibitions omitting executable content; and construction safety omitting
+    deferred-effect mechanisms. **Five P3 findings** are editorial.
+
+    **All fifteen upstream P2 findings remain open and contained**; the reviewed
+    specification was **not edited** and this review repaired nothing.
+    **Nothing implemented** — no scaffold code, module, package, test,
+    dependency, or configuration; no Runtime, framework adapter, package loader,
+    or provider/model integration; empirical execution remains `NOT_PERFORMED`.
+    **The scaffold implementation remains blocked**, requiring separate explicit
+    Operator authorization and its own file allowlist.
+
+15. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001` — **complete as one
+    local documentation commit; not pushed.** Remediated **all twelve** Review
+    001 findings (P2 7 / P3 5) and advanced
+    `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` from version 1.0
+    to **version 1.1**. Durable report:
+    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-001.md`.
+
+    **The inert-mode invariant was split in two.** New §31.1 **Baseline Inert
+    Invariant** is scoped exactly to a baseline inert composition — default
+    configuration, **no live external implementation injected**, only approved
+    inert fixtures or unavailable ports — and makes **no claim** about injected
+    live implementations. New §31.2 **Injected Component Eligibility** requires
+    seven separate validations before an injected component may participate in
+    any future authorized mode; interface conformance confers nothing, and an
+    unvalidated component is treated as unavailable. **No live-mode invariant
+    was invented.**
+
+    **Queue safety was added across all seven required areas** — import,
+    construction and deferred effects, the side-effect inventory, the invariant,
+    future tests, security, and non-goals — closing the omission of one of Agent
+    Runtime Architecture §37's eleven must-not items.
+    **"Zero-execution confirmation" was renamed Scaffold Zero-Execution
+    Evidence** with eight normative properties, rendering `unknown` when a port
+    is injected and never fabricating a run identifier.
+    **Configuration gained fourteen executable-content prohibitions** with
+    fail-closed rejection; **construction safety gained nineteen deferred-effect
+    mechanisms**; **import safety separated reads from writes** and closed
+    non-importing presence probing; **cancellation reachability** is explicit;
+    and **logging and randomness** became side-effect categories.
+
+    **Agent Runtime §37 remains the sole owner** — every cross-document
+    reference is fully qualified and every restatement is cited and subordinate.
+    **All 30 metric rows reproduce with zero drift**; **16/16 canonical Runtime
+    operations remain covered**; **all fifteen upstream P2 findings remain
+    open**; the original task report and both Review 001 artifacts are
+    byte-identical. **Nothing implemented** — no scaffold code, module, package,
+    test, dependency, or configuration; empirical execution remains
+    `NOT_PERFORMED`. **Version 1.1 is unverified**, pending independent Review
+    002; scaffold implementation remains blocked.
+
+16. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002` — **complete as one local
+    documentation commit; not pushed.** Gate
+    **`PASS_WITH_NON_BLOCKING_FINDINGS`** — **P0 0 / P1 0 / P2 1 / P3 6**.
+    `MELLYCORE_AGENT_RUNTIME_SCAFFOLD_001` **version 1.1 is accepted as a
+    documentation contract only.** Durable record:
+    `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_002.md`;
+    report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-002.md`.
+
+    **The remediation report was treated as an unverified claim set.** All
+    twelve Review 001 findings were reconstructed from the committed Review 001
+    record — not from the remediation report — and **all twelve are
+    independently disposed `CLOSED`**, each traced to specific committed
+    specification text.
+
+    **Agent Runtime Architecture §37 remains the sole canonical owner.** The
+    owner section was extracted verbatim and decomposed; **all eleven "must not
+    implement" items are traced**, including **queues**, and the single
+    restatement is cited and subordinate. **16/16** canonical Runtime operations
+    were verified against an owner-derived set; **all 30 metric rows reproduce
+    with zero drift**; **no false-success path exists**; **all fifteen upstream
+    P2 findings remain open and contained**.
+
+    **Seven new non-blocking findings.** The one **P2** is §44 rule 1 declaring
+    the version "currently `1.0`" while the header reads 1.1 — consistent at
+    v1.0 and invalidated by the remediation. **Two of the six P3 findings are
+    citation-level regressions introduced by Remediation 001**, both from the
+    12→19 import-table renumbering and the new §37 reference convention. The
+    remaining four are precision defects, **all fail-closed in every reading**;
+    none weakens a prohibition or creates a permissive path.
+
+    The reviewed specification, the original task report, both Review 001
+    artifacts, the Remediation 001 report, and every consulted owner document
+    are **byte-identical**. **Nothing implemented** — no scaffold code, module,
+    package, test, dependency, or configuration; no Runtime, framework adapter,
+    package loader, or provider/model integration; empirical execution remains
+    `NOT_PERFORMED`. **Review passing is not implementation authorization**: the
+    Agent Runtime Scaffold implementation is the exact next **plain-name** item,
+    carries **no task identifier** — none was minted — and requires separate
+    explicit Operator authorization and its own exact file allowlist.
+
+17. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002` — **complete as one
+    local documentation commit; not pushed.** Remediated **all seven** Review
+    002 findings (P2 1 / P3 6) and advanced
+    `docs/specs/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_001.md` from version 1.1
+    to **version 1.2**. Durable report:
+    `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REMEDIATION-002.md`.
+
+    **The contract-version inconsistency was fixed structurally.** New **§44.1**
+    is an authoritative version-history table and the single source of truth for
+    `runtime_scaffold_spec_version`; §44 rule 1 names `1.2`, cites §44.1, and
+    forbids restating the version elsewhere as a drift-prone literal.
+
+    **Most positional citations were eliminated.** Both defective threat
+    citations were corrected semantically — threat 8 names §8's hook-registration
+    prohibition, threat 19 cites §8 rule 3 — and twenty-six `row N`
+    cross-references were converted to semantic references. **Correction, per
+    Review 003 `NEW-P2-01`: the claim that *all* were converted is false — seven
+    positional citations remain**, two of them introduced by this remediation.
+
+    **The invariant obligation became complete and drift-proof.** New **§31.1.1**
+    is a **Baseline Inert Invariant property register of 32 properties**, which
+    §34 obligation 18 must assert in full and derive mechanically; obligations
+    25 (registry and service-locator absence), 26 (no live Runtime handle), and
+    27 (cancellation selection order) were added.
+
+    **Scaffold Zero-Execution Evidence became affirmative-only**: incomplete
+    evidence yields no zero-execution record at all, only the distinct
+    non-affirmative `EVIDENCE_INCOMPLETE` outcome, which is not an error class
+    and leaves §24's owner-owned taxonomy unchanged. **Cancellation became
+    deterministic** with *implementation unavailable* as the inert default,
+    expressed identically in §14, §26, and the tests. The last bare owner `§37`
+    reference was fully qualified.
+
+    **Version 1.2 is a compatible corrective increment, not a major bump**: no
+    prohibition, boundary, port, disposition, category, or owner constraint was
+    removed, narrowed, or made more permissive. **All twelve Review 001 closures
+    preserved**, four strengthened; **16/16 canonical Runtime operations remain
+    covered**; **all fifteen upstream P2 findings remain open and contained**;
+    the original task report, both Review 001 artifacts, the Remediation 001
+    report, and both Review 002 artifacts are **byte-identical**. **Nothing
+    implemented**; empirical execution remains `NOT_PERFORMED`. **Version 1.2 is
+    unverified**, pending independent
+    `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003`; scaffold implementation
+    remains a plain-name item carrying no task identifier, still blocked.
+
+18. `MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003` — **complete as one local
+    documentation commit; not pushed.** Independent, read-only review of
+    specification **version 1.2**. Durable record:
+    `docs/research/MELLYCORE_AGENT_RUNTIME_SCAFFOLD_SPEC_REVIEW_003.md`; task
+    report: `docs/tasks/MELLYCORE-AGENT-RUNTIME-SCAFFOLD-SPEC-REVIEW-003.md`.
+
+    **Documentation gate `PASS_WITH_NON_BLOCKING_FINDINGS`** (P0 0 / P1 0 /
+    **P2 2** / **P3 3**); version 1.2 **accepted as a documentation contract
+    only** under nine constraints. **Implementation readiness reported
+    separately as `NOT_READY_IMPLEMENTATION_AFFECTING_FINDINGS`** — the two
+    results are distinct and the gate result does not authorize implementation.
+
+    **All seven Review 002 findings independently disposed `CLOSED`**; **all
+    twelve Review 001 closures independently confirmed preserved**, four
+    strengthened. **Agent Runtime Architecture §37 remains the sole canonical
+    owner**, consumed unchanged, with all eleven must-not and ten may-implement
+    items traced. **16/16 canonical Runtime operations covered** against an
+    owner-derived list. **All 32 metric rows reproduce with zero drift**,
+    including the 32-property register and the 27 testing obligations. **No
+    false-success path exists.** **All fifteen upstream P2 findings remain open
+    and contained.** The **1.1 → 1.2 increment is independently adjudicated a
+    valid compatible corrective increment**; no major bump required.
+
+    **Five new non-blocking findings, three introduced by Remediation 002.**
+    `NEW-P2-01`: §41 criterion 41's universal positional-reference claim is
+    false — seven live citations remain, two added by the same commit as the
+    criterion; blocking for a future amendment. `NEW-P2-02`: §27.1 rule 2's
+    evidence-completeness test is indeterminate for an approved inert fixture at
+    a §12 port, because §26 treats "injected" and "approved-fixture" as distinct
+    while §13 disposition 2 implies a fixture is injected — **implementation-
+    blocking**. `NEW-P3-01`: §44 rule 1 restates the version literal it forbids
+    and omits itself from its own amendment instruction. `NEW-P3-02`: §44.1
+    cites a nonexistent `§34.1`. `NEW-P3-03`: `EVIDENCE_INCOMPLETE`'s
+    representation is unconstrained.
+
+    **Nothing implemented**; empirical execution remains `NOT_PERFORMED`.
+    **Documentation acceptance is not implementation authorization.** Scaffold
+    implementation remains a plain-name item carrying no task identifier, now
+    additionally blocked pending resolution of `NEW-P2-02`, and still requiring
+    separate explicit Operator authorization and its own exact file allowlist.
+    The recommended next step is a **bounded remediation of `NEW-P2-02`**,
+    preferably carrying the other four findings; **this review neither minted
+    nor authorized it.**
+
+**Architecture accepted; Agent Package Contract accepted as documentation.**
+Review 002 of the Agent Runtime accepted
+`MELLYCORE_AGENT_RUNTIME_ARCHITECTURE_001` as the canonical architectural
+foundation for this track under one non-blocking constraint.
+`MELLYCORE_AGENT_PACKAGE_CONTRACT_001` version 1.1 is now **accepted as a
+documentation contract** under the seven non-blocking constraints recorded
+by its own Review 002. **Acceptance is of documentation only and establishes
+no implementation of any kind** — no Agent Package Store, Package Registry,
+Agent Registry, Package Validator, or loader exists; no Agent Package,
+package installation, or package execution exists; no command, hook, plugin,
+MCP, or batch execution exists; no runtime, provider connection, credential,
+or deployment exists. The remaining recommended, **not authorized**,
+successors — each requiring its own gate — are, in this order: Framework
+Bridge Contract (next in queue); Shared Context Bridge; Agent Runtime
+Scaffold (inert); Scaffold Review; first Agent Package; Cross-Agent Smoke
+(inert modes only); Integration Review; and then the twelve follow-up
+contracts of specification §26. Agent Runtime implementation remains
+blocked.
+
+Any task that would make an agent execution-capable additionally requires the
+Model B reconsideration of migration trigger #6 before it may proceed to
+implementation or merge. Triggers #1, #4, #5, and #7 are likewise implicated by
+later phases of this architecture and are not crossed by the specification.
+
+No agent execution, framework connection, model-provider call, tool
+invocation, provider connection, credential, persistence, queue, frontend, or
+deployment is authorized by this track. Live sequencing for this track:
+`shared_context/RUN_QUEUE.md`'s "Agent Runtime Product Track".
+
+## Developer Platform & Agent Package Ecosystem — Planned Direction
+
+This section records planning direction only. It is written by
+`MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001`, the current active task on the
+Agent Runtime Product Track (item 5 above), and does not itself specify,
+implement, authorize, or start any of the layers it names. Each layer below
+requires its own specification, independent review, remediation where
+required, and explicit Operator authorization before implementation — the
+same gated sequence already applied to the Agent Runtime architecture above.
+Task identifiers and status are tracked in `shared_context/TASK_INDEX.md`.
+
+MellyCore AIOS is evolving toward a provider-agnostic AI Operating System
+built from these pillars: Control Plane, Shared Context, Agent Runtime, Agent
+Package Ecosystem, Model Router, Provider Registry, Knowledge Graph, Context
+Compression, Cost Observatory, Observability, Multi-Agent Workflow, and
+Developer Platform. Control Plane, Shared Context, Agent Runtime, Model
+Router, and Provider Registry are already named and partially specified
+elsewhere in this roadmap and in `docs/specs/`; Knowledge Graph, Context
+Compression, Cost Observatory, and Observability remain **planned** and
+unspecified beyond their appearance in the AI Operations Intelligence data
+contract. Agent Package Ecosystem and Developer Platform are **new** as of
+this entry.
+
+The Developer Platform names concepts with a shape similar to Claude Code
+(Skills, Hooks, Commands, Plugins, MCP Servers) because that is a familiar,
+well-understood reference shape for developers — not because MellyCore AIOS
+depends on, wraps, or is limited to Claude Code. The Agent Runtime
+architecture's six-framework compatibility matrix (Claude Code, OpenAI Agents
+SDK, LangGraph, CrewAI, AutoGen, custom MellyCore-compatible agents) is the
+binding constraint: every Developer Platform registry and package format must
+be expressible without assuming any one framework, exactly as the Agent
+Runtime's framework-neutral bridge boundary already requires.
+
+Planned milestones (all **planned**; none specified beyond this paragraph,
+none implemented):
+
+1. **Shared Context Expansion** — extends the existing Shared Context
+   contracts (`shared_context/CONTEXT_GRAPH_SCHEMA.md`,
+   `CONTEXT_PACK_GENERATOR_SPEC.md`, and the Context Gate) to carry Agent
+   Package metadata, registry references, and package-scoped memory, without
+   reopening or weakening the accepted Context Gate guarantees.
+2. **Multi-Agent Workflow** — cross-agent coordination and handoff workflows
+   built on the Agent Runtime's accepted handoff-acceptance model (six
+   handoff kinds requiring explicit acceptance); does not reopen the Agent
+   Runtime architecture gate.
+3. **Commands Layer** (`MELLYCORE-COMMANDS-LAYER-SPEC-001`) — a Command
+   Registry: a provider-agnostic contract for invokable named operations,
+   generalizing the existing single documentation-defined command (`/roadmap`,
+   see "Operator Command" below) into a registrable family.
+4. **Skills Layer** (`MELLYCORE-SKILLS-LAYER-SPEC-001`) — a Skill Registry: a
+   contract for packaged, reusable, triggerable workflows with declared
+   inputs, outputs, and required capabilities.
+5. **Hooks Layer** (`MELLYCORE-HOOKS-LAYER-SPEC-001`) — a Hook Registry: a
+   contract for event-driven automation bound to Agent Runtime lifecycle
+   events, without introducing a new execution path around the Runtime's
+   authorization facts.
+6. **Plugin Layer** (`MELLYCORE-PLUGIN-LAYER-SPEC-001`) — a Plugin Registry:
+   a contract for bundles of commands, skills, hooks, agents, and MCP servers
+   distributed and versioned as a unit.
+7. **MCP Layer** (`MELLYCORE-MCP-LAYER-SPEC-001`) — an MCP Registry: a
+   contract for registering and discovering Model Context Protocol servers
+   without binding the registry to any single provider's MCP client
+   implementation.
+8. **Developer Platform** (`MELLYCORE-DEVELOPER-PLATFORM-SPEC-001`) — the
+   umbrella specification unifying the five registries above with three
+   cross-cutting concerns: **Package Validation** (schema and safety
+   conformance before admission), **Package Lifecycle** (draft → validated →
+   published → deprecated states, mirroring the Agent Runtime's
+   definition-to-instance separation), and **Package Distribution**
+   (discovery and retrieval, with no assumption of a specific package host).
+9. **Package Ecosystem** (`MELLYCORE-PACKAGE-ECOSYSTEM-SPEC-001`) — the
+   trust, authorship, and third-party distribution model for Agent Packages
+   built on the Developer Platform contracts above.
+
+None of these nine milestones is authorized to begin specification work by
+this entry alone; `MELLYCORE-AGENT-PACKAGE-CONTRACT-SPEC-001` itself covers
+only item 8's Agent Package Contract concerns as scoped by Agent Runtime
+Architecture Review 002's `NEW-P3-01` eligibility finding, not the full set.
+
+### Planned Commands (Documentation-Defined Naming Reservation Only)
+
+The following command names are reserved in documentation as future
+Developer Platform operator commands, following the existing `/roadmap`
+pattern (see "Operator Command" below). **None is implemented.** No CLI,
+agent, or runtime currently parses, routes, or executes any of them; each
+requires its own runbook (in the style of
+`docs/runbooks/MELLYCORE_ROADMAP_COMMAND.md`) before it is anything more than
+a reserved name:
+
+`/roadmap` (existing), `/review`, `/architecture`, `/runtime`, `/context`,
+`/route`, `/provider`, `/skills`, `/hooks`, `/plugins`, `/packages`,
+`/agents`, `/batch`, `/status`, `/validate`, `/security`, `/memory`,
+`/history`, `/report`, `/docs`.
+
+## Cinematic AIOS Product Vision & Commercial Showcase Roadmap — Locked by MELLYCORE-ROADMAP-LOCK-001B
+
+This section records reconciled product direction and milestone structure
+only. It authorizes, implements, connects, deploys, and executes nothing. It
+mints no downstream task identifiers — those are owned by
+`shared_context/TASK_INDEX.md` and materialized by a later, separately
+authorized reconciliation task. Nothing here converts roadmap intent into
+implementation truth; every named surface, workspace, and concept remains
+**planned** unless separately evidenced.
+
+### Product structure (locked)
+
+Exactly two top-level product layers (`TOP_LEVEL_LAYER_COUNT = 2`):
+
+1. **Command Center** — the product/navigation manifestation of the existing
+   Control Plane / AI Operations Observatory, Shared Context, routing, and
+   governance systems. Its surfaces (Overview / Mission Control, Knowledge &
+   Operations Graph, Context Management, Runtime Constellation, Agents, Runs,
+   Models, Providers, Model Routing, Tools / MCP, Shared Context, Memory,
+   Artifacts, Cost / Usage, Observability, Governance / Approvals, Hardware /
+   Local AI) are product/UI surfaces, not new canonical data owners.
+2. **AI Workspaces** — exactly ten planned workspaces
+   (`WORKSPACE_COUNT = 10`): Deep Research, Compare Arena, Multi-Agent Crew,
+   Email AI, Voice, Video Intelligence, Image Studio, Model Downloader,
+   Ollama Manager, and Coding / Runtime Studio. Obsidian, Knowledge &
+   Operations Graph, Runtime Constellation, Source Arena, Model Arena, Local
+   AI Hub, Shared Context, and Mission Control are **not** additional
+   workspaces (`OBSIDIAN_WORKSPACE_COUNT_IMPACT = 0`); Local AI Hub is a
+   presentation grouping of Model Downloader and Ollama Manager only.
+
+Full product-structure detail, workspace directions, flagship-concept
+boundaries (Runtime Constellation as projection, Knowledge & Operations Graph
+as derived view), Obsidian context-source phases, model-economics ownership,
+and the Capability View / Hardware Capability Service research directions are
+recorded in `shared_context/PROJECT_STATE.md`'s "Cinematic AIOS Product
+Structure — Locked" section, which is the Product Vision owner. This roadmap
+does not duplicate them.
+
+### Workspace direction highlights (planned, not implemented)
+
+- **Deep Research** — future flagship workflow PLAN → SEARCH → READ → ANALYZE
+  → SYNTHESIZE → REPORT, with future visibility of sources, citations,
+  progress, runtime, model, tools, artifacts, cost, and provenance. No
+  separate Research control plane.
+- **Compare Arena** — one prompt across models, parallel comparison, blind
+  mode, reveal, latency/tokens/cost, human winner, evidence — on canonical
+  Model Router / Provider / Run / Evidence ownership.
+- **Multi-Agent Crew** — future roles (Supervisor, Planner, Researcher,
+  Analyst, Coder, Reviewer, Custom Role) over the accepted framework
+  ecosystem concepts (Claude Code, OpenAI Agents SDK, LangGraph, CrewAI,
+  AutoGen, MellyCore Custom); no unsupported runtime identifiers invented.
+- **Email AI** — future B2B triage, classification, summaries, priorities,
+  lead/invoice detection, action extraction, reply drafts, approval queue.
+  READ / DRAFT / SEND stay distinct; SEND remains consequential.
+- **Voice** — an interface, not an authority owner: Voice → STT → Intent →
+  Control Plane → Runtime / Tool → Approval if required → Result → TTS.
+- **Video Intelligence** — transcription, scene/topic extraction, summaries,
+  highlights, meetings, sales-call analysis, repurposing, artifacts.
+- **Image Studio** — AI image orchestration (provider/model, generation,
+  variants, comparison, controlled editing, lineage, versions, artifacts,
+  cost); not a Photoshop clone.
+- **Model Downloader** — model discovery, artifacts, quantization,
+  provenance, licensing, storage requirements, hardware fit, progress,
+  lifecycle. No downloads performed by this lock.
+- **Ollama Manager** — runtime status, endpoint health, installed/loaded
+  models, RAM/VRAM, load/unload, local model state. "Manager" grants no
+  mutation authority.
+- **Coding / Runtime Studio** — flagship technical workspace projecting
+  runtime/framework, model, run, attempt, state, tools, context, artifacts,
+  timeline, tokens, cost, Attach, and Stop Request. Operational state remains
+  evidence-based.
+
+### Routing experience (product-direction labels only)
+
+Future human-facing routing concepts may include: Balanced, Zero-Cost First,
+Zero-Cost Only, Local First, Privacy First, Quality First, Manual. These are
+product-direction labels, not production enums, and none is minted here.
+Future routing explanations may reference Capability Fit, Privacy,
+Availability, Quota, Cost, Latency, Quality, and Hardware Fit. Capability
+compatibility precedes price preference; zero-cost-only routing never
+silently escalates to paid inference.
+
+### Commercial showcase acceleration
+
+The fastest **truthful** frontend showcase is a first-class product
+objective. The repository already contains a real static frontend under
+`site/`; MellyCore does **not** need a greenfield frontend scaffold. The
+correct path is evolution of the existing static showcase:
+
+```
+EXISTING STATIC SHOWCASE
+        ↓
+CINEMATIC AIOS EVOLUTION
+        ↓
+FIRST COMMERCIAL SHOWCASE
+        ↓
+FLAGSHIP COMMAND CENTER
+        ↓
+FULL STATIC AIOS
+        ↓
+PRODUCTION POLISH
+```
+
+The visual showcase is intended to help attract B2B clients, freelance leads,
+recruiters, GitHub visitors, collaborators, and future product users. Live
+Gate C infrastructure is **not** required merely to render truthful
+planned/static surfaces — but no live capability may be faked to accelerate
+delivery. Visibility and activation remain separate. Commercial urgency never
+overrides evidence, safety, or governance.
+
+### Milestones M0–M5
+
+Milestone direction only; downstream task IDs are minted by Task Index work,
+not here.
+
+- **M0 — Cinematic AIOS Vision Lock.** Product Vision + Roadmap updated
+  (this lock, `MELLYCORE-ROADMAP-LOCK-001B`).
+- **M1 — Docs / Spec Amendment Gate.** Downstream: Task Index / Run Queue
+  reconciliation; Safety/static-truth amendment; Design System amendment;
+  Homepage Spec amendment; independent Docs Integration Review.
+- **M2 — First Commercial Design Showcase.** Evolve existing `site/`:
+  cinematic landing, premium hero, Command Center preview, Knowledge &
+  Operations Graph preview, Runtime Constellation preview, exactly ten
+  planned workspaces, Obsidian / Shared Context story, Local / Free Remote /
+  Paid Remote model story, governance/safety proof, commercial CTA. The 001A
+  planning estimate is approximately 5–7 downstream agent runs, subject to
+  Task Index materialization — a planning estimate, not execution evidence.
+- **M3 — Flagship Command Center Showcase.** Command Center shell, Knowledge
+  & Operations Graph, Runtime Constellation, context / Obsidian planned
+  visualization, routing explanation, run/agent HUD, governance/approval
+  visualization.
+- **M4 — Complete Static AIOS Showcase.** Coherent static surfaces for
+  exactly ten workspaces, navigation, Local AI grouping, demo/static/
+  loading/unavailable states, responsive quality, accessibility, reduced
+  motion.
+- **M5 — Public Production Showcase.** Visual integration review, responsive
+  acceptance, accessibility, reduced motion, performance review, production
+  build readiness, truthful static/live review, separately authorized
+  merge/deploy, post-deploy validation. No deployment is performed or
+  authorized by this lock.
+
+### Claude Design parallel lane
+
+After successful 001B, a **Claude Design Exploration Lane** is
+`READY_TO_START` in parallel with later canonical documentation work (Task
+Index work, Safety/static-truth work, early design exploration). Its purpose
+is to reduce time to a high-quality showcase by exploring cinematic hero,
+orbital core, the Source Arena relationship, Command Center cockpit,
+Knowledge & Operations Graph, Runtime Constellation, workspace visual
+families, HUD, typography, information density, motion, and desktop/tablet/
+mobile compositions. Claude Design output is **design input** — not canonical
+product truth, not the canonical Design System, not implemented, validated,
+or live frontend state. Final design adoption belongs to the Design System
+amendment and the Homepage Spec amendment.
+
+### Source Arena / hero decision
+
+Source Arena's existing canonical hero importance is **not** removed. This
+lock records only that: (1) Source Arena remains an important flagship
+proof/exploration surface; (2) the expanded AIOS direction permits exploring
+a Source-Arena-led hero, an Orbital-Core / Command-Center-led hero, or a
+hybrid hero; (3) final hero hierarchy belongs to the Design System amendment
+and the Homepage Spec amendment; (4) Claude Design should explicitly compare
+these directions. No final pixel/layout hierarchy is decided here.
 
 ## Safety Gates
 

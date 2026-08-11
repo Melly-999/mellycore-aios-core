@@ -1,249 +1,270 @@
-# MellyCore AIOS — UI Sections Implementation Brief
+# MellyCore AIOS — M2 Homepage UI Sections Brief
 
-**Task ID:** MELLYCORE-HOMEPAGE-SPEC-001 (companion)
-**Version:** 1.0
-**Status:** Complete
-**Scope:** Compact implementation brief for future frontend agents building the MellyCore AIOS homepage
+**Canonical behavior owner:** docs/specs/MELLYCORE_HOMEPAGE_SPEC_001.md
+**Reconciled by:** MELLYCORE-CINEMATIC-HOMEPAGE-SPEC-RECONCILIATION-001
+**Version:** 2.0
+**Status:** Implementation brief; no frontend implementation claimed
+**Target:** Existing static HTML/CSS/JavaScript under site/
 
 ---
 
-## Section Registry
+## 1. Ownership and implementation posture
+
+This brief projects the canonical Homepage Specification into bounded static
+sections. If wording here conflicts with that specification, the Homepage
+Specification wins.
+
+M2 evolves the current site. It does not authorize a framework rewrite,
+generated JSX architecture, provider/runtime integration, a backend, or a
+deployment.
+
+Every section follows four rules:
+
+1. critical content is semantic HTML and visible without JavaScript;
+2. fixture, snapshot, simulated, and planned content is labeled at point of use;
+3. status uses text plus semantic color;
+4. motion is optional and never establishes meaning or visibility.
+
+## 2. M2 section registry
 
 ### hero-command-center
 
-| Field | Value |
+| Field | Requirement |
 |---|---|
-| **Section ID** | `hero-command-center` |
-| **Name** | Hero — MellyCore AIOS Command Center |
-| **Priority** | P0 — Must have |
-| **Purpose** | Establish identity, prototype status, and core value proposition in first viewport. |
-| **Required Data** | Headline text, subtitle, prototype tag, safety badge labels, CTA anchor targets. All static. |
-| **Static/Dynamic** | Static only. No data fetching. |
-| **Allowed Implementation** | HTML/CSS hero section, static orbital cube (CSS illustration or static image), anchor-link CTAs, safety badges. |
-| **Blocked Implementation** | 3D libraries (Three.js, etc.) in first slice, animated cube, live-data indicators, connect-live CTAs, form elements. |
-| **Future Components** | `HeroSection`, `OrbitalCubeVisual`, `HeroCtaGroup`, `PrototypeStatusBanner` |
-| **Validation Notes** | Must render without JavaScript. CTAs must be anchor links only. No forbidden CTAs. |
-| **Safety Notes** | Prototype status visible before any CTA. No live connectivity implied. Safety badges accurate. |
+| Priority | P0 — first viewport |
+| Purpose | Establish local-first AIOS identity, concise commercial value, honest preview state, and the first navigation choice. |
+| Required content | Kicker, H1, one-line proposition, short support copy, StaticPreviewNotice, up to three factual badges, primary and secondary anchors. |
+| Existing foundation | Current hero markup, CTA group, safety badges, static notice, responsive grid, and decorative stage may be evolved. |
+| Allowed variation | Source-led, orbital Command Center-led, hybrid, or instrument stage, provided the canonical hierarchy and disclosure remain intact. |
+| Blocked | Gateway-centered thesis, vendor list as identity, mandatory animated reveal, fake-live signals, credential or execution CTA. |
+| Mobile | Copy-first single column; decorative stage simplified or removed; full-width touch targets. |
+| Validation | First-view comprehension, no-JS visibility, focus order, static disclosure before action, no horizontal overflow. |
 
-### agent-constellation
+### command-center-preview
 
-| Field | Value |
+| Field | Requirement |
 |---|---|
-| **Section ID** | `agent-constellation` |
-| **Name** | Agent Constellation |
-| **Priority** | P0 — Must have |
-| **Purpose** | Visualize supervised multi-agent fleet with OmniRouter as central hub. |
-| **Required Data** | Agent list (10 nodes), role labels, "supervised" status, route connections to OmniRouter. All static. |
-| **Static/Dynamic** | Static only. Node positions authored in CSS/markup. |
-| **Allowed Implementation** | CSS-positioned constellation diagram, static SVG route lines, agent node cards, mobile card list. |
-| **Blocked Implementation** | Interactive node dragging, live agent status, animated route lines, real-time connectivity indicators. |
-| **Future Components** | `AgentConstellationSection`, `ConstellationMap`, `ConstellationNode`, `AgentCardList` |
-| **Validation Notes** | OmniRouter must be visually central. All nodes show "supervised." Mobile converts to list. |
-| **Safety Notes** | No autonomous agents implied. No live status. OmniRouter is the routing hub connecting all nodes. |
+| Priority | P0 |
+| Purpose | Preview the product manifestation of context, routing, runtime, observability, approvals, and evidence without attempting the full M3 shell. |
+| Required content | Legible context/routing area, central product visualization, agents/runtime/approval area, compact evidence rail, point-of-use status and provenance. |
+| Existing foundation | Current static panels, constellation/router cards, context metadata, and reusable glass/HUD primitives may be consolidated rather than duplicated. |
+| Blocked | Complete M3 dashboard, operational toggles, live health, provider selection, execution controls, dense gaming HUD. |
+| Mobile | Ordered proof cards; reduced HUD density; center visualization becomes a readable summary. |
+| Validation | Projection ownership explicit; no panel implies canonical ownership or active operation. |
 
-### model-router-panel
+### knowledge-operations-graph
 
-| Field | Value |
+| Field | Requirement |
 |---|---|
-| **Section ID** | `model-router-panel` |
-| **Name** | OmniRouter / Model Router Panel |
-| **Priority** | P1 — High priority |
-| **Purpose** | Show model routing architecture with OmniRouter as preferred gateway. No live connectivity. |
-| **Required Data** | Provider list (5 placeholders), routing role labels, OmniRouter hub description, "no live routing" notice. All static. |
-| **Static/Dynamic** | Static only. |
-| **Allowed Implementation** | Control-panel layout, placeholder provider cards with dormant styling, "no live routing" notice, routing role labels. |
-| **Blocked Implementation** | Provider selection UI, API key inputs, routing simulation, live provider health checks, "add provider" buttons. |
-| **Future Components** | `ModelRouterPanel`, `ProviderPlaceholderCard`, `OmniRouterHub`, `RouterNode` |
-| **Validation Notes** | No form elements. All providers show "placeholder" status. "No live routing" notice present. |
-| **Safety Notes** | No secrets. No keys. Provider keys stated as "outside the repo." No connection forms. |
+| Priority | P0 |
+| Purpose | Show a derived, provenance-bearing view across knowledge, system, and operations domains. |
+| Required content | Text summary, representative clusters/relationships, source strip, relationship legend, DataOrigin, ownership disclaimer. |
+| Existing foundation | Evolve the current living-context-graph markup and CSS; preserve fixture honesty and text fallback. |
+| Anchor strategy | The existing living-context-graph anchor may remain as a compatibility alias until a coordinated implementation changes navigation. |
+| Blocked | Live topology claim, database or ingestion assumption, invented production relationships, graph-only meaning. |
+| Mobile | Replace the dense canvas with a simplified path, cluster summary, or ordered evidence list. |
+| Validation | Fixture/example labeling, readable alternative, keyboard-independent comprehension, no false canonical-owner claim. |
 
-### shared-context-memory
+### runtime-constellation
 
-| Field | Value |
+| Field | Requirement |
 |---|---|
-| **Section ID** | `shared-context-memory` |
-| **Name** | Shared Context / Memory Layer |
-| **Priority** | P0 — Must have |
-| **Purpose** | Show unified coordination memory that all agents share. |
-| **Required Data** | File list (10 context files), file descriptions, type badges. All static. |
-| **Static/Dynamic** | Static only. |
-| **Allowed Implementation** | Card grid (2-3 columns), memory cards with file metadata, glass panel styling, type badges. |
-| **Blocked Implementation** | File browser, content preview, download links, dynamic file listing, filesystem access. |
-| **Future Components** | `SharedContextSection`, `MemoryCardGrid`, `ContextFileCard` |
-| **Validation Notes** | No file contents displayed. Only metadata. Grid responds to viewport. |
-| **Safety Notes** | No secrets in card content. No real file values. Static file list only. |
+| Priority | P1 |
+| Purpose | Explain the vendor-neutral runtime/framework ecosystem as a product projection. |
+| Required content | Small relationship view, textual state labels, StaticPreviewNotice where needed, explicit displayed-does-not-mean-installed copy. |
+| Existing foundation | Current constellation and router visual primitives may be reframed; their old central-gateway story must not survive. |
+| Blocked | Online dots, animated traffic, support/install/connect/run claims without evidence, provider names as primary product identity. |
+| Mobile | Ordered relationship list or compact diagram with equivalent text. |
+| Validation | Every state is textual; no name implies installed, supported, connected, running, or authorized. |
 
-### roadmap-orbit-map
+### ai-workspaces
 
-| Field | Value |
+| Field | Requirement |
 |---|---|
-| **Section ID** | `roadmap-orbit-map` |
-| **Name** | Roadmap Orbit Map |
-| **Priority** | P0 — Must have |
-| **Purpose** | Visualize project phases as orbital progression. Honest roadmap state. |
-| **Required Data** | Phase list (6 phases), status per phase, deliverable bullets, blocked/later labels. All static. |
-| **Static/Dynamic** | Static only. |
-| **Allowed Implementation** | CSS orbital rings with positioned phase markers, status chips, expandable detail (optional), mobile timeline list. |
-| **Blocked Implementation** | Timeline animation, real-time project tracking, GitHub issue integration, drag-to-reorder phases. |
-| **Future Components** | `RoadmapOrbitMap`, `OrbitRing`, `OrbitNode`, `RoadmapPhaseMarker`, `RoadmapTimeline` |
-| **Validation Notes** | All 6 phases visible. Blocked/later phase dimmed but not hidden. Runtime phase shows "requires approval." |
-| **Safety Notes** | Honest roadmap state. No implied progress beyond actual. Runtime phase explicitly gated. |
+| Priority | P0 |
+| Purpose | Present the exact canonical ecosystem as a hierarchy with commercially legible outcomes. |
+| Required content | The ten-row canonical enumeration from Homepage Specification §9, planned/static-demo labels, Wave 1 feature cluster, Wave 2 compact rail, Wave 3/local-AI grouping. |
+| Blocked | Eleventh workspace, equal-card wall, invented status enum, backend/activation implication, horizontal rail without keyboard access. |
+| Mobile | Prioritized single-column groups with all entries readable and no accidental overflow. |
+| Validation | Mechanical exact-count check; every entry visibly planned or static/demo; no Command Center surface misclassified as a workspace. |
 
-### safety-control-layer
+### governance-evidence
 
-| Field | Value |
+| Field | Requirement |
 |---|---|
-| **Section ID** | `safety-control-layer` |
-| **Name** | Safety / Control Layer |
-| **Priority** | P0 — Must have |
-| **Purpose** | Make safety architecture visible and prominent. First-class section. |
-| **Required Data** | Safety rules list (13 rules), safety badge labels, GLM reference note. All static. |
-| **Static/Dynamic** | Static only. |
-| **Allowed Implementation** | Safety panel with checklist, safety badges, glass panel with accent border, GLM reference notice. |
-| **Blocked Implementation** | Toggleable rules, dismissable badges, fake safety indicators, runtime validation display. |
-| **Future Components** | `SafetyControlSection`, `SafetyChecklist`, `SafetyBadgeGroup`, `GlmReferenceNotice` |
-| **Validation Notes** | All rules visible. Badges accurate. GLM note explicitly states no files copied. |
-| **Safety Notes** | Every badge corresponds to an actually enforced constraint. No fake safety claims. |
+| Priority | P0 |
+| Purpose | Turn local-first, operator control, provenance, approval, and fail-closed behavior into concise trust proof. |
+| Required content | Controlled improvement loop or equivalent, evidence/provenance statement, approval boundary, vendor-neutral statement, honest current-state links. |
+| Existing foundation | Reuse safety checklist, status chips, source/evidence strip, and safety badge primitives selectively. |
+| Blocked | Unverified “safe,” “secure,” “live,” or “connected” claims; complete policy wall; decorative green success. |
+| Mobile | Proof precedes action; concise stacked statements; status text never truncated. |
+| Validation | Every badge and claim traceable to the baseline; color never sole carrier. |
 
-### tooling-layer
+### commercial-cta
 
-| Field | Value |
+| Field | Requirement |
 |---|---|
-| **Section ID** | `tooling-layer` |
-| **Name** | Tooling Layer |
-| **Priority** | P1 — High priority |
-| **Purpose** | Show controlled developer tool surfaces. |
-| **Required Data** | Tool list (8 tools), role descriptions, "controlled" status. All static. |
-| **Static/Dynamic** | Static only. |
-| **Allowed Implementation** | Card grid (2-4 columns), tool cards with geometric placeholder icons, "controlled" status chips. |
-| **Blocked Implementation** | Tool logos (use placeholder initials), "open in tool" buttons, deep links, live tool status. |
-| **Future Components** | `ToolingLayerSection`, `ToolCard`, `ToolGrid` |
-| **Validation Notes** | All 8 tools present. No "open" buttons. No live status. |
-| **Safety Notes** | All tools shown as "controlled." No autonomous execution implied. |
-
-### next-actions
-
-| Field | Value |
-|---|---|
-| **Section ID** | `next-actions` |
-| **Name** | CTA / Next Actions |
-| **Priority** | P1 — High priority |
-| **Purpose** | Safe navigation to page sections and documentation. |
-| **Required Data** | CTA labels and anchor targets. All static. |
-| **Static/Dynamic** | Static only. |
-| **Allowed Implementation** | Anchor-link button group, glass-styled buttons, responsive layout. |
-| **Blocked Implementation** | Form submissions, external redirects, connect-live CTAs, sign-up forms, deploy buttons. |
-| **Future Components** | `NextActionsSection`, `CtaButtonGroup` |
-| **Validation Notes** | All CTAs are anchor links or documentation links. Zero forbidden CTAs. |
-| **Safety Notes** | No system activation implied. No external service connections. |
+| Priority | P0 |
+| Purpose | Offer product exploration, technical depth, and a real commercial next step. |
+| Required content | Explore Command Center, Explore AI Workspaces, View Architecture, and a commercial contact action only when its destination is real and reviewed. |
+| Existing foundation | Reuse the current anchor CTA component and visible focus treatment. |
+| Blocked | Non-functional form, external write, connect/execute/deploy/send/download/activate language, freelancer-profile framing. |
+| Mobile | Full-width, comfortably sized anchors in narrative priority order. |
+| Validation | All destinations resolve; CTA wording matches actual capability. |
 
 ### footer-status
 
-| Field | Value |
+| Field | Requirement |
 |---|---|
-| **Section ID** | `footer-status` |
-| **Name** | Footer / Project Status |
-| **Priority** | P1 — High priority |
-| **Purpose** | Reinforce honest project state. Transparent metadata. |
-| **Required Data** | Project name, status label, 5 status confirmations, repo metadata (optional), attribution. All static. |
-| **Static/Dynamic** | Static only. |
-| **Allowed Implementation** | Glass panel footer, status checklist, HUD label metadata, footer links. |
-| **Blocked Implementation** | Dynamic git data fetching, live deployment status, misleading dates, production claims. |
-| **Future Components** | `FooterStatusPanel`, `ProjectStatusChecklist`, `FooterLinks` |
-| **Validation Notes** | All 5 confirmations present. "GLM not copied" explicit. No production claims. |
-| **Safety Notes** | Honest phase representation. No secrets reference. No misleading status. |
+| Priority | P1 |
+| Purpose | Close with current project state and documentation links without carrying the full honesty burden. |
+| Required content | Static showcase status, concise no-live-operation statement, factual links, product attribution. |
+| Existing foundation | Current semantic footer and status styles. |
+| Blocked | Stale phase claims, live Git/provider data fetching, stale product-family attribution, invented production state. |
+| Mobile | Single-column reading and focus order. |
+| Validation | Footer agrees with point-of-use disclosures and does not contradict canonical current state. |
 
----
+## 3. Cross-section honesty primitives
 
-## Recommended First Static Slice Order
+### DataOrigin
 
-Build in this order for maximum impact and progressive validation:
+Use only as a UI provenance projection:
 
-1. **hero-command-center** — Establishes identity and tone. Build and validate first.
-2. **safety-control-layer** — Safety is first-class. Build early to establish trust patterns.
-3. **shared-context-memory** — Core coordination concept. Builds on hero narrative.
-4. **roadmap-orbit-map** — Shows project state. Validates orbital visual patterns.
-5. **agent-constellation** — Multi-agent visualization. Tests constellation/routing patterns.
-6. **model-router-panel** — OmniRouter routing. Builds on constellation patterns.
-7. **tooling-layer** — Tool surfaces. Reuses card patterns from earlier sections.
-8. **next-actions** — CTA group. Simple, quick to build.
-9. **footer-status** — Footer. Final section, establishes closing patterns.
+- Committed local data
+- Audit snapshot
+- Simulated
 
----
+Planned content receives a separate planned label. DataOrigin is not a
+universal product status enum.
 
-## Minimum Viable Homepage
+### StatusChip
 
-For the absolute first deployable slice, these sections are required:
+Always text plus semantic visual treatment. Use repository vocabulary. Green
+is reserved for verified real/current state; red for blocked/error; amber for
+approval/caution; violet for structure; blue/cyan for data/signal; magenta for
+interaction emphasis.
 
-| Section | Reason |
-|---|---|
-| hero-command-center | Identity, prototype status, first impression |
-| safety-control-layer | Safety-first architecture |
-| shared-context-memory | Core coordination concept |
-| roadmap-orbit-map | Project state visibility |
-| footer-status | Honest project state closing |
+### StaticPreviewNotice
 
-These 5 sections form a complete narrative: identity, safety, context, roadmap, status.
+Required in the hero and within any telemetry-like graph, constellation,
+workspace, or dashboard surface that could be mistaken for live operation.
+It is visible and non-dismissable.
 
----
+### SafetyBadge
 
-## Nice-to-Have Later Interactions
+Use only for concise baseline-supported facts. Visual presence never upgrades
+planned or policy state into implementation evidence.
 
-| Interaction | Section | Priority |
+## 4. Responsive transformation contract
+
+| Pattern | Wide layout | Narrow layout |
 |---|---|---|
-| Hover-highlight route lines | agent-constellation | P2 |
-| Expandable phase detail | roadmap-orbit-map | P2 |
-| Subtle card border brighten on hover | shared-context-memory, tooling-layer | P3 |
-| Scroll-triggered section fade-in | all sections | P3 |
-| Orbital cube slow rotation | hero-command-center | P3 |
-| Constellation node hover detail tooltip | agent-constellation | P3 |
-| Router panel hover glow on provider card | model-router-panel | P3 |
+| Spatial stage | Copy plus bounded visual | Copy-first; simplify/remove decoration |
+| Multi-panel cockpit | Structured columns | Ordered proof cards |
+| Graph | Clusters and evidence rail | Relationship path or evidence list |
+| Constellation | Spatial nodes | Ordered list |
+| Ecosystem | Hierarchical clusters/rails | Prioritized stacked groups |
+| Proof and CTA | May share a row | Proof first, actions second |
 
----
+At narrow widths, reduce HUD density, preserve body text size, avoid tiny
+labels, and use horizontal rails only when intentional, discoverable, and
+keyboard accessible.
 
-## Blocked Runtime Features
+## 5. Accessibility and motion contract
 
-These features are explicitly blocked until runtime integration phase (which requires explicit human approval):
+- semantic landmarks and heading order;
+- skip link;
+- keyboard-accessible targets and visible focus;
+- tested contrast on every glass/gradient state;
+- text labels for status and provenance;
+- meaningful summaries for complex visuals;
+- no information available only on hover;
+- resilient layout at 200% zoom;
+- no critical content hidden behind animation opacity;
+- content complete with JavaScript disabled;
+- prefers-reduced-motion removes non-essential motion;
+- no animation required for comprehension.
 
-- Provider API key input forms
-- Live provider connection status indicators
-- Real-time agent activity dashboards
-- Model routing simulation or execution
-- File content browsing or download
-- GitHub issue/PR integration
-- Dynamic project state from git
-- Deploy or "go live" workflows
-- Trading execution UI from MellyTrade
-- Any feature implying live system operation
+This brief defines requirements. It does not claim WCAG conformance.
 
----
+## 6. Typography delivery
 
-## Visual QA Checklist
+M2 has no external font dependency. The required baseline is:
 
-Before any deployment, verify:
+- Segoe UI, system-ui, sans-serif;
+- Cascadia Mono, Consolas, monospace.
 
-- [ ] All sections render without JavaScript enabled.
-- [ ] No section implies live connectivity.
-- [ ] All status indicators include text labels (not color-only).
-- [ ] Color contrast meets WCAG AA on all text elements.
-- [ ] Glass panels maintain readability through blur layer.
-- [ ] Mobile layout stacks correctly without horizontal scroll (test at 375px).
-- [ ] Tablet layout adapts correctly (test at 768px and 1024px).
-- [ ] Desktop layout fills correctly (test at 1280px and 1920px).
-- [ ] No forbidden CTAs present anywhere on the page.
-- [ ] No forbidden design patterns from the design system (Section 20).
-- [ ] Safety section is prominent, not buried.
-- [ ] Prototype status visible in hero and footer.
-- [ ] GLM reference note present and accurate.
-- [ ] OmniRouter shown as central routing hub in constellation and router sections.
-- [ ] All agents shown as "supervised" — no autonomous nodes.
-- [ ] Blocked/later roadmap phases visible but dimmed.
-- [ ] No secrets, keys, or real values in any displayed content.
-- [ ] Text is readable at 200% browser zoom.
-- [ ] Reduced motion preference disables all animations.
-- [ ] No emoji used as UI icons.
-- [ ] No trading/broker UI patterns present.
+Preferred locally installed families may remain first in an existing fallback
+stack, but the design must be intentional when they are absent. Google Fonts
+or another remote font CDN is not required. Self-hosted font assets remain a
+non-blocking later licensing and packaging decision.
 
----
+## 7. Static implementation boundaries
 
-*This implementation brief is designed for future frontend agents. It translates the homepage specification into actionable, prioritized implementation guidance while maintaining safety and static-first constraints.*
+Allowed:
+
+- edits to existing static markup, styles, and progressive-enhancement scripts
+  under a separately authorized implementation task;
+- reuse of current tokens, panels, status primitives, anchors, focus styles,
+  reduced-motion rules, and fixture patterns;
+- committed and reviewable fixture content;
+- deliberate anchor migration with compatibility handling.
+
+Blocked:
+
+- frontend framework migration;
+- generated JSX as production architecture;
+- provider SDK or fetch-based provider calls;
+- backend, database, serverless route, credential UI, runtime adapter, or
+  execution path;
+- live telemetry, filesystem access, dynamic Git state, email send, model
+  download, or external synchronization;
+- required remote fonts or critical assets;
+- any change under site/ by this specification task.
+
+## 8. M2 implementation order
+
+1. **Foundation and first viewport:** navigation, hero, disclosure, CTA
+   hierarchy, Command Center preview shell.
+2. **Technical product proof:** graph evolution and Runtime Constellation with
+   provenance.
+3. **Ecosystem and conversion:** workspace hierarchy, governance/evidence,
+   commercial CTA, honest footer.
+4. **Acceptance pass:** responsive, keyboard/focus, contrast, reduced motion,
+   no-JS, truthfulness, performance, exact count, and destination checks.
+
+These are boundaries, not task identifiers. Each future slice requires
+separate authorization and review.
+
+## 9. M2 visual QA checklist
+
+- [ ] Product identity and first action are clear within approximately 15–30 seconds.
+- [ ] Command Center and workspace ecosystem read as exactly two product layers.
+- [ ] Mechanical workspace-count check passes against the canonical enumeration.
+- [ ] No Command Center surface is presented as an additional workspace.
+- [ ] Static/demo/planned labels appear at point of use.
+- [ ] No live provider, runtime, telemetry, synchronization, send, download, or backend claim.
+- [ ] Complex visuals have readable text equivalents.
+- [ ] No content starts hidden behind animation.
+- [ ] JavaScript-disabled content is complete.
+- [ ] Reduced-motion behavior is complete.
+- [ ] Keyboard order and visible focus are usable.
+- [ ] Status and provenance never rely on color alone.
+- [ ] Contrast is tested rather than inferred.
+- [ ] Mobile composition is intentional and free of accidental horizontal scroll.
+- [ ] Touch targets are comfortably operable.
+- [ ] CTA destinations resolve and match their labels.
+- [ ] No required external font CDN or critical network asset.
+- [ ] No stale product-family or central-gateway positioning.
+- [ ] Current static HTML/CSS/JavaScript architecture remains the target.
+- [ ] No out-of-scope integration or implementation is introduced.
+
+## 10. Non-blocking follow-ups
+
+The future hero-direction decision and full cinematic Design System amendment
+may refine visual language later. Neither is a prerequisite for M2.
+
+The older design-system document contains useful visual primitives and stale
+product-story material. Implementation may reuse only the compatible visual
+guidance under the authority order recorded in the canonical Homepage
+Specification.

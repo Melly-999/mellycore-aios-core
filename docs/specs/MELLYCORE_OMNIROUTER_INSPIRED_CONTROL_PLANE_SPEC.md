@@ -289,7 +289,7 @@ machine meaning ambiguous.
 
 | Owning dimension / field | Purpose | Legal values | Applicability and display | Unknown behavior |
 | --- | --- | --- | --- | --- |
-| Lifecycle / `lifecycle_status` | Progression and retained history only | `draft`, `planned`, `queued`, `ready`, `active`, `blocked`, `completed`, `failed`, `cancelled`, `superseded`, `historical` | Versioned plans, policies, packets, tasks, runs, queue items, artifacts, and recommendations; display as `Lifecycle: <label>` | No lifecycle `unknown` member; omit the field when inapplicable and expose missing lifecycle evidence separately |
+| Lifecycle / `lifecycle_status` | Progression and retained history only | `draft`, `planned`, `queued`, `ready`, `active`, `running`, `blocked`, `completed`, `failed`, `cancelled`, `superseded`, `historical` | Versioned plans, policies, packets, tasks, runs, queue items, artifacts, and recommendations; display as `Lifecycle: <label>` | No lifecycle `unknown` member; omit the field when inapplicable and expose missing lifecycle evidence separately |
 | Availability / `availability_status` | Operational reachability or usable capacity | `available`, `degraded`, `unavailable`, `disconnected`, `unknown` | Providers, models, agents, tools, integrations, and sources; display as `Availability: <label>` | `unknown` means availability cannot be established, never available or disconnected |
 | Evidence / `evidence_state` | Truth/source mode and evidence completeness | `canonical`, `static_demo`, `simulated`, `future_live`, `partial`, `unknown` | Every rendered evidence-bearing record or surface; display persistently as `Evidence: <label>` | `unknown` means source mode or evidence coverage is not established |
 | Freshness / `freshness_state` | Age against a declared review/expiry boundary | `fresh`, `aging`, `stale`, `expired`, `unknown` | Time-sensitive sources, packets, memory, runs, cost, and validation evidence; display timestamp/boundary with `Freshness: <label>` | `unknown` means no defensible freshness conclusion; never coerce to fresh |
@@ -315,6 +315,19 @@ metadata, not availability states.
 - `active` is lifecycle-only and means an effective policy/configuration. It
   MUST NOT describe connectivity, a running agent, selected UI state, or general
   availability.
+- `running` is lifecycle-only and means **a live execution is in progress for
+  this entity**. It applies only to entities that can execute — currently `Run`
+  — and MUST NOT describe an effective policy or configuration, connectivity,
+  selected UI state, or general availability. `active` and `running` are
+  therefore never interchangeable, and the prohibition on `active` above is
+  unchanged: an executing agent run is `lifecycle_status:running`, never
+  `lifecycle_status:active`. A subsystem that owns a finer-grained execution
+  field (for example an agent run's `run_state`) projects that field onto this
+  dimension; the projection is one-directional and lossy, and the finer-grained
+  typed entity field remains authoritative. Added by
+  `[[../decisions/MELLYCORE_AGENT_RUNTIME_CANONICAL_SEAM_DECISION_001]]`; this
+  addition creates no seventh dimension and changes no existing member's
+  meaning.
 - A `StatusChip`, badge, filter, sort, query parameter, fixture, or integration
   seam MUST carry the dimension field with the value. Visible and screen-reader
   labels MUST include or programmatically expose the dimension.
@@ -404,7 +417,7 @@ provenance/confidence. A stale context packet cannot silently become `ready`.
 | --- | --- |
 | Purpose/users | Reviewer traces future/historical agent messages, hops, context, tool requests, approvals, blocks, retries, errors, tokens, costs, artifacts |
 | Key entities/fields | Run, RunEvent, Approval, ContextPacket, Artifact; correlation ID, run ID, task ID, sequence, timestamps, actors, redaction, outcome |
-| Statuses | Lifecycle: `planned`, `blocked`, `completed`, `failed`, `cancelled`, `historical`. Availability: `available`, `degraded`, `unavailable`, `unknown`. Evidence: `canonical`, `static_demo`, `future_live`, `partial`, `unknown`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown` |
+| Statuses | Lifecycle: `draft`, `planned`, `queued`, `ready`, `running`, `blocked`, `completed`, `failed`, `cancelled`, `historical`. Availability: `available`, `degraded`, `unavailable`, `unknown`. Evidence: `canonical`, `static_demo`, `future_live`, `partial`, `unknown`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown` |
 | Primary views | Timeline, traffic graph, event inspector, filters, trace search |
 | Interactions | Filter, Trace, Explain route, open linked evidence/artifact; no replay/retry action |
 | Empty/unknown/degraded | No events is not "quiet"; it means unavailable/not captured; partial sequence shows gaps and last confirmed event |
@@ -432,7 +445,7 @@ provenance/confidence. A stale context packet cannot silently become `ready`.
 | --- | --- |
 | Purpose/users | Operator audits run outcomes, evidence, validators, model/provider use, and cost |
 | Key entities/fields | Run, CostRecord, ValidatorResult, Artifact; run/task/agent/model/provider IDs, timestamps/duration, input/output/cache tokens, estimated/confirmed cost, currency, files, validators, artifacts, outcome, commit SHA, approval, errors, retries, packet/policy IDs |
-| Statuses | Lifecycle: `planned`, `blocked`, `completed`, `failed`, `cancelled`, `historical`. Evidence: `canonical`, `static_demo`, `future_live`, `partial`, `unknown`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown` |
+| Statuses | Lifecycle: `draft`, `planned`, `queued`, `ready`, `running`, `blocked`, `completed`, `failed`, `cancelled`, `historical`. Evidence: `canonical`, `static_demo`, `future_live`, `partial`, `unknown`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown` |
 | Primary views | Timeline, ledger table, cost breakdown, model/project comparison, anomaly and budget panels, missing-data view |
 | Interactions | Inspect, Compare, filter time/project/model/outcome, Trace artifact, Export manifest/ledger view |
 | Empty/unknown/degraded | Unmeasured tokens/cost show `—`; estimate and confirmed values never merge; incomplete capture shows partial coverage |
@@ -478,7 +491,7 @@ signal, not an automatic budget or routing action.
 | --- | --- |
 | Purpose/users | Primary operator obtains situational awareness and reaches evidence, policy, approvals, and safe navigation |
 | Key entities/fields | Project, SafetyPolicy, RoutingPolicy, ContextPacket, Approval, QueueItem, Run, CostRecord, Provider, Artifact, Recommendation |
-| Statuses | Explicitly cross-dimensional summary. Lifecycle: `planned`, `ready`, `active`, `blocked`, `completed`, `failed`, `historical`. Availability: `available`, `degraded`, `unavailable`, `disconnected`, `unknown`. Evidence: `canonical`, `static_demo`, `simulated`, `future_live`, `partial`, `unknown`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown`. Approval: `not_required`, `awaiting_approval`, `approved`, `rejected`, `expired`, `revoked`. Selection: `eligible`, `preferred`, `selected`, `rejected`, `fallback`, `excluded`. Each summary chip retains its dimension; no overall "healthy" state |
+| Statuses | Explicitly cross-dimensional summary. Lifecycle: `planned`, `queued`, `ready`, `active`, `running`, `blocked`, `completed`, `failed`, `historical`. Availability: `available`, `degraded`, `unavailable`, `disconnected`, `unknown`. Evidence: `canonical`, `static_demo`, `simulated`, `future_live`, `partial`, `unknown`. Freshness: `fresh`, `aging`, `stale`, `expired`, `unknown`. Approval: `not_required`, `awaiting_approval`, `approved`, `rejected`, `expired`, `revoked`. Selection: `eligible`, `preferred`, `selected`, `rejected`, `fallback`, `excluded`. Each summary chip retains its dimension; no overall "healthy" state |
 | Primary views | System status, current project, effective policy, selected packet, approvals, blocked work, recent runs, costs, provider health, alerts, artifacts, notices |
 | Interactions | Inspect, Review, Compare, Preview, Trace, open destination; no execution shortcut |
 | Empty/unknown/degraded | Each card has independent coverage/freshness; unavailable cards remain visible with cause and evidence link |
