@@ -165,12 +165,15 @@ MellyCore is not hard-coupled to NVIDIA, Windows, Ollama, or llmfit.
 - Static local homepage and Live Cockpit V2 prototype.
 - Local M2 static-showcase implementation/polish chain through
   `b6e10a935f358582a02e5f43e19b0c9ec3f37ab5` (`feat: polish MellyCore
-  showcase rhythm`), ready for formal Showcase Acceptance but not yet formally
-  accepted. The six-commit linear chain materializes the first viewport,
-  technical product proof, instrument language, signature surfaces, the exact
-  ten-workspace ecosystem, and global rhythm in `site/`. It is local and
-  unpushed in this lineage; it claims no merge, deployment, public release,
-  provider connection, workspace backend, or runtime activation.
+  showcase rhythm`), formally accepted with non-blocking limitations by
+  `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003` on candidate
+  `8264d29712396fa71101aedb578f5d5a13f33d8d`. M2 is complete and
+  `SHOWCASE_READY = YES` for this local candidate lineage. The six-commit
+  linear chain materializes the first viewport, technical product proof,
+  instrument language, signature surfaces, the exact ten-workspace ecosystem,
+  and global rhythm in `site/`. It is local and unpushed in this lineage; it
+  claims no merge, deployment, public release, provider connection, workspace
+  backend, or runtime activation.
 - Report-only Loop Operations Foundation: 9 registered loops, 1 exercised loop,
   0 production-enabled loops, and two human-invoked `project-health` runs.
 - Context Gate through I4: guarded admission, 7 validated canonical records,

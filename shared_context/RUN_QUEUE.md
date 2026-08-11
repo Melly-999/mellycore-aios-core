@@ -52,17 +52,19 @@ chain then completed the bounded M2 implementation/polish sequence:
 5. `MELLYCORE-M2-ECOSYSTEM-CONVERSION-001` — `b8b5c2fe3706d923c03660262be63afaacbcd71c`
 6. `MELLYCORE-M2-GLOBAL-RHYTHM-POLISH-001` — `b6e10a935f358582a02e5f43e19b0c9ec3f37ab5`
 
-The last task reported `PASS_WITH_LIMITATIONS`; its review found no further
-visual polish required before formal Acceptance. The M2 implementation/polish
-state is therefore ready for, but has not received, formal acceptance.
+The last implementation task reported `PASS_WITH_LIMITATIONS`; its review found
+no further visual polish required before formal Acceptance. Independent final
+rerun `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003` accepted candidate
+`8264d29712396fa71101aedb578f5d5a13f33d8d` with non-blocking limitations.
+M2 is therefore complete and `SHOWCASE_READY = YES` for the local candidate
+lineage. This acceptance does not authorize push, merge, deployment, public
+release, provider/runtime activation, workspace backend, or live connection.
 
 **NEXT M2 COMMERCIAL-LANE TASK:**
-`MELLYCORE-M2-SHOWCASE-ACCEPTANCE-001`. This is the next M2 task, not a
-replacement for the repository-wide Global Pointer or any independently
-governed parallel lane above. Formal acceptance must decide whether M2 may be
-marked complete. No push, merge, deployment, public release, provider/runtime
-activation, workspace backend, or live connection is claimed by this local
-chain or by this reconciliation.
+`MELLYCORE-M2-PUBLIC-SHOWCASE-RELEASE-001` is recommended only as a separate,
+explicitly authorized release task. It is not started or authorized here and
+does not replace the repository-wide Global Pointer or independently governed
+parallel lanes.
 
 **POST-SHOWCASE PLATFORM WORK** (explicitly kept off the M2 critical path):
 Agent Runtime Product Track scaffold implementation (`BLOCKED` behind

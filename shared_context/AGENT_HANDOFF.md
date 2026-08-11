@@ -1,5 +1,38 @@
 # Agent Handoff
 
+## Latest Update — M2 Showcase accepted with non-blocking limitations (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003)
+
+Independent final acceptance rerun `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003`
+reviewed exact candidate `8264d29712396fa71101aedb578f5d5a13f33d8d`
+(`fix: make M2 mobile nav focus range-safe`) from its sole expected parent
+`c3493c501158a10240d6ab7c099a763c3e7eb78d` in clean isolated worktree
+`C:\AI\MellyCore_Workspace\02_Worktrees\mellycore-m2-showcase-acceptance-003`.
+The completed remediation worktree was verified clean and was not modified.
+
+Verdict: `ACCEPTED_WITH_NON_BLOCKING_LIMITATIONS`; `SHOWCASE_READY = YES` and
+M2 is complete for this local candidate lineage. Fresh ordinary keyboard
+traversal at 320, 360, 375, 390, and 430 px followed `Skip to content` →
+`Command Center` → `Product evidence` → `Safety` → `Static dashboard`. The
+final link and its complete focus treatment were contained at every primary
+width. Critically, 390 px advanced to `scrollLeft=110/110` and 430 px to
+`70/70`; no manual rail scrolling was used. Additional 380, 400, 412, and
+420 px range checks passed. 1440, 1024, 768, 720, 430, 390, 375, 360, and
+320 px had no document-level horizontal overflow; reduced motion, local mouse
+horizontal scrolling, logical Tab/Shift+Tab, exact two-layer / ten-workspace
+4 / 3 / 3 model, static/truthful semantics, zero scripts, zero duplicate IDs,
+and resolving fragments were independently verified.
+
+The inherited tablet Shared Context orphan, unused `.card-grid--4`, favicon
+404, skip-link DOM focus-transfer limitation, mobile depth, and `MVP demo —
+Planned` wording remain `UNCHANGED` and non-blocking. No `site/**` file was
+modified by acceptance. No push, merge, deployment, public release,
+provider/runtime activation, workspace backend, credential, or external
+operation occurred. Durable evidence is
+`docs/tasks/MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003.md`.
+
+Recommended next task only: `MELLYCORE-M2-PUBLIC-SHOWCASE-RELEASE-001`, which
+requires its own explicit authorization and is not started by this record.
+
 ## Latest Update — M2 mobile navigation focus range remediated (MELLYCORE-M2-MOBILE-NAV-REMEDIATION-002)
 
 `MELLYCORE-M2-MOBILE-NAV-REMEDIATION-002` completed the bounded remediation for
