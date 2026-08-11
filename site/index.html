@@ -177,15 +177,62 @@
           <p class="section-subtitle">A framework-neutral way to understand potential runtime boundaries around MellyCore—without asserting installation, support, connection, execution, or authorization.</p>
         </header>
         <div class="runtime-constellation" aria-label="Representative runtime constellation">
-          <div class="runtime-center"><span class="hud-label">Framework bridge</span><strong>MellyCore</strong><span>Projection, not runtime owner</span></div>
-          <ul class="runtime-orbit-list">
-            <li><strong>Claude Code</strong><span>Reference concept</span></li>
-            <li><strong>OpenAI Agents SDK</strong><span>Reference concept</span></li>
-            <li><strong>LangGraph</strong><span>Reference concept</span></li>
-            <li><strong>CrewAI</strong><span>Reference concept</span></li>
-            <li><strong>AutoGen</strong><span>Reference concept</span></li>
-            <li><strong>MellyCore Custom</strong><span>Planned projection</span></li>
-          </ul>
+          <div class="runtime-orbital-stage" aria-label="Runtime framework projection states">
+            <span class="runtime-orbit runtime-orbit--main"></span>
+            <span class="runtime-orbit runtime-orbit--bearing"></span>
+            <span class="runtime-spoke runtime-spoke--one"></span>
+            <span class="runtime-spoke runtime-spoke--two"></span>
+            <span class="runtime-spoke runtime-spoke--three"></span>
+            <div class="runtime-center">
+              <span class="runtime-center-index">Projection 01 / 06</span>
+              <span class="hud-label">Framework bridge</span>
+              <strong>MellyCore</strong>
+              <span>Projection, not runtime owner</span>
+            </div>
+            <div class="runtime-node runtime-node--claude">
+              <strong>Claude Code</strong>
+              <span><b>State</b><i></i>Reference</span>
+            </div>
+            <div class="runtime-node runtime-node--openai">
+              <strong>OpenAI Agents SDK</strong>
+              <span><b>State</b><i></i>Reference</span>
+            </div>
+            <div class="runtime-node runtime-node--langgraph">
+              <strong>LangGraph</strong>
+              <span><b>State</b><i></i>Reference</span>
+            </div>
+            <div class="runtime-node runtime-node--crewai">
+              <strong>CrewAI</strong>
+              <span><b>State</b><i></i>Reference</span>
+            </div>
+            <div class="runtime-node runtime-node--autogen">
+              <strong>AutoGen</strong>
+              <span><b>State</b><i></i>Reference</span>
+            </div>
+            <div class="runtime-node runtime-node--custom runtime-node--planned">
+              <strong>MellyCore Custom</strong>
+              <span><b>State</b><i></i>Planned projection</span>
+            </div>
+          </div>
+          <div class="runtime-mobile-rail" aria-label="Runtime framework projection states">
+            <div class="runtime-mobile-center">
+              <span class="hud-label">Framework-neutral center</span>
+              <strong>MellyCore projection</strong>
+              <span>Not a runtime owner</span>
+            </div>
+            <ol>
+              <li><strong>Claude Code</strong><span>Reference</span></li>
+              <li><strong>OpenAI Agents SDK</strong><span>Reference</span></li>
+              <li><strong>LangGraph</strong><span>Reference</span></li>
+              <li><strong>CrewAI</strong><span>Reference</span></li>
+              <li><strong>AutoGen</strong><span>Reference</span></li>
+              <li class="is-planned"><strong>MellyCore Custom</strong><span>Planned projection</span></li>
+            </ol>
+          </div>
+          <div class="runtime-state-key" aria-label="Runtime state legend">
+            <span><b class="runtime-state-mark"></b><strong>Reference</strong> — canonical framework term, not implementation evidence</span>
+            <span><b class="runtime-state-mark runtime-state-mark--planned"></b><strong>Planned projection</strong> — product direction only</span>
+          </div>
           <p class="router-hub-note"><strong>Displayed does not mean installed, supported, connected, running, or authorized.</strong> The constellation is a static framework-boundary projection with no provider calls or runtime activity.</p>
         </div>
       </div>
@@ -274,68 +321,93 @@
         </header>
 
         <div class="knowledge-graph-layout">
-          <aside class="glass-panel knowledge-cluster-rail" aria-labelledby="cluster-rail-title">
-            <h3 id="cluster-rail-title">Relationship clusters</h3>
-            <p>Representative clusters describe a readable product view, not observed production topology.</p>
-            <ol class="cluster-list">
-              <li><span class="cluster-swatch cluster-swatch--violet" aria-hidden="true"></span><span>product-foundation</span></li>
-              <li><span class="cluster-swatch cluster-swatch--blue" aria-hidden="true"></span><span>static-showcase</span></li>
-              <li><span class="cluster-swatch cluster-swatch--cyan" aria-hidden="true"></span><span>shared-context</span></li>
-              <li><span class="cluster-swatch cluster-swatch--dashed" aria-hidden="true"></span><span>approval-boundary</span></li>
-              <li><span class="cluster-swatch cluster-swatch--violet" aria-hidden="true"></span><span>knowledge-graph</span></li>
-              <li><span class="cluster-swatch cluster-swatch--lavender" aria-hidden="true"></span><span>repository-governance</span></li>
-              <li><span class="cluster-swatch cluster-swatch--dormant" aria-hidden="true"></span><span>runtime-concepts</span></li>
-              <li><span class="cluster-swatch cluster-swatch--dashed" aria-hidden="true"></span><span>evidence-records</span></li>
-            </ol>
-          </aside>
-
-          <div class="glass-panel knowledge-graph-canvas" aria-labelledby="graph-canvas-title">
+          <div class="graph-instrument knowledge-graph-canvas" aria-labelledby="graph-canvas-title">
             <div class="canvas-header">
               <div>
                 <h3 id="graph-canvas-title">Representative relationship map</h3>
-                <p>CSS-only cluster shells and relationship lines. Every relationship is illustrative or derived from committed project records—not live ingestion.</p>
+                <p>Five provenance-bearing fields and five selective relationships derived from committed project records—not live ingestion.</p>
               </div>
               <span class="static-preview-notice"><strong>Derived static view.</strong> This graph projects source records; it is not a source of truth.</span>
             </div>
-            <div class="graph-map" aria-hidden="true">
-              <div class="graph-line graph-line--one"></div>
-              <div class="graph-line graph-line--two"></div>
-              <div class="graph-line graph-line--three"></div>
-              <div class="graph-line graph-line--four"></div>
-              <div class="graph-line graph-line--five"></div>
+            <div class="graph-map" role="group" aria-label="Spatial relationship fields with visible provenance">
+              <svg class="graph-relationships" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <defs>
+                  <marker id="graph-arrow-blue" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+                    <path d="M 0 0 L 8 4 L 0 8 z"></path>
+                  </marker>
+                  <marker id="graph-arrow-cyan" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+                    <path d="M 0 0 L 8 4 L 0 8 z"></path>
+                  </marker>
+                </defs>
+                <path class="graph-edge graph-edge--projection" d="M 270 170 C 350 190, 360 260, 430 292" marker-end="url(#graph-arrow-blue)"></path>
+                <path class="graph-edge graph-edge--reference" d="M 470 365 C 390 430, 330 450, 270 486" marker-end="url(#graph-arrow-cyan)"></path>
+                <path class="graph-edge graph-edge--projection" d="M 585 300 C 665 250, 690 205, 745 185" marker-end="url(#graph-arrow-blue)"></path>
+                <path class="graph-edge graph-edge--approval" d="M 805 260 C 820 310, 815 350, 800 392"></path>
+                <path class="graph-edge graph-edge--approval graph-edge--approval-pair" d="M 817 260 C 832 310, 827 350, 812 392"></path>
+                <path class="graph-edge graph-edge--evidence" d="M 735 475 C 620 535, 450 535, 300 490" marker-end="url(#graph-arrow-cyan)"></path>
+                <text x="318" y="210">projects from</text>
+                <text x="334" y="444">references</text>
+                <text x="650" y="229">projects</text>
+                <text class="graph-edge-label--approval" x="838" y="330">approval boundary</text>
+                <text x="630" y="510">evidence trail</text>
+              </svg>
               <div class="graph-cluster graph-cluster--foundation">
-                <span class="graph-cluster-title">Foundation</span>
-                <span class="graph-node graph-node--large">MellyCore projection</span>
+                <span class="graph-cluster-index">Field 01</span>
+                <span class="graph-cluster-title">Product foundation</span>
+                <span class="graph-node graph-node--large">MellyCore product vision</span>
                 <span class="graph-node">Product vision</span>
                 <span class="graph-node">Design constraints</span>
+                <span class="graph-provenance"><b>Origin</b><i></i><strong>PROJECT_STATE</strong></span>
               </div>
               <div class="graph-cluster graph-cluster--context">
-                <span class="graph-cluster-title">Shared context</span>
-                <span class="graph-node graph-node--large">Committed context</span>
+                <span class="graph-cluster-index">Field 02 / canonical source</span>
+                <span class="graph-cluster-title">Canonical context</span>
+                <span class="graph-node graph-node--large">Committed records</span>
                 <span class="graph-node">Decisions</span>
                 <span class="graph-node">Source references</span>
+                <span class="graph-provenance"><b>Origin</b><i></i><strong>shared_context/</strong></span>
               </div>
               <div class="graph-cluster graph-cluster--knowledge">
-                <span class="graph-cluster-title">Operations view</span>
+                <span class="graph-cluster-index">Field 03 / derived plane</span>
+                <span class="graph-cluster-title">Operations projection</span>
                 <span class="graph-node graph-node--large">Derived graph</span>
                 <span class="graph-node">Runtime concepts</span>
                 <span class="graph-node">Tools</span>
+                <span class="graph-provenance"><b>Origin</b><i></i><strong>Representative view</strong></span>
               </div>
               <div class="graph-cluster graph-cluster--safety">
+                <span class="graph-cluster-index">Field 04 / governed crossing</span>
                 <span class="graph-cluster-title">Approval boundary</span>
                 <span class="graph-node graph-node--large">Operator approval</span>
                 <span class="graph-node">Fail-closed policy</span>
                 <span class="graph-node">No autonomous action</span>
+                <span class="graph-provenance"><b>Origin</b><i></i><strong>SAFETY_CONTRACT</strong></span>
               </div>
               <div class="graph-cluster graph-cluster--repo">
+                <span class="graph-cluster-index">Field 05 / retained proof</span>
                 <span class="graph-cluster-title">Evidence records</span>
                 <span class="graph-node graph-node--large">Audit snapshot</span>
                 <span class="graph-node">Review trail</span>
                 <span class="graph-node">Validation record</span>
+                <span class="graph-provenance"><b>Origin</b><i></i><strong>Repository records</strong></span>
               </div>
             </div>
+            <div class="graph-mobile-ledger" aria-label="Mobile relationship and provenance summary">
+              <div class="graph-mobile-center">
+                <span class="hud-label">Center of gravity</span>
+                <strong>Canonical context</strong>
+                <span>Committed records remain the source; this graph only projects their relationships.</span>
+              </div>
+              <ol>
+                <li><span class="graph-mobile-step">01</span><div><strong>Product foundation <span>projects from</span> canonical context</strong><p>Origin — PROJECT_STATE</p></div></li>
+                <li><span class="graph-mobile-step">02</span><div><strong>Canonical context <span>references</span> committed source records</strong><p>Origin — shared_context/</p></div></li>
+                <li><span class="graph-mobile-step">03</span><div><strong>Context <span>projects</span> a derived operations view</strong><p>Origin — representative static view</p></div></li>
+                <li class="is-approval"><span class="graph-mobile-step">04</span><div><strong>Operations <span>crosses</span> an operator approval boundary</strong><p>Origin — SAFETY_CONTRACT</p></div></li>
+                <li><span class="graph-mobile-step">05</span><div><strong>Evidence records <span>retain</span> the review trail</strong><p>Origin — repository records</p></div></li>
+              </ol>
+            </div>
             <div class="graph-text-fallback" aria-label="Graph text summary">
-              <p>Textual alternative: committed context and decisions inform a derived operations view; runtime concepts and tools remain projections; operator approval precedes any execution; evidence records retain the review trail. The graph owns none of these records.</p>
+              <p><strong>Textual alternative:</strong> product foundation projects from canonical context; committed context references source records and projects a derived operations view; operations cross an operator approval boundary; evidence records retain the review trail. Runtime and tool concepts remain projections. The graph owns none of these records.</p>
             </div>
           </div>
 
