@@ -464,12 +464,11 @@
           <h2 id="context-title">Shared Context / Memory Layer</h2>
           <p class="section-subtitle">A committed-context projection for the static preview. Metadata labels are shown; this page does not read from a runtime memory system.</p>
         </header>
-        <ul class="card-grid card-grid--3">
-          <li class="memory-card">
-            <span class="card-name">shared_context/</span>
-            <p class="card-desc">A committed source directory represented in this preview.</p>
-            <span class="card-meta"><span class="hud-label hud-label--muted">Directory</span></span>
-          </li>
+        <dl class="workspace-calibration context-source">
+          <div><dt>Source directory</dt><i aria-hidden="true"></i><dd>shared_context/</dd></div>
+          <div><dt>Projected records</dt><i aria-hidden="true"></i><dd>9 of the committed set</dd></div>
+        </dl>
+        <ul class="card-grid card-grid--3 context-record-grid">
           <li class="memory-card">
             <span class="card-name">AGENT_HANDOFF.md</span>
             <p class="card-desc">A committed handoff record, shown as metadata only.</p>
@@ -813,56 +812,61 @@
           <h2 id="tooling-title">Tooling Layer</h2>
           <p class="section-subtitle">Representative workflow references for the product architecture. No tool is launched, connected, or operated from this page.</p>
         </header>
-        <ul class="card-grid card-grid--4">
-          <li class="memory-card">
-            <span class="card-meta"><span class="node-glyph" aria-hidden="true">WP</span></span>
-            <span class="card-name">Warp</span>
-            <p class="card-desc">Safe terminal workflows, operator prompts, repeatable runbooks.</p>
-            <span class="card-meta"><span class="status-chip status-chip--planned">Reference only</span></span>
-          </li>
-          <li class="memory-card">
-            <span class="card-meta"><span class="node-glyph" aria-hidden="true">ZD</span></span>
-            <span class="card-name">Zed</span>
-            <p class="card-desc">Editor-agent workspace, fast code navigation, local editing ergonomics.</p>
-            <span class="card-meta"><span class="status-chip status-chip--planned">Reference only</span></span>
-          </li>
-          <li class="memory-card">
-            <span class="card-meta"><span class="node-glyph" aria-hidden="true">VS</span></span>
-            <span class="card-name">VS Code</span>
-            <p class="card-desc">Broadly compatible editor workspace with extension-compatible docs.</p>
-            <span class="card-meta"><span class="status-chip status-chip--planned">Reference only</span></span>
-          </li>
-          <li class="memory-card">
-            <span class="card-meta"><span class="node-glyph" aria-hidden="true">GH</span></span>
-            <span class="card-name">GitHub</span>
-            <p class="card-desc">Remote source control, issues, PRs, review trail, collaboration history.</p>
-            <span class="card-meta"><span class="status-chip status-chip--planned">Reference only</span></span>
-          </li>
-          <li class="memory-card">
-            <span class="card-meta"><span class="node-glyph" aria-hidden="true">CL</span></span>
-            <span class="card-name">Claude Code</span>
-            <p class="card-desc">Architecture, reasoning, documentation, review workflows.</p>
-            <span class="card-meta"><span class="status-chip status-chip--planned">Reference only</span></span>
-          </li>
-          <li class="memory-card">
-            <span class="card-meta"><span class="node-glyph" aria-hidden="true">CX</span></span>
-            <span class="card-name">Codex</span>
-            <p class="card-desc">Implementation, validation, local git hygiene, PR preparation.</p>
-            <span class="card-meta"><span class="status-chip status-chip--planned">Reference only</span></span>
-          </li>
-          <li class="memory-card">
-            <span class="card-meta"><span class="node-glyph" aria-hidden="true">GL</span></span>
-            <span class="card-name">GLM 5.2</span>
-            <p class="card-desc">Drafting, iteration, exploration, reference implementation ideas.</p>
-            <span class="card-meta"><span class="status-chip status-chip--planned">Reference only</span></span>
-          </li>
-          <li class="memory-card">
-            <span class="card-meta"><span class="node-glyph" aria-hidden="true">CG</span></span>
-            <span class="card-name">ChatGPT</span>
-            <p class="card-desc">Strategy, context synthesis, prompt generation, planning, memory.</p>
-            <span class="card-meta"><span class="status-chip status-chip--planned">Reference only</span></span>
-          </li>
-        </ul>
+        <div class="tool-roster">
+          <section class="tool-band" aria-labelledby="tool-band-surfaces">
+            <h3 id="tool-band-surfaces" class="tool-band-title">Editor, terminal, and source surfaces</h3>
+            <ul class="tool-band-list">
+              <li class="tool-entry">
+                <span class="tool-entry-mark" aria-hidden="true">WP</span>
+                <span class="tool-entry-name">Warp</span>
+                <span class="tool-entry-role">Safe terminal workflows, operator prompts, repeatable runbooks.</span>
+              </li>
+              <li class="tool-entry">
+                <span class="tool-entry-mark" aria-hidden="true">ZD</span>
+                <span class="tool-entry-name">Zed</span>
+                <span class="tool-entry-role">Editor-agent workspace, fast code navigation, local editing ergonomics.</span>
+              </li>
+              <li class="tool-entry">
+                <span class="tool-entry-mark" aria-hidden="true">VS</span>
+                <span class="tool-entry-name">VS Code</span>
+                <span class="tool-entry-role">Broadly compatible editor workspace with extension-compatible docs.</span>
+              </li>
+              <li class="tool-entry">
+                <span class="tool-entry-mark" aria-hidden="true">GH</span>
+                <span class="tool-entry-name">GitHub</span>
+                <span class="tool-entry-role">Remote source control, issues, PRs, review trail, collaboration history.</span>
+              </li>
+            </ul>
+          </section>
+          <section class="tool-band" aria-labelledby="tool-band-agents">
+            <h3 id="tool-band-agents" class="tool-band-title">Agent surfaces</h3>
+            <ul class="tool-band-list">
+              <li class="tool-entry">
+                <span class="tool-entry-mark" aria-hidden="true">CL</span>
+                <span class="tool-entry-name">Claude Code</span>
+                <span class="tool-entry-role">Architecture, reasoning, documentation, review workflows.</span>
+              </li>
+              <li class="tool-entry">
+                <span class="tool-entry-mark" aria-hidden="true">CX</span>
+                <span class="tool-entry-name">Codex</span>
+                <span class="tool-entry-role">Implementation, validation, local git hygiene, PR preparation.</span>
+              </li>
+              <li class="tool-entry">
+                <span class="tool-entry-mark" aria-hidden="true">GL</span>
+                <span class="tool-entry-name">GLM 5.2</span>
+                <span class="tool-entry-role">Drafting, iteration, exploration, reference implementation ideas.</span>
+              </li>
+              <li class="tool-entry">
+                <span class="tool-entry-mark" aria-hidden="true">CG</span>
+                <span class="tool-entry-name">ChatGPT</span>
+                <span class="tool-entry-role">Strategy, context synthesis, prompt generation, planning, memory.</span>
+              </li>
+            </ul>
+          </section>
+          <dl class="workspace-calibration tool-roster-state">
+            <div><dt>Surface state</dt><i aria-hidden="true"></i><dd>Reference only — not launched or connected</dd></div>
+          </dl>
+        </div>
       </div>
     </section>
 

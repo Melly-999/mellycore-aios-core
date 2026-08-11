@@ -1376,12 +1376,15 @@
     transform: translate(-50%, -50%);
   }
 
-  .orbit-stage .pos-1 { left: 50%; top: 30%; }   /* inner — bootstrap */
-  .orbit-stage .pos-2 { left: 74%; top: 38%; }   /* mid — cross-agent smoke */
-  .orbit-stage .pos-3 { left: 27%; top: 62%; }   /* mid — design & spec docs */
-  .orbit-stage .pos-4 { left: 76%; top: 78%; }   /* outer — static website */
-  .orbit-stage .pos-5 { left: 20%; top: 20%; }   /* outer — mvp demo */
-  .orbit-stage .pos-6 { left: 50%; top: 87%; }   /* outermost — runtime, gated */
+  /* Radius from stage centre encodes project state, inner -> outer:
+     complete -> complete -> current -> pending -> planned -> approval-gated.
+     Radii (960x660 stage): 119 < 184 < 243 < 290 < 337 < 379. */
+  .orbit-stage .pos-1 { left: 50%; top: 32%; }     /* r119  complete   — bootstrap */
+  .orbit-stage .pos-3 { left: 31.5%; top: 57.5%; } /* r184  complete   — design & spec docs */
+  .orbit-stage .pos-4 { left: 74%; top: 61.5%; }   /* r243  current    — static website */
+  .orbit-stage .pos-2 { left: 76.5%; top: 29%; }   /* r290  pending    — cross-agent smoke */
+  .orbit-stage .pos-5 { left: 18.5%; top: 27.5%; } /* r337  planned    — mvp demo */
+  .orbit-stage .pos-6 { left: 17%; top: 81.5%; }   /* r379  gated      — runtime / provider */
 
   .roadmap-layout .roadmap-list {
     display: none;
@@ -2171,6 +2174,13 @@
     border-top: 0;
     border-left: 2px solid rgba(6, 182, 212, 0.5);
   }
+
+  /* The console column narrows here; two CTA columns would wrap each
+     label onto three lines, so the actions return to a single column. */
+  .operator-channel-actions {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+  }
 }
 
 @media (max-width: 599px) {
@@ -2194,6 +2204,106 @@
   .workspace-flagship::after,
   .operator-channel-copy::after {
     display: none;
+  }
+}
+
+/* ── Shared Context / Memory Layer ─────────────────────────── */
+/* The source directory is a container, not one of the projected
+   records, so it reads as an instrument line above the card grid
+   and leaves the MemoryCard grid an even three-by-three. */
+.context-source {
+  max-width: 620px;
+  margin-bottom: var(--space-4);
+}
+
+@media (max-width: 599px) {
+  .context-record-grid {
+    gap: var(--space-2);
+  }
+
+  .context-record-grid .memory-card {
+    padding: var(--space-2);
+  }
+}
+
+/* ── Tooling Layer ─────────────────────────────────────────── */
+/* Tools are workflow surfaces, not shared-context records, so this
+   roster deliberately does not reuse MemoryCard. It stays quieter
+   than the flagship surfaces above it. */
+.tool-roster {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding: clamp(var(--space-3), 4vw, var(--space-4));
+  border: 1px solid var(--border-command-soft);
+  border-radius: var(--radius-panel);
+  background: rgba(10, 11, 20, 0.6);
+}
+
+.tool-band-title {
+  margin: 0 0 var(--space-2);
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--border-command-soft);
+  color: var(--color-dormant-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-hud);
+  font-weight: 600;
+  letter-spacing: var(--tracking-hud);
+  text-transform: uppercase;
+}
+
+.tool-band-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tool-entry {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 2px var(--space-2);
+  align-items: baseline;
+  padding-block: 10px;
+}
+
+.tool-entry + .tool-entry {
+  border-top: 1px solid rgba(196, 181, 253, 0.07);
+}
+
+.tool-entry-mark {
+  grid-row: span 2;
+  color: var(--color-muted-lavender);
+  font-family: var(--font-mono);
+  font-size: var(--text-chip);
+  letter-spacing: 0.04em;
+}
+
+.tool-entry-name {
+  color: var(--color-cold-white);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+}
+
+.tool-entry-role {
+  color: var(--color-dormant-text);
+  font-size: var(--text-caption);
+  line-height: 1.55;
+}
+
+.tool-roster-state {
+  margin-top: 0;
+}
+
+@media (min-width: 880px) {
+  .tool-roster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-6);
+  }
+
+  .tool-roster-state {
+    grid-column: 1 / -1;
   }
 }
 
