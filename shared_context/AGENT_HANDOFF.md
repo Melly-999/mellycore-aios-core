@@ -1,5 +1,61 @@
 # Agent Handoff
 
+## Latest Update — M2 mobile navigation focus range remediated (MELLYCORE-M2-MOBILE-NAV-REMEDIATION-002)
+
+`MELLYCORE-M2-MOBILE-NAV-REMEDIATION-002` completed the bounded remediation for
+acceptance blocker `M2-ACCEPT-02` on isolated branch
+`fix/mellycore-m2-mobile-nav-remediation-002`, created directly from pinned
+baseline `c3493c501158a10240d6ab7c099a763c3e7eb78d`
+(`docs: record M2 showcase rerun rejection`). The source acceptance worktree
+`C:\AI\MellyCore_Workspace\02_Worktrees\mellycore-m2-showcase-acceptance-002`
+was verified clean and was not modified.
+
+Fresh pre-edit browser evidence reproduced the range-specific failure:
+360 and 375 px passed ordinary keyboard focus containment, while 390 and
+430 px focused `Static dashboard` with the rail still at `scrollLeft = 0`,
+clipping the label and its 2 px cyan outline with 2 px offset despite valid
+95 px and 55 px end-scroll ranges. Document client and scroll widths matched at
+all reproduced widths.
+
+The root cause was Chromium's native nearest-scroll/focus behavior treating the
+partially visible final anchor as sufficiently visible at wider mobile widths
+and not consistently applying the existing `scroll-padding-inline-end` to the
+focus outline containment problem. `scroll-margin-inline-end` alone, trailing
+content-space relocation, and larger scroll padding were tested with temporary
+CSS and did not solve the complete mobile range.
+
+The implementation is one small CSS-only change in `site/css/sections.css`: the
+existing mobile `.command-bar nav` now uses proximity horizontal scroll snap;
+mobile nav anchors get a 32 px inline-end snap margin and start snap alignment;
+and the focused anchor snaps to the inline end. No HTML, product copy,
+JavaScript, dependency, product surface, runtime, provider, deployment, or
+credential file changed.
+
+Fresh post-edit browser evidence passes at 320, 360, 375, 390, and 430 px.
+At 390 px, focusing `Static dashboard` now moves the rail to `scrollLeft = 95`
+of 95 and fully contains x=230.59..333.80 plus the complete focus treatment
+inside the x=24..366 rail. At 430 px, it moves to `scrollLeft = 55` of 55 and
+fully contains x=270.59..373.80 plus the focus treatment inside the x=24..406
+rail. Shift+Tab returns to Safety and Tab onward reaches the hero CTA without a
+focus trap. 720-CSS-pixel reflow, 768, 1024, and 1440 px regression checks show
+no document overflow or material accepted-surface regression.
+
+Product truth remains unchanged: the canonical H1 is intact, exactly two
+top-level layers remain represented, exactly ten workspaces remain present in
+waves 4 / 3 / 3, scripts remain 0, duplicate IDs remain 0, fragment links
+resolve, authored local links return HTTP 200 when served from repository root,
+and reduced-motion behavior remains intact. The known favicon 404 and other
+previously disclosed non-blocking debt remain unchanged.
+
+This remediation does **not** mark M2 complete, accept the Showcase, publish,
+merge, deploy, release, activate a provider/runtime, or connect a workspace
+backend. The durable task record is
+`docs/tasks/MELLYCORE-M2-MOBILE-NAV-REMEDIATION-002.md`.
+
+Exact next bounded task, not started:
+
+`MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003`
+
 ## Latest Update — M2 Showcase Acceptance rerun rejected (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-002)
 
 `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-002` independently reviewed candidate

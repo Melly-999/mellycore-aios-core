@@ -48,6 +48,7 @@
     overflow-x: auto;
     padding-right: 32px;
     scroll-padding-inline-end: 32px;
+    scroll-snap-type: x proximity;
     scrollbar-width: thin;
   }
 
@@ -72,6 +73,12 @@
     display: inline-flex;
     min-height: 32px;
     align-items: center;
+    scroll-margin-inline-end: 32px;
+    scroll-snap-align: start;
+  }
+
+  .command-bar nav a:focus {
+    scroll-snap-align: end;
   }
 
 }
