@@ -44,6 +44,11 @@
   scroll-margin-top: var(--space-20);
 }
 
+.page-section[id]:focus-visible {
+  outline: 3px solid var(--color-signal-cyan);
+  outline-offset: -6px;
+}
+
 @media (min-width: 768px) {
   .page-section[id] {
     scroll-margin-top: var(--space-15);
