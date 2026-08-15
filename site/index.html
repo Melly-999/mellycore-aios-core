@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
   <meta name="description" content="MellyCore AIOS is a local-first, operator-controlled AI Operating System. Explore a static, provenance-bearing preview of its Command Center and planned AI Workspaces.">
   <title>MellyCore AIOS — Operator-Controlled AI Operating System</title>
   <link rel="stylesheet" href="css/tokens.css">
@@ -19,9 +20,13 @@
       <span class="hud-label hud-label--caution">Static product preview</span>
       <nav aria-label="Page sections">
         <ul>
-          <li><a href="#agent-constellation">Command Center</a></li>
-          <li><a href="#living-context-graph">Product evidence</a></li>
+          <li><a href="#agent-constellation">Constellation</a></li>
+          <li><a href="#model-router-panel">Router</a></li>
+          <li><a href="#shared-context-memory">Context</a></li>
+          <li><a href="#living-context-graph">Graph</a></li>
+          <li><a href="#roadmap-orbit-map">Roadmap</a></li>
           <li><a href="#safety-control-layer">Safety</a></li>
+          <li><a href="#tooling-layer">Tooling</a></li>
           <li><a href="dashboard.html">Static dashboard</a></li>
         </ul>
       </nav>
@@ -92,6 +97,18 @@
             <span class="hud-label">Data origin</span>
             <span class="status-chip status-chip--planned">Simulated</span>
             <span>Static product projection</span>
+          </div>
+          <div class="command-deck-readout" aria-label="Static command deck provenance">
+            <div class="command-deck-topline">
+              <span class="hud-label hud-label--muted">Command deck / visual readout</span>
+              <span class="status-chip status-chip--planned">STATIC PREVIEW</span>
+            </div>
+            <dl>
+              <div><dt>Context plane</dt><dd>REPOSITORY SNAPSHOT</dd></div>
+              <div><dt>Routing plane</dt><dd>FIXTURE DATA</dd></div>
+              <div><dt>Governance plane</dt><dd>APPROVAL-GATED</dd></div>
+            </dl>
+            <p>NO EXECUTION CAPABILITY</p>
           </div>
           <figcaption id="source-arena-caption">Representative Source Arena view of context, routing policy, operator approval, and evidence. It does not reflect live provider or runtime state.</figcaption>
         </figure>
@@ -519,16 +536,19 @@
     </section>
 
     <!-- Section 4.5: Living Context Graph static preview -->
-    <section id="living-context-graph" class="page-section knowledge-graph-section" aria-labelledby="knowledge-graph-title">
+    <section id="living-context-graph" class="page-section knowledge-graph-section cockpit-graph" aria-labelledby="knowledge-graph-title">
       <div class="container">
         <header class="section-header knowledge-graph-header">
           <div class="hud-row">
+            <span class="hud-label hud-label--muted">Knowledge &amp; operations graph</span>
             <span class="hud-label hud-label--muted">Derived product view</span>
             <span class="hud-label hud-label--caution">No live ingestion</span>
           </div>
           <h2 id="knowledge-graph-title">Knowledge &amp; Operations Graph</h2>
           <p class="section-subtitle">A derived, representative view of how context, decisions, systems, runtime concepts, and evidence become understandable together. It does not own canonical truth.</p>
-          <div class="knowledge-graph-badges" aria-label="Fixture summary">
+          <div class="knowledge-graph-badges" aria-label="Fixture summary and provenance">
+            <span class="status-chip status-chip--planned">FIXTURE DATA</span>
+            <span class="status-chip status-chip--planned">REPOSITORY SNAPSHOT</span>
             <span class="status-chip status-chip--planned">Derived fixture</span>
             <span class="status-chip status-chip--planned">Representative clusters</span>
             <span class="status-chip status-chip--blocked">No live ingestion</span>
@@ -536,13 +556,34 @@
         </header>
 
         <div class="knowledge-graph-layout">
+          <aside class="glass-panel knowledge-cluster-rail" aria-labelledby="cluster-rail-title">
+            <div class="rail-heading">
+              <span class="rail-kicker">Context / routing</span>
+              <h3 id="cluster-rail-title">Field index</h3>
+            </div>
+            <div class="rail-callout"><strong>STATIC PREVIEW</strong><span>Committed context is represented as a derived fixture.</span></div>
+            <p>Five representative fields organize the current repository-backed projection. They are labels, not runtime inputs.</p>
+            <ol class="cluster-list">
+              <li><span class="cluster-swatch cluster-swatch--violet" aria-hidden="true"></span><span>product-foundation</span></li>
+              <li><span class="cluster-swatch cluster-swatch--cyan" aria-hidden="true"></span><span>canonical-context</span></li>
+              <li><span class="cluster-swatch cluster-swatch--blue" aria-hidden="true"></span><span>operations-projection</span></li>
+              <li><span class="cluster-swatch cluster-swatch--amber" aria-hidden="true"></span><span>approval-boundary</span></li>
+              <li><span class="cluster-swatch cluster-swatch--lavender" aria-hidden="true"></span><span>evidence-records</span></li>
+            </ol>
+          </aside>
+
           <div class="graph-instrument knowledge-graph-canvas" aria-labelledby="graph-canvas-title">
             <div class="canvas-header">
               <div>
+                <span class="canvas-kicker">Central relationship view</span>
                 <h3 id="graph-canvas-title">Representative relationship map</h3>
                 <p>Five provenance-bearing fields and five selective relationships derived from committed project records—not live ingestion.</p>
               </div>
-              <span class="static-preview-notice"><strong>Derived static view.</strong> This graph projects source records; it is not a source of truth.</span>
+              <div class="canvas-status">
+                <span class="hud-label hud-label--muted">SIMULATED SURFACE</span>
+                <span class="hud-label hud-label--caution">NO RUNTIME FEED</span>
+                <span class="static-preview-notice"><strong>Derived static view.</strong> This graph projects source records; it is not a source of truth.</span>
+              </div>
             </div>
             <div class="graph-map" role="group" aria-label="Spatial relationship fields with visible provenance">
               <svg class="graph-relationships" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true" focusable="false">
@@ -627,7 +668,15 @@
           </div>
 
           <aside class="glass-panel knowledge-node-panel" aria-labelledby="node-panel-title">
-            <h3 id="node-panel-title">Derived-view boundary</h3>
+            <div class="rail-heading">
+              <span class="rail-kicker">Governance / observability</span>
+              <h3 id="node-panel-title">Derived-view boundary</h3>
+            </div>
+            <ul class="observability-list" aria-label="Static governance readout">
+              <li><span>Provenance</span><strong>Source-linked</strong></li>
+              <li><span>Execution</span><strong>Not implemented</strong></li>
+              <li><span>Connection</span><strong>None in preview</strong></li>
+            </ul>
             <div class="node-detail-card">
               <span class="card-name">Knowledge &amp; Operations Graph</span>
               <p class="card-desc">A product projection over committed sources. It never replaces a source record or runtime owner.</p>
@@ -672,6 +721,20 @@
             </ul>
             <p class="static-claim-copy">Data origin: simulated/representative projection of committed records. No live graph generation, runtime ingestion, backend/API/database, external integration, or execution exists here.</p>
           </div>
+        </div>
+
+        <div class="glass-panel cockpit-workflow-strip" aria-labelledby="workflow-strip-title">
+          <div class="workflow-heading">
+            <span class="rail-kicker">Supervised workflow</span>
+            <h3 id="workflow-strip-title">Observe → analyze → recommend → approve</h3>
+            <p>Control flow shown as a static design contract. Implementation and execution are outside this preview.</p>
+          </div>
+          <ol class="workflow-steps">
+            <li><span class="workflow-index">01</span><strong>Observe</strong><span>Reviewable context</span></li>
+            <li><span class="workflow-index">02</span><strong>Analyze</strong><span>Structured reasoning</span></li>
+            <li><span class="workflow-index">03</span><strong>Recommend</strong><span>Human-readable proposal</span></li>
+            <li><span class="workflow-index">04</span><strong>Approve</strong><span>Operator decision gate</span></li>
+          </ol>
         </div>
       </div>
     </section>

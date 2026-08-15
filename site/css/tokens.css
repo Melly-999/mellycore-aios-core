@@ -3,6 +3,8 @@
    and docs/specs/MELLYCORE_FRONTEND_SCAFFOLD_PLAN_001.md §6. */
 
 :root {
+  color-scheme: dark;
+
   /* Color language (design system §6) */
   --color-void-black: #050508;
   --color-deep-space: #0a0b14;
