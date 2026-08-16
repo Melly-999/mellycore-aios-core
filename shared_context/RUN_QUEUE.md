@@ -3,13 +3,19 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
-## Cockpit Post-Hotfix Production Lane — Complete / State-Synced
+## Cockpit Post-Hotfix Production Lane — Complete / State-Synced / PR #38 Merged
 
 The cockpit hotfix chain is complete through exact-SHA Production verification.
-At the state-sync baseline, canonical `clean-origin/main` and public Production
-identify `a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1`, with successful GitHub
-Production deployment `5926788051`. The public alias is
-`https://mellycore-aios-core.vercel.app`.
+Canonical `clean-origin/main` now identifies merge commit
+`1bab6d2e98933f33396ce7a16adae8f87bf526e7` (PR #38, merge parents
+`a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1` and
+`9821ca1558b9221d1caa431e7055c2a8e7228a55`), with successful GitHub Production
+deployment `5927679324` for that exact SHA
+(`MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-PRODUCTION-VERIFY-001`,
+`PRODUCTION_VERIFIED`). The public alias is
+`https://mellycore-aios-core.vercel.app`. The prior baseline SHA
+`a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1` and deployment `5926788051` below
+are retained as historical context for the hotfix itself, not current state.
 
 `MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-PRODUCTION-VERIFY-001` returned
 `PRODUCTION_VERIFIED`: all five required HTTP resources returned 200 and
@@ -32,13 +38,17 @@ PRODUCTION_VERIFIED / STATE_SYNCED` once committed locally. It does not
 authorize or perform publication of this docs commit.
 
 Recommended next execution lane: plain-name Freelance/Profile ROI before M3.
-Alternative: an M3 Knowledge & Operations Graph specification. Neither has a
-task identifier, start state, implementation authority, or merge/deploy
-authority from this entry; this local cockpit recommendation does not reorder
-the Global Pointer or any independent provider, runtime, Product Track,
-completed PR #36 release lineage, 3D, or governance lane. For this branch, the
-current gate is an independent exact-head review of PR #38 after the bounded
-PR #36 lifecycle remediation; merge remains separately authorized.
+Alternatives, none authorized or started: an M3 Knowledge & Operations Graph
+specification (or Homepage Spec / M3 planning after the ROI decision);
+optional cleanup of the now-merged PR #38 remote branch
+(`docs/mellycore-cockpit-post-hotfix-production-state-sync-001`, head
+`9821ca1558b9221d1caa431e7055c2a8e7228a55`); an optional docs-only CI guard
+that fails a docs-labeled PR touching `site/**`. None has a task identifier,
+start state, implementation authority, or merge/deploy authority from this
+entry; none reorders the Global Pointer or any independent provider, runtime,
+Product Track, completed PR #36 release lineage, 3D, or governance lane. PR
+#38 is merged and Production-verified — it is not a pending gate for this
+branch.
 
 ## Cinematic AIOS Roadmap Materialization — M0-M5 Sequencing
 
@@ -61,14 +71,18 @@ final canonical-state reconciliation into `main` at
 authorize Stage C, a provider connection, or spend; its internal current gate
 must be verified from its separate lineage and newest task/Git/GitHub evidence.
 
-**CURRENT PR #38 GATE:** the PR #36 remediation and pre-merge review entries
-below are historical. PR #36 merged into canonical `main` as
-`b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9`; the bounded PR #38 lifecycle
-remediation corrects the surviving stale owner text. The next gate for this
-branch is an independent exact-head PR #38 review. PR #38 merge and the
-automatic Production publication it would cause remain separately authorized;
-this lane does not reorder the repository-wide Batch pointer or any
-independently governed parallel lane.
+**PR #38 MERGED — PRODUCTION CLOSED OUT:** the PR #36 remediation and
+pre-merge review entries below are historical. PR #36 merged into canonical
+`main` as `b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9`; the bounded PR #38
+lifecycle remediation corrected the surviving stale owner text and PR #38
+subsequently merged as `1bab6d2e98933f33396ce7a16adae8f87bf526e7` (parents
+`a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1` and
+`9821ca1558b9221d1caa431e7055c2a8e7228a55`). Its automatic Production
+publication was independently verified: GitHub deployment `5927679324`,
+environment `Production`, state `success`, exact SHA match —
+`PRODUCTION_VERIFIED`. There is no pending gate for this branch; this lane
+does not reorder the repository-wide Batch pointer or any independently
+governed parallel lane.
 
 **NEXT DESIGN TASK**: `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` — review
 and canonicalize (or reject) the externally generated Claude Design System
@@ -116,8 +130,9 @@ formerly named remediation-review gate are historical rather than current
 executable tasks. GitHub deployment `5847256173` for exact PR #36 merge commit
 `b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9` completed successfully in
 `Production`; the M2 public showcase release is therefore merged and
-Production published. Provider/runtime activation remains `NO`. The current
-branch gate is the independent exact-head PR #38 review described above.
+Production published. Provider/runtime activation remains `NO`. PR #38 has
+since merged and its Production deployment is verified, as described above;
+there is no pending review gate for this branch.
 
 **POST-SHOWCASE PLATFORM WORK** (explicitly kept off the M2 critical path):
 Agent Runtime Product Track scaffold implementation (`BLOCKED` behind

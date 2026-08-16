@@ -1,5 +1,43 @@
 # Agent Handoff
 
+## Latest Update — PR #38 merged and Production closeout recorded (MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-CLOSEOUT-001)
+
+[PR #38](https://github.com/Melly-999/mellycore-aios-core/pull/38) (the
+docs/state-only sync recorded by the entry immediately below) is now
+**MERGED**. Canonical `main` equals merge commit
+`1bab6d2e98933f33396ce7a16adae8f87bf526e7`; merge parents are old base/main
+`a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1` and PR head
+`9821ca1558b9221d1caa431e7055c2a8e7228a55`.
+
+`MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-PRODUCTION-VERIFY-001`
+independently verified the automatic Production deployment for that exact
+merge SHA and returned `PRODUCTION_VERIFIED`: GitHub deployment `5927679324`
+matched the merge SHA, environment `Production`, state `success`. The public
+alias `https://mellycore-aios-core.vercel.app` returned HTTP 200. `git
+compare` between `a6bb3f37…` and the merge commit shows exactly five changed
+files, all under `docs/tasks/**` and `shared_context/**` — no `site/**` path
+changed — so all five `site/css/*.css` Git blobs are unchanged and public
+CSS/root assets remain byte-identical to the prior Production release.
+Lightweight browser smoke (no console errors, no horizontal overflow, skip
+link → `#main-content`, hero CTA → `#ai-workspaces`) passed at 1440x900,
+390x844, and 375x812; the full 305-assertion QA matrix was not rerun.
+
+This closeout task then updated `shared_context/PROJECT_STATE.md`,
+`RUN_QUEUE.md`, and `TASK_INDEX.md` to record the merge and remove stale
+"PR #38 review is the current gate" language, and created exactly one local
+docs-only commit on an isolated worktree/branch from canonical main. No push,
+merge, deploy, PR mutation, remote branch cleanup, or Vercel-setting change
+occurred. The remote PR branch
+`docs/mellycore-cockpit-post-hotfix-production-state-sync-001` remains
+present at head `9821ca1558b9221d1caa431e7055c2a8e7228a55`; its cleanup is
+optional and unperformed. No full WCAG claim and no new runtime/provider/MCP/
+backend behavior is claimed.
+
+Next advisory lanes only, none started or authorized: plain-name
+Freelance/Profile ROI lane; optional cleanup of the remote PR #38 branch
+above; an optional docs-only CI guard that fails a docs-labeled PR touching
+`site/**`; optional Homepage Spec / M3 planning after the ROI decision.
+
 ## Latest Update — Cockpit hotfix Production verified and state-synced (MELLYCORE-COCKPIT-POST-HOTFIX-PRODUCTION-STATE-SYNC-001)
 
 The cockpit skip/CTA focus hotfix is complete through public Production
@@ -126,10 +164,12 @@ Former next task at creation time, retained as historical sequencing evidence:
 `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`
 
 That item is not a current executable gate after PR #36's verified merge and
-Production deployment; no review completion is inferred. The current branch
-gate is independent exact-head review of PR #38 after its bounded lifecycle
-remediation. PR #38 merge remains separately authorized. No provider call or
-runtime execution is introduced by this docs/state correction.
+Production deployment; no review completion is inferred. PR #38 has since
+merged as `1bab6d2e98933f33396ce7a16adae8f87bf526e7` and was
+Production-verified and closed out (see the "Latest Update" entry at the top
+of this file); it is retained here as historical sequencing context, not a
+current gate. No provider call or runtime execution is introduced by this
+docs/state correction.
 
 ## Latest Update — M2 Showcase accepted with non-blocking limitations (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003)
 
