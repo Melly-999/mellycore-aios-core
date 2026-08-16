@@ -188,6 +188,10 @@ scripts/          Project validation, Context Gate, and Loop Operations utilitie
 tests/            Standard-library tests for the implemented guarded tooling
 ```
 
+## License
+
+This project is licensed under the Apache License 2.0. See [LICENSE](./LICENSE).
+
 ## Author and Related Work
 
 **Mateusz Ozimkiewicz**

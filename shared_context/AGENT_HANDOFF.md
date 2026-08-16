@@ -1,6 +1,53 @@
 # Agent Handoff
 
-## Latest Update — PR #36 composed integration living-state remediation (MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001)
+## Latest Update — Apache 2.0 License Added; Multica-Inspired Runtime Architecture Reconciliation Recorded (MELLYCORE-RUNTIME-ARCHITECTURE-RECONCILIATION-001)
+
+`MELLYCORE-RUNTIME-ARCHITECTURE-RECONCILIATION-001` performed two
+documentation-only actions on branch
+`design/mellycore-claude-design-sync-001`, not pushed:
+
+1. **Licensing.** Added a root-level `LICENSE` (Apache License 2.0,
+   copyright 2026 Mateusz Ozimkiewicz) and a "License" section in
+   `README.md`. No `package.json`, `pyproject.toml`, or `Cargo.toml` exists
+   in this repository, so no package-manifest license field was updated.
+2. **Architecture reconciliation record.** Added
+   `docs/architecture/MELLYCORE-RUNTIME-ARCHITECTURE-RECONCILIATION-001.md`,
+   comparing MellyCore's currently observed architecture against seventeen
+   Multica-inspired runtime patterns (architectural inspiration only — no
+   Multica code copied, no Multica dependency introduced). Outcome: 4 `KEEP`
+   (provider adapters, capability discovery, execution event log, human
+   approval gates — already accepted/implemented), 7 `ADOPT`, 4 `ADAPT`,
+   2 `DEFER` (local execution daemon/runtime host and live heartbeat/status,
+   both blocked behind migration trigger #6 in the Model A Production
+   Deployment Authorization Contract), 0 `REJECT`. The record explicitly
+   states: no Multica fork/embed/core-dependency, no Multica source copying,
+   no plaintext-env high-value secrets, provider sessions remain a
+   continuity cache (not canonical memory), and agent-turn completion is
+   not task/project completion. It proposes six next canonical tasks, none
+   authorized by this record.
+
+Files changed: `LICENSE` (new), `README.md`,
+`docs/architecture/MELLYCORE-RUNTIME-ARCHITECTURE-RECONCILIATION-001.md`
+(new), this file. No `site/**`, `scripts/**`, or `shared_context/operations/**`
+file changed. Validation run and passing: `scripts/validate_project_state.py`
+(`PASS`), `scripts.context_gate audit --json` (0 findings), `scripts.loop_ops
+validate` (`PASS`, Phase 1 report-only, 9 loops), `unittest discover` (696
+tests, `OK`). No markdown lint tool is configured in this repository.
+
+No implementation, adapter, credential, runtime, merge, push, or deployment
+action occurred. Recommended next task, not started, not minted here:
+`MELLYCORE-RUNTIME-ARCHITECTURE-RECONCILIATION-REVIEW-001` (independent,
+fresh-session, read-only review of the reconciliation record).
+
+`MELLYCORE-RUNTIME-ARCHITECTURE-PORT-TO-CANONICAL-001` subsequently ported
+this same reconciliation onto the current canonical baseline
+(`clean-origin/main`) via cherry-pick, on new isolated branch
+`docs/mellycore-runtime-architecture-port-to-canonical-001`, so that the
+license and architecture-reconciliation content are available against
+canonical `main` rather than only the stale `design/mellycore-claude-design-sync-001`
+branch. That port performed no push, merge, or deployment.
+
+## Prior Update — PR #36 composed integration living-state remediation (MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001)
 
 `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001` completed one local,
 governance-only remediation commit from exact PR #36 head
