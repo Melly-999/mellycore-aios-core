@@ -1,6 +1,72 @@
 # Agent Handoff
 
-## Latest Update — PR #38 merged and Production closeout recorded (MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-CLOSEOUT-001)
+## Latest Update — Cockpit V3.1 canonicalized; implementation task minted (MELLYCORE-COCKPIT-V3-CANONICALIZATION-001)
+
+**Result:** `PASS_WITH_LIMITATIONS`. Docs/spec/state only — **no `site/**`,
+runtime, provider, integration, workflow, or deployment change.** Not pushed.
+
+Baseline: canonical `clean-origin/main` @
+`034962f3aab8ebdade6e84e054b2b2ef863db645` (PR #39 merge). Branch:
+`docs/mellycore-cockpit-v3-canonicalization-001`.
+
+**Why this ran.** `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` preflight returned
+`BLOCKED_BY_CANONICAL_DOCS_SPEC_GATE`. This task reconciled the Operator's
+accepted **MellyCore Cockpit V3.1** direction with canonical state.
+
+**P1 finding `CV3-CANON-001` — corrected.** The canonical description of
+`MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` was factually wrong. It named
+`.agents/`, `.claude/skills/`, and `skills-lock.json` on
+`design/mellycore-claude-design-sync-001` as "the externally generated Claude
+Design System handoff (tokens, components, site/cockpit UI kits, `SKILL.md`)".
+A fresh read-only snapshot at `55bb5e9` found those paths hold **only eight
+third-party Higgsfield AI media/marketing skill packages**, with
+`.claude/skills/` containing nothing but symlinks to them. No MellyCore design
+material exists there. Those packages are **rejected, not adopted**. The
+genuine V3.1 design input is unversioned and external to the repository and was
+reviewed directly.
+
+**Prior design-task evidence.** All four M1 design tasks
+(`CLAUDE-DESIGN-HANDOFF-REVIEW-001`, `HERO-DIRECTION-DECISION-001`,
+`DESIGN-SYSTEM-CINEMATIC-AMENDMENT-001`, `DOCS-INTEGRATION-REVIEW-001`)
+classified **NOT_EXECUTED** after searching all local and `clean-origin` refs,
+all registered worktrees, `docs/tasks/` on every ref, and full commit history.
+Nothing was reused on the strength of conversation text or untracked files.
+
+**Decisions recorded.**
+- V3.1 **ADOPTED** as the primary Command Center direction, scoped to
+  `site/dashboard.html`.
+- **Source Arena retained** for the homepage/hero surface. No either/or
+  decision was forced — the two occupy different product roles.
+- New canonical owner: `docs/specs/MELLYCORE_COMMAND_CENTER_COCKPIT_SPEC_001.md`.
+  Verified that no existing spec owned `site/dashboard.html`.
+- Knowledge-graph semantics **reused** from
+  `docs/product/knowledge_graph_console_spec.md`, not duplicated.
+- Design System delta is minimal and surface-scoped; no global rule deleted.
+
+**Truthfulness.** The V3.1 artifact audited clean: all eight of its `LIVE`
+strings are negations (`NO LIVE PROVIDERS`, `TOPOLOGY DERIVED FROM REPOSITORY ·
+NOT LIVE RUNTIME`, `FROZEN · NOT LIVE`) and it contains **zero** occurrences of
+tokens/min, cost/hour, active requests, error rate, success rate, "Healthy",
+"Operational", or "Running". The fake telemetry visible in the older
+"Reference A" target image is **absent from V3.1**. Execution remains locked;
+no provider is connected.
+
+**Minted.** `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` — `ELIGIBLE`, bounded to
+the primary cockpit surface only, awaiting **explicit Operator authorization**.
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001` — `PLANNED`, blocked on it.
+Eligibility authorizes nothing by itself.
+
+**Limitations.** The V3.1 artifacts live only on the Operator's Desktop and are
+not under version control; the durability risk is mitigated by making the
+specification the source of truth, but archiving the binaries remains an
+Operator decision. Two Desktop HTML files share an identical byte count and the
+authoritative one was not determined. The two Desktop `.zip` archives were not
+opened. `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` remains `NOT_EXECUTED` and is
+**not** a cockpit prerequisite. No WCAG conformance claimed.
+
+Evidence: `docs/tasks/MELLYCORE-COCKPIT-V3-CANONICALIZATION-001.md`.
+
+## Prior Update — PR #38 merged and Production closeout recorded (MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-CLOSEOUT-001)
 
 [PR #38](https://github.com/Melly-999/mellycore-aios-core/pull/38) (the
 docs/state-only sync recorded by the entry immediately below) is now

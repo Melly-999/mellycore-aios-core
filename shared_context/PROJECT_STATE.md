@@ -2,6 +2,27 @@
 
 Project name: MellyCore AIOS
 
+## Command Center Cockpit Direction — Accepted (2026-08-17)
+
+The primary Command Center cockpit surface (`site/dashboard.html`) has an
+accepted visual direction, **MellyCore Cockpit V3.1**, and a canonical
+specification owner, `docs/specs/MELLYCORE_COMMAND_CENTER_COCKPIT_SPEC_001.md`,
+both recorded by `MELLYCORE-COCKPIT-V3-CANONICALIZATION-001`.
+
+Surface ownership is split and complementary: the **homepage/hero** retains the
+Source Arena metaphor; the **cockpit** adopts V3.1. Neither displaces the other.
+
+Current truthful state of that surface:
+
+- The cockpit direction is **specified, not implemented.** Canonical `main`
+  contains the earlier Production-verified dashboard, not a V3.1 cockpit.
+- Implementation is owned by `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001`, which
+  is `ELIGIBLE` and **awaiting explicit Operator authorization**. Eligibility
+  is not authorization, and does not authorize merge or deployment.
+- Execution remains **locked**; no provider is connected; no runtime is active.
+- The V3.1 design artifacts are **unversioned and external** to the repository.
+  The specification, not the artifact, is the durable source of truth.
+
 ## Canonical Product Identity
 
 MellyCore is a local-first, operator-controlled **AI Operating System**.
