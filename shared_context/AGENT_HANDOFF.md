@@ -1,5 +1,43 @@
 # Agent Handoff
 
+## Latest Update — Cockpit hotfix Production verified and state-synced (MELLYCORE-COCKPIT-POST-HOTFIX-PRODUCTION-STATE-SYNC-001)
+
+The cockpit skip/CTA focus hotfix is complete through public Production
+verification. At the 2026-08-16 state-sync baseline, `clean-origin/main` and
+the verified Production release both resolve to
+`a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1` (`fix: preserve focus for
+cockpit skip and CTA anchors`), direct parent
+`ed6de2d26ab86a852c43e9932196c9e754887bea`. Public URL:
+`https://mellycore-aios-core.vercel.app`.
+
+`MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-PRODUCTION-VERIFY-001` returned
+`PRODUCTION_VERIFIED`. GitHub Production deployment `5926788051` recorded the
+exact SHA, state `success`, and `Deployment has completed`. The public root and
+four CSS assets returned HTTP 200 and matched their exact Git blobs. Production
+Chrome QA passed 305/305 assertions across five viewports; skip link passed
+25/25, hero CTA 25/25, and command-bar regression 175/175. Pre-merge validation
+passed 696 tests.
+
+Historical Claude review
+`MELLYCORE-COCKPIT-FINAL-ACCEPTANCE-CLAUDE-REVIEW-001` remains
+`PASS_WITH_LIMITATIONS`; its applicable F1 and F2 focus-ownership limitations
+are now fixed and Production verified. No full WCAG claim is made. Earlier
+local-only sync `MELLYCORE-COCKPIT-POST-PUBLICATION-STATE-SYNC-001B` at
+`52966763f915de6fe8a41de1abe5c02fd585a1de` is stale and superseded; it is not
+an ancestor of the current baseline and its Claude-review `PENDING` statement
+is no longer current.
+
+Honesty labels remain visible and no fake-live, backend, provider, runtime,
+MCP, telemetry, external-API, workflow, configuration, or deployment behavior
+was introduced. This state-sync branch changes docs/state only and performs no
+push, merge, deploy, or Vercel mutation.
+
+Cockpit lane after this docs commit: `COMPLETE / PRODUCTION_VERIFIED /
+STATE_SYNCED`. Recommended next execution lane, not started or authorized:
+plain-name Freelance/Profile ROI before M3. Alternative, also not authorized:
+an M3 Knowledge & Operations Graph specification. Neither recommendation
+reorders the repository-wide global pointer or another independent lane.
+
 ## Latest Update — Apache 2.0 License Added; Multica-Inspired Runtime Architecture Reconciliation Recorded (MELLYCORE-RUNTIME-ARCHITECTURE-RECONCILIATION-001)
 
 `MELLYCORE-RUNTIME-ARCHITECTURE-RECONCILIATION-001` performed two
@@ -58,14 +96,22 @@ canonical-state truth drift) across `PROJECT_STATE.md`, `TASK_INDEX.md`,
 `RUN_QUEUE.md`, and this handoff, with durable evidence in
 `docs/tasks/MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001.md`.
 
-Current release truth: M2 is `COMPLETE`; M2 Acceptance is
+Creation-time release truth for that remediation: M2 was `COMPLETE`; M2
+Acceptance was
 `ACCEPTED_WITH_NON_BLOCKING_LIMITATIONS`; `SHOWCASE_READY = YES`; accepted
 release SHA `a71846f1800b921b509995ac2b65b317fcf290bf` is pushed to
-`review/mellycore-m2-showcase-acceptance-003`; and non-draft PR #36 is open
+`review/mellycore-m2-showcase-acceptance-003`; and non-draft PR #36 was open
 against canonical base `947f33d27d5546775186e96bdc61e30db78c0b3d`.
-The push and PR creation are complete. Merge is not performed or authorized;
-`PUBLIC_SHOWCASE = NOT_RELEASED` for this M2 release; Production verification
-is not performed for PR #36. Provider/runtime activation remains `NO`.
+At that point, push and PR creation were complete while merge, public release,
+and Production verification had not yet occurred. This paragraph is retained
+as historical task-creation context, not current lifecycle state.
+
+Current verified PR #36 lifecycle: remediated PR head
+`d0c05cffd4791b6d896fbb7851ccbdf6323c3284` merged into canonical `main` as
+`b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9` on 2026-08-11. GitHub deployment
+`5847256173` for that exact merge commit completed successfully in
+`Production`; the M2 public showcase release is merged and Production
+published. Provider/runtime activation remains `NO`.
 
 The full composed integration review returned `NEEDS_REMEDIATION`. This local
 remediation reconciles the living owner files and distinguishes the
@@ -75,14 +121,15 @@ a provider connection, or spend is authorized. It changes no `site/**`, code,
 test, Roadmap, Product Vision, design, provider/runtime implementation, M3, 3D,
 or Drift implementation file.
 
-Exact next task, not started or authorized by this record:
+Former next task at creation time, retained as historical sequencing evidence:
 
 `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`
 
-Production-impacting merge remains blocked pending that independent review and
-a later exact-head, explicit Operator authorization. No push, PR update, merge,
-deployment, Production verification, provider call, or runtime execution
-occurred in this remediation task.
+That item is not a current executable gate after PR #36's verified merge and
+Production deployment; no review completion is inferred. The current branch
+gate is independent exact-head review of PR #38 after its bounded lifecycle
+remediation. PR #38 merge remains separately authorized. No provider call or
+runtime execution is introduced by this docs/state correction.
 
 ## Latest Update — M2 Showcase accepted with non-blocking limitations (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003)
 

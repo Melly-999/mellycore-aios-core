@@ -3,6 +3,43 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
+## Cockpit Post-Hotfix Production Lane — Complete / State-Synced
+
+The cockpit hotfix chain is complete through exact-SHA Production verification.
+At the state-sync baseline, canonical `clean-origin/main` and public Production
+identify `a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1`, with successful GitHub
+Production deployment `5926788051`. The public alias is
+`https://mellycore-aios-core.vercel.app`.
+
+`MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-PRODUCTION-VERIFY-001` returned
+`PRODUCTION_VERIFIED`: all five required HTTP resources returned 200 and
+matched their release Git blobs; Chrome passed 305/305 assertions across five
+viewports; skip link passed 25/25, hero CTA 25/25, and command-bar regression
+175/175. The applicable F1/F2 limitations from historical
+`MELLYCORE-COCKPIT-FINAL-ACCEPTANCE-CLAUDE-REVIEW-001`
+(`PASS_WITH_LIMITATIONS`) are fixed and Production verified. The review's
+historical outcome remains unchanged; no full WCAG claim is made.
+
+Local-only `MELLYCORE-COCKPIT-POST-PUBLICATION-STATE-SYNC-001B` commit
+`52966763f915de6fe8a41de1abe5c02fd585a1de` is stale and superseded. Its
+Claude-review `PENDING / NOT RECORDED` statement is not current, and the commit
+is not part of the canonical lineage.
+
+The cockpit remains a static, truthful preview with no backend, provider,
+runtime, MCP, telemetry, external API, live ingestion, or execution capability.
+This docs-only sync closes the cockpit lane as `COMPLETE /
+PRODUCTION_VERIFIED / STATE_SYNCED` once committed locally. It does not
+authorize or perform publication of this docs commit.
+
+Recommended next execution lane: plain-name Freelance/Profile ROI before M3.
+Alternative: an M3 Knowledge & Operations Graph specification. Neither has a
+task identifier, start state, implementation authority, or merge/deploy
+authority from this entry; this local cockpit recommendation does not reorder
+the Global Pointer or any independent provider, runtime, Product Track,
+completed PR #36 release lineage, 3D, or governance lane. For this branch, the
+current gate is an independent exact-head review of PR #38 after the bounded
+PR #36 lifecycle remediation; merge remains separately authorized.
+
 ## Cinematic AIOS Roadmap Materialization — M0-M5 Sequencing
 
 Produced by `MELLYCORE-TASK-INDEX-001` (isolated worktree
@@ -24,13 +61,14 @@ final canonical-state reconciliation into `main` at
 authorize Stage C, a provider connection, or spend; its internal current gate
 must be verified from its separate lineage and newest task/Git/GitHub evidence.
 
-**CURRENT AUTHORIZED EXECUTABLE TASK:**
-`MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001` is the bounded
-governance-only remediation for PR #36. This record completes that local
-remediation; the next executable M2/public-release lane task is independent
-`MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`. This lane does
-not reorder the repository-wide Batch pointer or any independently governed
-parallel lane.
+**CURRENT PR #38 GATE:** the PR #36 remediation and pre-merge review entries
+below are historical. PR #36 merged into canonical `main` as
+`b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9`; the bounded PR #38 lifecycle
+remediation corrects the surviving stale owner text. The next gate for this
+branch is an independent exact-head PR #38 review. PR #38 merge and the
+automatic Production publication it would cause remain separately authorized;
+this lane does not reorder the repository-wide Batch pointer or any
+independently governed parallel lane.
 
 **NEXT DESIGN TASK**: `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` — review
 and canonicalize (or reject) the externally generated Claude Design System
@@ -65,24 +103,21 @@ no further visual polish required before formal Acceptance. Independent final
 rerun `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003` accepted candidate
 `8264d29712396fa71101aedb578f5d5a13f33d8d` with non-blocking limitations.
 M2 is therefore complete and `SHOWCASE_READY = YES`. Accepted release SHA
-`a71846f1800b921b509995ac2b65b317fcf290bf` is pushed to remote branch
-`review/mellycore-m2-showcase-acceptance-003`; non-draft PR #36 is open against
-canonical base `947f33d27d5546775186e96bdc61e30db78c0b3d`.
+`a71846f1800b921b509995ac2b65b317fcf290bf` was incorporated through PR #36,
+whose remediated head `d0c05cffd4791b6d896fbb7851ccbdf6323c3284`
+merged into canonical `main` as
+`b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9` on 2026-08-11.
 
 `MELLYCORE-M2-PUBLIC-SHOWCASE-RELEASE-001` completed only its authorized push
 and PR-creation scope. `MELLYCORE-PR36-COMPOSED-INTEGRATION-REVIEW-001` then
-returned `NEEDS_REMEDIATION` on P1 finding `PR36-INT-001`. The current local
-remediation is `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001`; its exact
-next gate is
-`MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`.
-
-PR #36 is not merged, merge is not authorized, `PUBLIC_SHOWCASE =
-NOT_RELEASED` for this M2 release, Production verification is not performed,
-and provider/runtime activation remains `NO`. Because a merge to `main`
-immediately publishes to
-Vercel Production, production-impacting merge remains blocked pending the
-independent remediation review and a later exact-head, explicit Operator
-authorization.
+returned `NEEDS_REMEDIATION` on P1 finding `PR36-INT-001`, followed by
+`MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001`. Those entries and the
+formerly named remediation-review gate are historical rather than current
+executable tasks. GitHub deployment `5847256173` for exact PR #36 merge commit
+`b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9` completed successfully in
+`Production`; the M2 public showcase release is therefore merged and
+Production published. Provider/runtime activation remains `NO`. The current
+branch gate is the independent exact-head PR #38 review described above.
 
 **POST-SHOWCASE PLATFORM WORK** (explicitly kept off the M2 critical path):
 Agent Runtime Product Track scaffold implementation (`BLOCKED` behind
