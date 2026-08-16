@@ -169,24 +169,26 @@ MellyCore is not hard-coupled to NVIDIA, Windows, Ollama, or llmfit.
   `MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003` on candidate
   `8264d29712396fa71101aedb578f5d5a13f33d8d`. M2 is complete and
   `SHOWCASE_READY = YES`. Accepted release SHA
-  `a71846f1800b921b509995ac2b65b317fcf290bf` is pushed to remote branch
-  `review/mellycore-m2-showcase-acceptance-003`; PR #36 is open against
-  canonical base `947f33d27d5546775186e96bdc61e30db78c0b3d`. The six-commit
+  `a71846f1800b921b509995ac2b65b317fcf290bf` was incorporated through PR #36.
+  Its remediated head `d0c05cffd4791b6d896fbb7851ccbdf6323c3284`
+  merged into canonical `main` as
+  `b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9` on 2026-08-11. The six-commit
   linear chain materializes the first viewport, technical product proof,
   instrument language, signature surfaces, the exact ten-workspace ecosystem,
-  and global rhythm in `site/`. Merge is not performed or authorized;
-  `PUBLIC_SHOWCASE = NOT_RELEASED` for this M2 release; Production verification
-  is not performed for PR #36. No provider connection, workspace backend, or
-  runtime activation exists.
+  and global rhythm in `site/`. GitHub deployment `5847256173` for the exact
+  merge commit completed successfully in `Production`; the M2 public showcase
+  release is merged and Production published. No provider connection,
+  workspace backend, or runtime activation exists.
 - PR #36 composed integration review
   `MELLYCORE-PR36-COMPOSED-INTEGRATION-REVIEW-001` returned
   `NEEDS_REMEDIATION` on finding `PR36-INT-001` (P1 living canonical-state
   truth drift). `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001` is the
-  bounded governance remediation recorded by this lineage. The next gate is
-  independent task
-  `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`.
-  Production-impacting merge remains blocked pending that review and a later
-  exact-head, explicit Operator authorization.
+  bounded governance remediation recorded by this lineage. These pre-merge
+  entries, including the formerly named remediation-review gate, are
+  historical and do not remain current executable tasks after PR #36's merge.
+  The current branch gate is independent exact-head review of PR #38 after its
+  bounded lifecycle-state remediation; PR #38 merge remains separately
+  authorized.
 - Report-only Loop Operations Foundation: 9 registered loops, 1 exercised loop,
   0 production-enabled loops, and two human-invoked `project-health` runs.
 - Context Gate through I4: guarded admission, 7 validated canonical records,

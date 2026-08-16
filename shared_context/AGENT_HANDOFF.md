@@ -96,14 +96,22 @@ canonical-state truth drift) across `PROJECT_STATE.md`, `TASK_INDEX.md`,
 `RUN_QUEUE.md`, and this handoff, with durable evidence in
 `docs/tasks/MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-001.md`.
 
-Current release truth: M2 is `COMPLETE`; M2 Acceptance is
+Creation-time release truth for that remediation: M2 was `COMPLETE`; M2
+Acceptance was
 `ACCEPTED_WITH_NON_BLOCKING_LIMITATIONS`; `SHOWCASE_READY = YES`; accepted
 release SHA `a71846f1800b921b509995ac2b65b317fcf290bf` is pushed to
-`review/mellycore-m2-showcase-acceptance-003`; and non-draft PR #36 is open
+`review/mellycore-m2-showcase-acceptance-003`; and non-draft PR #36 was open
 against canonical base `947f33d27d5546775186e96bdc61e30db78c0b3d`.
-The push and PR creation are complete. Merge is not performed or authorized;
-`PUBLIC_SHOWCASE = NOT_RELEASED` for this M2 release; Production verification
-is not performed for PR #36. Provider/runtime activation remains `NO`.
+At that point, push and PR creation were complete while merge, public release,
+and Production verification had not yet occurred. This paragraph is retained
+as historical task-creation context, not current lifecycle state.
+
+Current verified PR #36 lifecycle: remediated PR head
+`d0c05cffd4791b6d896fbb7851ccbdf6323c3284` merged into canonical `main` as
+`b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9` on 2026-08-11. GitHub deployment
+`5847256173` for that exact merge commit completed successfully in
+`Production`; the M2 public showcase release is merged and Production
+published. Provider/runtime activation remains `NO`.
 
 The full composed integration review returned `NEEDS_REMEDIATION`. This local
 remediation reconciles the living owner files and distinguishes the
@@ -113,14 +121,15 @@ a provider connection, or spend is authorized. It changes no `site/**`, code,
 test, Roadmap, Product Vision, design, provider/runtime implementation, M3, 3D,
 or Drift implementation file.
 
-Exact next task, not started or authorized by this record:
+Former next task at creation time, retained as historical sequencing evidence:
 
 `MELLYCORE-PR36-COMPOSED-INTEGRATION-REMEDIATION-REVIEW-001`
 
-Production-impacting merge remains blocked pending that independent review and
-a later exact-head, explicit Operator authorization. No push, PR update, merge,
-deployment, Production verification, provider call, or runtime execution
-occurred in this remediation task.
+That item is not a current executable gate after PR #36's verified merge and
+Production deployment; no review completion is inferred. The current branch
+gate is independent exact-head review of PR #38 after its bounded lifecycle
+remediation. PR #38 merge remains separately authorized. No provider call or
+runtime execution is introduced by this docs/state correction.
 
 ## Latest Update — M2 Showcase accepted with non-blocking limitations (MELLYCORE-M2-SHOWCASE-ACCEPTANCE-003)
 
