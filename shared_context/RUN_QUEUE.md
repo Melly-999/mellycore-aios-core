@@ -3,6 +3,41 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
+## Cockpit Post-Hotfix Production Lane — Complete / State-Synced
+
+The cockpit hotfix chain is complete through exact-SHA Production verification.
+At the state-sync baseline, canonical `clean-origin/main` and public Production
+identify `a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1`, with successful GitHub
+Production deployment `5926788051`. The public alias is
+`https://mellycore-aios-core.vercel.app`.
+
+`MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-PRODUCTION-VERIFY-001` returned
+`PRODUCTION_VERIFIED`: all five required HTTP resources returned 200 and
+matched their release Git blobs; Chrome passed 305/305 assertions across five
+viewports; skip link passed 25/25, hero CTA 25/25, and command-bar regression
+175/175. The applicable F1/F2 limitations from historical
+`MELLYCORE-COCKPIT-FINAL-ACCEPTANCE-CLAUDE-REVIEW-001`
+(`PASS_WITH_LIMITATIONS`) are fixed and Production verified. The review's
+historical outcome remains unchanged; no full WCAG claim is made.
+
+Local-only `MELLYCORE-COCKPIT-POST-PUBLICATION-STATE-SYNC-001B` commit
+`52966763f915de6fe8a41de1abe5c02fd585a1de` is stale and superseded. Its
+Claude-review `PENDING / NOT RECORDED` statement is not current, and the commit
+is not part of the canonical lineage.
+
+The cockpit remains a static, truthful preview with no backend, provider,
+runtime, MCP, telemetry, external API, live ingestion, or execution capability.
+This docs-only sync closes the cockpit lane as `COMPLETE /
+PRODUCTION_VERIFIED / STATE_SYNCED` once committed locally. It does not
+authorize or perform publication of this docs commit.
+
+Recommended next execution lane: plain-name Freelance/Profile ROI before M3.
+Alternative: an M3 Knowledge & Operations Graph specification. Neither has a
+task identifier, start state, implementation authority, or merge/deploy
+authority from this entry; this local cockpit recommendation does not reorder
+the Global Pointer or any independent provider, runtime, Product Track, PR #36,
+3D, or governance lane.
+
 ## Cinematic AIOS Roadmap Materialization — M0-M5 Sequencing
 
 Produced by `MELLYCORE-TASK-INDEX-001` (isolated worktree

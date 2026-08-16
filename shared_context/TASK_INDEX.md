@@ -23,6 +23,23 @@ task. Full narrative detail lives in `shared_context/ROADMAP.md`,
 |---|---|---|
 | `MELLYCORE-OPENAI-BATCH-LIVE-SMOKE-AUTHORIZATION-001` | `IN_PROGRESS` | Repository-wide priority umbrella; independently governed and not reordered by PR #36. This pointer is not a live-execution authorization or a claim that a provider action is executable. Its internal current gate must be verified from its separate lineage and newest task/Git/GitHub evidence. |
 
+## Cockpit Production Hotfix Closure
+
+| Task ID | Status | Notes |
+|---|---|---|
+| `MELLYCORE-COCKPIT-FINAL-ACCEPTANCE-CLAUDE-REVIEW-001` | `COMPLETE` — `PASS_WITH_LIMITATIONS` | Historical review outcome preserved. Applicable F1 skip-link and F2 hero-CTA destination-focus limitations are closed by the Production-verified hotfix; no full WCAG claim. |
+| `MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-CANONICAL-RECONCILE-001` | `COMPLETE` — `PASS` | Reconciled the two-file HTML/CSS focus hotfix onto canonical base `ed6de2d…`; resulting release commit `a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1`. |
+| `MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-CANONICAL-ACCEPTANCE-001` | `COMPLETE` — `PASS / ACCEPT_FOR_MERGE_CONSIDERATION` | Independent five-width acceptance: skip 25/25, hero CTA 25/25, command anchors 175/175; 696 tests passed. |
+| `MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-MAIN-MERGE-002` | `COMPLETE` — `MERGED_AND_PUSHED` | Fast-forwarded exact base `ed6de2d…` to `a6bb3f3…` on canonical `clean-origin/main`; no force push or merge commit. |
+| `MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-PRODUCTION-VERIFY-001` | `COMPLETE` — `PRODUCTION_VERIFIED` | GitHub Production deployment `5926788051` succeeded for exact SHA `a6bb3f3…`; public root and four CSS assets returned 200 and matched Git blobs; Chrome 305/305. |
+| `MELLYCORE-COCKPIT-POST-PUBLICATION-STATE-SYNC-001B` | `COMPLETE` (local-only) — `SUPERSEDED` | Commit `52966763f915de6fe8a41de1abe5c02fd585a1de` is not in canonical lineage; its Claude-review `PENDING / NOT RECORDED` statement is stale. |
+| `MELLYCORE-COCKPIT-POST-HOTFIX-PRODUCTION-STATE-SYNC-001` | `COMPLETE` (local docs-only commit; not pushed) | Supersedes the stale sync and records exact Production SHA, deployment, F1/F2 closure, browser/HTTP/blob evidence, static-product truth, and the bounded next-lane recommendation. No site/runtime/deployment behavior. |
+
+Next recommendation only: plain-name Freelance/Profile ROI before M3;
+alternative M3 Knowledge & Operations Graph specification. Neither name mints
+a task identifier or authorizes work. This section does not reorder the Global
+Pointer or another independent lane.
+
 ## Cinematic AIOS Roadmap — M0-M5 (MELLYCORE-TASK-INDEX-001)
 
 Materializes the product-vision lock (`MELLYCORE-ROADMAP-LOCK-001B`, pinned

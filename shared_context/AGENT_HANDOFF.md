@@ -1,5 +1,43 @@
 # Agent Handoff
 
+## Latest Update — Cockpit hotfix Production verified and state-synced (MELLYCORE-COCKPIT-POST-HOTFIX-PRODUCTION-STATE-SYNC-001)
+
+The cockpit skip/CTA focus hotfix is complete through public Production
+verification. At the 2026-08-16 state-sync baseline, `clean-origin/main` and
+the verified Production release both resolve to
+`a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1` (`fix: preserve focus for
+cockpit skip and CTA anchors`), direct parent
+`ed6de2d26ab86a852c43e9932196c9e754887bea`. Public URL:
+`https://mellycore-aios-core.vercel.app`.
+
+`MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-PRODUCTION-VERIFY-001` returned
+`PRODUCTION_VERIFIED`. GitHub Production deployment `5926788051` recorded the
+exact SHA, state `success`, and `Deployment has completed`. The public root and
+four CSS assets returned HTTP 200 and matched their exact Git blobs. Production
+Chrome QA passed 305/305 assertions across five viewports; skip link passed
+25/25, hero CTA 25/25, and command-bar regression 175/175. Pre-merge validation
+passed 696 tests.
+
+Historical Claude review
+`MELLYCORE-COCKPIT-FINAL-ACCEPTANCE-CLAUDE-REVIEW-001` remains
+`PASS_WITH_LIMITATIONS`; its applicable F1 and F2 focus-ownership limitations
+are now fixed and Production verified. No full WCAG claim is made. Earlier
+local-only sync `MELLYCORE-COCKPIT-POST-PUBLICATION-STATE-SYNC-001B` at
+`52966763f915de6fe8a41de1abe5c02fd585a1de` is stale and superseded; it is not
+an ancestor of the current baseline and its Claude-review `PENDING` statement
+is no longer current.
+
+Honesty labels remain visible and no fake-live, backend, provider, runtime,
+MCP, telemetry, external-API, workflow, configuration, or deployment behavior
+was introduced. This state-sync branch changes docs/state only and performs no
+push, merge, deploy, or Vercel mutation.
+
+Cockpit lane after this docs commit: `COMPLETE / PRODUCTION_VERIFIED /
+STATE_SYNCED`. Recommended next execution lane, not started or authorized:
+plain-name Freelance/Profile ROI before M3. Alternative, also not authorized:
+an M3 Knowledge & Operations Graph specification. Neither recommendation
+reorders the repository-wide global pointer or another independent lane.
+
 ## Latest Update — Apache 2.0 License Added; Multica-Inspired Runtime Architecture Reconciliation Recorded (MELLYCORE-RUNTIME-ARCHITECTURE-RECONCILIATION-001)
 
 `MELLYCORE-RUNTIME-ARCHITECTURE-RECONCILIATION-001` performed two

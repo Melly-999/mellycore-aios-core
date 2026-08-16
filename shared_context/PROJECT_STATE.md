@@ -194,6 +194,67 @@ MellyCore is not hard-coupled to NVIDIA, Windows, Ollama, or llmfit.
 - Current audit baseline: 0 findings, index current, 0 writes.
 - Standard-library validation baseline: 245 tests.
 
+## MELLYCORE-COCKPIT Post-Hotfix Production State — Verified / Lane Closed
+
+At this state-sync baseline (2026-08-16), live `clean-origin/main` and the
+verified public Production release both identify exact SHA
+`a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1`. That commit is
+`fix: preserve focus for cockpit skip and CTA anchors`, with direct parent
+`ed6de2d26ab86a852c43e9932196c9e754887bea`. The accepted public static
+showcase remains `https://mellycore-aios-core.vercel.app`.
+
+`MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-PRODUCTION-VERIFY-001` returned
+`PRODUCTION_VERIFIED`. Existing GitHub deployment evidence identified
+deployment `5926788051`, exact SHA `a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1`,
+environment `Production`, state `success`, and description `Deployment has
+completed`. Its environment URL is
+`https://mellycore-aios-core-99cbtt12a-melly-999s-projects.vercel.app`.
+
+The public root plus `base.css`, `components.css`, `sections.css`, and
+`tokens.css` each returned HTTP 200 and matched the corresponding Git blob at
+the exact release SHA. The changed Production blobs were
+`c53a107e449af0afa409ddc04436591cadb05829` for `site/index.html` and
+`898ef949e755ab818489970ba092a35ecc025d4c` for
+`site/css/sections.css`.
+
+Real Chrome/Playwright Production QA passed 305/305 assertions: 61/61 at each
+of 1440x900, 1024x900, 768x900, 390x844, and 375x844. Keyboard evidence was
+skip link 25/25, hero CTA 25/25, and seven command-bar anchors 175/175.
+Pre-merge repository validation passed 696 tests. Focus, reduced motion,
+overflow, primary-text clipping, duplicate-ID, positive-tabindex, heading,
+navigation-label, section-label, status-semantics, console, runtime-exception,
+failed-request, and request-origin checks passed. This is not a full WCAG
+conformance claim.
+
+`MELLYCORE-COCKPIT-FINAL-ACCEPTANCE-CLAUDE-REVIEW-001` remains historically
+`PASS_WITH_LIMITATIONS`. Its applicable accessibility limitations are now
+closed by Production evidence: F1 (`#main-content` skip-link destination focus
+ownership) is fixed and verified; F2 (`#ai-workspaces` hero-CTA destination
+focus ownership) is fixed and verified. The historical review outcome is not
+rewritten as an unconditional `PASS`.
+
+The earlier `MELLYCORE-COCKPIT-POST-PUBLICATION-STATE-SYNC-001B` commit
+`52966763f915de6fe8a41de1abe5c02fd585a1de` was local-only, based on the older
+`bdfb5eebce3bbb828f9009b27710f77c3361a071` line, and is not an ancestor of
+this canonical baseline. Its `PENDING / NOT RECORDED` Claude-review statement
+is stale. This post-hotfix state sync supersedes that record; the stale commit
+is not cherry-picked or treated as canonical evidence.
+
+All required honesty labels remained visible: `STATIC PREVIEW`, `FIXTURE
+DATA`, `REPOSITORY SNAPSHOT`, `SIMULATED SURFACE`, `NO RUNTIME FEED`, `NO
+EXECUTION CAPABILITY`, and `NO LIVE INGESTION`. No affirmative fake-live claim
+or backend, provider, runtime, MCP, telemetry, external-API, workflow,
+configuration, or manual-deployment behavior was added or observed. Static
+product truth remains intact.
+
+Cockpit-lane state after this docs commit: `COMPLETE / PRODUCTION_VERIFIED /
+STATE_SYNCED`. The recommended next execution lane is the plain-name
+Freelance/Profile ROI lane before M3; it has no task identifier or execution
+authorization from this record. The alternative next lane is an M3 Knowledge
+& Operations Graph specification, likewise requiring separate definition and
+authorization. These recommendations do not reorder the repository-wide
+global pointer or any independently governed lane.
+
 ## Vercel Static Showcase — Accepted Production Deployment
 
 `https://mellycore-aios-core.vercel.app` is the **accepted production static
