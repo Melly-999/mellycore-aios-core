@@ -40,23 +40,27 @@
 }
 
 /* Keep every in-page destination clear of the wrapped sticky command bar. */
-.page-section[id] {
+.page-section[id],
+main#main-content {
   scroll-margin-top: var(--space-20);
 }
 
-.page-section[id]:focus-visible {
+.page-section[id]:focus-visible,
+main#main-content:focus-visible {
   outline: 3px solid var(--color-signal-cyan);
   outline-offset: -6px;
 }
 
 @media (min-width: 768px) {
-  .page-section[id] {
+  .page-section[id],
+  main#main-content {
     scroll-margin-top: var(--space-15);
   }
 }
 
 @media (min-width: 1024px) {
-  .page-section[id] {
+  .page-section[id],
+  main#main-content {
     scroll-margin-top: var(--space-10);
   }
 }
