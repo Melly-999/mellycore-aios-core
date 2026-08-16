@@ -34,11 +34,16 @@ task. Full narrative detail lives in `shared_context/ROADMAP.md`,
 | `MELLYCORE-COCKPIT-SKIP-CTA-FOCUS-HOTFIX-PRODUCTION-VERIFY-001` | `COMPLETE` — `PRODUCTION_VERIFIED` | GitHub Production deployment `5926788051` succeeded for exact SHA `a6bb3f3…`; public root and four CSS assets returned 200 and matched Git blobs; Chrome 305/305. |
 | `MELLYCORE-COCKPIT-POST-PUBLICATION-STATE-SYNC-001B` | `COMPLETE` (local-only) — `SUPERSEDED` | Commit `52966763f915de6fe8a41de1abe5c02fd585a1de` is not in canonical lineage; its Claude-review `PENDING / NOT RECORDED` statement is stale. |
 | `MELLYCORE-COCKPIT-POST-HOTFIX-PRODUCTION-STATE-SYNC-001` | `COMPLETE` (local docs-only commit; not pushed) | Supersedes the stale sync and records exact Production SHA, deployment, F1/F2 closure, browser/HTTP/blob evidence, static-product truth, and the bounded next-lane recommendation. No site/runtime/deployment behavior. |
+| `MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-PRODUCTION-VERIFY-001` | `COMPLETE` — `PRODUCTION_VERIFIED` | Read-only verification after PR #38 merged: remote main and merge commit both `1bab6d2e9…`, parents `a6bb3f37…`/`9821ca15…`; GitHub Production deployment `5927679324` succeeded for the exact SHA; public root and four CSS assets returned 200 and matched Git blobs (byte-identical to prior Production); lightweight smoke passed at 1440x900, 390x844, 375x812. |
+| `MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-CLOSEOUT-001` | `COMPLETE` (local docs-only commit; not pushed) | Records PR #38 as MERGED and closes the stale "PR #38 review is the current gate" language across shared context. No `site/**`, runtime, provider, MCP, deployment, config, or workflow file changed; no push, merge, deploy, or Vercel-setting change. |
 
 Next recommendation only: plain-name Freelance/Profile ROI before M3;
-alternative M3 Knowledge & Operations Graph specification. Neither name mints
-a task identifier or authorizes work. This section does not reorder the Global
-Pointer or another independent lane.
+optional cleanup of the now-merged PR #38 remote branch
+(`docs/mellycore-cockpit-post-hotfix-production-state-sync-001`, head
+`9821ca15…`); optional docs-only CI guard that fails a docs-labeled PR if it
+touches `site/**`; optional Homepage Spec / M3 planning after the ROI
+decision. None of these mints a task identifier or authorizes work. This
+section does not reorder the Global Pointer or another independent lane.
 
 ## Cinematic AIOS Roadmap — M0-M5 (MELLYCORE-TASK-INDEX-001)
 
@@ -108,7 +113,7 @@ none blocks another unless stated:
 
 - **GOVERNANCE** — `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003` (Agent Runtime Product Track, below) and the OpenAI Batch reconciliation chain (`RUN_QUEUE.md` "Current" section). Owns `docs/decisions/`, `docs/research/`, and the reconciliation-lineage branches only.
 - **DESIGN** — `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` → `MELLYCORE-HERO-DIRECTION-DECISION-001` → `MELLYCORE-DESIGN-SYSTEM-CINEMATIC-AMENDMENT-001`. Owns `shared_context/DESIGN_SYSTEM.md` (future amendment only) and the design-handoff worktree/branch it reviews — not this task's worktree or the primary checkout.
-- **IMPLEMENTATION / M2 RELEASE** — M2 implementation and Showcase Acceptance are complete. PR #36 merged into canonical `main` as `b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9`, and GitHub deployment `5847256173` for that exact merge commit succeeded in `Production`. The former PR #36 remediation-review pointer is historical, not a current executable task. The current branch gate is independent exact-head review of PR #38 after its bounded lifecycle-state remediation; PR #38 merge remains separately authorized.
+- **IMPLEMENTATION / M2 RELEASE** — M2 implementation and Showcase Acceptance are complete. PR #36 merged into canonical `main` as `b7ebd116f9cdfcd0d34e1b93cef58660a1ac90d9`, and GitHub deployment `5847256173` for that exact merge commit succeeded in `Production`. The former PR #36 remediation-review pointer is historical, not a current executable task. PR #38 has since merged as `1bab6d2e98933f33396ce7a16adae8f87bf526e7` (deployment `5927679324`, `PRODUCTION_VERIFIED`) and is closed out, not a pending gate; see "Cockpit Production Hotfix Closure" above.
 - **PLATFORM / RESEARCH** — Enterprise Provider Integration parallel track (below) and 3D Scene Foundation PR #28 (blocked on physical Gate B). Owns their respective spec/decision documents and paused PR only; neither is required for M2.
 
 GOVERNANCE, DESIGN, and PLATFORM/RESEARCH may run concurrently today.

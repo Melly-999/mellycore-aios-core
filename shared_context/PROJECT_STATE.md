@@ -186,9 +186,12 @@ MellyCore is not hard-coupled to NVIDIA, Windows, Ollama, or llmfit.
   bounded governance remediation recorded by this lineage. These pre-merge
   entries, including the formerly named remediation-review gate, are
   historical and do not remain current executable tasks after PR #36's merge.
-  The current branch gate is independent exact-head review of PR #38 after its
-  bounded lifecycle-state remediation; PR #38 merge remains separately
-  authorized.
+  PR #38 has since merged into canonical `main` as
+  `1bab6d2e98933f33396ce7a16adae8f87bf526e7`, Production-verified by
+  `MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-PRODUCTION-VERIFY-001` and
+  closed out by `MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-CLOSEOUT-001`;
+  it is no longer a pending gate. See "PR #38 Merge and Production Closeout"
+  below for current canonical state.
 - Report-only Loop Operations Foundation: 9 registered loops, 1 exercised loop,
   0 production-enabled loops, and two human-invoked `project-health` runs.
 - Context Gate through I4: guarded admission, 7 validated canonical records,
@@ -255,6 +258,49 @@ Freelance/Profile ROI lane before M3; it has no task identifier or execution
 authorization from this record. The alternative next lane is an M3 Knowledge
 & Operations Graph specification, likewise requiring separate definition and
 authorization. These recommendations do not reorder the repository-wide
+global pointer or any independently governed lane.
+
+## PR #38 Merge and Production Closeout — MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-CLOSEOUT-001
+
+The docs/state-only PR recorded by the section above,
+[PR #38](https://github.com/Melly-999/mellycore-aios-core/pull/38), is now
+**MERGED**. Canonical `main` now equals merge commit
+`1bab6d2e98933f33396ce7a16adae8f87bf526e7`, with merge parents old
+base/main `a6bb3f37679059a742e0f9d603f9f66c6ac5f5a1` and PR head
+`9821ca1558b9221d1caa431e7055c2a8e7228a55`.
+
+`MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-PRODUCTION-VERIFY-001`
+independently verified the automatic Production deployment for that exact
+merge SHA and returned `PRODUCTION_VERIFIED`. GitHub Production deployment
+`5927679324` matched the merge SHA exactly, environment `Production`, state
+`success`, description "Deployment has completed". The public alias
+`https://mellycore-aios-core.vercel.app` returned HTTP 200. Because PR #38
+changed only `docs/tasks/**` and `shared_context/**` (verified via
+`git compare` between `a6bb3f37…` and the merge commit — five files, no
+`site/**` paths), served site assets remain byte-identical to the previous
+Production release: all five `site/css/*.css` Git blob SHAs are unchanged
+between the merge commit and its `a6bb3f37…` parent, and the public root plus
+all four referenced CSS assets returned HTTP 200 with no console errors.
+Lightweight browser smoke passed with no console errors and no horizontal
+overflow at 1440x900, 390x844, and 375x812; the skip link still targets
+`#main-content` and the hero CTA still targets `#ai-workspaces`. This did not
+rerun the full 305-assertion Production QA matrix.
+
+No manual deployment occurred and no Vercel settings changed at any point in
+this verification or closeout. The remote PR branch
+`docs/mellycore-cockpit-post-hotfix-production-state-sync-001` remains present
+at head `9821ca1558b9221d1caa431e7055c2a8e7228a55`; its cleanup is optional and
+not performed by this record. No full WCAG conformance claim is made, and no
+new runtime, provider, MCP, or backend behavior is claimed — the cockpit
+remains a static, fixture-backed preview.
+
+This closeout supersedes the "current branch gate is PR #38 review" language
+elsewhere in shared context as stale; PR #38 is merged and Production-verified,
+not pending. Advisory next lanes only, none authorized or started by this
+record: the plain-name Freelance/Profile ROI lane; optional cleanup of the now
+-merged remote PR branch above; an optional docs-only CI guard that fails a
+PR labeled docs-only if it touches `site/**`; and optional Homepage Spec / M3
+planning after the ROI decision. None of these reorders the repository-wide
 global pointer or any independently governed lane.
 
 ## Vercel Static Showcase — Accepted Production Deployment
