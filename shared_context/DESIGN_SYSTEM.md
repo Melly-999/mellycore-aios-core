@@ -1,5 +1,23 @@
 # Design System
 
+## Surface Ownership
+
+MellyCore has two distinct primary visual surfaces. They are complementary, not
+competing, and neither displaces the other.
+
+| Surface | Primary direction | Behavioral owner |
+|---|---|---|
+| Homepage / commercial showcase hero (`site/index.html`) | **Source Arena** holographic metaphor | `docs/specs/MELLYCORE_HOMEPAGE_SPEC_001.md`, `docs/specs/MELLYCORE_HOLOGRAPHIC_UI_SPEC_001.md` |
+| Command Center cockpit (`site/dashboard.html`) | **MellyCore Cockpit V3.1** dense AI operations workstation | `docs/specs/MELLYCORE_COMMAND_CENTER_COCKPIT_SPEC_001.md` |
+
+Source Arena remains the leading cinematic metaphor for hero, showcase,
+transition, and model/source visualization. The Cockpit is the primary product
+composition for operational work. A rule written for one surface does not
+silently govern the other; where a rule is surface-specific, it says so.
+
+Recorded by `MELLYCORE-COCKPIT-V3-CANONICALIZATION-001` on Operator direction.
+Neither direction is a claim that the surface is implemented.
+
 ## Leading Visual Metaphor
 
 Source Arena is the leading holographic visual metaphor and intended first hero
@@ -36,7 +54,11 @@ design system does not treat it as accepted.
 
 Overview's core/orbit/hull, an orbital cube, roadmap orbit map, model-router
 constellation, or OmniRouter provider hub may appear only as supporting motifs.
-They must never displace Source Arena as the lead image or reduce readability.
+**On the homepage/hero surface** they must never displace Source Arena as the
+lead image or reduce readability. This constraint is scoped to that surface; it
+does not govern the Command Center cockpit, where the Knowledge & Operations
+Graph is the intended dominant element (see "Surface Ownership" above and
+"Command Center Cockpit" below).
 
 NASA or other space media is not part of the current product identity. Any NASA
 imagery still rendered by the legacy prototype is historical content behavior,
@@ -60,6 +82,44 @@ them as planned until implemented evidence exists.
 
 Avoid gamer RGB, hue cycling, casino trading UI, fake PnL, broker execution UX,
 unlabeled simulation, and ornamental effects that overpower operational evidence.
+
+## Command Center Cockpit
+
+Surface-scoped rules for `site/dashboard.html`. Full contract:
+`docs/specs/MELLYCORE_COMMAND_CENTER_COCKPIT_SPEC_001.md`.
+
+Composition and density:
+
+- dense technical workstation; high but intentional information density;
+- near-black technical canvas;
+- cockpit gaps approximately 8–12px; panel padding approximately 12–16px;
+- small radii; 1px restrained borders; subtle depth; restrained glow;
+- central topology dominance — the Knowledge & Operations Graph is the
+  dominant element and MellyCore Core is visually dominant within it;
+- aligned panel grid; compact technical typography.
+
+Colour, scoped to this surface only (it does not amend the global Color
+Direction above, which continues to govern the homepage/hero):
+
+- **cyan / blue** — core system, routing, architecture (primary cockpit accent)
+- **violet** — governance and MellyCore identity
+- **amber** — context, attention, artifacts
+- **green / lime** — verified capability, tools, positive factual state
+- **red** — critical only
+
+Colour must never be the sole state indicator.
+
+Prohibited on this surface: giant rounded cards, excessive glassmorphism, giant
+hero typography, large empty marketing gaps, generic component-library admin
+defaults, uniform purple gradient treatment, gaming-HUD styling,
+crypto/trading-terminal aesthetics, decorative neon overload, and
+generic SaaS card soup.
+
+Also prohibited: fake-live telemetry of any kind. See the cockpit
+specification's binding truthfulness rules and `shared_context/SAFETY_CONTRACT.md`.
+
+Accessibility and reduced motion are mandatory, and the graph must never be the
+only representation of important architecture or state.
 
 ## Interaction and Safety
 

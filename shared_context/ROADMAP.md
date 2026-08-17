@@ -1597,6 +1597,14 @@ not here.
   & Operations Graph, Runtime Constellation, context / Obsidian planned
   visualization, routing explanation, run/agent HUD, governance/approval
   visualization.
+  The **primary cockpit surface** of this milestone now has a canonical
+  specification — `docs/specs/MELLYCORE_COMMAND_CENTER_COCKPIT_SPEC_001.md`,
+  established by `MELLYCORE-COCKPIT-V3-CANONICALIZATION-001` — and a single
+  bounded implementation task, `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001`
+  (`ELIGIBLE`, awaiting Operator authorization). The accepted direction is
+  **MellyCore Cockpit V3.1**. The remaining M3 surfaces stay `PLANNED` and
+  each still requires its own spec/review pass. Neither the specification nor
+  the minted task authorizes implementation, merge, or deployment.
 - **M4 — Complete Static AIOS Showcase.** Coherent static surfaces for
   exactly ten workspaces, navigation, Local AI grouping, demo/static/
   loading/unavailable states, responsive quality, accessibility, reduced
@@ -1620,6 +1628,16 @@ mobile compositions. Claude Design output is **design input** — not canonical
 product truth, not the canonical Design System, not implemented, validated,
 or live frontend state. Final design adoption belongs to the Design System
 amendment and the Homepage Spec amendment.
+
+**Cockpit adoption (recorded 2026-08-17).** For the Command Center cockpit
+surface specifically, that adoption step has now occurred:
+`MELLYCORE-COCKPIT-V3-CANONICALIZATION-001` reviewed the V3.1 design input,
+applied a surface-scoped Design System amendment, and established
+`docs/specs/MELLYCORE_COMMAND_CENTER_COCKPIT_SPEC_001.md` as the canonical
+owner. **That specification — not the V3.1 artifact — is the durable source of
+truth for implementation;** the artifact remains unversioned design input and
+its bundled runtime must never enter `site/`. This paragraph continues to
+govern all other Claude Design output, which remains design input only.
 
 ### Source Arena / hero decision
 

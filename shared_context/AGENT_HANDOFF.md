@@ -1,6 +1,204 @@
 # Agent Handoff
 
-## Latest Update — PR #38 merged and Production closeout recorded (MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-CLOSEOUT-001)
+## Latest Update — Cockpit V3.1 independently reaccepted, PASS (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001)
+
+**Result:** `PASS`. `ACCEPTED_FOR_INTEGRATION: YES`,
+`ACCEPTED_FOR_VERCEL_PORTFOLIO_RELEASE: YES`, `PORTFOLIO_FRONTEND_READY: YES`.
+Reviewed exact commit `04208809c80655d65710bbc06266de7cd157f8ff` (parent
+`86f496e18fcbb8e274ca52f680ed5b891438668e`, canonicalization ancestor
+`031ed694504cbe593ac5738ca87afc3a6d2200b7`) from a fresh, read-only worktree
+at `C:\AI\MellyCore_Workspace\02_Worktrees\mellycore-cockpit-v3-implementation-reacceptance-001`
+on branch `review/mellycore-cockpit-v3-implementation-reacceptance-001`.
+**Not pushed, merged, or deployed.**
+
+**Independently verified, not merely re-stated from the remediation's own
+claims.** Both original P1 findings are fixed: zero label-label overlaps,
+zero inspector occlusions, and zero stage escapes at all six required
+viewports (1920×1080, 1600×900, 1440×900, 1280×800, 1024×768, 390×844) in
+both default and node-selected (`agent-handoff`) states, measured with a
+collision script written fresh for this review rather than reusing the
+remediation's own scoring code. Mobile panel dimensions at 390×844 matched
+the remediation's claims exactly (AI Agents 366×522, Architecture Snapshot
+366×224, Attention Queue 366×238), with no horizontal page overflow. Graph
+provenance held (45 nodes / 66 edges / 8 clusters, 0 duplicate IDs, 0 invalid
+edges/cluster refs, 29/29 source references resolve), and
+`site/data/cockpit_graph.json` is byte-identical to the parent commit.
+Remediation scope was exactly `site/css/dashboard.css`,
+`site/js/dashboard.js`, and `shared_context/AGENT_HANDOFF.md` — no header,
+graph-data, dependency, or `site/index.html` change. `py -3.9 -B -m unittest
+discover -s tests` (696 tests, `OK`), `py -3.9 -B scripts/validate_project_state.py`
+(`PASS`), `node --check site/js/dashboard.js`, and `git diff --check` all
+independently re-passed. Truthfulness scan found no unsupported live/current-
+state claims. No secrets found in the remediation diff.
+
+**Non-blocking findings (P2, do not block acceptance):** the graph
+label-layout function does not re-run on a live browser `resize` event (only
+on render/filter/selection); this review's remote automation harness could
+not confirm SVG focus-ring rendering via programmatic `.focus()` (a harness
+limitation — it failed even for plain HTML buttons — not a confirmed app
+defect); and the local review server's `site/`-rooted static serving
+produces expected 404s for sibling `shared_context/*` paths that the app
+already tolerates gracefully. Full detail, including the per-viewport
+measurement table:
+`docs/tasks/MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001.md`.
+
+**Next exact gate:** `MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001`
+— `ELIGIBLE`, not executed by this task. Do not push, merge, deploy, or
+redesign the accepted header.
+
+## Latest Update — Cockpit V3.1 acceptance remediation complete locally (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REMEDIATION-001)
+
+**Result:** `VALIDATED_LOCAL_REMEDIATION` — the two independently established
+P1 findings are remediated on
+`fix/mellycore-cockpit-v3-implementation-remediation-001`, based on
+`86f496e18fcbb8e274ca52f680ed5b891438668e`. **Not pushed, merged, or
+deployed.**
+
+**Remediation.** Graph labels now use deterministic collision-aware placement,
+reserved inspector/status/cluster regions, and leader lines where displacement
+is required; essential graph text was enlarged for readability. At `390x844`,
+AI Agents, Architecture Snapshot, and Attention Queue now stack with intrinsic
+content height instead of collapsing.
+
+**Preserved contract.** The static HTML/CSS/JS architecture, accepted header,
+legacy tabs, truth labels, 45 nodes, 66 edges, 8 clusters, node identities, and
+edge tuples remain unchanged. No dependency, provider, runtime, backend,
+external integration, or deployment change was introduced.
+
+**Validation run.** Real Chrome collision audits at `1600x900`, `1440x900`,
+`1920x1080`, `1280x800`, and `1024x768` reported zero label overlap, inspector
+occlusion, and stage escape. At `390x844`, all three affected panels had
+non-zero intrinsic height and the page had no horizontal overflow. Structural
+provenance passed at 45/66/8 with exact fixture identities and edge tuples;
+`cockpit_graph.json` is unchanged. `node --check site/js/dashboard.js`, the
+project-state validator, all 696 unit tests, and `git diff --check` passed.
+
+**Next exact gate:** after creation of the one authorized local remediation
+commit, perform independent re-acceptance. Do not push, merge, deploy, or
+redesign the accepted header.
+
+## Latest Update — Cockpit V3.1 implemented locally; independent acceptance next (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001)
+
+**Result:** `COMPLETE_LOCAL_UNACCEPTED` — implementation
+`PASS_WITH_LIMITATIONS`. Branch:
+`feat/mellycore-cockpit-v3-implementation-001`. Start/base HEAD:
+`031ed694504cbe593ac5738ca87afc3a6d2200b7`. The branch remains stacked on that
+accepted canonicalization commit. **Not pushed, merged, deployed, or
+independently accepted.**
+
+**Recovered state.** The interrupted Claude Code session had modified
+`site/dashboard.html` and `site/js/dashboard.js`, and created untracked
+`site/data/cockpit_graph.json`; nothing was staged. Its HTML contained the nine
+surface skeleton, JS only changed the default tab, and the graph file already
+held a complete deterministic 45-node/66-edge/8-cluster projection. No
+Cockpit-specific CSS or graph/panel JS behavior existed. That useful partial
+work was preserved and completed rather than replaced.
+
+**Implementation.** The primary cockpit now contains the Command Bar, Context
+Management, configured-intent Model Routing, deterministic repository-derived
+Knowledge & Operations Graph, AI Agents / Loop Registry, frozen Architecture
+Snapshot, Attention Queue, seven-stage supervised workflow with Execution
+locked, and compact Primary Navigation. The graph has static hierarchy,
+cluster/lane filters, node hover/focus/select, reset/fit presentation, inspector,
+and a structured text equivalent. Mobile replaces the SVG with readable cluster
+disclosures. Static fallback content remains present without JavaScript.
+
+**Truth and safety.** All current-state concepts are point-of-use labelled as
+`STATIC PREVIEW`, `SUPERVISED`, `EXECUTION LOCKED`, `NO LIVE PROVIDERS`,
+`FROZEN · NOT LIVE`, configured intent, fixture, or snapshot. The truthfulness
+scan found no unsupported current-state claim. No backend, provider connection,
+runtime activation, live ingestion, model call, external integration, workflow
+YAML, dependency, secret, homepage change, or MellyTrade coupling was added.
+
+**Validation run.** 696/696 unit tests passed. `node --check
+site/js/dashboard.js`, `py -3.9 -B scripts/validate_project_state.py`, HTML/JSON
+parsing, graph provenance, and `git diff --check` passed. Real Chrome exercised
+1920x1080, 1600x900, 1440x900, 1280x800, 1024x768, and 390x844 with no
+page-level horizontal overflow, clipped graph labels, duplicate IDs,
+console/runtime errors, or failed requests. Keyboard tab navigation, graph
+filter activation, node selection with focus retention, reduced motion, the
+structured graph alternative, minimum 8px cockpit labels, and minimum 42px
+mobile controls passed. Local screenshots are outside the repository. No WCAG
+conformance is claimed.
+
+**V3.1 fidelity.** Composition, graph, panels, typography, colors, workflow,
+navigation, and technical depth are `CLOSE`. The header is a bounded
+`DEVIATION`: the existing legacy dashboard tab shell is retained above the new
+cockpit so existing static surfaces remain reachable.
+
+**Next exact gate:**
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001`, by a separate
+agent/session. Reconstruct the candidate and evidence independently. Do not
+push, merge, or deploy without separate explicit authorization. Evidence:
+`docs/tasks/MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001.md`.
+
+## Latest Update — Cockpit V3.1 canonicalized; implementation task minted (MELLYCORE-COCKPIT-V3-CANONICALIZATION-001)
+
+**Result:** `PASS_WITH_LIMITATIONS`. Docs/spec/state only — **no `site/**`,
+runtime, provider, integration, workflow, or deployment change.** Not pushed.
+
+Baseline: canonical `clean-origin/main` @
+`034962f3aab8ebdade6e84e054b2b2ef863db645` (PR #39 merge). Branch:
+`docs/mellycore-cockpit-v3-canonicalization-001`.
+
+**Why this ran.** `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` preflight returned
+`BLOCKED_BY_CANONICAL_DOCS_SPEC_GATE`. This task reconciled the Operator's
+accepted **MellyCore Cockpit V3.1** direction with canonical state.
+
+**P1 finding `CV3-CANON-001` — corrected.** The canonical description of
+`MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` was factually wrong. It named
+`.agents/`, `.claude/skills/`, and `skills-lock.json` on
+`design/mellycore-claude-design-sync-001` as "the externally generated Claude
+Design System handoff (tokens, components, site/cockpit UI kits, `SKILL.md`)".
+A fresh read-only snapshot at `55bb5e9` found those paths hold **only eight
+third-party Higgsfield AI media/marketing skill packages**, with
+`.claude/skills/` containing nothing but symlinks to them. No MellyCore design
+material exists there. Those packages are **rejected, not adopted**. The
+genuine V3.1 design input is unversioned and external to the repository and was
+reviewed directly.
+
+**Prior design-task evidence.** All four M1 design tasks
+(`CLAUDE-DESIGN-HANDOFF-REVIEW-001`, `HERO-DIRECTION-DECISION-001`,
+`DESIGN-SYSTEM-CINEMATIC-AMENDMENT-001`, `DOCS-INTEGRATION-REVIEW-001`)
+classified **NOT_EXECUTED** after searching all local and `clean-origin` refs,
+all registered worktrees, `docs/tasks/` on every ref, and full commit history.
+Nothing was reused on the strength of conversation text or untracked files.
+
+**Decisions recorded.**
+- V3.1 **ADOPTED** as the primary Command Center direction, scoped to
+  `site/dashboard.html`.
+- **Source Arena retained** for the homepage/hero surface. No either/or
+  decision was forced — the two occupy different product roles.
+- New canonical owner: `docs/specs/MELLYCORE_COMMAND_CENTER_COCKPIT_SPEC_001.md`.
+  Verified that no existing spec owned `site/dashboard.html`.
+- Knowledge-graph semantics **reused** from
+  `docs/product/knowledge_graph_console_spec.md`, not duplicated.
+- Design System delta is minimal and surface-scoped; no global rule deleted.
+
+**Truthfulness.** The V3.1 artifact audited clean: all eight of its `LIVE`
+strings are negations (`NO LIVE PROVIDERS`, `TOPOLOGY DERIVED FROM REPOSITORY ·
+NOT LIVE RUNTIME`, `FROZEN · NOT LIVE`) and it contains **zero** occurrences of
+tokens/min, cost/hour, active requests, error rate, success rate, "Healthy",
+"Operational", or "Running". The fake telemetry visible in the older
+"Reference A" target image is **absent from V3.1**. Execution remains locked;
+no provider is connected.
+
+**Minted.** `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` — `ELIGIBLE`, bounded to
+the primary cockpit surface only, awaiting **explicit Operator authorization**.
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001` — `PLANNED`, blocked on it.
+Eligibility authorizes nothing by itself.
+
+**Limitations.** The V3.1 artifacts live only on the Operator's Desktop and are
+not under version control; the durability risk is mitigated by making the
+specification the source of truth, but archiving the binaries remains an
+Operator decision. Two Desktop HTML files share an identical byte count and the
+authoritative one was not determined. The two Desktop `.zip` archives were not
+opened. `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` remains `NOT_EXECUTED` and is
+**not** a cockpit prerequisite. No WCAG conformance claimed.
+
+Evidence: `docs/tasks/MELLYCORE-COCKPIT-V3-CANONICALIZATION-001.md`.
+
+## Prior Update — PR #38 merged and Production closeout recorded (MELLYCORE-COCKPIT-POST-HOTFIX-STATE-SYNC-PR38-CLOSEOUT-001)
 
 [PR #38](https://github.com/Melly-999/mellycore-aios-core/pull/38) (the
 docs/state-only sync recorded by the entry immediately below) is now

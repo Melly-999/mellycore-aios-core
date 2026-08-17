@@ -3,6 +3,38 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
+## Cockpit V3.1 — Remediated and Independently Reaccepted / Portfolio Release Next
+
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` (`86f496e18fcbb8e274ca52f680ed5b891438668e`)
+was independently reviewed by `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001`,
+which returned `REMEDIATION_REQUIRED` on two P1 findings: material graph-label
+collisions/inspector occlusion, and mobile right-column panels collapsing to
+~2px at 390×844. `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REMEDIATION-001` fixed
+both — commit `04208809c80655d65710bbc06266de7cd157f8ff` on branch
+`fix/mellycore-cockpit-v3-implementation-remediation-001`, one commit directly
+on top of `86f496e...`, touching only `site/css/dashboard.css`,
+`site/js/dashboard.js`, and `shared_context/AGENT_HANDOFF.md`.
+
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001` independently
+re-verified the remediation from a fresh read-only worktree at the exact
+reviewed SHA and returned `PASS`. Both original P1 findings are fixed across
+all six required viewports (1920×1080, 1600×900, 1440×900, 1280×800,
+1024×768, 390×844) in both default and node-selected states, measured via a
+standalone collision script (not reused from the remediation's own code):
+zero label-label overlaps, zero inspector occlusions, zero stage escapes, and
+exact mobile panel dimensions matching the remediation's claims (AI Agents
+366×522, Architecture Snapshot 366×224, Attention Queue 366×238, no
+horizontal overflow). Graph provenance (45 nodes / 66 edges / 8 clusters),
+696 unit tests, the project-state validator, `node --check`, and
+`git diff --check` all independently re-passed. No `site/**` file was
+modified by the reacceptance review. Full detail:
+`docs/tasks/MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001.md`.
+
+**NEXT COCKPIT TASK:**
+`MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001` — `ELIGIBLE`. Not yet
+executed. No push, PR, merge, Production publication, or deployment is
+authorized by this entry.
+
 ## Cockpit Post-Hotfix Production Lane — Complete / State-Synced / PR #38 Merged
 
 The cockpit hotfix chain is complete through exact-SHA Production verification.
@@ -84,14 +116,25 @@ environment `Production`, state `success`, exact SHA match —
 does not reorder the repository-wide Batch pointer or any independently
 governed parallel lane.
 
-**NEXT DESIGN TASK**: `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` — review
-and canonicalize (or reject) the externally generated Claude Design System
-handoff currently sitting as untracked/foreign state on
-`design/mellycore-claude-design-sync-001` (`.agents/`, `.claude/skills/`,
-`skills-lock.json`). Treat that worktree and its untracked content as
-foreign and volatile per `RUN_QUEUE.md`'s existing "Foreign source-worktree
-state is volatile" rule (Product Track section) — this materialization did
-not touch it and the review task must take its own fresh read-only snapshot.
+**DESIGN LANE CLOSED FOR COCKPIT PURPOSES.** The former "NEXT DESIGN TASK"
+pointer to `MELLYCORE-CLAUDE-DESIGN-HANDOFF-REVIEW-001` is **stale and its
+premise was factually wrong**. `MELLYCORE-COCKPIT-V3-CANONICALIZATION-001`
+took the required fresh read-only snapshot of
+`design/mellycore-claude-design-sync-001` @ `55bb5e9` and found that
+`.agents/`, `.claude/skills/`, and `skills-lock.json` contain **only eight
+third-party Higgsfield AI media/marketing skill packages**, not a MellyCore
+design handoff (finding `CV3-CANON-001`, P1). Those packages are rejected,
+not adopted. The genuine V3.1 design input is unversioned and external and
+was reviewed directly; see `docs/tasks/MELLYCORE-COCKPIT-V3-CANONICALIZATION-001.md`.
+That worktree remains foreign and volatile and must not be used as an
+implementation baseline.
+
+**NEXT COCKPIT TASK**: `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` —
+`ELIGIBLE`, awaiting explicit Operator authorization. Implements
+`docs/specs/MELLYCORE_COMMAND_CENTER_COCKPIT_SPEC_001.md` on the existing
+static architecture, bounded to `site/dashboard.html` and its dedicated
+assets. Must branch from canonical `main`, never from the design worktree.
+Eligibility is not authorization to start, merge, or deploy.
 
 **SAFE PARALLEL TASKS** (may run concurrently with each other and with the
 canonical/design tasks above): `MELLYCORE-PRODUCT-TRACK-GOVERNANCE-TAIL-RECONCILIATION-REMEDIATION-REVIEW-003`
