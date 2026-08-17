@@ -14,15 +14,20 @@ Source Arena metaphor; the **cockpit** adopts V3.1. Neither displaces the other.
 
 Current truthful state of that surface:
 
-- The cockpit direction is specified and now **implemented locally, awaiting
-  independent acceptance** on branch
-  `feat/mellycore-cockpit-v3-implementation-001`. Canonical `main` still
-  contains the earlier Production-verified dashboard, not this V3.1 cockpit.
-- `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` is
-  `COMPLETE_LOCAL_UNACCEPTED`; its implementation self-validation returned
-  `PASS_WITH_LIMITATIONS`. It is not pushed, merged, deployed, or independently
-  accepted. `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001` is the next
-  gate and must run in a separate agent/session.
+- The cockpit direction is specified, implemented, remediated for two P1
+  acceptance findings, and **independently reaccepted (`PASS`)** on branch
+  `fix/mellycore-cockpit-v3-implementation-remediation-001`
+  (`04208809c80655d65710bbc06266de7cd157f8ff`). Canonical `main` still
+  contains the earlier Production-verified dashboard, not this V3.1 cockpit —
+  reacceptance is **not** push, merge, or deployment authorization.
+- `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` — `COMPLETE_LOCAL_UNACCEPTED` at
+  `86f496e...` — was reviewed by
+  `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001` (`REMEDIATION_REQUIRED`,
+  two P1 findings), fixed by `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REMEDIATION-001`,
+  and independently reaccepted by
+  `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001` (`PASS`;
+  `docs/tasks/MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001.md`).
+  `MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001` is the next gate.
 - Execution remains **locked**; no provider is connected; no runtime is active.
 - The V3.1 design artifacts are **unversioned and external** to the repository.
   The specification, not the artifact, is the durable source of truth.

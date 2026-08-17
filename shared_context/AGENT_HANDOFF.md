@@ -1,5 +1,51 @@
 # Agent Handoff
 
+## Latest Update — Cockpit V3.1 independently reaccepted, PASS (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001)
+
+**Result:** `PASS`. `ACCEPTED_FOR_INTEGRATION: YES`,
+`ACCEPTED_FOR_VERCEL_PORTFOLIO_RELEASE: YES`, `PORTFOLIO_FRONTEND_READY: YES`.
+Reviewed exact commit `04208809c80655d65710bbc06266de7cd157f8ff` (parent
+`86f496e18fcbb8e274ca52f680ed5b891438668e`, canonicalization ancestor
+`031ed694504cbe593ac5738ca87afc3a6d2200b7`) from a fresh, read-only worktree
+at `C:\AI\MellyCore_Workspace\02_Worktrees\mellycore-cockpit-v3-implementation-reacceptance-001`
+on branch `review/mellycore-cockpit-v3-implementation-reacceptance-001`.
+**Not pushed, merged, or deployed.**
+
+**Independently verified, not merely re-stated from the remediation's own
+claims.** Both original P1 findings are fixed: zero label-label overlaps,
+zero inspector occlusions, and zero stage escapes at all six required
+viewports (1920×1080, 1600×900, 1440×900, 1280×800, 1024×768, 390×844) in
+both default and node-selected (`agent-handoff`) states, measured with a
+collision script written fresh for this review rather than reusing the
+remediation's own scoring code. Mobile panel dimensions at 390×844 matched
+the remediation's claims exactly (AI Agents 366×522, Architecture Snapshot
+366×224, Attention Queue 366×238), with no horizontal page overflow. Graph
+provenance held (45 nodes / 66 edges / 8 clusters, 0 duplicate IDs, 0 invalid
+edges/cluster refs, 29/29 source references resolve), and
+`site/data/cockpit_graph.json` is byte-identical to the parent commit.
+Remediation scope was exactly `site/css/dashboard.css`,
+`site/js/dashboard.js`, and `shared_context/AGENT_HANDOFF.md` — no header,
+graph-data, dependency, or `site/index.html` change. `py -3.9 -B -m unittest
+discover -s tests` (696 tests, `OK`), `py -3.9 -B scripts/validate_project_state.py`
+(`PASS`), `node --check site/js/dashboard.js`, and `git diff --check` all
+independently re-passed. Truthfulness scan found no unsupported live/current-
+state claims. No secrets found in the remediation diff.
+
+**Non-blocking findings (P2, do not block acceptance):** the graph
+label-layout function does not re-run on a live browser `resize` event (only
+on render/filter/selection); this review's remote automation harness could
+not confirm SVG focus-ring rendering via programmatic `.focus()` (a harness
+limitation — it failed even for plain HTML buttons — not a confirmed app
+defect); and the local review server's `site/`-rooted static serving
+produces expected 404s for sibling `shared_context/*` paths that the app
+already tolerates gracefully. Full detail, including the per-viewport
+measurement table:
+`docs/tasks/MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001.md`.
+
+**Next exact gate:** `MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001`
+— `ELIGIBLE`, not executed by this task. Do not push, merge, deploy, or
+redesign the accepted header.
+
 ## Latest Update — Cockpit V3.1 acceptance remediation complete locally (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REMEDIATION-001)
 
 **Result:** `VALIDATED_LOCAL_REMEDIATION` — the two independently established

@@ -3,38 +3,37 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
-## Cockpit V3.1 Implementation — Complete Locally / Independent Acceptance Next
+## Cockpit V3.1 — Remediated and Independently Reaccepted / Portfolio Release Next
 
-`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` is
-`COMPLETE_LOCAL_UNACCEPTED` with implementation result
-`PASS_WITH_LIMITATIONS` on branch
-`feat/mellycore-cockpit-v3-implementation-001`, stacked directly on accepted
-canonicalization commit `031ed694504cbe593ac5738ca87afc3a6d2200b7`.
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` (`86f496e18fcbb8e274ca52f680ed5b891438668e`)
+was independently reviewed by `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001`,
+which returned `REMEDIATION_REQUIRED` on two P1 findings: material graph-label
+collisions/inspector occlusion, and mobile right-column panels collapsing to
+~2px at 390×844. `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REMEDIATION-001` fixed
+both — commit `04208809c80655d65710bbc06266de7cd157f8ff` on branch
+`fix/mellycore-cockpit-v3-implementation-remediation-001`, one commit directly
+on top of `86f496e...`, touching only `site/css/dashboard.css`,
+`site/js/dashboard.js`, and `shared_context/AGENT_HANDOFF.md`.
 
-The bounded static implementation owns the primary Command Center cockpit only.
-It completes all nine specified surfaces in `site/dashboard.html` and dedicated
-assets, including a deterministic derived graph containing the exact 45 nodes,
-66 relationships, and 8 clusters from
-`shared_context/context_graph_fixture_001.json`. It adds no backend, live
-provider, runtime activation, live ingestion, external integration, workflow
-YAML, dependency, or homepage change.
-
-Implementation self-validation passed: 696 unit tests; project-state validator;
-JavaScript, HTML, and JSON parsing; graph provenance; `git diff --check`; and
-real Chrome at 1920x1080, 1600x900, 1440x900, 1280x800, 1024x768, and 390x844.
-Chrome evidence found zero page-level horizontal overflow, graph-label clipping,
-duplicate IDs, console/runtime errors, or failed requests. Keyboard tabs, graph
-filters, node selection/focus retention, reduced motion, 8px minimum cockpit
-labels, 42px mobile controls, and the structured graph alternative were
-exercised. This is implementation evidence, **not independent acceptance** and
-not a WCAG conformance claim.
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001` independently
+re-verified the remediation from a fresh read-only worktree at the exact
+reviewed SHA and returned `PASS`. Both original P1 findings are fixed across
+all six required viewports (1920×1080, 1600×900, 1440×900, 1280×800,
+1024×768, 390×844) in both default and node-selected states, measured via a
+standalone collision script (not reused from the remediation's own code):
+zero label-label overlaps, zero inspector occlusions, zero stage escapes, and
+exact mobile panel dimensions matching the remediation's claims (AI Agents
+366×522, Architecture Snapshot 366×224, Attention Queue 366×238, no
+horizontal overflow). Graph provenance (45 nodes / 66 edges / 8 clusters),
+696 unit tests, the project-state validator, `node --check`, and
+`git diff --check` all independently re-passed. No `site/**` file was
+modified by the reacceptance review. Full detail:
+`docs/tasks/MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001.md`.
 
 **NEXT COCKPIT TASK:**
-`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001` — `ELIGIBLE`, requiring a
-separate agent/session. It must independently reconstruct and validate the
-candidate rather than accepting this implementation report as authority. No
-push, PR, merge, Production publication, or deployment is authorized by this
-entry.
+`MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001` — `ELIGIBLE`. Not yet
+executed. No push, PR, merge, Production publication, or deployment is
+authorized by this entry.
 
 ## Cockpit Post-Hotfix Production Lane — Complete / State-Synced / PR #38 Merged
 
