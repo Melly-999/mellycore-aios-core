@@ -1,5 +1,5 @@
 /*
- * MellyCore AIOS — Live Cockpit V2 (social source arena).
+ * MellyCore AIOS — Command Center Cockpit V3.1 plus retained V2 surfaces.
  *
  * Local committed data is fetched read-only from shared_context/**.
  * The Source Arena tab renders a small, deterministic local Source Archive —
@@ -410,6 +410,45 @@
     fallback_emergency: { primary: "tera", alt: "glm-cheap" },
   };
 
+  const COCKPIT_ROUTING_ROLES = [
+    { role: "Strategy", owner: "ChatGPT", note: "Context synthesis · planning" },
+    { role: "Architecture", owner: "Claude", note: "Reasoning · documentation · review" },
+    { role: "Implementation", owner: "Codex", note: "Code · validation · PR preparation" },
+    { role: "Iteration", owner: "GLM / Z.ai", note: "Drafting · exploration" },
+    { role: "Critique", owner: "Grok / xAI", note: "Second opinion · risk review" },
+    { role: "Gateway", owner: "OmniRouter", note: "Preferred when available" },
+  ];
+
+  const COCKPIT_LOOP_LABELS = {
+    "project-health": "Project Health",
+    "context-drift": "Context Drift",
+    "safety-posture": "Safety Posture",
+    "pr-review-monitor": "PR Review Monitor",
+    "worktree-hygiene": "Worktree Hygiene",
+    "changelog-drafter": "Changelog Drafter",
+    "ci-sweeper": "CI Sweeper",
+    "dependency-sweeper": "Dependency Sweeper",
+    "post-merge-cleanup": "Post-Merge Cleanup",
+  };
+
+  const COCKPIT_ATTENTION = [
+    { severity: "Review", tone: "review", title: "Cockpit acceptance", detail: "Independent six-width acceptance remains the next gate after implementation." },
+    { severity: "Blocked", tone: "blocked", title: "Execution capability", detail: "No runtime or execution-capable agent is authorized." },
+    { severity: "Blocked", tone: "blocked", title: "Live provider connection", detail: "Migration trigger 5 remains fail-closed; no provider is connected." },
+  ];
+
+  const COCKPIT_LANE_COLORS = {
+    core: "#38bdf8",
+    "shared-context": "#fbbf24",
+    "core-services": "#38bdf8",
+    models: "#2dd4bf",
+    tools: "#4ade9c",
+    governance: "#a78bfa",
+    surfaces: "#60a5fa",
+  };
+
+  const SVG_NS = "http://www.w3.org/2000/svg";
+
   function obsFindModel(modelId) {
     return OBS_MODEL_FIXTURE.models.find((model) => model.model_id === modelId) || null;
   }
@@ -431,6 +470,9 @@
     snapshot: null,
     contextIndex: null,
     contextAuditSnapshot: null,
+    cockpitGraph: null,
+    cockpitLane: "all",
+    cockpitSelectedNodeId: "mellycore-aios",
     repositoryContextAvailable: false,
     archiveItems: [],
     archiveSelected: 0,
@@ -570,6 +612,17 @@
     document.querySelectorAll(".dash-panel").forEach((panel) => {
       panel.hidden = panel.id !== `tab-${tabName}`;
     });
+    document.body.classList.toggle("cockpit-active", tabName === "cockpit");
+    document.querySelectorAll("[data-ckpt-tab]").forEach((item) => {
+      const current = item.dataset.ckptTab === tabName;
+      item.classList.toggle("is-current", current);
+      if (current) item.setAttribute("aria-current", "page");
+      else item.removeAttribute("aria-current");
+    });
+    const footer = document.getElementById("footer-system-state");
+    if (footer) footer.innerHTML = tabName === "cockpit"
+      ? "<i></i> Static preview loaded"
+      : `<i></i> ${escapeHTML(tabName.replace(/-/g, " "))} · static surface`;
     window.history.replaceState(null, "", `#${tabName}`);
   }
 
@@ -586,7 +639,13 @@
       });
     });
     const requested = window.location.hash.slice(1);
-    activateTab(buttons.some((button) => button.dataset.tab === requested) ? requested : "source-arena", false);
+    activateTab(buttons.some((button) => button.dataset.tab === requested) ? requested : "cockpit", false);
+  }
+
+  function initCockpitNavigation() {
+    document.querySelectorAll("[data-ckpt-tab]").forEach((button) => {
+      button.addEventListener("click", () => activateTab(button.dataset.ckptTab, false));
+    });
   }
 
   function initClock() {
@@ -598,6 +657,323 @@
 
   function contextAudit() {
     return state.contextAuditSnapshot ? (state.contextAuditSnapshot.audit || state.contextAuditSnapshot) : null;
+  }
+
+  function renderCockpitPanels() {
+    const audit = contextAudit();
+    const auditCounts = (audit && audit.counts) || {};
+    const decisionCounts = auditCounts.by_decision || {};
+    const freshnessCounts = auditCounts.by_freshness || {};
+    const snapshotAudit = state.snapshot && state.snapshot.commands && state.snapshot.commands.audit;
+    const summary = (snapshotAudit && snapshotAudit.summary) || {};
+    const captured = (state.contextAuditSnapshot && state.contextAuditSnapshot.captured_at) || "unknown";
+
+    document.getElementById("ckpt-bar-context").textContent = audit
+      ? `${auditCounts.valid_records || 0} valid · ${audit.finding_count || 0} findings · snapshot`
+      : "Repository-derived · snapshot unavailable";
+    document.getElementById("ckpt-bar-branch").textContent = "browser view · #cockpit";
+    document.getElementById("ckpt-bar-snapshot").textContent = `dashboard snapshot · ${(state.snapshot && state.snapshot.captured_at || "unknown").slice(0, 10)}`;
+
+    if (audit) {
+      document.getElementById("ckpt-context-rows").innerHTML = [
+        ["Valid records", auditCounts.valid_records || 0],
+        ["Admitted", decisionCounts.admitted || 0],
+        ["Rejected", decisionCounts.rejected || 0],
+        ["Expiring", freshnessCounts.expiring || 0],
+        ["Findings", audit.finding_count || 0],
+      ].map(([label, value]) => `<div><dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)} <span>snapshot</span></dd></div>`).join("");
+      document.getElementById("ckpt-context-note").textContent = `Frozen context audit · ${captured} · ${audit.writes_performed || 0} writes recorded · not a live corpus count.`;
+    }
+
+    document.getElementById("ckpt-route-list").innerHTML = COCKPIT_ROUTING_ROLES.map((item) => `<li>
+      <span>${escapeHTML(item.role)}</span><strong>${escapeHTML(item.owner)}</strong><small>${escapeHTML(item.note)} · configured intent</small>
+    </li>`).join("");
+
+    const loopTiers = snapshotAudit ? (snapshotAudit.loop_tiers || []) : [];
+    if (loopTiers.length) {
+      document.getElementById("ckpt-agent-list").innerHTML = loopTiers.map((item) => {
+        const disabled = /disabled/i.test(item.note || "");
+        const label = COCKPIT_LOOP_LABELS[item.loop_id] || item.loop_id;
+        const detail = item.loop_id === "project-health" ? "Human-invoked loop" : (disabled ? "Action-capable loop" : "Report-only loop");
+        const status = disabled ? "Disabled · snapshot" : `${item.highest_earned_tier === "exercised" ? "Exercised" : "Defined"} · snapshot`;
+        return `<li class="${disabled ? "is-disabled" : ""}"><span><strong>${escapeHTML(label)}</strong><small>${escapeHTML(detail)}</small></span><em>${escapeHTML(status)}</em></li>`;
+      }).join("");
+    }
+
+    document.getElementById("ckpt-snapshot-rows").innerHTML = [
+      ["Defined loops", summary.loops_total || 0],
+      ["Exercised loops", summary.exercised || 0],
+      ["Production-enabled", summary.production_enabled || 0],
+      ["Graph nodes", state.cockpitGraph ? state.cockpitGraph.nodes.length : 0],
+      ["Graph relationships", state.cockpitGraph ? state.cockpitGraph.edges.length : 0],
+    ].map(([label, value]) => `<div><dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)} <span>snapshot</span></dd></div>`).join("");
+    document.getElementById("ckpt-snapshot-note").textContent = `Frozen repository snapshot · ${(state.snapshot && state.snapshot.captured_at || "unknown").slice(0, 10)} · not live observability.`;
+
+    document.getElementById("ckpt-attn-count").textContent = `${COCKPIT_ATTENTION.length} gated`;
+    document.getElementById("ckpt-attn-list").innerHTML = COCKPIT_ATTENTION.map((item) => `<li>
+      <span class="ckpt-severity ckpt-severity--${escapeHTML(item.tone)}">${escapeHTML(item.severity)}</span>
+      <div><strong>${escapeHTML(item.title)}</strong><p>${escapeHTML(item.detail)}</p></div>
+    </li>`).join("");
+  }
+
+  function svgElement(name, attributes) {
+    const element = document.createElementNS(SVG_NS, name);
+    Object.entries(attributes || {}).forEach(([key, value]) => element.setAttribute(key, String(value)));
+    return element;
+  }
+
+  function splitGraphLabel(label, maxLength) {
+    const words = String(label).split(/\s+/);
+    const lines = [];
+    let line = "";
+    words.forEach((word) => {
+      const candidate = line ? `${line} ${word}` : word;
+      if (line && candidate.length > maxLength) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = candidate;
+      }
+    });
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  function graphNodeShape(node) {
+    const r = Number(node.r || 6);
+    if (node.type === "doc") return svgElement("rect", { x: -r * 1.45, y: -r, width: r * 2.9, height: r * 2, rx: 1.5, class: "ckpt-node-shape" });
+    if (node.type === "module") return svgElement("rect", { x: -r, y: -r, width: r * 2, height: r * 2, class: "ckpt-node-shape" });
+    if (node.type === "task") return svgElement("rect", { x: -r * 1.2, y: -r, width: r * 2.4, height: r * 2, rx: 3, class: "ckpt-node-shape" });
+    if (node.type === "decision") return svgElement("path", { d: `M 0 ${-r * 1.25} L ${r * 1.25} 0 L 0 ${r * 1.25} L ${-r * 1.25} 0 Z`, class: "ckpt-node-shape" });
+    if (node.type === "risk") return svgElement("path", { d: `M 0 ${-r * 1.35} L ${r * 1.25} ${r} L ${-r * 1.25} ${r} Z`, class: "ckpt-node-shape" });
+    if (node.type === "safety_rule") return svgElement("path", { d: `M 0 ${-r * 1.3} L ${r} ${-r * .7} L ${r * .78} ${r * .65} L 0 ${r * 1.35} L ${-r * .78} ${r * .65} L ${-r} ${-r * .7} Z`, class: "ckpt-node-shape" });
+    return svgElement("circle", { r, class: "ckpt-node-shape" });
+  }
+
+  function renderGraphDefinitions() {
+    const defs = document.getElementById("ckpt-graph-defs");
+    defs.replaceChildren();
+    const marker = svgElement("marker", {
+      id: "ckpt-arrow", viewBox: "0 0 8 8", refX: 7, refY: 4,
+      markerWidth: 5, markerHeight: 5, orient: "auto-start-reverse",
+    });
+    marker.appendChild(svgElement("path", { d: "M 0 0 L 8 4 L 0 8 Z", fill: "context-stroke" }));
+    defs.appendChild(marker);
+  }
+
+  function visibleCockpitNodes() {
+    if (!state.cockpitGraph) return [];
+    return state.cockpitGraph.nodes.filter((node) =>
+      state.cockpitLane === "all" || node.lane === state.cockpitLane || node.id === state.cockpitGraph.core
+    );
+  }
+
+  function renderGraphClusters(nodes) {
+    const target = document.getElementById("ckpt-g-clusters");
+    target.replaceChildren();
+    const nodeIds = new Set(nodes.map((node) => node.id));
+    state.cockpitGraph.clusters.forEach((cluster) => {
+      const members = state.cockpitGraph.nodes.filter((node) => node.cluster === cluster.id && nodeIds.has(node.id));
+      if (!members.length) return;
+      const xs = members.map((node) => Number(node.x));
+      const ys = members.map((node) => Number(node.y));
+      const paddingX = members.length === 1 ? 34 : 22;
+      const paddingY = members.length === 1 ? 26 : 18;
+      const minX = Math.min(...xs) - paddingX;
+      const minY = Math.min(...ys) - paddingY;
+      const maxX = Math.max(...xs) + paddingX;
+      const maxY = Math.max(...ys) + paddingY;
+      const group = svgElement("g", { class: "ckpt-cluster", style: `color:${COCKPIT_LANE_COLORS[cluster.lane] || "#64748b"}` });
+      group.appendChild(svgElement("rect", { x: minX, y: minY, width: maxX - minX, height: maxY - minY, rx: 12, class: "ckpt-cluster-hull" }));
+      const label = svgElement("text", { x: minX + 7, y: minY + 12, class: "ckpt-cluster-label" });
+      label.textContent = cluster.label;
+      group.appendChild(label);
+      target.appendChild(group);
+    });
+  }
+
+  function renderGraphInspector(node) {
+    if (!node || !state.cockpitGraph) return;
+    const relationships = state.cockpitGraph.edges.filter((edge) => edge.from === node.id || edge.to === node.id);
+    document.getElementById("ckpt-insp-h").textContent = node.label;
+    document.getElementById("ckpt-insp-sum").textContent = node.summary || "No summary recorded in the static fixture.";
+    document.getElementById("ckpt-insp-meta").innerHTML = [
+      ["Type", node.type],
+      ["Cluster", node.cluster],
+      ["Status", node.status],
+      ["Confidence", node.confidence],
+      ["Relationships", relationships.length],
+      ["Sources", (node.sourceRefs || []).join(" · ")],
+    ].map(([key, value]) => `<dt>${escapeHTML(key)}</dt><dd>${escapeHTML(value || "not recorded")}</dd>`).join("");
+  }
+
+  function renderGraphTextEquivalent() {
+    const target = document.getElementById("ckpt-graph-alt-body");
+    target.innerHTML = state.cockpitGraph.clusters.map((cluster, index) => {
+      const members = state.cockpitGraph.nodes.filter((node) => node.cluster === cluster.id);
+      return `<section><h3>${escapeHTML(cluster.label)}</h3><p>${escapeHTML(cluster.summary)}</p><details class="ckpt-alt-cluster"${index === 0 ? " open" : ""}><summary>${members.length} documented nodes</summary><ul class="ckpt-alt-node-list">${members.map((node) =>
+        `<li><button type="button" data-ckpt-node="${escapeHTML(node.id)}"><span>${escapeHTML(node.label)}</span><small>${escapeHTML(node.type)} · ${escapeHTML(node.status)}</small></button></li>`
+      ).join("")}</ul></details></section>`;
+    }).join("");
+    document.getElementById("ckpt-alt-count").textContent = `${state.cockpitGraph.nodes.length} nodes · ${state.cockpitGraph.edges.length} relationships`;
+    target.querySelectorAll("[data-ckpt-node]").forEach((button) => {
+      button.addEventListener("click", () => selectCockpitNode(button.dataset.ckptNode));
+    });
+    const details = document.querySelector(".ckpt-graph-alt");
+    details.open = window.matchMedia("(max-width: 760px)").matches;
+  }
+
+  function updateCockpitFilterButtons() {
+    document.querySelectorAll(".ckpt-graph-controls [data-lane]").forEach((button) => {
+      const active = button.dataset.lane === state.cockpitLane;
+      button.classList.toggle("is-on", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+  }
+
+  function selectCockpitNode(nodeId, focusAfterRender) {
+    if (!state.cockpitGraph) return;
+    const node = state.cockpitGraph.nodes.find((item) => item.id === nodeId);
+    if (!node) return;
+    if (state.cockpitLane !== "all" && node.lane !== state.cockpitLane && node.id !== state.cockpitGraph.core) {
+      state.cockpitLane = "all";
+      updateCockpitFilterButtons();
+    }
+    state.cockpitSelectedNodeId = node.id;
+    renderCockpitGraph();
+    renderGraphInspector(node);
+    if (focusAfterRender) {
+      const replacement = document.querySelector(`.ckpt-node[data-node-id="${CSS.escape(node.id)}"]`);
+      if (replacement) replacement.focus();
+    }
+  }
+
+  function renderCockpitGraph() {
+    const graph = state.cockpitGraph;
+    if (!graph) return;
+    const nodes = visibleCockpitNodes();
+    const nodeIds = new Set(nodes.map((node) => node.id));
+    const nodesById = new Map(graph.nodes.map((node) => [node.id, node]));
+    const selected = nodesById.get(state.cockpitSelectedNodeId) || nodesById.get(graph.core);
+    const emphasizeSelection = selected && selected.id !== graph.core;
+    const relatedIds = new Set([selected && selected.id]);
+    graph.edges.forEach((edge) => {
+      if (edge.from === (selected && selected.id)) relatedIds.add(edge.to);
+      if (edge.to === (selected && selected.id)) relatedIds.add(edge.from);
+    });
+
+    document.getElementById("ckpt-graph-status").textContent = `Static repository topology · ${nodes.length}/${graph.nodes.length} nodes · ${graph.edges.length} relationships · ${graph.fixtureStatus} fixture`;
+    renderGraphDefinitions();
+    renderGraphClusters(nodes);
+
+    const edgeTarget = document.getElementById("ckpt-g-edges");
+    edgeTarget.replaceChildren();
+    graph.edges.forEach((edge) => {
+      if (!nodeIds.has(edge.from) || !nodeIds.has(edge.to)) return;
+      const from = nodesById.get(edge.from);
+      const to = nodesById.get(edge.to);
+      if (!from || !to) return;
+      const primary = from.id === graph.core || to.id === graph.core;
+      const secondary = !primary && from.cluster === to.cluster;
+      const related = selected && (edge.from === selected.id || edge.to === selected.id);
+      const line = svgElement("line", {
+        x1: from.x, y1: from.y, x2: to.x, y2: to.y,
+        class: `ckpt-edge ckpt-edge--${primary ? "primary" : (secondary ? "secondary" : "tertiary")} ckpt-edge--${edge.relation}${emphasizeSelection && !related ? " is-muted" : ""}${related ? " is-related" : ""}`,
+        "data-from": edge.from, "data-to": edge.to,
+      });
+      if (["depends_on", "supersedes"].includes(edge.relation)) line.setAttribute("marker-end", "url(#ckpt-arrow)");
+      const title = svgElement("title");
+      title.textContent = `${from.label} ${edge.relation.replace(/_/g, " ")} ${to.label}. ${edge.summary || ""}`;
+      line.appendChild(title);
+      edgeTarget.appendChild(line);
+    });
+
+    const nodeTarget = document.getElementById("ckpt-g-nodes");
+    nodeTarget.replaceChildren();
+    nodes.forEach((node) => {
+      const isCore = node.id === graph.core;
+      const isSelected = selected && node.id === selected.id;
+      const muted = emphasizeSelection && !relatedIds.has(node.id);
+      const group = svgElement("g", {
+        class: `ckpt-node ckpt-node--${node.type}${isCore ? " ckpt-node--core" : ""}${isSelected ? " is-selected" : ""}${muted ? " is-muted" : ""}`,
+        transform: `translate(${node.x} ${node.y})`,
+        tabindex: 0,
+        role: "button",
+        "aria-label": `${node.label}, ${node.type}, ${node.status}. Select for documented details.`,
+        "data-node-id": node.id,
+        "data-lane": node.lane,
+      });
+      if (isCore) {
+        group.appendChild(svgElement("circle", { r: 48, class: "ckpt-core-halo" }));
+        group.appendChild(svgElement("circle", { r: 37, class: "ckpt-core-orbit" }));
+      }
+      group.appendChild(svgElement("circle", { r: (Number(node.r || 6) + (isCore ? 34 : 6)), class: "ckpt-node-focus" }));
+      group.appendChild(graphNodeShape(node));
+
+      const anchor = node.anchor === "end" ? "end" : (node.anchor === "start" ? "start" : "middle");
+      const labelX = isCore ? 0 : (anchor === "end" ? -Number(node.r || 6) - 7 : Number(node.r || 6) + 7);
+      const labelY = isCore ? 58 : 0;
+      const text = svgElement("text", { x: labelX, y: labelY, "text-anchor": anchor, class: "ckpt-node-label" });
+      const lines = splitGraphLabel(node.label, isCore ? 24 : 21);
+      lines.forEach((line, index) => {
+        const tspan = svgElement("tspan", { x: labelX, dy: index === 0 ? `${-((lines.length - 1) * 5.5)}px` : "11px" });
+        tspan.textContent = line;
+        text.appendChild(tspan);
+      });
+      group.appendChild(text);
+      group.addEventListener("click", () => selectCockpitNode(node.id, false));
+      group.addEventListener("keydown", (event) => {
+        if (!["Enter", " "].includes(event.key)) return;
+        event.preventDefault();
+        selectCockpitNode(node.id, true);
+      });
+      nodeTarget.appendChild(group);
+    });
+
+    renderGraphInspector(selected);
+  }
+
+  function initCockpitInteractions() {
+    document.querySelectorAll(".ckpt-graph-controls [data-lane]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.cockpitLane = button.dataset.lane;
+        state.cockpitSelectedNodeId = state.cockpitGraph ? state.cockpitGraph.core : "mellycore-aios";
+        updateCockpitFilterButtons();
+        renderCockpitGraph();
+      });
+      button.addEventListener("keydown", (event) => {
+        if (!["Enter", " "].includes(event.key)) return;
+        event.preventDefault();
+        button.click();
+      });
+    });
+    document.getElementById("ckpt-graph-reset").addEventListener("click", () => {
+      state.cockpitLane = "all";
+      state.cockpitSelectedNodeId = state.cockpitGraph ? state.cockpitGraph.core : "mellycore-aios";
+      updateCockpitFilterButtons();
+      renderCockpitGraph();
+    });
+  }
+
+  function renderCockpit() {
+    renderCockpitPanels();
+    if (!state.cockpitGraph) {
+      document.getElementById("ckpt-graph-status").textContent = "Context graph data could not be loaded. Static text summary remains available.";
+      return;
+    }
+    const xs = state.cockpitGraph.nodes.map((node) => Number(node.x));
+    const ys = state.cockpitGraph.nodes.map((node) => Number(node.y));
+    const graphPadding = { x: 118, y: 54 };
+    const viewBox = [
+      Math.min(...xs) - graphPadding.x,
+      Math.min(...ys) - graphPadding.y,
+      Math.max(...xs) - Math.min(...xs) + (graphPadding.x * 2),
+      Math.max(...ys) - Math.min(...ys) + (graphPadding.y * 2),
+    ];
+    document.getElementById("ckpt-graph").setAttribute("viewBox", viewBox.join(" "));
+    renderGraphTextEquivalent();
+    updateCockpitFilterButtons();
+    renderCockpitGraph();
   }
 
   function metricHTML(value, label, tone) {
@@ -1042,7 +1418,8 @@
     const resultCountEl = document.getElementById("source-arena-result-count");
     if (resultCountEl) resultCountEl.textContent = `${formatInt(state.archiveItems.length)} records`;
     const footerEl = document.getElementById("footer-system-state");
-    if (footerEl) footerEl.innerHTML = "<i></i> Source Archive ready";
+    const sourceArenaSelected = document.getElementById("tab-btn-source-arena").getAttribute("aria-selected") === "true";
+    if (footerEl && sourceArenaSelected) footerEl.innerHTML = "<i></i> Source Archive ready";
     if (!opts.preserveCategory) updateCategoryFromQuery(values.query);
   }
 
@@ -1438,7 +1815,7 @@
   }
 
   async function loadLocalData() {
-    const [roadmapText, runQueueText, safetyContractText, registry, projectHealthState, snapshot, contextIndex, contextAuditSnapshot] = await Promise.all([
+    const [roadmapText, runQueueText, safetyContractText, registry, projectHealthState, snapshot, contextIndex, contextAuditSnapshot, cockpitGraph] = await Promise.all([
       getOptionalText("/shared_context/ROADMAP.md"),
       getOptionalText("/shared_context/RUN_QUEUE.md"),
       getOptionalText("/shared_context/SAFETY_CONTRACT.md"),
@@ -1447,13 +1824,14 @@
       getJSON("data/dashboard_snapshot.json"),
       getOptionalJSON("/shared_context/context_provenance/INDEX.json"),
       getJSON("data/context_audit_snapshot.json"),
+      getJSON("data/cockpit_graph.json"),
     ]);
     const repositoryContextAvailable = Boolean(
       roadmapText && runQueueText && safetyContractText && registry && projectHealthState && contextIndex
     );
     Object.assign(state, {
       roadmapText, runQueueText, safetyContractText, registry, projectHealthState,
-      snapshot, contextIndex, contextAuditSnapshot, repositoryContextAvailable,
+      snapshot, contextIndex, contextAuditSnapshot, cockpitGraph, repositoryContextAvailable,
     });
     if (repositoryContextAvailable) {
       const evidencePath = await findLatestEvidenceFile("project-health");
@@ -1463,6 +1841,8 @@
 
   async function boot() {
     initTabs();
+    initCockpitNavigation();
+    initCockpitInteractions();
     initClock();
     initArchiveInteractions();
     renderCompareCategorySelector();
@@ -1477,6 +1857,7 @@
 
     try {
       await loadLocalData();
+      renderCockpit();
       if (state.repositoryContextAvailable) {
         renderOverview();
         renderContext();

@@ -1,5 +1,60 @@
 # Agent Handoff
 
+## Latest Update — Cockpit V3.1 implemented locally; independent acceptance next (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001)
+
+**Result:** `COMPLETE_LOCAL_UNACCEPTED` — implementation
+`PASS_WITH_LIMITATIONS`. Branch:
+`feat/mellycore-cockpit-v3-implementation-001`. Start/base HEAD:
+`031ed694504cbe593ac5738ca87afc3a6d2200b7`. The branch remains stacked on that
+accepted canonicalization commit. **Not pushed, merged, deployed, or
+independently accepted.**
+
+**Recovered state.** The interrupted Claude Code session had modified
+`site/dashboard.html` and `site/js/dashboard.js`, and created untracked
+`site/data/cockpit_graph.json`; nothing was staged. Its HTML contained the nine
+surface skeleton, JS only changed the default tab, and the graph file already
+held a complete deterministic 45-node/66-edge/8-cluster projection. No
+Cockpit-specific CSS or graph/panel JS behavior existed. That useful partial
+work was preserved and completed rather than replaced.
+
+**Implementation.** The primary cockpit now contains the Command Bar, Context
+Management, configured-intent Model Routing, deterministic repository-derived
+Knowledge & Operations Graph, AI Agents / Loop Registry, frozen Architecture
+Snapshot, Attention Queue, seven-stage supervised workflow with Execution
+locked, and compact Primary Navigation. The graph has static hierarchy,
+cluster/lane filters, node hover/focus/select, reset/fit presentation, inspector,
+and a structured text equivalent. Mobile replaces the SVG with readable cluster
+disclosures. Static fallback content remains present without JavaScript.
+
+**Truth and safety.** All current-state concepts are point-of-use labelled as
+`STATIC PREVIEW`, `SUPERVISED`, `EXECUTION LOCKED`, `NO LIVE PROVIDERS`,
+`FROZEN · NOT LIVE`, configured intent, fixture, or snapshot. The truthfulness
+scan found no unsupported current-state claim. No backend, provider connection,
+runtime activation, live ingestion, model call, external integration, workflow
+YAML, dependency, secret, homepage change, or MellyTrade coupling was added.
+
+**Validation run.** 696/696 unit tests passed. `node --check
+site/js/dashboard.js`, `py -3.9 -B scripts/validate_project_state.py`, HTML/JSON
+parsing, graph provenance, and `git diff --check` passed. Real Chrome exercised
+1920x1080, 1600x900, 1440x900, 1280x800, 1024x768, and 390x844 with no
+page-level horizontal overflow, clipped graph labels, duplicate IDs,
+console/runtime errors, or failed requests. Keyboard tab navigation, graph
+filter activation, node selection with focus retention, reduced motion, the
+structured graph alternative, minimum 8px cockpit labels, and minimum 42px
+mobile controls passed. Local screenshots are outside the repository. No WCAG
+conformance is claimed.
+
+**V3.1 fidelity.** Composition, graph, panels, typography, colors, workflow,
+navigation, and technical depth are `CLOSE`. The header is a bounded
+`DEVIATION`: the existing legacy dashboard tab shell is retained above the new
+cockpit so existing static surfaces remain reachable.
+
+**Next exact gate:**
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001`, by a separate
+agent/session. Reconstruct the candidate and evidence independently. Do not
+push, merge, or deploy without separate explicit authorization. Evidence:
+`docs/tasks/MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001.md`.
+
 ## Latest Update — Cockpit V3.1 canonicalized; implementation task minted (MELLYCORE-COCKPIT-V3-CANONICALIZATION-001)
 
 **Result:** `PASS_WITH_LIMITATIONS`. Docs/spec/state only — **no `site/**`,

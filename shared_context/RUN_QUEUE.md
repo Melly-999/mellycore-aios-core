@@ -3,6 +3,39 @@
 This file contains actionable sequencing and gates. Completed-task detail belongs
 in `docs/tasks/` and Git history, not duplicated here.
 
+## Cockpit V3.1 Implementation — Complete Locally / Independent Acceptance Next
+
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` is
+`COMPLETE_LOCAL_UNACCEPTED` with implementation result
+`PASS_WITH_LIMITATIONS` on branch
+`feat/mellycore-cockpit-v3-implementation-001`, stacked directly on accepted
+canonicalization commit `031ed694504cbe593ac5738ca87afc3a6d2200b7`.
+
+The bounded static implementation owns the primary Command Center cockpit only.
+It completes all nine specified surfaces in `site/dashboard.html` and dedicated
+assets, including a deterministic derived graph containing the exact 45 nodes,
+66 relationships, and 8 clusters from
+`shared_context/context_graph_fixture_001.json`. It adds no backend, live
+provider, runtime activation, live ingestion, external integration, workflow
+YAML, dependency, or homepage change.
+
+Implementation self-validation passed: 696 unit tests; project-state validator;
+JavaScript, HTML, and JSON parsing; graph provenance; `git diff --check`; and
+real Chrome at 1920x1080, 1600x900, 1440x900, 1280x800, 1024x768, and 390x844.
+Chrome evidence found zero page-level horizontal overflow, graph-label clipping,
+duplicate IDs, console/runtime errors, or failed requests. Keyboard tabs, graph
+filters, node selection/focus retention, reduced motion, 8px minimum cockpit
+labels, 42px mobile controls, and the structured graph alternative were
+exercised. This is implementation evidence, **not independent acceptance** and
+not a WCAG conformance claim.
+
+**NEXT COCKPIT TASK:**
+`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001` — `ELIGIBLE`, requiring a
+separate agent/session. It must independently reconstruct and validate the
+candidate rather than accepting this implementation report as authority. No
+push, PR, merge, Production publication, or deployment is authorized by this
+entry.
+
 ## Cockpit Post-Hotfix Production Lane — Complete / State-Synced / PR #38 Merged
 
 The cockpit hotfix chain is complete through exact-SHA Production verification.

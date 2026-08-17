@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MellyCore AIOS Live Cockpit V2 — a static-first, read-only local command center framed as a social source arena: a local, deterministic Source Archive under simulated model lenses.">
-  <title>MellyCore AIOS — Live Cockpit V2</title>
+  <meta name="description" content="MellyCore AIOS Command Center — a static-first, read-only AI operations cockpit. Topology is derived from the repository, not from a live runtime. Execution is locked and no providers are connected.">
+  <title>MellyCore AIOS — Command Center</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
@@ -17,21 +17,22 @@
   <header class="dash-topbar">
     <div class="cockpit-shell dash-topbar-inner">
       <a class="dash-brand" href="index.html" aria-label="MellyCore AIOS homepage">
-        <span>MellyCore AIOS</span><span class="dash-version">Live Cockpit V2</span>
+        <span>MellyCore AIOS</span><span class="dash-version">Command Center</span>
       </a>
       <nav class="dash-tabs" role="tablist" aria-label="Cockpit sections">
+        <button class="dash-tab-btn" role="tab" id="tab-btn-cockpit" aria-controls="tab-cockpit" aria-selected="true" data-tab="cockpit">Dashboard</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="false" data-tab="overview">Overview</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-context" aria-controls="tab-context" aria-selected="false" data-tab="context">Context</button>
-        <button class="dash-tab-btn" role="tab" id="tab-btn-source-arena" aria-controls="tab-source-arena" aria-selected="true" data-tab="source-arena">Source Arena</button>
+        <button class="dash-tab-btn" role="tab" id="tab-btn-source-arena" aria-controls="tab-source-arena" aria-selected="false" data-tab="source-arena">Source Arena</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-compare" aria-controls="tab-compare" aria-selected="false" data-tab="compare">Model Arena</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-observatory" aria-controls="tab-observatory" aria-selected="false" data-tab="observatory">Observatory</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-loops" aria-controls="tab-loops" aria-selected="false" data-tab="loops">Loops</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-evidence" aria-controls="tab-evidence" aria-selected="false" data-tab="evidence">Evidence</button>
         <button class="dash-tab-btn" role="tab" id="tab-btn-roadmap" aria-controls="tab-roadmap" aria-selected="false" data-tab="roadmap">Roadmap</button>
       </nav>
-      <div class="dash-session" aria-label="Session status">
+      <div class="dash-session" aria-label="Local preview status">
         <span class="dash-session-dot" aria-hidden="true"></span>
-        <span>Local session</span>
+        <span>Static local</span>
         <time class="dash-clock" id="dash-clock">--:--:--</time>
       </div>
     </div>
@@ -39,12 +40,211 @@
 
   <main id="dash-main" class="cockpit-shell">
     <div class="dash-announcement" role="note">
-      <span>Static-first cockpit</span>
-      <span>Read only</span>
-      <span>Source Archive: local dataset</span>
-      <span>No network required</span>
-      <span>No model calls</span>
+      <span>Command Center V3.1</span>
+      <span>Static preview</span>
+      <span>Repository-derived topology</span>
+      <span>No live providers</span>
+      <span>Execution locked</span>
     </div>
+
+    <section class="dash-panel cockpit-v3" id="tab-cockpit" role="tabpanel" aria-labelledby="tab-btn-cockpit">
+      <h1 class="ckpt-sr-only">MellyCore Command Center cockpit</h1>
+
+      <!-- 1. COMMAND BAR -->
+      <div class="ckpt-bar" role="group" aria-label="Command bar">
+        <div class="ckpt-bar-mode">
+          <span class="ckpt-bar-key">System mode</span>
+          <span class="ckpt-bar-val"><span class="ckpt-dot ckpt-dot--amber" aria-hidden="true"></span>Static preview <i>·</i> Supervised</span>
+        </div>
+        <div class="ckpt-bar-mode">
+          <span class="ckpt-bar-key">Execution</span>
+          <span class="ckpt-bar-val ckpt-bar-val--locked">
+            <svg class="ckpt-lock" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 5V3.6a3 3 0 0 1 6 0V5h.6v6H2.4V5H3Zm1.4 0h3.2V3.6a1.6 1.6 0 0 0-3.2 0V5Z"/></svg>
+            Locked <i>·</i> No live providers
+          </span>
+        </div>
+        <div class="ckpt-bar-mode">
+          <span class="ckpt-bar-key">Context</span>
+          <span class="ckpt-bar-val" id="ckpt-bar-context">Repository-derived</span>
+        </div>
+        <div class="ckpt-bar-spacer" aria-hidden="true"></div>
+        <div class="ckpt-bar-view">
+          <span class="ckpt-bar-key">Current view</span>
+          <span class="ckpt-bar-val ckpt-mono" id="ckpt-bar-branch">—</span>
+        </div>
+        <div class="ckpt-bar-view ckpt-bar-view--snap">
+          <span class="ckpt-bar-key">Snapshot source</span>
+          <span class="ckpt-bar-val ckpt-mono" id="ckpt-bar-snapshot">—</span>
+        </div>
+      </div>
+
+      <div class="ckpt-grid">
+        <!-- LEFT COLUMN -->
+        <div class="ckpt-col ckpt-col--left">
+          <!-- 2. CONTEXT MANAGEMENT -->
+          <section class="ckpt-panel" aria-labelledby="ckpt-ctx-h">
+            <header class="ckpt-panel-head">
+              <h2 id="ckpt-ctx-h">Context Management</h2>
+              <span class="ckpt-tag ckpt-tag--snapshot">Snapshot</span>
+            </header>
+            <div class="ckpt-panel-body">
+              <dl class="ckpt-rows" id="ckpt-context-rows">
+                <div><dt>Valid records</dt><dd>7 <span>snapshot</span></dd></div>
+                <div><dt>Admitted</dt><dd>6 <span>snapshot</span></dd></div>
+                <div><dt>Rejected</dt><dd>1 <span>snapshot</span></dd></div>
+                <div><dt>Findings</dt><dd>0 <span>snapshot</span></dd></div>
+              </dl>
+              <p class="ckpt-note" id="ckpt-context-note">Frozen context audit · 2026-07-17 · not a live corpus count.</p>
+            </div>
+          </section>
+
+          <!-- 3. MODEL ROUTING -->
+          <section class="ckpt-panel ckpt-panel--grow" aria-labelledby="ckpt-route-h">
+            <header class="ckpt-panel-head">
+              <h2 id="ckpt-route-h">Model Routing</h2>
+              <span class="ckpt-tag ckpt-tag--config">Configured</span>
+            </header>
+            <div class="ckpt-panel-body ckpt-scroll">
+              <ul class="ckpt-route-list" id="ckpt-route-list">
+                <li><span>Strategy</span><strong>ChatGPT</strong><small>Configured intent</small></li>
+                <li><span>Architecture</span><strong>Claude</strong><small>Configured intent</small></li>
+                <li><span>Implementation</span><strong>Codex</strong><small>Configured intent</small></li>
+                <li><span>Critique</span><strong>Grok / xAI</strong><small>Configured intent</small></li>
+                <li><span>Gateway</span><strong>OmniRouter</strong><small>Preferred when available</small></li>
+              </ul>
+            </div>
+            <p class="ckpt-note ckpt-note--foot">Routing roles as configured in <code>shared_context/MODEL_ROUTING.md</code>. Configured intent — not measured traffic, latency, or cost.</p>
+          </section>
+        </div>
+
+        <!-- 4. CENTER: KNOWLEDGE &amp; OPERATIONS GRAPH -->
+        <section class="ckpt-panel ckpt-graph-panel" aria-labelledby="ckpt-graph-h">
+          <header class="ckpt-panel-head">
+            <h2 id="ckpt-graph-h">Knowledge &amp; Operations Graph</h2>
+            <span class="ckpt-graph-disclosure">Topology derived from repository <i>·</i> Not live runtime</span>
+          </header>
+
+          <div class="ckpt-graph-controls" role="group" aria-label="Graph layer filters">
+            <button type="button" class="ckpt-chip is-on" data-lane="all" aria-pressed="true">All lanes</button>
+            <button type="button" class="ckpt-chip" data-lane="shared-context" aria-pressed="false"><span class="ckpt-swatch" data-lane-swatch="shared-context" aria-hidden="true"></span>Shared Context</button>
+            <button type="button" class="ckpt-chip" data-lane="core-services" aria-pressed="false"><span class="ckpt-swatch" data-lane-swatch="core-services" aria-hidden="true"></span>Core Services</button>
+            <button type="button" class="ckpt-chip" data-lane="models" aria-pressed="false"><span class="ckpt-swatch" data-lane-swatch="models" aria-hidden="true"></span>Models</button>
+            <button type="button" class="ckpt-chip" data-lane="tools" aria-pressed="false"><span class="ckpt-swatch" data-lane-swatch="tools" aria-hidden="true"></span>Tools</button>
+            <button type="button" class="ckpt-chip" data-lane="governance" aria-pressed="false"><span class="ckpt-swatch" data-lane-swatch="governance" aria-hidden="true"></span>Governance</button>
+            <button type="button" class="ckpt-chip" data-lane="surfaces" aria-pressed="false"><span class="ckpt-swatch" data-lane-swatch="surfaces" aria-hidden="true"></span>Surfaces</button>
+            <button type="button" class="ckpt-chip ckpt-chip--reset" id="ckpt-graph-reset">Reset view</button>
+          </div>
+
+          <div class="ckpt-graph-stage">
+            <p class="ckpt-graph-status" id="ckpt-graph-status">Static repository topology · 45 nodes · 66 relationships · draft fixture</p>
+            <svg id="ckpt-graph" class="ckpt-graph-svg" viewBox="0 0 1184 732" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="ckpt-graph-h ckpt-graph-desc">
+              <desc id="ckpt-graph-desc">Static node-and-edge diagram of MellyCore's documented architecture, derived from the repository context fixture. A complete text equivalent follows the diagram.</desc>
+              <defs id="ckpt-graph-defs"></defs>
+              <g id="ckpt-g-clusters" class="ckpt-clusters"></g>
+              <g id="ckpt-g-edges" class="ckpt-edges"></g>
+              <g id="ckpt-g-nodes" class="ckpt-nodes"></g>
+            </svg>
+
+            <aside class="ckpt-inspector" id="ckpt-inspector" aria-live="polite" aria-labelledby="ckpt-insp-h">
+              <h3 id="ckpt-insp-h" class="ckpt-insp-title">Select a node</h3>
+              <p class="ckpt-insp-sum" id="ckpt-insp-sum">Choose any node in the graph, or any entry in the text equivalent below, to see its documented summary and repository sources.</p>
+              <dl class="ckpt-insp-meta" id="ckpt-insp-meta"></dl>
+            </aside>
+          </div>
+
+          <details class="ckpt-graph-alt" open>
+            <summary>Text equivalent of the graph <span class="ckpt-alt-count" id="ckpt-alt-count"></span></summary>
+            <div id="ckpt-graph-alt-body" class="ckpt-alt-body">
+              <section><h3>MellyCore Core</h3><p>Repository-governed AI operating-system architecture. The core depends on project rules, the agent entrypoint, Shared Context, and the Safety Contract.</p></section>
+              <section><h3>Shared Context</h3><p>Project State, Agent Handoff, Run Queue, and the shared-context root provide coordination state.</p></section>
+              <section><h3>Safety and Governance</h3><p>No secrets, no provider keys, no runtime backend, no workflow YAML, and no deployment without explicit approval.</p></section>
+              <section><h3>Static Surfaces</h3><p>The static homepage, local preview, evidence pack, and visual QA remain distinct from live runtime behavior.</p></section>
+            </div>
+          </details>
+        </section>
+
+        <!-- RIGHT COLUMN -->
+        <div class="ckpt-col ckpt-col--right">
+          <!-- 5. AI AGENTS / LOOP REGISTRY -->
+          <section class="ckpt-panel" aria-labelledby="ckpt-agents-h">
+            <header class="ckpt-panel-head">
+              <h2 id="ckpt-agents-h">AI Agents <i>/</i> Loop Registry</h2>
+              <span class="ckpt-tag ckpt-tag--defined">Defined</span>
+            </header>
+            <div class="ckpt-panel-body ckpt-scroll ckpt-scroll--agents">
+              <ul class="ckpt-agent-list" id="ckpt-agent-list">
+                <li><span><strong>Project Health</strong><small>Human-invoked loop</small></span><em>Exercised snapshot</em></li>
+                <li><span><strong>Context Drift</strong><small>Report-only loop</small></span><em>Defined</em></li>
+                <li><span><strong>Safety Posture</strong><small>Report-only loop</small></span><em>Defined</em></li>
+                <li><span><strong>CI Sweeper</strong><small>Action-capable loop</small></span><em>Disabled</em></li>
+              </ul>
+            </div>
+            <p class="ckpt-note ckpt-note--foot">Roles defined in the repository. No agent is running; no run state is claimed.</p>
+          </section>
+
+          <!-- 6. ARCHITECTURE SNAPSHOT -->
+          <section class="ckpt-panel" aria-labelledby="ckpt-snap-h">
+            <header class="ckpt-panel-head">
+              <h2 id="ckpt-snap-h">Architecture Snapshot</h2>
+              <span class="ckpt-tag ckpt-tag--frozen">Frozen <i>·</i> Not live</span>
+            </header>
+            <div class="ckpt-panel-body">
+              <dl class="ckpt-rows" id="ckpt-snapshot-rows">
+                <div><dt>Defined loops</dt><dd>9 <span>snapshot</span></dd></div>
+                <div><dt>Exercised loops</dt><dd>1 <span>snapshot</span></dd></div>
+                <div><dt>Production-enabled</dt><dd>0 <span>snapshot</span></dd></div>
+                <div><dt>Live providers</dt><dd>0 <span>architecture</span></dd></div>
+              </dl>
+              <p class="ckpt-note" id="ckpt-snapshot-note">Frozen repository snapshot · 2026-07-17 · not live observability.</p>
+            </div>
+          </section>
+
+          <!-- 7. ATTENTION QUEUE -->
+          <section class="ckpt-panel ckpt-panel--grow" aria-labelledby="ckpt-attn-h">
+            <header class="ckpt-panel-head">
+              <h2 id="ckpt-attn-h">Attention Queue</h2>
+              <span class="ckpt-tag" id="ckpt-attn-count">—</span>
+            </header>
+            <div class="ckpt-panel-body ckpt-scroll">
+              <ul class="ckpt-attn-list" id="ckpt-attn-list">
+                <li><span class="ckpt-severity ckpt-severity--review">Review</span><div><strong>Cockpit acceptance</strong><p>Independent six-width review remains the next gate after implementation.</p></div></li>
+                <li><span class="ckpt-severity ckpt-severity--blocked">Blocked</span><div><strong>Execution capability</strong><p>No runtime or execution-capable agent is authorized.</p></div></li>
+                <li><span class="ckpt-severity ckpt-severity--blocked">Blocked</span><div><strong>Live provider connection</strong><p>Migration trigger 5 remains fail-closed.</p></div></li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- 8. AI OPERATIONS WORKFLOW -->
+      <section class="ckpt-flow" aria-labelledby="ckpt-flow-h">
+        <div class="ckpt-flow-head">
+          <h2 id="ckpt-flow-h">AI Operations Workflow</h2>
+          <span class="ckpt-flow-note">Supervised pipeline <i>·</i> stage 5 is locked in this build</span>
+        </div>
+        <ol class="ckpt-flow-stages" id="ckpt-flow-stages">
+          <li><span>01</span><strong>Context Ingestion</strong><small>Guarded</small></li>
+          <li><span>02</span><strong>Intent &amp; Routing</strong><small>Configured</small></li>
+          <li><span>03</span><strong>Tool Orchestration</strong><small>Planned</small></li>
+          <li><span>04</span><strong>Approval &amp; Guardrails</strong><small>Required</small></li>
+          <li class="is-locked"><span>05</span><strong>Execution</strong><small>Locked</small></li>
+          <li><span>06</span><strong>Validation</strong><small>Evidence</small></li>
+          <li><span>07</span><strong>Audit Trail</strong><small>Recorded</small></li>
+        </ol>
+      </section>
+
+      <!-- 9. PRIMARY NAVIGATION -->
+      <nav class="ckpt-primary-nav" aria-label="Command Center destinations">
+        <button type="button" class="is-current" data-ckpt-tab="cockpit" aria-current="page">Dashboard</button>
+        <span aria-disabled="true">Operations <small>Planned</small></span>
+        <button type="button" data-ckpt-tab="loops">Agents</button>
+        <button type="button" data-ckpt-tab="observatory">Models</button>
+        <span aria-disabled="true">Tools <small>Planned</small></span>
+        <button type="button" data-ckpt-tab="context">Context</button>
+        <span aria-disabled="true">Policies <small>Planned</small></span>
+        <span aria-disabled="true">Audit <small>Planned</small></span>
+      </nav>
+    </section>
 
     <section class="dash-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview" hidden>
       <div class="dash-section-head">
@@ -145,7 +345,7 @@
           <button type="submit" class="arena-search-go">Search</button>
         </form>
         <div class="provider-rail" aria-label="Source providers — one local archive, planned source types">
-          <span class="provider-chip provider-chip--live">Source Archive · local dataset</span>
+          <span class="provider-chip provider-chip--local">Source Archive · local dataset</span>
           <span class="provider-chip provider-chip--next">GitHub Repository · planned</span>
           <span class="provider-chip">PDFs &amp; docs · planned</span>
           <span class="provider-chip">Websites · planned</span>
@@ -470,10 +670,10 @@
       <span class="command-label">Command / status</span>
       <span>Local static</span>
       <span>Read only</span>
-      <span>Source Archive: local</span>
-      <span>No network required</span>
-      <span>No model calls</span>
-      <strong id="footer-system-state"><i></i> Cockpit ready</strong>
+      <span>Repository topology</span>
+      <span>No live providers</span>
+      <span>Execution locked</span>
+      <strong id="footer-system-state"><i></i> Static preview loaded</strong>
     </div>
   </footer>
 

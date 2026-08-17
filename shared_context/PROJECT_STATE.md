@@ -14,11 +14,15 @@ Source Arena metaphor; the **cockpit** adopts V3.1. Neither displaces the other.
 
 Current truthful state of that surface:
 
-- The cockpit direction is **specified, not implemented.** Canonical `main`
-  contains the earlier Production-verified dashboard, not a V3.1 cockpit.
-- Implementation is owned by `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001`, which
-  is `ELIGIBLE` and **awaiting explicit Operator authorization**. Eligibility
-  is not authorization, and does not authorize merge or deployment.
+- The cockpit direction is specified and now **implemented locally, awaiting
+  independent acceptance** on branch
+  `feat/mellycore-cockpit-v3-implementation-001`. Canonical `main` still
+  contains the earlier Production-verified dashboard, not this V3.1 cockpit.
+- `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001` is
+  `COMPLETE_LOCAL_UNACCEPTED`; its implementation self-validation returned
+  `PASS_WITH_LIMITATIONS`. It is not pushed, merged, deployed, or independently
+  accepted. `MELLYCORE-COCKPIT-V3-IMPLEMENTATION-ACCEPTANCE-001` is the next
+  gate and must run in a separate agent/session.
 - Execution remains **locked**; no provider is connected; no runtime is active.
 - The V3.1 design artifacts are **unversioned and external** to the repository.
   The specification, not the artifact, is the durable source of truth.
