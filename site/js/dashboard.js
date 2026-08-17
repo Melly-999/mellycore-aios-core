@@ -739,6 +739,147 @@
     return lines;
   }
 
+  function paddedScreenRect(rect, padding) {
+    return {
+      left: rect.left - padding,
+      top: rect.top - padding,
+      right: rect.right + padding,
+      bottom: rect.bottom + padding,
+    };
+  }
+
+  function screenRectOverlapArea(a, b) {
+    return Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
+      * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+  }
+
+  function setGraphLabelPosition(label, candidate, lineCount) {
+    label.setAttribute("x", candidate.x);
+    label.setAttribute("y", candidate.y);
+    label.setAttribute("text-anchor", candidate.anchor);
+    label.querySelectorAll("tspan").forEach((line, index) => {
+      line.setAttribute("x", candidate.x);
+      line.setAttribute("dy", index === 0 ? `${-((lineCount - 1) * 7)}px` : "14px");
+    });
+  }
+
+  function graphLabelCandidates(node, lineCount) {
+    const radius = Number(node.r || 6);
+    const base = radius + 11;
+    const preferred = node.anchor === "end" ? "end" : (node.anchor === "start" ? "start" : "start");
+    const candidates = [];
+    const add = (x, y, anchor) => candidates.push({ x, y, anchor });
+
+    if (preferred === "end") add(-base, 0, "end");
+    else add(base, 0, "start");
+
+    const verticalOffsets = [0];
+    for (let offset = 9; offset <= 216; offset += 9) verticalOffsets.push(-offset, offset);
+    [base, base + 20, base + 42, base + 70, base + 102, base + 136, base + 176, base + 216].forEach((distance) => {
+      verticalOffsets.forEach((offset) => {
+        add(distance, offset, "start");
+        add(-distance, offset, "end");
+      });
+    });
+
+    const verticalDistance = radius + 16 + ((lineCount - 1) * 7);
+    [0, -28, 28, -56, 56, -84, 84, -112, 112, -140, 140, -168, 168, -196, 196].forEach((offset) => {
+      add(offset, -verticalDistance, "middle");
+      add(offset, verticalDistance + 8, "middle");
+    });
+
+    const seen = new Set();
+    return candidates.filter((candidate) => {
+      const key = `${candidate.x}|${candidate.y}|${candidate.anchor}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function layoutCockpitGraphLabels(nodes) {
+    const svg = document.getElementById("ckpt-graph");
+    const stage = document.querySelector(".ckpt-graph-stage");
+    if (!svg || !stage || svg.getBoundingClientRect().width < 1) return;
+
+    const stageRect = paddedScreenRect(stage.getBoundingClientRect(), -4);
+    const inspector = document.getElementById("ckpt-inspector");
+    const graphStatus = document.getElementById("ckpt-graph-status");
+    const reserved = [inspector, graphStatus]
+      .filter((element) => element && element.getBoundingClientRect().width > 0)
+      .map((element) => paddedScreenRect(element.getBoundingClientRect(), 5));
+    document.querySelectorAll(".ckpt-cluster-label").forEach((label) => {
+      reserved.push(paddedScreenRect(label.getBoundingClientRect(), 3));
+    });
+
+    const nodeShapes = [...document.querySelectorAll(".ckpt-node")].map((group) => ({
+      id: group.dataset.nodeId,
+      rect: paddedScreenRect(group.querySelector(".ckpt-node-shape").getBoundingClientRect(), 3),
+    }));
+    const nodesById = new Map(nodes.map((node) => [node.id, node]));
+    const labels = [...document.querySelectorAll(".ckpt-node-label")].map((label) => ({
+      label,
+      group: label.closest(".ckpt-node"),
+      node: nodesById.get(label.closest(".ckpt-node").dataset.nodeId),
+    })).filter((entry) => entry.node);
+
+    labels.sort((a, b) => {
+      const coreOrder = Number(b.node.id === state.cockpitGraph.core) - Number(a.node.id === state.cockpitGraph.core);
+      if (coreOrder) return coreOrder;
+      const radiusOrder = Number(b.node.r || 6) - Number(a.node.r || 6);
+      if (radiusOrder) return radiusOrder;
+      return b.node.label.length - a.node.label.length || a.node.id.localeCompare(b.node.id);
+    });
+
+    const accepted = [];
+    labels.forEach(({ label, group, node }) => {
+      const lineCount = label.querySelectorAll("tspan").length || 1;
+      const candidates = graphLabelCandidates(node, lineCount);
+      const otherShapes = nodeShapes.filter((shape) => shape.id !== node.id).map((shape) => shape.rect);
+      let best = null;
+
+      for (let index = 0; index < candidates.length; index += 1) {
+        const candidate = candidates[index];
+        setGraphLabelPosition(label, candidate, lineCount);
+        const rect = paddedScreenRect(label.getBoundingClientRect(), 2);
+        let score = index * .001;
+        if (rect.left < stageRect.left || rect.right > stageRect.right || rect.top < stageRect.top || rect.bottom > stageRect.bottom) {
+          score += 1000000000000;
+        }
+        reserved.forEach((blocked) => {
+          score += screenRectOverlapArea(rect, blocked) * 1000;
+        });
+        accepted.forEach((blocked) => {
+          score += screenRectOverlapArea(rect, blocked) * 1000;
+        });
+        otherShapes.forEach((blocked) => {
+          score += screenRectOverlapArea(rect, blocked);
+        });
+        if (!best || score < best.score) best = { candidate, rect, score };
+        if (score < 1) break;
+      }
+
+      setGraphLabelPosition(label, best.candidate, lineCount);
+      accepted.push(paddedScreenRect(label.getBoundingClientRect(), 2));
+
+      let leader = group.querySelector(".ckpt-label-leader");
+      const displaced = Math.abs(best.candidate.y) > 10 || Math.abs(best.candidate.x) > Number(node.r || 6) + 20;
+      if (displaced && !leader) {
+        leader = svgElement("line", { class: "ckpt-label-leader", x1: 0, y1: 0 });
+        group.insertBefore(leader, label);
+      }
+      if (leader) {
+        leader.hidden = !displaced;
+        if (displaced) {
+          const endX = best.candidate.anchor === "start" ? best.candidate.x - 3
+            : (best.candidate.anchor === "end" ? best.candidate.x + 3 : best.candidate.x);
+          leader.setAttribute("x2", endX);
+          leader.setAttribute("y2", best.candidate.y - ((lineCount - 1) * 7));
+        }
+      }
+    });
+  }
+
   function graphNodeShape(node) {
     const r = Number(node.r || 6);
     if (node.type === "doc") return svgElement("rect", { x: -r * 1.45, y: -r, width: r * 2.9, height: r * 2, rx: 1.5, class: "ckpt-node-shape" });
@@ -916,7 +1057,7 @@
       const text = svgElement("text", { x: labelX, y: labelY, "text-anchor": anchor, class: "ckpt-node-label" });
       const lines = splitGraphLabel(node.label, isCore ? 24 : 21);
       lines.forEach((line, index) => {
-        const tspan = svgElement("tspan", { x: labelX, dy: index === 0 ? `${-((lines.length - 1) * 5.5)}px` : "11px" });
+        const tspan = svgElement("tspan", { x: labelX, dy: index === 0 ? `${-((lines.length - 1) * 7)}px` : "14px" });
         tspan.textContent = line;
         text.appendChild(tspan);
       });
@@ -931,6 +1072,7 @@
     });
 
     renderGraphInspector(selected);
+    layoutCockpitGraphLabels(nodes);
   }
 
   function initCockpitInteractions() {

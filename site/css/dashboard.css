@@ -1932,7 +1932,7 @@ button {
   background: #090d14;
   color: #94a3b8;
   font-family: var(--font-mono);
-  font-size: .5rem;
+  font-size: .625rem;
   letter-spacing: .03em;
   cursor: pointer;
 }
@@ -1967,14 +1967,14 @@ button {
   margin: 0;
   color: #64748b;
   font-family: var(--font-mono);
-  font-size: .5rem;
+  font-size: .625rem;
   letter-spacing: .035em;
   text-transform: uppercase;
   pointer-events: none;
 }
 .ckpt-graph-svg { width: 100%; height: 100%; min-height: 280px; display: block; }
 .ckpt-cluster-hull { fill: currentColor; fill-opacity: .016; stroke: currentColor; stroke-opacity: .14; stroke-width: 1; stroke-dasharray: 4 7; }
-.ckpt-cluster-label { fill: currentColor; fill-opacity: .68; font: 700 9px var(--font-mono); letter-spacing: .09em; text-transform: uppercase; }
+.ckpt-cluster-label { fill: currentColor; fill-opacity: .72; font: 700 11px var(--font-mono); letter-spacing: .07em; text-transform: uppercase; }
 .ckpt-edge { fill: none; stroke: #64748b; stroke-linecap: round; transition: opacity 140ms ease, stroke 140ms ease; }
 .ckpt-edge--primary { stroke: var(--ckpt-cyan); stroke-width: 2.2; opacity: .72; }
 .ckpt-edge--secondary { stroke-width: 1.35; opacity: .42; }
@@ -1996,7 +1996,8 @@ button {
 .ckpt-node-shape { fill: #09101a; stroke: currentColor; stroke-width: 1.35; vector-effect: non-scaling-stroke; transition: filter 140ms ease, opacity 140ms ease; }
 .ckpt-node-focus { fill: none; stroke: transparent; }
 .ckpt-node--source .ckpt-node-shape { stroke-dasharray: 2 2; }
-.ckpt-node-label { fill: #cbd5e1; font: 500 10px var(--font-mono); letter-spacing: .005em; paint-order: stroke; stroke: #06090f; stroke-width: 2.2px; stroke-linejoin: round; }
+.ckpt-label-leader { stroke: currentColor; stroke-width: .8; opacity: .34; vector-effect: non-scaling-stroke; pointer-events: none; }
+.ckpt-node-label { fill: #d7e2f0; font: 600 15px var(--font-mono); letter-spacing: .002em; paint-order: stroke; stroke: #06090f; stroke-width: 2.6px; stroke-linejoin: round; }
 .ckpt-node:hover .ckpt-node-shape,
 .ckpt-node:focus-visible .ckpt-node-shape,
 .ckpt-node.is-selected .ckpt-node-shape { fill: currentColor; fill-opacity: .18; filter: drop-shadow(0 0 5px currentColor); stroke-width: 2.2; }
@@ -2006,7 +2007,7 @@ button {
 .ckpt-core-orbit { fill: none; stroke: var(--ckpt-cyan); stroke-width: 1.3; stroke-dasharray: 3 5; opacity: .62; }
 .ckpt-core-halo { fill: rgba(56, 189, 248, .08); stroke: rgba(125, 211, 252, .28); stroke-width: 1; }
 .ckpt-node--core .ckpt-node-shape { fill: rgba(56, 189, 248, .18); stroke-width: 2.2; filter: drop-shadow(0 0 8px rgba(56, 189, 248, .75)); }
-.ckpt-node--core .ckpt-node-label { fill: #e0f2fe; font-size: 13px; font-weight: 800; letter-spacing: .055em; }
+.ckpt-node--core .ckpt-node-label { fill: #e0f2fe; font-size: 18px; font-weight: 800; letter-spacing: .04em; }
 
 .ckpt-inspector {
   position: absolute;
@@ -2025,8 +2026,8 @@ button {
 .ckpt-insp-title { margin: 0 0 5px; color: var(--ckpt-cyan); font-family: var(--font-mono); font-size: .72rem; }
 .ckpt-insp-sum { margin: 0; color: var(--ckpt-muted); font-size: .61rem; line-height: 1.45; }
 .ckpt-insp-meta { margin: 7px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 8px; }
-.ckpt-insp-meta dt { color: #64748b; font-family: var(--font-mono); font-size: .5rem; text-transform: uppercase; }
-.ckpt-insp-meta dd { margin: 0; overflow-wrap: anywhere; color: #cbd5e1; font-size: .52rem; }
+.ckpt-insp-meta dt { color: #64748b; font-family: var(--font-mono); font-size: .625rem; text-transform: uppercase; }
+.ckpt-insp-meta dd { margin: 0; overflow-wrap: anywhere; color: #cbd5e1; font-size: .625rem; }
 
 .ckpt-graph-alt { border-top: 1px solid var(--ckpt-line); background: #070a10; }
 .ckpt-graph-alt > summary { min-height: 30px; padding: 6px 9px; color: var(--ckpt-muted); font-family: var(--font-mono); font-size: .55rem; cursor: pointer; }
@@ -2161,6 +2162,9 @@ button {
   .ckpt-alt-cluster > summary { min-height: 42px; padding: 10px 0; }
   .ckpt-alt-node-list button { min-height: 42px; font-size: .62rem; }
   .ckpt-alt-node-list button { grid-template-columns: 1fr; }
+  .ckpt-col--right { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .ckpt-col--right > .ckpt-panel { min-height: 0; height: auto; overflow: visible; }
+  .ckpt-col--right > .ckpt-panel > .ckpt-scroll { max-height: none; overflow: visible; }
   .ckpt-panel-head { min-height: 42px; padding-inline: 11px; }
   .ckpt-panel-body { padding: 10px 11px; }
   .ckpt-panel-head h2,

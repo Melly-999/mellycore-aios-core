@@ -1,5 +1,36 @@
 # Agent Handoff
 
+## Latest Update — Cockpit V3.1 acceptance remediation complete locally (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REMEDIATION-001)
+
+**Result:** `VALIDATED_LOCAL_REMEDIATION` — the two independently established
+P1 findings are remediated on
+`fix/mellycore-cockpit-v3-implementation-remediation-001`, based on
+`86f496e18fcbb8e274ca52f680ed5b891438668e`. **Not pushed, merged, or
+deployed.**
+
+**Remediation.** Graph labels now use deterministic collision-aware placement,
+reserved inspector/status/cluster regions, and leader lines where displacement
+is required; essential graph text was enlarged for readability. At `390x844`,
+AI Agents, Architecture Snapshot, and Attention Queue now stack with intrinsic
+content height instead of collapsing.
+
+**Preserved contract.** The static HTML/CSS/JS architecture, accepted header,
+legacy tabs, truth labels, 45 nodes, 66 edges, 8 clusters, node identities, and
+edge tuples remain unchanged. No dependency, provider, runtime, backend,
+external integration, or deployment change was introduced.
+
+**Validation run.** Real Chrome collision audits at `1600x900`, `1440x900`,
+`1920x1080`, `1280x800`, and `1024x768` reported zero label overlap, inspector
+occlusion, and stage escape. At `390x844`, all three affected panels had
+non-zero intrinsic height and the page had no horizontal overflow. Structural
+provenance passed at 45/66/8 with exact fixture identities and edge tuples;
+`cockpit_graph.json` is unchanged. `node --check site/js/dashboard.js`, the
+project-state validator, all 696 unit tests, and `git diff --check` passed.
+
+**Next exact gate:** after creation of the one authorized local remediation
+commit, perform independent re-acceptance. Do not push, merge, deploy, or
+redesign the accepted header.
+
 ## Latest Update — Cockpit V3.1 implemented locally; independent acceptance next (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-001)
 
 **Result:** `COMPLETE_LOCAL_UNACCEPTED` — implementation
