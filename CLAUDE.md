@@ -1,19 +1,21 @@
 # CLAUDE.md
 
-MellyCore AIOS is a standalone project and is separate from MellyTrade.
+@AGENTS.md
 
-Claude Code must read the shared context before work:
+`AGENTS.md`, imported above, is the canonical shared multi-agent policy for
+MellyCore AIOS: authority hierarchy, preflight, edit discipline, safety
+posture, validation honesty, review principles, commit/handoff convention,
+and stop conditions. Read it first. This file holds only what is specific
+to running as Claude Code in this repository.
 
-- `shared_context/PROJECT_STATE.md`
-- `shared_context/AGENT_HANDOFF.md`
-- `shared_context/RUN_QUEUE.md`
-- `shared_context/SAFETY_CONTRACT.md`
-- `shared_context/MODEL_ROUTING.md`
-- `shared_context/DESIGN_SYSTEM.md`
+## Claude Code commands
 
-Use a docs-first workflow until a later run explicitly authorizes runtime app code. Do not mutate MellyTrade repositories unless the user explicitly requests that in a separate task. Do not add secrets, real API keys, provider tokens, `.env` values, local databases, or runtime state.
+`.claude/commands/` holds Claude-Code-specific procedures that implement
+`AGENTS.md`'s rules — use them rather than re-deriving the same discipline
+from scratch each session:
 
-Do not push, merge, deploy, reset, rebase, clean, force push, or delete branches without explicit approval.
+- `plan-task.md` — read-only planning before non-trivial work.
+- `review.md` — independent review of another session's work.
+- `diff-audit.md` — pre-commit / pre-handoff audit of a pending change.
 
-Update `shared_context/AGENT_HANDOFF.md` after meaningful work.
-
+Do not restate their procedures here or in `AGENTS.md`.

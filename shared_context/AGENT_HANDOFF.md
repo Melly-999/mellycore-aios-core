@@ -46,6 +46,77 @@ measurement table:
 — `ELIGIBLE`, not executed by this task. Do not push, merge, deploy, or
 redesign the accepted header.
 
+## Latest Update — Claude Code workflow hardening implemented (docs-only)
+
+`CLAUDE-CODE-WORKFLOW-HARDENING-001`
+
+- Implemented the bounded delta recommended by
+  `MELLYCORE-AGENT-POLICY-DIFF-001`'s Section 11 (as narrowed by this
+  task's own explicit Scope): `AGENTS.md` is now the canonical shared
+  multi-agent policy owner for this repository, and root `CLAUDE.md` is a
+  thin Claude-Code-specific wrapper that imports it via Claude Code's own
+  `@AGENTS.md` inclusion syntax rather than duplicating its content.
+- Directly closed the concrete duplication the policy diff's Finding F1
+  identified: the six-file `shared_context/` read-order list and the
+  overlapping safety/docs-first/handoff bullets, previously word-for-word
+  identical between `AGENTS.md` and `CLAUDE.md`, now exist in exactly one
+  file. `AGENTS.md` grew from 45 to 111 lines (new: an authority
+  hierarchy, edit discipline, validation-honesty, review-principles, and
+  stop-conditions sections, each generalizing wording already proven in
+  `agent_prompts/loops/mellycore-loop-constraints.md` and
+  `mellycore-loop-verifier.md` — MellyCore's own prior work, not external
+  text); `CLAUDE.md` shrank to 21 lines of pure pointer plus a
+  Claude-Code-specific command index. A genuine content gap found during
+  implementation (a MellyTrade-mutation rule that previously existed only
+  in `CLAUDE.md`, not `AGENTS.md`) was corrected by moving it to the
+  canonical file, since it applies to every agent, not only Claude Code.
+- Created three new `.claude/commands/*.md` files —
+  `plan-task.md` (read-only preflight/planning), `review.md` (independent
+  review; does not inherit PASS, defaults to REJECT until evidence
+  supports every claim), and `diff-audit.md` (pre-commit/pre-handoff
+  bounded audit ending in `COMMIT_READY` / `NEEDS_FIXES` / `BLOCKED`) —
+  each generalizing the already-proven `agent_prompts/loops/` independence
+  and preflight patterns for non-loop work, by reference rather than
+  restatement, and each pointing back to `AGENTS.md` for the shared
+  safety posture instead of restating it.
+- No text was copied verbatim from either external reference (the
+  Karpathy-inspired file or the OpenBot extraction); both remain exactly
+  as scoped by the prior tasks — persuasive input only, not source
+  material folded into policy.
+- Scope was intentionally narrower than the policy diff's full Section 11
+  recommendation: this task's own explicit Scope did not authorize
+  touching `shared_context/SAFETY_CONTRACT.md` (the secret-redaction
+  clause) or creating a new task-prompt-template document; both remain
+  open recommendations for a possible future, separately scoped task.
+- The durable report,
+  `docs/tasks/CLAUDE-CODE-WORKFLOW-HARDENING-001.md`, records the full
+  before/after content decisions, the validation sequence actually run
+  (changed-path audit, `git diff --check`, a secret-pattern scan — one
+  benign false positive on the substring "task-specific" reviewed and
+  cleared, a `.env`-path scan, a forbidden-implementation-path scan, and a
+  duplicate-block check confirming `CLAUDE.md` now has zero occurrences of
+  content `AGENTS.md` already states), and a self-critique.
+- This task changed exactly six files in its hardening commit
+  (`AGENTS.md`, `CLAUDE.md`, three new `.claude/commands/*.md` files, and
+  the new task report) plus this handoff entry in a second, isolated
+  commit — matching the two-commit convention the immediately preceding
+  `MELLYCORE-AGENT-POLICY-DIFF-001` task used, which
+  `MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001` classified
+  `ACCEPTABLE_WITH_EXPLANATION`. No MellyCore runtime, frontend, provider,
+  MCP, or workflow-YAML file was touched. **Not pushed, not merged, not
+  deployed** — this hardening is implemented but not yet independently
+  reviewed or accepted.
+- Safety and adjacent gates (unaffected by this task): `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
+  `USD_0_01_SPEND_NOT_AUTHORIZED`, and `MIGRATION_TRIGGER_5_NOT_YET_CROSSED`
+  remain binding; PR #35 remains `OPEN_REMEDIATION_REQUIRED`; PR #28 remains
+  open, unmerged, paused, with physical Android Chromium Gate B
+  `OPEN / NOT EXECUTED`. This task did not touch any of that state.
+- Exact next task: `CLAUDE-CODE-WORKFLOW-HARDENING-REVIEW-001` — an
+  independent, read-only review of this task's changes, verifying the
+  duplication reduction, the absence of verbatim external text, and that
+  no scope beyond this task's own narrowed authorization was silently
+  implemented. This task does not execute it.
+
 ## Latest Update — Cockpit V3.1 acceptance remediation complete locally (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REMEDIATION-001)
 
 **Result:** `VALIDATED_LOCAL_REMEDIATION` — the two independently established
