@@ -1,5 +1,59 @@
 # Agent Handoff
 
+## Latest Update — Claude Code workflow hardening landed and citation corrected (docs-only)
+
+`CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001`
+
+- Landed `CLAUDE-CODE-WORKFLOW-HARDENING-001` (commits `80a2029`,
+  `85fbfa7`, originally on
+  `docs/mellycore-openai-batch-final-canonical-reconciliation-001`, which
+  this branch's HEAD had no ancestry with) onto a new branch,
+  `docs/claude-code-workflow-hardening-landing-001`, created from this
+  repository's actual current baseline HEAD. `AGENTS.md` and `CLAUDE.md`
+  applied with zero conflicts (byte-identical base on both branches);
+  `shared_context/AGENT_HANDOFF.md` conflicted and was resolved by hand —
+  this branch's own true latest entry (Cockpit V3.1 reacceptance, below)
+  was left untouched, and the hardening entry's original, unmodified text
+  was inserted immediately after it. This addresses finding **CCWH-R-001**
+  from `CLAUDE-CODE-WORKFLOW-HARDENING-REVIEW-001-RERUN`.
+- Corrected finding **CCWH-R-002** from the same review: the hardening
+  task's report and handoff entry had restated an unverifiable claim —
+  that the two-commit convention was validated by
+  `MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001`'s
+  `ACCEPTABLE_WITH_EXPLANATION` classification — as settled fact, dropping
+  a caveat `MELLYCORE-AGENT-POLICY-DIFF-001` had already disclosed (no
+  durable artifact by that name exists anywhere in this repository's
+  history; re-confirmed here via `git log --all`, zero matches). A
+  correction was appended directly after the original text in both
+  `docs/tasks/CLAUDE-CODE-WORKFLOW-HARDENING-001.md` (new Section 14) and
+  the hardening entry below — the original sentences were not edited in
+  place, so both files remain a faithful record of what was actually
+  written at the time.
+- This task changed exactly four files across three isolated, docs-only
+  commits: commit 1 (landing) — `AGENTS.md`, `CLAUDE.md`, three new
+  `.claude/commands/*.md` files, and the landed
+  `docs/tasks/CLAUDE-CODE-WORKFLOW-HARDENING-001.md`, plus the
+  conflict-resolved `shared_context/AGENT_HANDOFF.md`; commit 2 (citation
+  remediation) — the same task report and handoff file, plus the new
+  `docs/tasks/CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001.md`; commit 3
+  (this entry) — `shared_context/AGENT_HANDOFF.md` only. No MellyCore
+  runtime, frontend, provider, MCP, or workflow-YAML file was touched; no
+  package or dependency manifest was touched. **Not pushed, not merged,
+  not deployed** — this landing exists only on
+  `docs/claude-code-workflow-hardening-landing-001`, a new local branch,
+  and has not been merged into any integration branch.
+- Safety and adjacent gates (unaffected by this task):
+  `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`, `USD_0_01_SPEND_NOT_AUTHORIZED`,
+  and `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding; PR #35 remains
+  `OPEN_REMEDIATION_REQUIRED`; PR #28 remains open, unmerged, paused, with
+  physical Android Chromium Gate B `OPEN / NOT EXECUTED`. This task did
+  not touch any of that state.
+- Exact next task: `MELLYCORE-PROMPT-STANDARDIZATION-001` — may proceed
+  using this landed, citation-corrected hardening as input, subject to the
+  still-open limitation that `docs/claude-code-workflow-hardening-landing-001`
+  has not yet been merged into an integration branch. This task does not
+  execute it.
+
 ## Latest Update — Cockpit V3.1 independently reaccepted, PASS (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001)
 
 **Result:** `PASS`. `ACCEPTED_FOR_INTEGRATION: YES`,
