@@ -303,3 +303,25 @@ if the reviewing session chooses to exercise it), verifying the duplication
 reduction, the absence of verbatim external text, and that no scope beyond
 this task's own Section 3/10 was silently implemented. This task does not
 execute it.
+
+## 14. CITATION CORRECTION (added by CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001)
+
+`CLAUDE-CODE-WORKFLOW-HARDENING-REVIEW-001-RERUN` (finding CCWH-R-002)
+independently verified that no durable repository artifact named
+`MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001` exists anywhere in this
+repository's history — confirmed again here via `git log --all` and
+`git log --all --diff-filter=A --name-only`, both returning zero matches.
+
+Section 12 above states the two-commit convention was used "which
+`MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001` classified
+`ACCEPTABLE_WITH_EXPLANATION`." That claim is not corrected in place, to
+preserve this report as a faithful record of what this task originally
+wrote. The correction: `MELLYCORE-AGENT-POLICY-DIFF-001` (the task this
+report's Section 12 cites as precedent) had itself already disclosed this
+exact gap in its own handoff entry, treating that review's reported
+outcome as operator-attested current-turn context, not independently
+re-verifiable repository evidence. This report's Section 12 restated the
+claim without that caveat, presenting it as settled fact. The two-commit
+split remains justified on independent grounds — `AGENTS.md`'s own new
+rule ("a separate, single-purpose commit for that update is acceptable,
+and often preferable") — without needing the unverifiable citation.

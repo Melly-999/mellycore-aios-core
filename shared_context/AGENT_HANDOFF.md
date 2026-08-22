@@ -117,6 +117,24 @@ redesign the accepted header.
   no scope beyond this task's own narrowed authorization was silently
   implemented. This task does not execute it.
 
+**Citation correction (added by `CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001`,
+not edited in place above to preserve this as a faithful record of what
+was originally written):** the bullet above claims the two-commit split
+matched a convention that
+`MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001` classified
+`ACCEPTABLE_WITH_EXPLANATION`. No durable repository artifact by that name
+exists anywhere in this repository's history (re-confirmed via `git log
+--all` and `git log --all --diff-filter=A --name-only`, both zero
+matches). `MELLYCORE-AGENT-POLICY-DIFF-001` — the task this bullet cites
+as precedent — had itself already disclosed exactly this gap in its own
+handoff entry, treating that review's reported outcome as
+operator-attested current-turn context, not independently re-verifiable
+repository evidence, rather than silently trusting it. This entry dropped
+that caveat and restated the claim as settled fact; that was an error,
+identified by `CLAUDE-CODE-WORKFLOW-HARDENING-REVIEW-001-RERUN` (finding
+CCWH-R-002). The two-commit split itself remains justified independently
+of this citation, via the `AGENTS.md` handoff rule this same task added.
+
 ## Latest Update — Cockpit V3.1 acceptance remediation complete locally (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REMEDIATION-001)
 
 **Result:** `VALIDATED_LOCAL_REMEDIATION` — the two independently established
