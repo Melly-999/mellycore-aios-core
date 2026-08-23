@@ -1,5 +1,65 @@
 # Agent Handoff
 
+## Latest Update — MellyCore task prompt standard created (docs-only)
+
+`MELLYCORE-PROMPT-STANDARDIZATION-001`
+
+- Created `docs/specs/MELLYCORE_TASK_PROMPT_STANDARD_SPEC_001.md`, the
+  canonical reusable task-prompt standard for MellyCore agent runs,
+  building on `CLAUDE-CODE-WORKFLOW-HARDENING-001` and
+  `CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001` (below): `AGENTS.md` as
+  canonical shared policy owner, `CLAUDE.md` as its thin wrapper, and the
+  three `.claude/commands/*.md` procedures, plus this new document
+  defining the required *shape* of a task prompt itself.
+- The standard defines all 13 requested sections (ROLE, TASK, GOAL,
+  CONTEXT, PREFLIGHT, SCOPE, SAFETY POSTURE, IMPLEMENTATION RULES,
+  VALIDATION, STOP CONDITIONS, SELF-CRITIQUE, FINAL REPORT, COMMIT / NO
+  PUSH), each with purpose / required content / forbidden content /
+  common failure mode / short example; five task-mode variants
+  (planning-only, read-only review, docs-only mutation, implementation,
+  external research) as a single comparison table; a compact,
+  copy-paste-ready template; an anti-pattern list; and a migration note
+  scoping the standard to future prompts only — no historical prompt or
+  task report was rewritten or touched.
+- Followed the canonical-owner-plus-thin-wrapper pattern
+  `agent_prompts/loops/README.md` already proves, and used `docs/specs/`'s
+  existing `MELLYCORE_<NAME>_SPEC_NNN` naming convention (10+ precedents)
+  rather than the task prompt's own `docs/prompts/` fallback suggestion,
+  since a closer existing equivalent was available. Every safety/
+  validation/stop-condition reference in the new document points back to
+  `AGENTS.md` rather than restating its rules — verified by reading, not
+  by an automated text diff, since the relationship is about reference
+  and commentary rather than textual overlap (disclosed as a limitation
+  in the durable report rather than overstated as mechanically verified).
+- Section 1 of the new standard grounds its own motivation directly in
+  this session's prior work: the unverifiable
+  `MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001` citation that
+  `CLAUDE-CODE-WORKFLOW-HARDENING-001` restated as settled fact (corrected
+  in `CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001`, below) is used as the
+  concrete illustrative anti-pattern for why VALIDATION and SELF-CRITIQUE
+  must require checked evidence, not restated prior claims.
+- This task changed exactly two new files across two isolated, docs-only
+  commits: commit 1 — the new spec and this task's own durable report;
+  commit 2 (this entry) — `shared_context/AGENT_HANDOFF.md` only. No
+  historical prompt, task report, `AGENTS.md`, `CLAUDE.md`, or
+  `.claude/commands/*` file was modified. No MellyCore runtime, frontend,
+  provider, MCP, or workflow-YAML file was touched; no package or
+  dependency manifest was touched. **Not pushed, not merged, not
+  deployed** — this remains on
+  `docs/claude-code-workflow-hardening-landing-001`, still unmerged into
+  any integration branch.
+- Safety and adjacent gates (unaffected by this task):
+  `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`, `USD_0_01_SPEND_NOT_AUTHORIZED`,
+  and `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding; PR #35 remains
+  `OPEN_REMEDIATION_REQUIRED`; PR #28 remains open, unmerged, paused, with
+  physical Android Chromium Gate B `OPEN / NOT EXECUTED`. This task did
+  not touch any of that state.
+- Exact next task: `MELLYCORE-PROMPT-STANDARDIZATION-REVIEW-001` — an
+  independent, read-only review of this task's changes, verifying the new
+  standard's alignment with `AGENTS.md`, its non-duplication, its
+  thirteen-section and five-task-mode coverage, and that no historical
+  prompt was touched. This task does not execute it.
+
 ## Latest Update — Claude Code workflow hardening landed and citation corrected (docs-only)
 
 `CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001`
