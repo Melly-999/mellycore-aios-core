@@ -1423,7 +1423,14 @@ none implemented):
    see "Operator Command" below) into a registrable family.
 4. **Skills Layer** (`MELLYCORE-SKILLS-LAYER-SPEC-001`) — a Skill Registry: a
    contract for packaged, reusable, triggerable workflows with declared
-   inputs, outputs, and required capabilities.
+   inputs, outputs, and required capabilities. **Preceded by**
+   `MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-001` (spec drafted 2026-09-21,
+   unverified): the routing/selection, provider-adapter, Klaus-consumer, and
+   trust boundary this registry must satisfy. Lane order:
+   routing contract → `MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-REVIEW-001` →
+   Skills Layer / Plugin Layer specs → their reviews → any adapter,
+   registry, eval, or UI work. This note mints no implementation task,
+   reorders no other lane, and unlocks no frontend gate.
 5. **Hooks Layer** (`MELLYCORE-HOOKS-LAYER-SPEC-001`) — a Hook Registry: a
    contract for event-driven automation bound to Agent Runtime lifecycle
    events, without introducing a new execution path around the Runtime's

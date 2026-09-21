@@ -1,5 +1,38 @@
 # Agent Handoff
 
+## Latest Update — Skill and plugin routing contract drafted (docs-only, unverified)
+
+`MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-001`
+
+- Created `docs/specs/MELLYCORE_SKILL_PLUGIN_ROUTING_CONTRACT_SPEC_001.md`
+  (v1.0, **unverified, not accepted**) and the durable report
+  `docs/tasks/MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-001.md`. Task ID minted
+  by explicit Operator authorization, following the Framework Bridge
+  precedent.
+- Fills only the gap the accepted stack left open: *how a skill is
+  selected*. The Skill Router mirrors Runtime §23 (request → decide →
+  record); selection never authorizes (Runtime §14 / Gateway §17 keep
+  permission ownership). No separate Execution Planner: Runtime §15's
+  envelope is the plan; a future additive Runtime amendment
+  (`skill_routing_decision_refs[]`) is recommended, not applied.
+- Claude/Codex adapters are **static packaging projections**, not Framework
+  Bridge profiles — Runtime §11.1's closed `framework_type` set has no
+  `codex`, and was not amended. Codex `allow_implicit_invocation` defaults
+  to `true` (verified from source); adapters must emit `false` for
+  `explicit_only` skills.
+- Klaus does not exist in canonical state; it is modelled as a future
+  consumer only. Klaus-specific tasks are deferred until Klaus is registered
+  as an agent package.
+- Risk: consumes the canonical R0–R5 tier vocabulary (Enterprise Provider ADR
+  §13 / Gateway) — a first draft that defined its own R0–R4 ladder was
+  corrected before commit. Lifecycle: maps onto Package §17/§19; the only
+  net-new concept is a non-routable Discovery Record.
+- Registered in `shared_context/TASK_INDEX.md` (contract row + `ELIGIBLE`
+  review row) and `shared_context/ROADMAP.md` (note on the Skills Layer
+  milestone). Global Pointer, frontend gates, and all other lanes unchanged.
+- **Next task:** `MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-REVIEW-001` —
+  independent, by a different session/agent. Not authorized by this entry.
+
 ## Latest Update — MellyCore task prompt standard created (docs-only)
 
 `MELLYCORE-PROMPT-STANDARDIZATION-001`

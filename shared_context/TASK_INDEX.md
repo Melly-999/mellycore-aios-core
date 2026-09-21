@@ -221,7 +221,9 @@ Runtime track above.
 | `MELLYCORE-SHARED-CONTEXT-EXPANSION-001` | `PLANNED` | Expands Shared Context contracts to carry Agent Package metadata and Developer Platform registries. |
 | `MELLYCORE-MULTI-AGENT-WORKFLOW-001` | `PLANNED` | Cross-agent handoff and coordination workflows, built on the accepted Agent Runtime handoff model. |
 | `MELLYCORE-COMMANDS-LAYER-SPEC-001` | `PLANNED` | Command Registry: provider-agnostic slash-command contract. |
-| `MELLYCORE-SKILLS-LAYER-SPEC-001` | `PLANNED` | Skill Registry: packaged, reusable workflow contract. |
+| `MELLYCORE-SKILLS-LAYER-SPEC-001` | `PLANNED` | Skill Registry: packaged, reusable workflow contract. Must satisfy the Tier 1/Tier 2 routing-metadata requirements of `MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-001` §6 once that contract passes review. |
+| `MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-001` | `COMPLETE` (specification only, local, not pushed) — **unverified**; task ID minted by explicit Operator authorization (previously unidentified in the queue). Defines skill *selection* (Skill Router request/decide/record, outcome vocabulary), Claude/Codex packaging-adapter and Klaus-consumer boundaries, trust mapping, eval levels; no registry, router, adapter, or UI exists | `docs/specs/MELLYCORE_SKILL_PLUGIN_ROUTING_CONTRACT_SPEC_001.md`, `docs/tasks/MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-001.md` |
+| `MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-REVIEW-001` | `ELIGIBLE` | Independent read-only review of the contract above, by a different session/agent than its author. Not authorized, not started. Gates `MELLYCORE-SKILLS-LAYER-SPEC-001` and `MELLYCORE-PLUGIN-LAYER-SPEC-001` consuming it. |
 | `MELLYCORE-HOOKS-LAYER-SPEC-001` | `PLANNED` | Hook Registry: event-driven automation contract. |
 | `MELLYCORE-PLUGIN-LAYER-SPEC-001` | `PLANNED` | Plugin Registry: bundles of commands/skills/hooks/agents/MCP servers. |
 | `MELLYCORE-MCP-LAYER-SPEC-001` | `PLANNED` | MCP Registry: Model Context Protocol server registration and discovery, provider-agnostic. |
