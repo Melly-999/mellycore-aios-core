@@ -7,7 +7,15 @@
 - No account IDs.
 - No destructive git without explicit approval.
 - No deploy without explicit approval.
+- No push or merge without explicit approval.
+- No workflow YAML changes without explicit approval.
+- No runtime, provider, or MCP/tool integration or activation without
+  explicit approval.
 - No MellyTrade mutation.
+- No broker/trading execution, and no order/buy/sell/execute/connect-live
+  UX — ever. MellyCore AIOS is a separate product from MellyTrade and must
+  never inherit trading/broker/execution semantics merely because
+  MellyTrade exists elsewhere.
 - No wholesale import of the GLM workspace.
 - No `.git` import from reference workspaces.
 - No database files committed.
@@ -95,4 +103,81 @@ links, and other Windows reparse points remain rejected, and the marker is
 created exclusively relative to the validated root handle. Stage B preflight
 never creates or consumes such a marker. Stage C and the `USD 0.01` spend
 remain unauthorized, and migration trigger #5 remains uncrossed.
+
+## Agent Operating Discipline v1 — Safety Hardening (`MELLYCORE-SAFETY-CONTRACT-HARDENING-001`)
+
+Additive to the rules above and to `AGENTS.md`, which remains the shared
+multi-agent policy owner (`AGENTS.md`'s Authority hierarchy places this
+file above `AGENTS.md` itself as the non-negotiable safety floor).
+`shared_context/CROSS_AGENT_CONTEXT.md` Section 7 already summarized
+several of the rules below as "compressed from `SAFETY_CONTRACT.md`"
+before this file actually stated them — that gap is what this hardening
+closes. This section does not authorize anything; it only tightens
+existing boundaries.
+
+### Fake-live and validator-honesty prohibitions
+
+- No fake telemetry: no fake or simulated active agents, live provider
+  health, live telemetry, cost/spend-rate, or token/minute metrics
+  presented as real.
+- No fake email/calendar/tool execution, fake Obsidian sync, or fake
+  model download/installed state.
+- No unsupported validator claims. `AGENTS.md`'s "Validation honesty"
+  section is the canonical rule (report only validators actually run,
+  with their actual output; "not run" / "unavailable" / "failed" /
+  "passed" are four distinct outcomes) — restated here because it is a
+  safety floor, not merely a reporting style.
+- Do not launder prior chat/session claims, agent memory, or an external
+  reference report into canonical repository truth. Per `AGENTS.md`'s
+  Authority hierarchy (item 7) and `CROSS_AGENT_CONTEXT.md`'s Authority
+  Order (item 5), those are the *lowest*-authority inputs — never
+  sufficient on their own to assert a fact about current project state.
+
+### Status and provenance semantics
+
+Use this repository's own existing vocabulary; do not invent a competing
+one. The ten-value `truthful_state` glossary
+(`shared_context/operations/TRUTHFUL_STATE_LABELS.md`, canonically owned
+by `docs/specs/MELLYCORE_AI_OPERATIONS_INTELLIGENCE_SPEC_001.md` §1.9) is
+the required vocabulary for any UI or data surface — e.g. a
+static/cinematic UI element must be labeled `SIMULATED` or `PLANNED`,
+never presented unlabeled as `IMPLEMENTED`. Beyond that glossary, these
+binary distinctions are safety floors, not stylistic preferences, and
+apply to every task report, handoff entry, and durable spec in this
+repository: visual presence != implemented; planned != implemented;
+implemented != tested; tested != verified; verified != connected;
+connected != authorized; static demo != live telemetry; fixture data !=
+production data; local commit != push; local branch != production;
+review pass != merge authorization; workflow milestone closed != product
+implementation authorization.
+
+### Branch, worktree, and remote verification
+
+`MELLYCORE-AGENT-WORKFLOW-LANDING-MERGE-001` found, by direct repository
+evidence, that this repository's local `main` branch and its `origin`
+remote's `main` share **no merge-base at all** with this repository's real
+development history — both are disconnected, effectively decoy refs —
+while the `clean-origin` remote's `main` is the true ancestor. No future
+task may assume any branch, including one literally named `main`, is the
+canonical baseline without checking: the actual repository root and
+worktree (`git worktree list` — see `.claude/commands/plan-task.md`); the
+current branch and HEAD; `git remote -v`; and, before any merge, push, or
+deploy is even proposed, `git merge-base`/`--is-ancestor` (or equivalent)
+against every candidate baseline, not just the one literally named `main`.
+A branch is canonical only when repository evidence — not its name —
+supports that; if evidence and name conflict, say so and stop rather than
+guess.
+
+### Task-class safety defaults
+
+`docs/specs/MELLYCORE_TASK_PROMPT_STANDARD_SPEC_001.md` §4 defines the
+task-mode table (planning-only, read-only review, docs-only mutation,
+implementation, external research). This contract adds one safety default
+on top of it: within Mode D (Implementation), any task touching
+`runtime/**`, `providers/**`, `integrations/**`, MCP/tool activation with
+external side effects, or any deployment/release action defaults to
+**BLOCKED** pending its own separate, explicit Operator authorization —
+none of these are unlocked merely because a docs/spec/workflow-hardening
+milestone closed. Frontend/static-only implementation work remains
+governed by Mode D's ordinary rules.
 

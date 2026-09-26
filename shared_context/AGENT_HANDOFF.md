@@ -1,5 +1,59 @@
 # Agent Handoff
 
+## Latest Update — Safety-contract hardening reconciled; docs integration review recorded (docs-only, local)
+
+`MELLYCORE-SAFETY-CONTRACT-HARDENING-RECONCILIATION-001`
+
+- Input: `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` (this session, immediately
+  preceding task) found that `MELLYCORE-SAFETY-CONTRACT-HARDENING-001` had
+  already been implemented and independently reviewed
+  (`SAFETY_CONTRACT_HARDENING_ACCEPTED_WITH_LIMITATIONS`, baseline
+  `549f7bb019d3dcd0735e19573333cd42d89d9396`) but was stranded on sibling
+  branch `docs/mellycore-agent-operating-discipline-v1-landing-001`,
+  unreachable from this branch's HEAD.
+- Verified exact ancestry before touching anything: that branch and this one
+  (`docs/claude-code-workflow-hardening-landing-001`) diverge from a shared
+  ancestor (`d7336ad…`); neither the hardening commit
+  (`dc6634c5ad06262e4032508c39cec1fc67833799`) nor its handoff/review
+  commits (`549f7bb…`, `022860e…`) were reachable from this branch's HEAD
+  before this task, and none of this branch's own commits since the
+  divergence point touched `shared_context/SAFETY_CONTRACT.md`.
+- Reconciled by a clean `git cherry-pick --no-commit` of `dc6634c…` only
+  (85 lines added, `shared_context/SAFETY_CONTRACT.md` exclusively, zero
+  conflicts). No unrelated content carried over; no new safety rule
+  invented; accepted wording preserved verbatim. The subsequent handoff
+  (`549f7bb…`) and review-sync (`022860e…`) commits on the source branch
+  were not cherry-picked as-is (their prose refers to that branch's own
+  divergent history); this entry and the `TASK_INDEX.md` rows below restate
+  their outcome instead.
+- Recorded in `shared_context/TASK_INDEX.md`: `MELLYCORE-DOCS-INTEGRATION-
+  REVIEW-001` updated from `PLANNED`/`ELIGIBLE` to `COMPLETE` —
+  `PASS_WITH_BLOCKERS_IDENTIFIED`; added rows for
+  `MELLYCORE-SAFETY-CONTRACT-HARDENING-001`,
+  `MELLYCORE-SAFETY-CONTRACT-HARDENING-REVIEW-001` (both `COMPLETE`,
+  reconciled), and this reconciliation task.
+- `MELLYCORE-ROADMAP-LOCK-001` left unchanged — `BLOCKED`, gates only the
+  Agent Runtime Product Track's backend-integration lineage, does not block
+  frontend/cockpit work. `MELLYCORE-ROADMAP-LOCK-001B` left unchanged —
+  `COMPLETE`, governs the Cinematic AIOS frontend/cockpit direction.
+- Cockpit V3.1 source untouched. Canonical state remains: `ACCEPTED`
+  (`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001`,
+  `PORTFOLIO_FRONTEND_READY: YES`); next cockpit action is
+  `MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001` (`ELIGIBLE`, not
+  executed by this task). `MELLYCORE-COCKPIT-STATIC-PRODUCT-SLICE-001` is
+  not resurrected as a new implementation lane.
+- Validated: `git diff --check` clean; forbidden-path scan (`site/`,
+  `runtime/`, `providers/`, `integrations/`, `.github/workflows/`, package
+  manifests) clean; `.env`/secret-pattern scan clean. Files changed:
+  `shared_context/SAFETY_CONTRACT.md`, `shared_context/TASK_INDEX.md`, this
+  file, `docs/tasks/MELLYCORE-DOCS-INTEGRATION-REVIEW-001.md`,
+  `docs/tasks/MELLYCORE-SAFETY-CONTRACT-HARDENING-RECONCILIATION-001.md`.
+  No frontend, runtime, provider, MCP, or workflow-YAML file touched; no
+  secret or `.env` introduced. **Not pushed, not merged, not deployed.**
+- Exact next task: `MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001`
+  — releasing the already-accepted Cockpit V3.1. Not authorized or started
+  by this entry.
+
 ## Latest Update — Skill and plugin routing contract drafted (docs-only, unverified)
 
 `MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-001`
