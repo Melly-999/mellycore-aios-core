@@ -1,5 +1,61 @@
 # Agent Handoff
 
+## Latest Update — Cockpit V3.1 portfolio release certified as already integrated (docs-only, local)
+
+`MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001`
+
+- Input: the previous task's `FRONTEND_UNLOCK_STATUS:
+  READY_FOR_EXISTING_COCKPIT_RELEASE`. Expected to integrate the accepted
+  Cockpit V3.1 onto this lineage; found instead that it was **already**
+  integrated — PR #40 ("feat: release MellyCore Cockpit V3", merge commit
+  `a43e375ac33d673001a1bdf5304ff710e3be8b2d`) merged
+  `site/dashboard.html`, `site/css/dashboard.css`, `site/js/dashboard.js`,
+  and `site/data/cockpit_graph.json` into this branch's ancestry before
+  any task in this session began, and that merge commit is a confirmed
+  ancestor of current HEAD.
+- Verified, not assumed: the accepted reacceptance SHA
+  `04208809c80655d65710bbc06266de7cd157f8ff` is an ancestor of current
+  HEAD, and `git diff` between that SHA and HEAD is empty for all four
+  cockpit files — byte-identical, zero drift.
+- `shared_context/TASK_INDEX.md`'s row for this task still read `ELIGIBLE
+  — not yet executed`, a stale bookkeeping gap (the same pattern found for
+  `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` and
+  `MELLYCORE-SAFETY-CONTRACT-HARDENING-001` in the two preceding tasks):
+  the file-level work was done, but the task ledger and a durable
+  `docs/tasks/` record were never updated to reflect it. No second
+  cockpit, graph schema, or file was created to "do" a release that had
+  already happened.
+- Performed rendered QA at the actual current HEAD (not merely inherited
+  from the pre-merge review) via a local static server
+  (`.claude/launch.json`'s `mellycore-dashboard` config, port 8731 after
+  8000 was blocked by a Windows socket permission): default cockpit,
+  graph-focus (neighbor emphasis, inline provenance card on node select),
+  and full inspector (`TYPE`/`CLUSTER`/`STATUS`/`CONFIDENCE`/
+  `RELATIONSHIPS`/`SOURCES`) states all render correctly and truthfully
+  labeled (`Static preview`, `No live providers`, `Repository-derived
+  topology`, `Execution locked`, `SNAPSHOT` badges). Console and network
+  clean at 1440×900, 1024×768, 768×1024, and 390×844; no page-level
+  horizontal overflow at any width (`document.documentElement.scrollWidth
+  <= window.innerWidth` confirmed at each); mobile intentionally
+  substitutes an accessible text-equivalent topology list for the SVG
+  graph canvas (`docScrollWidth === viewportWidth === 390`, by design).
+  Keyboard focus visible (`Tab` produces a visible focus ring on graph
+  text-equivalent nodes). `prefers-reduced-motion` is handled structurally
+  in `base.css`/`dashboard.css`; not live-toggled by the available browser
+  tooling — reported honestly as `STRUCTURAL_ONLY`, not claimed as a live
+  pass.
+- Updated `shared_context/TASK_INDEX.md`'s row for this task to `COMPLETE
+  — IMPLEMENTED`, citing the exact merge commit, the byte-identical diff
+  check, and the QA performed. Created durable evidence:
+  `docs/tasks/MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001.md`.
+- No `site/**` file modified by this task. No new cockpit, no new graph
+  schema, no runtime/provider/MCP integration, no deployment. **Not
+  pushed, not merged (already merged prior to this session), not
+  deployed by this task.**
+- Exact next task: `MELLYCORE-COCKPIT-V3-PORTFOLIO-RELEASE-ACCEPTANCE-001`
+  — independent rendered-release acceptance, by a different session/agent
+  than this one. Not authorized or started by this entry.
+
 ## Latest Update — Safety-contract hardening reconciled; docs integration review recorded (docs-only, local)
 
 `MELLYCORE-SAFETY-CONTRACT-HARDENING-RECONCILIATION-001`
