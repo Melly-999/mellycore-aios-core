@@ -1,5 +1,262 @@
 # Agent Handoff
 
+## Latest Update — Cockpit V3.1 portfolio release certified as already integrated (docs-only, local)
+
+`MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001`
+
+- Input: the previous task's `FRONTEND_UNLOCK_STATUS:
+  READY_FOR_EXISTING_COCKPIT_RELEASE`. Expected to integrate the accepted
+  Cockpit V3.1 onto this lineage; found instead that it was **already**
+  integrated — PR #40 ("feat: release MellyCore Cockpit V3", merge commit
+  `a43e375ac33d673001a1bdf5304ff710e3be8b2d`) merged
+  `site/dashboard.html`, `site/css/dashboard.css`, `site/js/dashboard.js`,
+  and `site/data/cockpit_graph.json` into this branch's ancestry before
+  any task in this session began, and that merge commit is a confirmed
+  ancestor of current HEAD.
+- Verified, not assumed: the accepted reacceptance SHA
+  `04208809c80655d65710bbc06266de7cd157f8ff` is an ancestor of current
+  HEAD, and `git diff` between that SHA and HEAD is empty for all four
+  cockpit files — byte-identical, zero drift.
+- `shared_context/TASK_INDEX.md`'s row for this task still read `ELIGIBLE
+  — not yet executed`, a stale bookkeeping gap (the same pattern found for
+  `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` and
+  `MELLYCORE-SAFETY-CONTRACT-HARDENING-001` in the two preceding tasks):
+  the file-level work was done, but the task ledger and a durable
+  `docs/tasks/` record were never updated to reflect it. No second
+  cockpit, graph schema, or file was created to "do" a release that had
+  already happened.
+- Performed rendered QA at the actual current HEAD (not merely inherited
+  from the pre-merge review) via a local static server
+  (`.claude/launch.json`'s `mellycore-dashboard` config, port 8731 after
+  8000 was blocked by a Windows socket permission): default cockpit,
+  graph-focus (neighbor emphasis, inline provenance card on node select),
+  and full inspector (`TYPE`/`CLUSTER`/`STATUS`/`CONFIDENCE`/
+  `RELATIONSHIPS`/`SOURCES`) states all render correctly and truthfully
+  labeled (`Static preview`, `No live providers`, `Repository-derived
+  topology`, `Execution locked`, `SNAPSHOT` badges). Console and network
+  clean at 1440×900, 1024×768, 768×1024, and 390×844; no page-level
+  horizontal overflow at any width (`document.documentElement.scrollWidth
+  <= window.innerWidth` confirmed at each); mobile intentionally
+  substitutes an accessible text-equivalent topology list for the SVG
+  graph canvas (`docScrollWidth === viewportWidth === 390`, by design).
+  Keyboard focus visible (`Tab` produces a visible focus ring on graph
+  text-equivalent nodes). `prefers-reduced-motion` is handled structurally
+  in `base.css`/`dashboard.css`; not live-toggled by the available browser
+  tooling — reported honestly as `STRUCTURAL_ONLY`, not claimed as a live
+  pass.
+- Updated `shared_context/TASK_INDEX.md`'s row for this task to `COMPLETE
+  — IMPLEMENTED`, citing the exact merge commit, the byte-identical diff
+  check, and the QA performed. Created durable evidence:
+  `docs/tasks/MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001.md`.
+- No `site/**` file modified by this task. No new cockpit, no new graph
+  schema, no runtime/provider/MCP integration, no deployment. **Not
+  pushed, not merged (already merged prior to this session), not
+  deployed by this task.**
+- Exact next task: `MELLYCORE-COCKPIT-V3-PORTFOLIO-RELEASE-ACCEPTANCE-001`
+  — independent rendered-release acceptance, by a different session/agent
+  than this one. Not authorized or started by this entry.
+
+## Latest Update — Safety-contract hardening reconciled; docs integration review recorded (docs-only, local)
+
+`MELLYCORE-SAFETY-CONTRACT-HARDENING-RECONCILIATION-001`
+
+- Input: `MELLYCORE-DOCS-INTEGRATION-REVIEW-001` (this session, immediately
+  preceding task) found that `MELLYCORE-SAFETY-CONTRACT-HARDENING-001` had
+  already been implemented and independently reviewed
+  (`SAFETY_CONTRACT_HARDENING_ACCEPTED_WITH_LIMITATIONS`, baseline
+  `549f7bb019d3dcd0735e19573333cd42d89d9396`) but was stranded on sibling
+  branch `docs/mellycore-agent-operating-discipline-v1-landing-001`,
+  unreachable from this branch's HEAD.
+- Verified exact ancestry before touching anything: that branch and this one
+  (`docs/claude-code-workflow-hardening-landing-001`) diverge from a shared
+  ancestor (`d7336ad…`); neither the hardening commit
+  (`dc6634c5ad06262e4032508c39cec1fc67833799`) nor its handoff/review
+  commits (`549f7bb…`, `022860e…`) were reachable from this branch's HEAD
+  before this task, and none of this branch's own commits since the
+  divergence point touched `shared_context/SAFETY_CONTRACT.md`.
+- Reconciled by a clean `git cherry-pick --no-commit` of `dc6634c…` only
+  (85 lines added, `shared_context/SAFETY_CONTRACT.md` exclusively, zero
+  conflicts). No unrelated content carried over; no new safety rule
+  invented; accepted wording preserved verbatim. The subsequent handoff
+  (`549f7bb…`) and review-sync (`022860e…`) commits on the source branch
+  were not cherry-picked as-is (their prose refers to that branch's own
+  divergent history); this entry and the `TASK_INDEX.md` rows below restate
+  their outcome instead.
+- Recorded in `shared_context/TASK_INDEX.md`: `MELLYCORE-DOCS-INTEGRATION-
+  REVIEW-001` updated from `PLANNED`/`ELIGIBLE` to `COMPLETE` —
+  `PASS_WITH_BLOCKERS_IDENTIFIED`; added rows for
+  `MELLYCORE-SAFETY-CONTRACT-HARDENING-001`,
+  `MELLYCORE-SAFETY-CONTRACT-HARDENING-REVIEW-001` (both `COMPLETE`,
+  reconciled), and this reconciliation task.
+- `MELLYCORE-ROADMAP-LOCK-001` left unchanged — `BLOCKED`, gates only the
+  Agent Runtime Product Track's backend-integration lineage, does not block
+  frontend/cockpit work. `MELLYCORE-ROADMAP-LOCK-001B` left unchanged —
+  `COMPLETE`, governs the Cinematic AIOS frontend/cockpit direction.
+- Cockpit V3.1 source untouched. Canonical state remains: `ACCEPTED`
+  (`MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001`,
+  `PORTFOLIO_FRONTEND_READY: YES`); next cockpit action is
+  `MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001` (`ELIGIBLE`, not
+  executed by this task). `MELLYCORE-COCKPIT-STATIC-PRODUCT-SLICE-001` is
+  not resurrected as a new implementation lane.
+- Validated: `git diff --check` clean; forbidden-path scan (`site/`,
+  `runtime/`, `providers/`, `integrations/`, `.github/workflows/`, package
+  manifests) clean; `.env`/secret-pattern scan clean. Files changed:
+  `shared_context/SAFETY_CONTRACT.md`, `shared_context/TASK_INDEX.md`, this
+  file, `docs/tasks/MELLYCORE-DOCS-INTEGRATION-REVIEW-001.md`,
+  `docs/tasks/MELLYCORE-SAFETY-CONTRACT-HARDENING-RECONCILIATION-001.md`.
+  No frontend, runtime, provider, MCP, or workflow-YAML file touched; no
+  secret or `.env` introduced. **Not pushed, not merged, not deployed.**
+- Exact next task: `MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001`
+  — releasing the already-accepted Cockpit V3.1. Not authorized or started
+  by this entry.
+
+## Latest Update — Skill and plugin routing contract drafted (docs-only, unverified)
+
+`MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-001`
+
+- Created `docs/specs/MELLYCORE_SKILL_PLUGIN_ROUTING_CONTRACT_SPEC_001.md`
+  (v1.0, **unverified, not accepted**) and the durable report
+  `docs/tasks/MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-001.md`. Task ID minted
+  by explicit Operator authorization, following the Framework Bridge
+  precedent.
+- Fills only the gap the accepted stack left open: *how a skill is
+  selected*. The Skill Router mirrors Runtime §23 (request → decide →
+  record); selection never authorizes (Runtime §14 / Gateway §17 keep
+  permission ownership). No separate Execution Planner: Runtime §15's
+  envelope is the plan; a future additive Runtime amendment
+  (`skill_routing_decision_refs[]`) is recommended, not applied.
+- Claude/Codex adapters are **static packaging projections**, not Framework
+  Bridge profiles — Runtime §11.1's closed `framework_type` set has no
+  `codex`, and was not amended. Codex `allow_implicit_invocation` defaults
+  to `true` (verified from source); adapters must emit `false` for
+  `explicit_only` skills.
+- Klaus does not exist in canonical state; it is modelled as a future
+  consumer only. Klaus-specific tasks are deferred until Klaus is registered
+  as an agent package.
+- Risk: consumes the canonical R0–R5 tier vocabulary (Enterprise Provider ADR
+  §13 / Gateway) — a first draft that defined its own R0–R4 ladder was
+  corrected before commit. Lifecycle: maps onto Package §17/§19; the only
+  net-new concept is a non-routable Discovery Record.
+- Registered in `shared_context/TASK_INDEX.md` (contract row + `ELIGIBLE`
+  review row) and `shared_context/ROADMAP.md` (note on the Skills Layer
+  milestone). Global Pointer, frontend gates, and all other lanes unchanged.
+- **Next task:** `MELLYCORE-SKILL-PLUGIN-ROUTING-CONTRACT-REVIEW-001` —
+  independent, by a different session/agent. Not authorized by this entry.
+
+## Latest Update — MellyCore task prompt standard created (docs-only)
+
+`MELLYCORE-PROMPT-STANDARDIZATION-001`
+
+- Created `docs/specs/MELLYCORE_TASK_PROMPT_STANDARD_SPEC_001.md`, the
+  canonical reusable task-prompt standard for MellyCore agent runs,
+  building on `CLAUDE-CODE-WORKFLOW-HARDENING-001` and
+  `CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001` (below): `AGENTS.md` as
+  canonical shared policy owner, `CLAUDE.md` as its thin wrapper, and the
+  three `.claude/commands/*.md` procedures, plus this new document
+  defining the required *shape* of a task prompt itself.
+- The standard defines all 13 requested sections (ROLE, TASK, GOAL,
+  CONTEXT, PREFLIGHT, SCOPE, SAFETY POSTURE, IMPLEMENTATION RULES,
+  VALIDATION, STOP CONDITIONS, SELF-CRITIQUE, FINAL REPORT, COMMIT / NO
+  PUSH), each with purpose / required content / forbidden content /
+  common failure mode / short example; five task-mode variants
+  (planning-only, read-only review, docs-only mutation, implementation,
+  external research) as a single comparison table; a compact,
+  copy-paste-ready template; an anti-pattern list; and a migration note
+  scoping the standard to future prompts only — no historical prompt or
+  task report was rewritten or touched.
+- Followed the canonical-owner-plus-thin-wrapper pattern
+  `agent_prompts/loops/README.md` already proves, and used `docs/specs/`'s
+  existing `MELLYCORE_<NAME>_SPEC_NNN` naming convention (10+ precedents)
+  rather than the task prompt's own `docs/prompts/` fallback suggestion,
+  since a closer existing equivalent was available. Every safety/
+  validation/stop-condition reference in the new document points back to
+  `AGENTS.md` rather than restating its rules — verified by reading, not
+  by an automated text diff, since the relationship is about reference
+  and commentary rather than textual overlap (disclosed as a limitation
+  in the durable report rather than overstated as mechanically verified).
+- Section 1 of the new standard grounds its own motivation directly in
+  this session's prior work: the unverifiable
+  `MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001` citation that
+  `CLAUDE-CODE-WORKFLOW-HARDENING-001` restated as settled fact (corrected
+  in `CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001`, below) is used as the
+  concrete illustrative anti-pattern for why VALIDATION and SELF-CRITIQUE
+  must require checked evidence, not restated prior claims.
+- This task changed exactly two new files across two isolated, docs-only
+  commits: commit 1 — the new spec and this task's own durable report;
+  commit 2 (this entry) — `shared_context/AGENT_HANDOFF.md` only. No
+  historical prompt, task report, `AGENTS.md`, `CLAUDE.md`, or
+  `.claude/commands/*` file was modified. No MellyCore runtime, frontend,
+  provider, MCP, or workflow-YAML file was touched; no package or
+  dependency manifest was touched. **Not pushed, not merged, not
+  deployed** — this remains on
+  `docs/claude-code-workflow-hardening-landing-001`, still unmerged into
+  any integration branch.
+- Safety and adjacent gates (unaffected by this task):
+  `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`, `USD_0_01_SPEND_NOT_AUTHORIZED`,
+  and `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding; PR #35 remains
+  `OPEN_REMEDIATION_REQUIRED`; PR #28 remains open, unmerged, paused, with
+  physical Android Chromium Gate B `OPEN / NOT EXECUTED`. This task did
+  not touch any of that state.
+- Exact next task: `MELLYCORE-PROMPT-STANDARDIZATION-REVIEW-001` — an
+  independent, read-only review of this task's changes, verifying the new
+  standard's alignment with `AGENTS.md`, its non-duplication, its
+  thirteen-section and five-task-mode coverage, and that no historical
+  prompt was touched. This task does not execute it.
+
+## Latest Update — Claude Code workflow hardening landed and citation corrected (docs-only)
+
+`CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001`
+
+- Landed `CLAUDE-CODE-WORKFLOW-HARDENING-001` (commits `80a2029`,
+  `85fbfa7`, originally on
+  `docs/mellycore-openai-batch-final-canonical-reconciliation-001`, which
+  this branch's HEAD had no ancestry with) onto a new branch,
+  `docs/claude-code-workflow-hardening-landing-001`, created from this
+  repository's actual current baseline HEAD. `AGENTS.md` and `CLAUDE.md`
+  applied with zero conflicts (byte-identical base on both branches);
+  `shared_context/AGENT_HANDOFF.md` conflicted and was resolved by hand —
+  this branch's own true latest entry (Cockpit V3.1 reacceptance, below)
+  was left untouched, and the hardening entry's original, unmodified text
+  was inserted immediately after it. This addresses finding **CCWH-R-001**
+  from `CLAUDE-CODE-WORKFLOW-HARDENING-REVIEW-001-RERUN`.
+- Corrected finding **CCWH-R-002** from the same review: the hardening
+  task's report and handoff entry had restated an unverifiable claim —
+  that the two-commit convention was validated by
+  `MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001`'s
+  `ACCEPTABLE_WITH_EXPLANATION` classification — as settled fact, dropping
+  a caveat `MELLYCORE-AGENT-POLICY-DIFF-001` had already disclosed (no
+  durable artifact by that name exists anywhere in this repository's
+  history; re-confirmed here via `git log --all`, zero matches). A
+  correction was appended directly after the original text in both
+  `docs/tasks/CLAUDE-CODE-WORKFLOW-HARDENING-001.md` (new Section 14) and
+  the hardening entry below — the original sentences were not edited in
+  place, so both files remain a faithful record of what was actually
+  written at the time.
+- This task changed exactly four files across three isolated, docs-only
+  commits: commit 1 (landing) — `AGENTS.md`, `CLAUDE.md`, three new
+  `.claude/commands/*.md` files, and the landed
+  `docs/tasks/CLAUDE-CODE-WORKFLOW-HARDENING-001.md`, plus the
+  conflict-resolved `shared_context/AGENT_HANDOFF.md`; commit 2 (citation
+  remediation) — the same task report and handoff file, plus the new
+  `docs/tasks/CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001.md`; commit 3
+  (this entry) — `shared_context/AGENT_HANDOFF.md` only. No MellyCore
+  runtime, frontend, provider, MCP, or workflow-YAML file was touched; no
+  package or dependency manifest was touched. **Not pushed, not merged,
+  not deployed** — this landing exists only on
+  `docs/claude-code-workflow-hardening-landing-001`, a new local branch,
+  and has not been merged into any integration branch.
+- Safety and adjacent gates (unaffected by this task):
+  `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`, `USD_0_01_SPEND_NOT_AUTHORIZED`,
+  and `MIGRATION_TRIGGER_5_NOT_YET_CROSSED` remain binding; PR #35 remains
+  `OPEN_REMEDIATION_REQUIRED`; PR #28 remains open, unmerged, paused, with
+  physical Android Chromium Gate B `OPEN / NOT EXECUTED`. This task did
+  not touch any of that state.
+- Exact next task: `MELLYCORE-PROMPT-STANDARDIZATION-001` — may proceed
+  using this landed, citation-corrected hardening as input, subject to the
+  still-open limitation that `docs/claude-code-workflow-hardening-landing-001`
+  has not yet been merged into an integration branch. This task does not
+  execute it.
+
 ## Latest Update — Cockpit V3.1 independently reaccepted, PASS (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REACCEPTANCE-001)
 
 **Result:** `PASS`. `ACCEPTED_FOR_INTEGRATION: YES`,
@@ -45,6 +302,95 @@ measurement table:
 **Next exact gate:** `MELLYCORE-COCKPIT-V3-INTEGRATION-PORTFOLIO-RELEASE-001`
 — `ELIGIBLE`, not executed by this task. Do not push, merge, deploy, or
 redesign the accepted header.
+
+## Latest Update — Claude Code workflow hardening implemented (docs-only)
+
+`CLAUDE-CODE-WORKFLOW-HARDENING-001`
+
+- Implemented the bounded delta recommended by
+  `MELLYCORE-AGENT-POLICY-DIFF-001`'s Section 11 (as narrowed by this
+  task's own explicit Scope): `AGENTS.md` is now the canonical shared
+  multi-agent policy owner for this repository, and root `CLAUDE.md` is a
+  thin Claude-Code-specific wrapper that imports it via Claude Code's own
+  `@AGENTS.md` inclusion syntax rather than duplicating its content.
+- Directly closed the concrete duplication the policy diff's Finding F1
+  identified: the six-file `shared_context/` read-order list and the
+  overlapping safety/docs-first/handoff bullets, previously word-for-word
+  identical between `AGENTS.md` and `CLAUDE.md`, now exist in exactly one
+  file. `AGENTS.md` grew from 45 to 111 lines (new: an authority
+  hierarchy, edit discipline, validation-honesty, review-principles, and
+  stop-conditions sections, each generalizing wording already proven in
+  `agent_prompts/loops/mellycore-loop-constraints.md` and
+  `mellycore-loop-verifier.md` — MellyCore's own prior work, not external
+  text); `CLAUDE.md` shrank to 21 lines of pure pointer plus a
+  Claude-Code-specific command index. A genuine content gap found during
+  implementation (a MellyTrade-mutation rule that previously existed only
+  in `CLAUDE.md`, not `AGENTS.md`) was corrected by moving it to the
+  canonical file, since it applies to every agent, not only Claude Code.
+- Created three new `.claude/commands/*.md` files —
+  `plan-task.md` (read-only preflight/planning), `review.md` (independent
+  review; does not inherit PASS, defaults to REJECT until evidence
+  supports every claim), and `diff-audit.md` (pre-commit/pre-handoff
+  bounded audit ending in `COMMIT_READY` / `NEEDS_FIXES` / `BLOCKED`) —
+  each generalizing the already-proven `agent_prompts/loops/` independence
+  and preflight patterns for non-loop work, by reference rather than
+  restatement, and each pointing back to `AGENTS.md` for the shared
+  safety posture instead of restating it.
+- No text was copied verbatim from either external reference (the
+  Karpathy-inspired file or the OpenBot extraction); both remain exactly
+  as scoped by the prior tasks — persuasive input only, not source
+  material folded into policy.
+- Scope was intentionally narrower than the policy diff's full Section 11
+  recommendation: this task's own explicit Scope did not authorize
+  touching `shared_context/SAFETY_CONTRACT.md` (the secret-redaction
+  clause) or creating a new task-prompt-template document; both remain
+  open recommendations for a possible future, separately scoped task.
+- The durable report,
+  `docs/tasks/CLAUDE-CODE-WORKFLOW-HARDENING-001.md`, records the full
+  before/after content decisions, the validation sequence actually run
+  (changed-path audit, `git diff --check`, a secret-pattern scan — one
+  benign false positive on the substring "task-specific" reviewed and
+  cleared, a `.env`-path scan, a forbidden-implementation-path scan, and a
+  duplicate-block check confirming `CLAUDE.md` now has zero occurrences of
+  content `AGENTS.md` already states), and a self-critique.
+- This task changed exactly six files in its hardening commit
+  (`AGENTS.md`, `CLAUDE.md`, three new `.claude/commands/*.md` files, and
+  the new task report) plus this handoff entry in a second, isolated
+  commit — matching the two-commit convention the immediately preceding
+  `MELLYCORE-AGENT-POLICY-DIFF-001` task used, which
+  `MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001` classified
+  `ACCEPTABLE_WITH_EXPLANATION`. No MellyCore runtime, frontend, provider,
+  MCP, or workflow-YAML file was touched. **Not pushed, not merged, not
+  deployed** — this hardening is implemented but not yet independently
+  reviewed or accepted.
+- Safety and adjacent gates (unaffected by this task): `STAGE_C_LIVE_BATCH_SMOKE_NOT_AUTHORIZED`,
+  `USD_0_01_SPEND_NOT_AUTHORIZED`, and `MIGRATION_TRIGGER_5_NOT_YET_CROSSED`
+  remain binding; PR #35 remains `OPEN_REMEDIATION_REQUIRED`; PR #28 remains
+  open, unmerged, paused, with physical Android Chromium Gate B
+  `OPEN / NOT EXECUTED`. This task did not touch any of that state.
+- Exact next task: `CLAUDE-CODE-WORKFLOW-HARDENING-REVIEW-001` — an
+  independent, read-only review of this task's changes, verifying the
+  duplication reduction, the absence of verbatim external text, and that
+  no scope beyond this task's own narrowed authorization was silently
+  implemented. This task does not execute it.
+
+**Citation correction (added by `CLAUDE-CODE-WORKFLOW-HARDENING-LANDING-001`,
+not edited in place above to preserve this as a faithful record of what
+was originally written):** the bullet above claims the two-commit split
+matched a convention that
+`MELLYCORE-OPENBOT-ARCH-EXTRACTION-REVIEW-001` classified
+`ACCEPTABLE_WITH_EXPLANATION`. No durable repository artifact by that name
+exists anywhere in this repository's history (re-confirmed via `git log
+--all` and `git log --all --diff-filter=A --name-only`, both zero
+matches). `MELLYCORE-AGENT-POLICY-DIFF-001` — the task this bullet cites
+as precedent — had itself already disclosed exactly this gap in its own
+handoff entry, treating that review's reported outcome as
+operator-attested current-turn context, not independently re-verifiable
+repository evidence, rather than silently trusting it. This entry dropped
+that caveat and restated the claim as settled fact; that was an error,
+identified by `CLAUDE-CODE-WORKFLOW-HARDENING-REVIEW-001-RERUN` (finding
+CCWH-R-002). The two-commit split itself remains justified independently
+of this citation, via the `AGENTS.md` handoff rule this same task added.
 
 ## Latest Update — Cockpit V3.1 acceptance remediation complete locally (MELLYCORE-COCKPIT-V3-IMPLEMENTATION-REMEDIATION-001)
 
